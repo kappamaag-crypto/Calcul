@@ -851,3 +851,12 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] These messages are historical kernel-log evidence and do not by themselves establish that an OOM condition is occurring at the present instant.
 - [CONFIRMED] No system state was changed by the read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] latest OOM event identified
+- [CONFIRMED] Latest OOM-related kernel-log event is at dmesg timestamp **9107.087198 s**: `nfqws2` PID 7881 was killed; total-vm 2888 kB, anon-rss 60 kB, file-rss 96 kB, shmem-rss 0 kB, pgtables 28 kB, oom_score_adj 0.
+- [CONFIRMED] The immediately preceding OOM invocation was by `nfqws2` at timestamp 9106.470226 s.
+- [CONFIRMED] No later `Out of memory`, `oom-killer`, or `oom_reaper` message appears in the selected tail.
+- [CONFIRMED] This remains historical kernel-log evidence; it does not prove a current OOM at the present instant.
+- [CONFIRMED] No system state was changed by the read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
