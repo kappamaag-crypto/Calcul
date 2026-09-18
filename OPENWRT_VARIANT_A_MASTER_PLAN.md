@@ -92,7 +92,7 @@ image и checksum однозначно подтверждены.
 ---
 
 ## STAGE 2 — Backup
-STATUS: IN_PROGRESS
+STATUS: DONE
 
 Цель: сохранить конфигурацию и технический snapshot.
 
@@ -896,3 +896,6 @@ No flash is permitted until items 1–5 are complete.
 - [DONE] STAGE 2 backup archive created and verified present: `/tmp/openwrt-backup-stage2-20260918-101532.tar.gz`, size 7.6K; archive contents have not yet been inspected.
 - [IN_PROGRESS] STAGE 2 backup started. No router state changed.
 - [CONFIRMED] Backup must be saved separately from the router and must not be automatically restored after clean flash.
+
+- [DONE] STAGE 2 exit criterion satisfied: configuration backup and technical snapshot are stored on the PC, backup archive was readable, and its SHA-256 was confirmed matching after transfer. No restore or destructive operation performed.
+- [NEXT] STAGE 3 — Clean flash remains NOT_STARTED; flashing is not authorized by this status update and must be handled as a separate explicit step with image/device checks immediately before execution.
