@@ -505,4 +505,13 @@ Variant A is successful when:
 STAGE 0 — IN_PROGRESS
 STAGE 1–30 — NOT_STARTED
 
+### Change log — 2026-09-18
+- [UPDATED] STAGE 0 remains IN_PROGRESS; no flash performed.
+- [ADDED] Previous system diagnostic findings are recorded as pre-rebuild evidence only: OOM occurred under global memory pressure; nfqws2 was killed as a victim and did not show large RSS at the kill points.
+- [ADDED] Previous Zapret2 real-DPI test produced YouTube timeout and rawsend EPERM; this is a baseline symptom to reproduce/exclude after clean rebuild, not a cause conclusion.
+- [ADDED] Clean rebuild must be treated as a control experiment: base OpenWrt → network → memory baseline → USB data only → swap/ZRAM → DoH → Zapret2, one component at a time.
+- [ADDED] Before STAGE 1, STAGE 0 must establish the exact current rootfs/overlay, /proc/mtd, USB partition layout, mounts, fstab, block info and board/release state.
+- [CONFIRMED] /dev/sda2 is preserved physically but must not become active /overlay in Variant A; /dev/sda3 remains data; /dev/sda1 remains swap.
+- [CONFIRMED] No destructive USB operation is permitted.
+
 Do not execute flash until STAGE 0 inventory is complete and reviewed.
