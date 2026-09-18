@@ -826,3 +826,11 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] `uhttpd` PID 2226 appears as an 8 kB jail/wrapper entry in this `/proc` snapshot; this does not replace the previously confirmed running `uhttpd` service process information and should not be interpreted as its true service RSS without further PID correlation.
 - [CONFIRMED] No system state was changed by the read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] aggregate RSS and memory snapshot
+- [CONFIRMED] Aggregate process RSS command returned `15748 kB`, but its output was visibly contaminated/interleaved with terminal text (`nreclaim|SwapTotal|SwapFree):' /proc/meminfo15748 kB`). Therefore `15748 kB` is recorded as observed output but NOT accepted as a clean/validated aggregate RSS value.
+- [CONFIRMED] Concurrent `/proc/meminfo` snapshot: MemTotal 54852 kB; MemFree 13592 kB; MemAvailable 5352 kB; SwapTotal 557048 kB; SwapFree 551612 kB; Slab 10208 kB; SReclaimable 1332 kB; SUnreclaim 8876 kB.
+- [CONFIRMED] Compared with the previous snapshot, MemFree increased by 1476 kB, MemAvailable increased by 796 kB, SwapFree increased by 256 kB, Slab increased by 80 kB, SReclaimable increased by 84 kB, and SUnreclaim decreased by 4 kB. These are point-in-time differences only and are not interpreted causally.
+- [CONFIRMED] No system state was changed by the commands.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
