@@ -860,3 +860,8 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This remains historical kernel-log evidence; it does not prove a current OOM at the present instant.
 - [CONFIRMED] No system state was changed by the read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+- [CONFIRMED] ZRAM snapshot: `/sys/block/zram0/comp_algorithm` = `[lzo-rle] lzo`; `disksize` = 33554432 bytes (32 MiB); `mm_stat` = `5427200 2836716 4497408 0 7806976 0 6195 394 2515`.
+- [CONFIRMED] Current swap snapshot: `/dev/zram0` 32764 kB, used 5436 kB, priority 100; `/dev/sda1` 524284 kB, used 0 kB, priority -2.
+- [CONFIRMED] ZRAM and USB swap are both active concurrently; ZRAM has higher priority.
+- [CONFIRMED] No configuration/state was changed by this read-only command.
