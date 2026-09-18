@@ -788,3 +788,10 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This is a current STAGE 0 process-memory snapshot, not the clean STAGE 7 baseline.
 - [CONFIRMED] No system state was changed by the read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] dnsmasq RSS snapshot
+- [CONFIRMED] PID 6386 (`dnsmasq`) memory snapshot: VmSize 3788 kB; VmRSS 1092 kB; RssAnon 156 kB; RssFile 936 kB; RssShmem 0 kB.
+- [CONFIRMED] This is a current STAGE 0 process-memory snapshot, not the clean STAGE 7 baseline.
+- [CONFIRMED] No system state was changed by the read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
