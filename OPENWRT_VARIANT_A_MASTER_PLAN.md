@@ -87,3 +87,14 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CONFIRMED] No filesystem, configuration, partition, or service state was changed by the command.
 - [CHANGED] STAGE 4 remains IN_PROGRESS.
 - [NEXT] Before any destructive storage operation, perform a single read-only check of current swap/fstab/block state to determine how sda2 was inherited and whether sda1 is active. No formatting or repartitioning yet.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] post-flash USB extroot inheritance confirmed
+- [PASS] Read-only `mount; df -h` command completed successfully.
+- [CONFIRMED] Current root is overlayfs backed by `/dev/sda2` mounted at `/overlay`.
+- [CONFIRMED] `/dev/sda3` is mounted at `/mnt/data`.
+- [CONFIRMED] `/dev/sda1` does not appear in mount/df output; swap activation was not determined by this command.
+- [IMPORTANT] The old `/dev/sda2` is active again as `/overlay` after clean flash. Clean flash therefore did not physically detach the old extroot; the external filesystem was detected and mounted during boot.
+- [CHANGED] STAGE 4 remains IN_PROGRESS. The clean-base criterion requiring the old `/dev/sda2` to be inactive is not yet satisfied.
+- [SAFETY] No unmount, formatting, repartitioning, fstab modification, package installation, or other state-changing operation was performed.
+- [NEXT] One read-only command will inspect `/etc/config/fstab`, `/proc/swaps` and `/sbin/block info` to determine the automatic mount mechanism and current swap state before any storage operation.
