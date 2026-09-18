@@ -666,3 +666,14 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] An additional `radio0` station interface exists on `wan`, SSID `SPKEFFA_5G`, WPA2-PSK, with a configured key. This is current configuration evidence only; credentials are not reproduced in the master plan.
 - [CONFIRMED] No wireless configuration was changed by these read-only commands.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] firewall UCI snapshot completed
+- [CONFIRMED] `uci show firewall` completed successfully.
+- [CONFIRMED] Defaults: input REJECT, output ACCEPT, forward REJECT, SYN flood protection enabled.
+- [CONFIRMED] LAN zone is ACCEPT/ACCEPT/ACCEPT; WAN zone is REJECT/ACCEPT/DROP with masquerading and MTU fix enabled.
+- [CONFIRMED] LAN→WAN forwarding is configured.
+- [CONFIRMED] Standard DHCP/DHCPv6, ICMP/ICMPv6, IGMP, MLD and IPSec-related firewall rules are present.
+- [CONFIRMED] Enabled nftables include `/etc/zapret2/nfqws2.nft` with `fw4_compatible='1'`; this is configuration evidence only and is not treated as proof that Zapret2 is currently active or functional.
+- [CONFIRMED] No firewall configuration was changed by this read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
