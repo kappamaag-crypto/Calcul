@@ -719,3 +719,12 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This read-only status check did not start, stop, or otherwise modify Zapret2.
 - [CONFIRMED] The firewall snapshot already showed an enabled nftables include for `/etc/zapret2/nfqws2.nft`; current service status does not prove whether that include is populated or functionally effective.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] Zapret2 nftables include snapshot completed
+- [CONFIRMED] `/etc/zapret2/nfqws2.nft` exists, size 163 bytes, mode `0644`, owned by `root:root`.
+- [CONFIRMED] Current content defines `chain zapret2_nfqueue` as a `filter` chain on `forward`, priority `-1`, policy `accept`.
+- [CONFIRMED] The chain currently matches TCP/443 arriving on `br-lan`, increments a counter, and queues packets to NFQUEUE number 100 with `bypass`.
+- [CONFIRMED] This is configuration evidence only; it does not prove that the chain is loaded into the active nftables ruleset or that a userspace `nfqws2` process is bound to queue 100.
+- [CONFIRMED] No file or firewall configuration was changed by this read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
