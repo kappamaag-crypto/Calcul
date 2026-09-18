@@ -608,6 +608,21 @@ No flash is permitted until items 1–5 are complete.
 
 ## CHANGELOG — 2026-09-18 — [ADDED] turn-by-turn synchronization rule
 - [ADDED] Every user message and every assistant response is a synchronization boundary for the master plan.
-- [ADDED] At each boundary, the plan records new factual outputs, executed commands, decisions, stage-status changes, blockers, and next exit criteria.
+- [ADDED] At each boundary, the plan records new factual outputs, executed commands, decisions, blockers, and next exit criteria.
 - [ADDED] If a turn produces no state change, the plan is not allowed to invent one or change a status; only a brief confirmation log may be added.
 - [ADDED] The synchronization must be completed before the assistant response is finalized.
+
+## CHANGELOG — 2026-09-18 — [SYNC] current diagnostic turn
+- [CONFIRMED] `cat /proc/partitions` completed: /dev/sda = 7630848 blocks; sda1 = 524288 blocks; sda2 = 6010880 blocks; sda3 = 1094656 blocks; zram0 = 32768 blocks.
+- [CONFIRMED] `cat /proc/mounts` completed: /dev/sda2 is active /overlay; /dev/sda3 is /mnt/data; /dev/sda1 is not a mounted filesystem.
+- [CONFIRMED] `cat /proc/swaps` completed: /dev/zram0 = 32764 KiB, used 5464 KiB, priority 100; /dev/sda1 = 524284 KiB, used 0 KiB, priority -2.
+- [CONFIRMED] `df -h` completed: /overlay and / are 5.6G with 5.2G available; /mnt/data is 1017.6M with 947.8M available; /tmp is 26.8M with 24.7M available; /rom is 6.0M squashfs.
+- [CONFIRMED] `cat /etc/config/fstab` completed: sda1 swap enabled; /overlay UUID 244b7bbc-add1-46cd-bc1a-0143cfca5d6c is disabled; /mnt/data UUID 635bc144-d79a-4e6d-a315-0e1655eb995c is enabled.
+- [CONFIRMED] `blkid` unavailable; no diagnostic package installation performed.
+- [CONFIRMED] /sys block inspection completed: sda1 1048576 sectors, sda2 12021760 sectors, sda3 2189312 sectors; partition numbers 1/2/3.
+- [CONFIRMED] `cat /proc/cmdline` completed: console=ttyS0,115200n8 rootfstype=squashfs,jffs2; no explicit root= or extroot/overlay parameter.
+- [CONFIRMED] `/etc/init.d/fstab` reviewed: START=11 and boot() invokes `/sbin/block mount`.
+- [CONFIRMED] `/sbin/block` exists, executable, size 40997 bytes; `file` unavailable.
+- [CORRECTION] The previous proposed command `/sbin/block -h 2>&1` is not required by the master plan. The plan requires current “block info”, not a generic help dump. Do not install `file` or other packages solely for diagnostics.
+- [DECISION] Do not further investigate the old extroot mechanism at this point by speculative commands. The current pre-flash inventory should proceed to the remaining explicitly required current package/service/UCI snapshots.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS; no flash, formatting, repartitioning, or other destructive operation performed.
