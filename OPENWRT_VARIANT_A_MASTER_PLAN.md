@@ -780,3 +780,11 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] `zapret2` does not appear in the process list, consistent with its previously recorded `not running` service state.
 - [CONFIRMED] No system state was changed by this read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] https-dns-proxy RSS snapshot
+- [CONFIRMED] PID 5573 (`https-dns-proxy`) memory snapshot: VmSize 3244 kB; VmRSS 1936 kB; RssAnon 332 kB; RssFile 1604 kB; RssShmem 0 kB.
+- [CONFIRMED] RSS is obtainable directly from `/proc/<PID>/status` on this system without installing diagnostic packages.
+- [CONFIRMED] This is a current STAGE 0 process-memory snapshot, not the clean STAGE 7 baseline.
+- [CONFIRMED] No system state was changed by the read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
