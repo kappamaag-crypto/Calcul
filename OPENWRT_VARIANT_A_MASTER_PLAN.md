@@ -873,3 +873,13 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] No flash, formatting, repartitioning, unmounting, fstab modification, swap modification, or other destructive operation was performed during STAGE 0.
 - [CONFIRMED] STAGE 0 exit condition is satisfied in the project record; flash remains forbidden until the exact official image is independently verified in STAGE 1.
 - [IN_PROGRESS] STAGE 1 — verify official OpenWrt 25.12.5 image/profile/filename/SHA256/size for MikroTik RB952Ui-5ac2nD.
+
+## Change log — 2026-09-18 — [STAGE 1 verification: official image identified]
+- [CONFIRMED] Official OpenWrt 25.12.5 target directory is `ath79/mikrotik`.
+- [CONFIRMED] Official image for this hardware is `mikrotik_routerboard-952ui-5ac2nd-squashfs-sysupgrade.bin`.
+- [CONFIRMED] Official SHA256: `61874d62db99a67c0be290a862466ded967d2b14cca88debd7b8ca2af7cc8078`.
+- [CONFIRMED] Official listed size: 7680.3 KB.
+- [CONFIRMED] A separate `-v7` image exists, but the selected target image is the ordinary non-`-v7` sysupgrade image, consistent with the RouterBOOT 6.41.3 / ordinary-image requirement in the project plan.
+- [CONFIRMED] Official supplementary files include `profiles.json`, `sha256sums`, `sha256sums.asc`, `sha256sums.sig` and the ath79/mikrotik SDK/toolchain.
+- [CONFIRMED] No image was flashed or downloaded to the router; this was official-source verification only.
+- [IN_PROGRESS] Next STAGE 1 action: verify the downloaded image on the PC against the official SHA256 before any flash planning.
