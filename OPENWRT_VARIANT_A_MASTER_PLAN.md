@@ -970,3 +970,11 @@ No flash is permitted until items 1–5 are complete.
 - [CHANGED] STAGE 3 = DONE.
 - [STARTED] STAGE 4 = IN_PROGRESS.
 - [NEXT] STAGE 4 must verify the clean base itself: active root/overlay, USB partitions and mounts, RAM baseline, and absence of the old `/dev/sda2` as active `/overlay`. No reboot, formatting, repartitioning, package installation, or configuration changes.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] STAGE 4 command appears slow
+- [CONFIRMED] User reports the read-only `mount; df -h` SSH command is taking a long time to complete.
+- [CONFIRMED] User asks whether USB should have been disconnected before the clean flash.
+- [CLARIFIED] The clean-flash procedure intentionally did not require formatting or repartitioning USB. USB remained connected so that post-flash verification can determine whether the old extroot was automatically inherited.
+- [CAUTION] Do not disconnect/power-cycle the USB while the current SSH command is still running; first determine whether the delay is caused by a filesystem/mount operation.
+- [CHANGED] STAGE 4 remains IN_PROGRESS. No router configuration or storage operation is authorized by this observation.
