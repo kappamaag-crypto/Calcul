@@ -942,3 +942,12 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] No router configuration or filesystem state was changed by the failed SSH attempt.
 - [CHANGED] STAGE 3 remains IN_PROGRESS. Firmware/version/rootfs/overlay state is still unverified.
 - [NEXT] Do not reboot, power-cycle, reflash, format USB, install packages, or change configuration. The next action must be a single read-only responsiveness check chosen from the observed SSH timeout state.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] TCP/22 reachable but SSH banner still times out
+- [PASS] `Test-NetConnection 192.168.1.1 -Port 22` returned `TcpTestSucceeded : True`, source `192.168.1.146`, interface `Ethernet`.
+- [CONFIRMED] TCP port 22 is reachable from the laptop, but SSH still times out during banner exchange.
+- [CONFIRMED] User reports the MikroTik LAN LED is blinking and the USB LED is blinking. This is observational evidence of activity, not yet a firmware/rootfs verification.
+- [CONFIRMED] No configuration, filesystem, USB layout, or reboot operation was changed by these checks.
+- [CHANGED] STAGE 3 remains IN_PROGRESS; post-flash board/release/rootfs/overlay state remains unverified.
+- [NEXT] Because TCP/22 accepts a connection but the SSH banner is not delivered, do not repeat SSH or reboot. Use one safe read-only network-level check next to determine whether the SSH service is responsive without authenticating.
