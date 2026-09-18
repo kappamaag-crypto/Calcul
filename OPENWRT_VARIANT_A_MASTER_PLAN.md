@@ -802,3 +802,10 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This is a current STAGE 0 process-memory snapshot, not the clean STAGE 7 baseline.
 - [CONFIRMED] No system state was changed by the read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] wpa_supplicant RSS snapshot
+- [CONFIRMED] PID 3608 (`wpa_supplicant`) memory snapshot: VmSize 3760 kB; VmRSS 1036 kB; RssAnon 136 kB; RssFile 900 kB; RssShmem 0 kB.
+- [CONFIRMED] This is a current STAGE 0 process-memory snapshot, not the clean STAGE 7 baseline.
+- [CONFIRMED] No system state was changed by the read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
