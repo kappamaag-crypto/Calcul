@@ -647,3 +647,13 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] `uhttpd` init script is present and executable (7404 bytes); earlier absence was stale historical evidence and is superseded by this current snapshot.
 - [CONFIRMED] `https-dns-proxy`, `pbr`, `network`, `dnsmasq`, `firewall`, `fstab`, `wpad` and `zapret2` init scripts are present.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS; no configuration or service state was changed by this read-only command.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] UCI network snapshot completed
+- [CONFIRMED] `uci show network` completed successfully.
+- [CONFIRMED] WAN is `eth1` with DHCP; WAN6 is `eth1` with DHCPv6.
+- [CONFIRMED] LAN is `br-lan` over `eth0.1`, static `192.168.1.1/24`, with IPv6 assignment length 60.
+- [CONFIRMED] Switch VLAN 1 is enabled with ports `1 2 3 4 0t`.
+- [CONFIRMED] WAN device MAC is `b8:69:f4:d6:e8:a0`; LAN VLAN device MAC is `b8:69:f4:d6:e8:a1`.
+- [CONFIRMED] No network configuration was changed by this read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
