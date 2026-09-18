@@ -966,7 +966,7 @@ No flash is permitted until items 1–5 are complete.
 - [PASS] The running firmware identity matches the independently verified official OpenWrt 25.12.5 image selected for this device.
 - [CONFIRMED] The previous SSH banner-timeout condition was transient/temporary: `ssh-keyscan -T 5 192.168.1.1` received the banner `SSH-2.0-dropbear` repeatedly. Windows OpenSSH then reported unsupported KEX `sntrup761x25519-sha512@openssh.com`; this is a client-side key-exchange compatibility message during keyscan and does not indicate a firmware failure.
 - [CONFIRMED] No configuration, filesystem, USB layout, package, or service state was changed by these checks.
-- [DONE] STAGE 3 exit criterion is satisfied: the new OpenWrt installation has booted and its board/release/kernel/rootfs identity is verified after the authorized `sysupgrade -n` clean flash. OpenWrt documents `-n` as disabling preservation of old configuration during sysupgrade. citeturn0search4turn0search6
+- [DONE] STAGE 3 exit criterion is satisfied: the new OpenWrt installation has booted and its board/release/kernel/rootfs identity is verified after the authorized `sysupgrade -n` clean flash. OpenWrt documents `-n` as disabling preservation of old configuration during sysupgrade.
 - [CHANGED] STAGE 3 = DONE.
 - [STARTED] STAGE 4 = IN_PROGRESS.
 - [NEXT] STAGE 4 must verify the clean base itself: active root/overlay, USB partitions and mounts, RAM baseline, and absence of the old `/dev/sda2` as active `/overlay`. No reboot, formatting, repartitioning, package installation, or configuration changes.
