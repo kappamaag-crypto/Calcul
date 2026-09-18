@@ -762,3 +762,10 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This is a STAGE 0 runtime snapshot under the current pre-rebuild configuration, not the clean-base STAGE 7 baseline.
 - [CONFIRMED] No system state was changed by this read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] BusyBox ps RSS command compatibility
+- [CONFIRMED] `ps -o pid,ppid,rss,comm,args | sort -k3 -nr | head -20` is unsupported by BusyBox 1.37.0; `ps` reports only the `w` wide-output option.
+- [CONFIRMED] No system state was changed; the failed command was read-only.
+- [CONFIRMED] The planned RSS snapshot has not yet been obtained.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
