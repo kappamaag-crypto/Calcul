@@ -842,3 +842,12 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] It is a point-in-time snapshot under the current pre-rebuild configuration, not the clean STAGE 7 baseline.
 - [CONFIRMED] No system state was changed by the read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] historical OOM evidence confirmed
+- [CONFIRMED] Current `dmesg` contains multiple historical kernel OOM events; this is strong evidence that the present pre-rebuild configuration has experienced severe memory pressure.
+- [CONFIRMED] Recorded OOM victims include `rpcd`, `nfqws2`, `dnsmasq`, multiple `https-dns-proxy` instances, `sysntpd`, `utpl`, and `netifd`; the log also contains repeated `oom_reaper` messages.
+- [CONFIRMED] Relevant later events include: PID 5574 `https-dns-proxy` killed at dmesg timestamp 4906.266585 with total-vm 3680 kB, anon-rss 660 kB, file-rss 1756 kB; PID 3746 `nfqws2` killed at timestamp 4353.270030; PID 7881 `nfqws2` killed at timestamp 9107.087198 with total-vm 2888 kB, anon-rss 60 kB, file-rss 96 kB.
+- [CONFIRMED] These messages are historical kernel-log evidence and do not by themselves establish that an OOM condition is occurring at the present instant.
+- [CONFIRMED] No system state was changed by the read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
