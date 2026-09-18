@@ -206,3 +206,12 @@ H) combination.
 
 ## Final principle
 Сначала clean → measured → stable → reproducible base OpenWrt. Затем возвращать функциональность по одному компоненту.
+
+
+## CHANGELOG — 2026-09-18
+### [CHANGED] Variant A diagnostic context
+- Зафиксировано, что до clean flash предыдущая система имела активный USB extroot на /dev/sda2; поэтому перед flash layout должен быть подтверждён фактическим read-only inventory, а не предположен.
+- Зафиксировано, что предыдущая проблема OOM была системным memory-pressure событием: при OOM victim'ами становились разные процессы, включая https-dns-proxy и nfqws2; сам nfqws2 не демонстрировал большого RSS в момент убийства.
+- Зафиксировано, что предыдущий Zapret2 real-DPI тест давал timeout YouTube и rawsend EPERM; эти результаты относятся к старой системе и не должны автоматически переноситься на чистую базу.
+- После clean flash компоненты должны возвращаться строго по одному, чтобы отделить влияние base OpenWrt, extroot, DoH, swap/ZRAM, NFQUEUE и Zapret2.
+- STAGE 0 остаётся IN_PROGRESS до завершения фактической read-only инвентаризации.
