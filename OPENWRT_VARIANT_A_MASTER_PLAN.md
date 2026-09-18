@@ -816,3 +816,13 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This is a current STAGE 0 process-memory snapshot, not the clean STAGE 7 baseline.
 - [CONFIRMED] No system state was changed by the read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] complete process RSS snapshot
+- [CONFIRMED] A single read-only `/proc` loop successfully collected `VmRSS` for all accessible user-space PIDs and sorted them descending.
+- [CONFIRMED] Largest measured RSS at this snapshot: `https-dns-proxy` PID 5573 = 1936 kB; `hostapd` PID 3606 = 1452 kB; `dnsmasq` PID 6386 = 1092 kB; `netifd` PID 5575 = 1052 kB; `wpa_supplicant` PID 3608 = 1036 kB.
+- [CONFIRMED] Other notable user-space RSS: ash PID 9762 = 964 kB; udhcpc PID 4342 = 948 kB; ash PID 7925 = 944 kB; ntpd PID 2901 = 916 kB; udhcpc PID 3038 = 892 kB; procd PID 1 = 876 kB; crond PID 2150 = 848 kB; odhcpd PID 2091 = 812 kB; ubusd PID 633 = 696 kB; dropbear PID 7924 = 628 kB; logd PID 1385 = 588 kB.
+- [CONFIRMED] Several procd/jail wrapper processes report 8 kB RSS in this snapshot; these are not treated as equivalent to the real service processes.
+- [CONFIRMED] `uhttpd` PID 2226 appears as an 8 kB jail/wrapper entry in this `/proc` snapshot; this does not replace the previously confirmed running `uhttpd` service process information and should not be interpreted as its true service RSS without further PID correlation.
+- [CONFIRMED] No system state was changed by the read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
