@@ -908,3 +908,12 @@ No flash is permitted until items 1–5 are complete.
 - [AUTHORIZED] User explicitly confirmed the clean flash. Planned command: `sysupgrade -n /tmp/openwrt-25.12.5-ath79sys.bin`. This will erase current writable configuration/overlay state; USB partitions are not intentionally formatted or repartitioned.
 
 - [BLOCKED] After `sysupgrade -T /tmp/openwrt-25.12.5-ath79sys.bin`, user reports the terminal/session appears frozen. No evidence of actual flash; `sysupgrade -n` has NOT been executed. Do not power-cycle or flash until live router state is rechecked.
+
+
+## Change log — 2026-09-18 — [SYNC] фактический результат clean flash
+- [CONFIRMED] После предыдущего шага пользователь сообщил фактические признаки перезагрузки после выполнения `sysupgrade -n /tmp/openwrt-25.12.5-ath79sys.bin`: штатная Wi-Fi сеть `OpenWrt` исчезла, прежняя SSH-сессия отключилась.
+- [CONFIRMED] Пользователь повторно подключился по Wi-Fi к сети `SPKEFFA_5G`; ноутбук физически оставлен подключённым Ethernet-кабелем к MikroTik LAN.
+- [INFERRED] По совокупности признаков наиболее вероятно, что clean flash фактически был выполнен и роутер перезагрузился. Это пока не считается окончательным PASS STAGE 3 до проверки новой системы.
+- [CONFIRMED] Никаких утверждений о новом rootfs/overlay, версии, конфигурации, USB и сети после flash пока не принимается без фактической проверки.
+- [CHANGED] STAGE 3 остаётся IN_PROGRESS до read-only проверки новой загрузившейся системы.
+- [NEXT] Следующий единственный шаг: проверить доступность MikroTik по LAN на `192.168.1.1` и получить `echo ALIVE; uptime` по SSH. Не выполнять reboot, power-cycle, flash, formatting или другие destructive actions.
