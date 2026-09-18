@@ -711,3 +711,11 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] Service runs as `nobody:nogroup`; WAN6 procd trigger is disabled.
 - [CONFIRMED] No DoH configuration was changed by this read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] Zapret2 runtime status completed
+- [CONFIRMED] `/etc/init.d/zapret2 status` returned `not running`.
+- [CONFIRMED] Zapret2 init script is present (from the previously completed init-script snapshot), but the service is currently not running.
+- [CONFIRMED] This read-only status check did not start, stop, or otherwise modify Zapret2.
+- [CONFIRMED] The firewall snapshot already showed an enabled nftables include for `/etc/zapret2/nfqws2.nft`; current service status does not prove whether that include is populated or functionally effective.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
