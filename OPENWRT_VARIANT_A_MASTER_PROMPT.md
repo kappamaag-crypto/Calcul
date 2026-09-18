@@ -261,3 +261,14 @@ H) combination.
 - [ADDED] При отсутствии изменения состояния статусы не изменяются и новые факты не создаются.
 - [ADDED] Синхронизация выполняется до завершения ответа ассистента.
 - [CONFIRMED] Текущий STAGE 0 остаётся IN_PROGRESS: большая часть inventory уже выполнена, но финальные read-only snapshot-пункты ещё должны быть закрыты.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] post-flash USB extroot inheritance confirmed
+- [CONFIRMED] После clean flash выполнена read-only команда `mount; df -h`.
+- [CONFIRMED] Текущая система имеет `/dev/sda2` mounted on `/overlay`, а `overlayfs:/overlay` mounted on `/`.
+- [CONFIRMED] `/dev/sda3` mounted on `/mnt/data`.
+- [CONFIRMED] `/dev/sda1` отсутствует в выводе `mount/df`; его swap-состояние этим тестом не определялось.
+- [IMPORTANT] Фактически старый `/dev/sda2` снова является active `/overlay` после clean flash. Следовательно, `sysupgrade -n` не означает автоматическое физическое отделение старого extroot: внешний раздел был обнаружен и смонтирован при загрузке.
+- [CHANGED] STAGE 4 остаётся IN_PROGRESS до намеренного отделения старого extroot и подтверждения clean base.
+- [RULE] До безопасного отделения старого extroot запрещены `mkfs`, `fdisk`, `parted`, `wipefs`, destructive `dd`, удаление/переразметка USB и любые действия с риском потери данных.
+- [NEXT] Сначала получить read-only `fstab + /proc/swaps + /sbin/block info`, чтобы установить механизм автоматического подключения `/dev/sda2` и фактическое состояние `/dev/sda1`.
