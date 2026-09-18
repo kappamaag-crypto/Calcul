@@ -893,6 +893,6 @@ No flash is permitted until items 1–5 are complete.
 
 
 ## Change log — 2026-09-18 — [STAGE 2 STARTED]
-- [DONE] STAGE 2 backup creation command completed without terminal error; archive existence/size still needs verification.
+- [DONE] STAGE 2 backup archive created and verified present: `/tmp/openwrt-backup-stage2-20260918-101532.tar.gz`, size 7.6K; archive contents have not yet been inspected.
 - [IN_PROGRESS] STAGE 2 backup started. No router state changed.
 - [CONFIRMED] Backup must be saved separately from the router and must not be automatically restored after clean flash.
