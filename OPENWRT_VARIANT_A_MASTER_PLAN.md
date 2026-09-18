@@ -883,3 +883,10 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] Official supplementary files include `profiles.json`, `sha256sums`, `sha256sums.asc`, `sha256sums.sig` and the ath79/mikrotik SDK/toolchain.
 - [CONFIRMED] No image was flashed or downloaded to the router; this was official-source verification only.
 - [IN_PROGRESS] Next STAGE 1 action: verify the downloaded image on the PC against the official SHA256 before any flash planning.
+
+## Change log — 2026-09-18 — [STAGE 1 SHA256 PASS]
+- [PASS] PC image `C:\WinBox\Opnewrt\openwrt-25.12.5-ath79sys.bin` SHA256 = `61874D62DB99A67C0BE290A862466DED967D2B14CCA88DEBD7B8CA2AF7CC8078`.
+- [PASS] Computed SHA256 exactly matches the official OpenWrt 25.12.5 `mikrotik_routerboard-952ui-5ac2nd-squashfs-sysupgrade.bin` checksum recorded for STAGE 1.
+- [CONFIRMED] The local filename is custom/renamed, but the hash establishes that its contents match the verified official sysupgrade image.
+- [CONFIRMED] No flashing or other router state change has occurred.
+- [IN_PROGRESS] STAGE 1 remains active until the required official image verification record is complete; next step is PC-side size/identity check, not flashing.
