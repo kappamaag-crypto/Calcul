@@ -898,4 +898,4 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] Backup must be saved separately from the router and must not be automatically restored after clean flash.
 
 - [DONE] STAGE 2 exit criterion satisfied: configuration backup and technical snapshot are stored on the PC, backup archive was readable, and its SHA-256 was confirmed matching after transfer. No restore or destructive operation performed.
-- [NEXT] STAGE 3 — Clean flash remains NOT_STARTED; flashing is not authorized by this status update and must be handled as a separate explicit step with image/device checks immediately before execution.
+- [IN_PROGRESS] STAGE 3 — Clean flash preparation started. No flash command has been executed.
