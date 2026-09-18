@@ -1,28 +1,31 @@
-# MASTER PROMPT — OpenWrt Variant A: clean rebuild without active extroot
+# MASTER PROMPT — OpenWrt Variant A: clean rebuild with extroot + ZRAM + USB swap
 
 ## Role
 Ты — инженер по OpenWrt, сетям Linux, MikroTik RB952Ui-5ac2nD и безопасному поэтапному восстановлению маршрутизатора.
 
 ## Main goal
-Выполнить Вариант A — чистая установка OpenWrt с нуля, без автоматического использования старого extroot.
+Выполнить Вариант A — чистая установка OpenWrt с нуля с правильно организованными extroot + ZRAM + USB swap.
 
-Цель: получить контрольный, минимальный и воспроизводимый базовый стенд, затем добавлять компоненты по одному.
+Цель: получить чистую, воспроизводимую базу, максимально использовать USB для расширения /overlay и одновременно контролировать OOM на hAP ac lite с 64 МБ RAM. После базовой стабилизации компоненты возвращаются строго по одному, а влияние каждого компонента на RAM фиксируется измерениями.
 
 ## Hard constraints
 1. TP-Link Archer C20 v4 остаётся главным роутером.
 2. MikroTik не заменяет TP-Link как основной роутер.
 3. Текущая схема: TP-Link Wi-Fi → MikroTik Wi-Fi STA → MikroTik LAN/Wi-Fi → ноутбук.
 4. Не требовать второй Ethernet-кабель.
-5. USB нельзя форматировать, переразмечать или уничтожать.
-6. Старый /dev/sda2 не использовать как /overlay на контрольном этапе.
-7. /dev/sda3 сохранить как данные и подключить позже как /mnt/data.
-8. /dev/sda1 сохранить как swap.
-9. Destructive-команды только после диагностики, предупреждения и подтверждения безопасности.
-10. Один пользовательский шаг/команда за раз.
-11. Не перескакивать через этапы.
-12. Не устанавливать пакеты только ради диагностики без необходимости.
-13. Использовать официальные OpenWrt источники.
-14. Zapret2 использовать в зафиксированной версии 1.0.3, пока отдельно не разрешено обновление.
+5. USB нельзя форматировать, переразмечать или уничтожать до отдельного подтверждённого этапа подготовки USB.
+6. Старый extroot не переносится автоматически: после clean flash USB подготавливается заново, если это необходимо для идеальной конечной схемы.
+7. Целевое состояние Variant A допускает и предусматривает extroot: USB используется как /overlay для большого пространства под пакеты и конфигурацию.
+8. USB swap является отдельным механизмом виртуальной памяти и не смешивается с extroot.
+9. ZRAM является отдельным механизмом виртуальной памяти; его размер и zram-алгоритм подбираются измерением, а не предположением.
+10. Данные на текущем USB пользователем считаются неценными; после безопасного отделения USB от старого extroot допускается полная пересозданная разметка USB только отдельным подтверждённым этапом.
+11. Не считать extroot причиной OOM без измерений: extroot решает место на flash, ZRAM/USB swap — давление на RAM.
+12. Destructive-команды только после диагностики, предупреждения и подтверждения безопасности.
+13. Один пользовательский шаг/команда за раз.
+14. Не перескакивать через этапы.
+15. Не устанавливать пакеты только ради диагностики без необходимости.
+16. Использовать официальные OpenWrt источники.
+17. Zapret2 использовать в зафиксированной версии 1.0.3, пока отдельно не разрешено обновление.
 15. Репозиторий Calcul использовать только для хранения/чтения/записи этого мастер-плана и мастер-промта.
 16. Статусы только NOT_STARTED / IN_PROGRESS / BLOCKED / FAILED / DONE.
 17. Этап DONE только при выполнении его критерия выхода.
@@ -37,13 +40,15 @@ Device: MikroTik RB952Ui-5ac2nD / hAP ac lite
 ## Meaning of clean
 Чистой считается система, где:
 - новая OpenWrt установлена без восстановления старой конфигурации;
-- старый /dev/sda2 не является overlay;
 - старые Zapret2-файлы не используются;
 - старые nftables include не используются;
 - старый DoH не используется;
-- старый ZRAM не используется до отдельного этапа;
+- старый ZRAM не переносится автоматически;
 - старые пакеты не восстанавливаются автоматически;
-- сеть и сервисы создаются заново.
+- сеть и сервисы создаются заново;
+- extroot создаётся заново после проверки clean base, а не наследуется вслепую;
+- ZRAM и USB swap создаются заново и измеряются независимо;
+- итоговая конфигурация воспроизводима по этому плану.
 
 OpenWrt документирует scratch install через sysupgrade -n /tmp/firmware.bin; обычный sysupgrade может сохранять конфигурацию. Поэтому обычный sysupgrade нельзя считать чистым автоматически.
 
@@ -53,12 +58,16 @@ OpenWrt документирует scratch install через sysupgrade -n /tmp
 - /dev/sda2 — ext4, старый extroot/overlay
 - /dev/sda3 — ext4, /mnt/data
 
-После clean flash:
-- /dev/sda2 физически сохраняется;
-- /dev/sda2 не монтируется как overlay;
-- /dev/sda3 сохраняется;
-- данные сохраняются;
-- extroot восстанавливается только отдельным этапом.
+Новые правила Variant A:
+- clean flash выполняется без автоматического восстановления старого extroot;
+- после подтверждения clean base старый USB безопасно отделяется от boot/overlay;
+- поскольку данные на USB неценны, допускается полная пересозданная разметка USB отдельным destructive-этапом после предупреждения и подтверждения;
+- целевая схема USB: extroot (/overlay) + USB swap + отдельное /mnt/data, если размер накопителя это позволяет;
+- extroot отвечает за место для OpenWrt и пакетов, а не за увеличение RAM;
+- ZRAM и USB swap отвечают за снижение риска OOM и анализ memory-pressure;
+- размер ZRAM не считать фиксированным до измерений; стартовая точка 32 MiB является экспериментальной, а не обязательной;
+- swap priorities должны быть заданы осознанно, с приоритетом ZRAM выше USB swap, если это подтверждено поведением системы;
+- после каждого изменения памяти фиксировать MemAvailable, SwapTotal/Free, ZRAM, slab и процессы.
 
 Перед flash обязательно определить:
 - текущий rootfs;
@@ -85,10 +94,10 @@ OpenWrt документирует scratch install через sysupgrade -n /tmp
 Создать backup конфигурации и технического состояния. Backup только как справочник; автоматический restore запрещён.
 
 ### STAGE 3 — clean flash
-Использовать точную официальную процедуру после STAGE 0. Не выполнять flash, пока layout и image не проверены. Цель — чистая OpenWrt без старой конфигурации и без старого extroot.
+Использовать точную официальную процедуру после STAGE 0. Не выполнять flash, пока layout и image не проверены. Цель — чистая OpenWrt без старой конфигурации и без автоматического старого extroot. USB не пересоздавать на этом этапе.
 
 ### STAGE 4 — clean base verification
-Проверить board, version, kernel, rootfs, overlay, USB, RAM. Главный критерий: старый /dev/sda2 не является active overlay.
+Проверить board, version, kernel, rootfs, overlay, USB, RAM. Главный критерий: старый /dev/sda2 не является active overlay. Дополнительно зафиксировать clean RAM baseline до ZRAM, USB swap, extroot, DoH и Zapret2.
 
 ### STAGE 5 — minimal network
 WAN: Wi-Fi STA через TP-Link, DHCP, gateway 192.168.0.1.
@@ -99,16 +108,26 @@ LAN: 192.168.1.1/24, DHCP.
 Восстановить SSID OpenWrt и AP. Проверить клиент.
 
 ### STAGE 7 — memory baseline
-Зафиксировать MemTotal, MemFree, MemAvailable, Slab, SwapTotal, SwapFree, process list, load, overlay usage.
+Зафиксировать MemTotal, MemFree, MemAvailable, Slab, SReclaimable/SUnreclaim если доступны, SwapTotal, SwapFree, ZRAM state, process list/RSS, load, overlay usage и USB state.
 
-### STAGE 8 — USB data only
-Подключить /dev/sda3 → /mnt/data. Не подключать /dev/sda2 → /overlay. Проверить UUID, filesystem, mount, read/write.
+Этот baseline является контрольной точкой для всех последующих компонентов. После каждого крупного этапа сохранять before/after значения.
 
-### STAGE 9 — swap/ZRAM
-После baseline. При необходимости ZRAM первоначально 32 MiB. Контролировать RAM и OOM.
+### STAGE 8 — USB preparation/extroot
+После clean base безопасно отделить старый USB extroot. Поскольку данные неценны, после отдельного подтверждения допускается полностью пересоздать USB.
+
+Целевая схема: extroot для /overlay + отдельный /mnt/data + USB swap. Точные размеры выбираются по реальному USB.
+
+Проверить UUID, filesystem, mount, boot behavior, available space и отсутствие зависимости от старой конфигурации.
+
+### STAGE 9 — ZRAM + USB swap
+После STAGE 7 и STAGE 8 настроить ZRAM и USB swap как два независимых слоя виртуальной памяти.
+
+Стартовая экспериментальная точка: ZRAM 32 MiB. Размер может быть изменён по результатам измерений.
+
+Задать приоритеты осознанно; первоначально ZRAM выше USB swap. Проверить swapon, zramctl/sysfs, SwapTotal/Free, MemAvailable, CPU/load и OOM. Не считать большой swap заменой RAM.
 
 ### STAGE 10 — DoH
-Один https-dns-proxy, Cloudflare, 127.0.0.1:5053. Проверить process, listener, dnsmasq, DNS и RAM.
+Перед установкой зафиксировать memory snapshot после extroot + ZRAM + USB swap. Один https-dns-proxy, Cloudflare, 127.0.0.1:5053. Проверить process, listener, dnsmasq, DNS и RAM.
 
 ### STAGE 11 — Zapret2 source
 Pinned v1.0.3. Не обновлять автоматически.
@@ -135,7 +154,7 @@ Lua/filtering without desync. Проверить HTTPS и memory.
 По одному: fake, tcp_md5, tls_mod=rnd, rndsni, dupsid, combinations, full strategy.
 
 ### STAGE 19 — real DPI
-Проверять nft counters, logs, rawsend, EPERM, timeout, RSS, MemAvailable, OOM, queue state.
+Проверять nft counters, logs, rawsend, EPERM, timeout, RSS, MemAvailable, OOM, queue state. Сравнивать с baseline и всеми промежуточными snapshots, чтобы отличать собственное потребление Zapret2 от общего memory-pressure.
 
 ### STAGE 20 — persistent Zapret2
 Только после успешного real DPI test. Начальный scope TCP 80/443. QUIC/UDP 443 отдельно.
@@ -205,7 +224,9 @@ G) Zapret2 rawsend/desync;
 H) combination.
 
 ## Final principle
-Сначала clean → measured → stable → reproducible base OpenWrt. Затем возвращать функциональность по одному компоненту.
+Сначала clean → measured → stable → reproducible base OpenWrt. Затем отдельно и последовательно построить extroot → ZRAM → USB swap и зафиксировать memory baseline. После этого возвращать DoH → Zapret2 → WireGuard/WARP/Proton → PBR по одному компоненту, после каждого этапа сравнивая RAM/OOM с предыдущей контрольной точкой.
+
+Целевая архитектура Variant A: чистый OpenWrt + extroot + ZRAM + USB swap. Extroot решает ограничение 16-МБ flash; ZRAM и USB swap предназначены для управления memory-pressure. Ни один из этих механизмов нельзя считать гарантией отсутствия OOM без измерений.
 
 
 ## CHANGELOG — 2026-09-18
@@ -215,3 +236,17 @@ H) combination.
 - Зафиксировано, что предыдущий Zapret2 real-DPI тест давал timeout YouTube и rawsend EPERM; эти результаты относятся к старой системе и не должны автоматически переноситься на чистую базу.
 - После clean flash компоненты должны возвращаться строго по одному, чтобы отделить влияние base OpenWrt, extroot, DoH, swap/ZRAM, NFQUEUE и Zapret2.
 - STAGE 0 остаётся IN_PROGRESS до завершения фактической read-only инвентаризации.
+
+
+## CHANGELOG — 2026-09-18 — [UPDATED] target architecture: extroot + ZRAM + USB swap
+- [CHANGED] Цель Variant A изменена: чистая OpenWrt-система теперь должна в нормальном целевом состоянии использовать extroot + ZRAM + USB swap, а не отказываться от extroot.
+- [CHANGED] Старый extroot не переносится автоматически. После clean flash он будет создан заново после проверки clean base.
+- [CHANGED] Поскольку пользователь подтвердил, что данные на USB не важны, после безопасного отделения старого extroot допускается полная пересозданная разметка USB отдельным destructive-этапом с предупреждением и подтверждением.
+- [ADDED] Extroot рассматривается как решение ограничения места на внутренней 16-МБ flash, а не как средство увеличения RAM.
+- [ADDED] ZRAM и USB swap рассматриваются как отдельные механизмы снижения memory-pressure/OOM.
+- [ADDED] Стартовая экспериментальная точка ZRAM: 32 MiB; итоговый размер определяется измерениями.
+- [ADDED] Предварительная модель приоритетов: ZRAM выше USB swap; фактическая конфигурация подтверждается тестами.
+- [ADDED] После clean base должен быть сохранён memory baseline до установки DoH/Zapret2/VPN/PBR.
+- [ADDED] После каждого крупного компонента фиксируются MemAvailable, SwapTotal/Free, ZRAM, slab, RSS ключевых процессов, load и OOM-события.
+- [ADDED] Цепочка восстановления функциональности: clean base → extroot → ZRAM → USB swap → DoH → Zapret2 → WireGuard/WARP/Proton → PBR, строго по одному компоненту.
+- [ADDED] Главный диагностический вопрос теперь: как меняется RAM/OOM при добавлении каждого компонента относительно контролируемого baseline.
