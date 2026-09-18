@@ -754,3 +754,11 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This snapshot is a current STAGE 0 memory baseline under the existing pre-rebuild configuration; it is not the clean-base baseline required by later STAGE 7.
 - [CONFIRMED] No system state was changed by this read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] detailed memory snapshot completed
+- [CONFIRMED] `/proc/meminfo` snapshot: MemTotal 54852 kB; MemFree 12116 kB; MemAvailable 4556 kB; Buffers 1892 kB; Cached 6328 kB; Slab 10128 kB; SReclaimable 1248 kB; SUnreclaim 8880 kB; SwapTotal 557048 kB; SwapFree 551356 kB.
+- [CONFIRMED] Current kernel slab is 10128 kB, of which 8880 kB is SUnreclaim and 1248 kB is SReclaimable.
+- [CONFIRMED] This is a STAGE 0 runtime snapshot under the current pre-rebuild configuration, not the clean-base STAGE 7 baseline.
+- [CONFIRMED] No system state was changed by this read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
