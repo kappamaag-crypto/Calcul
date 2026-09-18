@@ -92,7 +92,7 @@ image и checksum однозначно подтверждены.
 ---
 
 ## STAGE 2 — Backup
-STATUS: NOT_STARTED
+STATUS: IN_PROGRESS
 
 Цель: сохранить конфигурацию и технический snapshot.
 
@@ -890,3 +890,8 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] The local filename is custom/renamed, but the hash establishes that its contents match the verified official sysupgrade image.
 - [CONFIRMED] No flashing or other router state change has occurred.
 - [IN_PROGRESS] STAGE 1 remains active until the required official image verification record is complete; next step is PC-side size/identity check, not flashing.
+
+
+## Change log — 2026-09-18 — [STAGE 2 STARTED]
+- [IN_PROGRESS] STAGE 2 backup started. No router state changed.
+- [CONFIRMED] Backup must be saved separately from the router and must not be automatically restored after clean flash.
