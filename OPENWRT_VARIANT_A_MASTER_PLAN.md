@@ -900,3 +900,4 @@ No flash is permitted until items 1–5 are complete.
 - [DONE] STAGE 2 exit criterion satisfied: configuration backup and technical snapshot are stored on the PC, backup archive was readable, and its SHA-256 was confirmed matching after transfer. No restore or destructive operation performed.
 - [IN_PROGRESS] STAGE 3 — Clean flash preparation started. No flash command has been executed.
 - [DONE] STAGE 3.1 device/firmware identity rechecked: model `MikroTik RouterBOARD 952Ui-5ac2nD (hAP ac lite)`, board `mikrotik,routerboard-952ui-5ac2nd`, OpenWrt `25.12.5`, target `ath79/mikrotik`; matches the verified ordinary sysupgrade image. No flash executed.
+- [DONE] STAGE 3.2 local firmware file confirmed present on PC and user confirmed its SHA-256 matches official `61874d62db99a67c0be290a862466ded967d2b14cca88debd7b8ca2af7cc8078`. No flash executed.
