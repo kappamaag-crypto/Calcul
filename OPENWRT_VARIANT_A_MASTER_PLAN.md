@@ -925,3 +925,11 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] A second identical SSH command did not return / appeared to hang. This is a current responsiveness symptom, not yet assigned a cause.
 - [CHANGED] STAGE 3 remains IN_PROGRESS; clean flash boot is now strongly confirmed, but STAGE 3 PASS still requires read-only verification of the new firmware/rootfs/overlay and absence of inherited old extroot.
 - [NEXT] Because SSH responsiveness is currently uncertain and load is high, the next step is a read-only network reachability test from the laptop. No reboot, power-cycle, flash, package installation, formatting, or configuration changes.
+
+
+## Change log — 2026-09-18 — [SYNC] LAN reachability PASS after clean flash
+- [PASS] From the laptop, `ping 192.168.1.1 -n 4` returned 4/4 replies, 0% packet loss, TTL=64, RTT 0–1 ms.
+- [CONFIRMED] MikroTik LAN/IP path is responsive despite the earlier SSH command appearing to hang.
+- [CONFIRMED] This is only a reachability result; it does not yet verify firmware version, rootfs, overlay, USB state, or inherited configuration after clean flash.
+- [CHANGED] STAGE 3 remains IN_PROGRESS pending read-only post-flash system verification.
+- [NEXT] One safe read-only SSH command will be used to inspect the current post-flash board/release state. No reboot, flash, formatting, package installation, or configuration changes.
