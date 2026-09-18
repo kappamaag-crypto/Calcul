@@ -795,3 +795,10 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This is a current STAGE 0 process-memory snapshot, not the clean STAGE 7 baseline.
 - [CONFIRMED] No system state was changed by the read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] hostapd RSS snapshot
+- [CONFIRMED] PID 3606 (`hostapd`) memory snapshot: VmSize 3724 kB; VmRSS 1452 kB; RssAnon 208 kB; RssFile 1244 kB; RssShmem 0 kB.
+- [CONFIRMED] This is a current STAGE 0 process-memory snapshot, not the clean STAGE 7 baseline.
+- [CONFIRMED] No system state was changed by the read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
