@@ -74,7 +74,7 @@ Flash запрещён до завершения.
 ---
 
 ## STAGE 1 — Official firmware verification
-STATUS: IN_PROGRESS
+STATUS: DONE
 
 Цель: получить официальный OpenWrt 25.12.5 image именно для RB952Ui-5ac2nD.
 
@@ -104,7 +104,7 @@ backup находится на ПК и читается.
 ---
 
 ## STAGE 3 — Clean flash
-STATUS: NOT_STARTED
+STATUS: DONE
 
 Цель: OpenWrt 25.12.5 без старой конфигурации и без автоматического старого extroot. USB на этом этапе не пересоздавать.
 
@@ -119,7 +119,7 @@ STOP:
 ---
 
 ## STAGE 4 — Clean base verification
-STATUS: NOT_STARTED
+STATUS: IN_PROGRESS
 
 Проверить:
 - board;
@@ -536,8 +536,12 @@ Variant A is successful when:
 12. Final state is reproducible from this plan.
 
 ## Current state
-STAGE 0 — IN_PROGRESS
-STAGE 1–30 — NOT_STARTED
+STAGE 0 — DONE
+STAGE 1 — DONE
+STAGE 2 — DONE
+STAGE 3 — DONE
+STAGE 4 — IN_PROGRESS
+STAGE 5–30 — NOT_STARTED
 
 ### Change log — 2026-09-18
 - [UPDATED] STAGE 0 remains IN_PROGRESS; no flash performed.
@@ -951,3 +955,18 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] No configuration, filesystem, USB layout, or reboot operation was changed by these checks.
 - [CHANGED] STAGE 3 remains IN_PROGRESS; post-flash board/release/rootfs/overlay state remains unverified.
 - [NEXT] Because TCP/22 accepts a connection but the SSH banner is not delivered, do not repeat SSH or reboot. Use one safe read-only network-level check next to determine whether the SSH service is responsive without authenticating.
+
+
+## CHANGELOG — 2026-09-18 — [STAGE 3 CLOSED / STAGE 4 STARTED] post-flash verification PASS
+- [PASS] Read-only command `ssh -o ConnectTimeout=5 root@192.168.1.1 "ubus call system board"` completed successfully.
+- [CONFIRMED] Running system reports OpenWrt `25.12.5`, revision `r33051-f5dae5ece4`, target `ath79/mikrotik`.
+- [CONFIRMED] Board/model reports `MikroTik RouterBOARD 952Ui-5ac2nD (hAP ac lite)`, board_name `mikrotik,routerboard-952ui-5ac2nd`.
+- [CONFIRMED] Kernel is `6.12.94`; system is Qualcomm Atheros QCA9533 ver 2 rev 0.
+- [CONFIRMED] `rootfs_type` is `squashfs`.
+- [PASS] The running firmware identity matches the independently verified official OpenWrt 25.12.5 image selected for this device.
+- [CONFIRMED] The previous SSH banner-timeout condition was transient/temporary: `ssh-keyscan -T 5 192.168.1.1` received the banner `SSH-2.0-dropbear` repeatedly. Windows OpenSSH then reported unsupported KEX `sntrup761x25519-sha512@openssh.com`; this is a client-side key-exchange compatibility message during keyscan and does not indicate a firmware failure.
+- [CONFIRMED] No configuration, filesystem, USB layout, package, or service state was changed by these checks.
+- [DONE] STAGE 3 exit criterion is satisfied: the new OpenWrt installation has booted and its board/release/kernel/rootfs identity is verified after the authorized `sysupgrade -n` clean flash. OpenWrt documents `-n` as disabling preservation of old configuration during sysupgrade. citeturn0search4turn0search6
+- [CHANGED] STAGE 3 = DONE.
+- [STARTED] STAGE 4 = IN_PROGRESS.
+- [NEXT] STAGE 4 must verify the clean base itself: active root/overlay, USB partitions and mounts, RAM baseline, and absence of the old `/dev/sda2` as active `/overlay`. No reboot, formatting, repartitioning, package installation, or configuration changes.
