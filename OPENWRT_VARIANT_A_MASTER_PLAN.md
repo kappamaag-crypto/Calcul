@@ -562,3 +562,52 @@ Do not execute flash until STAGE 0 inventory is complete and reviewed.
 - [ADDED] После каждого крупного этапа сохранять RAM snapshot: MemAvailable, SwapTotal/Free, ZRAM, slab, RSS ключевых процессов, load и OOM.
 - [ADDED] Цепочка: clean base → extroot → ZRAM → USB swap → DoH → Zapret2 → WireGuard/WARP/Proton → PBR.
 - [ADDED] Диагностическая цель: отделить влияние дискового extroot от RAM-pressure и отдельно измерить влияние ZRAM/swap, DoH, NFQUEUE и Zapret2.
+
+
+## CHANGELOG — 2026-09-18 — [UPDATED] фактическое восстановление STAGE 0
+- [CONFIRMED] STAGE 0 не означает, что диагностика ранее не выполнялась: значительная часть read-only inventory уже была реально выполнена в рабочей сессии.
+- [CONFIRMED] Уже получены как фактические данные: board/model, OpenWrt 25.12.5 r33051-f5dae5ece4, target ath79/mikrotik, kernel 6.12.94, /proc/mtd, rootfs, active /overlay, USB sda1/sda2/sda3, mounts, fstab, /proc/cmdline, extroot/fstools mechanism, RAM/swap/ZRAM snapshots, network, Wi-Fi AP, firewall, package manager, DoH и предыдущая Zapret2/OOM диагностика.
+- [CONFIRMED] Фактическое состояние старой системы: /dev/sda2 был активным USB extroot на /overlay; /dev/sda3 был /mnt/data; /dev/sda1 был swap.
+- [CONFIRMED] lsblk -f в текущем read-only inventory недоступен: команда отсутствует. Это не FAIL системы; эквивалентную информацию нужно получить доступными OpenWrt-инструментами.
+- [CHANGED] STAGE 0 не будет повторять уже выполненные тесты без причины. Перед STAGE 1 закрываются только недостающие финальные snapshot-пункты: актуальный block/USB state, актуальный mount/df snapshot и при необходимости актуальные package/service/UCI snapshots.
+- [CONFIRMED] Flash по-прежнему запрещён до завершения и проверки STAGE 0.
+- [ADDED] Исторические результаты DoH/Zapret2/OOM являются evidence старой системы и не считаются доказательством поведения чистой базы.
+- [ADDED] После каждого пользовательского сообщения и каждого ответа ассистента мастер-план синхронизируется с новым фактическим состоянием, выполненными командами, решениями, изменёнными статусами и следующими критериями выхода.
+- [ADDED] Синхронизация выполняется до завершения ответа ассистента; при отсутствии изменения состояния факты и статусы не выдумываются и не изменяются.
+- [ADDED] Мастер-промт и мастер-план должны оставаться согласованными: архитектура, статусы, запреты и правила one-step-at-a-time.
+
+## CURRENT STAGE 0 FACTUAL CHECKPOINT — 2026-09-18
+Статус: IN_PROGRESS
+
+Уже подтверждено:
+- board/model: MikroTik RB952Ui-5ac2nD / hAP ac lite;
+- OpenWrt: 25.12.5 r33051-f5dae5ece4;
+- target: ath79/mikrotik;
+- kernel: 6.12.94;
+- rootfs: internal SquashFS;
+- /dev/sda2: old extroot, active /overlay in the pre-rebuild system;
+- /dev/sda3: /mnt/data;
+- /dev/sda1: swap;
+- fstab: reviewed;
+- /proc/cmdline: reviewed;
+- mount_root/fstools extroot mechanism: reviewed;
+- RAM/swap/ZRAM: measured historically;
+- network/Wi-Fi/firewall: tested historically;
+- apk package manager: confirmed;
+- DoH: inventoried historically;
+- Zapret2/NFQUEUE/OOM: tested historically.
+
+Remaining STAGE 0 closure items:
+1. Obtain current read-only block/USB inventory without relying on absent lsblk.
+2. Obtain one current mount/df snapshot.
+3. Obtain current package/service/UCI snapshots where needed for the final pre-flash inventory.
+4. Consolidate the final inventory into the PC/project record.
+5. Review the consolidated inventory and only then mark STAGE 0 DONE.
+
+No flash is permitted until items 1–5 are complete.
+
+## CHANGELOG — 2026-09-18 — [ADDED] turn-by-turn synchronization rule
+- [ADDED] Every user message and every assistant response is a synchronization boundary for the master plan.
+- [ADDED] At each boundary, the plan records new factual outputs, executed commands, decisions, stage-status changes, blockers, and next exit criteria.
+- [ADDED] If a turn produces no state change, the plan is not allowed to invent one or change a status; only a brief confirmation log may be added.
+- [ADDED] The synchronization must be completed before the assistant response is finalized.
