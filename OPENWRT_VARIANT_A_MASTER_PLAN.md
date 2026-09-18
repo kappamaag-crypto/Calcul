@@ -700,3 +700,14 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] `https-dns-proxy` is currently running; this does not yet prove its listener, upstream, DNS integration, or RAM usage.
 - [CONFIRMED] No service configuration or runtime state was changed by this read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] DoH UCI configuration snapshot completed
+- [CONFIRMED] `https-dns-proxy` listens on `127.0.0.1:5053`.
+- [CONFIRMED] Upstream resolver is Cloudflare DoH: `https://cloudflare-dns.com/dns-query`.
+- [CONFIRMED] Bootstrap DNS includes Cloudflare IPv4/IPv6 addresses.
+- [CONFIRMED] `force_dns='1'`, source interface `lan`, forced ports `53` and `853`, `notrack_dns='1'`.
+- [CONFIRMED] `dnsmasq_config_update='*'` is configured.
+- [CONFIRMED] Service runs as `nobody:nogroup`; WAN6 procd trigger is disabled.
+- [CONFIRMED] No DoH configuration was changed by this read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
