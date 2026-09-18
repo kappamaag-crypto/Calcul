@@ -42,7 +42,7 @@ TP-Link остаётся главным маршрутизатором.
 ---
 
 ## STAGE 0 — Safety inventory
-STATUS: IN_PROGRESS
+STATUS: DONE
 
 Цель: read-only inventory перед flash.
 
@@ -74,7 +74,7 @@ Flash запрещён до завершения.
 ---
 
 ## STAGE 1 — Official firmware verification
-STATUS: NOT_STARTED
+STATUS: IN_PROGRESS
 
 Цель: получить официальный OpenWrt 25.12.5 image именно для RB952Ui-5ac2nD.
 
@@ -865,3 +865,11 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] Current swap snapshot: `/dev/zram0` 32764 kB, used 5436 kB, priority 100; `/dev/sda1` 524284 kB, used 0 kB, priority -2.
 - [CONFIRMED] ZRAM and USB swap are both active concurrently; ZRAM has higher priority.
 - [CONFIRMED] No configuration/state was changed by this read-only command.
+
+
+## Change log — 2026-09-18 — [STAGE 0 CLOSED / STAGE 1 STARTED]
+- [DONE] STAGE 0 read-only inventory is complete from the collected evidence: board/release/kernel, /proc/mtd, USB partition state, block info, mounts, df, fstab, UCI network/wireless/firewall, installed APK snapshot, init scripts, Zapret2, DoH, ZRAM and swap, RAM/process RSS, and historical OOM evidence are recorded in the project record.
+- [CONFIRMED] BusyBox utilities `lsblk`, `blkid` and `file` are unavailable on the current system; equivalent storage evidence was obtained from `/proc/partitions`, `/sbin/block info`, mounts and filesystem metadata. No diagnostic packages were installed solely to replace them.
+- [CONFIRMED] No flash, formatting, repartitioning, unmounting, fstab modification, swap modification, or other destructive operation was performed during STAGE 0.
+- [CONFIRMED] STAGE 0 exit condition is satisfied in the project record; flash remains forbidden until the exact official image is independently verified in STAGE 1.
+- [IN_PROGRESS] STAGE 1 — verify official OpenWrt 25.12.5 image/profile/filename/SHA256/size for MikroTik RB952Ui-5ac2nD.
