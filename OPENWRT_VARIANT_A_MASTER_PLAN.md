@@ -657,3 +657,12 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] WAN device MAC is `b8:69:f4:d6:e8:a0`; LAN VLAN device MAC is `b8:69:f4:d6:e8:a1`.
 - [CONFIRMED] No network configuration was changed by this read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] wireless UCI snapshot completed
+- [CONFIRMED] `uci show network` was repeated and matches the previously recorded network snapshot; no network configuration change detected.
+- [CONFIRMED] `radio0` is 5 GHz, channel 36, VHT80; its AP interface is enabled, SSID `OpenWrt`, attached to `lan`, open encryption.
+- [CONFIRMED] `radio1` is 2.4 GHz, channel 1, HT20; its AP interface is disabled, SSID `OpenWrt`, attached to `lan`.
+- [CONFIRMED] An additional `radio0` station interface exists on `wan`, SSID `SPKEFFA_5G`, WPA2-PSK, with a configured key. This is current configuration evidence only; credentials are not reproduced in the master plan.
+- [CONFIRMED] No wireless configuration was changed by these read-only commands.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
