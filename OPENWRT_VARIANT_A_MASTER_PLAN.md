@@ -809,3 +809,10 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This is a current STAGE 0 process-memory snapshot, not the clean STAGE 7 baseline.
 - [CONFIRMED] No system state was changed by the read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] netifd RSS snapshot
+- [CONFIRMED] PID 5575 (`netifd`) memory snapshot: VmSize 2908 kB; VmRSS 1052 kB; RssAnon 224 kB; RssFile 812 kB; RssShmem 16 kB.
+- [CONFIRMED] This is a current STAGE 0 process-memory snapshot, not the clean STAGE 7 baseline.
+- [CONFIRMED] No system state was changed by the read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
