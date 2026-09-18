@@ -677,3 +677,11 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] Enabled nftables include `/etc/zapret2/nfqws2.nft` with `fw4_compatible='1'`; this is configuration evidence only and is not treated as proof that Zapret2 is currently active or functional.
 - [CONFIRMED] No firewall configuration was changed by this read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] swap runtime snapshot completed
+- [CONFIRMED] `/dev/sda1` is active USB swap: 524284 KiB, currently 0 KiB used, priority -2.
+- [CONFIRMED] `/dev/zram0` is active swap: 32764 KiB, currently 5692 KiB used, priority 100.
+- [CONFIRMED] ZRAM has higher swap priority than USB swap in the current runtime state.
+- [CONFIRMED] This was a read-only runtime check; no swap or ZRAM configuration was changed.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
