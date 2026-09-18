@@ -739,3 +739,9 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] There is a runtime/configuration discrepancy: `/etc/init.d/zapret2 status` returned `not running`, while the `zapret2_nfqueue` chain is active in nftables.
 - [CONFIRMED] No nftables, Zapret2, or DoH configuration was changed by this read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS; this discrepancy is recorded for later investigation and is not being corrected during STAGE 0.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] STAGE 0 continuation
+- [CONFIRMED] User requested continuation of the controlled STAGE 0 inventory.
+- [CONFIRMED] Previously recorded STAGE 0 facts remain unchanged; no router configuration or runtime state was modified in this synchronization.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
