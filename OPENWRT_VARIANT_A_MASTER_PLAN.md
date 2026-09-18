@@ -905,3 +905,4 @@ No flash is permitted until items 1–5 are complete.
 - [DONE] STAGE 3.4 `sysupgrade -h` confirmed available and supports `-n`, `-T/--test`, `-F`, and backup/restore options. No flash executed.
 - [DONE] STAGE 3.5 verified firmware image copied to router `/tmp/openwrt-25.12.5-ath79sys.bin`; user confirmed its SHA-256 matches the verified official hash. No flash executed.
 - [DONE] STAGE 3.6 `sysupgrade -T /tmp/openwrt-25.12.5-ath79sys.bin` returned empty output and no error; recorded as a successful dry-run verification. No flash executed.
+- [AUTHORIZED] User explicitly confirmed the clean flash. Planned command: `sysupgrade -n /tmp/openwrt-25.12.5-ath79sys.bin`. This will erase current writable configuration/overlay state; USB partitions are not intentionally formatted or repartitioned.
