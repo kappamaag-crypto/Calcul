@@ -745,3 +745,12 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] User requested continuation of the controlled STAGE 0 inventory.
 - [CONFIRMED] Previously recorded STAGE 0 facts remain unchanged; no router configuration or runtime state was modified in this synchronization.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] RAM snapshot completed
+- [CONFIRMED] `free -k` completed successfully.
+- [CONFIRMED] RAM: total 54852 KiB, used 33328 KiB, free 12168 KiB, shared 16 KiB, buff/cache 9356 KiB, available 4552 KiB.
+- [CONFIRMED] Aggregate active swap: total 557048 KiB, used 5692 KiB, free 551356 KiB.
+- [CONFIRMED] This snapshot is a current STAGE 0 memory baseline under the existing pre-rebuild configuration; it is not the clean-base baseline required by later STAGE 7.
+- [CONFIRMED] No system state was changed by this read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
