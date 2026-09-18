@@ -769,3 +769,14 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] No system state was changed; the failed command was read-only.
 - [CONFIRMED] The planned RSS snapshot has not yet been obtained.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] BusyBox wide process snapshot
+- [CONFIRMED] `ps w` works on BusyBox 1.37.0 and reports PID, USER, VSZ, STAT, COMMAND.
+- [CONFIRMED] The output does not provide RSS; therefore the originally planned RSS ranking cannot be obtained with this BusyBox `ps` invocation.
+- [CONFIRMED] Current notable VSZ values include: https-dns-proxy PID 5573 = 3244 kB; dnsmasq PID 6386 = 3788 kB; hostapd PID 3606 = 3724 kB; wpa_supplicant PID 3608 = 3760 kB; netifd PID 5575 = 2908 kB; uhttpd PID 2226 = 2488 kB; rpcd PID 3739 = 2116 kB; logd PID 1385 = 2072 kB. These are VSZ, not RSS, and are not used as an RSS baseline.
+- [CONFIRMED] `uhttpd` is currently running (PID 2226), superseding the older historical observation that its init script was missing.
+- [CONFIRMED] `https-dns-proxy` is running (PID 5573).
+- [CONFIRMED] `zapret2` does not appear in the process list, consistent with its previously recorded `not running` service state.
+- [CONFIRMED] No system state was changed by this read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
