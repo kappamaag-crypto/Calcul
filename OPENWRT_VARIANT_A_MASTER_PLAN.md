@@ -917,3 +917,11 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] Никаких утверждений о новом rootfs/overlay, версии, конфигурации, USB и сети после flash пока не принимается без фактической проверки.
 - [CHANGED] STAGE 3 остаётся IN_PROGRESS до read-only проверки новой загрузившейся системы.
 - [NEXT] Следующий единственный шаг: проверить доступность MikroTik по LAN на `192.168.1.1` и получить `echo ALIVE; uptime` по SSH. Не выполнять reboot, power-cycle, flash, formatting или другие destructive actions.
+
+
+## Change log — 2026-09-18 — [SYNC] clean flash boot confirmed / high load observed
+- [PASS] Read-only SSH check succeeded: `ssh root@192.168.1.1 "echo ALIVE; uptime"` returned `ALIVE` and `up 4:38`; this confirms the MikroTik rebooted and is currently reachable after the suspected clean flash.
+- [CONFIRMED] Reported load average at that moment was `15.99, 11.29, 5.45`, which is abnormally high for this 64-MB device and must be investigated before proceeding with configuration.
+- [CONFIRMED] A second identical SSH command did not return / appeared to hang. This is a current responsiveness symptom, not yet assigned a cause.
+- [CHANGED] STAGE 3 remains IN_PROGRESS; clean flash boot is now strongly confirmed, but STAGE 3 PASS still requires read-only verification of the new firmware/rootfs/overlay and absence of inherited old extroot.
+- [NEXT] Because SSH responsiveness is currently uncertain and load is high, the next step is a read-only network reachability test from the laptop. No reboot, power-cycle, flash, package installation, formatting, or configuration changes.
