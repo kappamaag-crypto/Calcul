@@ -626,3 +626,16 @@ No flash is permitted until items 1–5 are complete.
 - [CORRECTION] The previous proposed command `/sbin/block -h 2>&1` is not required by the master plan. The plan requires current “block info”, not a generic help dump. Do not install `file` or other packages solely for diagnostics.
 - [DECISION] Do not further investigate the old extroot mechanism at this point by speculative commands. The current pre-flash inventory should proceed to the remaining explicitly required current package/service/UCI snapshots.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS; no flash, formatting, repartitioning, or other destructive operation performed.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] block info completed
+- [CONFIRMED] `/sbin/block info` completed successfully.
+- [CONFIRMED] /dev/mtdblock8: UUID=732a86de-549cb5e0-082f5b2d-b848b495, TYPE=squashfs, MOUNT=/rom.
+- [CONFIRMED] /dev/mtdblock9: TYPE=jffs2.
+- [CONFIRMED] /dev/sda1: TYPE=swap, VERSION=1.
+- [CONFIRMED] /dev/sda2: UUID=244b7bbc-add1-46cd-bc1a-0143cfca5d6c, LABEL=extroot, VERSION=1.0, MOUNT=/overlay, TYPE=ext4.
+- [CONFIRMED] /dev/sda3: UUID=635bc144-d79a-4e6d-a315-0e1655eb995c, LABEL=data, VERSION=1.0, MOUNT=/mnt/data, TYPE=ext4.
+- [RESOLVED] Ранее отмеченное несоответствие UUID для /dev/sda2 разрешено: UUID из текущего /etc/config/fstab полностью совпадает с фактическим UUID /dev/sda2; fstab-запись /overlay остаётся disabled, но /dev/sda2 фактически активен как /overlay.
+- [CONFIRMED] Текущая физическая USB-разметка и фактические файловые системы теперь подтверждены через /proc/partitions, /proc/mounts, df -h, /etc/config/fstab и /sbin/block info.
+- [DECISION] Дальнейшее исследование старого extroot через спекулятивные команды не требуется для текущего STAGE 0; не менять /overlay, fstab, swap или ZRAM.
+- [CONFIRMED] STAGE 0 остаётся IN_PROGRESS до завершения оставшихся package/service/UCI snapshots, консолидации inventory в PC/project record и финального review.
