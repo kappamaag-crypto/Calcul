@@ -693,3 +693,10 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] Current ZRAM `mm_stat` is: `5623808 2909753 4636672 0 7806976 0 6173 395 2515`.
 - [CONFIRMED] This was a read-only runtime check; no ZRAM configuration was changed.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] DoH service runtime status completed
+- [CONFIRMED] `/etc/init.d/https-dns-proxy status` returned `running`.
+- [CONFIRMED] `https-dns-proxy` is currently running; this does not yet prove its listener, upstream, DNS integration, or RAM usage.
+- [CONFIRMED] No service configuration or runtime state was changed by this read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
