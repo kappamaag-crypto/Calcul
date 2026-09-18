@@ -640,3 +640,10 @@ No flash is permitted until items 1–5 are complete.
 - [DECISION] Дальнейшее исследование старого extroot через спекулятивные команды не требуется для текущего STAGE 0; не менять /overlay, fstab, swap или ZRAM.
 - [CONFIRMED] STAGE 0 остаётся IN_PROGRESS до завершения оставшихся package/service/UCI snapshots, консолидации inventory в PC/project record и финального review.
 
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] init scripts snapshot completed
+- [CONFIRMED] `ls -la /etc/init.d/` completed successfully.
+- [CONFIRMED] `uhttpd` init script is present and executable (7404 bytes); earlier absence was stale historical evidence and is superseded by this current snapshot.
+- [CONFIRMED] `https-dns-proxy`, `pbr`, `network`, `dnsmasq`, `firewall`, `fstab`, `wpad` and `zapret2` init scripts are present.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS; no configuration or service state was changed by this read-only command.
