@@ -728,3 +728,14 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This is configuration evidence only; it does not prove that the chain is loaded into the active nftables ruleset or that a userspace `nfqws2` process is bound to queue 100.
 - [CONFIRMED] No file or firewall configuration was changed by this read-only command.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] active nftables ruleset snapshot completed
+- [CONFIRMED] `nft list ruleset` completed successfully.
+- [CONFIRMED] Active `inet fw4` contains `chain zapret2_nfqueue` on `forward`, priority `filter - 1`, policy `accept`.
+- [CONFIRMED] Active rule matches TCP/443 arriving on `br-lan` and sends packets to NFQUEUE 100 with `bypass`.
+- [CONFIRMED] Current counter at snapshot time: `74292` packets / `53447458` bytes.
+- [CONFIRMED] Active nftables ruleset also contains the https-dns-proxy TCP/UDP 853 reject rules, DNS 53 redirects to local port 53, and `https_dns_proxy_notrack` handling for local port 5053.
+- [CONFIRMED] There is a runtime/configuration discrepancy: `/etc/init.d/zapret2 status` returned `not running`, while the `zapret2_nfqueue` chain is active in nftables.
+- [CONFIRMED] No nftables, Zapret2, or DoH configuration was changed by this read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS; this discrepancy is recorded for later investigation and is not being corrected during STAGE 0.
