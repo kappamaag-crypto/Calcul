@@ -685,3 +685,11 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] ZRAM has higher swap priority than USB swap in the current runtime state.
 - [CONFIRMED] This was a read-only runtime check; no swap or ZRAM configuration was changed.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] ZRAM parameters snapshot completed
+- [CONFIRMED] `/dev/zram0` compression algorithm is `lzo-rle` (selected; `lzo` is also available).
+- [CONFIRMED] ZRAM disksize is `33554432` bytes = 32 MiB.
+- [CONFIRMED] Current ZRAM `mm_stat` is: `5623808 2909753 4636672 0 7806976 0 6173 395 2515`.
+- [CONFIRMED] This was a read-only runtime check; no ZRAM configuration was changed.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
