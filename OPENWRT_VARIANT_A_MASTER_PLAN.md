@@ -933,3 +933,12 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] This is only a reachability result; it does not yet verify firmware version, rootfs, overlay, USB state, or inherited configuration after clean flash.
 - [CHANGED] STAGE 3 remains IN_PROGRESS pending read-only post-flash system verification.
 - [NEXT] One safe read-only SSH command will be used to inspect the current post-flash board/release state. No reboot, flash, formatting, package installation, or configuration changes.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] post-flash SSH banner timeout
+- [CONFIRMED] The planned read-only command `ssh -o ConnectTimeout=5 root@192.168.1.1 "ubus call system board"` was executed from the laptop.
+- [FAILED] SSH did not complete the banner exchange: `Connection timed out during banner exchange`; connection to `192.168.1.1:22` timed out.
+- [CONFIRMED] This does not prove that OpenWrt is absent or that the router is down: immediately before this, ICMP ping to `192.168.1.1` was PASS (4/4, 0% loss, TTL=64).
+- [CONFIRMED] No router configuration or filesystem state was changed by the failed SSH attempt.
+- [CHANGED] STAGE 3 remains IN_PROGRESS. Firmware/version/rootfs/overlay state is still unverified.
+- [NEXT] Do not reboot, power-cycle, reflash, format USB, install packages, or change configuration. The next action must be a single read-only responsiveness check chosen from the observed SSH timeout state.
