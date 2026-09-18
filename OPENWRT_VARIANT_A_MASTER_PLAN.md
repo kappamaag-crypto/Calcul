@@ -834,3 +834,11 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] Compared with the previous snapshot, MemFree increased by 1476 kB, MemAvailable increased by 796 kB, SwapFree increased by 256 kB, Slab increased by 80 kB, SReclaimable increased by 84 kB, and SUnreclaim decreased by 4 kB. These are point-in-time differences only and are not interpreted causally.
 - [CONFIRMED] No system state was changed by the commands.
 - [CONFIRMED] STAGE 0 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-18 — [SYNC] validated aggregate process RSS
+- [CONFIRMED] Clean aggregate `VmRSS` across `/proc/[0-9]*/status`: **14804 kB**.
+- [CONFIRMED] This aggregate is accepted as the current STAGE 0 process RSS snapshot.
+- [CONFIRMED] It is a point-in-time snapshot under the current pre-rebuild configuration, not the clean STAGE 7 baseline.
+- [CONFIRMED] No system state was changed by the read-only command.
+- [CONFIRMED] STAGE 0 remains IN_PROGRESS.
