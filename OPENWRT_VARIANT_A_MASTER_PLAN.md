@@ -1,5 +1,5 @@
 # MASTER PLAN — OpenWrt Variant A
-## Clean rebuild without active extroot
+## Clean rebuild with extroot + ZRAM + USB swap
 
 Дата: 2026-09-18
 Устройство: MikroTik hAP ac lite / RB952Ui-5ac2nD
@@ -19,19 +19,25 @@ MikroTik LAN/Wi-Fi
 
 TP-Link остаётся главным маршрутизатором.
 
-## 0.1 USB
+## 0.1 USB и целевая память
 Текущая известная схема:
 - /dev/sda1 — swap около 512 MiB
 - /dev/sda2 — старый extroot /overlay
 - /dev/sda3 — /mnt/data
 
-Правило: USB не форматировать, не переразмечать, не удалять разделы.
+Новая целевая архитектура Variant A:
+- чистый OpenWrt без автоматического восстановления старой конфигурации;
+- extroot создаётся заново после clean base и используется как /overlay;
+- ZRAM используется как быстрый сжатый swap;
+- USB swap используется как дополнительный резерв;
+- отдельный /mnt/data сохраняется, если это удобно по ёмкости USB;
+- данные на текущем USB неценны, поэтому после безопасного отделения старого extroot допускается полная пересозданная разметка USB отдельным destructive-этапом после предупреждения и подтверждения.
 
-Variant A:
-- /dev/sda2 сохраняется, но не используется как /overlay;
-- /dev/sda3 сохраняется;
-- /mnt/data возвращается отдельно;
-- extroot возвращается только после стабилизации базовой системы.
+Принцип:
+- extroot решает нехватку места на внутренней 16-МБ flash;
+- ZRAM + USB swap предназначены для управления memory-pressure;
+- extroot сам по себе не увеличивает RAM;
+- большой swap не является гарантией отсутствия OOM.
 
 ---
 
@@ -100,7 +106,7 @@ backup находится на ПК и читается.
 ## STAGE 3 — Clean flash
 STATUS: NOT_STARTED
 
-Цель: OpenWrt 25.12.5 без старой конфигурации.
+Цель: OpenWrt 25.12.5 без старой конфигурации и без автоматического старого extroot. USB на этом этапе не пересоздавать.
 
 OpenWrt scratch install использует sysupgrade без сохранения конфигурации, например sysupgrade -n; точная команда для устройства определяется после STAGE 0.
 
@@ -127,6 +133,8 @@ STATUS: NOT_STARTED
 
 Главный критерий:
 старый /dev/sda2 НЕ является active /overlay.
+
+Дополнительно: получить контрольный RAM baseline до extroot, ZRAM, USB swap, DoH и Zapret2.
 
 Критерий выхода:
 чистая база подтверждена.
@@ -169,50 +177,69 @@ STATUS: NOT_STARTED
 - MemFree;
 - MemAvailable;
 - Slab;
+- SReclaimable/SUnreclaim если доступны;
 - SwapTotal;
 - SwapFree;
-- processes;
+- ZRAM state;
+- процессы/RSS;
 - load;
 - overlay usage.
 
+Это контрольная точка для всех следующих изменений.
+
 Критерий выхода:
-baseline сохранён.
+baseline сохранён на ПК/в журнале и пригоден для before/after сравнения.
 
 ---
 
-## STAGE 8 — USB data only
+## STAGE 8 — USB preparation + extroot
 STATUS: NOT_STARTED
 
-Подключить:
- /dev/sda3 → /mnt/data
+После clean base безопасно отделить старый extroot. Поскольку пользователь подтвердил, что данные на USB не важны, разрешается отдельный destructive-этап полной пересозданной разметки USB после предупреждения и подтверждения.
 
-Не подключать:
- /dev/sda2 → /overlay
+Целевая схема:
+- extroot → /overlay;
+- USB swap → swap;
+- /mnt/data → отдельный data-раздел, если нужен.
 
-Проверить UUID, filesystem, mount, read/write.
+Проверить UUID, filesystem, mount, boot behavior, доступное место и отсутствие старых конфигураций.
 
 Критерий выхода:
-данные доступны, clean overlay сохраняется.
+новый extroot работает, /overlay находится на USB, загрузка воспроизводима, старые конфиги не восстановлены.
 
 ---
 
-## STAGE 9 — Swap/ZRAM
+## STAGE 9 — ZRAM + USB swap
 STATUS: NOT_STARTED
 
-После baseline.
+После STAGE 7 и STAGE 8 настроить два независимых слоя виртуальной памяти.
 
-При необходимости:
-- existing swap;
-- ZRAM;
-- первоначально 32 MiB.
+Стартовая экспериментальная точка:
+- ZRAM 32 MiB;
+- USB swap как дополнительный резерв.
+
+Предварительный приоритет:
+- ZRAM выше USB swap.
+
+Размер ZRAM может быть изменён по результатам измерений. Зафиксировать:
+- zram device/algorithm/size;
+- swapon priority;
+- SwapTotal/Free;
+- MemAvailable;
+- slab;
+- RSS ключевых процессов;
+- CPU/load;
+- OOM events.
 
 Критерий выхода:
-swap работает, RAM stable, no OOM.
+ZRAM и USB swap работают, приоритеты подтверждены, memory snapshot сохранён, нет нового OOM.
 
 ---
 
 ## STAGE 10 — DoH
 STATUS: NOT_STARTED
+
+Перед установкой сохранить memory snapshot после extroot + ZRAM + USB swap.
 
 Цель:
 один https-dns-proxy, Cloudflare, 127.0.0.1:5053.
@@ -338,8 +365,13 @@ Monitor:
 - timeout;
 - RSS;
 - MemAvailable;
+- SwapTotal/Free;
+- ZRAM;
+- slab;
 - OOM;
 - queue state.
+
+Сравнивать каждый результат с clean baseline и последним стабильным snapshot.
 
 Критерий выхода:
 real target traffic works without OOM or persistent timeout.
@@ -492,14 +524,16 @@ Checklist:
 Variant A is successful when:
 1. OpenWrt is cleanly installed.
 2. Old configuration is not restored.
-3. Old extroot is not active.
-4. USB data remains intact.
-5. Base network works.
-6. Base Wi-Fi works.
-7. Memory baseline is known.
-8. Components are reintroduced one by one.
-9. Previous Zapret2/OOM problem can be reproduced or excluded scientifically.
-10. Final state is reproducible from this plan.
+3. Old extroot is not automatically inherited.
+4. New extroot is intentionally created and verified as /overlay.
+5. ZRAM is intentionally configured and measured.
+6. USB swap is intentionally configured and measured.
+7. Base network works.
+8. Base Wi-Fi works.
+9. Memory baseline is known before and after each major component.
+10. DoH, Zapret2, VPN and PBR are reintroduced one by one.
+11. Previous Zapret2/OOM problem can be reproduced or excluded scientifically.
+12. Final state is reproducible from this plan.
 
 ## Current state
 STAGE 0 — IN_PROGRESS
@@ -515,3 +549,16 @@ STAGE 1–30 — NOT_STARTED
 - [CONFIRMED] No destructive USB operation is permitted.
 
 Do not execute flash until STAGE 0 inventory is complete and reviewed.
+
+
+## Change log — 2026-09-18 — [UPDATED] target architecture: extroot + ZRAM + USB swap
+- [CHANGED] Variant A больше не означает «без extroot». Целевое состояние: clean OpenWrt + новый extroot + ZRAM + USB swap.
+- [CHANGED] Старый extroot не восстанавливается автоматически; он заменяется новым контролируемым extroot после clean base.
+- [ADDED] Пользователь подтвердил, что данные на USB не важны; поэтому после безопасного отделения старого extroot разрешена полная пересозданная разметка USB отдельным destructive-этапом после предупреждения и подтверждения.
+- [ADDED] Extroot используется для устранения ограничения внутренней 16-МБ flash и большого пространства под пакеты.
+- [ADDED] ZRAM и USB swap используются как два отдельных механизма управления memory-pressure на 64-МБ hAP ac lite.
+- [ADDED] Стартовая экспериментальная точка ZRAM — 32 MiB; окончательный размер определяется измерениями.
+- [ADDED] Предварительный приоритет: ZRAM выше USB swap.
+- [ADDED] После каждого крупного этапа сохранять RAM snapshot: MemAvailable, SwapTotal/Free, ZRAM, slab, RSS ключевых процессов, load и OOM.
+- [ADDED] Цепочка: clean base → extroot → ZRAM → USB swap → DoH → Zapret2 → WireGuard/WARP/Proton → PBR.
+- [ADDED] Диагностическая цель: отделить влияние дискового extroot от RAM-pressure и отдельно измерить влияние ZRAM/swap, DoH, NFQUEUE и Zapret2.
