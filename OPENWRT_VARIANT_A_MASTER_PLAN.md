@@ -639,3 +639,4 @@ No flash is permitted until items 1–5 are complete.
 - [CONFIRMED] Текущая физическая USB-разметка и фактические файловые системы теперь подтверждены через /proc/partitions, /proc/mounts, df -h, /etc/config/fstab и /sbin/block info.
 - [DECISION] Дальнейшее исследование старого extroot через спекулятивные команды не требуется для текущего STAGE 0; не менять /overlay, fstab, swap или ZRAM.
 - [CONFIRMED] STAGE 0 остаётся IN_PROGRESS до завершения оставшихся package/service/UCI snapshots, консолидации inventory в PC/project record и финального review.
+
