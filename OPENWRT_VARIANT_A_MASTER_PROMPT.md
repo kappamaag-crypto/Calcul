@@ -829,3 +829,9 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - Runtime `/opt/zapret2/config` may be created only as a controlled copy of the verified `config.default` before configuration editing.
 - After creation, verify exact file equality before any config changes or activation.
 - Do not enable/start Zapret2, apply firewall/NFQUEUE rules, activate interface hooks, or reload network/Wi-Fi during this verification gate.
+
+
+## SYNC RULE UPDATE 2026-09-19 — STAGE 11 runtime config integrity PASS
+- Runtime `/opt/zapret2/config` has been verified byte-identical to `config.default` (5534 bytes; SHA-256 `758cf25e3d57ccf2c0dd053b218d571e6ebb293293f341c8e5294a35ceed2f7b`).
+- Treat the runtime config as uncustomized until a controlled configuration audit identifies required changes.
+- No activation is permitted during the audit: no service start/enable, firewall/NFQUEUE application, interface-hook activation, network/Wi-Fi reload, or reboot.
