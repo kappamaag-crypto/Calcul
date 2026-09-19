@@ -805,3 +805,9 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - Zapret2 v1.0.3 release defaults inspected: `NFQWS2_ENABLE=0`, `MODE_FILTER=none`, `FLOWOFFLOAD=donttouch`, `INIT_APPLY_FW=1`.
 - `NFQWS2_OPT` contains HTTP/TLS/QUIC desync definitions but must not be treated as active while `NFQWS2_ENABLE=0`.
 - Keep runtime configuration discovery separate from editing and activation. Do not enable nfqws2, apply firewall/NFQUEUE rules, enable the init service, or reload network/Wi-Fi without a dedicated controlled step.
+
+
+## SYNC RULE UPDATE 2026-09-19 — STAGE 11 runtime config discovery
+- The deployed Zapret2 OpenWrt integration expects a separate runtime `/opt/zapret2/config`; `/opt/zapret2/config.default` is only the shipped default template.
+- Do not create `/opt/zapret2/config` by assumption or blindly copy/edit it yet. First inspect the installer/config initialization logic read-only and determine the minimal safe runtime configuration path.
+- No service enable/start, firewall/NFQUEUE activation, interface hook activation, network/Wi-Fi reload, or reboot is permitted during this config-discovery step.
