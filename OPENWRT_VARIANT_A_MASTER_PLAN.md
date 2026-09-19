@@ -935,3 +935,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - Также повторяется `pdev param 0 not supported by firmware`.
 - Эти сообщения согласуются с ранее установленным фактом повторных Wi-Fi reconfiguration/reload и ошибкой `-122`, но сами по себе не доказывают причину watchdog reset или OOM.
 - После восстановления `phy0-sta0` успешно associated, `phy0-ap0` перешёл в forwarding state; то есть Wi-Fi после загрузки поднялся.
+
+
+### Фильтр dmesg ath10k/ath9k — уточнение
+- Подтверждено: ath10k использует driver 6.15 и CT firmware `10.1-ct-87-__fW-022-d8dab8e8` для QCA9887.
+- При загрузке ath10k успешно проходит probe/WMI init; признаков firmware crash/fatal/timeout в выводе нет.
+- Ошибка `pdev param 0 not supported by firmware` повторяется при инициализации AP.
+- `failed to enable peer stats info: -122` появляется при подключении STA; это уже известная ошибка -122, но причинную связь с watchdog не установлена.
+- ath9k сообщает fallback загрузки EEPROM через sysfs; это происходит на старте и не сопровождается crash/fatal/timeout.
+- Повторные циклы поднятия/снятия phy0/phy1 подтверждены.
