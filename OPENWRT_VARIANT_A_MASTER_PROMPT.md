@@ -527,3 +527,5 @@ SYNC 2026-09-19: STAGE 6: dmesg shows `phy0-ap0` successfully entered allmultica
 SYNC 2026-09-19: STAGE 6: process check confirms one supervised hostapd instance (`/usr/sbin/hostapd -s -g /var/run/hostapd/global`, PID 1735) and one wpa_supplicant instance (`/usr/sbin/wpa_supplicant -n -s -g /var/run/wpa_supplicant/global`, PID 1731), both inside ujail supervisors. No duplicate instances observed. No configuration change.
 
 SYNC 2026-09-19: STAGE 6: `ubus call hostapd.phy0-ap0 get_status` reports hostapd status ENABLED, BSSID ba:69:f4:d6:e8:a5, SSID OpenWrt-5G, frequency 5180 MHz, channel 36, DFS CAC inactive. Therefore hostapd considers the 5 GHz AP operational while prior kernel state showed phy0-ap0 NO-CARRIER/state DOWN; this confirms a hostapd/kernel interface-state discrepancy. No configuration change.
+
+SYNC 2026-09-19: STAGE 6: `ip link show phy0-ap0` confirms current kernel state is `<NO-CARRIER,...,UP>` with `state DOWN`, while hostapd simultaneously reports ENABLED on channel 36/5180 MHz. This is a confirmed hostapd-vs-kernel interface-state discrepancy. No configuration change.
