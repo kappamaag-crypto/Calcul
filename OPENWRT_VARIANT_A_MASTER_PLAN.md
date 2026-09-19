@@ -898,3 +898,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [RULE] Do not attribute Wi-Fi/SSH failures to OOM until kernel logs show OOM-killer activity or memory pressure evidence.
 - [RULE] Do not continue ZRAM installation/configuration until the current post-reboot memory/OOM state is checked.
 - [NEXT] Read-only check of kernel log for OOM, memory allocation failures, kernel panic/watchdog, and reboot-adjacent evidence.
+
+
+### Последний диагностический результат — watchdog reset
+- Пользователь выполнил read-only проверку kernel/logread на OOM, allocation failure, kernel panic и lockup.
+- Прямых сообщений OOM / "Killed process" / kernel panic / soft lockup / hard lockup в сохранённом logread не обнаружено.
+- Обнаружено: `init: Watchdog has previously reset the system` и `procd: Watchdog has previously reset the system` при текущей загрузке.
+- Вывод: предыдущая авария/зависание подтверждается watchdog reset, но причина (OOM, зависание Wi-Fi/драйвера, kernel stall или другое) пока НЕ установлена.
+- Не выполнять повторную установку ZRAM и не перезагружать систему для воспроизведения до следующего read-only шага.
