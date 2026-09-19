@@ -562,3 +562,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - [OBSERVED] 2026-09-19 STAGE 6: `pbr.config.supported_interface` is unset. netifd currently exposes only `lan`, `loopback`, `wan`, `wan6`.
 - [CONCLUSION] pbr therefore falls back to its automatic `is_uplink/is_wan/is_tunnel` eligibility logic; the current output alone does not prove which interfaces are registered for reload triggers.
+
+- [OBSERVED] 2026-09-19 STAGE 6: pbr loads `ipv6_enabled` from `pbr.config.ipv6_enabled` (default 0), `uplink_interface` default `wan`, `uplink_interface6` default `wan6`; then assigns `uplink_interface4="$uplink_interface"`.
+- [NEXT] Read the current pbr UCI values compactly to establish the actual trigger candidates.
