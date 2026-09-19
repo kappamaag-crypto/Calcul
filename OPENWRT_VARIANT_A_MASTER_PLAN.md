@@ -210,3 +210,5 @@ SYNC 2026-09-19: fstab edit PASS. Backup `/etc/config/fstab.before-extroot-final
 SYNC 2026-09-19: fstab read-only verification PASS. Active config contains only USB swap `/dev/sda1` and enabled extroot `/overlay` using UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2`; obsolete `/mnt/data` entry absent. No reboot/activation yet.
 
 SYNC 2026-09-19: Router rebooted by user and SSH access restored. Extroot activation has been attempted; mount-source verification is still pending. Do not mark activation DONE until `/overlay` is confirmed on `/dev/sda2`.
+
+SYNC 2026-09-19: STAGE 4 extroot activation VERIFIED PASS. After reboot, `df -h /overlay` reports `/dev/sda2` mounted on `/overlay`, size 6.6G, 1.9M used, 6.2G available. USB extroot is active. USB swap configuration remains enabled; ZRAM preservation remains part of the plan.
