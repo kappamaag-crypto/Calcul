@@ -763,3 +763,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [DONE] STAGE 7 RAM/resource baseline completed: USB swap active; ZRAM absent; baseline measurements recorded.
 - [IN_PROGRESS] STAGE 8 USB/extroot started.
 - [RULE] Before any extroot change, first perform a read-only verification of the current mount, overlay, fstab and USB filesystem state. No formatting, repartitioning, copying or rebooting is permitted at this verification step.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] STAGE 8 current extroot state
+- [CONFIRMED] `/dev/sda2` is currently mounted as `/overlay`, ext4, rw,noatime; root overlay is backed by the USB extroot and has 6.2G available.
+- [CONFIRMED] Actual extroot filesystem UUID is `e1c68a3a-0e55-4af9-afd8-961160b3afa2`, label `extroot`.
+- [CONFIRMED] `/dev/sda1` is swap and enabled in UCI fstab.
+- [IMPORTANT] UCI fstab entry `fstab.extroot.uuid` currently contains `244b7bbc-add1-46cd-bc1a-0143cfca5d6c`, which does NOT match the actual sda2 UUID. Despite this mismatch, sda2 is currently mounted as /overlay, so the active extroot appears to be selected by fstools/automatic extroot discovery rather than that explicit UUID entry.
+- [IMPORTANT] UCI `fstab.@mount[0]` for `/mnt/data` also references old UUID `fa23e979-0f79-4fd7-92f6-88952fb95053`; this does not match the current USB partition state and must not be treated as valid without correction.
+- [RULE] No fstab edits yet; first determine the exact boot-time/active extroot selection mechanism with read-only inspection.
