@@ -347,3 +347,5 @@ SYNC 2026-09-19: STAGE 6: `hostapd.phy0-ap0 get_status` reports ENABLED, SSID `O
 SYNC 2026-09-19: STAGE 6: `uci show wireless | grep -E 'country|country3'` returned no output. Thus no `country`/`country3` is explicitly configured in `/etc/config/wireless`; the current US regulatory domain is coming from another source/default/driver state. No configuration change.
 
 SYNC 2026-09-19: STAGE 6: regulatory domain remains `US: DFS-FCC`; wireless UCI explicitly sets only radio0 channel 36/VHT80 and radio1 channel 1/HT20, with no country option. Thus current US domain is not configured in `/etc/config/wireless`, and both selected channels are permitted under it. No configuration change.
+
+SYNC 2026-09-19: STAGE 6: `iw dev phy0-ap0 station dump` returned no stations and `iw dev phy0-ap0 info | grep ...` still shows only `type AP`, with no channel. Combined with hostapd reporting ENABLED/channel 36, this indicates a discrepancy between hostapd state and kernel-visible AP channel state. No configuration change.
