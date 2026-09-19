@@ -126,3 +126,8 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CONFIRMED] `80_mount_root` does not itself reference `/dev/sda2`, an extroot UUID, or a dedicated `/etc/extroot*` configuration.
 - [CONFIRMED] No configuration restore was triggered by this command; the inspected script only restores `/sysupgrade.tgz` or `/tmp/sysupgrade.tar` if present.
 - [NEXT] Continue read-only analysis of the installed fstools/block-mount implementation to identify why the old extroot partition is auto-selected. No USB/filesystem changes authorized.
+
+- [PASS] `fstools` package contains `/lib/libfstools.so` and `/sbin/mount_root`; `block-mount` contains `/etc/hotplug.d/block/10-mount`, `/etc/init.d/fstab`, `/sbin/block`, and blkid support.
+- [CONFIRMED] `strings /sbin/mount_root` explicitly exposes `mount_extroot`, `fstools_overlay_name`, `mount_overlay`, `switched to extroot`, `/overlay`, and `no usable overlay filesystem found, using tmpfs overlay`.
+- [CONFIRMED] This establishes that the active `/dev/sda2` extroot selection is implemented by fstools' built-in extroot logic, not by the disabled `/overlay` UCI mount entry.
+- [NEXT] Determine the exact extroot acceptance criterion read-only (likely filesystem label/UUID or block discovery) before any repartitioning/formatting.
