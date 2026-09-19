@@ -841,3 +841,9 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - Runtime Zapret2 config is currently unmodified: `NFQWS2_ENABLE=0`, default ports/packet limits, `MODE_FILTER=none`, `FLOWOFFLOAD=donttouch`, `INIT_APPLY_FW=1`.
 - Do not interpret `INIT_APPLY_FW=1` as activation by itself; activation remains gated by service start and/or explicit firewall commands.
 - Continue read-only configuration audit before changing any parameter. No service/firewall/NFQUEUE/network/Wi-Fi activation during the audit.
+
+
+## SYNC RULE UPDATE 2026-09-19 — STAGE 11 full config audit
+- Full runtime config audit confirms the default template is unchanged and inactive (`NFQWS2_ENABLE=0`, `MODE_FILTER=none`).
+- The default `SET_MAXELEM=522288` / `hashsize 262144` must be treated as a memory-risk parameter on the 64 MB hAP ac lite until its actual allocation path is inspected.
+- Never activate hostlists/ipsets or change this sizing blindly. First inspect the official deployed scripts for how `IPSET_OPT` and `SET_MAXELEM` are passed to the backend.
