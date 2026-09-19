@@ -811,3 +811,9 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - The deployed Zapret2 OpenWrt integration expects a separate runtime `/opt/zapret2/config`; `/opt/zapret2/config.default` is only the shipped default template.
 - Do not create `/opt/zapret2/config` by assumption or blindly copy/edit it yet. First inspect the installer/config initialization logic read-only and determine the minimal safe runtime configuration path.
 - No service enable/start, firewall/NFQUEUE activation, interface hook activation, network/Wi-Fi reload, or reboot is permitted during this config-discovery step.
+
+
+## SYNC RULE UPDATE 2026-09-19 — STAGE 11 config creation mechanism
+- Official Zapret2 v1.0.3 installer logic confirms `/opt/zapret2/config` is initialized from `/opt/zapret2/config.default` when absent.
+- Do not run the full `install_easy.sh` or `install_prereq.sh` merely to create the config, because installer workflows may perform additional system/service/firewall changes.
+- Before creating the runtime config, inspect the early prerequisite script read-only and then perform config creation as an explicitly isolated step if safe.
