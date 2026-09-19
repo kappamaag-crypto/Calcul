@@ -343,3 +343,5 @@ SYNC 2026-09-19: USB formatting PASS. sda1 initialized as swap; sda2 formatted e
 SYNC 2026-09-19: Pre-extroot overlay baseline PASS: `/overlay` = /dev/mtdblock9 jffs2, 7.0M total, 372K used, 6.6M available; du 35.5K. USB extroot not mounted yet. Next step is controlled overlay copy to sda2.
 
 SYNC 2026-09-19: sda2 temporary mount PASS at `/mnt/extroot`; no fstab/extroot activation change yet.
+
+SYNC 2026-09-19: Overlay copy PASS: `/overlay` contents copied to `/mnt/extroot` successfully. Internal overlay remains active; no fstab activation yet.
