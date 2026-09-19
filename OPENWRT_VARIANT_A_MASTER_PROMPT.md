@@ -400,3 +400,10 @@ SYNC 2026-09-19: STAGE 5 LAN/gateway/Internet IPv4 checks PASS. br-lan is 192.16
 - SYNC 2026-09-19: Windows `nslookup openwrt.org 192.168.1.1` PASS. MikroTik LAN DNS at `192.168.1.1` successfully resolved `openwrt.org` to IPv4 `64.226.122.113` and IPv6 `2a03:b0c0:3:d0::1a51:c001`. STAGE 5 exit criteria are now satisfied: laptop IP/gateway, default route via MikroTik, Internet IPv4, and DNS through MikroTik all verified. STAGE 5 status = DONE.
 
 - SYNC 2026-09-19: STAGE 6 started. Read-only verification PASS: OpenWrt 25.12.5, `OPENWRT_ARCH=mips_24kc`, apk-tools 3.0.5 compiled for mips. No configuration changed. STAGE 6 remains IN_PROGRESS; next step is read-only inspection of current wireless AP configuration/state before enabling or changing anything.
+
+
+## SYNC 2026-09-19 — AUTHORITATIVE CURRENT STATE
+
+The repository contains two canonical project artifacts: OPENWRT_VARIANT_A_MASTER_PLAN.md (master plan) and OPENWRT_VARIANT_A_MASTER_PROMPT.md (master prompt). Both must be synchronized with factual state after each user/assistant turn.
+
+Current factual state: STAGE 0–5 DONE; STAGE 6 IN_PROGRESS; STAGE 7–30 NOT_STARTED. OpenWrt 25.12.5 r33051-f5dae5ece4 on MikroTik hAP ac lite, TP-Link Archer C20 v4 remains the main router. WAN is Wi-Fi STA via TP-Link with 192.168.0.111/24 and gateway 192.168.0.1; LAN is 192.168.1.1/24; laptop Ethernet is 192.168.1.146 with gateway 192.168.1.1. Ethernet-sourced Internet and DNS through MikroTik are verified PASS. USB extroot is active on /dev/sda2; /dev/sda1 is USB swap; ZRAM is 32 MiB lzo-rle and active; /tmp remains RAM-backed. No router configuration change was made during this synchronization. STAGE 6 next step remains read-only wireless AP configuration inspection.
