@@ -1191,3 +1191,13 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No Zapret2 archive was downloaded, installed, extracted, configured, or executed in this step.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Download the exact pinned `zapret2-v1.0.3-openwrt-embedded.tar.gz` archive to `/tmp`, calculate its SHA-256 locally, and compare it byte-for-byte with the official GitHub asset digest before extraction or installation.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 archive content inspection PASS
+- [PASS] Read-only `tar -tzf /tmp/zapret2-v1.0.3-openwrt-embedded.tar.gz` completed successfully.
+- [CONFIRMED] The pinned v1.0.3 embedded archive contains the OpenWrt init integration under `init.d/openwrt/`, including `90-zapret2`, `zapret2`, `functions`, and `firewall.zapret2`.
+- [CONFIRMED] The archive contains MIPS binaries under `binaries/linux-mips/`: `ip2net`, `mdig`, and `nfqws2`.
+- [CONFIRMED] The archive also contains other architectures, but no installation has been performed and no non-MIPS binary has been selected for the router.
+- [CONFIRMED] Blockcheck2 scripts, Lua support files, fake packet data, ipset helpers, common firewall helpers, and installer scripts are present in the archive.
+- [CONFIRMED] Archive content inspection made no filesystem, package, firewall, network, Wi-Fi, service, or configuration changes on the router.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Before extraction/installation, perform a read-only inspection of the MIPS binary architecture/type and the OpenWrt installer/init scripts to verify compatibility and determine the minimum installation set for this 64 MiB MIPS router.
