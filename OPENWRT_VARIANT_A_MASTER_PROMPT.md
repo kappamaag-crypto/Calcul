@@ -327,3 +327,5 @@ SYNC 2026-09-19: fdisk `g` created a new GPT disklabel in memory only; no disk w
 SYNC 2026-09-19: User exited fdisk without writing. User prefers complete commands rather than interactive fdisk prompts, while retaining one logical operation per step.
 
 SYNC 2026-09-19: Clarified optional /mnt/data role: persistent bulk-data area separate from extroot, not required for core OpenWrt operation. No partitioning change performed.
+
+SYNC 2026-09-19: Clarified ZRAM timing/state: prior verified state has /dev/zram0 32 MiB lzo-rle activated; therefore ZRAM is not to be installed later as a new Stage 4 task. STAGE 4 preserves extroot + ZRAM + USB swap. /tmp remains RAM-backed and is not to be moved into ZRAM.
