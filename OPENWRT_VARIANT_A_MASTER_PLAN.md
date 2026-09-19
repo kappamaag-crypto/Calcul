@@ -625,3 +625,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [FACT] Previous timezone configuration command did not produce the intended UTC+5 runtime timezone.
 - [RULE] Do not assume the POSIX UCI value alone controls the active runtime timezone; inspect the active timezone linkage/configuration read-only before changing it.
 - [CHANGED] STAGE 6 remains IN_PROGRESS; no Wi-Fi/network service changes made.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] runtime TZ source identified
+- [PASS] Read-only check returned `/etc/TZ=GMT0`, `ENV_TZ=<unset>`, while UCI contains `timezone=GMT-5`.
+- [CONFIRMED] UCI was changed to the intended POSIX UTC+5 representation, but the active runtime timezone file `/etc/TZ` remains `GMT0`; this explains why `date` still reports GMT/UTC.
+- [RULE] Next step is to apply the verified system timezone through the OpenWrt-supported mechanism that updates `/etc/TZ`, one command at a time; do not manually edit unrelated files or restart network/Wi-Fi services.
+- [CHANGED] STAGE 6 remains IN_PROGRESS.
