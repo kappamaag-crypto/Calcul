@@ -282,3 +282,5 @@ H) combination.
 - [CONFIRMED] `/dev/sda3` is active as `/mnt/data`.
 - [CHANGED] STAGE 4 remains IN_PROGRESS; old extroot must still be intentionally detached before clean-base verification can PASS.
 - [RULE] Before any destructive USB operation, first identify the exact boot-time extroot discovery mechanism using read-only evidence. Do not modify fstab or storage yet.
+
+- 2026-09-19: confirmed `/lib/preinit/80_mount_root` delegates root/overlay selection to `mount_root start`; `/sbin/mount_root` is ELF, so extroot selection is implemented in fstools rather than directly in the preinit shell script. Next: read-only fstools/block-mount analysis.
