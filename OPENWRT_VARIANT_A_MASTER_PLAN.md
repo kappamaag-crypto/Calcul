@@ -111,3 +111,8 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CONFIRMED] No filesystem, configuration, partition or service state was changed.
 - [CHANGED] STAGE 4 remains IN_PROGRESS because the old `/dev/sda2` is still active as `/overlay`.
 - [SAFETY] Do not format/repartition USB or modify fstab yet. The next step must establish the exact boot-time extroot mechanism using read-only evidence before any state-changing operation.
+
+
+## CHANGELOG — 2026-09-19 — [NEXT] boot-time extroot mechanism inspection
+- [STARTED] Следующий шаг STAGE 4 выбран как read-only inspection boot-time root/extroot mechanism.
+- [RULE] До получения этого результата не выполнять unmount, изменение fstab, mkfs, wipefs, repartitioning или иные операции с USB.
