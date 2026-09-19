@@ -1130,3 +1130,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [LIMITATION] BusyBox wget speaks HTTP/HTTPS; it cannot issue a DNS wire-format query to the local UDP/TCP DNS listeners on ports 5053/5054, so it does not provide independent per-listener DNS attribution.
 - [CONFIRMED] No router configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed by this check.
 - [STATUS] STAGE 10 remains IN_PROGRESS under the strict existing exit criterion.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 UDP queue observation
+- [CONFIRMED] Before and immediately after a successful nslookup openwrt.org 127.0.0.1, both local UDP listeners 127.0.0.1:5053 and :5054 remained present with rx_queue=0 and tx_queue=0.
+- [LIMITATION] /proc/net/udp queue fields are instantaneous queued-byte counts, not cumulative packet counters; the unchanged 0/0 values therefore cannot identify which listener processed the query.
+- [CONFIRMED] The local dnsmasq DNS query succeeds while both DoH UDP listeners remain active.
+- [STATUS] STAGE 10 remains IN_PROGRESS under the strict per-listener independent-query attribution criterion. No configuration or package state was changed.
