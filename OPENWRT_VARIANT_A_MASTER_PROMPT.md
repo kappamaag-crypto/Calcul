@@ -789,3 +789,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - After each user+assistant pair, record the factual result in the master plan before issuing the next router step.
 - Installed /opt/zapret2/ip2net/ip2net runtime test passed on the router.
 - Keep Zapret2 service/firewall/NFQUEUE/cron/interface-hook activation separate from binary compatibility checks.
+
+
+SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2net` and `nfqws2`. Their native MIPS runtime checks must be recorded before any Zapret2 service/firewall activation. `install_easy.sh` remains prohibited for blind execution because it can stop daemons/firewall and install hooks; controlled deployment and activation stay separate.
