@@ -777,3 +777,9 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 ## CHANGELOG — 2026-09-19 — [EVIDENCE] extroot implementation location
 - [MEASURED] Searching `/libfstools` for extroot/fstab symbols returned no text matches; this directory does not expose the implementation as searchable scripts.
 - [DECISION] Do not continue broad recursive source searches. Use the actual `mount_root` executable/interface for the next read-only verification.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] fstools ownership confirmed
+- [CONFIRMED] `/sbin/mount_root` is provided by `fstools-2026.05.23~16718b6e-r1`.
+- [LIMITATION] `mount_root -V` provides no version output; package ownership is the reliable version evidence.
+- [DECISION] Stop reverse-engineering the compiled `mount_root` binary. Current runtime state is already sufficient to repair the stale UCI UUID entries safely, but the actual configuration change will be a separate explicit step and will not include reboot/reload yet.
