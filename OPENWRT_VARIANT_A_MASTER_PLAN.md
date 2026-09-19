@@ -164,3 +164,5 @@ SYNC 2026-09-19: After reboot, `auto_mount=0` did not prevent fstools extroot se
 SYNC 2026-09-19: Router rebooted/power cycle occurred. SSH reports changed ED25519 host key for 192.168.1.1 (new fingerprint SHA256:ffcy+GxkVzRuj+9unvWg4a30g14N99UkG9KxWf+fuF8), indicating a host-key change after boot. USB physical removal has not yet been confirmed; no router command issued after the warning.
 
 SYNC 2026-09-19: User confirmed USB physically disconnected after reboot. SSH host-key warning remains unresolved intentionally; no host-key bypass performed.
+
+SYNC 2026-09-19: Old SSH known_hosts entry for 192.168.1.1 removed successfully. USB remains physically disconnected. Next step is one SSH read-only verification of internal rootfs.
