@@ -1303,3 +1303,13 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No Zapret2 files were installed into active paths, and no services/firewall/Wi-Fi/network settings were changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Inspect the embedded OpenWrt integration/install scripts read-only to determine prerequisites and exact installation scope before any deployment.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 OpenWrt integration inspection
+- [PASS] Read-only inspection of Zapret2 OpenWrt integration scripts completed.
+- [CONFIRMED] `zapret2` is a procd service with START=21 and can apply/remove firewall rules through `zapret_apply_firewall` / `zapret_unapply_firewall`.
+- [CONFIRMED] The service launches `nfqws2` via the deployed `nfq2/nfqws2` path and uses Lua anti-DPI modules from the Zapret2 tree.
+- [IMPORTANT] `90-zapret2` can react to interface up/down events and reload nftables interface sets; this integration must not be activated until configuration is reviewed.
+- [NO CHANGE] No init script, firewall rule, service, Wi-Fi, or network configuration was installed or activated.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Inspect the OpenWrt integration functions and configuration requirements read-only before deployment.
