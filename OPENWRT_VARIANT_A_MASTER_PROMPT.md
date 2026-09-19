@@ -299,3 +299,5 @@ H) combination.
 SYNC 2026-09-19: User explicitly authorized complete repartitioning and formatting of `/dev/sda`; final read-only identity/partition check passed. Proceed one command at a time.
 
 SYNC 2026-09-19: `swapoff /dev/sda1` completed successfully (empty output). Continue one command at a time.
+
+SYNC 2026-09-19: `/mnt/data` unmounted successfully. Continue one command at a time.
