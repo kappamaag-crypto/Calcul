@@ -98,3 +98,16 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CHANGED] STAGE 4 remains IN_PROGRESS. The clean-base criterion requiring the old `/dev/sda2` to be inactive is not yet satisfied.
 - [SAFETY] No unmount, formatting, repartitioning, fstab modification, package installation, or other state-changing operation was performed.
 - [NEXT] One read-only command will inspect `/etc/config/fstab`, `/proc/swaps` and `/sbin/block info` to determine the automatic mount mechanism and current swap state before any storage operation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] automatic extroot mechanism identified
+- [PASS] Read-only command collected current `/etc/config/fstab`, `/proc/swaps` and `/sbin/block info`.
+- [CONFIRMED] `/etc/config/fstab` has `auto_mount '1'` globally.
+- [CONFIRMED] The explicit `/overlay` fstab entry for UUID `244b7bbc-add1-46cd-bc1a-0143cfca5d6c` is `enabled '0'`, yet `/dev/sda2` with exactly that UUID is currently mounted at `/overlay`.
+- [CONFIRMED] Therefore the current automatic mounting of the old extroot is not explained by that disabled explicit mount entry alone; the boot-time root/fstools/extroot discovery mechanism is using the detected ext4 filesystem/UUID.
+- [CONFIRMED] `/dev/sda1` is active swap: 524284 kB total, 4348 kB used, priority -2.
+- [CONFIRMED] `/dev/sda2`: ext4, UUID `244b7bbc-add1-46cd-bc1a-0143cfca5d6c`, label `extroot`, mounted `/overlay`.
+- [CONFIRMED] `/dev/sda3`: ext4, UUID `635bc144-d79a-4e6d-a315-0e1655eb995c`, label `data`, mounted `/mnt/data`.
+- [CONFIRMED] No filesystem, configuration, partition or service state was changed.
+- [CHANGED] STAGE 4 remains IN_PROGRESS because the old `/dev/sda2` is still active as `/overlay`.
+- [SAFETY] Do not format/repartition USB or modify fstab yet. The next step must establish the exact boot-time extroot mechanism using read-only evidence before any state-changing operation.
