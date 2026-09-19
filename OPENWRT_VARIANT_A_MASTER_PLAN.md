@@ -714,3 +714,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [IMPORTANT] This natural sample establishes temporal ordering: `radio0 wifi-scripts: Starting` → `-122` → hostapd/wpa_supplicant reconfiguration. Therefore the observed hostapd reload is not proven to be the primary initiator; it occurs downstream of radio0 configuration activity.
 - [NOT_PROVEN] The upstream trigger that caused netifd to start `radio0` remains unidentified. Do not attribute it to pbr, https-dns-proxy, MLD, or another component without evidence.
 - [NEXT] Identify the immediate trigger for the natural `radio0 wifi-scripts: Starting` event using a compact read-only log window immediately preceding 12:38:59; no reload/restart/configuration changes.
+
+
+## CHANGELOG — 2026-09-19 — [DECISION] STAGE 6 investigation bounded
+- [DECISION] The repeated search for the upstream initiator of the historical natural `radio0 wifi-scripts: Starting` event is closed for now; the relevant direct-call paths and pbr/https-dns-proxy mechanisms were already investigated without causal proof.
+- [CONFIRMED] Natural-event ordering is documented: `radio0 wifi-scripts: Starting` → `-122` → wpa_supplicant/hostapd reconfiguration.
+- [CONFIRMED] Current Wi-Fi is operational and no new natural reload/`-122` event has appeared after the observation checkpoint.
+- [RULE] Do not continue broad repetitive log/source searches unless a new natural event provides new evidence.
+- [NEXT] Move to STAGE 7 baseline resource measurements; read-only, one command at a time.
