@@ -533,3 +533,5 @@ SYNC 2026-09-19: STAGE 6: `ip link show phy0-ap0` confirms current kernel state 
 SYNC 2026-09-19: STAGE 6: user changed `wireless.radio0.htmode` from VHT80 to VHT40 with `uci set`; `uci get` confirms pending UCI value `VHT40`. The change has not yet been committed or reloaded, so runtime radio state remains unchanged at this point. This is a diagnostic test for the 5 GHz AP issue. No reload yet.
 
 SYNC 2026-09-19: STAGE 6: `uci commit wireless` completed with empty output, indicating the VHT40 configuration was committed successfully. No Wi-Fi reload has been performed yet; runtime state remains unchanged until the next controlled apply step.
+
+SYNC 2026-09-19: STAGE 6: `wifi reload` completed with empty output after committing VHT40. This means the reload command itself returned no textual error; runtime verification is still required. Next check will verify STA association and AP kernel state. No further configuration change.
