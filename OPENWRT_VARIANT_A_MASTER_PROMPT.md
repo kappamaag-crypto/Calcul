@@ -716,3 +716,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No package, binary, service, firewall, Wi-Fi, or network configuration was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Inspect the `read_elf_arch` implementation read-only.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 ELF architecture compatibility PASS
+- [CONFIRMED] The router `/bin/sh` and extracted Zapret2 `linux-mips/ip2net` both produce installer ELF identifier `010008`.
+- [PASS] Architecture/class match established using the installer's exact header-reading logic, without executing the installer.
+- [RULE] The next compatibility test may execute only the extracted `ip2net` binary with the installer's test input; do not activate Zapret2 yet.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Run the standalone `ip2net` execution compatibility test with input `0.0.0.0`.
