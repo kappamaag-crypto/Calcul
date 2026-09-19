@@ -673,3 +673,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [RULE FOR USER + AI] From this point, DO NOT execute `wifi reload`, `wifi down/up`, `/etc/init.d/network reload`, or reboot merely to reproduce this issue. Any reload occurring without such manual action is classified as a NATURAL EVENT candidate.
 - [NATURAL EVENT PROCEDURE] On a new natural `hostapd: Reload all interfaces`, first capture the surrounding log window and check for `-122`, netifd, pbr, https-dns-proxy, hostapd/wpa_supplicant, and Wi-Fi state. Do not change configuration before evidence is captured.
 - [ANTI-FORGET] This classification and procedure are mandatory for all subsequent STAGE 6 work unless explicitly superseded by a later evidence-based decision.
+
+
+## CHANGELOG — 2026-09-19 — [OBSERVATION] STAGE 6 natural-event checkpoint
+- [PASS] User confirmed there is no new `hostapd: Reload all interfaces` event after the 14:24:58 control point.
+- [CONFIRMED] No new natural-event sample was obtained; the latest confirmed natural reload remains 12:38:59.
+- [RULE] No artificial `wifi reload`, `wifi down/up`, network reload, or reboot will be used to force reproduction.
+- [NEXT] Continue STAGE 6 with a compact read-only check of currently active Wi-Fi interfaces/state; no service or configuration changes.
