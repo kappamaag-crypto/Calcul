@@ -1012,3 +1012,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] Both DoH instances are operational at the local listeners; no restart or configuration change was performed.
 - [NEXT] Verify an actual DNS query through each local DoH listener (`5053` and `5054`) using a read-only query. Do not change or restart https-dns-proxy.
 - [STATUS] STAGE 10 remains IN_PROGRESS until both listeners return valid DNS answers.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 DNS chain query PASS
+- [PASS] Read-only command `nslookup openwrt.org 127.0.0.1` returned valid A and AAAA answers.
+- [CONFIRMED] Local dnsmasq listener at `127.0.0.1:53` successfully resolved `openwrt.org` to A `64.226.122.113` and AAAA `2a03:b0c0:3:d0::1a51:c001`.
+- [CONFIRMED] Current dnsmasq UCI configuration uses `noresolv='1'` and explicitly configures `127.0.0.1#5053` and `127.0.0.1#5054` as DoH proxy servers (`doh_server` and `doh_backup_server`).
+- [IMPORTANT] This proves the local DNS chain through dnsmasq is functioning with the configured DoH proxy endpoints, but the BusyBox `nslookup` test cannot distinguish which of the two proxy listeners supplied the answer.
+- [IMPORTANT] Direct per-port testing was not completed because this BusyBox build's `nc` supports only `nc IPADDR PORT` and does not provide the UDP options needed for the attempted raw DNS test; `socat`, `dig`, `drill`, `kdig`, and Lua are absent. No packages were installed and no service/configuration was changed.
+- [STATUS] STAGE 10 remains IN_PROGRESS: the overall DNS chain is PASS, but independent validation of both listeners `5053` and `5054` is still pending.
+- [NEXT] Select a read-only method to distinguish/test the two local DoH listeners without installing packages or restarting services.
