@@ -1492,3 +1492,14 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No configuration, firewall/NFQUEUE, service, network/Wi-Fi state or storage was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform one compact read-only inspection of the exact `create_ipset.sh` backend branch around `create_ipset/create_nfset` to determine whether nftables uses kernel nft sets or legacy ipset semantics and what allocation is actually requested.
+
+## CHANGELOG — 2026-09-19 — [SYNC] Zapret2 ipset consumer audit
+- [PASS] Read-only audit completed for `IPSET_OPT`, `SET_MAXELEM`, `hashsize` and `maxelem` consumers.
+- [CONFIRMED] `/opt/zapret2/ipset/create_ipset.sh` passes `IPSET_OPT` to ipset-mode sets and passes `SET_MAXELEM` directly to nftset creation.
+- [CONFIRMED] `/opt/zapret2/ipset/def.sh` defaults to `SET_MAXELEM=262144` and `IPSET_OPT="hashsize 262144 maxelem $SET_MAXELEM"` when not overridden.
+- [CONFIRMED] Current runtime config explicitly overrides these defaults with `SET_MAXELEM=522288` and `IPSET_OPT="hashsize 262144 maxelem $SET_MAXELEM"`.
+- [IMPORTANT] The high `SET_MAXELEM=522288` value is not merely informational: it is consumed by actual ipset/nftset creation paths. On this 64 MB router it must be treated as a memory-risk parameter and must not be enabled until resource impact is assessed.
+- [CONFIRMED] Current `NFQWS2_ENABLE=0` and `MODE_FILTER=none` keep the Zapret2 filtering path inactive; no ipset/nftset activation occurred during this audit.
+- [CONFIRMED] `FLOWOFFLOAD=donttouch` is only acted upon for software/hardware values in the inspected nft paths.
+- [SAFETY] No Zapret2 service, firewall/NFQUEUE, interface hook, network or Wi-Fi state was changed.
+- [NEXT] Continue read-only audit of the exact ipset/nftset backend and memory-sensitive creation path before deciding whether the current hostlist/set sizing is acceptable.
