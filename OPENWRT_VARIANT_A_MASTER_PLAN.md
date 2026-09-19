@@ -665,3 +665,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CORRECTED] `14:06:46` and `14:20:32` `hostapd: Reload all interfaces` events were generated during our manual Wi-Fi reload diagnostic activity and must NOT be treated as natural/periodic events.
 - [CORRECTED] The latest confirmed natural reload sample remains the events before the manual intervention: 11:01:20, 11:17:01, 11:25:50, 12:08:13, 12:38:59.
 - [RULE] Do not generate another Wi-Fi reload for diagnosis. Observe only; a future reload occurring without a manual trigger can be treated as a natural event.
+
+## HARD CHECKPOINT — STAGE 6 — 2026-09-19
+- [LOCKED FACT] The `hostapd: Reload all interfaces` events at 14:06:46 and 14:20:32 were caused by our manual Wi-Fi reload diagnostic actions. They are NOT evidence of spontaneous/periodic reloads and MUST NOT be used as natural-event samples.
+- [LOCKED FACT] Last confirmed natural reload before manual testing: 12:38:59.
+- [CONTROL POINT] At 14:24:58 the router had no reload after 14:20:32.
+- [RULE FOR USER + AI] From this point, DO NOT execute `wifi reload`, `wifi down/up`, `/etc/init.d/network reload`, or reboot merely to reproduce this issue. Any reload occurring without such manual action is classified as a NATURAL EVENT candidate.
+- [NATURAL EVENT PROCEDURE] On a new natural `hostapd: Reload all interfaces`, first capture the surrounding log window and check for `-122`, netifd, pbr, https-dns-proxy, hostapd/wpa_supplicant, and Wi-Fi state. Do not change configuration before evidence is captured.
+- [ANTI-FORGET] This classification and procedure are mandatory for all subsequent STAGE 6 work unless explicitly superseded by a later evidence-based decision.
