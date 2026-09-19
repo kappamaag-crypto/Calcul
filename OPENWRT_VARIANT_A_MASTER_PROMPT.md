@@ -309,3 +309,5 @@ SYNC 2026-09-19: `auto_mount=0` did not prevent extroot; `/dev/sda2` remains act
 SYNC 2026-09-19: Post-reboot SSH host key changed to SHA256:ffcy+GxkVzRuj+9unvWg4a30g14N99UkG9KxWf+fuF8. Do not bypass host-key verification until physical USB removal/boot state is confirmed.
 
 SYNC 2026-09-19: USB physically disconnected. Next step is host-key replacement verification; do not bypass strict checking.
+
+SYNC 2026-09-19: Old SSH host key entry removed successfully. USB disconnected; next SSH command must verify internal rootfs only.
