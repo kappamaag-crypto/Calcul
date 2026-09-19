@@ -1244,3 +1244,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No extraction, installation, configuration, firewall, Wi-Fi, or service activation was performed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Calculate and verify the local SHA-256 against the already confirmed official digest before any extraction or installation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 archive extraction PASS
+- [PASS] Verified SHA-256 matched the pinned official v1.0.3 release digest before extraction.
+- [PASS] Zapret2 v1.0.3 embedded archive was extracted successfully into persistent extroot storage at `/overlay/tmp/zapret2/extract`.
+- [NO CHANGE] No Zapret2 installation, executable deployment, configuration, firewall rule, service activation, or Wi-Fi/network restart was performed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform read-only ELF architecture/type inspection of the extracted `linux-mips` binaries before any installation.
