@@ -820,3 +820,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] RAM baseline at start of STAGE 9: 54852 KiB total, 28432 KiB used, 17212 KiB free, 9512 KiB available.
 - [PASS] `zram0` is currently absent; ZRAM has not yet been configured.
 - [NEXT] Verify availability of the official OpenWrt ZRAM package/kernel support before installing or changing anything.
+
+
+## CHANGELOG — 2026-09-19 — [BLOCKED] STAGE 9 package lookup
+- [BLOCKED] `apk search -v '*zram*'` cannot search because all configured OpenWrt 25.12.5 `packages.adb` indexes are absent from the local apk cache.
+- [CONFIRMED] No ZRAM package was installed or changed.
+- [CONFIRMED] Existing USB swap remains untouched.
+- [NEXT] Repair/refresh the official OpenWrt apk package indexes with a read-only/low-risk repository operation, then repeat the ZRAM package lookup.
