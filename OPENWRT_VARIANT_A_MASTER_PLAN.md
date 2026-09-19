@@ -141,3 +141,8 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CONFIRMED] Official OpenWrt fstools source shows `mount_root` calls `mount_extroot()` before normal `rootfs_data` overlay handling; the current fstools build also contains a dedicated `libfstools/extroot.c` component. This matches the router's observed `switched to extroot` strings. citeturn0search6turn0search1
 - [CONFIRMED] The previous conclusion is strengthened: the old `/dev/sda2` was selected by fstools extroot logic during preinit, not by the disabled UCI mount entry.
 - [NEXT] The remaining task is to identify the exact extroot discovery/configuration condition used by the installed 2026.05.23 fstools. Prefer official source matching this package revision; no router state change or package installation.
+
+- [CONFIRMED] Official fstools source shows extroot entries are created only from enabled mount sections; a disabled `enabled='0'` entry is skipped by `mount_add()`. The `/overlay` target itself marks a mount as extroot+overlay. citeturn1search0
+- [CONFIRMED] `mount_root` calls `mount_extroot("")` before normal `rootfs_data` overlay handling. citeturn0search1
+- [IMPORTANT DISCREPANCY] The current runtime UCI shows the `/overlay` entry disabled, while `/dev/sda2` is already mounted as `/overlay`. Therefore we will not perform more diagnostic probing merely to chase the historical boot path. The practical next operation is the planned USB extroot reset/repartition, which will remove the old extroot filesystem and its configuration source.
+- [BLOCKED] Destructive USB reset requires explicit confirmation immediately before execution, per master-plan safety rule. No destructive command issued in this turn.
