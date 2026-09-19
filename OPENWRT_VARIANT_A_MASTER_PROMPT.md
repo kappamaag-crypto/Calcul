@@ -567,3 +567,5 @@ SYNC 2026-09-19: STAGE 6: `iw phy phy0 info | grep -A25 -B5 "VHT Capabilities"` 
 SYNC 2026-09-19: STAGE 6: Current VHT40 consistency check PASS. UCI reports `wireless.radio0.htmode=VHT40`; `phy0-sta0` is connected to SweetHomeU at 5180 MHz, signal -31 dBm, RX 200.0 Mbit/s VHT-MCS9 40MHz, TX 180.0 Mbit/s VHT-MCS8 40MHz; hostapd.phy0-ap0 reports ENABLED, SSID OpenWrt-5G, channel 36, freq 5180, DFS inactive. No configuration change was made.
 
 SYNC 2026-09-19: User explicitly confirms VHT80 is not required. Requirement for STAGE 6 is VHT40 as the intended stable 5 GHz mode; ISP Internet speed is <=100 Mbit/s. Current VHT40 STA+AP operation is verified and stable in measured checks. VHT80 investigation is therefore not required for the project goal. No configuration change made.
+
+SYNC 2026-09-19: User confirms target LAN Wi-Fi design is one logical home WLAN across 2.4 GHz and 5 GHz APs, with temporary password `12345678` for the OpenWrt APs. Current UCI confirms 5 GHz AP `OpenWrt-5G` and 2.4 GHz AP `OpenWrt` are separate SSIDs and both currently open (`encryption='none'`); 5 GHz STA remains on `SweetHomeU`, VHT40. No configuration change made in this step.
