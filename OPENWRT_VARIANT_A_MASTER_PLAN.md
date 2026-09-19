@@ -579,3 +579,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [OBSERVED] The router has no `/usr/share/zoneinfo` entry matching the attempted `Etc/GMT-5`; the targeted lookup returned no result.
 - [RULE] No timezone configuration change has been made yet. Do not guess a zone name. The next step should use the OpenWrt-supported POSIX timezone representation or another verified available mechanism, one command at a time.
 - [CHANGED] STAGE 6 remains IN_PROGRESS; Wi-Fi configuration and services were not changed by this timezone inspection.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] timezone UCI fields confirmed
+- [PASS] Read-only `uci -q show system | grep -E 'timezone|zonename'` returned exactly `system.@system[0].timezone='GMT0'` and `system.@system[0].zonename='UTC'`.
+- [CONFIRMED] Current timezone configuration is explicitly UTC/GMT0.
+- [RULE] No timezone setting has been changed yet. Next step may set the verified POSIX UTC+5 representation, but only as one controlled configuration change followed by time verification.
+- [CHANGED] STAGE 6 remains IN_PROGRESS.
