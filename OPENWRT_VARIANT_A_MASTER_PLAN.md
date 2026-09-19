@@ -883,3 +883,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] Existing USB swap `/dev/sda1` remains active (524284 KiB, 928 KiB used, priority -2).
 - [IMPORTANT] `apk info` could not read package indexes because the local `packages.adb` cache was lost/cleared by the reboot; this does not by itself prove whether the partial package installation persisted.
 - [NEXT] Do not reinstall yet. First restore the official apk indexes with `apk update`, then inspect installed package state and boot logs before deciding whether to resume installation.
+
+
+## CHANGELOG — 2026-09-19 — [BLOCKED] apk update after reboot
+- [BLOCKED] `apk update` partially failed: 2 repositories (target packages and base) returned `wgetFailed to send request: Operation not permitted` / unexpected EOF; 6 repositories refreshed successfully.
+- [CONFIRMED] apk reports 10247 distinct packages, so the package database is partially available, but update is not fully successful.
+- [IMPORTANT] This error occurred after the unexpected reboot during `apk add`; do not infer a network/DNS problem yet and do not retry installation blindly.
+- [NEXT] Determine exactly which ZRAM-related packages, if any, were committed to the installed package database using a read-only package-state query.
