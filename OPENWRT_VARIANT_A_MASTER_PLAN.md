@@ -565,3 +565,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - [OBSERVED] 2026-09-19 STAGE 6: pbr loads `ipv6_enabled` from `pbr.config.ipv6_enabled` (default 0), `uplink_interface` default `wan`, `uplink_interface6` default `wan6`; then assigns `uplink_interface4="$uplink_interface"`.
 - [NEXT] Read the current pbr UCI values compactly to establish the actual trigger candidates.
+
+- [OBSERVED] 2026-09-19 STAGE 6: попытка получить `pbr.instances.main.triggers` через `ubus service list` дала пустой вывод; это не подтверждает отсутствие procd-trigger, поскольку путь JSON мог не соответствовать фактической структуре ответа.
+- [NEXT] Без перезапуска сервисов получить компактную структуру зарегистрированного экземпляра pbr через `jsonfilter`.
