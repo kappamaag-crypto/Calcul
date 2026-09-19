@@ -16,7 +16,9 @@ STAGE 3 — DONE
 STAGE 4 — DONE
 STAGE 5 — DONE
 STAGE 6 — IN_PROGRESS
-STAGE 7–30 — NOT_STARTED
+STAGE 7–10 — see detailed status below
+STAGE 11 — IN_PROGRESS
+STAGE 12–30 — NOT_STARTED
 
 ## STAGE 4 — Clean base verification
 STATUS: IN_PROGRESS
@@ -1160,3 +1162,16 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] The latest STAGE 6 rules require read-only, one-command-at-a-time diagnostics and prohibit intentional Wi-Fi/hostapd/wpa_supplicant/dnsmasq/https-dns-proxy reloads or restarts during the investigation.
 - [CONFIRMED] VHT40 is sufficient; simultaneous 5 GHz STA+AP and real-client Internet access are already proven. The periodic hostapd Reload all interfaces / radio0 / -122 sequence remains unresolved.
 - [NEXT] Resume the exact next action defined by the master plan: targeted read-only search for direct initiators of Wi-Fi/hostapd reload in /etc/hotplug.d, /etc/init.d, /lib/netifd, /lib/wifi, and /usr/libexec.
+
+## CHANGELOG — 2026-09-19 — [DECISION] STAGE 6 deferred by user
+- [DECISION] User explicitly requested to temporarily skip STAGE 6 because the Wi-Fi/hostapd reload root cause has taken too long to isolate.
+- [STATUS] STAGE 6 remains IN_PROGRESS; it is deferred, not DONE and not FAILED.
+- [RULE] Do not perform the pending STAGE 6 root-cause search until the user explicitly asks to resume it.
+- [DECISION] Continue the project with STAGE 11 Zapret2 while preserving all accumulated STAGE 6 evidence.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 continuation authorized
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [CONFIRMED] Earlier STAGE 11 preflight established that Zapret/Zapret2 binaries and config are absent and that the USB extroot has sufficient free space.
+- [PIN] Zapret2 version remains fixed at v1.0.3; no automatic upgrade is permitted.
+- [SOURCE] Official upstream release is bol-van/zapret2 v1.0.3, release commit b78b52c; release assets include zapret2-v1.0.3-openwrt-embedded.tar.gz and sha256sum.txt.
+- [NEXT] First router action is read-only checksum-source verification for the pinned OpenWrt embedded archive. No installation or configuration change in this step.
