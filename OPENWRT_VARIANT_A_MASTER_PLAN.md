@@ -737,3 +737,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NOTE] `ps w` reports VSZ, not RSS, so it is not sufficient for attributing the measured RAM usage to individual processes.
 - [CONFIRMED] No ZRAM process/device is visible from the previous `zram0` check; USB swap remains the only confirmed active swap.
 - [NEXT] Measure VmRSS for the main userspace daemons using /proc, read-only.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] STAGE 7 kernel memory breakdown
+- [MEASURED] Current `/proc/meminfo`: MemTotal 54852 KiB, MemFree 20044 KiB, MemAvailable 10592 KiB, Buffers 1752 KiB, Cached 2664 KiB, Slab 8564 KiB.
+- [MEASURED] Slab split: SReclaimable 1260 KiB, SUnreclaim 7304 KiB; unreclaimable slab is the dominant reported kernel-memory component.
+- [NOTE] The earlier `free -h` sample showed 7600 KiB available; the later read-only `/proc/meminfo` sample shows 10592 KiB available. This is a normal time-varying measurement and both samples remain historical control points; do not mix them as one instantaneous value.
+- [NEXT] Complete the baseline with a compact kernel/network memory check before any ZRAM configuration change.
