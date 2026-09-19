@@ -677,3 +677,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] Read-only HTTPS connectivity to the official GitHub API is working from the router after the earlier `Operation not permitted` download failure.
 - [RULE] Do not treat the earlier wget failure as a persistent GitHub/network outage; retry the pinned archive download only after this successful connectivity check.
 - [NEXT] Download the exact Zapret2 v1.0.3 OpenWrt embedded archive and verify its SHA-256 before extraction or installation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 archive download to persistent extroot PASS
+- [CONFIRMED] The pinned Zapret2 v1.0.3 embedded archive was downloaded successfully to persistent USB extroot storage at `/overlay/tmp/zapret2/zapret2-v1.0.3-openwrt-embedded.tar.gz`.
+- [CONFIRMED] Download size is 4,314,955 bytes, matching the already verified official GitHub release asset size.
+- [RULE] Prefer persistent extroot storage for this archive instead of `/tmp`, because `/tmp` is RAM-backed and the router has limited RAM.
+- [NO CHANGE] No extraction, installation, configuration, firewall, Wi-Fi, or service activation was performed.
+- [NEXT] Verify the local SHA-256 against the pinned official digest before extraction or installation.
