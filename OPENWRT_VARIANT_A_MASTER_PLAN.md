@@ -1267,3 +1267,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No package installation, binary installation, service activation, firewall modification, or Wi-Fi/network restart was performed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Inspect the ELF headers of the remaining `linux-mips` binaries `ip2net` and `mdig` using the same read-only method.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 installer architecture logic inspected
+- [PASS] Read-only inspection of `install_bin.sh` confirmed the installer has explicit architecture detection and includes `linux-mips`, `linux-mipsel`, `linux-mips64`, `linux-mipsel64`, and `linux-lexra` candidates.
+- [CONFIRMED] The installer derives an ELF architecture value via `read_elf_arch` before selecting the binary architecture; no installation was executed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Inspect the definition of `read_elf_arch` to determine exactly how the installer distinguishes the supported MIPS variants/ABI.
