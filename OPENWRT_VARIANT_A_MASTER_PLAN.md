@@ -1021,3 +1021,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [IMPORTANT] Direct per-port testing was not completed because this BusyBox build's `nc` supports only `nc IPADDR PORT` and does not provide the UDP options needed for the attempted raw DNS test; `socat`, `dig`, `drill`, `kdig`, and Lua are absent. No packages were installed and no service/configuration was changed.
 - [STATUS] STAGE 10 remains IN_PROGRESS: the overall DNS chain is PASS, but independent validation of both listeners `5053` and `5054` is still pending.
 - [NEXT] Select a read-only method to distinguish/test the two local DoH listeners without installing packages or restarting services.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 netstat UDP check
+- [PASS] Read-only command `netstat -unp | grep https-dns-proxy` completed successfully.
+- [CONFIRMED] No UDP connected-socket rows were returned for `https-dns-proxy`.
+- [IMPORTANT] Empty output does NOT prove that DNS is inactive or that either DoH listener is broken: the proxy listeners are local UDP servers, and BusyBox netstat only shows connected UDP sockets when present; it does not provide packet-level observation here.
+- [CONFIRMED] No package installation, service restart, configuration change, Wi-Fi reload, network reload, or reboot was performed.
+- [STATUS] STAGE 10 remains IN_PROGRESS.
+- [NEXT] Use another already-installed read-only mechanism to distinguish/test traffic to 127.0.0.1:5053 and :5054; do not install packages or restart services merely for this test.
