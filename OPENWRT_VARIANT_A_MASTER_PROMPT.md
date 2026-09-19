@@ -301,3 +301,5 @@ SYNC 2026-09-19: User explicitly authorized complete repartitioning and formatti
 SYNC 2026-09-19: `swapoff /dev/sda1` completed successfully (empty output). Continue one command at a time.
 
 SYNC 2026-09-19: `/mnt/data` unmounted successfully. Continue one command at a time.
+
+SYNC 2026-09-19: fstab global auto_mount disabled and router reboot completed. Continue one command at a time.
