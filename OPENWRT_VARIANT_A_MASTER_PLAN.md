@@ -688,3 +688,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] `iw dev` confirms `phy0-sta0` is managed STA on 5 GHz channel 36 (5180 MHz), VHT40.
 - [CONFIRMED] Both local APs and the upstream 5 GHz STA are currently present simultaneously.
 - [NEXT] Read-only verification of upstream STA link and associated AP clients; no reload/restart/configuration change.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 6 upstream STA + client verification
+- [PASS] `phy0-sta0` is connected to upstream SSID `SweetHomeU` at 5180 MHz (channel 36), VHT40.
+- [PASS] STA link reports signal -33 dBm, RX 200.0 MBit/s and TX 180.0 MBit/s.
+- [PASS] `phy0-ap0` has an associated and authorized client.
+- [CONFIRMED] The current 5 GHz chain upstream STA → local AP is operational under the present configuration.
+- [NOT_PROVEN] This does not identify the initiator of the historical spontaneous hostapd reloads or explain `-122`; those remain the unresolved STAGE 6 issue.
+- [NEXT] Continue observation/read-only diagnostics without artificial reloads; do not alter Wi-Fi configuration based on this PASS.
