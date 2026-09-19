@@ -315,3 +315,5 @@ SYNC 2026-09-19: Old SSH host key entry removed successfully. USB disconnected; 
 SYNC 2026-09-19: Internal rootfs verification PASS. `/dev/mtdblock9` is `/overlay`; no `/dev/sda`; no `/mnt/data`; OpenWrt 25.12.5 confirmed. USB can now be reattached for offline repartitioning, one command at a time.
 
 SYNC 2026-09-19: USB reconnected after confirming internal jffs2 overlay. Next action is read-only verification only; no destructive command until USB is confirmed inactive.
+
+SYNC 2026-09-19: USB is not mounted as overlay/data, but `/dev/sda1` auto-activated as swap. Disable it before repartitioning. No destructive command yet.
