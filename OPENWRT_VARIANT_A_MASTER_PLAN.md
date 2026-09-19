@@ -750,3 +750,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [MEASURED] `/proc/meminfo` confirms Slab 8564 KiB, SReclaimable 1260 KiB, SUnreclaim 7304 KiB.
 - [LIMITATION] The attempted `/proc/slabinfo` category extraction returned no rows; this does not mean slab usage is absent, only that this particular parser/query did not produce usable category data.
 - [NEXT] Verify the available `/proc/slabinfo` header/format with a minimal read-only query before deciding whether further slab attribution is worthwhile.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] STAGE 7 ZRAM/swap confirmation
+- [CONFIRMED] No `/dev/zram*` device exists.
+- [CONFIRMED] `/proc/swaps` contains only `/dev/sda1`, size 524284 KiB, used 4424 KiB, priority -2.
+- [CONCLUSION] Current memory-compression layer is absent; USB swap is active and lightly used.
+- [NEXT] STAGE 7 baseline data is sufficient to proceed to the planned ZRAM stage; no ZRAM configuration change has been made during baseline collection.
