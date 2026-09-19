@@ -385,3 +385,5 @@ SYNC 2026-09-19: STAGE 6: `uci show wireless | grep -A12 -B2 "OpenWrt-5G"` confi
 SYNC 2026-09-19: STAGE 6: `uci show wireless | grep -A8 -B2 "wireless.@wifi-iface"` confirms the third wifi-iface is the 5 GHz STA on `radio0`, network `wan`, mode `sta`, SSID `SweetHomeU`, encryption `psk2`, enabled. Its key is present in UCI output; no value is copied into the master documents. Together with the previous result, the 5 GHz radio0 is configured for concurrent STA + open AP `OpenWrt-5G`; no configuration change was made.
 
 SYNC 2026-09-19: STAGE 6: `ubus call hostapd.phy0-ap0 get_status` confirms the 5 GHz AP is actually ENABLED via nl80211 on phy0, BSSID `ba:69:f4:d6:e8:a5`, SSID `OpenWrt-5G`, 5180 MHz/channel 36, with DFS CAC inactive. Reported airtime utilization is 6%. No configuration change was made.
+
+SYNC 2026-09-19: STAGE 6: `iw dev phy0-sta0 link` PASS. The 5 GHz STA is connected to `SweetHomeU` at 5180 MHz with signal -29 dBm; RX 200.0 Mbit/s and TX 180.0 Mbit/s, both VHT40, NSS1. This confirms the upstream STA remains operational concurrently with the verified `OpenWrt-5G` AP on the same phy0. No configuration change was made.
