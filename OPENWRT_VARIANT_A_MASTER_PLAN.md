@@ -744,3 +744,9 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [MEASURED] Slab split: SReclaimable 1260 KiB, SUnreclaim 7304 KiB; unreclaimable slab is the dominant reported kernel-memory component.
 - [NOTE] The earlier `free -h` sample showed 7600 KiB available; the later read-only `/proc/meminfo` sample shows 10592 KiB available. This is a normal time-varying measurement and both samples remain historical control points; do not mix them as one instantaneous value.
 - [NEXT] Complete the baseline with a compact kernel/network memory check before any ZRAM configuration change.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] slab category query limitation
+- [MEASURED] `/proc/meminfo` confirms Slab 8564 KiB, SReclaimable 1260 KiB, SUnreclaim 7304 KiB.
+- [LIMITATION] The attempted `/proc/slabinfo` category extraction returned no rows; this does not mean slab usage is absent, only that this particular parser/query did not produce usable category data.
+- [NEXT] Verify the available `/proc/slabinfo` header/format with a minimal read-only query before deciding whether further slab attribution is worthwhile.
