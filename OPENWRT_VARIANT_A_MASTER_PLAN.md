@@ -206,3 +206,5 @@ SYNC 2026-09-19: extroot staging verification PASS. `/dev/sda2` mounted at `/mnt
 SYNC 2026-09-19: Current /etc/config/fstab reviewed. It still contains stale old USB data UUID `fa23e979-...` for /mnt/data and stale old extroot UUID `244b7bbc-...`. New sda2 extroot UUID is `e1c68a3a-0e55-4af9-afd8-961160b3afa2`; sda1 swap entry points to /dev/sda1 and is enabled. Next step must replace extroot UUID and remove obsolete /mnt/data mount entry before activation.
 
 SYNC 2026-09-19: fstab edit PASS. Backup `/etc/config/fstab.before-extroot-final` created; obsolete /mnt/data mount entry removed; extroot UUID set to `e1c68a3a-0e55-4af9-afd8-961160b3afa2`; config committed. Extroot is not activated/rebooted yet.
+
+SYNC 2026-09-19: fstab read-only verification PASS. Active config contains only USB swap `/dev/sda1` and enabled extroot `/overlay` using UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2`; obsolete `/mnt/data` entry absent. No reboot/activation yet.
