@@ -772,3 +772,8 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [IMPORTANT] UCI fstab entry `fstab.extroot.uuid` currently contains `244b7bbc-add1-46cd-bc1a-0143cfca5d6c`, which does NOT match the actual sda2 UUID. Despite this mismatch, sda2 is currently mounted as /overlay, so the active extroot appears to be selected by fstools/automatic extroot discovery rather than that explicit UUID entry.
 - [IMPORTANT] UCI `fstab.@mount[0]` for `/mnt/data` also references old UUID `fa23e979-0f79-4fd7-92f6-88952fb95053`; this does not match the current USB partition state and must not be treated as valid without correction.
 - [RULE] No fstab edits yet; first determine the exact boot-time/active extroot selection mechanism with read-only inspection.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] extroot implementation location
+- [MEASURED] Searching `/libfstools` for extroot/fstab symbols returned no text matches; this directory does not expose the implementation as searchable scripts.
+- [DECISION] Do not continue broad recursive source searches. Use the actual `mount_root` executable/interface for the next read-only verification.
