@@ -359,3 +359,6 @@ SYNC 2026-09-19: User rebooted router and restored SSH. Extroot activation attem
 SYNC 2026-09-19: STAGE 4 extroot activation VERIFIED PASS. `/overlay` is `/dev/sda2` after reboot (6.6G total, 6.2G available). USB extroot is active; swap/ZRAM preservation remains required.
 
 SYNC 2026-09-19: STAGE 4 CLOSED DONE. USB extroot verified active on `/dev/sda2` after reboot. STAGE 5 IN_PROGRESS: minimal network verification. No network configuration changed; next step is read-only inspection of current network configuration and IPv4 route.
+
+
+SYNC 2026-09-19: STAGE 5.1 PASS for LAN configuration, but WAN connectivity is not established: eth1 has no IPv4 address and no IPv4 default route despite DHCP config. No network state changed. Next: read-only WAN link/DHCP state inspection.
