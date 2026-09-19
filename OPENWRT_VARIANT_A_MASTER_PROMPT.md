@@ -284,3 +284,5 @@ H) combination.
 - [RULE] Before any destructive USB operation, first identify the exact boot-time extroot discovery mechanism using read-only evidence. Do not modify fstab or storage yet.
 
 - 2026-09-19: confirmed `/lib/preinit/80_mount_root` delegates root/overlay selection to `mount_root start`; `/sbin/mount_root` is ELF, so extroot selection is implemented in fstools rather than directly in the preinit shell script. Next: read-only fstools/block-mount analysis.
+
+- 2026-09-19: confirmed via `strings /sbin/mount_root` that fstools has dedicated `mount_extroot`/`fstools_overlay_name` logic and reports `switched to extroot`; extroot selection is therefore built into fstools. Next: identify the exact acceptance criterion read-only.
