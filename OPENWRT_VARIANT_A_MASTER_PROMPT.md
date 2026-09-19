@@ -353,3 +353,5 @@ SYNC 2026-09-19: Reviewed current fstab: swap sda1 enabled; stale /mnt/data UUID
 SYNC 2026-09-19: fstab edit PASS: backup created, obsolete /mnt/data mount removed, extroot UUID updated to `e1c68a3a-0e55-4af9-afd8-961160b3afa2`, UCI committed. No activation/reboot yet.
 
 SYNC 2026-09-19: fstab verification PASS. Only USB swap `/dev/sda1` and enabled extroot `/overlay` UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2` remain; `/mnt/data` entry removed. Activation has not occurred.
+
+SYNC 2026-09-19: User rebooted router and restored SSH. Extroot activation attempted; `/overlay` source still requires direct verification before marking DONE.
