@@ -158,3 +158,5 @@ SYNC 2026-09-19: `swapoff /dev/sda1` completed with empty output; USB swap is de
 SYNC 2026-09-19: `umount /mnt/data` completed with empty output; `/mnt/data` is detached. No formatting/repartitioning yet.
 
 SYNC 2026-09-19: Set fstab global `auto_mount='0'`, committed, and rebooted. Router reboot confirmed by user. USB swap was already off and `/mnt/data` unmounted.
+
+SYNC 2026-09-19: After reboot, `auto_mount=0` did not prevent fstools extroot selection: `/dev/sda2` remains `/overlay`, `/dev/sda3` remains `/mnt/data`, and `/dev/sda1` is active swap. Therefore USB cannot be destructively repartitioned while connected; next safe path is clean shutdown, physical USB removal, boot from internal flash, then reconnect USB only after confirming internal overlay.
