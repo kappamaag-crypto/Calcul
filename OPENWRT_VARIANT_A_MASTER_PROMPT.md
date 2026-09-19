@@ -349,3 +349,5 @@ SYNC 2026-09-19: Overlay copy PASS: `/overlay` contents copied to `/mnt/extroot`
 SYNC 2026-09-19: extroot staging verification PASS: sda2 mounted at /mnt/extroot with copied overlay content present; 6.6G size, 6.2G available. No fstab activation yet.
 
 SYNC 2026-09-19: Reviewed current fstab: swap sda1 enabled; stale /mnt/data UUID `fa23e979-...`; stale extroot UUID `244b7bbc-...`. New extroot UUID is `e1c68a3a-0e55-4af9-afd8-961160b3afa2`. Before activation, replace extroot UUID and remove obsolete /mnt/data entry.
+
+SYNC 2026-09-19: fstab edit PASS: backup created, obsolete /mnt/data mount removed, extroot UUID updated to `e1c68a3a-0e55-4af9-afd8-961160b3afa2`, UCI committed. No activation/reboot yet.
