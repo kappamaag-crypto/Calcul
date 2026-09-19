@@ -1201,3 +1201,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] Archive content inspection made no filesystem, package, firewall, network, Wi-Fi, service, or configuration changes on the router.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Before extraction/installation, perform a read-only inspection of the MIPS binary architecture/type and the OpenWrt installer/init scripts to verify compatibility and determine the minimum installation set for this 64 MiB MIPS router.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 installer architecture detection PASS
+- [PASS] Read-only extraction of `install_bin.sh` and grep for architecture detection completed.
+- [CONFIRMED] The v1.0.3 installer explicitly includes `linux-mips`, `linux-mipsel`, `linux-mips64`, `linux-mipsel64`, `linux-lexra` and other architectures in its candidate list.
+- [CONFIRMED] The installer reads ELF architecture metadata from binaries and compares it with the running environment before selecting a binary directory.
+- [CONFIRMED] The script's normal successful path copies `ip2net`, `mdig`, and the packet-processing binary from the matching architecture directory; no installation was executed.
+- [IMPORTANT] This output confirms that `linux-mips` is an explicit supported candidate, but it does not yet prove that the router's exact MIPS ABI/ELF type matches the archive binary.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform a read-only extraction of the actual `linux-mips` binaries and inspect their ELF header/type on the router before any installation.
