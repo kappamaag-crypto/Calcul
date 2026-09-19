@@ -1175,3 +1175,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PIN] Zapret2 version remains fixed at v1.0.3; no automatic upgrade is permitted.
 - [SOURCE] Official upstream release is bol-van/zapret2 v1.0.3, release commit b78b52c; release assets include zapret2-v1.0.3-openwrt-embedded.tar.gz and sha256sum.txt.
 - [NEXT] First router action is read-only checksum-source verification for the pinned OpenWrt embedded archive. No installation or configuration change in this step.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 checksum-source diagnostic
+- [FAILED] The attempted read-only command used `wget -S`, but this OpenWrt BusyBox wget build does not support the `-S` option; it supports `-s` only for spider mode.
+- [CONFIRMED] Because wget rejected the option before processing the URL, the checksum file was not downloaded and no checksum was obtained.
+- [CONFIRMED] No Zapret2 archive was downloaded, installed, extracted, configured, or executed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; checksum verification is NOT_STARTED/blocked at the download diagnostic, not a Zapret2 failure.
+- [NEXT] Use the installed wget capabilities correctly with a single read-only download command without `-S`, saving `sha256sum.txt` to `/tmp/zapret-sha256.txt` and printing its contents.
