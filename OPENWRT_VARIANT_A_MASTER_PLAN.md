@@ -168,3 +168,5 @@ SYNC 2026-09-19: User confirmed USB physically disconnected after reboot. SSH ho
 SYNC 2026-09-19: Old SSH known_hosts entry for 192.168.1.1 removed successfully. USB remains physically disconnected. Next step is one SSH read-only verification of internal rootfs.
 
 SYNC 2026-09-19: PASS — router is booted from internal flash: `/dev/mtdblock9` is `/overlay` (jffs2), `/dev/sda` is absent, `/mnt/data` absent, OpenWrt 25.12.5 confirmed. `auto_mount` is 1 after boot, which is acceptable because USB is disconnected.
+
+SYNC 2026-09-19: USB physically reconnected after clean internal-flash boot. Awaiting read-only verification that it is present but not mounted as `/overlay` before destructive repartitioning.
