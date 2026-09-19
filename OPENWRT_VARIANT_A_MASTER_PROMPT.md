@@ -835,3 +835,9 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - Runtime `/opt/zapret2/config` has been verified byte-identical to `config.default` (5534 bytes; SHA-256 `758cf25e3d57ccf2c0dd053b218d571e6ebb293293f341c8e5294a35ceed2f7b`).
 - Treat the runtime config as uncustomized until a controlled configuration audit identifies required changes.
 - No activation is permitted during the audit: no service start/enable, firewall/NFQUEUE application, interface-hook activation, network/Wi-Fi reload, or reboot.
+
+
+## SYNC RULE UPDATE 2026-09-19 — STAGE 11 default-state audit
+- Runtime Zapret2 config is currently unmodified: `NFQWS2_ENABLE=0`, default ports/packet limits, `MODE_FILTER=none`, `FLOWOFFLOAD=donttouch`, `INIT_APPLY_FW=1`.
+- Do not interpret `INIT_APPLY_FW=1` as activation by itself; activation remains gated by service start and/or explicit firewall commands.
+- Continue read-only configuration audit before changing any parameter. No service/firewall/NFQUEUE/network/Wi-Fi activation during the audit.
