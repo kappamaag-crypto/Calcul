@@ -1481,3 +1481,14 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [RULE] After each user+assistant pair, synchronize the factual result into this master plan; update the master prompt when the workflow rule changes.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Run one compact read-only search for where Zapret2 consumes NFQWS2/configuration/OpenWrt integration variables; no activation or network/Wi-Fi reload.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 11 ipset/config consumer audit
+- [PASS] Read-only grep completed for `IPSET_OPT`, `SET_MAXELEM`, `hashsize`, `maxelem` and for the main runtime variables.
+- [CONFIRMED] `IPSET_OPT` / `SET_MAXELEM` are consumed by `/opt/zapret2/ipset/create_ipset.sh`; nftables/iptables paths use the resulting sets only when `MODE_FILTER=ipset`.
+- [CONFIRMED] `/opt/zapret2/ipset/def.sh` defaults are `SET_MAXELEM=262144`, `IPSET_OPT="hashsize 262144 maxelem $SET_MAXELEM"`, while the runtime config explicitly overrides `SET_MAXELEM=522288`.
+- [IMPORTANT] The current runtime value is therefore substantially larger than the package default and remains a memory-safety concern on the 64 MB hAP ac lite. No ipset/hostlist activation is authorized yet.
+- [CONFIRMED] `NFQWS2_ENABLE=0`, `MODE_FILTER=none`, and `FLOWOFFLOAD=donttouch` mean these ipset consumers are currently inactive.
+- [NO CHANGE] No configuration, firewall/NFQUEUE, service, network/Wi-Fi state or storage was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform one compact read-only inspection of the exact `create_ipset.sh` backend branch around `create_ipset/create_nfset` to determine whether nftables uses kernel nft sets or legacy ipset semantics and what allocation is actually requested.
