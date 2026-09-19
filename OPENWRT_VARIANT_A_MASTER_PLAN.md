@@ -617,3 +617,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CURRENT STATE] Both 2.4 GHz and 5 GHz APs use SSID `OpenWrt` with WPA2 and the configured key; this is accepted as the current working configuration.
 - [LIMITATION] The exact origin/time of the 2.4 GHz password change remains unproven, with a plausible possibility that it resulted from an earlier manual/configuration step.
 - [NEXT] Resume STAGE 6 core investigation: Wi-Fi/hostapd reload behavior and `Not supported (-122)`; avoid reopening the already sufficient password-history investigation.
+
+
+## CHANGELOG — 2026-09-19 — [FAIL] timezone change did not take effect
+- [RESULT] `date` returned `Sat Sep 19 09:17:45 GMT 2026`, while user reports local time 14:18 on 2026-09-19.
+- [CONFIRMED] Date is correct, clock is 5 hours behind local UTC+5 time; timezone is still effectively GMT/UTC.
+- [FACT] Previous timezone configuration command did not produce the intended UTC+5 runtime timezone.
+- [RULE] Do not assume the POSIX UCI value alone controls the active runtime timezone; inspect the active timezone linkage/configuration read-only before changing it.
+- [CHANGED] STAGE 6 remains IN_PROGRESS; no Wi-Fi/network service changes made.
