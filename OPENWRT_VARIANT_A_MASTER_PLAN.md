@@ -1536,3 +1536,13 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No firewall rules, nft sets, NFQUEUE, Zapret2 service, network/Wi-Fi state or storage state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Continue with one compact read-only memory/capability check before deciding whether the configured set capacity requires tuning.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 memory/slab capability check
+- [PASS] Read-only command `free -m; ... grep -E 'nft|ip_set|nf_conntrack' /proc/slabinfo ...` completed successfully.
+- [CONFIRMED] RAM: 54 MiB total, 34 MiB used, 12 MiB free, 7 MiB buff/cache, only about 3.7 MiB available at the moment of the check.
+- [CONFIRMED] Swap: about 538 MiB total, about 3 MiB used, about 535 MiB free; the large swap capacity does not change the fact that active nft set structures are kernel-memory allocations.
+- [OBSERVED] The filtered `/proc/slabinfo` query returned no matching lines for `nft`, `ip_set`, or `nf_conntrack`; this is not proof that all related kernel memory is zero, only that no matching slab-cache names were exposed by this filter.
+- [IMPORTANT] Current available RAM is low enough that `SET_MAXELEM=522288` remains a memory-safety gate and must not be activated merely because swap is available.
+- [NO CHANGE] No firewall, nft set, NFQUEUE, Zapret2 service, network/Wi-Fi, configuration, or storage state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform one compact read-only `/proc/meminfo` check focused on Slab/SUnreclaim/SReclaimable/SwapCached before deciding whether a lower `SET_MAXELEM` is required.
