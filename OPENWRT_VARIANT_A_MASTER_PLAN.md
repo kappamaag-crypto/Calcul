@@ -827,3 +827,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No ZRAM package was installed or changed.
 - [CONFIRMED] Existing USB swap remains untouched.
 - [NEXT] Repair/refresh the official OpenWrt apk package indexes with a read-only/low-risk repository operation, then repeat the ZRAM package lookup.
+
+
+## CHANGELOG — 2026-09-19 — [PROGRESS] STAGE 9 apk indexes restored
+- [PASS] `apk update` successfully refreshed all configured OpenWrt 25.12.5 repositories.
+- [PASS] Official package indexes are now available; apk reports 11080 distinct packages.
+- [RESOLVED] Previous STAGE 9 block caused by missing local `packages.adb` cache is cleared.
+- [NEXT] Repeat the ZRAM package availability check; no package installation yet.
