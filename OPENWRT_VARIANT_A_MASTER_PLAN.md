@@ -197,7 +197,6 @@ SYNC 2026-09-19: STAGE 4 formatting attempt FAILED/blocked at mkswap /dev/sda1: 
 SYNC 2026-09-19: `swapoff /dev/sda1` completed with empty output, indicating the active USB swap was disabled successfully. STAGE 4 remains IN_PROGRESS; sda1/sda2 are not yet formatted.
 
 SYNC 2026-09-19: USB formatting PASS. `mkswap /dev/sda1` completed; `/dev/sda2` formatted ext4 with label `extroot`, UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2`. STAGE 4 remains IN_PROGRESS. No extroot mount/copy/fstab change has been performed yet.
-
 SYNC 2026-09-19: Pre-extroot overlay baseline PASS. `/overlay` is internal `/dev/mtdblock9`, jffs2, rw,noatime; size 7.0M, used 372K, available 6.6M. `du -sh /overlay` = 35.5K. USB extroot is not mounted yet. Next step is controlled copy of overlay to sda2.SYNC 2026-09-19: sda2 temporary mount PASS: `mount /dev/sda2 /mnt/extroot` completed with empty output. No fstab/extroot activation change yet.
 
 SYNC 2026-09-19: Overlay copy PASS: `cp -a /overlay/. /mnt/extroot/` completed with empty output. Current internal overlay remains active; copied content is staged on sda2.
@@ -397,7 +396,6 @@ SYNC 2026-09-19: STAGE 6: `iw phy phy0 info | grep -A25 -B5 "VHT Capabilities"` 
 SYNC 2026-09-19: STAGE 6: Current VHT40 consistency check PASS. UCI reports `wireless.radio0.htmode=VHT40`; `phy0-sta0` is connected to SweetHomeU at 5180 MHz, signal -31 dBm, RX 200.0 Mbit/s VHT-MCS9 40MHz, TX 180.0 Mbit/s VHT-MCS8 40MHz; hostapd.phy0-ap0 reports ENABLED, SSID OpenWrt-5G, channel 36, freq 5180, DFS inactive. No configuration change was made.
 SYNC 2026-09-19: User explicitly confirms VHT80 is not required. Requirement for STAGE 6 is VHT40 as the intended stable 5 GHz mode; ISP Internet speed is <=100 Mbit/s. Current VHT40 STA+AP operation is verified and stable in measured checks. VHT80 investigation is therefore not required for the project goal. No configuration change made.
 SYNC 2026-09-19: User confirms target LAN Wi-Fi design is one logical home WLAN across 2.4 GHz and 5 GHz APs, with temporary password `12345678` for the OpenWrt APs. Current UCI confirms 5 GHz AP `OpenWrt-5G` and 2.4 GHz AP `OpenWrt` are separate SSIDs and both currently open (`encryption='none'`); 5 GHz STA remains on `SweetHomeU`, VHT40. No configuration change made in this step.
-
 SYNC 2026-09-19: 5 GHz AP UCI change command completed with empty output, indicating no command error: `wireless.default_radio0.ssid` set to `OpenWrt`, `encryption` set to `psk2`, key set to temporary `12345678`, and `uci commit wireless` completed. No `wifi reload` performed yet. Next step is read-only UCI verification before applying the change.
 
 SYNC 2026-09-19: Read-only verification passed for `wireless.default_radio0`: device radio0, network lan, mode ap, SSID OpenWrt, encryption psk2, disabled 0, temporary key 12345678. Configuration is committed but not yet applied with `wifi reload`.
@@ -597,7 +595,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] Current wireless configuration (2.4 GHz and 5 GHz AP) is already committed in UCI, so there are no pending in-memory UCI changes for `wireless`.- [FACT] Both AP sections currently use SSID `OpenWrt`, encryption `psk2`, and the same configured key; upstream STA remains `SweetHomeU` with `psk2`.
 - [RULE] Do not infer when/how the 2.4 GHz security setting changed from this test; current UCI alone cannot establish change history.
 - [CHANGED] STAGE 6 remains IN_PROGRESS.
-
 
 ## CHANGELOG — 2026-09-19 — [EVIDENCE] Wi-Fi reload timeline
 - [EVIDENCE] Log shows a real `hostapd: Reload all interfaces` at router time 09:06:46, followed by phy0 reload, phy1 reload, `radio1 ... wifi-scripts: Starting`, and phy1 preparation.
@@ -799,7 +796,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [SAFETY] No filesystem, partition, mount point contents, or active /overlay was modified by this change.
 - [NEXT] Verify final STAGE 8 runtime/config consistency without rebooting; then proceed to the next planned storage/memory stage.
 
-
 ## CHANGELOG — 2026-09-19 — [DONE] STAGE 8 extroot
 - [PASS] Runtime verification: `/dev/sda2 on /overlay type ext4 (rw,noatime)`.
 - [PASS] Root overlay uses the USB ext4 filesystem: `overlayfs:/overlay`, 6.6G total, 6.2G available.
@@ -998,7 +994,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - Подтверждён runtime-список алгоритмов ZRAM: `lzo-rle [lzo]`. Доступны только LZO-RLE и LZO; LZ4 в текущем загруженном ZRAM/ядре не представлен. Текущий активный алгоритм — LZO.
 
 - `/proc/sys/vm/swappiness` = 60. Это текущий kernel default/фактическое значение; пока не менять. Приоритет swap остаётся главным фактором порядка выбора: zram priority 100, USB swap -2.
-
 - Точечная проверка `VmSwap` показала небольшие swap-резиденты у нескольких процессов: netifd 352 kB, wpa_supplicant 452/104 kB, urngd 56 kB, udhcpc 44 kB, ubusd 28 kB, procd 72 kB, odhcpd 40 kB, ntpd 16/108 kB. Это подтверждает, что swap используется на уровне отдельных страниц процессов, но само по себе не устанавливает, почему именно страницы оказались на USB swap при активном ZRAM. Вывод оставлен как диагностический факт, без причинного вывода.
 
 - Проверка UCI-конфигураций показала: в `/etc/config/system` нет явных `zram_size_mb/zram_comp_algo/zram_priority`; в `/etc/config/fstab` присутствует секция `config swap` для USB swap. Это согласуется со штатными defaults ZRAM init-скрипта; параметры ZRAM не переопределены пользователем.
@@ -1197,8 +1192,7 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] The pinned v1.0.3 embedded archive contains the OpenWrt init integration under `init.d/openwrt/`, including `90-zapret2`, `zapret2`, `functions`, and `firewall.zapret2`.
 - [CONFIRMED] The archive contains MIPS binaries under `binaries/linux-mips/`: `ip2net`, `mdig`, and `nfqws2`.
 - [CONFIRMED] The archive also contains other architectures, but no installation has been performed and no non-MIPS binary has been selected for the router.
-- [CONFIRMED] Blockcheck2 scripts, Lua support files, fake packet data, ipset helpers, common firewall helpers, and installer scripts are present in the archive.
-- [CONFIRMED] Archive content inspection made no filesystem, package, firewall, network, Wi-Fi, service, or configuration changes on the router.
+- [CONFIRMED] Blockcheck2 scripts, Lua support files, fake packet data, ipset helpers, common firewall helpers, and installer scripts are present in the archive.- [CONFIRMED] Archive content inspection made no filesystem, package, firewall, network, Wi-Fi, service, or configuration changes on the router.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Before extraction/installation, perform a read-only inspection of the MIPS binary architecture/type and the OpenWrt installer/init scripts to verify compatibility and determine the minimum installation set for this 64 MiB MIPS router.
 
@@ -1373,3 +1367,15 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO ACTIVATION] This command only placed init integration files; it did NOT start Zapret2, apply firewall/NFQUEUE rules, enable the service, add cron, or intentionally reload Wi-Fi/network services.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Inspect the deployed init scripts/configuration read-only before any service enable/start or firewall activation.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 configuration-default preflight
+- [PASS] Read-only grep of `/opt/zapret2/config.default` and `/opt/zapret2/init.d/openwrt/functions` completed successfully.
+- [CONFIRMED] `INIT_APPLY_FW=1` is the release default, meaning service start can apply Zapret2 firewall integration unless explicitly controlled; therefore activation remains a separate gated step.
+- [CONFIRMED] `NFQWS2_ENABLE=0` is the release default, so the nfqws2 packet processor is disabled by default until configuration changes are deliberately made.
+- [CONFIRMED] Default NFQWS2 ports are TCP 80,443 and UDP 443; packet limits are TCP out 20/in 10 and UDP out 5/in 3.
+- [CONFIRMED] `DESYNC_MARK=0x40000000` and `DESYNC_MARK_POSTNAT=0x20000000` match the values already observed in the OpenWrt integration defaults.
+- [CONFIRMED] `QNUM=300`, `WS_USER=daemon`, and `OPENWRT_LAN=lan` are the integration defaults.
+- [CONFIRMED] `MODE_FILTER=none` is the config.default value.
+- [NO CHANGE] No service start/enable, firewall rule, NFQUEUE interception, network/Wi-Fi reload, or configuration activation was performed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Continue with read-only inspection of the relevant config.default section around INIT_APPLY_FW/NFQWS2 and the daemon configuration before any activation.
