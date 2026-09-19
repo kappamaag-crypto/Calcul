@@ -556,3 +556,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - [OBSERVED] 2026-09-19 STAGE 6: `ifacesTriggers` is initialized at line 178 and populated at line 2635; comments indicate it is built before `is_wan_up` during interface enumeration. Trigger registration occurs only when non-empty.
 - [NEXT] Inspect the compact source around line 2635 to determine exactly which interfaces enter `ifacesTriggers`.
+
+- [OBSERVED] 2026-09-19 STAGE 6: `enumerate_interface` is a process-interface action case at line 2626, invoked by `config_foreach process_interface 'interface' 'enumerate_interface'` at line 2897; no standalone function definition exists.
+- [NEXT] Inspect the surrounding `process_interface` case before line 2626 to identify the interface eligibility conditions.
