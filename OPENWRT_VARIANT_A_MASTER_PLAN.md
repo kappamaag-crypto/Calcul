@@ -868,3 +868,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] `apk policy zram-swap` resolves official OpenWrt 25.12.5 mips_24kc/base package version 32.
 - [INFO] Runtime ZRAM capability files/config were not visible because `kmod-zram` is not installed yet; absence of `/sys/block/zram-control/hot_add` therefore cannot be used to reject an algorithm.
 - [NEXT] Install only the two verified official components `kmod-zram` and `zram-swap`; dependency `kmod-lib-lzo` is expected to be pulled automatically. Do not install LZ4/ZSTD modules at this point.
+
+
+## CHANGELOG — 2026-09-19 — [EVENT] unexpected reboot during STAGE 9 package install
+- [EVENT] `apk add kmod-zram zram-swap` reached `kmod-crypto-acompress-6.12.94-r1.post-install` at 0%, then SSH disconnected with `client_loop: send disconnect: Connection reset`; user reports the router rebooted.
+- [IMPORTANT] Installation completion is unknown. Do not rerun `apk add` or start/restart ZRAM until package/runtime state is verified.
+- [SAFETY] This reboot was not intentional and was not requested as a diagnostic action; investigate the cause from post-boot state/logs before making further changes.
+- [NEXT] After reconnect, perform read-only verification of uptime, installed package state, kernel/ZRAM state, swap, and boot log evidence.
