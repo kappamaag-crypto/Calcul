@@ -527,3 +527,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NOT_PROVEN] No causal link from pbr to the periodic Wi-Fi reload has been established.
 - [NEXT] Continue read-only mapping of the pbr `netifd()` function's declaration/call path and conditions. Do not invoke `/etc/init.d/pbr netifd`, network reload, firewall reload, Wi-Fi reload, hostapd reload, dnsmasq restart, or https-dns-proxy restart.
 - [RULE] User explicitly requires synchronization of the master plan after each user message + assistant message. This synchronization is now recorded as an operational requirement; the master prompt need not change because its existing one-step/synchronization rule already covers it.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 6: pbr on_interface_reload path found
+- [PASS] Read-only grep of /etc/init.d/pbr located the complete named \`on_interface_reload\` command/path.
+- [CONFIRMED] pbr registers \`on_interface_reload\` as an extra init command and defines \`on_interface_reload()\` at line 2869.
+- [CONFIRMED] pbr contains interface-trigger registration at line 3128 using \`procd_add_interface_trigger "interface.*" "$n" "/etc/init.d/\${packageName}" on_interface_reload "$n"\`. Therefore pbr can receive interface-triggered callbacks independently of the previously inspected https-dns-proxy trigger.
+- [CONFIRMED] The pbr path contains \`process_interface ... 'reload_interface'\` handling and gateway/interface state checks around lines 2914–2982.
+- [NOT_PROVEN] This establishes that pbr has an interface-reload mechanism, but does not yet prove that the observed \`hostapd: Reload all interfaces\` event is caused by pbr or that this trigger fires for the relevant interface at the observed times.
+- [NEXT] Read-only inspect the exact pbr code around lines 2869–2990 and the trigger registration around 3115–3135 to determine what pbr does when an interface reload trigger fires. Do not invoke pbr, network reload, firewall reload, Wi-Fi reload, hostapd reload, dnsmasq restart, or https-dns-proxy restart.
+- [RULE] Per user requirement, this result and the next diagnostic step are synchronized into the master plan after this user/assistant turn pair.
