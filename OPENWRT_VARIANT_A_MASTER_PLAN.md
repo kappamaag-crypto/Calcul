@@ -1218,3 +1218,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No Zapret2 installation, extraction to the persistent filesystem, configuration, firewall, or service activation occurred.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Re-download the exact pinned v1.0.3 archive to `/tmp` and re-verify SHA-256 against the already confirmed official GitHub asset digest before continuing ELF inspection.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 download blocked after reboot
+- [FAILED] Re-download attempt for the pinned Zapret2 v1.0.3 archive failed with BusyBox wget: `Failed to send request: Operation not permitted`.
+- [CONFIRMED] Failure occurred before SHA-256 calculation because wget did not create/download the archive.
+- [CONFIRMED] This is a network/request-permission failure at the current router state; it is not evidence of a bad Zapret2 archive or checksum mismatch.
+- [NO CHANGE] No Zapret2 installation, extraction, configuration, firewall, or service activation occurred.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Diagnose the current outbound HTTPS/request path with a single read-only connectivity test before attempting another archive download.
