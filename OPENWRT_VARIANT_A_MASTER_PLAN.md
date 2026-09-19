@@ -993,3 +993,5 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - Контрольная точка RAM: 54852 KiB total, 28148 used, 16928 free, 9508 available; суммарный swap 550904 KiB, used 6068 KiB.
 
 - Проверка ZRAM: `comp_algorithm` показывает `lzo-rle [lzo]` — активен LZO; `disksize=27262976` bytes = 26 MiB; `mm_stat`: orig_data_size 4096, compr_data_size 55, mem_used_total 4096, swap_data_size 0. ZRAM пока практически не нагружен.
+
+- Проверен /etc/init.d/zram: скрипт поддерживает `zram_size_mb`, `zram_comp_algo`, `zram_priority`; значения по умолчанию в скрипте — алгоритм LZO и priority 100. Скрипт автоматически поднимает zram swap при старте и имеет status/compact команды. В текущем выводе конкретные UCI-значения из /etc/config/system не показаны.
