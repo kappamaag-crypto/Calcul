@@ -1461,3 +1461,14 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No config edit, service start/enable, firewall/NFQUEUE activation, network/Wi-Fi reload, or reboot occurred.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform a read-only inspection of where `SET_MAXELEM` and `IPSET_OPT` are consumed, to estimate whether default hash allocation could be excessive before any activation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] User-requested complete STAGE 11 record
+- [PASS] Complete STAGE 11 runtime-config discovery/deployment sequence recorded: missing runtime config, installer logic confirmation, isolated creation, exact integrity verification, and full default-config audit.
+- [PASS] `/opt/zapret2/config` was created only by copying `/opt/zapret2/config.default`; no full installer was run for this purpose.
+- [PASS] Both files are 5534 bytes with identical SHA-256 `758cf25e3d57ccf2c0dd053b218d571e6ebb293293f341c8e5294a35ceed2f7b`.
+- [CONFIRMED] Runtime config remains default/inactive: `NFQWS2_ENABLE=0`, `MODE_FILTER=none`, `FLOWOFFLOAD=donttouch`, `INIT_APPLY_FW=1`; HTTP/TLS/QUIC NFQWS2 definitions remain inert.
+- [IMPORTANT] `SET_MAXELEM=522288` and `hashsize 262144` are a mandatory memory-safety gate on the 64 MB router before hostlist/ipset activation.
+- [NO ACTIVATION] No Zapret2 service start/enable, firewall/NFQUEUE application, interface-hook activation, network/Wi-Fi reload, or reboot occurred in this sequence.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Inspect read-only how `IPSET_OPT` / `SET_MAXELEM` are consumed and estimate actual memory impact before activation or tuning.
