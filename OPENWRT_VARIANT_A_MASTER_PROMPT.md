@@ -290,3 +290,5 @@ H) combination.
 - 2026-09-19: `libfstools.so` confirms built-in extroot flow (`mount_extroot`, `/tmp/extroot`, `/tmp/extroot/overlay`, `switched to extroot`). `fstab` init/hotplug only delegate to `/sbin/block` and are not the preinit extroot selector. Next: identify exact discovery condition read-only.
 
 - 2026-09-19: router has `fstools-2026.05.23~16718b6e-r1`; ELF symbol lookup returned no relevant symbols. Official fstools source confirms `mount_root` calls `mount_extroot()` before normal rootfs_data handling, matching the router binary. Next: identify exact extroot discovery condition for this revision from official source.
+
+- 2026-09-19: official fstools source confirms disabled fstab mount entries are skipped during extroot config loading, while mount_root invokes mount_extroot before normal rootfs_data handling. Runtime still has /dev/sda2 as /overlay, creating a historical-state discrepancy. Per user request, no more diagnostic probing is planned; next is the already planned destructive USB reset/repartition, pending explicit confirmation immediately before execution.
