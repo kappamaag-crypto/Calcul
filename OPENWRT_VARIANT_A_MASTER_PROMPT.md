@@ -371,3 +371,5 @@ SYNC 2026-09-19: STAGE 5 wireless inspection PASS. Wi-Fi STA interface `phy0-sta
 
 
 SYNC 2026-09-19: User updated the upstream Wi-Fi credentials for the intended WAN STA: SSID changed from `SPKEFFA_5G` to `TPLINK`; WPA2-PSK password provided as `89518996225` (user explicitly marked it as fictional/example). No router configuration has been changed yet. STAGE 5 remains IN_PROGRESS; next single operation is to update the existing Wi-Fi STA SSID/key only, then verify configuration/association.
+
+SYNC 2026-09-19: User executed the Wi-Fi STA credential update successfully. Actual SSID set is `SweetHomeU` (correcting the prior message's `TPLINK`), WPA2-PSK key set to `89518996225`. `uci commit wireless` completed without error. No association/reload verification has been performed yet. STAGE 5 remains IN_PROGRESS. Next: read-only verification of the saved STA configuration before applying/reloading Wi-Fi.
