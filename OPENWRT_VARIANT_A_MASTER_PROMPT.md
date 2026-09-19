@@ -396,3 +396,5 @@ SYNC 2026-09-19: STAGE 5 LAN/gateway/Internet IPv4 checks PASS. br-lan is 192.16
 - SYNC 2026-09-19: Windows `Test-NetConnection` with `-InterfaceAlias` failed because this PowerShell/Windows version does not expose that parameter. No network configuration changed. The MikroTik Ethernet default route remains verified; the Ethernet-specific Internet test is still pending. STAGE 5 remains IN_PROGRESS.
 
 - SYNC 2026-09-19: Windows Ethernet-sourced Internet test `ping -S 192.168.1.146 1.1.1.1` PASS: 4/4 replies, 0% loss, ~59 ms. This confirms Internet IPv4 connectivity through the laptop's MikroTik Ethernet path. STAGE 5 remains IN_PROGRESS pending the laptop DNS check.
+
+- SYNC 2026-09-19: Windows `nslookup openwrt.org 192.168.1.1` PASS. MikroTik LAN DNS at `192.168.1.1` successfully resolved `openwrt.org` to IPv4 `64.226.122.113` and IPv6 `2a03:b0c0:3:d0::1a51:c001`. STAGE 5 exit criteria are now satisfied: laptop IP/gateway, default route via MikroTik, Internet IPv4, and DNS through MikroTik all verified. STAGE 5 status = DONE.
