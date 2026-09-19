@@ -317,3 +317,5 @@ SYNC 2026-09-19: Internal rootfs verification PASS. `/dev/mtdblock9` is `/overla
 SYNC 2026-09-19: USB reconnected after confirming internal jffs2 overlay. Next action is read-only verification only; no destructive command until USB is confirmed inactive.
 
 SYNC 2026-09-19: USB is not mounted as overlay/data, but `/dev/sda1` auto-activated as swap. Disable it before repartitioning. No destructive command yet.
+
+SYNC 2026-09-19: USB swap disabled successfully. USB is now inactive; destructive repartitioning may proceed one command at a time.
