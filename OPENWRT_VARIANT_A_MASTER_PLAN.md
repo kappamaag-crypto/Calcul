@@ -1095,3 +1095,16 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [STATUS] STAGE 10 remains IN_PROGRESS because the strict per-listener independent-query criterion has not been directly demonstrated.
 - [CONFIRMED] No configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed.
 - [NEXT] If strict per-listener attribution is required, use another already-installed read-only mechanism; otherwise the stage can be considered functionally verified with the stated limitation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 socket-to-listener mapping
+- [PASS] Read-only mapping of https-dns-proxy socket inodes through /proc/net/tcp completed.
+- [CONFIRMED] TCP socket inode 3668 is local 127.0.0.1:5053 in LISTEN state and belongs to PID 2844 (Cloudflare instance).
+- [CONFIRMED] TCP socket inode 3863 is local 127.0.0.1:5054 in LISTEN state and belongs to PID 2845 (Google instance).
+- [CONFIRMED] TCP socket inode 5677 belongs to PID 2844 and is an ESTABLISHED connection from 192.168.0.112:35752 to 104.16.249.249:443.
+- [CONFIRMED] TCP socket inode 26743 belongs to PID 2845 and is an ESTABLISHED connection from 192.168.0.112:33950 to 8.8.4.4:443.
+- [CONFIRMED] TCP socket inode 5674 belongs to PID 2845 and is CLOSE_WAIT to 8.8.4.4:443.
+- [STRONG EVIDENCE] The local 5053/5054 listeners and their corresponding active upstream HTTPS sockets are now directly tied to the two running processes via kernel socket inode ownership.
+- [LIMITATION] This still does not capture a per-query success response independently for each local listener; however, both listeners and both upstream paths are demonstrably active.
+- [CONFIRMED] No configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed.
+- [STATUS] STAGE 10 remains IN_PROGRESS pending decision whether strict per-listener query attribution is mandatory for the stage exit criterion.
