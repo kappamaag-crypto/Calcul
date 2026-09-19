@@ -1235,3 +1235,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No Zapret2 installation, extraction, configuration, firewall, Wi-Fi, or service state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Retry the exact pinned v1.0.3 embedded archive download to /tmp and immediately verify its SHA-256 against the already confirmed official GitHub asset digest before any extraction or installation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 archive download to persistent extroot PASS
+- [PASS] Pinned Zapret2 v1.0.3 embedded archive downloaded successfully to persistent USB extroot path `/overlay/tmp/zapret2/zapret2-v1.0.3-openwrt-embedded.tar.gz`.
+- [CONFIRMED] Downloaded size is 4,314,955 bytes, matching the official GitHub release asset size already verified.
+- [IMPORTANT] The archive is now stored on persistent extroot rather than `/tmp`, avoiding unnecessary RAM/tmpfs consumption and preventing loss across reboot.
+- [NO CHANGE] No extraction, installation, configuration, firewall, Wi-Fi, or service activation was performed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Calculate and verify the local SHA-256 against the already confirmed official digest before any extraction or installation.
