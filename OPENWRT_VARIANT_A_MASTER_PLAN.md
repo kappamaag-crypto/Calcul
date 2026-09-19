@@ -1274,3 +1274,13 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] The installer derives an ELF architecture value via `read_elf_arch` before selecting the binary architecture; no installation was executed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Inspect the definition of `read_elf_arch` to determine exactly how the installer distinguishes the supported MIPS variants/ABI.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 ELF architecture compatibility PASS
+- [PASS] Reproduced the Zapret2 installer's `read_elf_arch` calculation without executing or installing anything.
+- [CONFIRMED] Running `/bin/sh` returns ELF identifier `010008`.
+- [CONFIRMED] Extracted `linux-mips/ip2net` returns the same ELF identifier `010008`.
+- [CONCLUSION] The selected `linux-mips` binary matches the router's executable ELF class/machine identifier used by the installer.
+- [NO CHANGE] No Zapret2 installation, configuration, firewall, service activation, or Wi-Fi/network restart was performed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform the installer's actual read-only compatibility execution test for `ip2net` (stdin `0.0.0.0`) without running the installer itself.
