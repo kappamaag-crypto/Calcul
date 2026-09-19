@@ -1123,3 +1123,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] Direct per-listener DNS querying of 127.0.0.1:5053 and 127.0.0.1:5054 cannot be performed with the currently installed nslookup.
 - [LIMITATION] The previously observed nslookup 127.0.0.1 test validates the local dnsmasq chain, while socket/inode mapping validates both DoH listeners and their active HTTPS upstream connections, but neither independently attributes a DNS answer to each listener.
 - [STATUS] STAGE 10 remains IN_PROGRESS under the strict existing criterion; no package installation or configuration change was made.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 wget capability check
+- [CONFIRMED] /usr/bin/wget is available and supports HTTPS, custom HTTP headers, POST data, and timeouts.
+- [LIMITATION] BusyBox wget speaks HTTP/HTTPS; it cannot issue a DNS wire-format query to the local UDP/TCP DNS listeners on ports 5053/5054, so it does not provide independent per-listener DNS attribution.
+- [CONFIRMED] No router configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed by this check.
+- [STATUS] STAGE 10 remains IN_PROGRESS under the strict existing exit criterion.
