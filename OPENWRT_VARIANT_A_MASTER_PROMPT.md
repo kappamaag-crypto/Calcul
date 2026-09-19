@@ -823,3 +823,9 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - `install_prereq.sh` inspection confirms runtime config initialization is a simple copy performed before its later prerequisite/system checks.
 - For controlled deployment, isolate that copy instead of executing the full prerequisite installer.
 - The next allowed state-changing step is only creation of `/opt/zapret2/config` from `/opt/zapret2/config.default`; immediately verify the copy before any config edit, service start, firewall/NFQUEUE activation, or interface hook activation.
+
+
+## SYNC RULE UPDATE 2026-09-19 — STAGE 11 runtime config creation PASS
+- Runtime `/opt/zapret2/config` may be created only as a controlled copy of the verified `config.default` before configuration editing.
+- After creation, verify exact file equality before any config changes or activation.
+- Do not enable/start Zapret2, apply firewall/NFQUEUE rules, activate interface hooks, or reload network/Wi-Fi during this verification gate.
