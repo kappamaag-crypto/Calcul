@@ -658,3 +658,16 @@ SYNC 2026-09-19: Real client test passed. User connected a phone to the 5 GHz `O
 
 
 SYNC 2026-09-19: Продолжение STAGE 6. После успешного реального 5 GHz client test конфигурация не меняется. Следующий шаг — один read-only targeted search по /etc/hotplug.d, /etc/init.d, /lib/netifd, /lib/wifi и /usr/libexec для прямых вызовов wifi reload/up/down, hostapd reload/config_set или hostapd_cli reload. Цель — найти возможного инициатора `hostapd: Reload all interfaces`. Широкий рекурсивный поиск не используется; Wi-Fi/DNS/services не перезапускаются.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 6 / operational rules
+
+Добавлены/уточнены обязательные правила текущего расследования:
+1. VHT40 является целевым и достаточным рабочим режимом для 5 GHz; VHT80 не исследовать повторно без отдельного запроса.
+2. Считать одновременно работающие phy0-sta0 + phy0-ap0 доказанно поддерживаемым сценарием: это подтверждено реальным клиентским подключением и Internet.
+3. Считать успешный real-client test частью фактического STAGE 6 состояния, но не считать его доказательством устранения периодического reload/root cause.
+4. Не считать https-dns-proxy, pbr, MLD или distance=0 причиной -122 без прямого доказательства.
+5. Не удалять https-dns-proxy и не применять непроверенные forum workarounds.
+6. Диагностика продолжается только read-only, одним command за шаг, без намеренного wifi reload/restart, hostapd reload, wpa_supplicant reload, dnsmasq restart/reload или перезапуска https-dns-proxy.
+7. Следующий шаг: targeted search прямых инициаторов Wi-Fi/hostapd reload в /etc/hotplug.d, /etc/init.d, /lib/netifd, /lib/wifi, /usr/libexec.
+8. Не записывать MAC-адреса клиентских устройств или секреты upstream STA в master files.
