@@ -1293,3 +1293,13 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] Zapret2 was not installed, enabled, configured, or integrated into firewall/network/Wi-Fi services.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform the same standalone runtime compatibility test for `mdig` and `nfqws2` only as appropriate, or inspect installer requirements before any deployment.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 install_bin requirements inspected
+- [PASS] Read-only inspection of `install_bin.sh` completed through the binary deployment path.
+- [CONFIRMED] On Linux the installer selects `nfqws2` as the packet-processing binary and tests architecture candidates including `linux-mips`.
+- [CONFIRMED] On a successful match it would link `ip2net`, `mdig`, and `nfqws2` into `$ZAPRET_BASE/ip2net`, `$ZAPRET_BASE/mdig`, and `$ZAPRET_BASE/nfq2`; this deployment has NOT been executed.
+- [IMPORTANT] The installer can remove an existing same-named file before creating each link; therefore no installer execution is authorized yet.
+- [NO CHANGE] No Zapret2 files were installed into active paths, and no services/firewall/Wi-Fi/network settings were changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Inspect the embedded OpenWrt integration/install scripts read-only to determine prerequisites and exact installation scope before any deployment.
