@@ -160,3 +160,5 @@ SYNC 2026-09-19: `umount /mnt/data` completed with empty output; `/mnt/data` is 
 SYNC 2026-09-19: Set fstab global `auto_mount='0'`, committed, and rebooted. Router reboot confirmed by user. USB swap was already off and `/mnt/data` unmounted.
 
 SYNC 2026-09-19: After reboot, `auto_mount=0` did not prevent fstools extroot selection: `/dev/sda2` remains `/overlay`, `/dev/sda3` remains `/mnt/data`, and `/dev/sda1` is active swap. Therefore USB cannot be destructively repartitioned while connected; next safe path is clean shutdown, physical USB removal, boot from internal flash, then reconnect USB only after confirming internal overlay.
+
+SYNC 2026-09-19: Router rebooted/power cycle occurred. SSH reports changed ED25519 host key for 192.168.1.1 (new fingerprint SHA256:ffcy+GxkVzRuj+9unvWg4a30g14N99UkG9KxWf+fuF8), indicating a host-key change after boot. USB physical removal has not yet been confirmed; no router command issued after the warning.
