@@ -313,3 +313,5 @@ SYNC 2026-09-19: USB physically disconnected. Next step is host-key replacement 
 SYNC 2026-09-19: Old SSH host key entry removed successfully. USB disconnected; next SSH command must verify internal rootfs only.
 
 SYNC 2026-09-19: Internal rootfs verification PASS. `/dev/mtdblock9` is `/overlay`; no `/dev/sda`; no `/mnt/data`; OpenWrt 25.12.5 confirmed. USB can now be reattached for offline repartitioning, one command at a time.
+
+SYNC 2026-09-19: USB reconnected after confirming internal jffs2 overlay. Next action is read-only verification only; no destructive command until USB is confirmed inactive.
