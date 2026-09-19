@@ -182,3 +182,5 @@ SYNC 2026-09-19: In `fdisk`, `g` created a new GPT disklabel in memory only (GUI
 SYNC 2026-09-19: User exited fdisk without writing the staged GPT; no disk changes from that fdisk session. User requested full commands instead of interactive sub-steps. Continue with one complete logical operation per command.
 
 SYNC 2026-09-19: Clarified purpose of optional /mnt/data: separate persistent data area for large/downloaded/generated/configuration data, keeping extroot (/overlay) focused on installed packages and system state. No partitioning change performed.
+
+SYNC 2026-09-19: Clarified ZRAM timing/state: ZRAM is not a future Stage 4 installation; prior verified project state records /dev/zram0 at 32 MiB, lzo-rle, activated with mkswap/swapon. STAGE 4 is focused on rebuilding USB layout/extroot and preserving the clean architecture: extroot + ZRAM + USB swap. /tmp remains RAM-backed and must be monitored; no plan to move /tmp into ZRAM.
