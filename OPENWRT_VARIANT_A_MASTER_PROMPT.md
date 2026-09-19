@@ -325,3 +325,5 @@ SYNC 2026-09-19: fdisk opened on `/dev/sda`; no write yet. Continue one interact
 SYNC 2026-09-19: fdisk `g` created a new GPT disklabel in memory only; no disk write yet. Target remains extroot + USB swap + optional data, sizes chosen from actual USB.
 
 SYNC 2026-09-19: User exited fdisk without writing. User prefers complete commands rather than interactive fdisk prompts, while retaining one logical operation per step.
+
+SYNC 2026-09-19: Clarified optional /mnt/data role: persistent bulk-data area separate from extroot, not required for core OpenWrt operation. No partitioning change performed.
