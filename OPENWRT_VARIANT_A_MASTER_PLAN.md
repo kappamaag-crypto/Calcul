@@ -237,3 +237,6 @@ This block is authoritative over older historical changelog entries above.
 - STAGE 6 next operation is read-only inspection of wireless AP configuration/state. No router configuration change has been made by this sync.
 
 SYNC 2026-09-19: Corrected repository artifact identification. The canonical master plan is OPENWRT_VARIANT_A_MASTER_PLAN.md; the canonical master prompt is OPENWRT_VARIANT_A_MASTER_PROMPT.md. Both are required to remain synchronized with factual project state after each turn.
+
+
+SYNC 2026-09-19: STAGE 6 wireless AP configuration inspection PASS. Both default AP interfaces `default_radio0` and `default_radio1` are configured on LAN with SSID `OpenWrt`, mode `ap`, encryption `none`, but both have `disabled='1'`. The WAN STA interface remains on `radio0`, network `wan`, mode `sta`, SSID `SweetHomeU`, encryption `psk2`, `disabled='0'`. No configuration was changed. STAGE 6 remains IN_PROGRESS; next step is a single controlled read-only/runtime check before enabling AP.
