@@ -535,3 +535,5 @@ SYNC 2026-09-19: STAGE 6: user changed `wireless.radio0.htmode` from VHT80 to VH
 SYNC 2026-09-19: STAGE 6: `uci commit wireless` completed with empty output, indicating the VHT40 configuration was committed successfully. No Wi-Fi reload has been performed yet; runtime state remains unchanged until the next controlled apply step.
 
 SYNC 2026-09-19: STAGE 6: `wifi reload` completed with empty output after committing VHT40. This means the reload command itself returned no textual error; runtime verification is still required. Next check will verify STA association and AP kernel state. No further configuration change.
+
+SYNC 2026-09-19: STAGE 6: after applying VHT40, 5 GHz STA remains connected to SweetHomeU at 5180 MHz with 40 MHz width, signal -29 dBm, RX 200 Mbit/s VHT-MCS9 and TX 180 Mbit/s VHT-MCS8. Crucially, `phy0-ap0` is now `<BROADCAST,MULTICAST,UP,LOWER_UP>` with `state UP`; the OpenWrt-5G SSID became visible to the client. This is strong evidence that VHT80 was involved in the failure condition, while VHT40 currently provides a working STA+AP state. No further configuration change.
