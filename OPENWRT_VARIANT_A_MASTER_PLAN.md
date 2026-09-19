@@ -1567,3 +1567,13 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No Zapret2 service, nft set, firewall/NFQUEUE, configuration, network/Wi-Fi or storage state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Continue with one compact read-only inspection of Zapret2's configured list-path variables and their referenced paths, without loading or activating any set.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 11 Zapret2 list-path configuration audit
+- [PASS] Read-only grep of runtime config and `ipset/def.sh` completed successfully.
+- [CONFIRMED] Runtime config currently has `SET_MAXELEM=522288` and `MODE_FILTER=none`.
+- [CONFIRMED] Zapret2 list paths are derived from `$IPSET_RW_DIR`, including IPv4/IPv6 main, exclude, user and IP-ban lists.
+- [IMPORTANT] The previous empty filename inventory did not establish absence of lists; the actual configured list names are now known, but `IPSET_RW_DIR` and actual file existence/size have not yet been established.
+- [NO CHANGE] No list was created/loaded; no nft set, firewall/NFQUEUE, service, configuration, network/Wi-Fi or storage state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Determine the resolved `IPSET_RW_DIR` and compactly inventory those exact configured list paths, read-only.
