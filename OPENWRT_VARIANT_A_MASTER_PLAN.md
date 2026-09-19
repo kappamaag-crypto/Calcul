@@ -190,3 +190,5 @@ SYNC 2026-09-19: USB repartitioning was written successfully: GPT GUID 742D1342-
 SYNC 2026-09-19: Read-only fdisk verification PASS. /dev/sda is GPT, sda1 512 MiB Linux swap (sectors 2048-1050623), sda2 6.8 GiB Linux filesystem (sectors 1050624-15259647), no sda3. USB layout matches target. STAGE 4 remains IN_PROGRESS; formatting has not yet been performed.
 
 SYNC 2026-09-19: STAGE 4 formatting attempt FAILED/blocked at mkswap /dev/sda1: 'write error: Text file busy'. Because of &&, mkfs.ext4 on sda2 did NOT run. Likely sda1 is currently active/in use despite earlier swapoff. No further destructive formatting command until active use is identified/cleared.
+
+SYNC 2026-09-19: `swapoff /dev/sda1` completed with empty output, indicating the active USB swap was disabled successfully. STAGE 4 remains IN_PROGRESS; sda1/sda2 are not yet formatted.
