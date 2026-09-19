@@ -724,3 +724,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [RULE] The next compatibility test may execute only the extracted `ip2net` binary with the installer's test input; do not activate Zapret2 yet.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Run the standalone `ip2net` execution compatibility test with input `0.0.0.0`.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 ip2net runtime compatibility PASS
+- [PASS] The extracted `linux-mips/ip2net` runs successfully on the router and returns `0.0.0.0` for the installer's test input.
+- [CONFIRMED] This satisfies the installer's runtime execution criterion for the selected architecture.
+- [NO CHANGE] No Zapret2 installation, activation, firewall, Wi-Fi, or network configuration occurred.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Continue with read-only installer requirement inspection before deployment.
