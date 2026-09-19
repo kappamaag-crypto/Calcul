@@ -550,3 +550,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [RULE] Не использовать широкие `sed`/рекурсивные `grep`/полные дампы, если точечный вывод отвечает на текущий вопрос.
 - [RULE] Сохраняется one-step-at-a-time: одна диагностическая команда за шаг, затем ожидание фактического результата.
 - [SYNC] Это уточнение формата диагностики; архитектура и ограничения мастер-промта не меняются.
+
+- [OBSERVED] 2026-09-19 STAGE 6: pbr registers `on_interface_reload` via `procd_add_interface_trigger "interface.*" "$n" ... on_interface_reload "$n"` for interfaces in `ifacesTriggers`; it also registers config-change triggers for pbr/network/openvpn.
+- [CONCLUSION] This confirms pbr can react to netifd interface events, but the observed block alone does not prove it initiates hostapd/Wi-Fi reload. Next diagnostic must identify the actual contents/source of `ifacesTriggers`.
