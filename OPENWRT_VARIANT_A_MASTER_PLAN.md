@@ -790,3 +790,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] `fstab.extroot.target='/overlay'`, `fstype='ext4'`, `options='rw,noatime'`, `enabled='1'`.
 - [RULE] No reboot/remount was performed by this change; current active /overlay remains untouched.
 - [NEXT] Determine the actual UUID of the filesystem intended for `/mnt/data` before correcting its stale fstab entry.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] /mnt/data is not currently mounted
+- [CONFIRMED] Only `/dev/sda2` is mounted from USB, as `/overlay`.
+- [CONFIRMED] No `/mnt/data` mount is active; `/mnt/data` is only an existing directory.
+- [IMPORTANT] The stale `fstab.@mount[0].uuid=fa23e979-0f79-4fd7-92f6-88952fb95053` does not correspond to any currently mounted filesystem and must not be replaced with the extroot UUID.
+- [NEXT] Determine whether the intended `/mnt/data` mount should be retained at all. Current USB layout has only sda1 swap + sda2 extroot, so there is no separate data partition available for /mnt/data.
