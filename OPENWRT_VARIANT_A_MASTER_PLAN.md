@@ -121,3 +121,8 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CONFIRMED] Kernel cmdline is console=ttyS0,115200n8 rootfstype=squashfs,jffs2; it contains no explicit external overlay device.
 - [CONFIRMED] No /etc file matching *extroot* or *fstool* was found by the search.
 - [NEXT] Exact selection logic must be read from /lib/preinit/80_mount_root and /sbin/mount_root; no state-changing operation is authorized yet.
+
+- [PASS] Read-only inspection confirmed `/lib/preinit/80_mount_root` calls `mount_root start ...`; `/sbin/mount_root` is an ELF binary, so the actual root/overlay selection logic is inside the fstools binary/library path rather than the shell preinit script.
+- [CONFIRMED] `80_mount_root` does not itself reference `/dev/sda2`, an extroot UUID, or a dedicated `/etc/extroot*` configuration.
+- [CONFIRMED] No configuration restore was triggered by this command; the inspected script only restores `/sysupgrade.tgz` or `/tmp/sysupgrade.tar` if present.
+- [NEXT] Continue read-only analysis of the installed fstools/block-mount implementation to identify why the old extroot partition is auto-selected. No USB/filesystem changes authorized.
