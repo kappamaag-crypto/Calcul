@@ -1050,3 +1050,14 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No service, package, firewall, DNS, network, Wi-Fi, or process state was changed.
 - [STATUS] STAGE 10 remains IN_PROGRESS.
 - [NEXT] Continue with a read-only method that can provide independent evidence of live traffic/results for each DoH instance without restarting services or installing packages.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 https-dns-proxy log observation
+- [PASS] Read-only log inspection completed.
+- [CONFIRMED] dnsmasq repeatedly reports configured nameservers 127.0.0.1#5053 and 127.0.0.1#5054.
+- [CONFIRMED] https-dns-proxy startup completed for both instances; logs show notrack rules updated and WAN trigger configured.
+- [IMPORTANT] The available log output contains startup/configuration events but no per-query or per-instance DNS resolution statistics, so it does not independently prove live queries reached 5053 and 5054.
+- [IMPORTANT] Log timestamps show https-dns-proxy instance restarts during the observed period; this output alone does not establish their cause.
+- [CONFIRMED] No configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed by the read-only command.
+- [STATUS] STAGE 10 remains IN_PROGRESS.
+- [NEXT] Establish current running PIDs/listeners after the observed restarts, then choose the next non-invasive traffic-observation method.
