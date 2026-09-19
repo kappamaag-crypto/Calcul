@@ -1340,3 +1340,17 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No daemon, NFQUEUE interception, firewall rule, service, Wi-Fi, or network configuration was started or changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Proceed to the minimum deployment step only after preserving the current preflight evidence; installation/configuration remain separate from this runtime test.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 Zapret2 embedded v1.0.3 file deployment
+- [CONFIRMED] User requirement: after each user+assistant message pair, record factual OpenWrt Variant A changes in the master plan and update the master prompt when the workflow/rules need a change.
+- [PASS] install_bin.sh getarch returned linux-mips.
+- [PASS] /opt and /opt/zapret2 were initially absent; no pre-existing Zapret2 installation was overwritten.
+- [PASS] Created /opt/zapret2 directory structure and copied the embedded v1.0.3 OpenWrt components without starting Zapret2.
+- [PASS] Copied files/fake, common, ipset, blockcheck2.d, lua, OpenWrt init integration, config.default, installer/helper scripts, and the verified linux-mips binaries.
+- [PASS] Created the three standard links: /opt/zapret2/nfq2/nfqws2, /opt/zapret2/ip2net/ip2net, /opt/zapret2/mdig/mdig.
+- [PASS] Read-only verification: /opt/zapret2 contains 130 regular files and 3 symbolic links; nfqws2, ip2net, mdig are executable MIPS binaries.
+- [CONFIRMED] The embedded release root contains config.default but no config; an attempted copy including config failed with cp: can't stat .../config, and no subsequent damage occurred. The correct config.default was then copied.
+- [SAFETY] install_easy.sh was NOT executed. No Zapret2 daemon, firewall/NFQUEUE interception, cron, interface hook, or Wi-Fi/network reload was started by these deployment steps.
+- [STATUS] STAGE 11 remains IN_PROGRESS; installation file layout is deployed, but service/firewall integration is intentionally not started.
+- [NEXT] Perform a read-only runtime check of /opt/zapret2/ip2net/ip2net, then continue only one command at a time.
