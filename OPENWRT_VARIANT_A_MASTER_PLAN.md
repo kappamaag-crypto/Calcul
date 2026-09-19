@@ -1084,3 +1084,14 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed.
 - [STATUS] STAGE 10 remains IN_PROGRESS pending the stage exit criterion.
 - [NEXT] Perform a final read-only end-to-end DNS query test through local dnsmasq, then assess whether STAGE 10 exit criteria can be marked DONE based on the accumulated evidence.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 final DNS chain PASS
+- [PASS] Read-only `nslookup openwrt.org 127.0.0.1` returned valid A and AAAA answers through the local DNS service at 127.0.0.1:53.
+- [CONFIRMED] Local dnsmasq DNS resolution is functioning end-to-end at the client-facing local resolver.
+- [CONFIRMED] UCI dnsmasq configuration points to both local DoH listeners 127.0.0.1#5053 and 127.0.0.1#5054.
+- [CONFIRMED] PID 2844/5053 has an active upstream HTTPS connection to Cloudflare, and PID 2845/5054 has an active upstream HTTPS connection to Google from the preceding read-only socket observation.
+- [IMPORTANT] The available installed tooling cannot attribute this single nslookup response to exactly one of the two listeners independently. Therefore the evidence proves the configured chain is operational and both DoH instances have active upstream connections, but does not provide per-query listener attribution.
+- [STATUS] STAGE 10 remains IN_PROGRESS because the strict per-listener independent-query criterion has not been directly demonstrated.
+- [CONFIRMED] No configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed.
+- [NEXT] If strict per-listener attribution is required, use another already-installed read-only mechanism; otherwise the stage can be considered functionally verified with the stated limitation.
