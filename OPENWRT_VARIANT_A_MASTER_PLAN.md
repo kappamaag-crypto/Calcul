@@ -680,3 +680,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No new natural-event sample was obtained; the latest confirmed natural reload remains 12:38:59.
 - [RULE] No artificial `wifi reload`, `wifi down/up`, network reload, or reboot will be used to force reproduction.
 - [NEXT] Continue STAGE 6 with a compact read-only check of currently active Wi-Fi interfaces/state; no service or configuration changes.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 6 Wi-Fi active-state verification
+- [PASS] `iw dev` confirms `phy1-ap0` is AP on 2.4 GHz channel 1 (2412 MHz), 20 MHz.
+- [PASS] `iw dev` confirms `phy0-ap0` is AP on 5 GHz channel 36 (5180 MHz), VHT40.
+- [PASS] `iw dev` confirms `phy0-sta0` is managed STA on 5 GHz channel 36 (5180 MHz), VHT40.
+- [CONFIRMED] Both local APs and the upstream 5 GHz STA are currently present simultaneously.
+- [NEXT] Read-only verification of upstream STA link and associated AP clients; no reload/restart/configuration change.
