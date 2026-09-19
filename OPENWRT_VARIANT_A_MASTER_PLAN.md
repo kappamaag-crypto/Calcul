@@ -152,3 +152,5 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 
 
 SYNC 2026-09-19: Final read-only USB check PASS. User authorization for full `/dev/sda` repartition/format confirmed. STAGE 4 is IN_PROGRESS. Next command is the first preparation step; no destructive write has yet been issued.
+
+SYNC 2026-09-19: `swapoff /dev/sda1` completed with empty output; USB swap is deactivated. No other state change performed.
