@@ -797,3 +797,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No `/mnt/data` mount is active; `/mnt/data` is only an existing directory.
 - [IMPORTANT] The stale `fstab.@mount[0].uuid=fa23e979-0f79-4fd7-92f6-88952fb95053` does not correspond to any currently mounted filesystem and must not be replaced with the extroot UUID.
 - [NEXT] Determine whether the intended `/mnt/data` mount should be retained at all. Current USB layout has only sda1 swap + sda2 extroot, so there is no separate data partition available for /mnt/data.
+
+
+## CHANGELOG — 2026-09-19 — [CHANGE] stale /mnt/data fstab entry removed
+- [DONE] Removed only the obsolete `fstab.@mount[0]` entry for `/mnt/data` and committed fstab.
+- [CONFIRMED] Current fstab contains only global settings, `/dev/sda1` swap, and the corrected extroot entry for `/dev/sda2`.
+- [SAFETY] No filesystem, partition, mount point contents, or active /overlay was modified by this change.
+- [NEXT] Verify final STAGE 8 runtime/config consistency without rebooting; then proceed to the next planned storage/memory stage.
