@@ -1439,3 +1439,13 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No Zapret2 service start/enable, firewall/NFQUEUE activation, interface hook activation, network/Wi-Fi reload, or reboot occurred.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform a read-only configuration suitability audit of the runtime config for this OpenWrt topology before changing any variables or enabling Zapret2.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 11 runtime config default-state audit
+- [PASS] Read-only audit of `/opt/zapret2/config` confirms the runtime configuration remains default/unmodified.
+- [CONFIRMED] `NFQWS2_ENABLE=0`; TCP ports default `80,443`; UDP port default `443`; packet limits remain defaults (TCP OUT 20 / IN 10, UDP OUT 5 / IN 3).
+- [CONFIRMED] `MODE_FILTER=none`, `FLOWOFFLOAD=donttouch`, `INIT_APPLY_FW=1`.
+- [IMPORTANT] No explicit `ZAPRET_BASE`, `ZAPRET_RW`, `ZAPRET_CONFIG`, LAN/WAN override, or other custom activation setting is present in the runtime config; integration defaults from the OpenWrt init/functions layer therefore remain authoritative.
+- [NO CHANGE] No config edits, service activation, firewall/NFQUEUE changes, network/Wi-Fi reload, or reboot occurred.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Read-only audit the full config defaults around DNS, hostlists, mode/filter, offload and OpenWrt integration before deciding whether any configuration change is required.
