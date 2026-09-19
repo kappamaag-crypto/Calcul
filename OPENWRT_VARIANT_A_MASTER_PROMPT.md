@@ -272,3 +272,13 @@ H) combination.
 - [CHANGED] STAGE 4 остаётся IN_PROGRESS до намеренного отделения старого extroot и подтверждения clean base.
 - [RULE] До безопасного отделения старого extroot запрещены `mkfs`, `fdisk`, `parted`, `wipefs`, destructive `dd`, удаление/переразметка USB и любые действия с риском потери данных.
 - [NEXT] Сначала получить read-only `fstab + /proc/swaps + /sbin/block info`, чтобы установить механизм автоматического подключения `/dev/sda2` и фактическое состояние `/dev/sda1`.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] extroot auto-discovery confirmed
+- [CONFIRMED] Current post-flash `/etc/config/fstab` has global `auto_mount '1'` and an explicitly disabled `/overlay` entry for the old extroot UUID.
+- [CONFIRMED] Despite that disabled explicit entry, `/dev/sda2` with label `extroot` and UUID `244b7bbc-add1-46cd-bc1a-0143cfca5d6c` is active at `/overlay`.
+- [CONFIRMED] This establishes that the old extroot is being selected by the boot-time OpenWrt extroot/root filesystem discovery path rather than by the enabled state of that explicit fstab mount entry alone.
+- [CONFIRMED] `/dev/sda1` is active USB swap (524284 kB, priority -2); current usage is 4348 kB.
+- [CONFIRMED] `/dev/sda3` is active as `/mnt/data`.
+- [CHANGED] STAGE 4 remains IN_PROGRESS; old extroot must still be intentionally detached before clean-base verification can PASS.
+- [RULE] Before any destructive USB operation, first identify the exact boot-time extroot discovery mechanism using read-only evidence. Do not modify fstab or storage yet.
