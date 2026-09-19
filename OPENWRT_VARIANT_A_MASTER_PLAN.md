@@ -841,3 +841,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] Official repositories provide `zram-swap-32` (OpenWrt zram swap activation script).
 - [CONFIRMED] No ZRAM package has been installed yet.
 - [NEXT] Inspect package metadata/dependencies before installation; installation remains a separate controlled step.
+
+
+## CHANGELOG — 2026-09-19 — [IN_PROGRESS] STAGE 9 sizing rule
+- [CLARIFICATION] User supplied generic ZRAM guidance recommending `zram-swap`, optional `kmod-lib-lz4`, and 50–70% RAM sizing.
+- [PROJECT RULE] Do not adopt the generic 50–70% sizing recommendation automatically: this router has ~54 MiB RAM, a 650 MHz MIPS CPU, and an already-active 512 MiB USB swap. ZRAM size and compression algorithm will be selected from actual package/kernel capabilities and measured behavior.
+- [PROJECT RULE] Do not install `kmod-lib-lz4` unless the selected ZRAM configuration requires it; avoid unnecessary kernel modules.
+- [NEXT] Inspect exact metadata/dependencies of the already-verified official `kmod-zram` and `zram-swap` packages before installation.
