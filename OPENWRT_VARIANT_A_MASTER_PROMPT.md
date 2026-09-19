@@ -365,3 +365,6 @@ SYNC 2026-09-19: STAGE 5.1 PASS for LAN configuration, but WAN connectivity is n
 
 
 SYNC 2026-09-19: STAGE 5 WAN inspection result: `eth1` is administratively UP but `NO-CARRIER` and operational state DOWN. Kernel detects the Atheros AG71xx Ethernet device, but no physical carrier is present. netifd repeatedly enables/disables DHCP interface `wan`; no DHCP lease/default route is established. No network configuration was changed. Because the target architecture uses TP-Link Wi-Fi → MikroTik Wi-Fi STA, next step is read-only inspection of current wireless devices/configuration before any network change.
+
+
+SYNC 2026-09-19: STAGE 5 wireless inspection PASS. Wi-Fi STA interface `phy0-sta0` exists on radio0 (5 GHz), managed mode, configured for network `wan`, SSID `SPKEFFA_5G`, WPA2-PSK, enabled. Both AP interfaces are disabled. No network configuration was changed. Next: read-only check whether the STA is actually associated and whether `wan` is bound to the wireless STA device; do not change credentials or network settings yet.
