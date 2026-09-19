@@ -1365,3 +1365,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 
 SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version` completed successfully. Runtime reports Zapret2 v1.0.3, commit `b78b52c4cd7f843da3ff0848a3430afbd401bdf2`, `lua_compat_ver 6`. No daemon, NFQUEUE interception, firewall rule, Wi-Fi or network configuration was started or changed. STAGE 11 remains IN_PROGRESS. NEXT: proceed to controlled installation of the OpenWrt service integration only after preserving the verified binary preflight; service/firewall activation remains a separate step.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 OpenWrt init integration files deployed
+- [PASS] Controlled command copied `/opt/zapret2/init.d/openwrt/.` into `/etc/init.d/`.
+- [CONFIRMED] Installed files: `/etc/init.d/90-zapret2` (840 bytes), `/etc/init.d/firewall.zapret2` (238 bytes), `/etc/init.d/zapret2` (2987 bytes), all timestamped 2026-09-19 18:14.
+- [CONFIRMED] `/etc/init.d/zapret2` is executable; `90-zapret2` and `firewall.zapret2` are regular non-executable init integration files as deployed by the archive.
+- [NO ACTIVATION] This command only placed init integration files; it did NOT start Zapret2, apply firewall/NFQUEUE rules, enable the service, add cron, or intentionally reload Wi-Fi/network services.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Inspect the deployed init scripts/configuration read-only before any service enable/start or firewall activation.
