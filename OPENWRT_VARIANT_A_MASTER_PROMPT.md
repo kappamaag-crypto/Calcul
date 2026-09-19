@@ -294,3 +294,6 @@ H) combination.
 - 2026-09-19: official fstools source confirms disabled fstab mount entries are skipped during extroot config loading, while mount_root invokes mount_extroot before normal rootfs_data handling. Runtime still has /dev/sda2 as /overlay, creating a historical-state discrepancy. Per user request, no more diagnostic probing is planned; next is the already planned destructive USB reset/repartition, pending explicit confirmation immediately before execution.
 
 - 2026-09-19: user explicitly authorized complete repartitioning and formatting of `/dev/sda`; old USB data are not needed. Destructive stage may proceed, but first command remains a final read-only identity/partition check.
+
+
+SYNC 2026-09-19: User explicitly authorized complete repartitioning and formatting of `/dev/sda`; final read-only identity/partition check passed. Proceed one command at a time.
