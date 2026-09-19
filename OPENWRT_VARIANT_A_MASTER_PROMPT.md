@@ -732,3 +732,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No Zapret2 installation, activation, firewall, Wi-Fi, or network configuration occurred.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Continue with read-only installer requirement inspection before deployment.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 install_bin requirements inspected
+- [CONFIRMED] The installer would deploy only the architecture-matched `ip2net`, `mdig`, and Linux packet processor `nfqws2` via symlinks; this was inspected but not executed.
+- [WARNING] Existing target files may be removed by the installer's `ccp()` function before linking, so installation remains gated.
+- [RULE] Inspect OpenWrt integration and prerequisite scripts before executing any installer.
+- [NO CHANGE] No active Zapret2 deployment or network/firewall/Wi-Fi change was made.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Read-only inspection of the embedded OpenWrt integration scripts.
