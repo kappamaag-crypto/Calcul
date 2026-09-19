@@ -1411,3 +1411,13 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No runtime config was created or edited; no service, firewall/NFQUEUE, network/Wi-Fi activation occurred.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Inspect only the first configuration/initialization section of `install_prereq.sh` read-only to determine whether its early setup is safe to reuse or whether runtime config creation should be performed as a separate controlled file operation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 install_prereq early-path inspection
+- [PASS] Read-only inspection of `/opt/zapret2/install_prereq.sh` lines 1–80 completed.
+- [CONFIRMED] Runtime config initialization occurs immediately after variable definitions: if `$ZAPRET_CONFIG` is absent, the script creates its parent directory and copies `$ZAPRET_CONFIG_DEFAULT` to `$ZAPRET_CONFIG`.
+- [CONFIRMED] Only after that copy does the script source config/common modules and proceed to `fix_sbin_path`, `fsleep_setup`, `check_system`, `require_root`, firewall selection, IPv6 selection and OpenWrt prerequisite checks.
+- [IMPORTANT] The runtime config creation can therefore be isolated safely as a file-copy operation; the full `install_prereq.sh` remains a separate gated operation and will not be executed merely to create the config.
+- [NO CHANGE] No runtime config, service, firewall/NFQUEUE, network or Wi-Fi state was changed by this inspection.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Create `/opt/zapret2/config` as an exact copy of the verified `/opt/zapret2/config.default`, then verify it read-only before any edits or activation.
