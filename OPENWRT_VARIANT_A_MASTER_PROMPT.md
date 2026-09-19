@@ -757,3 +757,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No firewall/module/service configuration was modified.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Run only a standalone `nfqws2 --help`/startup capability check before deployment.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 nfqws2 runtime check
+- [PASS] Extracted Zapret2 v1.0.3 MIPS `nfqws2` executed natively on the router and printed its version/usage.
+- [CONFIRMED] Binary reports github version v1.0.3 (b78b52c4cd7f843da3ff0848a3430afbd401bdf2).
+- [OBSERVED] `--help` is not a recognized option, but the binary still returned its built-in option/usage text; this is not a failure of the binary.
+- [NO CHANGE] No daemon, NFQUEUE interception, or firewall configuration was started.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform the minimal `nfqws2 --version` exit check, then proceed to deployment if PASS.
