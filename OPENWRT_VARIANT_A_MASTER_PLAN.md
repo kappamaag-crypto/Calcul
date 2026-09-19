@@ -1182,3 +1182,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No Zapret2 archive was downloaded, installed, extracted, configured, or executed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; checksum verification is NOT_STARTED/blocked at the download diagnostic, not a Zapret2 failure.
 - [NEXT] Use the installed wget capabilities correctly with a single read-only download command without `-S`, saving `sha256sum.txt` to `/tmp/zapret-sha256.txt` and printing its contents.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 release asset digest confirmed
+- [PASS] Read-only GitHub Release API inspection confirmed release v1.0.3 asset `zapret2-v1.0.3-openwrt-embedded.tar.gz` is uploaded and has size 4,314,955 bytes.
+- [PASS] Official GitHub Release asset digest is `sha256:58e3aca09d50aa93d168e81993b19eb2f018d690af068551e88ae593bd786e2a`.
+- [CONFIRMED] The digest is provided by GitHub for the exact pinned release asset; the separate `sha256sum.txt` contains checksums for files inside the release tree and does not list the embedded archive itself.
+- [CONFIRMED] No Zapret2 archive was downloaded, installed, extracted, configured, or executed in this step.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Download the exact pinned `zapret2-v1.0.3-openwrt-embedded.tar.gz` archive to `/tmp`, calculate its SHA-256 locally, and compare it byte-for-byte with the official GitHub asset digest before extraction or installation.
