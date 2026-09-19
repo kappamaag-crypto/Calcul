@@ -319,3 +319,5 @@ SYNC 2026-09-19: USB reconnected after confirming internal jffs2 overlay. Next a
 SYNC 2026-09-19: USB is not mounted as overlay/data, but `/dev/sda1` auto-activated as swap. Disable it before repartitioning. No destructive command yet.
 
 SYNC 2026-09-19: USB swap disabled successfully. USB is now inactive; destructive repartitioning may proceed one command at a time.
+
+SYNC 2026-09-19: fdisk opened on `/dev/sda`; no write yet. Continue one interactive command at a time.
