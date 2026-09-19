@@ -215,3 +215,6 @@ SYNC 2026-09-19: Router rebooted by user and SSH access restored. Extroot activa
 SYNC 2026-09-19: STAGE 4 extroot activation VERIFIED PASS. After reboot, `df -h /overlay` reports `/dev/sda2` mounted on `/overlay`, size 6.6G, 1.9M used, 6.2G available. USB extroot is active. USB swap configuration remains enabled; ZRAM preservation remains part of the plan.
 
 SYNC 2026-09-19: STAGE 4 CLOSED DONE. Verified after reboot: `/overlay` is `/dev/sda2` ext4, 6.6G total, 6.2G available. USB extroot active. STAGE 5 started: minimal network verification. No network state changed yet; next command is read-only inspection of current network configuration and IPv4 routing.
+
+
+SYNC 2026-09-19: STAGE 5 step 5.1 read-only network inspection PASS partially. LAN is correct: br-lan 192.168.1.1/24 with eth0.1 VLAN bridge. WAN remains configured as DHCP on eth1, WAN6 as DHCPv6 on eth1, but `ip -4 addr` shows no IPv4 address on eth1 and `ip -4 route` has no default route. Therefore Internet/WAN is not currently operational. No configuration was changed. Next step: read-only inspect link/interface state and DHCP client state for WAN to determine whether eth1 has carrier and whether DHCP is running.
