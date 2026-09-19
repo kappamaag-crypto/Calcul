@@ -708,3 +708,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No packages, services, firewall, Wi-Fi, or network configuration were changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Check `ip2net` and `mdig` ELF headers with BusyBox hexdump.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 installer architecture logic inspected
+- [CONFIRMED] The extracted installer contains an ELF-based architecture detection path and explicitly considers the MIPS architecture families.
+- [RULE] Do not execute the installer yet; architecture/ABI compatibility must be established first.
+- [NO CHANGE] No package, binary, service, firewall, Wi-Fi, or network configuration was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Inspect the `read_elf_arch` implementation read-only.
