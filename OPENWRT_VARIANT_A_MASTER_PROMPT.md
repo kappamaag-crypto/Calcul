@@ -333,3 +333,5 @@ SYNC 2026-09-19: Clarified ZRAM timing/state: prior verified state has /dev/zram
 SYNC 2026-09-19: USB repartitioning completed but scripted type selection set sda1 to EFI System rather than Linux swap; '19' was an unknown fdisk command. sda1 retains swap signature; sda2 retains ext4 signature. Next step: correct sda1 GPT type to Linux swap, then verify before formatting/extroot.
 
 SYNC 2026-09-19: Read-only fdisk verification PASS. GPT on /dev/sda; sda1 512 MiB Linux swap; sda2 6.8 GiB Linux filesystem; no sda3. Target USB layout confirmed. No formatting performed yet.
+
+SYNC 2026-09-19: Formatting attempt did not complete: mkswap /dev/sda1 returned 'Text file busy'; due to &&, sda2 was not formatted. Treat current state as blocked by active use of sda1; identify/clear usage before retrying.
