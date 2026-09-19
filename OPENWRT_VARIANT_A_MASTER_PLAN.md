@@ -1546,3 +1546,15 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No firewall, nft set, NFQUEUE, Zapret2 service, network/Wi-Fi, configuration, or storage state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform one compact read-only `/proc/meminfo` check focused on Slab/SUnreclaim/SReclaimable/SwapCached before deciding whether a lower `SET_MAXELEM` is required.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 kernel memory breakdown
+- [PASS] Read-only `/proc/meminfo` check completed successfully.
+- [CONFIRMED] MemAvailable: 4352 kB (~4.25 MiB).
+- [CONFIRMED] Slab: 8448 kB; SReclaimable: 1152 kB; SUnreclaim: 7296 kB.
+- [CONFIRMED] SwapCached: 16 kB, so only a negligible amount of swap cache is resident.
+- [IMPORTANT] A substantial portion of current slab memory is unreclaimable (~7.1 MiB). With only ~4.25 MiB MemAvailable, there is very little RAM headroom for a large newly activated nft set.
+- [DECISION GATE] Do not activate the current `SET_MAXELEM=522288` configuration. A lower capacity must be selected based on the actual hostlist size and memory behavior rather than relying on the large default.
+- [NO CHANGE] No nft sets, firewall/NFQUEUE, Zapret2 service, network/Wi-Fi, configuration, or storage state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform one compact read-only check of the actual Zapret2 list files and their sizes/counts, without creating or loading any nft set.
