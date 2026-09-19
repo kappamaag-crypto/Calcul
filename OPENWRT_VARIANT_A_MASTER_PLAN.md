@@ -610,3 +610,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [EVIDENCE] At 09:15:38 the 5 GHz AP again completed an RSN/WPA handshake after a disconnect/reconnect.
 - [LIMITATION] The shown log does not contain a configuration-write/UCI event proving that the 2.4 GHz password was changed exactly at 09:06:46. It only establishes that 2.4 GHz was open at 07:40 and is currently configured as WPA2.
 - [CHANGED] STAGE 6 remains IN_PROGRESS; no Wi-Fi configuration was modified by this diagnostic step.
+
+
+## CHANGELOG — 2026-09-19 — [DECISION] Wi-Fi password change investigation closed
+- [DECISION] No further tests are required specifically to determine why 2.4 GHz became password-protected.
+- [CURRENT STATE] Both 2.4 GHz and 5 GHz APs use SSID `OpenWrt` with WPA2 and the configured key; this is accepted as the current working configuration.
+- [LIMITATION] The exact origin/time of the 2.4 GHz password change remains unproven, with a plausible possibility that it resulted from an earlier manual/configuration step.
+- [NEXT] Resume STAGE 6 core investigation: Wi-Fi/hostapd reload behavior and `Not supported (-122)`; avoid reopening the already sufficient password-history investigation.
