@@ -490,3 +490,34 @@ SYNC 2026-09-19: Real client test passed. User connected a phone to the 5 GHz `O
 
 
 SYNC 2026-09-19: Продолжение STAGE 6. После успешного реального 5 GHz client test конфигурация не меняется. Следующий шаг — один read-only targeted search по /etc/hotplug.d, /etc/init.d, /lib/netifd, /lib/wifi и /usr/libexec для прямых вызовов wifi reload/up/down, hostapd reload/config_set или hostapd_cli reload. Цель — найти возможного инициатора `hostapd: Reload all interfaces`. Широкий рекурсивный поиск не используется; Wi-Fi/DNS/services не перезапускаются.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 6: подробная фиксация после реального 5 GHz client test
+
+### Фактически подтверждено
+- STAGE 6 остаётся IN_PROGRESS.
+- 5 GHz VHT80 больше не является целью: пользователь подтвердил, что интернет-канал ограничен примерно 100 Мбит/с и VHT40 выбран как требуемый рабочий режим из соображений стабильности.
+- 5 GHz STA и AP одновременно работают на radio0 в VHT40: STA phy0-sta0 подключён к SweetHomeU на 5180 MHz, channel 36, width 40 MHz; AP phy0-ap0 вещает OpenWrt на 5180 MHz, channel 36, width 40 MHz, center1 5190 MHz; AP txpower 23 dBm.
+- Реальный клиентский тест пройден: телефон подключился к OpenWrt 5 GHz и получил Internet.
+- iw dev phy0-ap0 station dump подтвердил реального ассоциированного/авторизованного клиента; зафиксированы рабочие TX/RX rates 180/200 Mbit/s VHT40, tx retries 2, tx failed 0, expected throughput около 157 Mbit/s. MAC клиента в мастер-файлы не записывается.
+- Это подтверждает, что одновременная 5 GHz STA+AP работа на данном оборудовании возможна и сейчас функционирует.
+
+### Что НЕ подтверждено и не менять
+- Не доказано, что https-dns-proxy является инициатором hostapd: Reload all interfaces.
+- Не доказано, что pbr инициирует этот reload.
+- Не доказано, что MLD-сообщения являются причиной reload.
+- Не доказано, что distance=0 вызывает -122; прямой iw phy phy0 set distance 0 вернул rc=0.
+- Не менять ieee80211w, network=lan, VHT40, pbr или https-dns-proxy без нового доказательства.
+- Не удалять https-dns-proxy; пользователь выбрал ремонт текущей архитектуры.
+- Не применять forum workaround с заменой dnsmasq restart на reload.
+
+### Установленная цепочка https-dns-proxy
+- https-dns-proxy регистрирует WAN interface trigger.
+- Trigger вызывает /etc/init.d/https-dns-proxy reload on_interface_trigger.
+- reload_service() в скрипте отсутствует, поэтому /etc/rc.common переводит reload в start.
+- start() передаёт исходный аргумент on_interface_trigger в start_service().
+- start_service() перезапускает dnsmasq только для on_boot|on_config_update|on_hotplug.
+- Следовательно, WAN-triggered путь on_interface_trigger не соответствует on_hotplug и сам по себе не доказывает цепочку https-dns-proxy → dnsmasq restart → hostapd reload.
+
+### Безопасность следующего шага
+Следующий диагностический шаг — только read-only targeted search по /etc/hotplug.d, /etc/init.d, /lib/netifd, /lib/wifi, /usr/libexec на прямые вызовы wifi reload/up/down, hostapd reload/config_set, hostapd_cli reload. Не выполнять reload/restart Wi-Fi, hostapd, wpa_supplicant, dnsmasq или https-dns-proxy. Один command за шаг.
