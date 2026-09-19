@@ -1252,3 +1252,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No Zapret2 installation, executable deployment, configuration, firewall rule, service activation, or Wi-Fi/network restart was performed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform read-only ELF architecture/type inspection of the extracted `linux-mips` binaries before any installation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 ELF inspection tool unavailable
+- [OBSERVED] BusyBox ash reported `file: not found` when attempting read-only ELF inspection; no package was installed.
+- [NO CHANGE] No Zapret2 installation or configuration was performed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Use built-in read-only hex inspection of ELF headers instead of installing a diagnostic package.
