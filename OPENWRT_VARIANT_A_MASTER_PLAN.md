@@ -536,3 +536,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NOT_PROVEN] This establishes that pbr has an interface-reload mechanism, but does not yet prove that the observed \`hostapd: Reload all interfaces\` event is caused by pbr or that this trigger fires for the relevant interface at the observed times.
 - [NEXT] Read-only inspect the exact pbr code around lines 2869–2990 and the trigger registration around 3115–3135 to determine what pbr does when an interface reload trigger fires. Do not invoke pbr, network reload, firewall reload, Wi-Fi reload, hostapd reload, dnsmasq restart, or https-dns-proxy restart.
 - [RULE] Per user requirement, this result and the next diagnostic step are synchronized into the master plan after this user/assistant turn pair.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 6: pbr on_interface_reload implementation inspected
+- [PASS] Read-only \`sed -n '2869,2990p' /etc/init.d/pbr\` completed.
+- [CONFIRMED] pbr \`on_interface_reload()\` calls \`rc_procd start_service 'on_interface_reload' "$1"\`; therefore an interface-triggered pbr callback enters pbr's \`start_service()\` with the interface argument.
+- [CONFIRMED] For \`on_interface_reload\`, pbr reads the reloaded interface, validates its routing-table IDs, checks that the interface is supported, checks for errors/service state/gateway state, then executes \`process_interface 'all' 'reset_globals'\` and \`config_foreach process_interface 'interface' 'reload_interface' "$reloadedIface"\`.
+- [CONFIRMED] This pbr path performs policy-routing/interface processing only. The inspected section contains no direct \`wifi\`, \`hostapd\`, \`hostapd_cli\`, \`wpa_supplicant\`, or Wi-Fi radio reload command.
+- [NOT_PROVEN] pbr can still indirectly participate in a broader network reload chain, but the inspected \`on_interface_reload\` handler itself does not directly explain \`hostapd: Reload all interfaces\`.
+- [NEXT] Inspect pbr's trigger-registration block around lines 3115–3135 read-only to determine exactly which interfaces are registered for \`on_interface_reload\` and under what conditions. Do not invoke pbr or reload network/Wi-Fi/services.
