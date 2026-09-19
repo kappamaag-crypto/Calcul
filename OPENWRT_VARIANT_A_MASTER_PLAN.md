@@ -176,3 +176,5 @@ SYNC 2026-09-19: USB is present but inactive except `/dev/sda1` auto-activated a
 SYNC 2026-09-19: `swapoff /dev/sda1` completed successfully; USB has no active swap/mounts and internal overlay remains active. Destructive repartitioning can now proceed one command at a time.
 
 SYNC 2026-09-19: `fdisk /dev/sda` opened successfully. Interactive prompt reached; no partition-table write has been issued yet. User authorization for complete repartitioning remains active.
+
+SYNC 2026-09-19: In `fdisk`, `g` created a new GPT disklabel in memory only (GUID 23EC0E2C-930D-4F10-BC0C-03B34BA15139). No write to USB yet. Target scheme from master prompt: extroot + USB swap + optional `/mnt/data`; exact sizes are to be selected from actual ~7.3 GiB USB.
