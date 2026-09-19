@@ -571,3 +571,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - [OBSERVED] 2026-09-19 STAGE 6: после ручного `wifi reload` фактически подняты `phy1-ap0` (AP 2.4 GHz, channel 1/2412 MHz), `phy0-ap0` (AP 5 GHz, channel 36/5180 MHz, VHT40) и `phy0-sta0` (STA 5 GHz, channel 36/5180 MHz, VHT40).
 - [CONCLUSION] Wi-Fi reload завершился с восстановлением обеих AP и upstream STA; текущая одновременная STA+AP конфигурация фактически активна. Это не доказывает причину прежнего автоматического reload/-122.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] router timezone inspection
+- [PASS] Read-only UCI query returned `timezone=GMT0`, `zonename=UTC`.
+- [CONFIRMED] Router system time is currently UTC/GMT, while the user reports local time 14:10 on 2026-09-19; the observed log-time offset is therefore consistent with the router being configured to UTC rather than the user's local UTC+5 time.
+- [OBSERVED] The router has no `/usr/share/zoneinfo` entry matching the attempted `Etc/GMT-5`; the targeted lookup returned no result.
+- [RULE] No timezone configuration change has been made yet. Do not guess a zone name. The next step should use the OpenWrt-supported POSIX timezone representation or another verified available mechanism, one command at a time.
+- [CHANGED] STAGE 6 remains IN_PROGRESS; Wi-Fi configuration and services were not changed by this timezone inspection.
