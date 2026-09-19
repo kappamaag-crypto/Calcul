@@ -1210,3 +1210,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [IMPORTANT] This output confirms that `linux-mips` is an explicit supported candidate, but it does not yet prove that the router's exact MIPS ABI/ELF type matches the archive binary.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform a read-only extraction of the actual `linux-mips` binaries and inspect their ELF header/type on the router before any installation.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 archive lost after reboot
+- [CONFIRMED] Router was rebooted after a power interruption.
+- [CONFIRMED] The pinned Zapret2 archive previously stored under `/tmp` is absent after reboot because `/tmp` is RAM-backed/tmpfs and is not persistent storage.
+- [CONFIRMED] The attempted read-only ELF inspection could not run because the archive was no longer present.
+- [NO CHANGE] No Zapret2 installation, extraction to the persistent filesystem, configuration, firewall, or service activation occurred.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Re-download the exact pinned v1.0.3 archive to `/tmp` and re-verify SHA-256 against the already confirmed official GitHub asset digest before continuing ELF inspection.
