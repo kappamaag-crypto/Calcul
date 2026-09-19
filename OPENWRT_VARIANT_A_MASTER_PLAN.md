@@ -1030,3 +1030,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No package installation, service restart, configuration change, Wi-Fi reload, network reload, or reboot was performed.
 - [STATUS] STAGE 10 remains IN_PROGRESS.
 - [NEXT] Use another already-installed read-only mechanism to distinguish/test traffic to 127.0.0.1:5053 and :5054; do not install packages or restart services merely for this test.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 nftables observation
+- [PASS] Read-only `nft -a list table inet https_dns_proxy_notrack` completed successfully.
+- [CONFIRMED] Table `inet https_dns_proxy_notrack` contains chain `raw_output` with two existing NOTRACK rules covering TCP/UDP destination ports 5053/5054 to 127.0.0.0/8 and source ports 5053/5054 from 127.0.0.0/8.
+- [IMPORTANT] These NOTRACK rules have no packet/byte counters in the displayed ruleset, so this output does not establish whether traffic actually traversed either 5053 or 5054.
+- [CONFIRMED] No nftables rule, counter, firewall configuration, service, network, Wi-Fi, or package state was changed.
+- [STATUS] STAGE 10 remains IN_PROGRESS.
+- [NEXT] Continue with a read-only method that can distinguish actual traffic to the two local DoH listeners without installing packages or restarting services.
