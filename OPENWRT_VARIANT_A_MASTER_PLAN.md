@@ -1061,3 +1061,14 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed by the read-only command.
 - [STATUS] STAGE 10 remains IN_PROGRESS.
 - [NEXT] Establish current running PIDs/listeners after the observed restarts, then choose the next non-invasive traffic-observation method.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 current DoH PIDs
+- [PASS] Read-only `pgrep -af https-dns-proxy` completed successfully.
+- [CONFIRMED] Current PID 2844 is the Cloudflare instance on port 5053.
+- [CONFIRMED] Current PID 2845 is the Google instance on port 5054.
+- [CONFIRMED] The two PIDs remained identical to the previously inspected processes despite the intervening log startup messages.
+- [IMPORTANT] Current PID/listener identity is confirmed, but this still does not prove live upstream HTTPS traffic for either instance.
+- [CONFIRMED] No configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed.
+- [STATUS] STAGE 10 remains IN_PROGRESS.
+- [NEXT] Use an installed read-only socket view to look for active HTTPS connections associated with the two running proxy processes.
