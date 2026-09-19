@@ -1523,3 +1523,16 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No firewall rules, nft sets, NFQUEUE, Zapret2 service, network or Wi-Fi state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform one compact read-only check specifically for existing nft sets and nftables version/capability, without changing firewall state.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 nft set inventory/capability check
+- [PASS] Read-only command `nft list sets 2>/dev/null; nft --version` completed successfully.
+- [CONFIRMED] No active nft sets are currently present in table `inet fw4`; the output shows only an empty `table inet fw4 { }`.
+- [CONFIRMED] No active nft sets are currently present in table `inet https_dns_proxy_notrack`; the output shows only an empty table.
+- [CONFIRMED] Installed nftables version is `v1.1.6 (Commodore Bullmoose #7)`.
+- [IMPORTANT] The configured `SET_MAXELEM=522288` has not caused an active Zapret2 nft set to be created, because Zapret2 filtering remains inactive (`MODE_FILTER=none`, `NFQWS2_ENABLE=0`).
+- [CLARIFICATION] `SET_MAXELEM` is a set capacity parameter, not evidence that 522288 elements are currently allocated or present.
+- [CLARIFICATION] Active nft set state is kernel nftables state; Zapret2 list files/configuration may reside on extroot/USB, but nft set contents are not configured as a flash-backed file database.
+- [NO CHANGE] No firewall rules, nft sets, NFQUEUE, Zapret2 service, network/Wi-Fi state or storage state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Continue with one compact read-only memory/capability check before deciding whether the configured set capacity requires tuning.
