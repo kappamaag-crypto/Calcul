@@ -635,3 +635,9 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - [DONE] Ran `/etc/init.d/system reload` with no error; no Wi-Fi/network restart was intentionally requested.
 - [PENDING] Must verify whether runtime `/etc/TZ` changed and whether `date` now reflects UTC+5; no conclusion yet.
+
+## CHANGELOG — 2026-09-19 — [PASS] runtime timezone corrected
+- [PASS] `/etc/init.d/system reload` updated `/etc/TZ` from `GMT0` to `GMT-5`.
+- [PASS] `date` now returns `Sat Sep 19 14:19:19 GMT 2026`, matching the user's UTC+5 local clock.
+- [FACT] The displayed abbreviation remains `GMT`; the important verified result is the UTC+5 offset represented by POSIX `GMT-5` and the correct wall-clock time.
+- [CLOSED] Timezone runtime mismatch is resolved; no Wi-Fi/network restart was required.
