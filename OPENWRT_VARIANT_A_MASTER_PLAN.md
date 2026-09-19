@@ -1449,3 +1449,15 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No config edits, service activation, firewall/NFQUEUE changes, network/Wi-Fi reload, or reboot occurred.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Read-only audit the full config defaults around DNS, hostlists, mode/filter, offload and OpenWrt integration before deciding whether any configuration change is required.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 11 full runtime config audit
+- [PASS] Full `/opt/zapret2/config` (lines 1–125) was inspected read-only.
+- [CONFIRMED] Runtime config is still the exact default template; no custom variables have been added.
+- [CONFIRMED] `NFQWS2_ENABLE=0`, `MODE_FILTER=none`, `FLOWOFFLOAD=donttouch`, `INIT_APPLY_FW=1`.
+- [CONFIRMED] Default IP-set sizing is `SET_MAXELEM=522288` with `IPSET_OPT="hashsize 262144 maxelem $SET_MAXELEM"`.
+- [IMPORTANT] Because this router has only 64 MB RAM and already uses ZRAM/USB swap, the default IP-set/hash sizing must be assessed before any hostlist/ipset activation. Do not assume the default is suitable.
+- [CONFIRMED] Default NFQWS2 rules contain HTTP/TLS/QUIC desync definitions but are inert while `NFQWS2_ENABLE=0` and `MODE_FILTER=none`.
+- [NO CHANGE] No config edit, service start/enable, firewall/NFQUEUE activation, network/Wi-Fi reload, or reboot occurred.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform a read-only inspection of where `SET_MAXELEM` and `IPSET_OPT` are consumed, to estimate whether default hash allocation could be excessive before any activation.
