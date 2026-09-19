@@ -1354,3 +1354,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [SAFETY] install_easy.sh was NOT executed. No Zapret2 daemon, firewall/NFQUEUE interception, cron, interface hook, or Wi-Fi/network reload was started by these deployment steps.
 - [STATUS] STAGE 11 remains IN_PROGRESS; installation file layout is deployed, but service/firewall integration is intentionally not started.
 - [NEXT] Perform a read-only runtime check of /opt/zapret2/ip2net/ip2net, then continue only one command at a time.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 installed ip2net runtime PASS
+- [PASS] /opt/zapret2/ip2net/ip2net accepted 0.0.0.0 and returned 0.0.0.0.
+- [CONFIRMED] Installed symlink resolves to the verified linux-mips ip2net binary and executes successfully on the router.
+- [NO CHANGE] No daemon, firewall, NFQUEUE rule, cron, interface hook, Wi-Fi, or network configuration was started or changed by this test.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Continue with one read-only/runtime compatibility check at a time; do not start Zapret2 integration yet.
