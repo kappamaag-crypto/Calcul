@@ -559,3 +559,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - [OBSERVED] 2026-09-19 STAGE 6: `enumerate_interface` is a process-interface action case at line 2626, invoked by `config_foreach process_interface 'interface' 'enumerate_interface'` at line 2897; no standalone function definition exists.
 - [NEXT] Inspect the surrounding `process_interface` case before line 2626 to identify the interface eligibility conditions.
+
+- [OBSERVED] 2026-09-19 STAGE 6: `pbr.config.supported_interface` is unset. netifd currently exposes only `lan`, `loopback`, `wan`, `wan6`.
+- [CONCLUSION] pbr therefore falls back to its automatic `is_uplink/is_wan/is_tunnel` eligibility logic; the current output alone does not prove which interfaces are registered for reload triggers.
