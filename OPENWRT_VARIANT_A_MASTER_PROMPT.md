@@ -321,3 +321,5 @@ SYNC 2026-09-19: USB is not mounted as overlay/data, but `/dev/sda1` auto-activa
 SYNC 2026-09-19: USB swap disabled successfully. USB is now inactive; destructive repartitioning may proceed one command at a time.
 
 SYNC 2026-09-19: fdisk opened on `/dev/sda`; no write yet. Continue one interactive command at a time.
+
+SYNC 2026-09-19: fdisk `g` created a new GPT disklabel in memory only; no disk write yet. Target remains extroot + USB swap + optional data, sizes chosen from actual USB.
