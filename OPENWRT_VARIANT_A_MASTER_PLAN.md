@@ -705,3 +705,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No newer `-122` event is present after the manual 14:06:52 event in the returned tail; the latest confirmed natural `-122` remains 12:38:59.
 - [CONCLUSION] At the current observation point there is no evidence of a new spontaneous `-122` failure after the manual tests.
 - [NEXT] Continue passive observation/read-only correlation; do not trigger Wi-Fi/network reloads merely to reproduce the historical event.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] natural event 12:38:59 causal ordering
+- [PASS] Natural-event window around 12:38:59 captured successfully.
+- [CONFIRMED] At 12:38:59 netifd `radio0` starts `wifi-scripts`; the same process immediately reports `command failed: Not supported (-122)`.
+- [CONFIRMED] Only after that, at 12:39:00–12:39:04, wpa_supplicant/hostapd receive new phy0 configuration, hostapd reloads `phy0-ap0`, the AP link goes down, and radio0 preparation continues for both `phy0-ap0` and `phy0-sta0`.
+- [IMPORTANT] This natural sample establishes temporal ordering: `radio0 wifi-scripts: Starting` → `-122` → hostapd/wpa_supplicant reconfiguration. Therefore the observed hostapd reload is not proven to be the primary initiator; it occurs downstream of radio0 configuration activity.
+- [NOT_PROVEN] The upstream trigger that caused netifd to start `radio0` remains unidentified. Do not attribute it to pbr, https-dns-proxy, MLD, or another component without evidence.
+- [NEXT] Identify the immediate trigger for the natural `radio0 wifi-scripts: Starting` event using a compact read-only log window immediately preceding 12:38:59; no reload/restart/configuration changes.
