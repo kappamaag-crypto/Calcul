@@ -146,3 +146,6 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CONFIRMED] `mount_root` calls `mount_extroot("")` before normal `rootfs_data` overlay handling. citeturn0search1
 - [IMPORTANT DISCREPANCY] The current runtime UCI shows the `/overlay` entry disabled, while `/dev/sda2` is already mounted as `/overlay`. Therefore we will not perform more diagnostic probing merely to chase the historical boot path. The practical next operation is the planned USB extroot reset/repartition, which will remove the old extroot filesystem and its configuration source.
 - [BLOCKED] Destructive USB reset requires explicit confirmation immediately before execution, per master-plan safety rule. No destructive command issued in this turn.
+
+- [AUTHORIZED] User explicitly authorized complete repartitioning and formatting of USB `/dev/sda`; old data are declared unnecessary.
+- [NEXT] Begin destructive USB stage with a final read-only identity/partition check before any write operation. No destructive command has been issued yet.
