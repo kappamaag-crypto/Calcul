@@ -156,3 +156,5 @@ SYNC 2026-09-19: Final read-only USB check PASS. User authorization for full `/d
 SYNC 2026-09-19: `swapoff /dev/sda1` completed with empty output; USB swap is deactivated. No other state change performed.
 
 SYNC 2026-09-19: `umount /mnt/data` completed with empty output; `/mnt/data` is detached. No formatting/repartitioning yet.
+
+SYNC 2026-09-19: Set fstab global `auto_mount='0'`, committed, and rebooted. Router reboot confirmed by user. USB swap was already off and `/mnt/data` unmounted.
