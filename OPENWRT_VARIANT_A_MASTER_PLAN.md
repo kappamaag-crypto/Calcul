@@ -202,3 +202,5 @@ SYNC 2026-09-19: sda2 temporary mount PASS: `mount /dev/sda2 /mnt/extroot` compl
 SYNC 2026-09-19: Overlay copy PASS: `cp -a /overlay/. /mnt/extroot/` completed with empty output. Current internal overlay remains active; copied content is staged on sda2.
 
 SYNC 2026-09-19: extroot staging verification PASS. `/dev/sda2` mounted at `/mnt/extroot`, 6.6G filesystem, 6.2G available; copied overlay content present (`upper`, `work`, fstab backup files, .fs_state). No fstab activation change yet.
+
+SYNC 2026-09-19: Current /etc/config/fstab reviewed. It still contains stale old USB data UUID `fa23e979-...` for /mnt/data and stale old extroot UUID `244b7bbc-...`. New sda2 extroot UUID is `e1c68a3a-0e55-4af9-afd8-961160b3afa2`; sda1 swap entry points to /dev/sda1 and is enabled. Next step must replace extroot UUID and remove obsolete /mnt/data mount entry before activation.
