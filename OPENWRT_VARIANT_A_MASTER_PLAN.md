@@ -952,3 +952,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - https-dns-proxy стартовал в 14:57:23 и установил trigger WAN в 14:57:26, то есть его запуск произошёл ПОСЛЕ основной Wi-Fi инициализации после загрузки. Поэтому эти строки не подтверждают https-dns-proxy как инициатор первоначального Wi-Fi reload.
 - dnsmasq был перезапущен в 14:57:40–14:57:41 уже после старта https-dns-proxy.
 - Следовательно, текущий фрагмент подтверждает порядок: Wi-Fi/netifd → WAN → firewall → https-dns-proxy → dnsmasq; причинная связь с последующим watchdog всё ещё не установлена.
+
+
+### Причина/инициатор Wi-Fi reload — промежуточный результат
+- В 14:57:02 уже началась деинициализация phy0: wpa_supplicant получает `Set new config for phy phy0` и удаляет `phy0-sta0`; затем WAN disabled.
+- В 14:57:07 hostapd деинициализирует phy1 и netifd radio1 выполняет `wifi-scripts: Tearing down phy1`.
+- В 14:57:09 netifd radio0 выполняет `wifi-scripts: Starting`; затем hostapd/wpa_supplicant получают новые конфигурации phy0.
+- В 14:57:11 запускается radio1. Таким образом, reload уже был инициирован ДО 14:57:02; данный фрагмент не показывает первичный источник события.
+- Ошибки `rmdir ... Permission denied` относятся к удалению control directories при деинициализации и сами по себе не доказывают причину reload.
