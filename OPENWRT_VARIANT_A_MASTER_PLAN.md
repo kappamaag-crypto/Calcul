@@ -1144,3 +1144,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] No /etc/zapret directory, /etc/init.d/zapret* entry, /usr/bin/tpws, or /usr/bin/nfqws was found.
 - [CONFIRMED] STAGE 11 starts from a clean Zapret-related filesystem state based on the checked paths/commands.
 - [STATUS] STAGE 11 remains IN_PROGRESS; no installation or configuration change has been made.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 extroot capacity preflight
+- [PASS] /overlay is backed by /dev/sda2 (ext4, rw,noatime), size 6.6G with 6.2G available.
+- [PASS] Root overlay is also reported as 6.6G, confirming the USB extroot is active.
+- [OBSERVED] /tmp is tmpfs, 26.8M total with 25.0M available; no swap is placed in /tmp.
+- [STATUS] STAGE 11 remains IN_PROGRESS; no package or configuration change was made.
