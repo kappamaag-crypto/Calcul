@@ -394,3 +394,5 @@ SYNC 2026-09-19: STAGE 5 LAN/gateway/Internet IPv4 checks PASS. br-lan is 192.16
 - SYNC 2026-09-19: Windows default-route check shows `192.168.1.1` via `Ethernet` and also `192.168.0.1` via `Беспроводная сеть`. MikroTik path has a valid default route; a second independent Wi-Fi default route also exists on the laptop. STAGE 5 remains IN_PROGRESS. For a clean MikroTik client-path Internet test, the next step should explicitly test using the Ethernet interface rather than changing routing.
 
 - SYNC 2026-09-19: Windows `Test-NetConnection` with `-InterfaceAlias` failed because this PowerShell/Windows version does not expose that parameter. No network configuration changed. The MikroTik Ethernet default route remains verified; the Ethernet-specific Internet test is still pending. STAGE 5 remains IN_PROGRESS.
+
+- SYNC 2026-09-19: Windows Ethernet-sourced Internet test `ping -S 192.168.1.146 1.1.1.1` PASS: 4/4 replies, 0% loss, ~59 ms. This confirms Internet IPv4 connectivity through the laptop's MikroTik Ethernet path. STAGE 5 remains IN_PROGRESS pending the laptop DNS check.
