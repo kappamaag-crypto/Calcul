@@ -97,8 +97,7 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CONFIRMED] `/dev/sda3` is mounted at `/mnt/data`.
 - [CONFIRMED] `/dev/sda1` does not appear in mount/df output; swap activation was not determined by this command.
 - [IMPORTANT] The old `/dev/sda2` is active again as `/overlay` after clean flash. Clean flash therefore did not physically detach the old extroot; the external filesystem was detected and mounted during boot.
-- [CHANGED] STAGE 4 remains IN_PROGRESS. The clean-base criterion requiring the old `/dev/sda2` to be inactive is not yet satisfied.
-- [SAFETY] No unmount, formatting, repartitioning, fstab modification, package installation, or other state-changing operation was performed.
+- [CHANGED] STAGE 4 remains IN_PROGRESS. The clean-base criterion requiring the old `/dev/sda2` to be inactive is not yet satisfied.- [SAFETY] No unmount, formatting, repartitioning, fstab modification, package installation, or other state-changing operation was performed.
 - [NEXT] One read-only command will inspect `/etc/config/fstab`, `/proc/swaps` and `/sbin/block info` to determine the automatic mount mechanism and current swap state before any storage operation.
 
 
@@ -197,8 +196,7 @@ SYNC 2026-09-19: `swapoff /dev/sda1` completed with empty output, indicating the
 
 SYNC 2026-09-19: USB formatting PASS. `mkswap /dev/sda1` completed; `/dev/sda2` formatted ext4 with label `extroot`, UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2`. STAGE 4 remains IN_PROGRESS. No extroot mount/copy/fstab change has been performed yet.
 
-SYNC 2026-09-19: Pre-extroot overlay baseline PASS. `/overlay` is internal `/dev/mtdblock9`, jffs2, rw,noatime; size 7.0M, used 372K, available 6.6M. `du -sh /overlay` = 35.5K. USB extroot is not mounted yet. Next step is controlled copy of overlay to sda2.
-SYNC 2026-09-19: sda2 temporary mount PASS: `mount /dev/sda2 /mnt/extroot` completed with empty output. No fstab/extroot activation change yet.
+SYNC 2026-09-19: Pre-extroot overlay baseline PASS. `/overlay` is internal `/dev/mtdblock9`, jffs2, rw,noatime; size 7.0M, used 372K, available 6.6M. `du -sh /overlay` = 35.5K. USB extroot is not mounted yet. Next step is controlled copy of overlay to sda2.SYNC 2026-09-19: sda2 temporary mount PASS: `mount /dev/sda2 /mnt/extroot` completed with empty output. No fstab/extroot activation change yet.
 
 SYNC 2026-09-19: Overlay copy PASS: `cp -a /overlay/. /mnt/extroot/` completed with empty output. Current internal overlay remains active; copied content is staged on sda2.
 
@@ -298,7 +296,6 @@ SYNC 2026-09-19: STAGE 6: 5 GHz AP coexistence PASS at radio level. `phy0-ap0` i
 SYNC 2026-09-19: STAGE 6: after changing `radio0` AP SSID to `OpenWrt-5G`, `netifd` reports the configured SSID correctly, but `ip link` shows `phy0-ap0` as `UP` with `NO-CARRIER` and `state DOWN`. `phy0-sta0` remains present. No further configuration change in this step. 2.4 GHz AP remains operational. This indicates the 5 GHz AP interface exists but is not currently carrying an associated client; visibility/startup still needs diagnosis. User requests concise outputs.
 
 SYNC 2026-09-19: STAGE 6 diagnostic: hostapd reloads phy0 and reloads BSS `phy0-ap0`, then netifd reports `phy0-ap0` link down and kernel reports br-lan port disabled; wifi-scripts prepares the interface with MAC b8:69:f4:d6:e8:a5. No explicit hostapd failure is shown in the captured last 10 lines. 5 GHz AP remains unresolved; 2.4 GHz AP remains operational.
-
 SYNC 2026-09-19: STAGE 6: `ubus call network.wireless status` confirms `radio0` BSS `default_radio0` is configured as AP, enabled, network `lan`, SSID `OpenWrt-5G`, ifname `phy0-ap0`, with zero associated stations. This confirms netifd configuration exists; 5 GHz AP client visibility/operational state remains unresolved. No configuration change.
 
 SYNC 2026-09-19: STAGE 6: `iw dev phy0-ap0 info` confirms the interface exists as `type AP`, wiphy 0, txpower 23 dBm, MAC ba:69:f4:d6:e8:a5. The output does not expose SSID or channel and does not establish that the AP is beaconing. No configuration change.
@@ -397,7 +394,6 @@ SYNC 2026-09-19: STAGE 6: `iw phy phy0 info | grep -A25 -B5 "VHT Capabilities"` 
 
 SYNC 2026-09-19: STAGE 6: Current VHT40 consistency check PASS. UCI reports `wireless.radio0.htmode=VHT40`; `phy0-sta0` is connected to SweetHomeU at 5180 MHz, signal -31 dBm, RX 200.0 Mbit/s VHT-MCS9 40MHz, TX 180.0 Mbit/s VHT-MCS8 40MHz; hostapd.phy0-ap0 reports ENABLED, SSID OpenWrt-5G, channel 36, freq 5180, DFS inactive. No configuration change was made.
 SYNC 2026-09-19: User explicitly confirms VHT80 is not required. Requirement for STAGE 6 is VHT40 as the intended stable 5 GHz mode; ISP Internet speed is <=100 Mbit/s. Current VHT40 STA+AP operation is verified and stable in measured checks. VHT80 investigation is therefore not required for the project goal. No configuration change made.
-
 SYNC 2026-09-19: User confirms target LAN Wi-Fi design is one logical home WLAN across 2.4 GHz and 5 GHz APs, with temporary password `12345678` for the OpenWrt APs. Current UCI confirms 5 GHz AP `OpenWrt-5G` and 2.4 GHz AP `OpenWrt` are separate SSIDs and both currently open (`encryption='none'`); 5 GHz STA remains on `SweetHomeU`, VHT40. No configuration change made in this step.
 
 SYNC 2026-09-19: 5 GHz AP UCI change command completed with empty output, indicating no command error: `wireless.default_radio0.ssid` set to `OpenWrt`, `encryption` set to `psk2`, key set to temporary `12345678`, and `uci commit wireless` completed. No `wifi reload` performed yet. Next step is read-only UCI verification before applying the change.
@@ -497,8 +493,7 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - 5 GHz VHT80 больше не является целью: пользователь подтвердил, что интернет-канал ограничен примерно 100 Мбит/с и VHT40 выбран как требуемый рабочий режим из соображений стабильности.
 - 5 GHz STA и AP одновременно работают на radio0 в VHT40: STA phy0-sta0 подключён к SweetHomeU на 5180 MHz, channel 36, width 40 MHz; AP phy0-ap0 вещает OpenWrt на 5180 MHz, channel 36, width 40 MHz, center1 5190 MHz; AP txpower 23 dBm.
 - Реальный клиентский тест пройден: телефон подключился к OpenWrt 5 GHz и получил Internet.
-- iw dev phy0-ap0 station dump подтвердил реального ассоциированного/авторизованного клиента; зафиксированы рабочие TX/RX rates 180/200 Mbit/s VHT40, tx retries 2, tx failed 0, expected throughput около 157 Mbit/s. MAC клиента в мастер-файлы не записывается.
-- Это подтверждает, что одновременная 5 GHz STA+AP работа на данном оборудовании возможна и сейчас функционирует.
+- iw dev phy0-ap0 station dump подтвердил реального ассоциированного/авторизованного клиента; зафиксированы рабочие TX/RX rates 180/200 Mbit/s VHT40, tx retries 2, tx failed 0, expected throughput около 157 Mbit/s. MAC клиента в мастер-файлы не записывается.- Это подтверждает, что одновременная 5 GHz STA+AP работа на данном оборудовании возможна и сейчас функционирует.
 
 ### Что НЕ подтверждено и не менять
 - Не доказано, что https-dns-proxy является инициатором hostapd: Reload all interfaces.
@@ -597,8 +592,7 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 ## CHANGELOG — 2026-09-19 — [PASS] Wi-Fi configuration is committed
 - [PASS] `uci -q changes wireless` returned empty output.
-- [CONFIRMED] Current wireless configuration (2.4 GHz and 5 GHz AP) is already committed in UCI, so there are no pending in-memory UCI changes for `wireless`.
-- [FACT] Both AP sections currently use SSID `OpenWrt`, encryption `psk2`, and the same configured key; upstream STA remains `SweetHomeU` with `psk2`.
+- [CONFIRMED] Current wireless configuration (2.4 GHz and 5 GHz AP) is already committed in UCI, so there are no pending in-memory UCI changes for `wireless`.- [FACT] Both AP sections currently use SSID `OpenWrt`, encryption `psk2`, and the same configured key; upstream STA remains `SweetHomeU` with `psk2`.
 - [RULE] Do not infer when/how the 2.4 GHz security setting changed from this test; current UCI alone cannot establish change history.
 - [CHANGED] STAGE 6 remains IN_PROGRESS.
 
@@ -698,7 +692,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NOT_PROVEN] This does not identify the initiator of the historical spontaneous hostapd reloads or explain `-122`; those remain the unresolved STAGE 6 issue.
 - [NEXT] Continue observation/read-only diagnostics without artificial reloads; do not alter Wi-Fi configuration based on this PASS.
 
-
 ## CHANGELOG — 2026-09-19 — [PASS] STAGE 6 -122 current evidence checkpoint
 - [PASS] Read-only log query found historical `command failed: Not supported (-122)` at 11:17:03, 11:25:52, 12:08:15 and 12:38:59.
 - [CLASSIFIED] The 14:06:52 `radio1` / `-122` line belongs to the manual Wi-Fi reload diagnostic and is excluded from the natural-event sample.
@@ -797,7 +790,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No `/mnt/data` mount is active; `/mnt/data` is only an existing directory.
 - [IMPORTANT] The stale `fstab.@mount[0].uuid=fa23e979-0f79-4fd7-92f6-88952fb95053` does not correspond to any currently mounted filesystem and must not be replaced with the extroot UUID.
 - [NEXT] Determine whether the intended `/mnt/data` mount should be retained at all. Current USB layout has only sda1 swap + sda2 extroot, so there is no separate data partition available for /mnt/data.
-
 
 ## CHANGELOG — 2026-09-19 — [CHANGE] stale /mnt/data fstab entry removed
 - [DONE] Removed only the obsolete `fstab.@mount[0]` entry for `/mnt/data` and committed fstab.
@@ -899,7 +891,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [RULE] Do not continue ZRAM installation/configuration until the current post-reboot memory/OOM state is checked.
 - [NEXT] Read-only check of kernel log for OOM, memory allocation failures, kernel panic/watchdog, and reboot-adjacent evidence.
 
-
 ### Последний диагностический результат — watchdog reset
 - Пользователь выполнил read-only проверку kernel/logread на OOM, allocation failure, kernel panic и lockup.
 - Прямых сообщений OOM / "Killed process" / kernel panic / soft lockup / hard lockup в сохранённом logread не обнаружено.
@@ -997,7 +988,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - Проверен /etc/init.d/zram: скрипт поддерживает `zram_size_mb`, `zram_comp_algo`, `zram_priority`; значения по умолчанию в скрипте — алгоритм LZO и priority 100. Скрипт автоматически поднимает zram swap при старте и имеет status/compact команды. В текущем выводе конкретные UCI-значения из /etc/config/system не показаны.
 
 - UCI-параметры `system.@system[0].zram_size_mb`, `zram_comp_algo`, `zram_priority` явно не заданы. Следовательно, текущие фактические параметры ZRAM получены штатными defaults скрипта: 26 MiB, LZO, priority 100 (размер 26 MiB соответствует штатному расчёту для данной RAM).
-
 - Проверка `/etc/init.d/zram status`: zram0 активен, размер 26 MiB, алгоритм `lzo-rle [lzo]`; original/compressed data 0.00 MiB, memory used 0.00 MiB, maximum memory ever used 0.00 MiB, same pages 0, pages compacted 0. ZRAM установлен и простаивает без фактической нагрузки; текущих признаков его заполнения/давления нет.
 
 - По состоянию на текущую проверку: RAM 54852 KiB, available 8320 KiB; swap 550904 KiB суммарно. USB swap /dev/sda1: 524284 KiB, used 6068 KiB, priority -2. ZRAM /dev/zram0: 26620 KiB, used 0 KiB, priority 100. ZRAM является первым swap-слоем, USB swap — fallback.
@@ -1012,3 +1002,13 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - Проверка UCI-конфигураций показала: в `/etc/config/system` нет явных `zram_size_mb/zram_comp_algo/zram_priority`; в `/etc/config/fstab` присутствует секция `config swap` для USB swap. Это согласуется со штатными defaults ZRAM init-скрипта; параметры ZRAM не переопределены пользователем.
 
 - Прямой просмотр /etc/init.d/zram подтвердил: при отсутствии UCI zram_comp_algo скрипт выбирает lzo; при отсутствии UCI zram_priority — 100; затем выполняет swapon -d -p 100. Полная строка расчёта zram_size в этом выводе не показана, поэтому размер 26 MiB пока подтверждён фактически по /sys и status, но не приписывается конкретной формуле без дополнительного чтения.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 DoH baseline
+- [PASS] `/etc/init.d/https-dns-proxy status` returned `running`.
+- [PASS] `127.0.0.1:5053` is listening on TCP and UDP, PID 2844.
+- [PASS] `127.0.0.1:5054` is listening on TCP and UDP, PID 2845.
+- [MEASURED] Current `https-dns-proxy` memory: PID 2844 VmRSS 1432 KiB, VmSwap 384 KiB, VmSize 3232 KiB; PID 2845 VmRSS 1472 KiB, VmSwap 380 KiB, VmSize 3232 KiB.
+- [MEASURED] Combined VmRSS is 2904 KiB (~2.84 MiB); combined VmSwap is 764 KiB.
+- [CONFIRMED] Both DoH instances are operational at the local listeners; no restart or configuration change was performed.
+- [NEXT] Verify an actual DNS query through each local DoH listener (`5053` and `5054`) using a read-only query. Do not change or restart https-dns-proxy.
+- [STATUS] STAGE 10 remains IN_PROGRESS until both listeners return valid DNS answers.
