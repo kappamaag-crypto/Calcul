@@ -646,3 +646,8 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - Timezone issue is closed.
 - [NEXT] Return to the unresolved periodic hostapd reload: quantify all recorded `Reload all interfaces` events and their timestamps before changing configuration.
 - [METHOD] Compact read-only query only; no service/network/Wi-Fi restart.
+
+## EVIDENCE — STAGE 6 — 2026-09-19
+- [OBSERVED] Recent `hostapd: Reload all interfaces` events: Sep 17 12:23:20, 12:37:31; Sep 19 11:01:20, 11:17:01, 11:25:50, 12:08:13, 12:38:59, 14:06:46, 14:20:32.
+- [OBSERVED] Intervals on Sep 19 are irregular (15:41, 8:49, 42:23, 30:46, 87:47, 13:46), so there is no simple fixed periodic timer demonstrated by this sample.
+- [NEXT] Correlate one recent event with surrounding log lines to identify the immediate initiator; read-only only.
