@@ -855,3 +855,11 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - Keep `NFQWS2_ENABLE=0`, `MODE_FILTER=none`, and `FLOWOFFLOAD=donttouch` until controlled activation criteria are met.
 - Treat `SET_MAXELEM=522288` and `hashsize 262144` as a mandatory memory-safety gate on the 64 MB hAP ac lite; inspect actual backend consumption before enabling hostlists/ipsets or changing sizing.
 - Never interpret `INIT_APPLY_FW=1` alone as activation. No service/firewall/NFQUEUE/interface-hook/network/Wi-Fi activation during read-only audit steps.
+
+
+## SYNC RULE UPDATE 2026-09-19 — compact command output
+- Router commands must be designed for compact, decision-relevant output to minimize text pasted into the AI context.
+- Prefer targeted/filtered read-only commands over broad dumps; preserve only evidence required to establish the next state.
+- Keep one router command per step.
+- After every user+assistant pair, update the master plan with factual state; update this master prompt whenever a workflow/safety rule changes.
+- Compact output must never replace required verification or conceal warnings/errors.
