@@ -200,3 +200,5 @@ SYNC 2026-09-19: Pre-extroot overlay baseline PASS. `/overlay` is internal `/dev
 SYNC 2026-09-19: sda2 temporary mount PASS: `mount /dev/sda2 /mnt/extroot` completed with empty output. No fstab/extroot activation change yet.
 
 SYNC 2026-09-19: Overlay copy PASS: `cp -a /overlay/. /mnt/extroot/` completed with empty output. Current internal overlay remains active; copied content is staged on sda2.
+
+SYNC 2026-09-19: extroot staging verification PASS. `/dev/sda2` mounted at `/mnt/extroot`, 6.6G filesystem, 6.2G available; copied overlay content present (`upper`, `work`, fstab backup files, .fs_state). No fstab activation change yet.
