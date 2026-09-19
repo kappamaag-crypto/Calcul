@@ -1421,3 +1421,11 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No runtime config, service, firewall/NFQUEUE, network or Wi-Fi state was changed by this inspection.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Create `/opt/zapret2/config` as an exact copy of the verified `/opt/zapret2/config.default`, then verify it read-only before any edits or activation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 runtime config created
+- [PASS] Controlled `cp -p /opt/zapret2/config.default /opt/zapret2/config` completed with empty output.
+- [CONFIRMED] The runtime config file has been created from the verified default template; exact content/metadata match is pending the next read-only verification.
+- [NO CHANGE] No Zapret2 service, NFQUEUE interception, firewall rule, network/Wi-Fi reload, or reboot was performed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Verify `/opt/zapret2/config` existence, size, and SHA-256 equality with `config.default` using one read-only command.
