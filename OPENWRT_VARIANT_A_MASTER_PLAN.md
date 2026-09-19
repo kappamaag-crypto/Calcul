@@ -641,3 +641,8 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] `date` now returns `Sat Sep 19 14:19:19 GMT 2026`, matching the user's UTC+5 local clock.
 - [FACT] The displayed abbreviation remains `GMT`; the important verified result is the UTC+5 offset represented by POSIX `GMT-5` and the correct wall-clock time.
 - [CLOSED] Timezone runtime mismatch is resolved; no Wi-Fi/network restart was required.
+
+## NEXT STEP — STAGE 6 — 2026-09-19
+- Timezone issue is closed.
+- [NEXT] Return to the unresolved periodic hostapd reload: quantify all recorded `Reload all interfaces` events and their timestamps before changing configuration.
+- [METHOD] Compact read-only query only; no service/network/Wi-Fi restart.
