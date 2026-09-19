@@ -1429,3 +1429,13 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No Zapret2 service, NFQUEUE interception, firewall rule, network/Wi-Fi reload, or reboot was performed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Verify `/opt/zapret2/config` existence, size, and SHA-256 equality with `config.default` using one read-only command.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 11 runtime config integrity verified
+- [PASS] `/opt/zapret2/config` exists and is 5534 bytes.
+- [PASS] `/opt/zapret2/config.default` exists and is 5534 bytes.
+- [PASS] SHA-256 is identical for both files: `758cf25e3d57ccf2c0dd053b218d571e6ebb293293f341c8e5294a35ceed2f7b`.
+- [CONFIRMED] Runtime config is an exact byte-for-byte copy of the shipped default template and has not yet been customized.
+- [NO CHANGE] No Zapret2 service start/enable, firewall/NFQUEUE activation, interface hook activation, network/Wi-Fi reload, or reboot occurred.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform a read-only configuration suitability audit of the runtime config for this OpenWrt topology before changing any variables or enabling Zapret2.
