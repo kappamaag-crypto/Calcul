@@ -783,3 +783,9 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - install_easy.sh must not be used blindly: its OpenWrt path stops firewall/daemons and configures firewall, startup, cron and interface hooks. For controlled deployment, separate file placement from service/firewall activation.
 - The embedded release contains config.default but not config; do not invent or copy a nonexistent config file.
 - Current STAGE 11 remains IN_PROGRESS. No Zapret2 daemon, NFQUEUE interception, firewall integration, cron, interface hook, or Wi-Fi/network reload has been started by the controlled file deployment.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 ip2net runtime PASS
+- After each user+assistant pair, record the factual result in the master plan before issuing the next router step.
+- Installed /opt/zapret2/ip2net/ip2net runtime test passed on the router.
+- Keep Zapret2 service/firewall/NFQUEUE/cron/interface-hook activation separate from binary compatibility checks.
