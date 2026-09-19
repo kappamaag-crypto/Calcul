@@ -544,3 +544,9 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] This pbr path performs policy-routing/interface processing only. The inspected section contains no direct \`wifi\`, \`hostapd\`, \`hostapd_cli\`, \`wpa_supplicant\`, or Wi-Fi radio reload command.
 - [NOT_PROVEN] pbr can still indirectly participate in a broader network reload chain, but the inspected \`on_interface_reload\` handler itself does not directly explain \`hostapd: Reload all interfaces\`.
 - [NEXT] Inspect pbr's trigger-registration block around lines 3115–3135 read-only to determine exactly which interfaces are registered for \`on_interface_reload\` and under what conditions. Do not invoke pbr or reload network/Wi-Fi/services.
+
+## CHANGELOG — 2026-09-19 — [SYNC] compact diagnostic output rule
+- [RULE] Для минимизации объёма текста, передаваемого в ИИ, диагностические команды должны по возможности формировать компактный вывод: только строки/поля, необходимые для текущего доказательства.
+- [RULE] Не использовать широкие `sed`/рекурсивные `grep`/полные дампы, если точечный вывод отвечает на текущий вопрос.
+- [RULE] Сохраняется one-step-at-a-time: одна диагностическая команда за шаг, затем ожидание фактического результата.
+- [SYNC] Это уточнение формата диагностики; архитектура и ограничения мастер-промта не меняются.
