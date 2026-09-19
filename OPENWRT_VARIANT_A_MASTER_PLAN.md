@@ -862,3 +862,9 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] `apk manifest zram-swap` and `apk info -L zram-swap` returned no file list because the package is not installed; this does not indicate a package defect.
 - [CLARIFICATION] User supplied an LZ4/LZO/ZSTD comparison. Project choice remains measurement-based: the currently verified `zram-swap` dependency chain uses `kmod-lib-lzo`; LZ4 is not installed and will not be added merely from generic performance claims.
 - [NEXT] Inspect the available package metadata/state for `zram-swap` before installation, using apk's package policy information.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 9 package policy / capability check
+- [PASS] `apk policy zram-swap` resolves official OpenWrt 25.12.5 mips_24kc/base package version 32.
+- [INFO] Runtime ZRAM capability files/config were not visible because `kmod-zram` is not installed yet; absence of `/sys/block/zram-control/hot_add` therefore cannot be used to reject an algorithm.
+- [NEXT] Install only the two verified official components `kmod-zram` and `zram-swap`; dependency `kmod-lib-lzo` is expected to be pulled automatically. Do not install LZ4/ZSTD modules at this point.
