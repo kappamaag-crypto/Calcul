@@ -345,3 +345,5 @@ SYNC 2026-09-19: Pre-extroot overlay baseline PASS: `/overlay` = /dev/mtdblock9 
 SYNC 2026-09-19: sda2 temporary mount PASS at `/mnt/extroot`; no fstab/extroot activation change yet.
 
 SYNC 2026-09-19: Overlay copy PASS: `/overlay` contents copied to `/mnt/extroot` successfully. Internal overlay remains active; no fstab activation yet.
+
+SYNC 2026-09-19: extroot staging verification PASS: sda2 mounted at /mnt/extroot with copied overlay content present; 6.6G size, 6.2G available. No fstab activation yet.
