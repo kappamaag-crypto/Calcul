@@ -813,3 +813,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] Obsolete `/mnt/data` entry is absent.
 - [DONE] STAGE 8 exit criterion met: USB extroot is active and persistently configured with the current UUID; no separate stale data mount remains.
 - [NEXT] STAGE 9 — ZRAM + USB swap.
+
+
+## CHANGELOG — 2026-09-19 — [IN_PROGRESS] STAGE 9 baseline
+- [PASS] USB swap `/dev/sda1` is active: 524284 KiB total, 4168 KiB used, priority -2.
+- [PASS] RAM baseline at start of STAGE 9: 54852 KiB total, 28432 KiB used, 17212 KiB free, 9512 KiB available.
+- [PASS] `zram0` is currently absent; ZRAM has not yet been configured.
+- [NEXT] Verify availability of the official OpenWrt ZRAM package/kernel support before installing or changing anything.
