@@ -335,3 +335,5 @@ SYNC 2026-09-19: USB repartitioning completed but scripted type selection set sd
 SYNC 2026-09-19: Read-only fdisk verification PASS. GPT on /dev/sda; sda1 512 MiB Linux swap; sda2 6.8 GiB Linux filesystem; no sda3. Target USB layout confirmed. No formatting performed yet.
 
 SYNC 2026-09-19: Formatting attempt did not complete: mkswap /dev/sda1 returned 'Text file busy'; due to &&, sda2 was not formatted. Treat current state as blocked by active use of sda1; identify/clear usage before retrying.
+
+SYNC 2026-09-19: `swapoff /dev/sda1` completed with empty output, so active USB swap is now disabled. Formatting has not yet been completed.
