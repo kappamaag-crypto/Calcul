@@ -657,3 +657,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - [CORRECTION] The prior time-window command covered only seconds 00–31, while the reload occurred at 14:20:32; therefore its empty output is not evidence that the event had no surrounding logs.
 - [NEXT] Inspect 14:20:32–14:20:59 to determine whether the known `-122 / Not supported` sequence recurred after the latest reload.
+
+- [PASS] After the 14:20:32 hostapd reload, `phy0-ap0` remains `type AP`, SSID `OpenWrt`, channel 36 / 5180 MHz, width 40 MHz.
+- [CONCLUSION] The latest hostapd reload did not cause loss of the 5 GHz AP. The previously observed `-122 / Not supported` is not reproduced in the immediate post-reload window.
