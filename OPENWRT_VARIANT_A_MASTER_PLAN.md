@@ -1116,3 +1116,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] Both https-dns-proxy instances therefore have active TCP and UDP local listeners on their configured ports.
 - [CONFIRMED] No router configuration or service state was changed.
 - [STATUS] STAGE 10 remains IN_PROGRESS pending strict per-listener query attribution / exit-criterion decision.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 nslookup capability check
+- [CONFIRMED] BusyBox 1.37.0 nslookup supports only HOST [DNS_SERVER] plus query type/debug; no option for a custom DNS port.
+- [CONFIRMED] Direct per-listener DNS querying of 127.0.0.1:5053 and 127.0.0.1:5054 cannot be performed with the currently installed nslookup.
+- [LIMITATION] The previously observed nslookup 127.0.0.1 test validates the local dnsmasq chain, while socket/inode mapping validates both DoH listeners and their active HTTPS upstream connections, but neither independently attributes a DNS answer to each listener.
+- [STATUS] STAGE 10 remains IN_PROGRESS under the strict existing criterion; no package installation or configuration change was made.
