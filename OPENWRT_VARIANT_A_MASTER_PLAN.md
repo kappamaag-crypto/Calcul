@@ -1039,3 +1039,14 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No nftables rule, counter, firewall configuration, service, network, Wi-Fi, or package state was changed.
 - [STATUS] STAGE 10 remains IN_PROGRESS.
 - [NEXT] Continue with a read-only method that can distinguish actual traffic to the two local DoH listeners without installing packages or restarting services.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 DoH instance mapping
+- [PASS] Read-only inspection of running https-dns-proxy processes completed.
+- [CONFIRMED] PID 2844 listens on local port 5053 and uses Cloudflare resolver URL https://cloudflare-dns.com/dns-query with bootstrap DNS 1.1.1.1, 1.0.0.1 and IPv6 equivalents.
+- [CONFIRMED] PID 2845 listens on local port 5054 and uses Google resolver URL https://dns.google/dns-query with bootstrap DNS 8.8.8.8, 8.8.4.4 and IPv6 equivalents.
+- [CONFIRMED] Both processes run as nobody:nogroup.
+- [IMPORTANT] This establishes exact 5053→Cloudflare and 5054→Google mapping, but does not yet prove that live client DNS queries reached each upstream resolver independently.
+- [CONFIRMED] No service, package, firewall, DNS, network, Wi-Fi, or process state was changed.
+- [STATUS] STAGE 10 remains IN_PROGRESS.
+- [NEXT] Continue with a read-only method that can provide independent evidence of live traffic/results for each DoH instance without restarting services or installing packages.
