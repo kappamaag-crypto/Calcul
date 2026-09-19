@@ -999,3 +999,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - UCI-параметры `system.@system[0].zram_size_mb`, `zram_comp_algo`, `zram_priority` явно не заданы. Следовательно, текущие фактические параметры ZRAM получены штатными defaults скрипта: 26 MiB, LZO, priority 100 (размер 26 MiB соответствует штатному расчёту для данной RAM).
 
 - Проверка `/etc/init.d/zram status`: zram0 активен, размер 26 MiB, алгоритм `lzo-rle [lzo]`; original/compressed data 0.00 MiB, memory used 0.00 MiB, maximum memory ever used 0.00 MiB, same pages 0, pages compacted 0. ZRAM установлен и простаивает без фактической нагрузки; текущих признаков его заполнения/давления нет.
+
+- По состоянию на текущую проверку: RAM 54852 KiB, available 8320 KiB; swap 550904 KiB суммарно. USB swap /dev/sda1: 524284 KiB, used 6068 KiB, priority -2. ZRAM /dev/zram0: 26620 KiB, used 0 KiB, priority 100. ZRAM является первым swap-слоем, USB swap — fallback.
+- Проверена актуальная документация OpenWrt/Linux: OpenWrt штатно допускает zram_comp_algo lzo/lzo-rle/lz4/zstd и размер по умолчанию RAM/2048 (kB), поэтому текущие 26 MiB — штатный default, а утверждение «обязательно 50% RAM и LZ4» не является универсальным правилом. Сравнение LZO/LZ4 для данного hAP ac lite пока не делать без измерения на самом устройстве.
