@@ -301,3 +301,5 @@ SYNC 2026-09-19: STAGE 6: after changing `radio0` AP SSID to `OpenWrt-5G`, `neti
 SYNC 2026-09-19: STAGE 6 diagnostic: hostapd reloads phy0 and reloads BSS `phy0-ap0`, then netifd reports `phy0-ap0` link down and kernel reports br-lan port disabled; wifi-scripts prepares the interface with MAC b8:69:f4:d6:e8:a5. No explicit hostapd failure is shown in the captured last 10 lines. 5 GHz AP remains unresolved; 2.4 GHz AP remains operational.
 
 SYNC 2026-09-19: STAGE 6: `ubus call network.wireless status` confirms `radio0` BSS `default_radio0` is configured as AP, enabled, network `lan`, SSID `OpenWrt-5G`, ifname `phy0-ap0`, with zero associated stations. This confirms netifd configuration exists; 5 GHz AP client visibility/operational state remains unresolved. No configuration change.
+
+SYNC 2026-09-19: STAGE 6: `iw dev phy0-ap0 info` confirms the interface exists as `type AP`, wiphy 0, txpower 23 dBm, MAC ba:69:f4:d6:e8:a5. The output does not expose SSID or channel and does not establish that the AP is beaconing. No configuration change.
