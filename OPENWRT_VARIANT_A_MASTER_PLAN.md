@@ -1379,3 +1379,15 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No service start/enable, firewall rule, NFQUEUE interception, network/Wi-Fi reload, or configuration activation was performed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Continue with read-only inspection of the relevant config.default section around INIT_APPLY_FW/NFQWS2 and the daemon configuration before any activation.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 full config.default section inspected
+- [PASS] Read-only `sed -n '50,125p' /opt/zapret2/config.default` completed.
+- [CONFIRMED] `NFQWS2_ENABLE=0`; no nfqws2 activation is currently requested by the release default.
+- [CONFIRMED] `NFQWS2_OPT` contains HTTP/TLS/QUIC desync profiles, but these options are inert while `NFQWS2_ENABLE=0`.
+- [CONFIRMED] `MODE_FILTER=none`; hostlist/ipset filtering is not selected by default.
+- [CONFIRMED] `FLOWOFFLOAD=donttouch`; Zapret2 does not request a flow-offload change by this default.
+- [CONFIRMED] `INIT_APPLY_FW=1`; service start/stop is configured to apply/unapply firewall integration on nftables OpenWrt unless the runtime path explicitly bypasses it.
+- [CONFIRMED] Default OpenWrt LAN is `lan`; WAN/WAN6 are auto-detected unless explicitly configured.
+- [NO CHANGE] No service enable/start, firewall/NFQUEUE rules, network/Wi-Fi reload, or config activation was performed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform one read-only check of the current active config file location/content and whether a separate runtime config exists, before any configuration editing or activation.
