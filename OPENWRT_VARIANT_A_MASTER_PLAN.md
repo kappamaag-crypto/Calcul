@@ -654,3 +654,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - [EVIDENCE] Around 14:20:32 only MLD/hostapd/wpa_supplicant messages are present: hostapd sets MLD config, reloads all interfaces and both PHY settings; wpa_supplicant sets MLD config at the same second.
 - [CONCLUSION] This window does not expose an upstream netifd/pbr/https-dns-proxy initiator; causality remains unresolved. Do not attribute the reload to MLD or wpa_supplicant solely from same-timestamp messages.
+
+- [CORRECTION] The prior time-window command covered only seconds 00–31, while the reload occurred at 14:20:32; therefore its empty output is not evidence that the event had no surrounding logs.
+- [NEXT] Inspect 14:20:32–14:20:59 to determine whether the known `-122 / Not supported` sequence recurred after the latest reload.
