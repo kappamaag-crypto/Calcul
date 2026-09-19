@@ -685,3 +685,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [RULE] Prefer persistent extroot storage for this archive instead of `/tmp`, because `/tmp` is RAM-backed and the router has limited RAM.
 - [NO CHANGE] No extraction, installation, configuration, firewall, Wi-Fi, or service activation was performed.
 - [NEXT] Verify the local SHA-256 against the pinned official digest before extraction or installation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 archive extraction PASS
+- [CONFIRMED] The pinned v1.0.3 archive passed SHA-256 verification before extraction.
+- [PASS] Archive extraction completed successfully under persistent extroot storage at `/overlay/tmp/zapret2/extract`.
+- [RULE] Continue with read-only inspection only; do not install or activate Zapret2 until the exact router/binary architecture compatibility is verified.
+- [NEXT] Inspect ELF architecture/type of the extracted `linux-mips` binaries.
