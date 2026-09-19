@@ -792,3 +792,8 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 
 SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2net` and `nfqws2`. Their native MIPS runtime checks must be recorded before any Zapret2 service/firewall activation. `install_easy.sh` remains prohibited for blind execution because it can stop daemons/firewall and install hooks; controlled deployment and activation stay separate.
+
+## SYNC RULE UPDATE 2026-09-19 — STAGE 11 init integration file placement
+- Controlled deployment may copy the already-verified Zapret2 OpenWrt init integration files into /etc/init.d without starting the service.
+- After placement, perform read-only inspection of the deployed init scripts/configuration before any enable/start/firewall/NFQUEUE activation.
+- Do not conflate file placement with service activation; they remain separate gated steps.
