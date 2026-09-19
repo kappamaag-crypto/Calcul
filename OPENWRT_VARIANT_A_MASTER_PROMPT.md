@@ -375,3 +375,5 @@ SYNC 2026-09-19: User updated the upstream Wi-Fi credentials for the intended WA
 SYNC 2026-09-19: User executed the Wi-Fi STA credential update successfully. Actual SSID set is `SweetHomeU` (correcting the prior message's `TPLINK`), WPA2-PSK key set to `89518996225`. `uci commit wireless` completed without error. No association/reload verification has been performed yet. STAGE 5 remains IN_PROGRESS. Next: read-only verification of the saved STA configuration before applying/reloading Wi-Fi.
 
 SYNC 2026-09-19: STAGE 5 Wi-Fi STA configuration verification PASS. Saved config confirms `network='wan'`, `mode='sta'`, `ssid='SweetHomeU'`, `disabled='0'`, and key `89518996225`. No Wi-Fi reload/apply has been performed yet. Next: apply the committed wireless configuration, then verify STA association and WAN DHCP in the following single step.
+
+SYNC 2026-09-19: `wifi reload` completed with empty output, indicating no command-level error was reported. STAGE 5 remains IN_PROGRESS. Next: read-only verification of actual STA association and `wan` DHCP state.
