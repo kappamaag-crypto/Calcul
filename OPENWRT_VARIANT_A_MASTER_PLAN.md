@@ -13,8 +13,9 @@ STAGE 0 — DONE
 STAGE 1 — DONE
 STAGE 2 — DONE
 STAGE 3 — DONE
-STAGE 4 — IN_PROGRESS
-STAGE 5–30 — NOT_STARTED
+STAGE 4 — DONE
+STAGE 5 — IN_PROGRESS
+STAGE 6–30 — NOT_STARTED
 
 ## STAGE 4 — Clean base verification
 STATUS: IN_PROGRESS
@@ -212,3 +213,5 @@ SYNC 2026-09-19: fstab read-only verification PASS. Active config contains only 
 SYNC 2026-09-19: Router rebooted by user and SSH access restored. Extroot activation has been attempted; mount-source verification is still pending. Do not mark activation DONE until `/overlay` is confirmed on `/dev/sda2`.
 
 SYNC 2026-09-19: STAGE 4 extroot activation VERIFIED PASS. After reboot, `df -h /overlay` reports `/dev/sda2` mounted on `/overlay`, size 6.6G, 1.9M used, 6.2G available. USB extroot is active. USB swap configuration remains enabled; ZRAM preservation remains part of the plan.
+
+SYNC 2026-09-19: STAGE 4 CLOSED DONE. Verified after reboot: `/overlay` is `/dev/sda2` ext4, 6.6G total, 6.2G available. USB extroot active. STAGE 5 started: minimal network verification. No network state changed yet; next command is read-only inspection of current network configuration and IPv4 routing.
