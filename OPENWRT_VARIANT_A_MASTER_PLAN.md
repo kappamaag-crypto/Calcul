@@ -757,3 +757,9 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] `/proc/swaps` contains only `/dev/sda1`, size 524284 KiB, used 4424 KiB, priority -2.
 - [CONCLUSION] Current memory-compression layer is absent; USB swap is active and lightly used.
 - [NEXT] STAGE 7 baseline data is sufficient to proceed to the planned ZRAM stage; no ZRAM configuration change has been made during baseline collection.
+
+
+## CHANGELOG — 2026-09-19 — [TRANSITION] STAGE 8 USB/extroot
+- [DONE] STAGE 7 RAM/resource baseline completed: USB swap active; ZRAM absent; baseline measurements recorded.
+- [IN_PROGRESS] STAGE 8 USB/extroot started.
+- [RULE] Before any extroot change, first perform a read-only verification of the current mount, overlay, fstab and USB filesystem state. No formatting, repartitioning, copying or rebooting is permitted at this verification step.
