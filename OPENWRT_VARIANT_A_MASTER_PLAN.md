@@ -632,3 +632,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] UCI was changed to the intended POSIX UTC+5 representation, but the active runtime timezone file `/etc/TZ` remains `GMT0`; this explains why `date` still reports GMT/UTC.
 - [RULE] Next step is to apply the verified system timezone through the OpenWrt-supported mechanism that updates `/etc/TZ`, one command at a time; do not manually edit unrelated files or restart network/Wi-Fi services.
 - [CHANGED] STAGE 6 remains IN_PROGRESS.
+
+- [DONE] Ran `/etc/init.d/system reload` with no error; no Wi-Fi/network restart was intentionally requested.
+- [PENDING] Must verify whether runtime `/etc/TZ` changed and whether `date` now reflects UTC+5; no conclusion yet.
