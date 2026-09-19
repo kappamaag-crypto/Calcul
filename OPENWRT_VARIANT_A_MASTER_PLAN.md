@@ -1401,3 +1401,13 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No config file was created, no service was enabled/started, no firewall/NFQUEUE rules were applied, and no network/Wi-Fi reload occurred.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Before creating or editing the runtime config, perform one read-only inspection of the relevant installer/config initialization logic to determine the safe source/copy mechanism and required minimal variables.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 config creation mechanism confirmed
+- [PASS] Read-only grep confirms `install_easy.sh` and `install_prereq.sh` define `ZAPRET_CONFIG=$ZAPRET_RW/config` and `ZAPRET_CONFIG_DEFAULT=$ZAPRET_BASE/config.default`.
+- [CONFIRMED] Both scripts create the runtime config only when it does not exist, by creating its parent directory and copying `config.default` to `config`.
+- [CONFIRMED] `common/installer.sh` subsequently modifies variables inside `$ZAPRET_CONFIG` through its configuration helpers.
+- [IMPORTANT] This confirms the expected `/opt/zapret2/config` creation path without requiring blind execution of the full installer.
+- [NO CHANGE] No runtime config was created or edited; no service, firewall/NFQUEUE, network/Wi-Fi activation occurred.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Inspect only the first configuration/initialization section of `install_prereq.sh` read-only to determine whether its early setup is safe to reuse or whether runtime config creation should be performed as a separate controlled file operation.
