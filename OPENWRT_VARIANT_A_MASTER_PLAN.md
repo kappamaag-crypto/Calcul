@@ -1313,3 +1313,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No init script, firewall rule, service, Wi-Fi, or network configuration was installed or activated.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Inspect the OpenWrt integration functions and configuration requirements read-only before deployment.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 firewall/NFQUEUE preflight
+- [PASS] `nft` is available at `/usr/sbin/nft`.
+- [PASS] `nfnetlink_queue` and `nfnetlink` kernel modules are loaded.
+- [OBSERVED] `iptables` and `ip6tables` are absent; this OpenWrt system is using the nftables path, consistent with the inspected Zapret2 OpenWrt integration.
+- [NO CHANGE] No modules were loaded, no firewall rules were changed, and Zapret2 was not installed or activated.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform the minimal `nfqws2` standalone startup/help check before deployment.
