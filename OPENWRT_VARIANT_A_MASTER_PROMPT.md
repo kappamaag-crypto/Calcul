@@ -377,3 +377,5 @@ SYNC 2026-09-19: User executed the Wi-Fi STA credential update successfully. Act
 SYNC 2026-09-19: STAGE 5 Wi-Fi STA configuration verification PASS. Saved config confirms `network='wan'`, `mode='sta'`, `ssid='SweetHomeU'`, `disabled='0'`, and key `89518996225`. No Wi-Fi reload/apply has been performed yet. Next: apply the committed wireless configuration, then verify STA association and WAN DHCP in the following single step.
 
 SYNC 2026-09-19: `wifi reload` completed with empty output, indicating no command-level error was reported. STAGE 5 remains IN_PROGRESS. Next: read-only verification of actual STA association and `wan` DHCP state.
+
+SYNC 2026-09-19: STAGE 5 WAN Wi-Fi STA association/DHCP PASS. phy0-sta0 is associated to SSID SweetHomeU at 5180 MHz with signal -29 dBm. wan is up on phy0-sta0, DHCP address 192.168.0.111/24, default gateway 192.168.0.1, DHCP server 192.168.0.1, lease 86400 s. IPv6 is currently empty. DHCP DNS includes 192.168.0.1 and 0.0.0.0. STAGE 5 is not yet DONE: remaining exit checks are LAN client addressing/default route and actual Internet/DNS reachability.
