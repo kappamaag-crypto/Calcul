@@ -601,3 +601,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [FACT] Both AP sections currently use SSID `OpenWrt`, encryption `psk2`, and the same configured key; upstream STA remains `SweetHomeU` with `psk2`.
 - [RULE] Do not infer when/how the 2.4 GHz security setting changed from this test; current UCI alone cannot establish change history.
 - [CHANGED] STAGE 6 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] Wi-Fi reload timeline
+- [EVIDENCE] Log shows a real `hostapd: Reload all interfaces` at router time 09:06:46, followed by phy0 reload, phy1 reload, `radio1 ... wifi-scripts: Starting`, and phy1 preparation.
+- [EVIDENCE] At 07:40:03 the 2.4 GHz AP (`phy1-ap0`) accepted a client with `AP-STA-CONNECTED ... auth_alg=open`; this is historical evidence that the 2.4 GHz AP was open at that time.
+- [EVIDENCE] At 08:43:41-42 the 5 GHz AP (`phy0-ap0`) accepted a client and completed an RSN/WPA handshake, confirming 5 GHz was password-protected at that time.
+- [EVIDENCE] At 09:15:38 the 5 GHz AP again completed an RSN/WPA handshake after a disconnect/reconnect.
+- [LIMITATION] The shown log does not contain a configuration-write/UCI event proving that the 2.4 GHz password was changed exactly at 09:06:46. It only establishes that 2.4 GHz was open at 07:40 and is currently configured as WPA2.
+- [CHANGED] STAGE 6 remains IN_PROGRESS; no Wi-Fi configuration was modified by this diagnostic step.
