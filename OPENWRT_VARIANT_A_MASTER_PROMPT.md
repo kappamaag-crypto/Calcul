@@ -311,3 +311,5 @@ SYNC 2026-09-19: Post-reboot SSH host key changed to SHA256:ffcy+GxkVzRuj+9unvWg
 SYNC 2026-09-19: USB physically disconnected. Next step is host-key replacement verification; do not bypass strict checking.
 
 SYNC 2026-09-19: Old SSH host key entry removed successfully. USB disconnected; next SSH command must verify internal rootfs only.
+
+SYNC 2026-09-19: Internal rootfs verification PASS. `/dev/mtdblock9` is `/overlay`; no `/dev/sda`; no `/mnt/data`; OpenWrt 25.12.5 confirmed. USB can now be reattached for offline repartitioning, one command at a time.
