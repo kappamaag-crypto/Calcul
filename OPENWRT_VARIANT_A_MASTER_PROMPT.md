@@ -368,3 +368,6 @@ SYNC 2026-09-19: STAGE 5 WAN inspection result: `eth1` is administratively UP bu
 
 
 SYNC 2026-09-19: STAGE 5 wireless inspection PASS. Wi-Fi STA interface `phy0-sta0` exists on radio0 (5 GHz), managed mode, configured for network `wan`, SSID `SPKEFFA_5G`, WPA2-PSK, enabled. Both AP interfaces are disabled. No network configuration was changed. Next: read-only check whether the STA is actually associated and whether `wan` is bound to the wireless STA device; do not change credentials or network settings yet.
+
+
+SYNC 2026-09-19: User updated the upstream Wi-Fi credentials for the intended WAN STA: SSID changed from `SPKEFFA_5G` to `TPLINK`; WPA2-PSK password provided as `89518996225` (user explicitly marked it as fictional/example). No router configuration has been changed yet. STAGE 5 remains IN_PROGRESS; next single operation is to update the existing Wi-Fi STA SSID/key only, then verify configuration/association.
