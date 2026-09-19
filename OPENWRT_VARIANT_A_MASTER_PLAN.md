@@ -174,3 +174,5 @@ SYNC 2026-09-19: USB physically reconnected after clean internal-flash boot. Awa
 SYNC 2026-09-19: USB is present but inactive except `/dev/sda1` auto-activated as swap (0 KiB used). Internal `/overlay` remains `/dev/mtdblock9`. Before repartitioning, swap must be disabled again; no destructive command yet.
 
 SYNC 2026-09-19: `swapoff /dev/sda1` completed successfully; USB has no active swap/mounts and internal overlay remains active. Destructive repartitioning can now proceed one command at a time.
+
+SYNC 2026-09-19: `fdisk /dev/sda` opened successfully. Interactive prompt reached; no partition-table write has been issued yet. User authorization for complete repartitioning remains active.
