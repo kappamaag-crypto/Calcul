@@ -531,3 +531,5 @@ SYNC 2026-09-19: STAGE 6: `ubus call hostapd.phy0-ap0 get_status` reports hostap
 SYNC 2026-09-19: STAGE 6: `ip link show phy0-ap0` confirms current kernel state is `<NO-CARRIER,...,UP>` with `state DOWN`, while hostapd simultaneously reports ENABLED on channel 36/5180 MHz. This is a confirmed hostapd-vs-kernel interface-state discrepancy. No configuration change.
 
 SYNC 2026-09-19: STAGE 6: user changed `wireless.radio0.htmode` from VHT80 to VHT40 with `uci set`; `uci get` confirms pending UCI value `VHT40`. The change has not yet been committed or reloaded, so runtime radio state remains unchanged at this point. This is a diagnostic test for the 5 GHz AP issue. No reload yet.
+
+SYNC 2026-09-19: STAGE 6: `uci commit wireless` completed with empty output, indicating the VHT40 configuration was committed successfully. No Wi-Fi reload has been performed yet; runtime state remains unchanged until the next controlled apply step.
