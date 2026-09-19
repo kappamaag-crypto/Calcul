@@ -1137,3 +1137,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [LIMITATION] /proc/net/udp queue fields are instantaneous queued-byte counts, not cumulative packet counters; the unchanged 0/0 values therefore cannot identify which listener processed the query.
 - [CONFIRMED] The local dnsmasq DNS query succeeds while both DoH UDP listeners remain active.
 - [STATUS] STAGE 10 remains IN_PROGRESS under the strict per-listener independent-query attribution criterion. No configuration or package state was changed.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 Zapret2 preflight
+- [PASS] No zapret, tpws, or nfqws executable was found in PATH.
+- [PASS] No /etc/zapret directory, /etc/init.d/zapret* entry, /usr/bin/tpws, or /usr/bin/nfqws was found.
+- [CONFIRMED] STAGE 11 starts from a clean Zapret-related filesystem state based on the checked paths/commands.
+- [STATUS] STAGE 11 remains IN_PROGRESS; no installation or configuration change has been made.
