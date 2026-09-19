@@ -519,3 +519,5 @@ SYNC 2026-09-19: STAGE 6: regulatory domain remains `US: DFS-FCC`; wireless UCI 
 SYNC 2026-09-19: STAGE 6: `iw dev phy0-ap0 station dump` returned no stations and `iw dev phy0-ap0 info | grep ...` still shows only `type AP`, with no channel. Combined with hostapd reporting ENABLED/channel 36, this indicates a discrepancy between hostapd state and kernel-visible AP channel state. No configuration change.
 
 SYNC 2026-09-19: STAGE 6: `phy0` hardware capabilities confirmed again: Band 2 has VHT capabilities and channels 36/40/44/48 (5180/5200/5220/5240 MHz) at 23 dBm. Thus channel 36 and VHT are supported by the radio. The remaining issue is specifically activation/beaconing of `phy0-ap0`, not channel hardware capability. No configuration change.
+
+SYNC 2026-09-19: STAGE 6: `phy0-ap0` is administratively UP but has `NO-CARRIER` and `state DOWN`; it is bridged to `br-lan`. `iw dev` confirms type AP and txpower 23 dBm. Therefore the remaining failure is that the 5 GHz AP interface is not attaining carrier/operational link despite hostapd reporting ENABLED. No configuration change.
