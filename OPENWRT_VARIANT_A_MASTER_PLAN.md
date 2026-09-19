@@ -856,3 +856,9 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] No `kmod-lib-lz4` dependency is required by the official zram package; do not install it unnecessarily.
 - [PASS] Package installed sizes are small: 37 KiB for kmod-zram and 5230 B for zram-swap.
 - [NEXT] Before installation, inspect the actual `zram-swap` configuration/defaults so the router is not activated with an unsuitable size or policy.
+
+
+## CHANGELOG — 2026-09-19 — [INFO] ZRAM package inspection
+- [CONFIRMED] `apk manifest zram-swap` and `apk info -L zram-swap` returned no file list because the package is not installed; this does not indicate a package defect.
+- [CLARIFICATION] User supplied an LZ4/LZO/ZSTD comparison. Project choice remains measurement-based: the currently verified `zram-swap` dependency chain uses `kmod-lib-lzo`; LZ4 is not installed and will not be added merely from generic performance claims.
+- [NEXT] Inspect the available package metadata/state for `zram-swap` before installation, using apk's package policy information.
