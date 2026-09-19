@@ -178,3 +178,5 @@ SYNC 2026-09-19: `swapoff /dev/sda1` completed successfully; USB has no active s
 SYNC 2026-09-19: `fdisk /dev/sda` opened successfully. Interactive prompt reached; no partition-table write has been issued yet. User authorization for complete repartitioning remains active.
 
 SYNC 2026-09-19: In `fdisk`, `g` created a new GPT disklabel in memory only (GUID 23EC0E2C-930D-4F10-BC0C-03B34BA15139). No write to USB yet. Target scheme from master prompt: extroot + USB swap + optional `/mnt/data`; exact sizes are to be selected from actual ~7.3 GiB USB.
+
+SYNC 2026-09-19: User exited fdisk without writing the staged GPT; no disk changes from that fdisk session. User requested full commands instead of interactive sub-steps. Continue with one complete logical operation per command.
