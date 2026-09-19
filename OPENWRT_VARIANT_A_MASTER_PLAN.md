@@ -875,3 +875,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [IMPORTANT] Installation completion is unknown. Do not rerun `apk add` or start/restart ZRAM until package/runtime state is verified.
 - [SAFETY] This reboot was not intentional and was not requested as a diagnostic action; investigate the cause from post-boot state/logs before making further changes.
 - [NEXT] After reconnect, perform read-only verification of uptime, installed package state, kernel/ZRAM state, swap, and boot log evidence.
+
+
+## CHANGELOG — 2026-09-19 — [DIAGNOSIS] post-reboot ZRAM install state
+- [CONFIRMED] Router rebooted: uptime only 3 minutes after the interrupted installation.
+- [CONFIRMED] `zram0` is absent; ZRAM is not active.
+- [CONFIRMED] Existing USB swap `/dev/sda1` remains active (524284 KiB, 928 KiB used, priority -2).
+- [IMPORTANT] `apk info` could not read package indexes because the local `packages.adb` cache was lost/cleared by the reboot; this does not by itself prove whether the partial package installation persisted.
+- [NEXT] Do not reinstall yet. First restore the official apk indexes with `apk update`, then inspect installed package state and boot logs before deciding whether to resume installation.
