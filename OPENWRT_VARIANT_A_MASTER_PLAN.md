@@ -131,3 +131,8 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CONFIRMED] `strings /sbin/mount_root` explicitly exposes `mount_extroot`, `fstools_overlay_name`, `mount_overlay`, `switched to extroot`, `/overlay`, and `no usable overlay filesystem found, using tmpfs overlay`.
 - [CONFIRMED] This establishes that the active `/dev/sda2` extroot selection is implemented by fstools' built-in extroot logic, not by the disabled `/overlay` UCI mount entry.
 - [NEXT] Determine the exact extroot acceptance criterion read-only (likely filesystem label/UUID or block discovery) before any repartitioning/formatting.
+
+- [PASS] `libfstools.so` confirms dedicated extroot implementation: `mount_extroot`, `/tmp/extroot`, `/tmp/extroot/mnt`, `/tmp/extroot/overlay`, `switching to extroot`, `switched to extroot`, and overlay discovery strings.
+- [CONFIRMED] `/etc/init.d/fstab` only runs `/sbin/block mount` at boot; `/etc/hotplug.d/block/10-mount` only invokes `/sbin/block hotplug` on add/remove events. These do not explain preinit extroot selection.
+- [CONFIRMED] The automatic `/dev/sda2` selection is therefore in fstools preinit root selection, not the disabled UCI `/overlay` mount entry.
+- [NEXT] Determine the exact extroot discovery condition from the available fstools source/debug metadata without changing storage or installing packages.
