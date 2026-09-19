@@ -834,3 +834,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] Official package indexes are now available; apk reports 11080 distinct packages.
 - [RESOLVED] Previous STAGE 9 block caused by missing local `packages.adb` cache is cleared.
 - [NEXT] Repeat the ZRAM package availability check; no package installation yet.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 9 ZRAM package availability
+- [PASS] Official repositories provide `kmod-zram-6.12.94-r1` (kernel compressed-RAM block device support).
+- [PASS] Official repositories provide `zram-swap-32` (OpenWrt zram swap activation script).
+- [CONFIRMED] No ZRAM package has been installed yet.
+- [NEXT] Inspect package metadata/dependencies before installation; installation remains a separate controlled step.
