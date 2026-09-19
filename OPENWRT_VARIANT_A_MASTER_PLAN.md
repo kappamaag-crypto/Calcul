@@ -1002,3 +1002,5 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - По состоянию на текущую проверку: RAM 54852 KiB, available 8320 KiB; swap 550904 KiB суммарно. USB swap /dev/sda1: 524284 KiB, used 6068 KiB, priority -2. ZRAM /dev/zram0: 26620 KiB, used 0 KiB, priority 100. ZRAM является первым swap-слоем, USB swap — fallback.
 - Проверена актуальная документация OpenWrt/Linux: OpenWrt штатно допускает zram_comp_algo lzo/lzo-rle/lz4/zstd и размер по умолчанию RAM/2048 (kB), поэтому текущие 26 MiB — штатный default, а утверждение «обязательно 50% RAM и LZ4» не является универсальным правилом. Сравнение LZO/LZ4 для данного hAP ac lite пока не делать без измерения на самом устройстве.
+
+- Подтверждён runtime-список алгоритмов ZRAM: `lzo-rle [lzo]`. Доступны только LZO-RLE и LZO; LZ4 в текущем загруженном ZRAM/ядре не представлен. Текущий активный алгоритм — LZO.
