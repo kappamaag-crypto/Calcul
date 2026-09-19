@@ -593,3 +593,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CURRENT USER REPORT] After the recent change, 2.4 GHz and 5 GHz appear as one `OpenWrt` network with a password.
 - [RULE] Do not assume the cause. Verify UCI wireless configuration before changing anything.
 - [CHANGED] STAGE 6 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] Wi-Fi configuration is committed
+- [PASS] `uci -q changes wireless` returned empty output.
+- [CONFIRMED] Current wireless configuration (2.4 GHz and 5 GHz AP) is already committed in UCI, so there are no pending in-memory UCI changes for `wireless`.
+- [FACT] Both AP sections currently use SSID `OpenWrt`, encryption `psk2`, and the same configured key; upstream STA remains `SweetHomeU` with `psk2`.
+- [RULE] Do not infer when/how the 2.4 GHz security setting changed from this test; current UCI alone cannot establish change history.
+- [CHANGED] STAGE 6 remains IN_PROGRESS.
