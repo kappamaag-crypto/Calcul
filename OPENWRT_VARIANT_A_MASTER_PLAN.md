@@ -890,3 +890,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] apk reports 10247 distinct packages, so the package database is partially available, but update is not fully successful.
 - [IMPORTANT] This error occurred after the unexpected reboot during `apk add`; do not infer a network/DNS problem yet and do not retry installation blindly.
 - [NEXT] Determine exactly which ZRAM-related packages, if any, were committed to the installed package database using a read-only package-state query.
+
+
+## CHANGELOG — 2026-09-19 — [HYPOTHESIS] possible OOM-related instability during STAGE 9
+- [OBSERVED] User reports recurring loss/freezing of 5 GHz and 2.4 GHz Wi-Fi and SSH becoming unresponsive; unexpected reboot also occurred during ZRAM package installation.
+- [HYPOTHESIS] OOM/memory pressure is now a plausible common factor, but causation is NOT yet proven.
+- [RULE] Do not attribute Wi-Fi/SSH failures to OOM until kernel logs show OOM-killer activity or memory pressure evidence.
+- [RULE] Do not continue ZRAM installation/configuration until the current post-reboot memory/OOM state is checked.
+- [NEXT] Read-only check of kernel log for OOM, memory allocation failures, kernel panic/watchdog, and reboot-adjacent evidence.
