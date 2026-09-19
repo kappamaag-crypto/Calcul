@@ -1503,3 +1503,13 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [CONFIRMED] `FLOWOFFLOAD=donttouch` is only acted upon for software/hardware values in the inspected nft paths.
 - [SAFETY] No Zapret2 service, firewall/NFQUEUE, interface hook, network or Wi-Fi state was changed.
 - [NEXT] Continue read-only audit of the exact ipset/nftset backend and memory-sensitive creation path before deciding whether the current hostlist/set sizing is acceptable.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] Zapret2 backend creation-path audit
+- [PASS] Read-only inspection of `create_ipset.sh` backend logic completed.
+- [CONFIRMED] The nftables backend creates native nft sets with `type ipv1_addr; size $3; flags interval; auto-merge` via `nft_create_set`; therefore `SET_MAXELEM` becomes the nft set `size` parameter.
+- [CONFIRMED] The legacy ipset backend passes `IPSET_OPT` to `create_ipset`, while the nftables backend does not use the legacy `hashsize/maxelem` string directly.
+- [IMPORTANT] The current runtime `SET_MAXELEM=522288` therefore requests nft set capacity of 522288 elements if the nftables hostlist path is activated. This remains a memory-safety gate on the 64 MB router; no activation or tuning was performed.
+- [NO CHANGE] No config, service, firewall/NFQUEUE, network/Wi-Fi or storage state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform one compact read-only check of the active firewall backend and available nft set support before deciding a safe capacity.
