@@ -848,3 +848,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PROJECT RULE] Do not adopt the generic 50–70% sizing recommendation automatically: this router has ~54 MiB RAM, a 650 MHz MIPS CPU, and an already-active 512 MiB USB swap. ZRAM size and compression algorithm will be selected from actual package/kernel capabilities and measured behavior.
 - [PROJECT RULE] Do not install `kmod-lib-lz4` unless the selected ZRAM configuration requires it; avoid unnecessary kernel modules.
 - [NEXT] Inspect exact metadata/dependencies of the already-verified official `kmod-zram` and `zram-swap` packages before installation.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 9 package metadata
+- [PASS] `kmod-zram-6.12.94-r1` matches the running kernel 6.12.94 and requires only `kmod-lib-lzo` as the compression dependency.
+- [PASS] `zram-swap-32` depends on `kmod-zram` and `libc`.
+- [PASS] No `kmod-lib-lz4` dependency is required by the official zram package; do not install it unnecessarily.
+- [PASS] Package installed sizes are small: 37 KiB for kmod-zram and 5230 B for zram-swap.
+- [NEXT] Before installation, inspect the actual `zram-swap` configuration/defaults so the router is not activated with an unsuitable size or policy.
