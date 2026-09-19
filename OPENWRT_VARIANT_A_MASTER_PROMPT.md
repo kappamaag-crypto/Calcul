@@ -800,3 +800,8 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - Treat `NFQWS2_ENABLE=0` as the current default; do not enable nfqws2 or apply firewall/NFQUEUE rules without a separate controlled step and measured preconditions.
 - Keep binary deployment, configuration editing, service enable/start, firewall/NFQUEUE activation, and interface hooks as separate gates.
 - Record the actual config.default values before any activation; do not infer runtime activation from defaults alone.
+
+## SYNC RULE UPDATE 2026-09-19 — STAGE 11 config.default inspection
+- Zapret2 v1.0.3 release defaults inspected: `NFQWS2_ENABLE=0`, `MODE_FILTER=none`, `FLOWOFFLOAD=donttouch`, `INIT_APPLY_FW=1`.
+- `NFQWS2_OPT` contains HTTP/TLS/QUIC desync definitions but must not be treated as active while `NFQWS2_ENABLE=0`.
+- Keep runtime configuration discovery separate from editing and activation. Do not enable nfqws2, apply firewall/NFQUEUE rules, enable the init service, or reload network/Wi-Fi without a dedicated controlled step.
