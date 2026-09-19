@@ -973,3 +973,5 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - Расширение окна 14:56:30–14:56:59 не выявило дополнительных событий перед WAN flap. Единственные события до него: SSH-подключение 14:56:42–43, hostapd phy0 AP-ENABLED 14:56:44, hostapd подготовка phy1 14:56:44, ath10k RTS threshold 14:56:54; затем WAN enabled/disabled/enabled.
 - Причина WAN flap остаётся неустановленной; SSH-событие само по себе причинностью не считается.
+
+- Поиск автоматических `network reload/ifup/ifdown` в /etc/crontabs, /etc/init.d, /etc/hotplug.d, /etc/rc.d не обнаружил отдельного WAN-скрипта. Найдены штатные вызовы /etc/init.d/network и ath12k hotplug, последний относится к ath12k и не является текущим ath10k/ath9k сценарием. Причина WAN flap не установлена.
