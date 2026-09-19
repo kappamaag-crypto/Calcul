@@ -804,3 +804,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] Current fstab contains only global settings, `/dev/sda1` swap, and the corrected extroot entry for `/dev/sda2`.
 - [SAFETY] No filesystem, partition, mount point contents, or active /overlay was modified by this change.
 - [NEXT] Verify final STAGE 8 runtime/config consistency without rebooting; then proceed to the next planned storage/memory stage.
+
+
+## CHANGELOG — 2026-09-19 — [DONE] STAGE 8 extroot
+- [PASS] Runtime verification: `/dev/sda2 on /overlay type ext4 (rw,noatime)`.
+- [PASS] Root overlay uses the USB ext4 filesystem: `overlayfs:/overlay`, 6.6G total, 6.2G available.
+- [PASS] fstab contains only global settings, `/dev/sda1` swap, and corrected `extroot` UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2`.
+- [PASS] Obsolete `/mnt/data` entry is absent.
+- [DONE] STAGE 8 exit criterion met: USB extroot is active and persistently configured with the current UUID; no separate stale data mount remains.
+- [NEXT] STAGE 9 — ZRAM + USB swap.
