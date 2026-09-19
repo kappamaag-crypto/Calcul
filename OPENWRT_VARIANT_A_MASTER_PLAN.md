@@ -116,3 +116,8 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 ## CHANGELOG — 2026-09-19 — [NEXT] boot-time extroot mechanism inspection
 - [STARTED] Следующий шаг STAGE 4 выбран как read-only inspection boot-time root/extroot mechanism.
 - [RULE] До получения этого результата не выполнять unmount, изменение fstab, mkfs, wipefs, repartitioning или иные операции с USB.
+
+- [PASS] Read-only inspection found /sbin/mount_root (4117 bytes), /lib/preinit/80_mount_root, libfstools.so, and installed block-mount/fstools package metadata.
+- [CONFIRMED] Kernel cmdline is console=ttyS0,115200n8 rootfstype=squashfs,jffs2; it contains no explicit external overlay device.
+- [CONFIRMED] No /etc file matching *extroot* or *fstool* was found by the search.
+- [NEXT] Exact selection logic must be read from /lib/preinit/80_mount_root and /sbin/mount_root; no state-changing operation is authorized yet.
