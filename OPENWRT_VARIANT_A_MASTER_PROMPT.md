@@ -362,3 +362,6 @@ SYNC 2026-09-19: STAGE 4 CLOSED DONE. USB extroot verified active on `/dev/sda2`
 
 
 SYNC 2026-09-19: STAGE 5.1 PASS for LAN configuration, but WAN connectivity is not established: eth1 has no IPv4 address and no IPv4 default route despite DHCP config. No network state changed. Next: read-only WAN link/DHCP state inspection.
+
+
+SYNC 2026-09-19: STAGE 5 WAN inspection result: `eth1` is administratively UP but `NO-CARRIER` and operational state DOWN. Kernel detects the Atheros AG71xx Ethernet device, but no physical carrier is present. netifd repeatedly enables/disables DHCP interface `wan`; no DHCP lease/default route is established. No network configuration was changed. Because the target architecture uses TP-Link Wi-Fi → MikroTik Wi-Fi STA, next step is read-only inspection of current wireless devices/configuration before any network change.
