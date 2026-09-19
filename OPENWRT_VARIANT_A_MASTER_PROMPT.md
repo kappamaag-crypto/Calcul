@@ -329,3 +329,5 @@ SYNC 2026-09-19: User exited fdisk without writing. User prefers complete comman
 SYNC 2026-09-19: Clarified optional /mnt/data role: persistent bulk-data area separate from extroot, not required for core OpenWrt operation. No partitioning change performed.
 
 SYNC 2026-09-19: Clarified ZRAM timing/state: prior verified state has /dev/zram0 32 MiB lzo-rle activated; therefore ZRAM is not to be installed later as a new Stage 4 task. STAGE 4 preserves extroot + ZRAM + USB swap. /tmp remains RAM-backed and is not to be moved into ZRAM.
+
+SYNC 2026-09-19: USB repartitioning completed but scripted type selection set sda1 to EFI System rather than Linux swap; '19' was an unknown fdisk command. sda1 retains swap signature; sda2 retains ext4 signature. Next step: correct sda1 GPT type to Linux swap, then verify before formatting/extroot.
