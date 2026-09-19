@@ -944,3 +944,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - `failed to enable peer stats info: -122` появляется при подключении STA; это уже известная ошибка -122, но причинную связь с watchdog не установлена.
 - ath9k сообщает fallback загрузки EEPROM через sysfs; это происходит на старте и не сопровождается crash/fatal/timeout.
 - Повторные циклы поднятия/снятия phy0/phy1 подтверждены.
+
+
+### Wi-Fi/netifd correlation после watchdog — результат
+- В 14:57:13 hostapd получил `Set new config for phy1` и `Restart interface for phy1`; одновременно netifd radio1 запустил wifi-scripts. Это происходит до установления WAN (WAN link connectivity только в 14:57:17).
+- В 14:57:17 STA phy0-sta0 успешно ассоциировался; сразу после этого WAN поднялся, затем в 14:57:20 firewall получил reload из-за ifup WAN.
+- https-dns-proxy стартовал в 14:57:23 и установил trigger WAN в 14:57:26, то есть его запуск произошёл ПОСЛЕ основной Wi-Fi инициализации после загрузки. Поэтому эти строки не подтверждают https-dns-proxy как инициатор первоначального Wi-Fi reload.
+- dnsmasq был перезапущен в 14:57:40–14:57:41 уже после старта https-dns-proxy.
+- Следовательно, текущий фрагмент подтверждает порядок: Wi-Fi/netifd → WAN → firewall → https-dns-proxy → dnsmasq; причинная связь с последующим watchdog всё ещё не установлена.
