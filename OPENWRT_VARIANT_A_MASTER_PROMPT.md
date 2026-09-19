@@ -357,3 +357,5 @@ SYNC 2026-09-19: fstab verification PASS. Only USB swap `/dev/sda1` and enabled 
 SYNC 2026-09-19: User rebooted router and restored SSH. Extroot activation attempted; `/overlay` source still requires direct verification before marking DONE.
 
 SYNC 2026-09-19: STAGE 4 extroot activation VERIFIED PASS. `/overlay` is `/dev/sda2` after reboot (6.6G total, 6.2G available). USB extroot is active; swap/ZRAM preservation remains required.
+
+SYNC 2026-09-19: STAGE 4 CLOSED DONE. USB extroot verified active on `/dev/sda2` after reboot. STAGE 5 IN_PROGRESS: minimal network verification. No network configuration changed; next step is read-only inspection of current network configuration and IPv4 route.
