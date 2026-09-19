@@ -847,3 +847,11 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - Full runtime config audit confirms the default template is unchanged and inactive (`NFQWS2_ENABLE=0`, `MODE_FILTER=none`).
 - The default `SET_MAXELEM=522288` / `hashsize 262144` must be treated as a memory-risk parameter on the 64 MB hAP ac lite until its actual allocation path is inspected.
 - Never activate hostlists/ipsets or change this sizing blindly. First inspect the official deployed scripts for how `IPSET_OPT` and `SET_MAXELEM` are passed to the backend.
+
+
+## SYNC RULE UPDATE 2026-09-19 — COMPLETE STAGE 11 RECORD
+- Preserve the full STAGE 11 sequence: runtime config absent; installer source confirmed default-template copy behavior; isolated copy performed; exact SHA-256 equality verified; runtime config remains unmodified and inactive.
+- Exact integrity: `/opt/zapret2/config` and `/opt/zapret2/config.default` are 5534 bytes; SHA-256 `758cf25e3d57ccf2c0dd053b218d571e6ebb293293f341c8e5294a35ceed2f7b`.
+- Keep `NFQWS2_ENABLE=0`, `MODE_FILTER=none`, and `FLOWOFFLOAD=donttouch` until controlled activation criteria are met.
+- Treat `SET_MAXELEM=522288` and `hashsize 262144` as a mandatory memory-safety gate on the 64 MB hAP ac lite; inspect actual backend consumption before enabling hostlists/ipsets or changing sizing.
+- Never interpret `INIT_APPLY_FW=1` alone as activation. No service/firewall/NFQUEUE/interface-hook/network/Wi-Fi activation during read-only audit steps.
