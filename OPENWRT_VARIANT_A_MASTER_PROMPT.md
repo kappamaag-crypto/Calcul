@@ -607,3 +607,5 @@ SYNC 2026-09-19: Background-trigger check completed. `crontab -l` produced no en
 SYNC 2026-09-19: Direct `iw` test completed without reload: `iw phy phy0 set distance 0` returned rc=0 and `iw phy phy0 set distance 10` returned rc=0. Therefore `distance=0` is not itself rejected by the driver in the current state, and the forum hypothesis that the -122 is caused simply by `set distance 0` is not supported. No UCI change made. STAGE 6 remains IN_PROGRESS.
 
 SYNC 2026-09-19: pbr status checked. pbr 1.2.2-r20 is installed and its status output is functional; uplink is wan/phy0-sta0/192.168.0.1. It reports no pbr policy chains, marking chains, or nft sets, and only the normal main IPv4 route/rule is present. `pgrep -af pbr` returned no process line. This provides no evidence that pbr is currently generating the 07:38:59 Wi-Fi reload. No pbr changes. STAGE 6 remains IN_PROGRESS.
+
+SYNC 2026-09-19: Attempted time-window extraction with `logread | sed -n '/07:38:40/,/07:39:10/p'`; user reports empty output. This does not provide new evidence about the Wi-Fi failure and does not alter STAGE 6 conclusions. No configuration change.
