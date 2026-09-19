@@ -697,3 +697,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] The current 5 GHz chain upstream STA → local AP is operational under the present configuration.
 - [NOT_PROVEN] This does not identify the initiator of the historical spontaneous hostapd reloads or explain `-122`; those remain the unresolved STAGE 6 issue.
 - [NEXT] Continue observation/read-only diagnostics without artificial reloads; do not alter Wi-Fi configuration based on this PASS.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 6 -122 current evidence checkpoint
+- [PASS] Read-only log query found historical `command failed: Not supported (-122)` at 11:17:03, 11:25:52, 12:08:15 and 12:38:59.
+- [CLASSIFIED] The 14:06:52 `radio1` / `-122` line belongs to the manual Wi-Fi reload diagnostic and is excluded from the natural-event sample.
+- [CONFIRMED] No newer `-122` event is present after the manual 14:06:52 event in the returned tail; the latest confirmed natural `-122` remains 12:38:59.
+- [CONCLUSION] At the current observation point there is no evidence of a new spontaneous `-122` failure after the manual tests.
+- [NEXT] Continue passive observation/read-only correlation; do not trigger Wi-Fi/network reloads merely to reproduce the historical event.
