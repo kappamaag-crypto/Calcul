@@ -1472,3 +1472,12 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO ACTIVATION] No Zapret2 service start/enable, firewall/NFQUEUE application, interface-hook activation, network/Wi-Fi reload, or reboot occurred in this sequence.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Inspect read-only how `IPSET_OPT` / `SET_MAXELEM` are consumed and estimate actual memory impact before activation or tuning.
+
+
+## SYNC RULE UPDATE 2026-09-19 — STAGE 11 compact-output audit rule
+- [CONFIRMED] User requires compact router-command output to minimize text copied into AI context.
+- [RULE] Prefer targeted read-only commands with filtered/compact output (grep/sed/awk/cut when useful) instead of broad dumps.
+- [RULE] One router command per step remains mandatory; compact output must not hide evidence needed for the factual state decision.
+- [RULE] After each user+assistant pair, synchronize the factual result into this master plan; update the master prompt when the workflow rule changes.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Run one compact read-only search for where Zapret2 consumes NFQWS2/configuration/OpenWrt integration variables; no activation or network/Wi-Fi reload.
