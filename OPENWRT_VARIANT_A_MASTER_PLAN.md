@@ -586,3 +586,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] Current timezone configuration is explicitly UTC/GMT0.
 - [RULE] No timezone setting has been changed yet. Next step may set the verified POSIX UTC+5 representation, but only as one controlled configuration change followed by time verification.
 - [CHANGED] STAGE 6 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-19 — [OBSERVATION] Wi-Fi security state changed
+- [USER REPORT] Previously 5 GHz SSID `OpenWrt` was password-protected, while 2.4 GHz `OpenWrt` was open.
+- [CURRENT USER REPORT] After the recent change, 2.4 GHz and 5 GHz appear as one `OpenWrt` network with a password.
+- [RULE] Do not assume the cause. Verify UCI wireless configuration before changing anything.
+- [CHANGED] STAGE 6 remains IN_PROGRESS.
