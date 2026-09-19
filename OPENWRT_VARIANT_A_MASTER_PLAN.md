@@ -1513,3 +1513,13 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No config, service, firewall/NFQUEUE, network/Wi-Fi or storage state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform one compact read-only check of the active firewall backend and available nft set support before deciding a safe capacity.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] current nftables ruleset backend verification
+- [PASS] Read-only `nft list ruleset` inspection completed.
+- [CONFIRMED] Active firewall is nftables with table `inet fw4`; standard OpenWrt fw4 chains are present.
+- [CONFIRMED] WAN handling currently uses both `eth1` and `phy0-sta0`, matching the downstream Wi-Fi STA topology.
+- [CONFIRMED] No Zapret2-specific nft table/set/rules are visible in the inspected ruleset section; current rules are OpenWrt fw4 plus the existing https-dns-proxy blocking rules for TCP/UDP 853.
+- [NO CHANGE] No firewall rules, nft sets, NFQUEUE, Zapret2 service, network or Wi-Fi state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform one compact read-only check specifically for existing nft sets and nftables version/capability, without changing firewall state.
