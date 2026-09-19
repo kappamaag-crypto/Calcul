@@ -136,3 +136,8 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CONFIRMED] `/etc/init.d/fstab` only runs `/sbin/block mount` at boot; `/etc/hotplug.d/block/10-mount` only invokes `/sbin/block hotplug` on add/remove events. These do not explain preinit extroot selection.
 - [CONFIRMED] The automatic `/dev/sda2` selection is therefore in fstools preinit root selection, not the disabled UCI `/overlay` mount entry.
 - [NEXT] Determine the exact extroot discovery condition from the available fstools source/debug metadata without changing storage or installing packages.
+
+- [PASS] Package metadata identifies installed `fstools-2026.05.23~16718b6e-r1`; `readelf` returned no matching symbols because the binaries are stripped or otherwise expose no relevant dynamic symbols.
+- [CONFIRMED] Official OpenWrt fstools source shows `mount_root` calls `mount_extroot()` before normal `rootfs_data` overlay handling; the current fstools build also contains a dedicated `libfstools/extroot.c` component. This matches the router's observed `switched to extroot` strings. citeturn0search6turn0search1
+- [CONFIRMED] The previous conclusion is strengthened: the old `/dev/sda2` was selected by fstools extroot logic during preinit, not by the disabled UCI mount entry.
+- [NEXT] The remaining task is to identify the exact extroot discovery/configuration condition used by the installed 2026.05.23 fstools. Prefer official source matching this package revision; no router state change or package installation.
