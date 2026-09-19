@@ -722,3 +722,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] Current Wi-Fi is operational and no new natural reload/`-122` event has appeared after the observation checkpoint.
 - [RULE] Do not continue broad repetitive log/source searches unless a new natural event provides new evidence.
 - [NEXT] Move to STAGE 7 baseline resource measurements; read-only, one command at a time.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] STAGE 7 resource baseline
+- [MEASURED] `free -h`: RAM total 54852 KiB, used 30916 KiB, free 15852 KiB, available 7600 KiB.
+- [MEASURED] USB swap `/dev/sda1` is active: 524284 KiB total, 4424 KiB used, priority -2.
+- [MEASURED] `/sys/block/zram0/disksize` is absent: ZRAM is not currently exposed/active as `zram0`.
+- [NOTE] BusyBox `ps` in this build does not support GNU `ps -e`; the attempted RSS listing failed and caused no system change.
+- [NEXT] Use BusyBox-compatible read-only process inspection, one command at a time.
