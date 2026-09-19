@@ -1226,3 +1226,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No Zapret2 installation, extraction, configuration, firewall, or service activation occurred.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Diagnose the current outbound HTTPS/request path with a single read-only connectivity test before attempting another archive download.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 GitHub API connectivity PASS
+- [PASS] Read-only BusyBox wget test to the official GitHub API succeeded after the previous `Operation not permitted` failure.
+- [CONFIRMED] Router established HTTPS connection to api.github.com:443 and received the v1.0.3 release JSON for bol-van/zapret2.
+- [CONFIRMED] This demonstrates that outbound HTTPS/GitHub API access is currently working; the previous download failure is not persistent at the API endpoint level.
+- [NO CHANGE] No Zapret2 installation, extraction, configuration, firewall, Wi-Fi, or service state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Retry the exact pinned v1.0.3 embedded archive download to /tmp and immediately verify its SHA-256 against the already confirmed official GitHub asset digest before any extraction or installation.
