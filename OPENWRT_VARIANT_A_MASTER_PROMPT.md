@@ -817,3 +817,9 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - Official Zapret2 v1.0.3 installer logic confirms `/opt/zapret2/config` is initialized from `/opt/zapret2/config.default` when absent.
 - Do not run the full `install_easy.sh` or `install_prereq.sh` merely to create the config, because installer workflows may perform additional system/service/firewall changes.
 - Before creating the runtime config, inspect the early prerequisite script read-only and then perform config creation as an explicitly isolated step if safe.
+
+
+## SYNC RULE UPDATE 2026-09-19 — STAGE 11 isolated runtime config creation
+- `install_prereq.sh` inspection confirms runtime config initialization is a simple copy performed before its later prerequisite/system checks.
+- For controlled deployment, isolate that copy instead of executing the full prerequisite installer.
+- The next allowed state-changing step is only creation of `/opt/zapret2/config` from `/opt/zapret2/config.default`; immediately verify the copy before any config edit, service start, firewall/NFQUEUE activation, or interface hook activation.
