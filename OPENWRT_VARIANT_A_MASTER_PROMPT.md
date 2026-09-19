@@ -741,3 +741,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No active Zapret2 deployment or network/firewall/Wi-Fi change was made.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Read-only inspection of the embedded OpenWrt integration scripts.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 OpenWrt integration inspection
+- [CONFIRMED] The extracted OpenWrt service integration uses procd and can apply nftables/firewall state when enabled/configured.
+- [WARNING] Interface-event hook `90-zapret2` may trigger firewall/interface-set reloads on ifup/ifdown, so activation remains gated.
+- [NO CHANGE] No Zapret2 service or firewall integration was installed or enabled.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Inspect `init.d/openwrt/functions` and configuration defaults read-only.
