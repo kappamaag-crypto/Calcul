@@ -1558,3 +1558,12 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No nft sets, firewall/NFQUEUE, Zapret2 service, network/Wi-Fi, configuration, or storage state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform one compact read-only check of the actual Zapret2 list files and their sizes/counts, without creating or loading any nft set.
+
+
+## CHANGELOG — 2026-09-19 — [PASS] STAGE 11 Zapret2 list-file inventory
+- [PASS] Read-only inventory command completed successfully.
+- [OBSERVED] No output was returned by the filtered search for `*.txt`, `*.list` or `*.gz` under `/opt/zapret2`; therefore no matching files were found by this exact filter in the deployed tree.
+- [IMPORTANT] This does not prove that Zapret2 has no hostlist/source data anywhere; it only establishes that these three filename classes were not found by the executed command.
+- [NO CHANGE] No Zapret2 service, nft set, firewall/NFQUEUE, configuration, network/Wi-Fi or storage state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Continue with one compact read-only inspection of Zapret2's configured list-path variables and their referenced paths, without loading or activating any set.
