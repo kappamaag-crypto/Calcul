@@ -660,3 +660,8 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 - [PASS] After the 14:20:32 hostapd reload, `phy0-ap0` remains `type AP`, SSID `OpenWrt`, channel 36 / 5180 MHz, width 40 MHz.
 - [CONCLUSION] The latest hostapd reload did not cause loss of the 5 GHz AP. The previously observed `-122 / Not supported` is not reproduced in the immediate post-reload window.
+
+## CORRECTION — STAGE 6 — 2026-09-19
+- [CORRECTED] `14:06:46` and `14:20:32` `hostapd: Reload all interfaces` events were generated during our manual Wi-Fi reload diagnostic activity and must NOT be treated as natural/periodic events.
+- [CORRECTED] The latest confirmed natural reload sample remains the events before the manual intervention: 11:01:20, 11:17:01, 11:25:50, 12:08:13, 12:38:59.
+- [RULE] Do not generate another Wi-Fi reload for diagnosis. Observe only; a future reload occurring without a manual trigger can be treated as a natural event.
