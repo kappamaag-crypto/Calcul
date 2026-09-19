@@ -783,3 +783,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] `/sbin/mount_root` is provided by `fstools-2026.05.23~16718b6e-r1`.
 - [LIMITATION] `mount_root -V` provides no version output; package ownership is the reliable version evidence.
 - [DECISION] Stop reverse-engineering the compiled `mount_root` binary. Current runtime state is already sufficient to repair the stale UCI UUID entries safely, but the actual configuration change will be a separate explicit step and will not include reboot/reload yet.
+
+
+## CHANGELOG — 2026-09-19 — [CHANGE] extroot UUID corrected
+- [DONE] Updated and committed `fstab.extroot.uuid` to the actual current ext4 UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2`.
+- [CONFIRMED] `fstab.extroot.target='/overlay'`, `fstype='ext4'`, `options='rw,noatime'`, `enabled='1'`.
+- [RULE] No reboot/remount was performed by this change; current active /overlay remains untouched.
+- [NEXT] Determine the actual UUID of the filesystem intended for `/mnt/data` before correcting its stale fstab entry.
