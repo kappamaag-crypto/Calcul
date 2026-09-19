@@ -1151,3 +1151,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] Root overlay is also reported as 6.6G, confirming the USB extroot is active.
 - [OBSERVED] /tmp is tmpfs, 26.8M total with 25.0M available; no swap is placed in /tmp.
 - [STATUS] STAGE 11 remains IN_PROGRESS; no package or configuration change was made.
+
+
+## CHANGELOG — 2026-09-19 — [CORRECTION] workflow re-alignment
+- [CONFIRMED] Master Prompt and Master Plan were re-read directly from the GitHub repository before continuing.
+- [CORRECTION] The previous assistant response incorrectly advanced from STAGE 10 to STAGE 11/Zapret2. This was premature.
+- [CONFIRMED] The current project work remains centered on STAGE 6 Wi-Fi root-cause investigation; STAGE 10 DoH remains IN_PROGRESS and must not be silently closed.
+- [CONFIRMED] The latest STAGE 6 rules require read-only, one-command-at-a-time diagnostics and prohibit intentional Wi-Fi/hostapd/wpa_supplicant/dnsmasq/https-dns-proxy reloads or restarts during the investigation.
+- [CONFIRMED] VHT40 is sufficient; simultaneous 5 GHz STA+AP and real-client Internet access are already proven. The periodic hostapd Reload all interfaces / radio0 / -122 sequence remains unresolved.
+- [NEXT] Resume the exact next action defined by the master plan: targeted read-only search for direct initiators of Wi-Fi/hostapd reload in /etc/hotplug.d, /etc/init.d, /lib/netifd, /lib/wifi, and /usr/libexec.
