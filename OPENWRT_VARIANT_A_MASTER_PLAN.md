@@ -730,3 +730,10 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [MEASURED] `/sys/block/zram0/disksize` is absent: ZRAM is not currently exposed/active as `zram0`.
 - [NOTE] BusyBox `ps` in this build does not support GNU `ps -e`; the attempted RSS listing failed and caused no system change.
 - [NEXT] Use BusyBox-compatible read-only process inspection, one command at a time.
+
+
+## CHANGELOG — 2026-09-19 — [EVIDENCE] STAGE 7 process inventory
+- [MEASURED] BusyBox `ps w` works and shows active userspace: procd, ubus, netifd, hostapd, wpa_supplicant, dnsmasq, odhcpd, ntpd, https-dns-proxy (2 instances), dropbear, udhcpc and kernel workers.
+- [NOTE] `ps w` reports VSZ, not RSS, so it is not sufficient for attributing the measured RAM usage to individual processes.
+- [CONFIRMED] No ZRAM process/device is visible from the previous `zram0` check; USB swap remains the only confirmed active swap.
+- [NEXT] Measure VmRSS for the main userspace daemons using /proc, read-only.
