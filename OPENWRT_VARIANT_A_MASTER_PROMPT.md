@@ -692,3 +692,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [PASS] Archive extraction completed successfully under persistent extroot storage at `/overlay/tmp/zapret2/extract`.
 - [RULE] Continue with read-only inspection only; do not install or activate Zapret2 until the exact router/binary architecture compatibility is verified.
 - [NEXT] Inspect ELF architecture/type of the extracted `linux-mips` binaries.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 ELF inspection tool unavailable
+- [OBSERVED] `file` is not installed on the router; the read-only architecture check was not completed with that utility.
+- [RULE] Do not install extra diagnostic packages solely for this check without need; use existing BusyBox read-only capabilities first.
+- [NO CHANGE] Zapret2 remains uninstalled and inactive.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Inspect ELF headers with built-in hex output.
