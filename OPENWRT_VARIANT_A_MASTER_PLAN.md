@@ -192,3 +192,5 @@ SYNC 2026-09-19: Read-only fdisk verification PASS. /dev/sda is GPT, sda1 512 Mi
 SYNC 2026-09-19: STAGE 4 formatting attempt FAILED/blocked at mkswap /dev/sda1: 'write error: Text file busy'. Because of &&, mkfs.ext4 on sda2 did NOT run. Likely sda1 is currently active/in use despite earlier swapoff. No further destructive formatting command until active use is identified/cleared.
 
 SYNC 2026-09-19: `swapoff /dev/sda1` completed with empty output, indicating the active USB swap was disabled successfully. STAGE 4 remains IN_PROGRESS; sda1/sda2 are not yet formatted.
+
+SYNC 2026-09-19: USB formatting PASS. `mkswap /dev/sda1` completed; `/dev/sda2` formatted ext4 with label `extroot`, UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2`. STAGE 4 remains IN_PROGRESS. No extroot mount/copy/fstab change has been performed yet.
