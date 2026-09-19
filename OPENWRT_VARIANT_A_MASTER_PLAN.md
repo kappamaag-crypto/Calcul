@@ -1284,3 +1284,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No Zapret2 installation, configuration, firewall, service activation, or Wi-Fi/network restart was performed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform the installer's actual read-only compatibility execution test for `ip2net` (stdin `0.0.0.0`) without running the installer itself.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 ip2net runtime compatibility PASS
+- [PASS] Extracted `linux-mips/ip2net` executed successfully on the router with the installer's test input `0.0.0.0`.
+- [CONFIRMED] Output was `0.0.0.0`, matching the installer's non-empty-output success criterion.
+- [CONFIRMED] ELF identifier already matched the router `/bin/sh` as `010008`.
+- [NO CHANGE] Zapret2 was not installed, enabled, configured, or integrated into firewall/network/Wi-Fi services.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Perform the same standalone runtime compatibility test for `mdig` and `nfqws2` only as appropriate, or inspect installer requirements before any deployment.
