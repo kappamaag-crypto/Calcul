@@ -766,3 +766,12 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No daemon, NFQUEUE interception, or firewall configuration was started.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform the minimal `nfqws2 --version` exit check, then proceed to deployment if PASS.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 nfqws2 version check PASS
+- [PASS] Standalone `nfqws2 --version` executed successfully on the router.
+- [CONFIRMED] Runtime reports Zapret2 v1.0.3, commit b78b52c4cd7f843da3ff0848a3430afbd401bdf2, lua_compat_ver 6.
+- [CONFIRMED] Native MIPS execution is therefore verified beyond the earlier usage/startup check.
+- [NO CHANGE] No daemon, NFQUEUE interception, firewall rule, service, Wi-Fi, or network configuration was started or changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Proceed to the minimum deployment step only after preserving the current preflight evidence; installation/configuration remain separate from this runtime test.
