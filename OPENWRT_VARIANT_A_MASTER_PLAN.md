@@ -997,3 +997,5 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - Проверен /etc/init.d/zram: скрипт поддерживает `zram_size_mb`, `zram_comp_algo`, `zram_priority`; значения по умолчанию в скрипте — алгоритм LZO и priority 100. Скрипт автоматически поднимает zram swap при старте и имеет status/compact команды. В текущем выводе конкретные UCI-значения из /etc/config/system не показаны.
 
 - UCI-параметры `system.@system[0].zram_size_mb`, `zram_comp_algo`, `zram_priority` явно не заданы. Следовательно, текущие фактические параметры ZRAM получены штатными defaults скрипта: 26 MiB, LZO, priority 100 (размер 26 MiB соответствует штатному расчёту для данной RAM).
+
+- Проверка `/etc/init.d/zram status`: zram0 активен, размер 26 MiB, алгоритм `lzo-rle [lzo]`; original/compressed data 0.00 MiB, memory used 0.00 MiB, maximum memory ever used 0.00 MiB, same pages 0, pages compacted 0. ZRAM установлен и простаивает без фактической нагрузки; текущих признаков его заполнения/давления нет.
