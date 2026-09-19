@@ -671,3 +671,9 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 6. Диагностика продолжается только read-only, одним command за шаг, без намеренного wifi reload/restart, hostapd reload, wpa_supplicant reload, dnsmasq restart/reload или перезапуска https-dns-proxy.
 7. Следующий шаг: targeted search прямых инициаторов Wi-Fi/hostapd reload в /etc/hotplug.d, /etc/init.d, /lib/netifd, /lib/wifi, /usr/libexec.
 8. Не записывать MAC-адреса клиентских устройств или секреты upstream STA в master files.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 GitHub API connectivity PASS
+- [CONFIRMED] Read-only HTTPS connectivity to the official GitHub API is working from the router after the earlier `Operation not permitted` download failure.
+- [RULE] Do not treat the earlier wget failure as a persistent GitHub/network outage; retry the pinned archive download only after this successful connectivity check.
+- [NEXT] Download the exact Zapret2 v1.0.3 OpenWrt embedded archive and verify its SHA-256 before extraction or installation.
