@@ -1072,3 +1072,15 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [CONFIRMED] No configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed.
 - [STATUS] STAGE 10 remains IN_PROGRESS.
 - [NEXT] Use an installed read-only socket view to look for active HTTPS connections associated with the two running proxy processes.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 active upstream DoH connections
+- [PASS] Read-only `netstat -ntp | grep -E '2844|2845'` completed successfully.
+- [CONFIRMED] PID 2844 (Cloudflare DoH listener 5053) has an ESTABLISHED TCP/443 connection from 192.168.0.112:35752 to 104.16.249.249:443.
+- [CONFIRMED] PID 2845 (Google DoH listener 5054) has an ESTABLISHED TCP/443 connection from 192.168.0.112:33950 to 8.8.4.4:443.
+- [OBSERVED] PID 2845 also has a CLOSE_WAIT connection to 8.8.4.4:443; this alone is not a failure because another Google connection is ESTABLISHED.
+- [STRONG EVIDENCE] Both configured DoH instances have active upstream HTTPS/TCP connections at the time of measurement.
+- [LIMITATION] This still does not directly map a specific client DNS query to a specific listener/query result, but it is substantially stronger evidence than startup logs alone.
+- [CONFIRMED] No configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed.
+- [STATUS] STAGE 10 remains IN_PROGRESS pending the stage exit criterion.
+- [NEXT] Perform a final read-only end-to-end DNS query test through local dnsmasq, then assess whether STAGE 10 exit criteria can be marked DONE based on the accumulated evidence.
