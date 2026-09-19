@@ -14,8 +14,9 @@ STAGE 1 — DONE
 STAGE 2 — DONE
 STAGE 3 — DONE
 STAGE 4 — DONE
-STAGE 5 — IN_PROGRESS
-STAGE 6–30 — NOT_STARTED
+STAGE 5 — DONE
+STAGE 6 — IN_PROGRESS
+STAGE 7–30 — NOT_STARTED
 
 ## STAGE 4 — Clean base verification
 STATUS: IN_PROGRESS
@@ -218,3 +219,21 @@ SYNC 2026-09-19: STAGE 4 CLOSED DONE. Verified after reboot: `/overlay` is `/dev
 
 
 SYNC 2026-09-19: STAGE 5 step 5.1 read-only network inspection PASS partially. LAN is correct: br-lan 192.168.1.1/24 with eth0.1 VLAN bridge. WAN remains configured as DHCP on eth1, WAN6 as DHCPv6 on eth1, but `ip -4 addr` shows no IPv4 address on eth1 and `ip -4 route` has no default route. Therefore Internet/WAN is not currently operational. No configuration was changed. Next step: read-only inspect link/interface state and DHCP client state for WAN to determine whether eth1 has carrier and whether DHCP is running.
+
+
+## CURRENT AUTHORITATIVE STATE — SYNC 2026-09-19
+
+This block is authoritative over older historical changelog entries above.
+
+- Main router: TP-Link Archer C20 v4; MikroTik hAP ac lite remains downstream.
+- OpenWrt: 25.12.5 r33051-f5dae5ece4; target ath79/mikrotik; apk-tools 3.0.5; mips_24kc.
+- Network path: TP-Link Wi-Fi → MikroTik Wi-Fi STA → MikroTik LAN/Wi-Fi → laptop.
+- WAN STA: phy0-sta0, SSID SweetHomeU, associated, WAN DHCP 192.168.0.111/24, gateway 192.168.0.1.
+- LAN: br-lan 192.168.1.1/24; DHCP client EFFA received 192.168.1.146.
+- Laptop Ethernet: 192.168.1.146, gateway 192.168.1.1. Ethernet-sourced ping to 1.1.1.1 PASS; nslookup openwrt.org via 192.168.1.1 PASS.
+- USB: sda1 512 MiB swap; sda2 ~6.8 GiB ext4 extroot; /overlay is active on /dev/sda2; no sda3 and no /mnt/data target.
+- ZRAM: previously verified /dev/zram0 32 MiB, lzo-rle, activated. /tmp remains RAM-backed.
+- STAGE 0–5: DONE. STAGE 6: IN_PROGRESS. STAGE 7–30: NOT_STARTED.
+- STAGE 6 next operation is read-only inspection of wireless AP configuration/state. No router configuration change has been made by this sync.
+
+SYNC 2026-09-19: Corrected repository artifact identification. The canonical master plan is OPENWRT_VARIANT_A_MASTER_PLAN.md; the canonical master prompt is OPENWRT_VARIANT_A_MASTER_PROMPT.md. Both are required to remain synchronized with factual project state after each turn.
