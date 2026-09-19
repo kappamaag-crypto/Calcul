@@ -775,3 +775,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No daemon, NFQUEUE interception, firewall rule, service, Wi-Fi, or network configuration was started or changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Proceed to the minimum deployment step only after preserving the current preflight evidence; installation/configuration remain separate from this runtime test.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 Zapret2 embedded v1.0.3 deployment workflow
+- Record after each user+assistant pair: synchronize the factual OpenWrt Variant A state to the master plan; update this master prompt when a workflow/safety rule changes.
+- Zapret2 v1.0.3 embedded release is deployed as files under /opt/zapret2 using the verified linux-mips payload.
+- install_easy.sh must not be used blindly: its OpenWrt path stops firewall/daemons and configures firewall, startup, cron and interface hooks. For controlled deployment, separate file placement from service/firewall activation.
+- The embedded release contains config.default but not config; do not invent or copy a nonexistent config file.
+- Current STAGE 11 remains IN_PROGRESS. No Zapret2 daemon, NFQUEUE interception, firewall integration, cron, interface hook, or Wi-Fi/network reload has been started by the controlled file deployment.
