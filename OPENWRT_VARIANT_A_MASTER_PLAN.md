@@ -149,3 +149,6 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 
 - [AUTHORIZED] User explicitly authorized complete repartitioning and formatting of USB `/dev/sda`; old data are declared unnecessary.
 - [NEXT] Begin destructive USB stage with a final read-only identity/partition check before any write operation. No destructive command has been issued yet.
+
+
+SYNC 2026-09-19: Final read-only USB check PASS. User authorization for full `/dev/sda` repartition/format confirmed. STAGE 4 is IN_PROGRESS. Next command is the first preparation step; no destructive write has yet been issued.
