@@ -337,3 +337,5 @@ SYNC 2026-09-19: Read-only fdisk verification PASS. GPT on /dev/sda; sda1 512 Mi
 SYNC 2026-09-19: Formatting attempt did not complete: mkswap /dev/sda1 returned 'Text file busy'; due to &&, sda2 was not formatted. Treat current state as blocked by active use of sda1; identify/clear usage before retrying.
 
 SYNC 2026-09-19: `swapoff /dev/sda1` completed with empty output, so active USB swap is now disabled. Formatting has not yet been completed.
+
+SYNC 2026-09-19: USB formatting PASS. sda1 initialized as swap; sda2 formatted ext4 label `extroot`, UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2`. Extroot migration/fstab changes not yet performed.
