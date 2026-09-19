@@ -407,3 +407,5 @@ SYNC 2026-09-19: 5 GHz AP UCI change command completed with empty output, indica
 SYNC 2026-09-19: Read-only verification passed for `wireless.default_radio0`: device radio0, network lan, mode ap, SSID OpenWrt, encryption psk2, disabled 0, temporary key 12345678. Configuration is committed but not yet applied with `wifi reload`.
 
 SYNC 2026-09-19: `wifi reload` completed with empty output. User reports one visible SSID `OpenWrt`, but it appears without a password. This does not yet establish whether the open 2.4 GHz AP is masking the secured 5 GHz AP; current UCI previously showed 2.4 GHz `default_radio1` still `encryption='none'`, while 5 GHz `default_radio0` was set to WPA2. Next step is read-only verification of both AP interface configurations before any further change.
+
+SYNC 2026-09-19: Read-only verification confirms the cause of the observed open SSID: 5 GHz `default_radio0` is `OpenWrt` with `psk2` and temporary key `12345678`; 2.4 GHz `default_radio1` is also `OpenWrt` but still `encryption='none'`. No change made in this verification step. Next step: set 2.4 GHz AP to the same WPA2/password configuration, then verify before reload.
