@@ -749,3 +749,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No Zapret2 service or firewall integration was installed or enabled.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Inspect `init.d/openwrt/functions` and configuration defaults read-only.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 firewall/NFQUEUE preflight
+- [CONFIRMED] nftables tooling is present and NFQUEUE kernel support is loaded.
+- [CONFIRMED] iptables/ip6tables are not installed; Zapret2 must use its nftables integration on this system.
+- [NO CHANGE] No firewall/module/service configuration was modified.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Run only a standalone `nfqws2 --help`/startup capability check before deployment.
