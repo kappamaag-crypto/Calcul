@@ -388,3 +388,5 @@ SYNC 2026-09-19: STAGE 5 LAN/gateway/Internet IPv4 checks PASS. br-lan is 192.16
 - SYNC 2026-09-19: `cat /tmp/dhcp.leases` PASS. DHCP lease file shows LAN client `EFFA` with MAC `d4:93:90:50:1a:b3` and IPv4 `192.168.1.146`. This confirms the MikroTik DHCP server issued a LAN address to the client. STAGE 5 remains IN_PROGRESS because laptop-side default gateway, route, Internet, and DNS checks are still required by the stage exit criteria.
 
 - SYNC 2026-09-19: Laptop-side `ipconfig | findstr /R /C:"IPv4" /C:"Default Gateway"` returned two IPv4 addresses: `192.168.1.146` (MikroTik LAN) and `192.168.0.110` (another interface). The filtered output did not show Default Gateway, so laptop default-route state is not yet established. No router configuration changed. STAGE 5 remains IN_PROGRESS; next step must distinguish the active interface/gateway using a concise Windows read-only command.
+
+- SYNC 2026-09-19: Windows `Get-NetIPConfiguration` confirms interface `Ethernet` has `192.168.1.146` with gateway `192.168.1.1`. Laptop LAN IP and MikroTik gateway PASS. STAGE 5 remains IN_PROGRESS; route, Internet, and DNS checks remain.
