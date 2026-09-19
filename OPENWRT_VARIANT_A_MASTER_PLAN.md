@@ -198,7 +198,6 @@ SYNC 2026-09-19: `swapoff /dev/sda1` completed with empty output, indicating the
 SYNC 2026-09-19: USB formatting PASS. `mkswap /dev/sda1` completed; `/dev/sda2` formatted ext4 with label `extroot`, UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2`. STAGE 4 remains IN_PROGRESS. No extroot mount/copy/fstab change has been performed yet.
 
 SYNC 2026-09-19: Pre-extroot overlay baseline PASS. `/overlay` is internal `/dev/mtdblock9`, jffs2, rw,noatime; size 7.0M, used 372K, available 6.6M. `du -sh /overlay` = 35.5K. USB extroot is not mounted yet. Next step is controlled copy of overlay to sda2.
-
 SYNC 2026-09-19: sda2 temporary mount PASS: `mount /dev/sda2 /mnt/extroot` completed with empty output. No fstab/extroot activation change yet.
 
 SYNC 2026-09-19: Overlay copy PASS: `cp -a /overlay/. /mnt/extroot/` completed with empty output. Current internal overlay remains active; copied content is staged on sda2.
@@ -397,7 +396,6 @@ SYNC 2026-09-19: STAGE 6: dmesg context materially narrows the timing of the ath
 SYNC 2026-09-19: STAGE 6: `iw phy phy0 info | grep -A25 -B5 "VHT Capabilities"` confirms phy0 VHT capabilities: 1 spatial stream, MCS 0-9, no 160/80+80 support, while short GI 80 MHz capability is advertised. Crucially, `Supported Channel Width: neither 160 nor 80+80` does not mean VHT80 is unsupported; the output does not list an 80 MHz channel-width capability in that line. Current VHT40 operation remains verified. No configuration change was made.
 
 SYNC 2026-09-19: STAGE 6: Current VHT40 consistency check PASS. UCI reports `wireless.radio0.htmode=VHT40`; `phy0-sta0` is connected to SweetHomeU at 5180 MHz, signal -31 dBm, RX 200.0 Mbit/s VHT-MCS9 40MHz, TX 180.0 Mbit/s VHT-MCS8 40MHz; hostapd.phy0-ap0 reports ENABLED, SSID OpenWrt-5G, channel 36, freq 5180, DFS inactive. No configuration change was made.
-
 SYNC 2026-09-19: User explicitly confirms VHT80 is not required. Requirement for STAGE 6 is VHT40 as the intended stable 5 GHz mode; ISP Internet speed is <=100 Mbit/s. Current VHT40 STA+AP operation is verified and stable in measured checks. VHT80 investigation is therefore not required for the project goal. No configuration change made.
 
 SYNC 2026-09-19: User confirms target LAN Wi-Fi design is one logical home WLAN across 2.4 GHz and 5 GHz APs, with temporary password `12345678` for the OpenWrt APs. Current UCI confirms 5 GHz AP `OpenWrt-5G` and 2.4 GHz AP `OpenWrt` are separate SSIDs and both currently open (`encryption='none'`); 5 GHz STA remains on `SweetHomeU`, VHT40. No configuration change made in this step.
@@ -521,3 +519,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 
 ### Безопасность следующего шага
 Следующий диагностический шаг — только read-only targeted search по /etc/hotplug.d, /etc/init.d, /lib/netifd, /lib/wifi, /usr/libexec на прямые вызовы wifi reload/up/down, hostapd reload/config_set, hostapd_cli reload. Не выполнять reload/restart Wi-Fi, hostapd, wpa_supplicant, dnsmasq или https-dns-proxy. Один command за шаг.
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 6: pbr netifd path inspection
+- [CONFIRMED] Read-only grep of /etc/init.d/pbr found a dedicated `netifd()` function at line 1546 and `netifd_enabled` configuration handling; `netifd` is also exposed as an extra init command.
+- [CONFIRMED] The previously identified `/etc/init.d/network reload` at line 1768 is inside the pbr `netifd()` processing function, after UCI network commit and before firewall reload.
+- [NOT_PROVEN] The presence of this pbr function does not establish that it is being invoked periodically or that it initiates the observed `hostapd: Reload all interfaces` event.
+- [NOT_PROVEN] No causal link from pbr to the periodic Wi-Fi reload has been established.
+- [NEXT] Continue read-only mapping of the pbr `netifd()` function's declaration/call path and conditions. Do not invoke `/etc/init.d/pbr netifd`, network reload, firewall reload, Wi-Fi reload, hostapd reload, dnsmasq restart, or https-dns-proxy restart.
+- [RULE] User explicitly requires synchronization of the master plan after each user message + assistant message. This synchronization is now recorded as an operational requirement; the master prompt need not change because its existing one-step/synchronization rule already covers it.
