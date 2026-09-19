@@ -1108,3 +1108,11 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [LIMITATION] This still does not capture a per-query success response independently for each local listener; however, both listeners and both upstream paths are demonstrably active.
 - [CONFIRMED] No configuration, package, firewall, DNS, network, Wi-Fi, or service state was changed.
 - [STATUS] STAGE 10 remains IN_PROGRESS pending decision whether strict per-listener query attribution is mandatory for the stage exit criterion.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 10 UDP listener mapping
+- [CONFIRMED] /proc/net/udp shows 127.0.0.1:5053 (inode 3667) and 127.0.0.1:5054 (inode 3862), both UDP state 07.
+- [CONFIRMED] UDP inode 3667 matches PID 2844 socket FD; UDP inode 3862 matches PID 2845 socket FD.
+- [CONFIRMED] Both https-dns-proxy instances therefore have active TCP and UDP local listeners on their configured ports.
+- [CONFIRMED] No router configuration or service state was changed.
+- [STATUS] STAGE 10 remains IN_PROGRESS pending strict per-listener query attribution / exit-criterion decision.
