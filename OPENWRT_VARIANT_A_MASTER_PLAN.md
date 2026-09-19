@@ -188,3 +188,5 @@ SYNC 2026-09-19: Clarified ZRAM timing/state: ZRAM is not a future Stage 4 insta
 SYNC 2026-09-19: USB repartitioning was written successfully: GPT GUID 742D1342-481B-400A-9CB4-FCDA05D9F8B6; sda1 512 MiB and sda2 6.8 GiB. IMPORTANT: scripted type selection did not set sda1 to Linux swap; fdisk changed it to EFI System, and the extra '19' was reported as unknown. sda1 still contains a swap signature; sda2 still contains an ext4 signature. STAGE 4 remains IN_PROGRESS. Next action must correct sda1 GPT type to Linux swap before formatting/extroot.
 
 SYNC 2026-09-19: Read-only fdisk verification PASS. /dev/sda is GPT, sda1 512 MiB Linux swap (sectors 2048-1050623), sda2 6.8 GiB Linux filesystem (sectors 1050624-15259647), no sda3. USB layout matches target. STAGE 4 remains IN_PROGRESS; formatting has not yet been performed.
+
+SYNC 2026-09-19: STAGE 4 formatting attempt FAILED/blocked at mkswap /dev/sda1: 'write error: Text file busy'. Because of &&, mkfs.ext4 on sda2 did NOT run. Likely sda1 is currently active/in use despite earlier swapoff. No further destructive formatting command until active use is identified/cleared.
