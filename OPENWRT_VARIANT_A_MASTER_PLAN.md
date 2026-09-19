@@ -1362,3 +1362,6 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NO CHANGE] No daemon, firewall, NFQUEUE rule, cron, interface hook, Wi-Fi, or network configuration was started or changed by this test.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Continue with one read-only/runtime compatibility check at a time; do not start Zapret2 integration yet.
+
+
+SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version` completed successfully. Runtime reports Zapret2 v1.0.3, commit `b78b52c4cd7f843da3ff0848a3430afbd401bdf2`, `lua_compat_ver 6`. No daemon, NFQUEUE interception, firewall rule, Wi-Fi or network configuration was started or changed. STAGE 11 remains IN_PROGRESS. NEXT: proceed to controlled installation of the OpenWrt service integration only after preserving the verified binary preflight; service/firewall activation remains a separate step.
