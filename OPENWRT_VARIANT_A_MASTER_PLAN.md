@@ -1391,3 +1391,13 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No service enable/start, firewall/NFQUEUE rules, network/Wi-Fi reload, or config activation was performed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Perform one read-only check of the current active config file location/content and whether a separate runtime config exists, before any configuration editing or activation.
+
+
+## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 runtime config location check
+- [PASS] Read-only check confirms `/opt/zapret2/config` does not exist; only `/opt/zapret2/config.default` is currently present.
+- [CONFIRMED] `/opt/zapret2/init.d/openwrt/functions` and `90-zapret2` resolve `ZAPRET_CONFIG` to `$ZAPRET_RW/config` and source that file directly.
+- [CONFIRMED] `/opt/zapret2/common/installer.sh` also writes/replaces variables in `$ZAPRET_CONFIG` during installer configuration.
+- [IMPORTANT] `config.default` is not automatically the active runtime config: a separate `/opt/zapret2/config` is expected by the deployed init integration.
+- [NO CHANGE] No config file was created, no service was enabled/started, no firewall/NFQUEUE rules were applied, and no network/Wi-Fi reload occurred.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Before creating or editing the runtime config, perform one read-only inspection of the relevant installer/config initialization logic to determine the safe source/copy mechanism and required minimal variables.
