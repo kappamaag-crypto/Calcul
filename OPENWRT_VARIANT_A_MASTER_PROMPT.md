@@ -303,3 +303,5 @@ SYNC 2026-09-19: `swapoff /dev/sda1` completed successfully (empty output). Cont
 SYNC 2026-09-19: `/mnt/data` unmounted successfully. Continue one command at a time.
 
 SYNC 2026-09-19: fstab global auto_mount disabled and router reboot completed. Continue one command at a time.
+
+SYNC 2026-09-19: `auto_mount=0` did not prevent extroot; `/dev/sda2` remains active `/overlay`. Do not format while USB is attached. Use clean shutdown and physical USB removal before repartitioning.
