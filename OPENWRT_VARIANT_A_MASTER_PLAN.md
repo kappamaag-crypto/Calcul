@@ -1594,3 +1594,9 @@ This block is authoritative over older historical entries when they conflict wit
 - [NOT_STARTED] TP-Link DHCP reservation for 192.168.0.100 → B8-69-F4-D6-E8-A0 has not yet been created/verified.
 - [NEXT] On the TP-Link, use DHCP → Address Reservation → Add New; enter the MikroTik WAN MAC and 192.168.0.100, enable the entry, save, and then verify the reservation.
 - [NO CHANGE] No MikroTik router command or network configuration is required merely to prepare this TP-Link reservation; MikroTik WAN remains DHCP.
+
+## CHANGELOG — 2026-09-20 — [SYNC] Wi-Fi channel width set to 20 MHz
+- [CONFIRMED] User reports that Wi-Fi channel width has been set to 20 MHz on both the TP-Link Archer C20 and the MikroTik/OpenWrt.
+- [SCOPE] This is a configuration/state note only; no router command was issued by the assistant in this turn.
+- [IMPORTANT] The exact radio band/interface and channel numbers were not independently verified in this turn.
+- [SAFETY] No Wi-Fi reload/restart was requested or performed; current connectivity remains unchanged by this sync.
