@@ -1906,3 +1906,7 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] Direct inspection of live `postrouting` and `prerouting` chains showed both are empty. This is consistent with Zapret2 selecting `postnat`/`prenat` when POSTNAT mode is active, so it does not by itself prove insertion failure.
 - [STATUS] NFQWS2 process and restart insertion messages remain successful, but live queue rules have not yet been located. STAGE 11 remains IN_PROGRESS.
 - [NEXT] Inspect the actual selected `postnat` and `prenat` chains directly for `queue num 300`.
+
+- [OBSERVED 2026-09-20] Direct live inspection of `inet zapret2 postnat` and `prenat` confirms NFQUEUE activation is now actually present. `postnat` contains IPv4 UDP/443 original packets 1-5 and TCP/80,443 original packets 1-20, both marking and `queue flags bypass to 300`. `prenat` contains IPv4 UDP/443 reply packets 1-3 and TCP/80,443 reply packets 1-10, with `queue flags bypass to 300`.
+- [STATUS] The previous NFQUEUE insertion blocker is resolved. NFQWS2 firewall integration is technically active at the nftables level. STAGE 11 may advance past the NFQUEUE activation gate, but functional traffic testing is still required before declaring the whole Zapret2 stage DONE.
+- [NEXT] Perform a read-only runtime sanity check of the NFQWS2 process and live queue rules before any functional network test.
