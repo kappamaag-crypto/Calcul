@@ -1883,3 +1883,10 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] This inspection was read-only; no Zapret2 service, nftables, network, Wi-Fi, DNS, package, or kernel state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; NFQWS2 daemon is running but nftables queue attachment remains unverified/incomplete.
 - [NEXT] One read-only command: locate the `nft_insert_rule()` definition and nearby helper functions in `/opt/zapret2/common/nft.sh`.
+
+- [OBSERVED 2026-09-20] Read-only inspection located the exact `nft_insert_rule()` implementation at lines 304–311 of `/opt/zapret2/common/nft.sh`. It is a thin wrapper: after taking the chain as $1, it executes `nft insert rule inet $ZAPRET_NFT_TABLE $chain $FW_EXTRA_PRE "$@"`.
+- [CONFIRMED] Therefore Zapret2 is directly invoking the system `nft insert rule` command; the NFQUEUE expression is passed through unchanged from the higher-level NFQWS2 functions.
+- [IMPORTANT] The exact historical insertion failure `Error: Could not process rule: No such file or directory` is still not reproduced after `kmod-nft-queue` installation, so no conclusion about a current quoting/command problem should be made yet.
+- [NO CHANGE] This was read-only; no firewall, service, network, Wi-Fi, DNS, package, or filesystem state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; NFQWS2 daemon is running and `nft_queue` is loaded, but queue rules are not yet confirmed attached.
+- [NEXT] Inspect the current values of the variables that directly affect the generated nft command (`ZAPRET_NFT_TABLE`, `FW_EXTRA_PRE`, `POSTNAT`, `POSTNAT_ALL`, and relevant NFQWS2 firewall parameters) using the installed Zapret2 configuration/source, before any restart or firewall re-application.
