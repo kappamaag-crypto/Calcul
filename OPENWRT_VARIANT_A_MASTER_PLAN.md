@@ -2008,3 +2008,11 @@ This block is authoritative over older historical entries when they conflict wit
 - [IMPORTANT] The dnsmasq restart did not produce a normal silent/clean restart result; it triggered/observed a DHCP client attempt that failed to obtain a lease. Do not assume WAN DHCP is currently healthy or that dnsmasq is fully operational from this output alone.
 - [STATUS] DNS/DoH recovery remains IN_PROGRESS. https-dns-proxy remains stopped. Zapret2 remains untouched.
 - [NEXT] Before another state-changing operation, perform one read-only check of current interface/address/route state to determine whether WAN DHCP/addressing was affected by the restart. No network restart or Zapret2 change yet.
+
+SYNC 2026-09-20: Router-originated Internet connectivity test PASS after Zapret2/NFQWS2 activation. Command: `ping -c 3 -W 3 1.1.1.1`. Result: 3 packets transmitted, 3 received, 0% loss; RTT min/avg/max 58.989/63.169/68.472 ms.
+- [CONFIRMED] MikroTik itself has working upstream IPv4 Internet connectivity through TP-Link Archer C20 v4.
+- [CONFIRMED] The user's reported failure is specific to Internet access for clients connected to the MikroTik OpenWrt SSID; it is not a general upstream outage.
+- [STATUS] STAGE 11 remains IN_PROGRESS. Functional client Internet validation remains FAILED for the current configuration.
+- [IMPORTANT] Current fault domain remains client path: DNS, LAN/Wi-Fi forwarding/NAT, or Zapret2/NFQUEUE interaction with forwarded traffic. Existing evidence already confirms base fw4 LAN→WAN and reverse acceptance counters, while DNS/DoH previously showed OOM-related failure and https-dns-proxy was stopped during recovery.
+- [SAFETY] No Zapret2 configuration, firewall rule, Wi-Fi configuration, or service state was changed by this ping.
+- [NEXT] Continue with the single next read-only diagnostic command already selected: inspect current interface/address/route state after the dnsmasq restart, before any further state-changing operation.
