@@ -1763,3 +1763,10 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] Status check was read-only; no service, daemon, firewall, NFQUEUE, DNS, Wi-Fi, or network state changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS. Zapret2 is installed but currently inactive and not enabled.
 - [NEXT] Before first activation, perform one read-only config sanity check focused on activation gates and `SET_MAXELEM`; do not enable/start yet.
+
+
+## CHANGELOG — 2026-09-20 — Zapret2 activation gate verified
+- [CONFIRMED] Current runtime config has `NFQWS2_ENABLE=0`, `MODE_FILTER=none`, `INIT_APPLY_FW=1`, `FLOWOFFLOAD=donttouch`, `DISABLE_IPV6=1`, and `SET_MAXELEM=522288` with `IPSET_OPT="hashsize 262144 maxelem $SET_MAXELEM"`.
+- [SAFETY] `SET_MAXELEM` remains a configured capacity value only; no live nft set using it has been confirmed. Because `MODE_FILTER=none` and no lists are present, the first activation step should not intentionally create the large IP set.
+- [DECISION] To activate Zapret2 itself, the required configuration gate is `NFQWS2_ENABLE=1`; this is a deliberate configuration change and must be followed by verification before service start.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
