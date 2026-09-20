@@ -1928,3 +1928,7 @@ This block is authoritative over older historical entries when they conflict wit
 
 - [OBSERVED 2026-09-20] BusyBox `nc` on this OpenWrt build does not support `-zvw`; it only accepts `nc [IPADDR PORT]`. Therefore the attempted TCP test did not test connectivity and produced only usage text.
 - [NEXT] Use the supported BusyBox nc syntax for a direct TCP connection test to 1.1.1.1:443; do not infer TCP failure from the previous command.
+
+- [OBSERVED 2026-09-20] Functional traffic validation: after client traffic was generated through the MikroTik, `/proc/net/netfilter/nfnetlink_queue` for queue 300 (PID 4894) changed from the previously observed `70` to `480`, then to `555`. This confirms additional traffic is reaching the active NFQUEUE 300 path owned by NFQWS2. The exact column semantics of the changing `480/555` value were not independently established, so do not interpret it as an exact packet count.
+- [STATUS] NFQUEUE/NFQWS2 traffic-path activity is confirmed. This is strong functional evidence that client traffic reaches NFQWS2, but it does not by itself prove that a target site was successfully desynced/opened.
+- [NEXT] Perform one user-facing functional check: from a client connected to MikroTik Wi-Fi, test the previously problematic HTTPS site and report only whether it opens or does not open. Do not change Zapret2 configuration before that result.
