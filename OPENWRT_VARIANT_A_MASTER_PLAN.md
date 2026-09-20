@@ -1990,3 +1990,9 @@ This block is authoritative over older historical entries when they conflict wit
 - [ROOT-CAUSE CONTEXT] OOM occurred while two https-dns-proxy instances were configured/listening on 5053/5054 and dnsmasq was configured to use both. Kernel explicitly killed PID 3221. Exact memory pressure trigger (steady footprint vs. transient/concurrent workload) is not yet established from current evidence.
 
 - [NEXT STEP 2026-09-20] After successfully stopping https-dns-proxy, restore dnsmasq's known-working direct upstream path to TP-Link (192.168.0.1) without yet re-enabling DoH or touching Zapret2. Before any configuration write, inspect current generated resolver state only.
+
+
+- [OBSERVED 2026-09-20] User returned the read-only generated resolver state: `/tmp/resolv.conf.d/resolv.conf.auto` contains `nameserver 192.168.0.1` and `nameserver 0.0.0.0`. This confirms the WAN DHCP path provides TP-Link 192.168.0.1 as the intended recovery resolver.
+- [DECISION] Restore dnsmasq to a direct, controlled upstream of 192.168.0.1 with `noresolv=1`, removing the local DoH `server`, `doh_server`, and `doh_backup_server` entries. Zapret2 remains untouched. Configuration will be committed first; dnsmasq restart is a separate next step after the result is confirmed.
+- [STATUS] DNS/DoH recovery remains IN_PROGRESS; https-dns-proxy is stopped.
+- [NEXT] One state-changing configuration command: set dnsmasq direct upstream to 192.168.0.1, remove local DoH endpoints, and commit the DHCP/dnsmasq configuration. Do not restart dnsmasq in the same step.
