@@ -1770,3 +1770,10 @@ This block is authoritative over older historical entries when they conflict wit
 - [SAFETY] `SET_MAXELEM` remains a configured capacity value only; no live nft set using it has been confirmed. Because `MODE_FILTER=none` and no lists are present, the first activation step should not intentionally create the large IP set.
 - [DECISION] To activate Zapret2 itself, the required configuration gate is `NFQWS2_ENABLE=1`; this is a deliberate configuration change and must be followed by verification before service start.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-20 — Zapret2 NFQWS2 gate enabled
+- [CONFIRMED] `/opt/zapret2/config` now contains `NFQWS2_ENABLE=1`.
+- [CONFIRMED] The change was limited to the Zapret2 runtime configuration; the service has not yet been started.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Start Zapret2 once, then immediately verify service state, daemon process, and firewall state before any further change.
