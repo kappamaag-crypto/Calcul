@@ -1937,3 +1937,9 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] User reports: Internet does not work for clients connected via MikroTik Wi-Fi. This changes the functional validation result from “target-site test pending” to a general connectivity failure. Do not declare Zapret2/NFQWS2 functional success from NFQUEUE counter changes alone.
 - [STATUS] STAGE 11 remains IN_PROGRESS; functional validation FAILED for the current configuration from the user's client perspective. No configuration change has been made yet.
 - [NEXT] Diagnose from the router with one read-only connectivity test before changing Zapret2/firewall/DNS: ping an external IP to distinguish general upstream connectivity from client forwarding/DNS/application-layer failure.
+
+
+- [OBSERVED 2026-09-20] Router-originated connectivity test PASS: `ping -c 3 -W 2 1.1.1.1` returned 3/3 replies, 0% loss, avg 38.451 ms. Therefore MikroTik itself has working upstream IP connectivity through TP-Link.
+- [CONCLUSION] The reported “no Internet via MikroTik Wi-Fi” is not a general WAN/upstream outage. The remaining fault domain is client path: LAN/Wi-Fi forwarding, DNS, or traffic handling introduced by the current firewall/Zapret2/NFQUEUE configuration.
+- [STATUS] STAGE 11 remains IN_PROGRESS; functional client Internet validation remains FAILED.
+- [NEXT] Run one read-only check of the MikroTik LAN client forwarding path: inspect the active firewall zone/forwarding counters/configuration without restarting or changing services.
