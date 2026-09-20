@@ -1822,3 +1822,11 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No package, kernel module, service, firewall, network, Wi-Fi, or DNS state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
 - [NEXT] Inspect the kernel module dependency/index metadata read-only for `nft_queue` before installing or loading anything.
+
+
+## CHANGELOG — 2026-09-20 — nft_queue module index check
+- [RESULT] Read-only grep of `modules.dep` and `modules.alias` for `nft_queue`/`queue` returned no output.
+- [CONFIRMED] No indexed `nft_queue` module or matching alias is present in the current kernel module metadata.
+- [CONCLUSION] The current OpenWrt kernel/module set does not expose `nft_queue` as a loadable module through the standard module metadata. This explains the nft rule insertion failure as the leading technical cause, but the exact package/config source should still be checked before installing anything.
+- [NO CHANGE] No module, package, service, firewall, network, Wi-Fi, or DNS state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
