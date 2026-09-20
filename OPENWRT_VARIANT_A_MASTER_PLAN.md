@@ -1692,3 +1692,11 @@ This block is authoritative over older historical entries when they conflict wit
 - [CONFIRMED] An `init.d` directory is present, but previous filename-filtering did not reveal matching files; its contents must be inspected directly.
 - [NO CHANGE] No Zapret2 service, firewall/NFQUEUE, list generator, network, Wi-Fi or DNS state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+
+## CHANGELOG — 2026-09-20 — STAGE 11 init.d direct inventory
+- [PASS] Read-only command `find /opt/zapret2/init.d -maxdepth 3 -type f -printf '%p\n' 2>/dev/null | sort` completed successfully.
+- [CONFIRMED] The command returned no file paths, so no regular files were found under `/opt/zapret2/init.d` at the time of this check.
+- [CORRECTION] This narrows the previous finding: `/opt/zapret2/init.d` exists as a directory, but its current contents contain no regular files within depth 3.
+- [NO CHANGE] No Zapret2 installer, service hook, firewall/NFQUEUE activation, list generation, network/Wi-Fi or DNS state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- [NEXT] The next step is one compact read-only inspection of the `/opt/zapret2` directory entries around `init.d`/related scripts to determine whether the integration is represented by non-regular files or another official path. Do not execute installers or activation scripts.
