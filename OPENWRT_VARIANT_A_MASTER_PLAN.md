@@ -1739,3 +1739,12 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No service, daemon, firewall, NFQUEUE, network, Wi-Fi, or DNS state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - [NEXT] Final read-only installation-state check: determine whether `/etc/init.d/zapret2` currently exists and what it resolves to. No activation.
+
+
+## CHANGELOG — 2026-09-20 — STAGE 11 installation-state check
+- [CONFIRMED] `/etc/init.d/zapret2` exists, is executable (`-rwxr-xr-x`), size 2987 bytes, matching the inspected controlled launcher size.
+- [CONFIRMED] `readlink /etc/init.d/zapret2` produced no output, so it is not a symlink according to this check; it is a regular installed copy at `/etc/init.d/zapret2`.
+- [IMPORTANT] Existence of the init script does not by itself prove the service is enabled, running, or applying firewall/NFQUEUE rules.
+- [NO CHANGE] The check was read-only; Zapret2 service, daemon, firewall, NFQUEUE, network, Wi-Fi, and DNS state were not changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS because activation was explicitly deferred by the user. Zapret2 remains intentionally inactive.
+- [NEXT] Installation audit is complete. Any further step must be a separate activation decision; do not enable/start Zapret2 automatically.
