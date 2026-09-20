@@ -1946,3 +1946,7 @@ This block is authoritative over older historical entries when they conflict wit
 
 
 - [SYNC 2026-09-20] Current status saved: router-originated Internet connectivity is confirmed working (`ping 1.1.1.1`: 3/3, 0% loss, avg 38.451 ms). User-reported Internet failure specifically affects clients connected through MikroTik Wi-Fi. No configuration change or service restart was made after this test. Current fault domain is narrowed to client-side path: LAN/Wi-Fi forwarding, DNS, or active firewall/Zapret2/NFQUEUE handling. STAGE 11 remains IN_PROGRESS; functional client Internet validation remains FAILED. Next diagnostic command already issued to user is read-only `uci show firewall`; await its result before any further router command.
+
+- [OBSERVED 2026-09-20] Read-only `uci show firewall` confirms standard LAN→WAN forwarding is configured: LAN input/output/forward ACCEPT; WAN input REJECT/output ACCEPT/forward DROP with masquerade and mtu_fix enabled; explicit forwarding `src=lan,dest=wan` exists. No firewall configuration change was made.
+- [CONCLUSION] Basic UCI firewall policy does not explain the client Wi-Fi Internet failure by itself. Continue read-only diagnosis of the live packet path, with Zapret2/NFQUEUE still a possible interaction.
+- [NEXT] Inspect live fw4 forward-chain rules/counters; do not restart or modify services.
