@@ -1708,3 +1708,12 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No Zapret2 installer, service hook, firewall/NFQUEUE activation, list generation, network/Wi-Fi or DNS state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - [NEXT] Perform one compact read-only listing of `/opt/zapret2/init.d/openwrt` to identify the actual OpenWrt integration files without executing them.
+
+## CHANGELOG — 2026-09-20 — STAGE 11 OpenWrt integration inventory
+- [PASS] Read-only `ls -la /opt/zapret2/init.d/openwrt` completed successfully.
+- [CONFIRMED] OpenWrt integration contains regular files `90-zapret2` (840 bytes), `firewall.zapret2` (238 bytes), `functions` (6105 bytes), and executable `zapret2` (2987 bytes).
+- [CONFIRMED] It also contains a `custom.d/` directory.
+- [CORRECTION] The Zapret2 OpenWrt integration files are present in the controlled deployment; their presence does not mean they are installed into `/etc/init.d`, `/etc/init.d/firewall`, firewall includes, or enabled at boot.
+- [NO CHANGE] No integration script was executed and no service/firewall/NFQUEUE/network/Wi-Fi/DNS state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- [NEXT] Perform one compact read-only command to inspect `90-zapret2`, `firewall.zapret2`, and the top-level function/launcher headers without executing them.
