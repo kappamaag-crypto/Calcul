@@ -1996,3 +1996,9 @@ This block is authoritative over older historical entries when they conflict wit
 - [DECISION] Restore dnsmasq to a direct, controlled upstream of 192.168.0.1 with `noresolv=1`, removing the local DoH `server`, `doh_server`, and `doh_backup_server` entries. Zapret2 remains untouched. Configuration will be committed first; dnsmasq restart is a separate next step after the result is confirmed.
 - [STATUS] DNS/DoH recovery remains IN_PROGRESS; https-dns-proxy is stopped.
 - [NEXT] One state-changing configuration command: set dnsmasq direct upstream to 192.168.0.1, remove local DoH endpoints, and commit the DHCP/dnsmasq configuration. Do not restart dnsmasq in the same step.
+
+
+- [OBSERVED 2026-09-20] User executed the direct-DNS UCI configuration command. Output was empty, which is expected because `uci set`, `uci -q delete`, and `uci commit` are silent on success.
+- [CONFIRMED] The intended dnsmasq recovery configuration command completed without reported errors: `noresolv=1`, local DoH `server/doh_server/doh_backup_server` entries removed, and `server=192.168.0.1` added and committed.
+- [STATUS] DNS/DoH recovery remains IN_PROGRESS; https-dns-proxy remains stopped; Zapret2 remains untouched.
+- [NEXT] One state-changing service step: restart dnsmasq so the committed direct-DNS configuration becomes active. Then validate DNS separately.
