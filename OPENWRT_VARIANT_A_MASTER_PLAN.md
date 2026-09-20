@@ -1837,3 +1837,5 @@ This block is authoritative over older historical entries when they conflict wit
 - [WEB VERIFIED] OpenWrt release 25.12.5 is the relevant official release tree; kernel-module packages are target/kernel-build specific, so a package from another target must not be installed.
 - [SAFETY] Do not install the x86/other-target `kmod-nft-queue` package. First inspect the router's configured official APK repositories and exact target kmods feed.
 - [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
+
+- [OBSERVED 2026-09-20] `/etc/apk/repositories` does not exist (`cat: can't open ... No such file or directory`). Do not infer repository configuration from this path; inspect apk configuration using a read-only command next.
