@@ -1918,3 +1918,7 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] `/proc/4894/fdinfo/*` showed ordinary descriptor flags/positions but did not identify the descriptor types or prove NFQUEUE socket attachment. No configuration or runtime state was changed.
 - [DECISION] Do not use fdinfo as a functional NFQUEUE proof; proceed to inspect the process file-descriptor targets directly.
 - [NEXT] Read-only `ls -l /proc/4894/fd` to identify the live NFQWS2 descriptors (including any socket/queue-related descriptor) before generating test traffic.
+
+- [OBSERVED 2026-09-20] `/proc/net/netlink` matched socket inode `68779` to PID `4894`, with netlink protocol `12` (NETLINK_NETFILTER). This confirms the live NFQWS2 process owns a NETFILTER netlink socket. The other displayed line is not owned by PID 4894.
+- [STATUS] NFQUEUE kernel module, live nft queue rules, NFQWS2 `--qnum=300`, and a NETLINK_NETFILTER socket are now confirmed. This is strong runtime evidence, but it is still not a functional proof that user traffic is being processed by the desync profiles.
+- [NEXT] Move to a real forwarded-traffic validation. Avoid further indirect FD inspection unless the traffic test fails.
