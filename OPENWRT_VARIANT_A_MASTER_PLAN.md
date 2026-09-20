@@ -1728,3 +1728,14 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No Zapret2 service, firewall, NFQUEUE, interface hook, DNS, Wi-Fi, or network state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - [NEXT] Inspect the actual `/opt/zapret2/init.d/openwrt/zapret2` launcher read-only before considering any installation/copy action.
+
+
+## CHANGELOG — 2026-09-20 — STAGE 11 launcher audit
+- [CONFIRMED] Read-only inspection of `/opt/zapret2/init.d/openwrt/zapret2` completed.
+- [CONFIRMED] Launcher is an OpenWrt `/etc/rc.common`/procd service script with `USE_PROCD=1` and `START=21`.
+- [CONFIRMED] It provides firewall/daemon control commands and starts `nfqws2` through procd when daemon configuration enables it.
+- [CONFIRMED] With `INIT_APPLY_FW=1`, service start/stop can apply/unapply Zapret2 firewall integration unless OpenWrt fw3 integration handles it separately.
+- [IMPORTANT] The script itself is still only under `/opt/zapret2/init.d/openwrt/zapret2`; inspection does not prove it is installed as `/etc/init.d/zapret2` or enabled.
+- [NO CHANGE] No service, daemon, firewall, NFQUEUE, network, Wi-Fi, or DNS state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- [NEXT] Final read-only installation-state check: determine whether `/etc/init.d/zapret2` currently exists and what it resolves to. No activation.
