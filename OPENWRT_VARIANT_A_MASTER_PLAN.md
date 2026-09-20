@@ -1967,3 +1967,6 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] `nslookup example.com 192.168.1.1` from the MikroTik itself timed out: no DNS server reached at LAN address 192.168.1.1. Router IP connectivity to 1.1.1.1 remains confirmed. User clarified that the only Internet access in this setup is via the MikroTik Wi-Fi to a phone client.
 - [CONCLUSION] DNS service/listening path is now a primary suspect for the client Internet failure. This is distinct from upstream IP connectivity and basic fw4 forwarding, both already confirmed working.
 - [NEXT] Inspect which local process/socket is listening on DNS port 53, read-only. No service restart or configuration change.
+
+- [OBSERVED 2026-09-20] `netstat -lnup | grep ':53'` confirms dnsmasq PID 3802 is listening on UDP/53 on 127.0.0.1, 192.168.1.1, 192.168.0.100 and IPv6 addresses. Therefore the prior DNS timeout is not explained by a missing DNS listener/socket. It remains necessary to determine whether dnsmasq receives the query and whether its upstream resolution is failing.
+- [NEXT] Inspect recent dnsmasq log messages read-only; no restart/configuration change.
