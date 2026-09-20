@@ -1839,3 +1839,4 @@ This block is authoritative over older historical entries when they conflict wit
 - [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
 
 - [OBSERVED 2026-09-20] `/etc/apk/repositories` does not exist (`cat: can't open ... No such file or directory`). Do not infer repository configuration from this path; inspect apk configuration using a read-only command next.
+- [CLARIFICATION 2026-09-20] User correctly distinguished `kmod-nft-queue` (nftables `queue` expression/kernel integration) from `kmod-nfnetlink-queue` (NFQUEUE/netlink userspace communication). Current router has `nfnetlink_queue` loaded, while `nft_queue` is absent from loaded modules and module files/metadata. This distinction is now authoritative for STAGE 11 diagnosis.
