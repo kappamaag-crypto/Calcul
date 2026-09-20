@@ -1498,106 +1498,19 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [IMPORTANT] The high `SET_MAXELEM=522288` value is not merely informational: it is consumed by actual ipset/nftset creation paths. On this 64 MB router it must be treated as a memory-risk parameter and must not be enabled until resource impact is assessed.
 - [CONFIRMED] Current `NFQWS2_ENABLE=0` and `MODE_FILTER=none` keep the Zapret2 filtering path inactive; no ipset/nftset activation occurred during this audit.
 - [CONFIRMED] `FLOWOFFLOAD=donttouch` is only acted upon for software/hardware values in the inspected nft paths.
-- [SAFETY] No Zapret2 service, firewall/NFQUEUE, interface hook, network or Wi-Fi state was changed.
-- [NEXT] Continue read-only audit of the exact ipset/nftset backend and memory-sensitive creation path before deciding whether the current hostlist/set sizing is acceptable.
 
-
-## CHANGELOG — 2026-09-19 — [SYNC] Zapret2 backend creation-path audit
-- [PASS] Read-only inspection of `create_ipset.sh` backend logic completed.
-- [CONFIRMED] The nftables backend creates native nft sets with `type ipv1_addr; size $3; flags interval; auto-merge` via `nft_create_set`; therefore `SET_MAXELEM` becomes the nft set `size` parameter.
-- [CONFIRMED] The legacy ipset backend passes `IPSET_OPT` to `create_ipset`, while the nftables backend does not use the legacy `hashsize/maxelem` string directly.
-- [IMPORTANT] The current runtime `SET_MAXELEM=522288` therefore requests nft set capacity of 522288 elements if the nftables hostlist path is activated. This remains a memory-safety gate on the 64 MB router; no activation or tuning was performed.
-- [NO CHANGE] No config, service, firewall/NFQUEUE, network/Wi-Fi or storage state was changed.
-- [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Perform one compact read-only check of the active firewall backend and available nft set support before deciding a safe capacity.
-
-
-## CHANGELOG — 2026-09-19 — [SYNC] current nftables ruleset backend verification
-- [PASS] Read-only `nft list ruleset` inspection completed.
-- [CONFIRMED] Active firewall is nftables with table `inet fw4`; standard OpenWrt fw4 chains are present.
-- [CONFIRMED] WAN handling currently uses both `eth1` and `phy0-sta0`, matching the downstream Wi-Fi STA topology.
-- [CONFIRMED] No Zapret2-specific nft table/set/rules are visible in the inspected ruleset section; current rules are OpenWrt fw4 plus the existing https-dns-proxy blocking rules for TCP/UDP 853.
-- [NO CHANGE] No firewall rules, nft sets, NFQUEUE, Zapret2 service, network or Wi-Fi state was changed.
-- [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Perform one compact read-only check specifically for existing nft sets and nftables version/capability, without changing firewall state.
-
-
-## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 nft set inventory/capability check
-- [PASS] Read-only command `nft list sets 2>/dev/null; nft --version` completed successfully.
-- [CONFIRMED] No active nft sets are currently present in table `inet fw4`; the output shows only an empty `table inet fw4 { }`.
-- [CONFIRMED] No active nft sets are currently present in table `inet https_dns_proxy_notrack`; the output shows only an empty table.
-- [CONFIRMED] Installed nftables version is `v1.1.6 (Commodore Bullmoose #7)`.
-- [IMPORTANT] The configured `SET_MAXELEM=522288` has not caused an active Zapret2 nft set to be created, because Zapret2 filtering remains inactive (`MODE_FILTER=none`, `NFQWS2_ENABLE=0`).
-- [CLARIFICATION] `SET_MAXELEM` is a set capacity parameter, not evidence that 522288 elements are currently allocated or present.
-- [CLARIFICATION] Active nft set state is kernel nftables state; Zapret2 list files/configuration may reside on extroot/USB, but nft set contents are not configured as a flash-backed file database.
-- [NO CHANGE] No firewall rules, nft sets, NFQUEUE, Zapret2 service, network/Wi-Fi state or storage state was changed.
-- [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Continue with one compact read-only memory/capability check before deciding whether the configured set capacity requires tuning.
-
-## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 memory/slab capability check
-- [PASS] Read-only command `free -m; ... grep -E 'nft|ip_set|nf_conntrack' /proc/slabinfo ...` completed successfully.
-- [CONFIRMED] RAM: 54 MiB total, 34 MiB used, 12 MiB free, 7 MiB buff/cache, only about 3.7 MiB available at the moment of the check.
-- [CONFIRMED] Swap: about 538 MiB total, about 3 MiB used, about 535 MiB free; the large swap capacity does not change the fact that active nft set structures are kernel-memory allocations.
-- [OBSERVED] The filtered `/proc/slabinfo` query returned no matching lines for `nft`, `ip_set`, or `nf_conntrack`; this is not proof that all related kernel memory is zero, only that no matching slab-cache names were exposed by this filter.
-- [IMPORTANT] Current available RAM is low enough that `SET_MAXELEM=522288` remains a memory-safety gate and must not be activated merely because swap is available.
-- [NO CHANGE] No firewall, nft set, NFQUEUE, Zapret2 service, network/Wi-Fi, configuration, or storage state was changed.
-- [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Perform one compact read-only `/proc/meminfo` check focused on Slab/SUnreclaim/SReclaimable/SwapCached before deciding whether a lower `SET_MAXELEM` is required.
-
-
-## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 kernel memory breakdown
-- [PASS] Read-only `/proc/meminfo` check completed successfully.
-- [CONFIRMED] MemAvailable: 4352 kB (~4.25 MiB).
-- [CONFIRMED] Slab: 8448 kB; SReclaimable: 1152 kB; SUnreclaim: 7296 kB.
-- [CONFIRMED] SwapCached: 16 kB, so only a negligible amount of swap cache is resident.
-- [IMPORTANT] A substantial portion of current slab memory is unreclaimable (~7.1 MiB). With only ~4.25 MiB MemAvailable, there is very little RAM headroom for a large newly activated nft set.
-- [DECISION GATE] Do not activate the current `SET_MAXELEM=522288` configuration. A lower capacity must be selected based on the actual hostlist size and memory behavior rather than relying on the large default.
-- [NO CHANGE] No nft sets, firewall/NFQUEUE, Zapret2 service, network/Wi-Fi, configuration, or storage state was changed.
-- [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Perform one compact read-only check of the actual Zapret2 list files and their sizes/counts, without creating or loading any nft set.
-
-
-## CHANGELOG — 2026-09-19 — [PASS] STAGE 11 Zapret2 list-file inventory
-- [PASS] Read-only inventory command completed successfully.
-- [OBSERVED] No output was returned by the filtered search for `*.txt`, `*.list` or `*.gz` under `/opt/zapret2`; therefore no matching files were found by this exact filter in the deployed tree.
-- [IMPORTANT] This does not prove that Zapret2 has no hostlist/source data anywhere; it only establishes that these three filename classes were not found by the executed command.
-- [NO CHANGE] No Zapret2 service, nft set, firewall/NFQUEUE, configuration, network/Wi-Fi or storage state was changed.
-- [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Continue with one compact read-only inspection of Zapret2's configured list-path variables and their referenced paths, without loading or activating any set.
-
-
-## CHANGELOG — 2026-09-19 — [PASS] STAGE 11 Zapret2 list-path configuration audit
-- [PASS] Read-only grep of runtime config and `ipset/def.sh` completed successfully.
-- [CONFIRMED] Runtime config currently has `SET_MAXELEM=522288` and `MODE_FILTER=none`.
-- [CONFIRMED] Zapret2 list paths are derived from `$IPSET_RW_DIR`, including IPv4/IPv6 main, exclude, user and IP-ban lists.
-- [IMPORTANT] The previous empty filename inventory did not establish absence of lists; the actual configured list names are now known, but `IPSET_RW_DIR` and actual file existence/size have not yet been established.
-- [NO CHANGE] No list was created/loaded; no nft set, firewall/NFQUEUE, service, configuration, network/Wi-Fi or storage state was changed.
-- [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Determine the resolved `IPSET_RW_DIR` and compactly inventory those exact configured list paths, read-only.
-
-## CHANGELOG — 2026-09-20 — [DEFERRED] access to OpenWrt from TP-Link Wi-Fi
-- [REQUEST] User wants the option to connect to the downstream OpenWrt router from the TP-Link `SweetHomeU` Wi-Fi network without a LAN cable.
-- [DEFERRED] The connection method is postponed for later decision; no OpenWrt configuration change was requested or performed in this turn.
-- [CONFIRMED] Current intended topology remains TP-Link Archer C20 v4 as the main router and MikroTik hAP ac lite/OpenWrt downstream via Wi-Fi STA.
-- [SAFETY] Do not change WAN firewall/input policy, LAN addressing, routing, Wi-Fi, or reload network services merely to prepare this access path.
-- [NEXT] When the user decides to proceed, first perform one compact read-only check of the OpenWrt WAN status/address and compare it with the TP-Link LAN subnet before selecting an access method.
-- [STATUS] This access-path task is deferred; existing STAGE 11 Zapret2 audit remains IN_PROGRESS and Zapret2 remains inactive.
-
-
-## CHANGELOG — 2026-09-20 — [DEFERRED] OpenWrt Wi-Fi/DHCP issue after DNS change
-- [REQUEST] User changed DNS on the MikroTik/OpenWrt router; afterward the phone no longer connects normally to Wi-Fi / does not receive an IP address.
-- [DEFERRED] User asked to pause this issue and return to it later; no corrective configuration change was performed.
-- [CONFIRMED] The issue concerns the MikroTik/OpenWrt router, not the TP-Link Archer C20 main router.
-- [DIAGNOSTIC] One read-only dnsmasq service-status command was issued; its result is pending from the user. No restart/reload was performed.
-- [SAFETY] Wi-Fi diagnosis remains read-only until the user resumes it; do not intentionally reload network/Wi-Fi/services while diagnosing.
-- [NEXT] When resumed, continue from the pending dnsmasq status result; do not repeat or skip steps without actual evidence.
-- [STATUS] Issue deferred; STAGE 11 remains IN_PROGRESS and Zapret2 remains inactive.
-
-
-## CHANGELOG — 2026-09-20 — [PASS] deferred Wi-Fi/DHCP diagnosis: dnsmasq status
-- [PASS] Read-only command completed: `ubus call service list ... dnsmasq ...`.
-- [CONFIRMED] The filtered result is `STATUS=0`; dnsmasq is not reported as running. No PID was returned.
-- [IMPORTANT] This provides a concrete lead for the phone DHCP failure, but does not yet establish why dnsmasq is stopped or whether another DHCP service is active.
-- [NO CHANGE] No service restart, network/Wi-Fi reload, DNS rollback, or configuration edit was performed.
-- [NEXT] When continuing this diagnosis, inspect dnsmasq service/config state read-only before any restart or configuration change.
-- [STATUS] Wi-Fi/DHCP issue remains IN_PROGRESS for diagnosis but is paused at user's request; STAGE 11 remains IN_PROGRESS and Zapret2 remains inactive.
+## CHANGELOG — 2026-09-20 — [PASS] DNS rollback and Wi-Fi/DHCP recovery
+- [CONTEXT] User changed DNS on the MikroTik/OpenWrt router through the OpenWrt application; afterward the phone had difficulty obtaining an IP / connecting normally.
+- [DIAGNOSTIC] dnsmasq was found stopped. UCI showed custom DNS/DoH parameters: noresolv=1, multiple server entries, doh_server=127.0.0.1#5053/5054, and related backup settings.
+- [ACTION] Only the custom DNS/DoH parameters were removed from the dnsmasq UCI section; DHCP/LAN settings were preserved. uci commit dhcp completed with empty output.
+- [DIAGNOSTIC] The generated dnsmasq configuration still contained the old server entries, and logs showed “Cannot resolve server name at line 21” followed by “FAILED to start up” and a crash loop.
+- [ACTION] /etc/init.d/dnsmasq restart regenerated the configuration and started dnsmasq successfully. The concurrent udhcpc “no lease” message concerned WAN DHCP, not LAN DHCP.
+- [PASS] Final verification: dnsmasq status = running; dnsmasq process present; log shows it reads /tmp/resolv.conf.d/resolv.conf.auto and uses upstream DNS 192.168.0.1#53.
+- [PASS] DHCP verification: dnsmasq reports 192.168.1.100–192.168.1.249, lease time 12h; br-lan is UP with 192.168.1.1/24; dnsmasq listens on UDP/67.
+- [PASS] Wi-Fi verification: phone station is authenticated, associated and authorized, with strong signal around -40 dBm.
+- [PASS] User confirmed that internet on the phone works.
+- [CONCLUSION] The immediate DNS-induced dnsmasq failure is resolved by reverting the custom DNS/DoH settings and regenerating dnsmasq configuration. DHCP/Wi-Fi/internet functionality is currently working.
+- [NO FURTHER DIAGNOSTIC] DHCP packet capture was not needed because the phone was already online.
+- [SAFETY] No Zapret2 activation, firewall/NFQUEUE changes, routing changes, Wi-Fi configuration changes, or storage changes were performed during this recovery.
+- [STATUS] Wi-Fi/DHCP incident is resolved; no further corrective action is pending.
+- [NEXT] Preserve this working DNS state. If DoH/DNS is reintroduced later, test it separately and verify dnsmasq starts successfully before proceeding.
