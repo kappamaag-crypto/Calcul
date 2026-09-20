@@ -397,7 +397,6 @@ SYNC 2026-09-19: STAGE 6: Current VHT40 consistency check PASS. UCI reports `wir
 SYNC 2026-09-19: User explicitly confirms VHT80 is not required. Requirement for STAGE 6 is VHT40 as the intended stable 5 GHz mode; ISP Internet speed is <=100 Mbit/s. Current VHT40 STA+AP operation is verified and stable in measured checks. VHT80 investigation is therefore not required for the project goal. No configuration change made.
 SYNC 2026-09-19: User confirms target LAN Wi-Fi design is one logical home WLAN across 2.4 GHz and 5 GHz APs, with temporary password `12345678` for the OpenWrt APs. Current UCI confirms 5 GHz AP `OpenWrt-5G` and 2.4 GHz AP `OpenWrt` are separate SSIDs and both currently open (`encryption='none'`); 5 GHz STA remains on `SweetHomeU`, VHT40. No configuration change made in this step.
 SYNC 2026-09-19: 5 GHz AP UCI change command completed with empty output, indicating no command error: `wireless.default_radio0.ssid` set to `OpenWrt`, `encryption` set to `psk2`, key set to temporary `12345678`, and `uci commit wireless` completed. No `wifi reload` performed yet. Next step is read-only UCI verification before applying the change.
-
 SYNC 2026-09-19: Read-only verification passed for `wireless.default_radio0`: device radio0, network lan, mode ap, SSID OpenWrt, encryption psk2, disabled 0, temporary key 12345678. Configuration is committed but not yet applied with `wifi reload`.
 
 SYNC 2026-09-19: `wifi reload` completed with empty output. User reports one visible SSID `OpenWrt`, but it appears without a password. This does not yet establish whether the open 2.4 GHz AP is masking the secured 5 GHz AP; current UCI previously showed 2.4 GHz `default_radio1` still `encryption='none'`, while 5 GHz `default_radio0` was set to WPA2. Next step is read-only verification of both AP interface configurations before any further change.
@@ -797,8 +796,7 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NEXT] Verify final STAGE 8 runtime/config consistency without rebooting; then proceed to the next planned storage/memory stage.
 
 ## CHANGELOG — 2026-09-19 — [DONE] STAGE 8 extroot
-- [PASS] Runtime verification: `/dev/sda2 on /overlay type ext4 (rw,noatime)`.
-- [PASS] Root overlay uses the USB ext4 filesystem: `overlayfs:/overlay`, 6.6G total, 6.2G available.
+- [PASS] Runtime verification: `/dev/sda2 on /overlay type ext4 (rw,noatime)`.- [PASS] Root overlay uses the USB ext4 filesystem: `overlayfs:/overlay`, 6.6G total, 6.2G available.
 - [PASS] fstab contains only global settings, `/dev/sda1` swap, and corrected `extroot` UUID `e1c68a3a-0e55-4af9-afd8-961160b3afa2`.
 - [PASS] Obsolete `/mnt/data` entry is absent.
 - [DONE] STAGE 8 exit criterion met: USB extroot is active and persistently configured with the current UUID; no separate stale data mount remains.
@@ -1197,8 +1195,7 @@ SYNC 2026-09-19: Продолжение STAGE 6. После успешного �
 - [NEXT] Before extraction/installation, perform a read-only inspection of the MIPS binary architecture/type and the OpenWrt installer/init scripts to verify compatibility and determine the minimum installation set for this 64 MiB MIPS router.
 
 ## CHANGELOG — 2026-09-19 — [SYNC] STAGE 11 installer architecture detection PASS
-- [PASS] Read-only extraction of `install_bin.sh` and grep for architecture detection completed.
-- [CONFIRMED] The v1.0.3 installer explicitly includes `linux-mips`, `linux-mipsel`, `linux-mips64`, `linux-mipsel64`, `linux-lexra` and other architectures in its candidate list.
+- [PASS] Read-only extraction of `install_bin.sh` and grep for architecture detection completed.- [CONFIRMED] The v1.0.3 installer explicitly includes `linux-mips`, `linux-mipsel`, `linux-mips64`, `linux-mipsel64`, `linux-lexra` and other architectures in its candidate list.
 - [CONFIRMED] The installer reads ELF architecture metadata from binaries and compares it with the running environment before selecting a binary directory.
 - [CONFIRMED] The script's normal successful path copies `ip2net`, `mdig`, and the packet-processing binary from the matching architecture directory; no installation was executed.
 - [IMPORTANT] This output confirms that `linux-mips` is an explicit supported candidate, but it does not yet prove that the router's exact MIPS ABI/ELF type matches the archive binary.
@@ -1577,3 +1574,11 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [NO CHANGE] No list was created/loaded; no nft set, firewall/NFQUEUE, service, configuration, network/Wi-Fi or storage state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Determine the resolved `IPSET_RW_DIR` and compactly inventory those exact configured list paths, read-only.
+
+## CHANGELOG — 2026-09-20 — [DEFERRED] access to OpenWrt from TP-Link Wi-Fi
+- [REQUEST] User wants the option to connect to the downstream OpenWrt router from the TP-Link `SweetHomeU` Wi-Fi network without a LAN cable.
+- [DEFERRED] The connection method is postponed for later decision; no OpenWrt configuration change was requested or performed in this turn.
+- [CONFIRMED] Current intended topology remains TP-Link Archer C20 v4 as the main router and MikroTik hAP ac lite/OpenWrt downstream via Wi-Fi STA.
+- [SAFETY] Do not change WAN firewall/input policy, LAN addressing, routing, Wi-Fi, or reload network services merely to prepare this access path.
+- [NEXT] When the user decides to proceed, first perform one compact read-only check of the OpenWrt WAN status/address and compare it with the TP-Link LAN subnet before selecting an access method.
+- [STATUS] This access-path task is deferred; existing STAGE 11 Zapret2 audit remains IN_PROGRESS and Zapret2 remains inactive.
