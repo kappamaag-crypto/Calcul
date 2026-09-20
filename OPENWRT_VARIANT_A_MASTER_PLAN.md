@@ -1922,3 +1922,6 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] `/proc/net/netlink` matched socket inode `68779` to PID `4894`, with netlink protocol `12` (NETLINK_NETFILTER). This confirms the live NFQWS2 process owns a NETFILTER netlink socket. The other displayed line is not owned by PID 4894.
 - [STATUS] NFQUEUE kernel module, live nft queue rules, NFQWS2 `--qnum=300`, and a NETLINK_NETFILTER socket are now confirmed. This is strong runtime evidence, but it is still not a functional proof that user traffic is being processed by the desync profiles.
 - [NEXT] Move to a real forwarded-traffic validation. Avoid further indirect FD inspection unless the traffic test fails.
+
+- [OBSERVED 2026-09-20] `/proc/net/netfilter/nfnetlink_queue` shows queue 300 owned by PID 4894 (NFQWS2), with current queue depth 0 and configured copy range 65531. This confirms the kernel NFQUEUE entry is attached to the live daemon; it is not by itself a packet-count/functional-success metric.
+- [NEXT] Begin functional traffic validation with one controlled HTTPS request generated from the router itself, then inspect NFQUEUE state again.
