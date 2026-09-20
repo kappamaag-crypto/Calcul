@@ -2016,3 +2016,12 @@ SYNC 2026-09-20: Router-originated Internet connectivity test PASS after Zapret2
 - [IMPORTANT] Current fault domain remains client path: DNS, LAN/Wi-Fi forwarding/NAT, or Zapret2/NFQUEUE interaction with forwarded traffic. Existing evidence already confirms base fw4 LAN→WAN and reverse acceptance counters, while DNS/DoH previously showed OOM-related failure and https-dns-proxy was stopped during recovery.
 - [SAFETY] No Zapret2 configuration, firewall rule, Wi-Fi configuration, or service state was changed by this ping.
 - [NEXT] Continue with the single next read-only diagnostic command already selected: inspect current interface/address/route state after the dnsmasq restart, before any further state-changing operation.
+
+
+SYNC 2026-09-20: Direct DNS validation PASS after dnsmasq recovery. Command: `nslookup example.com 192.168.1.1`. Result: DNS server 192.168.1.1:53 returned A records 104.20.23.154 and 172.66.147.243, plus AAAA records 2606:4700:10::6814:179a and 2606:4700:10::ac42:93f3.
+- [CONFIRMED] Client-facing DNS via dnsmasq is operational again using the restored direct upstream path; the previous local DoH failure is no longer blocking DNS resolution.
+- [CONFIRMED] Router upstream IPv4 connectivity was already verified by successful ping to 1.1.1.1.
+- [STATUS] DNS/DoH recovery remains IN_PROGRESS; https-dns-proxy remains stopped; Zapret2 remains untouched.
+- [IMPORTANT] The remaining client Internet failure, if still present, is no longer explained by basic DNS resolution. Fault isolation should move to forwarded client traffic / HTTPS connectivity and possible Zapret2/NFQUEUE interaction.
+- [SAFETY] No configuration, firewall, Wi-Fi, Zapret2, or service state was changed by this diagnostic.
+- [NEXT] Perform one client-side Internet/HTTPS validation after DNS recovery; do not change Zapret2 until the client result is observed.
