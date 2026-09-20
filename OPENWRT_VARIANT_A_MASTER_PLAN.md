@@ -1654,3 +1654,12 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No lists were generated/downloaded and no nft/ipset/firewall/service/network state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - [NEXT] Inspect the default config's list-source variables and relevant generator selection logic read-only before deciding whether any list initialization is needed.
+
+## CHANGELOG — 2026-09-20 — [PASS] STAGE 11 Zapret2 filter-mode audit
+- [PASS] Read-only inspection of list-generation/install logic confirmed supported `MODE_FILTER` values in `install_easy.sh`: `none`, `ipset`, `hostlist`, `autohostlist`.
+- [CONFIRMED] Current runtime/default configuration is `MODE_FILTER=none`.
+- [CONFIRMED] With `MODE_FILTER=none`, the installer does not select an active list mode; list generation is therefore not currently required for the inactive baseline.
+- [CONFIRMED] When list modes are selected, the installer has predefined GETLISTS/GETLIST_DEF selections; no such selection has been activated on this router.
+- [NO CHANGE] No generator, download, list creation, nft/ipset creation, firewall/NFQUEUE, service, network/Wi-Fi or DNS state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- [NEXT] Before any activation decision, perform a compact read-only audit of the exact installer branch around `MODE_FILTER` and list selection. Do not execute `install_easy.sh`.
