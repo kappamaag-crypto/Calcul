@@ -1959,3 +1959,7 @@ This block is authoritative over older historical entries when they conflict wit
 
 - [OBSERVED 2026-09-20] Live `accept_to_wan` shows 3041 packets / 826833 bytes ACCEPTed on `oifname {eth1,phy0-sta0}`; only 66 packets / 3781 bytes matched invalid-conntrack NAT-leakage DROP. This confirms substantial LAN→WAN traffic is actually passing the firewall, so a simple outbound firewall block is unlikely.
 - [NEXT] Inspect the reverse `accept_to_lan` chain and counters to determine whether reply traffic is returning and being accepted to clients. No configuration changes.
+
+- [OBSERVED 2026-09-20] Live `accept_to_lan` shows 282 packets / 26552 bytes ACCEPTed to `br-lan`. Combined with 3041 packets / 826833 bytes ACCEPTed LAN→WAN, the base fw4/NAT path is demonstrably passing traffic in both directions; no firewall change made.
+- [CONCLUSION] General client Internet failure is now less consistent with a basic fw4 forwarding/NAT policy error. Remaining high-value read-only checks: client DNS resolution and whether NFQUEUE/Zapret2 is altering or stalling forwarded flows.
+- [NEXT] Before changing Zapret2, perform one read-only client-path test from the router by resolving the configured LAN DNS service; do not restart or modify services.
