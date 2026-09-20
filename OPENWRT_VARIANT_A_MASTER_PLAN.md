@@ -1956,3 +1956,6 @@ This block is authoritative over older historical entries when they conflict wit
 
 - [OBSERVED 2026-09-20] Live `fw4 forward_lan` chain explicitly jumps to `accept_to_wan` for LAN→WAN forwarding, after rejecting only TCP/UDP destination port 853 (the https-dns-proxy interception rule). Therefore the general LAN→WAN path is explicitly present; the DNS interception rule has zero packets and is not currently causing the observed general outage.
 - [CONCLUSION] Basic fw4 LAN forwarding configuration remains consistent with expected operation. The next diagnostic target is the actual `accept_to_wan` chain and its counters/rules, still read-only.
+
+- [OBSERVED 2026-09-20] Live `accept_to_wan` shows 3041 packets / 826833 bytes ACCEPTed on `oifname {eth1,phy0-sta0}`; only 66 packets / 3781 bytes matched invalid-conntrack NAT-leakage DROP. This confirms substantial LAN→WAN traffic is actually passing the firewall, so a simple outbound firewall block is unlikely.
+- [NEXT] Inspect the reverse `accept_to_lan` chain and counters to determine whether reply traffic is returning and being accepted to clients. No configuration changes.
