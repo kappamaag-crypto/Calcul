@@ -1914,3 +1914,7 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] Current NFQWS2 PID 4894 command line confirms the live daemon uses `--qnum=300`, IPv4 TCP 80/443 HTTP+TLS profiles, and UDP 443 QUIC profile, with the configured fake/multisplit/multidisorder desync parameters. Process runs as `daemon`.
 - [STATUS] NFQWS2 runtime configuration and live nftables NFQUEUE wiring are both confirmed. Functional traffic test remains the remaining validation for this Zapret2 gate.
 - [NEXT] Before generating traffic, perform one read-only inspection of NFQWS2's current open file descriptors to confirm its NFQUEUE-related runtime socket/descriptor state; then proceed to traffic validation.
+
+- [OBSERVED 2026-09-20] `/proc/4894/fdinfo/*` showed ordinary descriptor flags/positions but did not identify the descriptor types or prove NFQUEUE socket attachment. No configuration or runtime state was changed.
+- [DECISION] Do not use fdinfo as a functional NFQUEUE proof; proceed to inspect the process file-descriptor targets directly.
+- [NEXT] Read-only `ls -l /proc/4894/fd` to identify the live NFQWS2 descriptors (including any socket/queue-related descriptor) before generating test traffic.
