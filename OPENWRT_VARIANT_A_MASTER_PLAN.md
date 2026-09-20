@@ -2064,3 +2064,5 @@ SYNC 2026-09-21: User provided the canonical Master Plan and Master Prompt GitHu
 
 
 SYNC 2026-09-21: User executed `/etc/init.d/zapret2 stop`; terminal output: `Clearing nftables`. [CONFIRMED] Zapret2 stop completed without reported error and its nftables rules were cleared. [STATUS] Zapret2/NFQWS2 is intentionally stopped for the planned reversible transition from `hostlist` to `autohostlist`. No config, DNS, firewall UCI, or storage changes were made. [NEXT] Change only `MODE_FILTER=hostlist` to `MODE_FILTER=autohostlist`; do not run additional connectivity diagnostics or change other Zapret2 parameters.
+
+SYNC 2026-09-21: User executed `sed -i 's/^MODE_FILTER=hostlist$/MODE_FILTER=autohostlist/' /opt/zapret2/config`. Terminal output was empty, which is expected from successful `sed`. [CONFIRMED] The configuration-only change completed without reported error; Zapret2 remains stopped. [NEXT] Start Zapret2 with autohostlist mode; no additional diagnostic test before start.
