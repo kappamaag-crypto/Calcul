@@ -1621,3 +1621,16 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No Zapret2 configuration, service, firewall/NFQUEUE, network/Wi-Fi or storage state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - [NEXT] Continue with one compact read-only audit of the list-file path variables/actual list files under the resolved runtime directory before any activation.
+
+## CHANGELOG — 2026-09-20 — [PASS] STAGE 11 Zapret2 list-path audit
+- [PASS] Read-only audit resolved the configured list paths from `/opt/zapret2/ipset/def.sh`.
+- [CONFIRMED] `ZIPLIST=/opt/zapret2/ipset/zapret-ip.txt`.
+- [CONFIRMED] `ZIPLIST6=/opt/zapret2/ipset/zapret-ip6.txt`.
+- [CONFIRMED] `ZIPLIST_EXCLUDE=/opt/zapret2/ipset/zapret-ip-exclude.txt`.
+- [CONFIRMED] `ZIPLIST_IPBAN=/opt/zapret2/ipset/zapret-ip-ipban.txt`.
+- [CONFIRMED] `ZIPLIST_IPBAN6=/opt/zapret2/ipset/zapret-ip-ipban6.txt`.
+- [CONFIRMED] The `find` audit returned no `.txt`, `.gz` or `.list` files under `/opt/zapret2` at the time of the check.
+- [IMPORTANT] The configured list paths therefore currently point to files that are not present; no hostlist/ipset data is currently staged there.
+- [NO CHANGE] No Zapret2 configuration, service, firewall/NFQUEUE, network/Wi-Fi or storage state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- [NEXT] Perform one compact read-only inspection of the scripts that generate/fetch these lists, to distinguish expected first-run absence from a missing deployment step. Do not generate or download lists yet.
