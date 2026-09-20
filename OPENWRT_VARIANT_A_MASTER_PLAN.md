@@ -1925,3 +1925,6 @@ This block is authoritative over older historical entries when they conflict wit
 
 - [OBSERVED 2026-09-20] `/proc/net/netfilter/nfnetlink_queue` shows queue 300 owned by PID 4894 (NFQWS2), with current queue depth 0 and configured copy range 65531. This confirms the kernel NFQUEUE entry is attached to the live daemon; it is not by itself a packet-count/functional-success metric.
 - [NEXT] Begin functional traffic validation with one controlled HTTPS request generated from the router itself, then inspect NFQUEUE state again.
+
+- [OBSERVED 2026-09-20] BusyBox `nc` on this OpenWrt build does not support `-zvw`; it only accepts `nc [IPADDR PORT]`. Therefore the attempted TCP test did not test connectivity and produced only usage text.
+- [NEXT] Use the supported BusyBox nc syntax for a direct TCP connection test to 1.1.1.1:443; do not infer TCP failure from the previous command.
