@@ -1634,3 +1634,13 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No Zapret2 configuration, service, firewall/NFQUEUE, network/Wi-Fi or storage state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - [NEXT] Perform one compact read-only inspection of the scripts that generate/fetch these lists, to distinguish expected first-run absence from a missing deployment step. Do not generate or download lists yet.
+
+## CHANGELOG — 2026-09-20 — [PASS] STAGE 11 Zapret2 list-generation audit
+- [PASS] Read-only grep confirmed multiple official Zapret2 list-generation/update scripts are present under `/opt/zapret2/ipset`.
+- [CONFIRMED] Examples include `get_antifilter_ip.sh`, `get_antifilter_ipsmart.sh`, `get_antifilter_ipsum.sh`, `get_antifilter_ipresolve.sh`, `get_reestr_preresolved*.sh`, `get_reestr_resolvable_domains.sh`, `get_refilter_*.sh`, `get_user.sh`, and `get_ipban.sh`.
+- [CONFIRMED] These scripts ultimately reference the configured `ZIPLIST*` paths and commonly invoke `create_ipset.sh` after obtaining/building list data.
+- [CONFIRMED] `create_ipset.sh` supports both legacy ipset and nft-set backends; its nft path uses the configured `SET_MAXELEM`/related capacities when creating sets.
+- [IMPORTANT] The previous absence of list files is therefore consistent with a not-yet-initialized list-generation state; it does not by itself indicate a broken Zapret2 deployment.
+- [NO CHANGE] No list was downloaded/generated; no ipset/nft set, firewall/NFQUEUE, service, network/Wi-Fi or DNS state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- [NEXT] Perform one compact read-only inspection of the list-source selection/configuration variables and the default/user list inputs, without executing any generator.
