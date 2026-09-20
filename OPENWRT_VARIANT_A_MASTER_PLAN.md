@@ -1600,3 +1600,8 @@ This block is authoritative over older historical entries when they conflict wit
 - [SCOPE] This is a configuration/state note only; no router command was issued by the assistant in this turn.
 - [IMPORTANT] The exact radio band/interface and channel numbers were not independently verified in this turn.
 - [SAFETY] No Wi-Fi reload/restart was requested or performed; current connectivity remains unchanged by this sync.
+
+## CHANGELOG — 2026-09-20 — [SYNC] Wi-Fi channel assignments recorded
+- [CONFIRMED] User reports 5 GHz channel = 36 and 2.4 GHz channel = 13.
+- [SCOPE] These channel numbers are recorded together with the previously reported 20 MHz channel width on both TP-Link Archer C20 and MikroTik/OpenWrt.
+- [IMPORTANT] This is user-reported configuration state; the assistant did not independently query either radio in this turn.
