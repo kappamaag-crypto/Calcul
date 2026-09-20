@@ -1717,3 +1717,14 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No integration script was executed and no service/firewall/NFQUEUE/network/Wi-Fi/DNS state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - [NEXT] Perform one compact read-only command to inspect `90-zapret2`, `firewall.zapret2`, and the top-level function/launcher headers without executing them.
+
+
+## CHANGELOG — 2026-09-20 — STAGE 11 OpenWrt integration structure audit
+- [CONFIRMED] Read-only inspection completed for `/opt/zapret2/init.d/openwrt/90-zapret2`, `firewall.zapret2`, and the first 100 lines of `functions`.
+- [CONFIRMED] `90-zapret2` is an interface-event hook that targets `/etc/init.d/zapret2`; when that service exists and is enabled, it can reload nftables ifsets or restart firewall handling on interface events.
+- [CONFIRMED] `firewall.zapret2` sources the OpenWrt helper functions and calls `zapret_apply_firewall`.
+- [CONFIRMED] `functions` sources Zapret2 config/common firewall/daemon/list/custom helpers and contains automatic WAN/LAN interface discovery plus NFQWS firewall helper functions.
+- [IMPORTANT] These files are currently only in `/opt/zapret2`; this inspection did not establish installation into `/etc/init.d`, firewall include registration, service enablement, or execution.
+- [NO CHANGE] No Zapret2 service, firewall, NFQUEUE, interface hook, DNS, Wi-Fi, or network state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- [NEXT] Inspect the actual `/opt/zapret2/init.d/openwrt/zapret2` launcher read-only before considering any installation/copy action.
