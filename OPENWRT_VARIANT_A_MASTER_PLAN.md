@@ -1910,3 +1910,7 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] Direct live inspection of `inet zapret2 postnat` and `prenat` confirms NFQUEUE activation is now actually present. `postnat` contains IPv4 UDP/443 original packets 1-5 and TCP/80,443 original packets 1-20, both marking and `queue flags bypass to 300`. `prenat` contains IPv4 UDP/443 reply packets 1-3 and TCP/80,443 reply packets 1-10, with `queue flags bypass to 300`.
 - [STATUS] The previous NFQUEUE insertion blocker is resolved. NFQWS2 firewall integration is technically active at the nftables level. STAGE 11 may advance past the NFQUEUE activation gate, but functional traffic testing is still required before declaring the whole Zapret2 stage DONE.
 - [NEXT] Perform a read-only runtime sanity check of the NFQWS2 process and live queue rules before any functional network test.
+
+- [OBSERVED 2026-09-20] Current NFQWS2 PID 4894 command line confirms the live daemon uses `--qnum=300`, IPv4 TCP 80/443 HTTP+TLS profiles, and UDP 443 QUIC profile, with the configured fake/multisplit/multidisorder desync parameters. Process runs as `daemon`.
+- [STATUS] NFQWS2 runtime configuration and live nftables NFQUEUE wiring are both confirmed. Functional traffic test remains the remaining validation for this Zapret2 gate.
+- [NEXT] Before generating traffic, perform one read-only inspection of NFQWS2's current open file descriptors to confirm its NFQUEUE-related runtime socket/descriptor state; then proceed to traffic validation.
