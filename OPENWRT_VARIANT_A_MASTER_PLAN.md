@@ -2002,3 +2002,9 @@ This block is authoritative over older historical entries when they conflict wit
 - [CONFIRMED] The intended dnsmasq recovery configuration command completed without reported errors: `noresolv=1`, local DoH `server/doh_server/doh_backup_server` entries removed, and `server=192.168.0.1` added and committed.
 - [STATUS] DNS/DoH recovery remains IN_PROGRESS; https-dns-proxy remains stopped; Zapret2 remains untouched.
 - [NEXT] One state-changing service step: restart dnsmasq so the committed direct-DNS configuration becomes active. Then validate DNS separately.
+
+
+- [OBSERVED 2026-09-20] User restarted dnsmasq. Output: `udhcpc: started, v1.37.0`, repeated DHCP discover, then `udhcpc: no lease, failing`.
+- [IMPORTANT] The dnsmasq restart did not produce a normal silent/clean restart result; it triggered/observed a DHCP client attempt that failed to obtain a lease. Do not assume WAN DHCP is currently healthy or that dnsmasq is fully operational from this output alone.
+- [STATUS] DNS/DoH recovery remains IN_PROGRESS. https-dns-proxy remains stopped. Zapret2 remains untouched.
+- [NEXT] Before another state-changing operation, perform one read-only check of current interface/address/route state to determine whether WAN DHCP/addressing was affected by the restart. No network restart or Zapret2 change yet.
