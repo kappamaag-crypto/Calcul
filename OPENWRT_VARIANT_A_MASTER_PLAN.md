@@ -1644,3 +1644,13 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No list was downloaded/generated; no ipset/nft set, firewall/NFQUEUE, service, network/Wi-Fi or DNS state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - [NEXT] Perform one compact read-only inspection of the list-source selection/configuration variables and the default/user list inputs, without executing any generator.
+
+## CHANGELOG — 2026-09-20 — [PASS] STAGE 11 Zapret2 source-variable audit
+- [PASS] Read-only audit confirmed `SET_MAXELEM=522288` in the runtime config.
+- [CONFIRMED] `DISABLE_IPV6=1`; current Zapret2 configuration disables IPv6 processing.
+- [CONFIRMED] Effective runtime list directory is `/opt/zapret2/ipset`.
+- [CONFIRMED] User-list inputs resolve there as `zapret-hosts-user.txt`, `zapret-hosts-user-ipban.txt`, and `zapret-hosts-user-exclude.txt`.
+- [IMPORTANT] No explicit `ZUSERLIST*`, `IPSET_DIR`, or `SET_MAXELEM_EXCLUDE` assignment was found in the selected files; defaults/derived values in `def.sh` therefore apply.
+- [NO CHANGE] No lists were generated/downloaded and no nft/ipset/firewall/service/network state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- [NEXT] Inspect the default config's list-source variables and relevant generator selection logic read-only before deciding whether any list initialization is needed.
