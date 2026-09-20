@@ -1582,3 +1582,13 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [SAFETY] Do not change WAN firewall/input policy, LAN addressing, routing, Wi-Fi, or reload network services merely to prepare this access path.
 - [NEXT] When the user decides to proceed, first perform one compact read-only check of the OpenWrt WAN status/address and compare it with the TP-Link LAN subnet before selecting an access method.
 - [STATUS] This access-path task is deferred; existing STAGE 11 Zapret2 audit remains IN_PROGRESS and Zapret2 remains inactive.
+
+
+## CHANGELOG — 2026-09-20 — [DEFERRED] OpenWrt Wi-Fi/DHCP issue after DNS change
+- [REQUEST] User changed DNS on the MikroTik/OpenWrt router; afterward the phone no longer connects normally to Wi-Fi / does not receive an IP address.
+- [DEFERRED] User asked to pause this issue and return to it later; no corrective configuration change was performed.
+- [CONFIRMED] The issue concerns the MikroTik/OpenWrt router, not the TP-Link Archer C20 main router.
+- [DIAGNOSTIC] One read-only dnsmasq service-status command was issued; its result is pending from the user. No restart/reload was performed.
+- [SAFETY] Wi-Fi diagnosis remains read-only until the user resumes it; do not intentionally reload network/Wi-Fi/services while diagnosing.
+- [NEXT] When resumed, continue from the pending dnsmasq status result; do not repeat or skip steps without actual evidence.
+- [STATUS] Issue deferred; STAGE 11 remains IN_PROGRESS and Zapret2 remains inactive.
