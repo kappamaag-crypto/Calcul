@@ -1943,3 +1943,6 @@ This block is authoritative over older historical entries when they conflict wit
 - [CONCLUSION] The reported “no Internet via MikroTik Wi-Fi” is not a general WAN/upstream outage. The remaining fault domain is client path: LAN/Wi-Fi forwarding, DNS, or traffic handling introduced by the current firewall/Zapret2/NFQUEUE configuration.
 - [STATUS] STAGE 11 remains IN_PROGRESS; functional client Internet validation remains FAILED.
 - [NEXT] Run one read-only check of the MikroTik LAN client forwarding path: inspect the active firewall zone/forwarding counters/configuration without restarting or changing services.
+
+
+- [SYNC 2026-09-20] Current status saved: router-originated Internet connectivity is confirmed working (`ping 1.1.1.1`: 3/3, 0% loss, avg 38.451 ms). User-reported Internet failure specifically affects clients connected through MikroTik Wi-Fi. No configuration change or service restart was made after this test. Current fault domain is narrowed to client-side path: LAN/Wi-Fi forwarding, DNS, or active firewall/Zapret2/NFQUEUE handling. STAGE 11 remains IN_PROGRESS; functional client Internet validation remains FAILED. Next diagnostic command already issued to user is read-only `uci show firewall`; await its result before any further router command.
