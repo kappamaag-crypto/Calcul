@@ -1950,3 +1950,6 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] Read-only `uci show firewall` confirms standard LAN→WAN forwarding is configured: LAN input/output/forward ACCEPT; WAN input REJECT/output ACCEPT/forward DROP with masquerade and mtu_fix enabled; explicit forwarding `src=lan,dest=wan` exists. No firewall configuration change was made.
 - [CONCLUSION] Basic UCI firewall policy does not explain the client Wi-Fi Internet failure by itself. Continue read-only diagnosis of the live packet path, with Zapret2/NFQUEUE still a possible interaction.
 - [NEXT] Inspect live fw4 forward-chain rules/counters; do not restart or modify services.
+
+- [OBSERVED 2026-09-20] Live `inet fw4 forward` chain is policy DROP, accepts established/related, sends `iifname br-lan` to `forward_lan`, sends `iifname {eth1,phy0-sta0}` to `forward_wan`, then rejects unmatched traffic. This confirms LAN client traffic enters the dedicated LAN forward chain; this output alone does not establish whether `forward_lan` ultimately accepts it.
+- [NEXT] Continue read-only by inspecting `forward_lan`; no firewall/service/network changes.
