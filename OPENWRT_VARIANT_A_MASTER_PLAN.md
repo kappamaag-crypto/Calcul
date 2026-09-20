@@ -1902,3 +1902,7 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] Post-restart `nft -a list table inet zapret2 | grep -E 'queue num|nfqws|postnat|prenat'` showed the `postnat_hook`/ `prenat_hook` jumps and `predefrag_nfqws` mark/notrack logic, but the filtered output contained no visible `queue num 300` rules. Therefore successful command-level insertion messages are not yet sufficient to mark NFQUEUE activation DONE; live queue-rule placement remains unresolved.
 - [STATUS] STAGE 11 remains IN_PROGRESS. Do not infer queue activation from the restart log alone.
 - [NEXT] Inspect the live `postrouting` and `prerouting` chains directly for queue rules, rather than relying on the previous broad grep.
+
+- [OBSERVED 2026-09-20] Direct inspection of live `postrouting` and `prerouting` chains showed both are empty. This is consistent with Zapret2 selecting `postnat`/`prenat` when POSTNAT mode is active, so it does not by itself prove insertion failure.
+- [STATUS] NFQWS2 process and restart insertion messages remain successful, but live queue rules have not yet been located. STAGE 11 remains IN_PROGRESS.
+- [NEXT] Inspect the actual selected `postnat` and `prenat` chains directly for `queue num 300`.
