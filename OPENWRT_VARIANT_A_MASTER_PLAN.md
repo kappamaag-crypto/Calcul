@@ -1663,3 +1663,11 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No generator, download, list creation, nft/ipset creation, firewall/NFQUEUE, service, network/Wi-Fi or DNS state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - [NEXT] Before any activation decision, perform a compact read-only audit of the exact installer branch around `MODE_FILTER` and list selection. Do not execute `install_easy.sh`.
+
+## CHANGELOG — 2026-09-20 — STAGE 11 installer branch verification
+- Read-only inspection of install_easy.sh confirmed modes: none, ipset, hostlist, autohostlist.
+- Current runtime MODE_FILTER=none, so automatic list download is inactive.
+- Hostlist/autohostlist and ipset list-generator choices were confirmed in the installer branch.
+- install_easy.sh was not executed; no lists, nft/ipset sets, firewall, NFQUEUE, service, network, Wi-Fi or DNS state changed.
+- STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- Next: read-only inspection of the firewall activation path around INIT_APPLY_FW=1; do not execute it.
