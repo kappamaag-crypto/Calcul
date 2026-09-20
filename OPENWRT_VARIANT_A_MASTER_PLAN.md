@@ -1894,3 +1894,7 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] Current `/opt/zapret2/config` confirms `NFQWS2_ENABLE=1`, `INIT_APPLY_FW=1`, and `DISABLE_IPV6=1`. The queried optional variables `ZAPRET_NFT_TABLE`, `FW_EXTRA_PRE`, `POSTNAT`, and `POSTNAT_ALL` are not explicitly set in the config output, so their defaults/source values remain to be established by the script.
 - [DECISION] Because the required `kmod-nft-queue` is now installed/loaded and the configured Zapret2 startup path has `INIT_APPLY_FW=1`, proceed to one controlled service restart to re-run the official Zapret2 firewall application. This is within the user's prior authorization to activate Zapret2.
 - [NEXT] After the restart, perform a read-only check of the `zapret2` nft table for `queue num` rules. No additional configuration change will be made before that result.
+
+- [OBSERVED 2026-09-20] Controlled `/etc/init.d/zapret2 restart` completed successfully after `kmod-nft-queue` installation. The startup output showed NFQWS2 launched with `--qnum=300` and all four IPv4 NFQWS2 nftables insertion operations completed without the previous `Could not process rule: No such file or directory` error: TCP postrouting 1-20, TCP prerouting 1-10, UDP postrouting 1-5, UDP prerouting 1-3.
+- [STATUS] This establishes successful firewall-rule application at command level; actual nftables rule presence is still to be verified read-only.
+- [NEXT] Verify the live `inet zapret2` table for `queue num 300` rules.
