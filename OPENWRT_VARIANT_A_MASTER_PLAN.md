@@ -1813,3 +1813,12 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No module, service, firewall, network, Wi-Fi, or DNS state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
 - [NEXT] Use a shell glob/read-only `ls` check instead of `find`.
+
+
+## CHANGELOG — 2026-09-20 — nft_queue module absence confirmed by module-path glob
+- [CONFIRMED] Read-only check `/lib/modules/6.12.94/*nft_queue*` returned `No such file or directory`.
+- [CONFIRMED] `nft_queue` is not present as a directly named module file in the standard module directory, while `nfnetlink_queue` is loaded.
+- [IMPORTANT] This strongly supports the hypothesis that the `queue` nftables expression required by Zapret2 is unavailable as a loadable module in the current image; exact kernel/package configuration still needs verification before any change.
+- [NO CHANGE] No package, kernel module, service, firewall, network, Wi-Fi, or DNS state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
+- [NEXT] Inspect the kernel module dependency/index metadata read-only for `nft_queue` before installing or loading anything.
