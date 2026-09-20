@@ -863,3 +863,13 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - Keep one router command per step.
 - After every user+assistant pair, update the master plan with factual state; update this master prompt whenever a workflow/safety rule changes.
 - Compact output must never replace required verification or conceal warnings/errors.
+
+
+## LOW-RAM DPI-BYPASS POLICY — 2026-09-20
+- For the 64 MB hAP ac lite, do not install kmod-nft-queue merely because it is available. Evaluate actual RAM/CPU pressure first.
+- Current evidence: nfnetlink_queue is present/loaded; nft_queue support is absent; exact official kmod-nft-queue-6.12.94-r1 is available but not installed.
+- Preferred order: audit already deployed Zapret2 tpws read-only; verify TCP redirect using existing NAT/REDIRECT/DNAT support; measure resource impact; only then consider NFQWS2 plus the exact official kernel module; consider ByeDPI separately afterward.
+- Do not claim Kernel Panic/OOM is inevitable from NFQUEUE. Do not claim TPWS provides UDP/QUIC parity with NFQWS2.
+- Do not assume kmod-nft-tproxy is mandatory; verify the actual mechanism.
+- One router command at a time; no Zapret2 restart/stop during audit unless explicitly authorized; no new package/software installation before the decision gate.
+- After every user+assistant pair, synchronize factual state into the master plan; update this prompt when workflow/safety rules change.
