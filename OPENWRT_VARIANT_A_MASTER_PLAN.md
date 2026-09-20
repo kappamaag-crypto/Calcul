@@ -1748,3 +1748,10 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] The check was read-only; Zapret2 service, daemon, firewall, NFQUEUE, network, Wi-Fi, and DNS state were not changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS because activation was explicitly deferred by the user. Zapret2 remains intentionally inactive.
 - [NEXT] Installation audit is complete. Any further step must be a separate activation decision; do not enable/start Zapret2 automatically.
+
+
+## CHANGELOG — 2026-09-20 — Zapret2 activation decision
+- [DECISION] User authorized proceeding with Zapret2 activation after completing the read-only installation/integration audit.
+- [SAFETY] Activation will remain one-command-at-a-time; first step is a read-only enabled/running-state check before any service action.
+- [GUARD] Do not alter `config`, lists, firewall, NFQUEUE, DNS, Wi-Fi, or network settings in the first activation step.
+- [STATUS] STAGE 11 remains IN_PROGRESS pending controlled activation and verification.
