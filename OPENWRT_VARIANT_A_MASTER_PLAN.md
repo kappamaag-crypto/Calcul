@@ -1605,3 +1605,11 @@ This block is authoritative over older historical entries when they conflict wit
 - [CONFIRMED] User reports 5 GHz channel = 36 and 2.4 GHz channel = 13.
 - [SCOPE] These channel numbers are recorded together with the previously reported 20 MHz channel width on both TP-Link Archer C20 and MikroTik/OpenWrt.
 - [IMPORTANT] This is user-reported configuration state; the assistant did not independently query either radio in this turn.
+
+## CHANGELOG — 2026-09-20 — [SYNC] Speed-test discrepancy via SweetHomeU vs OpenWrt
+- [OBSERVATION] User reports a speed test on the SweetHomeU network with direct/current path result: download **65.42 Mbit/s**, upload **79.28 Mbit/s**.
+- [IMPORTANT] User reports that the result through the MikroTik/OpenWrt path is approximately **2× lower** than the SweetHomeU result; the exact OpenWrt-side download/upload figures were not supplied in this sync.
+- [DIAGNOSTIC STATUS] This is recorded as an observed performance discrepancy, not as a confirmed root cause.
+- [POSSIBLE FACTORS TO TEST] Wi-Fi STA link between TP-Link and MikroTik, 20 MHz channel width, radio conditions, hAP ac lite CPU/NAT limits, QoS/SQM if present, and client-side Wi-Fi path. Zapret2, WireGuard/WARP/Proton are not currently active and therefore are not treated as the present cause.
+- [SAFETY] No configuration or network change was made in response to the speed result.
+- [NEXT] Before changing configuration, perform a single compact read-only check of the current TP-Link↔MikroTik Wi-Fi STA link parameters. Do not reload/restart Wi-Fi during diagnosis.
