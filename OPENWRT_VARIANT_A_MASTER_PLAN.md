@@ -1843,3 +1843,16 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] `apk update` completed successfully: official ath79/mikrotik packages feed and exact device kernel feed `.../targets/ath79/mikrotik/kmods/6.12.94-1-1951ed9cd221294b56a47180c29ca5a9/packages.adb` were fetched; APK reports `OK: 11080 distinct packages available`. Earlier `apk policy` warnings were due to missing local caches before update, not proof that repositories were unavailable.
 - [NEXT] Query the now-populated official APK database for the exact `kmod-nft-queue` package before installation.
 - [OBSERVED 2026-09-20] `apk search -v 'kmod-nft-queue*'` found exact package `kmod-nft-queue-6.12.94-r1 - Netfilter nf_tables queue support` in the refreshed official package database. This matches the running kernel version 6.12.94; installation has NOT yet been performed.
+
+## DECISION RECORD — 2026-09-20 — LOW-RAM ZAPRET2 STRATEGY / TPWS FIRST
+- Target: MikroTik hAP ac lite / RB952Ui-5ac2nD, 64 MB RAM; recent MemAvailable was only about 3–4 MiB.
+- Do not treat package availability as proof that NFQUEUE is safe. NFQUEUE can increase RAM/CPU pressure; Kernel Panic/OOM is workload/config dependent and must not be presented as inevitable.
+- kmod-nfnetlink-queue and kmod-nft-queue are distinct. nfnetlink_queue is already present/loaded; nft_queue support is absent.
+- Official exact package found after apk update: kmod-nft-queue-6.12.94-r1, matching kernel 6.12.94. It has NOT been installed.
+- Before installing kmod-nft-queue, audit TPWS from the already deployed Zapret2 v1.0.3.
+- TPWS is a transparent TCP proxy path and does not require the nftables queue expression. Initial scope is TCP-only; UDP/QUIC parity with NFQWS2 is not assumed.
+- Do not assume kmod-nft-tproxy is mandatory. Verify whether existing REDIRECT/DNAT/NAT support is sufficient for the installed OpenWrt/Zapret2 integration.
+- ByeDPI/ciadpi is an alternative candidate, not the default replacement; do not install it before TPWS audit.
+- Current Zapret2 remains partially activated: nfqws2 runs and inet zapret2 exists, but queue num 300 rule insertion fails. Do not restart/stop Zapret2 during audit unless explicitly authorized.
+- Decision gate before architecture change: verify TPWS binary/executability; available options; OpenWrt integration path; redirect mechanism; RAM/CPU cost; functionality lost versus NFQWS2; and whether any additional kernel module is actually required.
+- Workflow: one router command at a time; read-only audit first; no unverified packages; official OpenWrt/Zapret sources only; compact output without hiding required evidence.
