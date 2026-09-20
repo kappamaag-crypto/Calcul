@@ -1805,3 +1805,11 @@ This block is authoritative over older historical entries when they conflict wit
 - [SAFETY] No module was loaded and no network/firewall/service state was changed by this audit command.
 - [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
 - [NEXT] Perform one read-only filesystem check for the `nft_queue` kernel module before considering any module-load or package action.
+
+
+## CHANGELOG — 2026-09-20 — nft_queue module filesystem check failed
+- [RESULT] Attempted read-only `/bin/find` check for `nft_queue.ko`, but this OpenWrt image does not contain `/bin/find` (`-ash: /bin/find: not found`).
+- [IMPORTANT] This does not establish whether `nft_queue.ko` exists; the diagnostic utility itself is absent.
+- [NO CHANGE] No module, service, firewall, network, Wi-Fi, or DNS state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
+- [NEXT] Use a shell glob/read-only `ls` check instead of `find`.
