@@ -1785,3 +1785,14 @@ This block is authoritative over older historical entries when they conflict wit
 - [IMPORTANT] The start command did not report a clean successful firewall activation. Current daemon/table state must be verified read-only before any repair or stop/start action.
 - [SAFETY] Do not retry `start`, `restart`, firewall reload, or configuration edits until the partial-activation state is inspected.
 - [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED pending read-only state inspection.
+
+
+## CHANGELOG — 2026-09-20 — Zapret2 partial-activation state verified
+- [CONFIRMED] `zapret2 status` reports `running`.
+- [CONFIRMED] `nfqws2` process is running as user `daemon` (PID 4375 at inspection time).
+- [CONFIRMED] `inet zapret2` table exists.
+- [CONFIRMED] Sets `zapret` and `ipban` were created with `size 522288`; `nozapret` size 65536; WAN interface set contains `phy0-sta0`; LAN set contains `br-lan`.
+- [CONFIRMED] Hook chains and supporting chains exist, but `postnat` and `prenat` chains are empty; therefore the four NFQWS queue rules that failed during start are not installed.
+- [CONFIRMED] The table has active hook rules that jump into the empty `postnat`/`prenat` chains, so this is a partial activation state and requires controlled diagnosis.
+- [SAFETY] Do not restart/stop/restart firewall or edit configuration until the cause of the failed nft rule insertion is identified.
+- [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
