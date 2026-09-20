@@ -1613,3 +1613,11 @@ This block is authoritative over older historical entries when they conflict wit
 - [POSSIBLE FACTORS TO TEST] Wi-Fi STA link between TP-Link and MikroTik, 20 MHz channel width, radio conditions, hAP ac lite CPU/NAT limits, QoS/SQM if present, and client-side Wi-Fi path. Zapret2, WireGuard/WARP/Proton are not currently active and therefore are not treated as the present cause.
 - [SAFETY] No configuration or network change was made in response to the speed result.
 - [NEXT] Before changing configuration, perform a single compact read-only check of the current TP-Link↔MikroTik Wi-Fi STA link parameters. Do not reload/restart Wi-Fi during diagnosis.
+
+## CHANGELOG — 2026-09-20 — [PASS] STAGE 11 ipset runtime-directory resolution
+- [PASS] Read-only command resolved `IPSET_RW_DIR=$ZAPRET_RW/ipset` from `/opt/zapret2/ipset/def.sh`.
+- [CONFIRMED] With the current default `ZAPRET_RW=$ZAPRET_BASE`, the effective runtime ipset directory is `/opt/zapret2/ipset`.
+- [OBSERVATION] The subsequent `find` produced no file listing, so no regular files were found directly in `/opt/zapret2/ipset` at the time of the check.
+- [NO CHANGE] No Zapret2 configuration, service, firewall/NFQUEUE, network/Wi-Fi or storage state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- [NEXT] Continue with one compact read-only audit of the list-file path variables/actual list files under the resolved runtime directory before any activation.
