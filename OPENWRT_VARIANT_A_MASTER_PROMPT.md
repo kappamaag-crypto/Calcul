@@ -873,3 +873,4 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - Do not assume kmod-nft-tproxy is mandatory; verify the actual mechanism.
 - One router command at a time; no Zapret2 restart/stop during audit unless explicitly authorized; no new package/software installation before the decision gate.
 - After every user+assistant pair, synchronize factual state into the master plan; update this prompt when workflow/safety rules change.
+- [WORKFLOW DECISION 2026-09-20] Continue Zapret2/NFQWS2 as the primary path. Defer TPWS investigation unless NFQWS2 cannot be made stable and memory-safe. Do not install or activate TPWS/ByeDPI while the NFQWS2 path remains under evaluation. Before installing the exact official `kmod-nft-queue-6.12.94-r1`, inspect its package metadata/dependencies read-only.
