@@ -1547,15 +1547,14 @@ This block is authoritative over older historical entries when they conflict wit
 - [SAFETY] No uhttpd/LuCI was installed. User explicitly chose CLI/SSH management because of the router's limited RAM.
 - [SAFETY] No LAN addressing, WAN DHCP mode, Wi-Fi configuration, routing topology, or Zapret2 activation was changed to achieve SSH access.
 
-### TP-Link DHCP reservation — NOT_STARTED
-- [CONFIRMED] A DHCP reservation is recommended on Archer C20 v4 so 192.168.0.100 remains assigned to the MikroTik WAN MAC.
-- [OFFICIAL UI PATH] TP-Link's current Archer C20 V4 documentation identifies the path as: DHCP → Address Reservation → Add New. The entry requires the client MAC, reserved IP, Enabled status, then Save. citeturn0view0
-- [PLANNED ENTRY] MAC Address: B8-69-F4-D6-E8-A0.
-- [PLANNED ENTRY] IP Address: 192.168.0.100.
-- [PLANNED ENTRY] Status: Enabled.
-- [IMPORTANT] The reservation has NOT yet been verified as created on the TP-Link. Do not mark it DONE until the user confirms the entry exists and, preferably, the TP-Link DHCP/client table shows the same MAC/IP pair.
+### TP-Link DHCP reservation — DONE
+- [CONFIRMED] TP-Link Archer C20 V4 DHCP reservation has been created and restored to the MAC address actually observed by the TP-Link for the MikroTik Wi-Fi STA client.
+- [CONFIRMED] TP-Link DHCP/client table shows: IP `192.168.0.100` → MAC `BA:69:F4:D6:E8:A5` for device `Openwrt`.
+- [CONFIRMED] MikroTik `eth1` WAN interface itself reports MAC `B8:69:F4:D6:E8:A0`; this is a different interface MAC and is not the MAC TP-Link uses for the DHCP reservation in this Wi-Fi-STA topology.
+- [CONFIRMED] The TP-Link reservation was temporarily entered with `B8:69:F4:D6:E8:A0`, then corrected back to `BA:69:F4:D6:E8:A5` after the TP-Link DHCP/client table confirmed that `BA:69:F4:D6:E8:A5` is the MAC associated with `192.168.0.100`.
+- [CONFIRMED] Current intended reservation: `BA:69:F4:D6:E8:A5` → `192.168.0.100`, enabled/default group.
 - [RULE] Keep MikroTik WAN configured as DHCP. Do not convert the MikroTik WAN to a manually configured static IP merely to achieve address persistence.
-- [NEXT] When the user resumes this task, inspect the Archer C20 V4 DHCP → Address Reservation screen and create/verify the reservation one UI step at a time.
+- [RESULT] TP-Link-side DHCP reservation task is complete for the currently observed MikroTik Wi-Fi STA client identity.
 
 ### DNS recovery state — PRESERVE
 - [CONFIRMED] The DNS-induced dnsmasq failure from 2026-09-20 was resolved by removing the custom DNS/DoH UCI parameters and regenerating dnsmasq configuration.
