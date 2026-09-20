@@ -1974,3 +1974,7 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] dnsmasq logs show repeated `Maximum number of concurrent DNS queries reached (max: 150)` warnings at 21:27, 21:30:54 and 21:31:02. This indicates DNS requests are accumulating/stalling inside dnsmasq; it explains the observed DNS timeout and is now the leading fault domain for client Internet failure. Earlier listener check confirmed dnsmasq is bound to 192.168.1.1:53. No configuration or service restart performed.
 - [CONCLUSION] Do not alter DNS yet. Need to identify the active dnsmasq upstream/resolver configuration, especially any interaction with https-dns-proxy, before making changes.
 - [NEXT] Read-only inspect DHCP/dnsmasq UCI configuration with `uci show dhcp`.
+
+- [OBSERVED 2026-09-20] `uci show dhcp` confirms dnsmasq is configured with `noresolv=1` and sends DNS queries only to local DoH proxy endpoints `127.0.0.1#5053` and `127.0.0.1#5054`; `doh_server` is also set to those two endpoints. Thus dnsmasq has no direct upstream resolver configured. This matches the concurrent-query saturation and makes the local DoH proxy path the primary DNS fault domain.
+- [CONCLUSION] Do not change DNS configuration yet. First verify whether anything is actually listening on UDP/TCP 5053 and 5054.
+- [NEXT] One read-only listener check for ports 5053/5054; no restart or configuration change.
