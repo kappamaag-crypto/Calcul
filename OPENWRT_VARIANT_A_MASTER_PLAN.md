@@ -1777,3 +1777,11 @@ This block is authoritative over older historical entries when they conflict wit
 - [CONFIRMED] The change was limited to the Zapret2 runtime configuration; the service has not yet been started.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT] Start Zapret2 once, then immediately verify service state, daemon process, and firewall state before any further change.
+
+
+## CHANGELOG — 2026-09-20 — First Zapret2 start result
+- [RESULT] `/etc/init.d/zapret2 start` launched `nfqws2` configuration for TCP 80/443 and UDP 443 with queue 300.
+- [RESULT] Zapret2 attempted nftables activation and created/loaded nft set structures (`zapret`, `ipban`, `nozapret`), but all four NFQWS nft rule insertions failed with `Error: Could not process rule: No such file or directory` while inserting into table `inet zapret2` chains `postnat`/`prenat`.
+- [IMPORTANT] The start command did not report a clean successful firewall activation. Current daemon/table state must be verified read-only before any repair or stop/start action.
+- [SAFETY] Do not retry `start`, `restart`, firewall reload, or configuration edits until the partial-activation state is inspected.
+- [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED pending read-only state inspection.
