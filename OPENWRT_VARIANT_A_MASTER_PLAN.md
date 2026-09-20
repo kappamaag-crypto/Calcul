@@ -1830,3 +1830,10 @@ This block is authoritative over older historical entries when they conflict wit
 - [CONCLUSION] The current OpenWrt kernel/module set does not expose `nft_queue` as a loadable module through the standard module metadata. This explains the nft rule insertion failure as the leading technical cause, but the exact package/config source should still be checked before installing anything.
 - [NO CHANGE] No module, package, service, firewall, network, Wi-Fi, or DNS state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
+
+
+## CHANGELOG — 2026-09-20 — Official OpenWrt package research
+- [WEB VERIFIED] Official OpenWrt 25.12.5 repositories publish a package named `kmod-nft-queue-6.12.94-r1.apk` for multiple 6.12.94 targets, confirming the package exists in the 25.12.5 release family. The current device-specific ath79/mikrotik package index still needs direct verification before installation.
+- [WEB VERIFIED] OpenWrt release 25.12.5 is the relevant official release tree; kernel-module packages are target/kernel-build specific, so a package from another target must not be installed.
+- [SAFETY] Do not install the x86/other-target `kmod-nft-queue` package. First inspect the router's configured official APK repositories and exact target kmods feed.
+- [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
