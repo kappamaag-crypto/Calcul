@@ -1685,3 +1685,10 @@ This block is authoritative over older historical entries when they conflict wit
 - No state changed; Zapret2 remains inactive and firewall/NFQUEUE integration has not been activated.
 - STAGE 11 remains IN_PROGRESS.
 - Next: inspect the top-level `/opt/zapret2` directory structure and relevant executable/script names read-only to locate the intended firewall integration mechanism without installing or executing anything.
+
+## CHANGELOG — 2026-09-20 — STAGE 11 Zapret2 directory structure correction
+- [CONFIRMED] `/opt/zapret2` exists and contains the controlled Zapret2 deployment: binaries, blockcheck2.d, common, config/config.default, files, init.d, ip2net, ipset, lua, mdig, nfq2, tmp, and installer/uninstaller scripts.
+- [CORRECTION] The earlier `find -maxdepth 2 -type f` produced no output despite the directory containing files; this does not prove the deployment lacked files. The subsequent `ls -la` is authoritative for the top-level inventory.
+- [CONFIRMED] An `init.d` directory is present, but previous filename-filtering did not reveal matching files; its contents must be inspected directly.
+- [NO CHANGE] No Zapret2 service, firewall/NFQUEUE, list generator, network, Wi-Fi or DNS state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
