@@ -1514,3 +1514,84 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [SAFETY] No Zapret2 activation, firewall/NFQUEUE changes, routing changes, Wi-Fi configuration changes, or storage changes were performed during this recovery.
 - [STATUS] Wi-Fi/DHCP incident is resolved; no further corrective action is pending.
 - [NEXT] Preserve this working DNS state. If DoH/DNS is reintroduced later, test it separately and verify dnsmasq starts successfully before proceeding.
+
+
+## CURRENT AUTHORITATIVE STATE — SYNC 2026-09-20 — TP-LINK WI-FI SSH ACCESS
+
+This block is authoritative over older historical entries when they conflict with the latest verified runtime state.
+
+### Topology and addressing
+- [CONFIRMED] Main router remains TP-Link Archer C20 v4.
+- [CONFIRMED] MikroTik hAP ac lite / RB952Ui-5ac2nD remains downstream from the TP-Link through Wi-Fi STA; MikroTik does NOT replace the TP-Link as the main router.
+- [CONFIRMED] TP-Link LAN/upstream subnet is 192.168.0.0/24; TP-Link gateway is 192.168.0.1.
+- [CONFIRMED] MikroTik WAN is DHCP on eth1 and currently receives 192.168.0.100/24 with gateway 192.168.0.1.
+- [CONFIRMED] MikroTik LAN remains 192.168.1.1/24 on br-lan.
+- [CONFIRMED] MikroTik WAN MAC is b8:69:f4:d6:e8:a0.
+- [SECURITY] The MikroTik SSH rule is limited to source subnet 192.168.0.0/24; Internet-wide SSH access is not intended.
+
+### SSH access from TP-Link Wi-Fi — DONE
+- [CONFIRMED] SSH daemon is listening on TCP/22 on 0.0.0.0.
+- [CONFIRMED] Before the firewall change, WAN input policy was REJECT and there was no TCP/22 allow rule.
+- [CHANGE] Added UCI firewall rule:
+  - ID: cfg0e92bd
+  - name: Allow-SSH-from-TPLink
+  - src: wan
+  - src_ip: 192.168.0.0/24
+  - proto: tcp
+  - dest_port: 22
+  - target: ACCEPT
+- [PASS] Firewall configuration was committed and reloaded successfully.
+- [PASS] Firewall reload completed without error; the existing https-dns-proxy NOTRACK include was loaded normally.
+- [PASS] User verified that a device connected to TP-Link SweetHomeU Wi-Fi can SSH to MikroTik at 192.168.0.100.
+- [RESULT] Deferred task “access OpenWrt from TP-Link Wi-Fi without LAN” is now completed.
+- [SAFETY] No uhttpd/LuCI was installed. User explicitly chose CLI/SSH management because of the router's limited RAM.
+- [SAFETY] No LAN addressing, WAN DHCP mode, Wi-Fi configuration, routing topology, or Zapret2 activation was changed to achieve SSH access.
+
+### TP-Link DHCP reservation — NOT_STARTED
+- [CONFIRMED] A DHCP reservation is recommended on Archer C20 v4 so 192.168.0.100 remains assigned to the MikroTik WAN MAC.
+- [OFFICIAL UI PATH] TP-Link's current Archer C20 V4 documentation identifies the path as: DHCP → Address Reservation → Add New. The entry requires the client MAC, reserved IP, Enabled status, then Save. citeturn0view0
+- [PLANNED ENTRY] MAC Address: B8-69-F4-D6-E8-A0.
+- [PLANNED ENTRY] IP Address: 192.168.0.100.
+- [PLANNED ENTRY] Status: Enabled.
+- [IMPORTANT] The reservation has NOT yet been verified as created on the TP-Link. Do not mark it DONE until the user confirms the entry exists and, preferably, the TP-Link DHCP/client table shows the same MAC/IP pair.
+- [RULE] Keep MikroTik WAN configured as DHCP. Do not convert the MikroTik WAN to a manually configured static IP merely to achieve address persistence.
+- [NEXT] When the user resumes this task, inspect the Archer C20 V4 DHCP → Address Reservation screen and create/verify the reservation one UI step at a time.
+
+### DNS recovery state — PRESERVE
+- [CONFIRMED] The DNS-induced dnsmasq failure from 2026-09-20 was resolved by removing the custom DNS/DoH UCI parameters and regenerating dnsmasq configuration.
+- [CONFIRMED] Current working upstream DNS path is via /tmp/resolv.conf.d/resolv.conf.auto, upstream 192.168.0.1#53.
+- [RULE] Do not reintroduce DoH/DNS customization until it is tested separately and dnsmasq startup is verified.
+- [IMPORTANT] The current working DNS state is separate from the SSH access change and must be preserved.
+
+### Stage status at this sync
+- STAGE 0 — DONE
+- STAGE 1 — DONE
+- STAGE 2 — DONE
+- STAGE 3 — DONE
+- STAGE 4 — DONE
+- STAGE 5 — DONE
+- STAGE 6 — IN_PROGRESS (deferred by user; current Wi-Fi works, historical reload/-122 root cause remains bounded/unresolved)
+- STAGE 7 — DONE
+- STAGE 8 — DONE
+- STAGE 9 — DONE (ZRAM + USB swap verified)
+- STAGE 10 — IN_PROGRESS (DoH baseline/chain verified with stated per-listener attribution limitation; DNS was subsequently rolled back on 2026-09-20)
+- STAGE 11 — IN_PROGRESS (Zapret2 deployed but intentionally inactive)
+- STAGE 12–30 — NOT_STARTED
+
+### What was checked for missing plan synchronization
+- [FIXED] The prior deferred TP-Link-Wi-Fi → MikroTik SSH-access task is now recorded with actual WAN address, WAN MAC, firewall rule, commit/reload result, and user-confirmed successful SSH access.
+- [FIXED] The decision not to install uhttpd/LuCI and to use CLI/SSH management is recorded.
+- [ADDED] The remaining TP-Link-side DHCP reservation task is explicitly recorded as NOT_STARTED, with exact MAC/IP values and the official Archer C20 V4 UI path.
+- [CONFIRMED] The 2026-09-20 DNS rollback/recovery was already present in the plan and is retained; no duplicate or conflicting recovery is introduced.
+- [RULE] Do not mark TP-Link DHCP reservation DONE until it is actually created/verified on the Archer C20 V4.
+- [RULE] This SSH-access change does not require a Master Prompt workflow-rule update; existing one-step-at-a-time, synchronization, compact-output, and safety rules remain sufficient.
+
+## CHANGELOG — 2026-09-20 — [SYNC] TP-Link Wi-Fi SSH access and DHCP reservation tracking
+- [PASS] Read-only/verified topology state recorded: TP-Link 192.168.0.1/24 → MikroTik WAN DHCP 192.168.0.100/24 → MikroTik LAN 192.168.1.1/24.
+- [PASS] MikroTik WAN MAC recorded in the operational plan: b8:69:f4:d6:e8:a0.
+- [PASS] Firewall rule Allow-SSH-from-TPLink recorded with source 192.168.0.0/24 and TCP/22 destination.
+- [PASS] User-confirmed SSH access from a TP-Link SweetHomeU Wi-Fi client to 192.168.0.100.
+- [PASS] uhttpd/LuCI intentionally not installed; CLI/SSH remains the management method.
+- [NOT_STARTED] TP-Link DHCP reservation for 192.168.0.100 → B8-69-F4-D6-E8-A0 has not yet been created/verified.
+- [NEXT] On the TP-Link, use DHCP → Address Reservation → Add New; enter the MikroTik WAN MAC and 192.168.0.100, enable the entry, save, and then verify the reservation.
+- [NO CHANGE] No MikroTik router command or network configuration is required merely to prepare this TP-Link reservation; MikroTik WAN remains DHCP.
