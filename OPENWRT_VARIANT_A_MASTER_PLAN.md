@@ -1755,3 +1755,11 @@ This block is authoritative over older historical entries when they conflict wit
 - [SAFETY] Activation will remain one-command-at-a-time; first step is a read-only enabled/running-state check before any service action.
 - [GUARD] Do not alter `config`, lists, firewall, NFQUEUE, DNS, Wi-Fi, or network settings in the first activation step.
 - [STATUS] STAGE 11 remains IN_PROGRESS pending controlled activation and verification.
+
+
+## CHANGELOG — 2026-09-20 — Zapret2 pre-activation state
+- [CONFIRMED] `/etc/init.d/zapret2 enabled` returned rc=1: service is not enabled at boot.
+- [CONFIRMED] `/etc/init.d/zapret2 status` reported `inactive`.
+- [NO CHANGE] Status check was read-only; no service, daemon, firewall, NFQUEUE, DNS, Wi-Fi, or network state changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS. Zapret2 is installed but currently inactive and not enabled.
+- [NEXT] Before first activation, perform one read-only config sanity check focused on activation gates and `SET_MAXELEM`; do not enable/start yet.
