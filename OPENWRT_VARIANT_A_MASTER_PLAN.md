@@ -1953,3 +1953,6 @@ This block is authoritative over older historical entries when they conflict wit
 
 - [OBSERVED 2026-09-20] Live `inet fw4 forward` chain is policy DROP, accepts established/related, sends `iifname br-lan` to `forward_lan`, sends `iifname {eth1,phy0-sta0}` to `forward_wan`, then rejects unmatched traffic. This confirms LAN client traffic enters the dedicated LAN forward chain; this output alone does not establish whether `forward_lan` ultimately accepts it.
 - [NEXT] Continue read-only by inspecting `forward_lan`; no firewall/service/network changes.
+
+- [OBSERVED 2026-09-20] Live `fw4 forward_lan` chain explicitly jumps to `accept_to_wan` for LAN→WAN forwarding, after rejecting only TCP/UDP destination port 853 (the https-dns-proxy interception rule). Therefore the general LAN→WAN path is explicitly present; the DNS interception rule has zero packets and is not currently causing the observed general outage.
+- [CONCLUSION] Basic fw4 LAN forwarding configuration remains consistent with expected operation. The next diagnostic target is the actual `accept_to_wan` chain and its counters/rules, still read-only.
