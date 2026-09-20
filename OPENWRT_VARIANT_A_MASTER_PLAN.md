@@ -1898,3 +1898,7 @@ This block is authoritative over older historical entries when they conflict wit
 - [OBSERVED 2026-09-20] Controlled `/etc/init.d/zapret2 restart` completed successfully after `kmod-nft-queue` installation. The startup output showed NFQWS2 launched with `--qnum=300` and all four IPv4 NFQWS2 nftables insertion operations completed without the previous `Could not process rule: No such file or directory` error: TCP postrouting 1-20, TCP prerouting 1-10, UDP postrouting 1-5, UDP prerouting 1-3.
 - [STATUS] This establishes successful firewall-rule application at command level; actual nftables rule presence is still to be verified read-only.
 - [NEXT] Verify the live `inet zapret2` table for `queue num 300` rules.
+
+- [OBSERVED 2026-09-20] Post-restart `nft -a list table inet zapret2 | grep -E 'queue num|nfqws|postnat|prenat'` showed the `postnat_hook`/ `prenat_hook` jumps and `predefrag_nfqws` mark/notrack logic, but the filtered output contained no visible `queue num 300` rules. Therefore successful command-level insertion messages are not yet sufficient to mark NFQUEUE activation DONE; live queue-rule placement remains unresolved.
+- [STATUS] STAGE 11 remains IN_PROGRESS. Do not infer queue activation from the restart log alone.
+- [NEXT] Inspect the live `postrouting` and `prerouting` chains directly for queue rules, rather than relying on the previous broad grep.
