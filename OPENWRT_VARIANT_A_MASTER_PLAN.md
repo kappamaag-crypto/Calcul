@@ -1796,3 +1796,12 @@ This block is authoritative over older historical entries when they conflict wit
 - [CONFIRMED] The table has active hook rules that jump into the empty `postnat`/`prenat` chains, so this is a partial activation state and requires controlled diagnosis.
 - [SAFETY] Do not restart/stop/restart firewall or edit configuration until the cause of the failed nft rule insertion is identified.
 - [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
+
+
+## CHANGELOG — 2026-09-20 — nftables queue-module audit
+- [CONFIRMED] Kernel has `nf_tables`, `nfnetlink`, and `nfnetlink_queue` loaded.
+- [CONFIRMED] `nft_ct`, NAT, flow-offload, fib, meta-related base nftables functionality visible in the loaded-module inventory; no `nft_queue` module is present in the `lsmod` result.
+- [IMPORTANT] The absence of `nft_queue` in `lsmod` is a strong candidate for the `No such file or directory` failure on rules containing `queue num 300`, but it is not yet proof that the module is unavailable; it could be built-in or loadable but not currently loaded.
+- [SAFETY] No module was loaded and no network/firewall/service state was changed by this audit command.
+- [STATUS] STAGE 11 remains IN_PROGRESS / activation verification BLOCKED.
+- [NEXT] Perform one read-only filesystem check for the `nft_queue` kernel module before considering any module-load or package action.
