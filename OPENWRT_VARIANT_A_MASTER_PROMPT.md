@@ -874,3 +874,6 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 - One router command at a time; no Zapret2 restart/stop during audit unless explicitly authorized; no new package/software installation before the decision gate.
 - After every user+assistant pair, synchronize factual state into the master plan; update this prompt when workflow/safety rules change.
 - [WORKFLOW DECISION 2026-09-20] Continue Zapret2/NFQWS2 as the primary path. Defer TPWS investigation unless NFQWS2 cannot be made stable and memory-safe. Do not install or activate TPWS/ByeDPI while the NFQWS2 path remains under evaluation. Before installing the exact official `kmod-nft-queue-6.12.94-r1`, inspect its package metadata/dependencies read-only.
+
+## WORKFLOW RULE — 2026-09-21
+After each user message: first record the user's factual router result in the Master Plan. The assistant response for that same turn must not issue the next router command. The sequence is strictly: **user result → assistant response → Master Plan synchronization → Master Prompt synchronization only when workflow/safety rules change → next user turn may receive the next router command**. Never combine recording the current result with issuing the next router command.
