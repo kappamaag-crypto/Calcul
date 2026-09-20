@@ -1988,3 +1988,5 @@ This block is authoritative over older historical entries when they conflict wit
 
 - [OBSERVED 2026-09-20] User stopped `https-dns-proxy` successfully: `Stopping https-dns-proxy 2026.05.06-r1 ✓`. DoH proxy processes are now intentionally stopped for DNS recovery. No Zapret2 changes made.
 - [ROOT-CAUSE CONTEXT] OOM occurred while two https-dns-proxy instances were configured/listening on 5053/5054 and dnsmasq was configured to use both. Kernel explicitly killed PID 3221. Exact memory pressure trigger (steady footprint vs. transient/concurrent workload) is not yet established from current evidence.
+
+- [NEXT STEP 2026-09-20] After successfully stopping https-dns-proxy, restore dnsmasq's known-working direct upstream path to TP-Link (192.168.0.1) without yet re-enabling DoH or touching Zapret2. Before any configuration write, inspect current generated resolver state only.
