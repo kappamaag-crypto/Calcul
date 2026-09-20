@@ -1700,3 +1700,11 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] No Zapret2 installer, service hook, firewall/NFQUEUE activation, list generation, network/Wi-Fi or DNS state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - [NEXT] The next step is one compact read-only inspection of the `/opt/zapret2` directory entries around `init.d`/related scripts to determine whether the integration is represented by non-regular files or another official path. Do not execute installers or activation scripts.
+
+## CHANGELOG — 2026-09-20 — STAGE 11 init.d structure inspection
+- [PASS] Read-only `ls -la /opt/zapret2/init.d` completed successfully.
+- [CONFIRMED] `/opt/zapret2/init.d` contains two directories: `custom.d.examples.linux` and `openwrt`.
+- [CORRECTION] The previous `find ... -type f` result was empty because the relevant Zapret2 integration content is nested inside subdirectories; the `init.d` directory itself is not empty.
+- [NO CHANGE] No Zapret2 installer, service hook, firewall/NFQUEUE activation, list generation, network/Wi-Fi or DNS state was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
+- [NEXT] Perform one compact read-only listing of `/opt/zapret2/init.d/openwrt` to identify the actual OpenWrt integration files without executing them.
