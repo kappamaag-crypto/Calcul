@@ -1890,3 +1890,7 @@ This block is authoritative over older historical entries when they conflict wit
 - [NO CHANGE] This was read-only; no firewall, service, network, Wi-Fi, DNS, package, or filesystem state was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; NFQWS2 daemon is running and `nft_queue` is loaded, but queue rules are not yet confirmed attached.
 - [NEXT] Inspect the current values of the variables that directly affect the generated nft command (`ZAPRET_NFT_TABLE`, `FW_EXTRA_PRE`, `POSTNAT`, `POSTNAT_ALL`, and relevant NFQWS2 firewall parameters) using the installed Zapret2 configuration/source, before any restart or firewall re-application.
+
+- [OBSERVED 2026-09-20] Current `/opt/zapret2/config` confirms `NFQWS2_ENABLE=1`, `INIT_APPLY_FW=1`, and `DISABLE_IPV6=1`. The queried optional variables `ZAPRET_NFT_TABLE`, `FW_EXTRA_PRE`, `POSTNAT`, and `POSTNAT_ALL` are not explicitly set in the config output, so their defaults/source values remain to be established by the script.
+- [DECISION] Because the required `kmod-nft-queue` is now installed/loaded and the configured Zapret2 startup path has `INIT_APPLY_FW=1`, proceed to one controlled service restart to re-run the official Zapret2 firewall application. This is within the user's prior authorization to activate Zapret2.
+- [NEXT] After the restart, perform a read-only check of the `zapret2` nft table for `queue num` rules. No additional configuration change will be made before that result.
