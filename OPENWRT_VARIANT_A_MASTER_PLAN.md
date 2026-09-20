@@ -1678,3 +1678,10 @@ This block is authoritative over older historical entries when they conflict wit
 - No state was changed; Zapret2 remains inactive.
 - STAGE 11 remains IN_PROGRESS.
 - Next: identify the actual Zapret2 init/startup scripts present under `/opt/zapret2` read-only, then inspect the relevant firewall integration file.
+
+## CHANGELOG — 2026-09-20 — STAGE 11 init-file inventory
+- Read-only `find` under `/opt/zapret2` (depth <=3) returned no files matching `openwrt*`, `*init*`, or `*service*`.
+- Therefore the controlled Zapret2 deployment currently contains no matching init/service wrapper at those paths; this is consistent with the decision not to run `install_easy.sh` or install service hooks.
+- No state changed; Zapret2 remains inactive and firewall/NFQUEUE integration has not been activated.
+- STAGE 11 remains IN_PROGRESS.
+- Next: inspect the top-level `/opt/zapret2` directory structure and relevant executable/script names read-only to locate the intended firewall integration mechanism without installing or executing anything.
