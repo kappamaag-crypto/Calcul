@@ -1592,3 +1592,12 @@ SYNC 2026-09-19: [PASS] STAGE 11 standalone `/opt/zapret2/nfq2/nfqws2 --version`
 - [SAFETY] Wi-Fi diagnosis remains read-only until the user resumes it; do not intentionally reload network/Wi-Fi/services while diagnosing.
 - [NEXT] When resumed, continue from the pending dnsmasq status result; do not repeat or skip steps without actual evidence.
 - [STATUS] Issue deferred; STAGE 11 remains IN_PROGRESS and Zapret2 remains inactive.
+
+
+## CHANGELOG — 2026-09-20 — [PASS] deferred Wi-Fi/DHCP diagnosis: dnsmasq status
+- [PASS] Read-only command completed: `ubus call service list ... dnsmasq ...`.
+- [CONFIRMED] The filtered result is `STATUS=0`; dnsmasq is not reported as running. No PID was returned.
+- [IMPORTANT] This provides a concrete lead for the phone DHCP failure, but does not yet establish why dnsmasq is stopped or whether another DHCP service is active.
+- [NO CHANGE] No service restart, network/Wi-Fi reload, DNS rollback, or configuration edit was performed.
+- [NEXT] When continuing this diagnosis, inspect dnsmasq service/config state read-only before any restart or configuration change.
+- [STATUS] Wi-Fi/DHCP issue remains IN_PROGRESS for diagnosis but is paused at user's request; STAGE 11 remains IN_PROGRESS and Zapret2 remains inactive.
