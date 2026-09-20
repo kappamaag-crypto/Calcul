@@ -1970,3 +1970,7 @@ This block is authoritative over older historical entries when they conflict wit
 
 - [OBSERVED 2026-09-20] `netstat -lnup | grep ':53'` confirms dnsmasq PID 3802 is listening on UDP/53 on 127.0.0.1, 192.168.1.1, 192.168.0.100 and IPv6 addresses. Therefore the prior DNS timeout is not explained by a missing DNS listener/socket. It remains necessary to determine whether dnsmasq receives the query and whether its upstream resolution is failing.
 - [NEXT] Inspect recent dnsmasq log messages read-only; no restart/configuration change.
+
+- [OBSERVED 2026-09-20] dnsmasq logs show repeated `Maximum number of concurrent DNS queries reached (max: 150)` warnings at 21:27, 21:30:54 and 21:31:02. This indicates DNS requests are accumulating/stalling inside dnsmasq; it explains the observed DNS timeout and is now the leading fault domain for client Internet failure. Earlier listener check confirmed dnsmasq is bound to 192.168.1.1:53. No configuration or service restart performed.
+- [CONCLUSION] Do not alter DNS yet. Need to identify the active dnsmasq upstream/resolver configuration, especially any interaction with https-dns-proxy, before making changes.
+- [NEXT] Read-only inspect DHCP/dnsmasq UCI configuration with `uci show dhcp`.
