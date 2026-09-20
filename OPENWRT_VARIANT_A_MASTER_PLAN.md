@@ -1671,3 +1671,10 @@ This block is authoritative over older historical entries when they conflict wit
 - install_easy.sh was not executed; no lists, nft/ipset sets, firewall, NFQUEUE, service, network, Wi-Fi or DNS state changed.
 - STAGE 11 remains IN_PROGRESS; Zapret2 remains intentionally inactive.
 - Next: read-only inspection of the firewall activation path around INIT_APPLY_FW=1; do not execute it.
+
+## CHANGELOG — 2026-09-20 — STAGE 11 firewall-path audit
+- Read-only command against `/opt/zapret2/init.d/openwrt.sh` produced no matching output.
+- This does not establish that the firewall integration is absent: the inspected path may not exist, may differ in this Zapret2 layout, or may not contain the searched terms.
+- No state was changed; Zapret2 remains inactive.
+- STAGE 11 remains IN_PROGRESS.
+- Next: identify the actual Zapret2 init/startup scripts present under `/opt/zapret2` read-only, then inspect the relevant firewall integration file.
