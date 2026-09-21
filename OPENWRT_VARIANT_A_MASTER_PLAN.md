@@ -139,3 +139,9 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [SAFETY] Do not launch blockcheck2 yet: first verify its local presence/version and invocation requirements with one read-only command. Running the checker may generate traffic, consume CPU/RAM, and interact with nfqws2/firewall state; current STAGE 11 is still a post-reboot validation stage.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] First verify the deployed `blockcheck2.sh` file and its basic usage/version information using a read-only command; do not start the strategy scan yet.
+
+
+## CHANGELOG — 2026-09-21 — synchronization before blockcheck2 presence check
+[SYNC] Current `/opt/zapret2/ipset` probe result and the official blockcheck2 context are already recorded. No router configuration or service state was changed during this synchronization.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] One read-only local presence/usage check for `blockcheck2.sh` is now authorized.
