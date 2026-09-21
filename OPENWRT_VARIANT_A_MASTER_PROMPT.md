@@ -910,3 +910,12 @@ After each user message: first record the user's factual router result in the Ma
 - Do not disable Lua desync wholesale merely to speed up testing; nfqws2/winws2 strategy discovery legitimately uses Lua desync methods.
 - For a faster pass, reduce scope (one domain/protocol/IP version at a time) rather than switching to unsupported manual strategy assumptions. Keep VPN/proxy/other bypass software disabled and keep the Windows PC directly on the TP-Link path.
 - Router-side v1.0.3 configuration remains unchanged until candidate parameters are reviewed.
+
+
+## WORKFLOW RULE — 2026-09-21 — Cygwin quick multi-domain result handling
+- Record Windows blockcheck2 candidates with exact domain, IP version, protocol and generated parameters.
+- A candidate found in quick mode is a discovery candidate, not a final/common strategy. Do not transfer it to the router without compatibility review against pinned Zapret2 v1.0.3.
+- Treat IP non-connectivity (for example Telegram/WhatsApp tested IPv4 addresses) separately from TLS DPI results; require manual interpretation before choosing desync parameters.
+- Quick-mode COMMON/COVERAGE output is non-exhaustive because the tool may skip strategies. Do not treat it as proof that no common TLS strategy exists.
+- Current recorded Windows candidate: YouTube IPv4 QUIC — `--wf-l3=ipv4 --wf-udp-out=443 --payload quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=11`.
+- Router-side Zapret2 v1.0.3 remains unchanged during candidate discovery.
