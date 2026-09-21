@@ -109,3 +109,11 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The command was read-only; no service was started, stopped, restarted, or reconfigured.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Verify the effective dnsmasq DNS forwarding configuration with one read-only UCI query before deciding whether the running DoH instances are actually in the active DNS path.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 11
+[USER INPUT] User proposed that `https-dns-proxy` may be auto-started through Procd/hotplug and suggested disabling it via UCI plus `/etc/init.d/https-dns-proxy stop/disable`, with `cat /etc/config/https-dns-proxy` as a diagnostic.
+[IMPORTANT] During the current post-reboot audit, no service/configuration changes are to be performed yet. Therefore the proposed stop/disable/UCI commands are not executed at this stage.
+[FACTUAL CORRECTION] The presence of an `S20https-dns-proxy` rc.d start link and the observed `running` status already establish an enabled boot-time init-script path; Procd is involved in OpenWrt service supervision, but the exact package configuration schema must be inspected before assuming that `uci set https-dns-proxy.config.enabled='0'` is valid.
+[CONFIRMED] Two separate https-dns-proxy processes are currently running: Cloudflare DoH on local port 5053 and Google DoH on local port 5054.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Inspect `/etc/config/https-dns-proxy` read-only to determine the package's actual UCI configuration and how those two instances are defined.
