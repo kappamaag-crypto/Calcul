@@ -161,3 +161,18 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The command was read-only; no service, configuration, network, or firewall state changed.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Await user instruction before issuing the next router command; the current step has been fully documented and synchronized.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 16
+[RESULT] User supplied read-only output of `/etc/init.d/pbr status`.
+[CONFIRMED] PBR version is `1.2.2-r20` on OpenWrt 25.12.5 r33051-f5dae5ece4.
+[CONFIRMED] IPv4 uplink is `wan/phy0-sta0`, gateway `192.168.0.1`; current main IPv4 source address is `192.168.0.55`.
+[CONFIRMED] PBR reports empty policy, marking-chain, and nft-set sections; no active PBR policy/marking configuration is shown.
+[CONFIRMED] Main IPv4 routing table contains:
+- default via `192.168.0.1` dev `phy0-sta0`, source `192.168.0.55`;
+- `192.168.0.0/24` via `phy0-sta0`;
+- `192.168.1.0/24` via `br-lan`.
+[CONFIRMED] Main IPv4 rule is only `32766: from all lookup main` in the supplied output.
+[CONFIRMED] dnsmasq version shown by PBR is 2.93 with IPv6 support; compiled options shown include `no-DHCP` and `no-DHCPv6`.
+[NO CHANGE] The command was read-only; no service, routing, firewall, or configuration state changed.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Await user instruction before issuing the next router command.
