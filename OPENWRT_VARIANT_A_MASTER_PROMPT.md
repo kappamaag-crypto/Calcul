@@ -919,3 +919,12 @@ After each user message: first record the user's factual router result in the Ma
 - Quick-mode COMMON/COVERAGE output is non-exhaustive because the tool may skip strategies. Do not treat it as proof that no common TLS strategy exists.
 - Current recorded Windows candidate: YouTube IPv4 QUIC — `--wf-l3=ipv4 --wf-udp-out=443 --payload quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=11`.
 - Router-side Zapret2 v1.0.3 remains unchanged during candidate discovery.
+
+
+## WORKFLOW RULE — 2026-09-21 — YouTube TLS1.2 candidate inventory
+- The stopped Windows standard scan produced 22 distinct `AVAILABLE` winws2 candidates for `youtube.com` IPv4 TLS1.2. This is a bounded inventory, not exhaustive.
+- Candidate families: 5 simple MULTIDISORDER; 5 SEQOVL + MULTISPLIT/MULTIDISORDER; 8 FAKE + TCP/IP header modifications; 4 FAKE + automatic TTL.
+- For follow-up, prioritize the simple MULTIDISORDER family (especially `pos=host+1`, `pos=midsld`, and `pos=1,midsld`) because it avoids the additional seqovl/header/TTL mechanisms. This is a test-order decision, not a claim that these are globally superior.
+- Treat seqovl, TCP/IP-header, and autottl candidates as secondary/specialized until reproducibility and router-v1.0.3 compatibility are tested.
+- Never transfer a Windows candidate directly to the router solely because blockcheck2 returned `AVAILABLE`. First repeat it on Windows, record exact parameters, then review syntax/runtime compatibility with pinned Zapret2 v1.0.3 and the 64 MB memory budget.
+- Router-side `NFQWS2_OPT` remains unchanged during this candidate review.
