@@ -80,3 +80,12 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The command was read-only; no service was started, stopped, or restarted.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Run one targeted read-only command for `https-dns-proxy` status only; do not change the service.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 8
+[RESULT] Read-only command `/etc/init.d/https-dns-proxy status` returned `running`.
+[CONFIRMED] `https-dns-proxy` is running after the power-loss reboot.
+[CONFIRMED] This resolves the earlier runtime-state ambiguity for this service: the `S20https-dns-proxy` boot link corresponds to an active service after reboot.
+[IMPORTANT] This does not by itself prove whether one or multiple https-dns-proxy instances/processes are running, nor whether the service is needed for the current DNS architecture.
+[NO CHANGE] The command was read-only; no service was started, stopped, restarted, or reconfigured.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Inspect the https-dns-proxy process count/PIDs with one read-only process listing; do not stop or restart the service yet.
