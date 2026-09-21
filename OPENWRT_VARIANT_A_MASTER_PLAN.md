@@ -64,3 +64,11 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [SAFETY] No curl installation on the router is required for the PC-based workflow. Do not run full blockcheck2 on the low-RAM router while its current nfqws2 configuration is active unless a separate decision gate authorizes it.
 [STATUS] STAGE 11 — IN_PROGRESS (strategy discovery on PC).
 [NEXT USER STEP] Prepare the Windows official bundle only; no router command in this turn.
+
+
+## CHANGELOG — 2026-09-21 — Windows blockcheck2 launch procedure prepared
+[VERIFIED] Official author documentation recommends the official `zapret-win-bundle`; it contains minimal Cygwin and `blockcheck\\blockcheck2.cmd`, which is the Windows Zapret2-based DPI strategy analyzer. Windows x64 is supported; WSL is not the required environment.
+[LAUNCH PROCEDURE] On the Windows 11 x64 PC: download the official bundle master ZIP; extract it to a simple ASCII path such as `C:\\zapret-win-bundle`; ensure no other DPI-bypass/Zapret software is running on the PC; open the bundle's `_CMD_ADMIN.cmd` as administrator; launch `blockcheck\\blockcheck2.cmd`. Do not launch `preset*.cmd` or install a Windows service. The purpose is strategy discovery only.
+[TEST POLICY] First run the interactive blockcheck2 flow and allow its DNS/reachability checks. Use the currently failing services as test domains. Do not enable aggressive parallel testing. Save the generated log and exact successful strategy parameters. If a multi-domain COMMON/COVERAGE comparison is required, rerun with `SCANLEVEL=force`.
+[TRANSFER GATE] No router-side strategy is changed until a candidate result is recorded, reviewed against the existing v1.0.3 nfqws2 configuration, and then transferred as a single controlled change with rollback and resource checks.
+[STATUS] STAGE 11 — IN_PROGRESS.
