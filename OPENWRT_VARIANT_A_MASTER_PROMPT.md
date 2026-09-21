@@ -877,3 +877,11 @@ SYNC RULE UPDATE 2026-09-19: STAGE 11 binary preflight is now complete for `ip2n
 
 ## WORKFLOW RULE — 2026-09-21
 After each user message: first record the user's factual router result in the Master Plan. The assistant response for that same turn must not issue the next router command. The sequence is strictly: **user result → assistant response → Master Plan synchronization → Master Prompt synchronization only when workflow/safety rules change → next user turn may receive the next router command**. Never combine recording the current result with issuing the next router command.
+
+## Compact diagnostic output
+- Диагностические команды по умолчанию должны выдавать только данные, необходимые для текущего шага.
+- Предпочитать точечные `grep -E`, `awk`, `sed -n`, `head`, `tail`, `tr` и форматирование в одну строку вместо полного вывода файлов, процессов, ruleset или логов.
+- Для многострочных параметров выводить только требуемый блок; если значение может содержать много строк, сначала явно указывать границы блока.
+- Не использовать полный `logread`, `cat /proc/meminfo`, `nft list ruleset`, `uci show` и аналогичные большие выводы, если для проверки достаточно выборки.
+- Не объединять несколько независимых диагностических действий в одну пользовательскую команду только ради сокращения количества сообщений: правило one-step-at-a-time сохраняется.
+- Цель компактного вывода — уменьшить объём текста для передачи ИИ без потери фактов, необходимых для PASS/FAIL и синхронизации мастер-плана.
