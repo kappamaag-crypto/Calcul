@@ -201,3 +201,12 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [SAFETY] No package was installed and no service/configuration was changed.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] If the project is to use `curl` for further diagnostics, its installation can now be considered from a storage perspective; however, blockcheck2 itself should remain off-router unless a controlled test is explicitly planned.
+
+
+## CHANGELOG — 2026-09-21 — curl binary confirmed absent
+[FACTUAL RESULT] The user executed `command -v curl || echo 'curl: NOT_INSTALLED'`; output was `curl: NOT_INSTALLED`.
+[CONCLUSION] No `curl` executable is currently available in PATH. The earlier `apk search` result confirms package availability, but installation has not occurred.
+[CONTEXT] Current extroot has approximately 6.2G available, so package storage is not a practical constraint. Current RAM availability is low, so no blockcheck2 execution is planned on-router.
+[SAFETY] No package or service state was changed.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] If curl is needed for the project, install it as a separate controlled step; otherwise proceed with the PC-based blockcheck2 workflow. No blockcheck2 scan should be started on the router.
