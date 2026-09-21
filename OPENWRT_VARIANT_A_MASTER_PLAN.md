@@ -210,3 +210,14 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [SAFETY] No package or service state was changed.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] If curl is needed for the project, install it as a separate controlled step; otherwise proceed with the PC-based blockcheck2 workflow. No blockcheck2 scan should be started on the router.
+
+
+## CHANGELOG — 2026-09-21 — PC-based blockcheck2 strategy-selection workflow
+[USER DECISION] Пользователь выбрал рабочий путь: **подбор стратегии на ПК → перенос параметров на роутер**.
+[WEB VERIFICATION] Официальные материалы bol-van/zapret2 подтверждают наличие blockcheck2 как штатного инструмента автоматического подбора стратегий; официальный Windows bundle содержит blockcheck2.cmd, а запуск blockcheck2 требует, чтобы другие средства обхода DPI были остановлены. Для Windows также документировано, что найденные стратегии нужно затем отдельно тестировать в рабочем winws2. 
+[PROJECT DECISION] На роутере не устанавливаем curl только ради blockcheck2 и не останавливаем текущий nfqws2 для запуска полного подбора. Подбор выполняется на Windows-ПК. Полученные строки стратегий рассматриваются как КАНДИДАТЫ, а не как автоматически совместимая конфигурация роутера.
+[VALIDATION RULE] Перед переносом на роутер сохраняем исходный NFQWS2_OPT. На ПК сначала проверяем кандидатов на целевых проблемных сервисах; затем на роутере переносим только конкретные параметры, сохраняя существующие фильтры, hostlist-режим и требуемые Lua/blob-зависимости. После каждого изменения — отдельная проверка и возможность отката.
+[IMPORTANT] YouTube, Telegram и WhatsApp нельзя считать одной тестовой точкой: результат blockcheck2 для одного домена/транспорта не доказывает работу всего приложения или всех его функций. Официальная документация отдельно предупреждает, что blockcheck проверяет конкретный домен и curl-трафик, а у разных клиентов могут отличаться TLS fingerprints/транспорт.
+[CURRENT ROUTER FACTS] На роутере сейчас nfqws2 работает; текущий NFQWS2_OPT уже зафиксирован; Google работает, YouTube/Telegram/WhatsApp не работают. curl не установлен, но пакет curl-8.21.0-r1 виден через /usr/bin/apk search; extroot имеет около 6.2G свободного места. Эти факты не меняются данным workflow.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] На ПК подготовить официальный Zapret2/zapret-win-bundle с blockcheck2.cmd, остановить на ПК любые собственные DPI-bypass средства, затем выполнить первый контролируемый тест для одной целевой точки. Результаты не переносить на роутер до отдельной проверки совместимости.
