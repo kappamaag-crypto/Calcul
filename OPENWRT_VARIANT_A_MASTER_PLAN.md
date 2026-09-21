@@ -145,3 +145,11 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [SYNC] Current `/opt/zapret2/ipset` probe result and the official blockcheck2 context are already recorded. No router configuration or service state was changed during this synchronization.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] One read-only local presence/usage check for `blockcheck2.sh` is now authorized.
+
+
+## CHANGELOG — 2026-09-21 — local blockcheck2.sh present
+[FACTUAL RESULT] The user executed the read-only presence check. `/opt/zapret2/blockcheck2.sh` exists, is executable (`-rwxr-xr-x`), owned by `root:root`, and has size 47692 bytes; timestamp shown by `ls` is Sep 19 18:17.
+[CONCLUSION] The official blockcheck2 shell script is present locally and executable on the deployed Zapret2 tree. This does not yet establish its compatibility with the current OpenWrt environment, resource requirements, or safe invocation while nfqws2 is active.
+[SAFETY] No blockcheck2 scan has been launched and no strategy/configuration has been changed.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Perform one read-only inspection of the script's usage/help path to determine supported invocation options before any test run.
