@@ -192,3 +192,12 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [SAFETY] No package was installed. `nfqws2` was not stopped. blockcheck2 was not run.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] Before any installation or service change, verify the exact installed/package-manager state and available flash/RAM margin with one compact read-only diagnostic; do not install curl yet.
+
+
+## CHANGELOG — 2026-09-21 — extroot and current resource state clarified
+[USER CORRECTION] User clarified that the deployed system uses extroot and therefore package storage is on USB-backed `/dev/sda2`, not the original 16 MB internal flash overlay.
+[FACTUAL RESULT] `df -h /overlay /mnt/data` reports `/dev/sda2` as the active `/overlay`: 6.6G total, 13.5M used, 6.2G available, 0% use. `/mnt/data` resolves through `overlayfs:/overlay` in the displayed output. `free -h` reports RAM total 54852 KiB, used 34864 KiB, free 12556 KiB, buff/cache 7432 KiB, available 3984 KiB; swap total 550904 KiB, used 4980 KiB, free 545924 KiB.
+[CONCLUSION] The prior concern about internal-flash capacity for installing `curl` is not applicable to the current extroot overlay: there is ample extroot storage. The remaining immediate resource concern for running blockcheck2 is RAM/CPU and interference with the active nfqws2 process, not package storage.
+[SAFETY] No package was installed and no service/configuration was changed.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] If the project is to use `curl` for further diagnostics, its installation can now be considered from a storage perspective; however, blockcheck2 itself should remain off-router unless a controlled test is explicitly planned.
