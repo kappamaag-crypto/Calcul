@@ -2221,3 +2221,8 @@ SYNC 2026-09-21: TP-Link Archer C20 WAN status supplied by user.
 [CONFIRMED] Combined with the earlier MikroTik `resolv.conf.auto` and `nslookup example.com 192.168.0.1` result, the configured DNS path is MikroTik → TP-Link (192.168.0.1) → TP-Link WAN DNS 37.230.192.51 / 193.233.112.88.
 [LIMITATION] This establishes the TP-Link configured/advertised upstream DNS servers; it does not independently packet-capture or cryptographically prove every individual query was forwarded to those servers.
 [NO CHANGE] No MikroTik configuration was changed during this verification.
+
+SYNC 2026-09-21: Decision on https-dns-proxy.
+[DECISION] Direct MikroTik DoH via https-dns-proxy is not required for the current architecture because TP-Link Archer C20 already uses GeoHide DNS 37.230.192.51 and 193.233.112.88, and MikroTik uses TP-Link 192.168.0.1 as its DNS upstream.
+[DECISION] Keep the https-dns-proxy package as a reserve, but do not run it in the normal configuration. This avoids unnecessary RAM usage on the 54 MiB device and avoids recurrence of the previously observed duplicate-process/OOM condition.
+[SAFETY] Before stopping anything, first inspect the current service state. No service state was changed in this synchronization.
