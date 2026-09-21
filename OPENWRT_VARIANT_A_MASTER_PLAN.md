@@ -159,7 +159,7 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 ### D. FAKE + automatic TTL (4)
 19. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-1,3-20:tls_mod=rnd,dupsid,padencap:repeats=1`
 20. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-2,3-20:tls_mod=rnd,dupsid,padencap:repeats=1`
-21. `--lua-desync=wssize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-3,3-20:tls_mod=rnd,dupsid,padencap:repeats=1`
+21. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-3,3-20:tls_mod=rnd,dupsid,padencap:repeats=1`
 22. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-4,3-20:tls_mod=rnd,dupsid,padencap:repeats=1 --payload=empty --out-range=s1<d1 --lua-desync=pktmod:ip_ttl=1`
 - [CORRECTION] The log contains successful autottl candidates, so manual autottl cannot be dismissed as ineffective. At the same time, this does not establish that autottl is required for the router.
 - [NOTE] Candidate 21 is recorded exactly as present in the extracted log only if the preceding `wssize:wsize=1:scale=6` text is confirmed; do not transfer it until the exact source line is rechecked. The other autottl candidates have the full `wssize:wsize=1:scale=6` prefix.
