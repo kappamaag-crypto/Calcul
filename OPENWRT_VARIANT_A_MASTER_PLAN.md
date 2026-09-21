@@ -33,19 +33,13 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — post-reboot audit step 18
-[RESULT] User supplied read-only output of `/etc/init.d/network status`.
-[CONFIRMED] The `network` init script did not return a runtime state; instead it printed its generic command syntax and available commands.
-[IMPORTANT] Therefore `network` running state is NOT CONFIRMED by this command. The command was non-destructive, but it was not an effective runtime-status check for this service on the current system.
-[NO CHANGE] No service, network, firewall, DNS, or filesystem state was changed.
+## CHANGELOG — 2026-09-21 — post-reboot audit step 20
+[RESULT] User supplied read-only output of `ubus call network.interface dump`.
+[CONFIRMED] `lan` is up=true, available=true, autostart=true, device/l3_device `br-lan`, IPv4 192.168.1.1/24.
+[CONFIRMED] `loopback` is up=true, available=true, autostart=true, device `lo`, IPv4 127.0.0.1/8.
+[CONFIRMED] `wan` is up=true, available=true, autostart=true, device/l3_device `phy0-sta0`, DHCP, IPv4 192.168.0.55/24, default route via 192.168.0.1, DHCP server 192.168.0.1, lease 7200 seconds.
+[CONFIRMED] `wan6` is up=false, pending=false, available=true, autostart=true, DHCPv6 on `eth1`; no IPv6 address/route was assigned.
+[IMPORTANT] This directly confirms that the network interfaces are operational after reboot even though `/etc/init.d/network running` returned empty output.
+[NO CHANGE] The command was read-only; no network, service, DNS, firewall, or filesystem state changed.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
-[NEXT] Use the service's dedicated read-only `running` query: `/etc/init.d/network running`.
-
-## CHANGELOG — 2026-09-21 — post-reboot audit step 19
-[RESULT] User supplied output of read-only command `/etc/init.d/network running`: output is empty.
-[CONFIRMED] The dedicated `running` check produced no output.
-[IMPORTANT] On this system, an empty result from this command does not provide positive evidence that the network service is running; therefore `network` runtime state remains NOT CONFIRMED from init-script status checks.
-[FACT] Network connectivity and interfaces are known from prior independent evidence, but that evidence is not substituted for the requested service-state check.
-[NO CHANGE] No service, network, firewall, DNS, or filesystem state was changed.
-[STATUS] Post-reboot audit remains IN_PROGRESS.
-[NEXT] Use one read-only process/service inspection that is more reliable for this system: `ubus call network.interface dump`.
+[NEXT] Continue with grouped read-only service checks to accelerate the audit; no configuration changes or service restarts.
