@@ -129,3 +129,14 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The commands were read-only; no service or configuration state was changed.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Before changing DNS or stopping the proxy, perform one read-only inspection of the https-dns-proxy init script's enable/config handling to determine the supported disable mechanism; do not modify anything yet.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 13
+[RESULT] Read-only inspection of `/etc/init.d/https-dns-proxy` (lines 1–240) completed.
+[CONFIRMED] The package init script uses `USE_PROCD=1` with `START=20` and `STOP=15`; therefore service supervision/instance lifecycle is implemented through Procd.
+[CONFIRMED] The script defines package-wide UCI variables including `dnsmasq_config_update`, `force_dns`, `notrack_dns`, source interfaces, listen address, user/group and other runtime options.
+[CONFIRMED] The script loads the package configuration using UCI and contains explicit functions for dnsmasq integration and nftables notrack handling.
+[IMPORTANT] The inspected portion does not show a generic `config.enabled` flag or establish that `uci set https-dns-proxy.config.enabled='0'` is a supported disable mechanism. Do not execute that unverified UCI change.
+[CONFIRMED] The current configuration therefore should be changed only using mechanisms actually implemented by this package/init script, after the audit establishes the desired DNS architecture.
+[NO CHANGE] Inspection was read-only; no service or configuration state changed.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Inspect the remaining relevant part of the init script for the `start_service`/Procd logic and any boot/config enable conditions with one read-only targeted command; do not modify anything yet.
