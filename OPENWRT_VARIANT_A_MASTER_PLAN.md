@@ -173,3 +173,15 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [NO ROUTER CHANGE] Current router-side `NFQWS2_OPT` remains unchanged.
 - [NEXT] Perform a short controlled repeat test of 2–3 group-A candidates on Windows, preferably with an explicit log, before considering any router-side change.
 - [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery / candidate review).
+
+
+## CHANGELOG — 2026-09-21 — [SYNC] HTTPS/TLS/QUIC priorities clarified
+- [USER REQUIREMENT] Для YouTube основной приоритет стратегии подбора: HTTPS по TCP/443, отдельно TLS 1.2 и TLS 1.3. HTTP/80 считать второстепенным диагностическим протоколом.
+- [TECHNICAL VERIFICATION] Official zapret2 blockcheck2 имеет отдельные проверки `curl_test_https_tls12`, `curl_test_https_tls13` и `curl_test_http3`; TLS 1.2/1.3 и HTTP/3 поэтому должны рассматриваться как отдельные тестовые поверхности. citeturn0search0
+- [TLS] SNI remains relevant to TLS-based HTTPS DPI when ECH is not in use. Однако из этого нельзя выводить, что одна и та же desync-стратегия автоматически подходит TLS 1.2 и TLS 1.3: blockcheck2 официально тестирует их раздельно.
+- [QUIC] Не исключать QUIC автоматически. HTTP/3/QUIC использует UDP/443 и является отдельным транспортным путём; official zapret2 blockcheck2 имеет отдельный `curl_test_http3` и отдельные UDP strategy tests. citeturn0search0
+- [CURRENT EVIDENCE] В уже выполненных тестах YouTube IPv4 TLS1.2 обнаружены 22 AVAILABLE-кандидата; для YouTube IPv4 QUIC ранее был найден кандидат `--wf-l3=ipv4 --wf-udp-out=443 --payload quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=11`. Эти результаты пока discovery-only.
+- [HTTP] Не удалять HTTP из диагностики навсегда: HTTP/80 остаётся полезным контрольным тестом доступности и позволяет отделить проблему HTTP/DNS/IP от HTTPS DPI. Но для последующего подбора основной ресурс тестирования направлять на TLS1.2/TLS1.3 и отдельно QUIC.
+- [TEST MATRIX] Следующий этап стратегии: 1) TLS1.2 — проверить воспроизводимость кандидатов группы A; 2) TLS1.3 — провести отдельный controlled test; 3) QUIC — сохранить отдельным направлением; 4) HTTP — только контрольный тест, если нет специальной причины исследовать его обход.
+- [NO ROUTER CHANGE] Текущий router-side Zapret2 v1.0.3 и `NFQWS2_OPT` не изменяются.
+- [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery / candidate review).
