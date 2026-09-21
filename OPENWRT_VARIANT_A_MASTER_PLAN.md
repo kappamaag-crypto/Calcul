@@ -2145,3 +2145,13 @@ SYNC 2026-09-21: Read-only `/sys/kernel/slab` inspection PASS. [CONFIRMED] The k
 
 
 SYNC 2026-09-21: User said "Продолжай" after confirming `/sys/kernel/slab` is available. [NEXT] One read-only command will inspect the compact per-cache slab counters exposed by sysfs, targeting only `objects`, `objects_partial`, `slabs`, and `slabs_partial` across available caches. This is intended to identify disproportionately large slab caches without using grep/logread pipelines. No Zapret2 restart, Telegram rule change, file relocation, or other state-changing operation.
+
+
+SYNC 2026-09-21: sysfs slab counter result —
+[PASS] User supplied the complete output of the read-only /sys/kernel/slab counter loop.
+[CONFIRMED] The command completed without an error and did not change router state. The readable counter that consistently returned values was objects_partial; objects, slabs, and slabs_partial were empty in this build/output, so total allocated objects or slab bytes cannot be calculated from this result.
+[CONFIRMED] Largest observed objects_partial values included kmalloc-128=1156; :0000008=790; zs_handle-zram0=790; skbuff_head_cache=594; :A-0000072=542; seq_file=542; anon_vma_chain=472; eventpoll_pwq=472; fs_cache=472; :A-0000032=472; ext4_system_zone=442; jffs2_inode_cache=442; jffs2_xattr_ref=442; zspage-zram0=442; dentry=437; radix_tree_node=275; anon_vma=264.
+[CONFIRMED] Network-related caches and ZRAM-related caches are present, but this partial-object view does not establish their byte footprint or identify the cause of the 7.5 MiB SUnreclaim value.
+[INTERPRETATION] No individual cache can be identified as the cause of the prior OOM from this result. The previous meminfo finding remains unchanged: SUnreclaim is notable, but its cause is not established.
+[STATUS] STAGE 11 remains DONE. Telegram-specific troubleshooting remains BLOCKED pending stable Zapret2/memory diagnosis. No Zapret2 restart, Telegram rule change, file relocation, or destructive storage operation occurred.
+[NEXT] If the user says Продолжай, select one minimal read-only sysfs inspection for additional per-cache size/object metadata, without grep/logread pipelines.
