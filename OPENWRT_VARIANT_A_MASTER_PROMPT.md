@@ -895,3 +895,10 @@ After each user message: first record the user's factual router result in the Ma
 - Capture exact successful parameters and test evidence before transferring anything to the router.
 - Transfer and test one strategy change at a time, with rollback available and resource measurements on the 64 MB hAP ac lite.
 - No router curl installation is required for the PC workflow; do not run full blockcheck2 on the router merely to select a strategy while nfqws2 is active.
+
+
+## WORKFLOW RULE — 2026-09-21 — bounded blockcheck2 scanning
+- The first Windows `blockcheck2` run used `SCANLEVEL=force` and remained for hours in the `youtube.com` IPv4 HTTPS TLS 1.2 matrix while finding multiple `AVAILABLE` candidates. Do not require exhaustive `force` scanning for every attempt.
+- For a practical re-scan, prefer `standard` when the goal is balanced investigation; `quick` may be used only when the explicit goal is the fastest first working candidate. Do not interpret quick/standard results as exhaustive COMMON/COVERAGE evidence.
+- Before strategy discovery, the Windows test PC must bypass the active MikroTik Zapret2 path and connect directly to the main TP-Link Archer C20 v4, with VPN/proxy/other DPI-bypass software disabled. Do not change the router configuration just to accomplish this.
+- Keep router-side Zapret2 v1.0.3 unchanged until the Windows scan is complete enough to produce candidates that can be reviewed for compatibility and cross-domain behavior.
