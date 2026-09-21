@@ -2166,3 +2166,8 @@ SYNC 2026-09-21: User supplied the complete output of the read-only sysfs slab m
 [STATUS] STAGE 11 remains DONE. Telegram-specific troubleshooting remains BLOCKED pending stable Zapret2/memory diagnosis.
 [WORKFLOW] No router configuration, service, filesystem, or storage state was changed by this read-only command.
 [NEXT] If the user says Продолжай, choose one minimal read-only method that can expose actual per-cache slab counts/bytes on this kernel, if available; otherwise document the interface limitation and stop this diagnostic branch.
+
+SYNC 2026-09-21: User said "Продолжай" after the slab metadata result was synchronized.
+[NEXT DIAGNOSTIC] Use exactly one minimal read-only check to determine whether the kernel exposes per-cache allocated-object/slab counters through additional sysfs files. Inspect only the filenames available under /sys/kernel/slab/<cache> for one representative cache and do not read or modify any state. This avoids another large loop and avoids grep/logread pipelines.
+[COMMAND SELECTED] ls -1 /sys/kernel/slab/kmalloc-128
+[SAFETY] No Zapret2 restart, Telegram rule change, file relocation, filesystem/storage operation, or other state-changing action.
