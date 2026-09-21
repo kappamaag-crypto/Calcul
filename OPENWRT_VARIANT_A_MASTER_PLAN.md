@@ -2198,3 +2198,11 @@ SYNC 2026-09-21: User asked whether the OOM could be related to two simultaneous
 [INTERPRETATION] Yes, the two-process state is a plausible contributor to the first OOM/memory-pressure event, especially together with the DNS-query surge, but the evidence does not prove that merely having two processes caused the OOM. The first OOM specifically selected/killed PID 3221; the second OOM later selected/killed nfqws2 and occurred under different circumstances.
 [IMPORTANT] This strengthens the case for not running duplicate `https-dns-proxy` instances. The current project state had DoH intentionally rolled back to direct DNS, so `https-dns-proxy` should remain stopped until DoH is deliberately resumed and configured as a single controlled instance.
 [STATUS] STAGE 10 remains IN_PROGRESS (DoH baseline/chain verified, rolled back to direct DNS). Telegram troubleshooting remains BLOCKED.
+
+SYNC 2026-09-21: DNS chain verification on MikroTik — user supplied read-only result from `cat /tmp/resolv.conf.d/resolv.conf.auto`.
+[PASS] Actual WAN DNS configuration file contains `nameserver 192.168.0.1` and `nameserver 0.0.0.0`.
+[CONFIRMED] MikroTik currently receives/uses TP-Link Archer C20 at 192.168.0.1 as its upstream DNS resolver.
+[CONFIRMED] This establishes the first DNS hop: MikroTik → TP-Link (192.168.0.1).
+[IMPORTANT] The `0.0.0.0` entry is not a valid usable DNS resolver; no configuration change was made based on this observation.
+[INTERPRETATION] Given the user's TP-Link configuration with GeoHide DNS servers 37.230.192.51 and 193.233.112.88, MikroTik can reach GeoHide DNS indirectly through TP-Link, but this command alone does not prove which upstream server TP-Link actually contacted for a particular query.
+[WORKFLOW] User requested the result be recorded before continuing. No router state was changed by this verification.
