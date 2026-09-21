@@ -33,13 +33,11 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — post-reboot audit step 20
-[RESULT] User supplied read-only output of `ubus call network.interface dump`.
-[CONFIRMED] `lan` is up=true, available=true, autostart=true, device/l3_device `br-lan`, IPv4 192.168.1.1/24.
-[CONFIRMED] `loopback` is up=true, available=true, autostart=true, device `lo`, IPv4 127.0.0.1/8.
-[CONFIRMED] `wan` is up=true, available=true, autostart=true, device/l3_device `phy0-sta0`, DHCP, IPv4 192.168.0.55/24, default route via 192.168.0.1, DHCP server 192.168.0.1, lease 7200 seconds.
-[CONFIRMED] `wan6` is up=false, pending=false, available=true, autostart=true, DHCPv6 on `eth1`; no IPv6 address/route was assigned.
-[IMPORTANT] This directly confirms that the network interfaces are operational after reboot even though `/etc/init.d/network running` returned empty output.
-[NO CHANGE] The command was read-only; no network, service, DNS, firewall, or filesystem state changed.
+## CHANGELOG — 2026-09-21 — post-reboot audit step 21
+[RESULT] User supplied grouped read-only `/etc/init.d/<service> running` checks for firewall, wpad, zram, dropbear, odhcpd, cron, sysntpd, fstab, packet_steering, pbr.
+[CONFIRMED] Empty output was returned for firewall, wpad, dropbear, odhcpd, cron, sysntpd, packet_steering, and pbr; this grouped `running` query therefore does not provide positive runtime-state confirmation for those services on this system.
+[CONFIRMED] The `zram` init script does not implement the `running` command and returned its command syntax instead.
+[CONFIRMED] The `fstab` init script does not implement the `running` command and returned its command syntax instead.
+[IMPORTANT] No service state was changed. The result shows that this init-script `running` method is not a reliable universal runtime test on this OpenWrt build.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
-[NEXT] Continue with grouped read-only service checks to accelerate the audit; no configuration changes or service restarts.
+[NEXT] Use a single consolidated read-only process/service-state inspection that does not depend on init-script `running` support, while avoiding large log pipelines.
