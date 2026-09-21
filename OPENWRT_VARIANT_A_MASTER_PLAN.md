@@ -33,15 +33,10 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — https-dns-proxy ↔ dnsmasq linkage audit
-[RESULT] User supplied read-only effective dnsmasq configuration, https-dns-proxy UCI configuration, and TCP listener inspection.
-[CONFIRMED DNSMASQ] dnsmasq has `noresolv='1'` and explicitly uses `127.0.0.1#5053` and `127.0.0.1#5054` as DNS servers. It also has `doh_server='127.0.0.1#5053' '127.0.0.1#5054'`.
-[CONFIRMED BACKUP] dnsmasq has `doh_backup_noresolv='1'` and `doh_backup_server='192.168.0.1'`.
-[CONFIRMED FORCE DNS] https-dns-proxy configuration has `force_dns='1'`, source interface `lan`, and intercepted destination ports 53 and 853.
-[CONFIRMED INSTANCES] One configured instance listens on 127.0.0.1:5053 and uses Cloudflare DoH; the second listens on 127.0.0.1:5054 and uses Google DoH.
-[CONFIRMED LISTENERS] dnsmasq listens on port 53 on LAN/WAN/loopback addresses; https-dns-proxy listens on 127.0.0.1:5053 and 127.0.0.1:5054.
-[IMPORTANT] The two https-dns-proxy processes are not independent unused duplicates: both are explicitly wired into dnsmasq's active DNS configuration, and LAN DNS/DoT traffic is forced toward the proxy.
-[IMPORTANT] This read-only result alone does not establish whether one instance can be removed without changing DNS redundancy/behavior; that requires a separate controlled decision and configuration change.
-[NO CHANGE] The command was read-only; no service, DNS, firewall, network, or filesystem state changed.
-[STATUS] Decision on two https-dns-proxy instances is now pending before Zapret2 re-validation.
-[NEXT] Do not start Zapret2 until the https-dns-proxy decision is made and any approved change is separately tested.
+## CHANGELOG — 2026-09-21 — https-dns-proxy removal decision pending
+[USER DECISION] User states that neither two nor one `https-dns-proxy` instances are needed and asks to consider stopping/removing the DoH proxy layer before Zapret2 re-validation.
+[CURRENT FACT] dnsmasq currently depends on local listeners 127.0.0.1:5053 and 127.0.0.1:5054, so simply stopping `https-dns-proxy` without first changing dnsmasq would leave its configured upstream listeners unavailable.
+[IMPORTANT] Therefore the safe sequence is: first define/verify the replacement DNS path, then change dnsmasq, verify DNS resolution, and only after successful verification stop/disable the two `https-dns-proxy` instances.
+[PROPOSED REPLACEMENT] The already observed WAN resolver path is 192.168.0.1 (TP-Link Archer C20), and the existing `doh_backup_server` is also 192.168.0.1. This is a candidate replacement path, but it must be explicitly confirmed before configuration changes.
+[SAFETY] No service or configuration has been changed yet. Zapret2 remains paused until the DNS architecture is settled and tested.
+[STATUS] https-dns-proxy removal decision — IN_PROGRESS.
