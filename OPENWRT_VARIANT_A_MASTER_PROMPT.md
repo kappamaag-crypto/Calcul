@@ -902,3 +902,11 @@ After each user message: first record the user's factual router result in the Ma
 - For a practical re-scan, prefer `standard` when the goal is balanced investigation; `quick` may be used only when the explicit goal is the fastest first working candidate. Do not interpret quick/standard results as exhaustive COMMON/COVERAGE evidence.
 - Before strategy discovery, the Windows test PC must bypass the active MikroTik Zapret2 path and connect directly to the main TP-Link Archer C20 v4, with VPN/proxy/other DPI-bypass software disabled. Do not change the router configuration just to accomplish this.
 - Keep router-side Zapret2 v1.0.3 unchanged until the Windows scan is complete enough to produce candidates that can be reviewed for compatibility and cross-domain behavior.
+
+
+## WORKFLOW RULE — 2026-09-21 — faster blockcheck2 pass / TTL and Lua correction
+- Do not assume the visible repeated TLS 1.2 candidates mean the script is literally repeating the same test: official standard definitions iterate TTL, autottl delta, payload positions and desync combinations.
+- Do not claim manual autottl is required to solve the slowdown. Official zapret2 standard tests already include automatic-TTL variants after ordinary TTL tests.
+- Do not disable Lua desync wholesale merely to speed up testing; nfqws2/winws2 strategy discovery legitimately uses Lua desync methods.
+- For a faster pass, reduce scope (one domain/protocol/IP version at a time) rather than switching to unsupported manual strategy assumptions. Keep VPN/proxy/other bypass software disabled and keep the Windows PC directly on the TP-Link path.
+- Router-side v1.0.3 configuration remains unchanged until candidate parameters are reviewed.
