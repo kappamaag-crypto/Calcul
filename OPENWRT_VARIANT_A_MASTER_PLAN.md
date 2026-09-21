@@ -89,3 +89,12 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The command was read-only; no service was started, stopped, restarted, or reconfigured.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Inspect the https-dns-proxy process count/PIDs with one read-only process listing; do not stop or restart the service yet.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 9
+[RESULT] Read-only command `pgrep -a https-dns-proxy` returned two processes: PID 3227 and PID 3228, both `/usr/sbin/https-dns-proxy`.
+[CONFIRMED] Two `https-dns-proxy` processes are currently running after reboot.
+[IMPORTANT] This matches the earlier OOM evidence where two https-dns-proxy processes were present. It confirms the duplicate-process condition exists again, but does not by itself prove that these processes caused the OOM; prior records already distinguish correlation from causation.
+[IMPORTANT] Current DNS architecture was previously configured to use TP-Link 192.168.0.1 directly, with dnsmasq `noresolv=1` and `server=192.168.0.1`; therefore the necessity of these two processes remains unestablished and should be evaluated after the audit, not assumed.
+[NO CHANGE] The command was read-only; no service was started, stopped, restarted, or reconfigured.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Inspect the service process command lines/configuration relationship with one read-only command to determine how the two processes were launched; do not stop or restart the service yet.
