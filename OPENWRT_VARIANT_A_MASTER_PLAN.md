@@ -45,3 +45,15 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The command was read-only; no filesystem, service, or configuration state changed.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Continue the audit with one read-only inspection of enabled boot-time init scripts; do not start/stop/restart any service in the audit step.
+
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 5
+[RESULT] Read-only command `ls -l /etc/rc.d/` completed successfully after power-loss reboot.
+[CONFIRMED] Boot-time start links (S*) are present for core services including fstab, zram, dnsmasq, dropbear, firewall, wpad, network, odhcpd, cron, sysntpd and others.
+[CONFIRMED] `S15zram` is enabled at boot; therefore ZRAM initialization is configured for automatic startup.
+[IMPORTANT] `S20https-dns-proxy` is present, so the service has an enabled boot-time start link despite the earlier `/etc/init.d/https-dns-proxy enabled` command producing no output. This discrepancy must be resolved by a targeted read-only check before any service change.
+[CONFIRMED] `S20pbr` is present, so PBR is configured for boot-time start. This does not mean active policies are enabled or that PBR is currently affecting traffic.
+[CONFIRMED] `S20network`, `S19dnsmasq`, `S19firewall`, `S19wpad` and `S11fstab` have boot-time start links.
+[NO CHANGE] The command was read-only; no service, configuration, network, or filesystem state changed.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Perform one read-only targeted status check of the currently running key services, starting with `https-dns-proxy`, `pbr`, `dnsmasq`, `network`, `firewall`, `wpad`, and `zram`; do not start/stop/restart anything during the audit.
