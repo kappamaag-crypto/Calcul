@@ -2264,3 +2264,7 @@ SYNC 2026-09-21: Stage order correction after DNS completion.
 SYNC 2026-09-21: Post-power-loss reboot audit requested.
 [REQUEST] User rebooted the MikroTik hAP ac lite after a power outage and wants a structured post-boot audit: system state, running services, autostart/boot behavior, network, storage/extroot, swap, DNS, and Zapret2 state before resuming configuration.
 [WORKFLOW] Perform the audit read-only and in controlled single-command steps. Record each observed result before issuing the next command. Do not restart or alter services during the audit.
+
+SYNC 2026-09-21: Post-reboot audit step 1 result.
+[RESULT] `uptime; ubus call system board` after the power-loss reboot: uptime 8 min; load average 0.12, 0.51, 0.38; kernel 6.12.94; hostname OpenWrt; model MikroTik RouterBOARD 952Ui-5ac2nD (hAP ac lite); board ath79/mikrotik; OpenWrt 25.12.5 r33051-f5dae5ece4; rootfs_type squashfs.
+[FACT] The router booted successfully into the expected OpenWrt 25.12.5 build. No service or configuration changes were made.
