@@ -2273,3 +2273,7 @@ SYNC 2026-09-21: Post-reboot audit step 2 result.
 [RESULT] `free -h; swapon -s`: RAM 54852 kB total, 28468 kB used, 16720 kB free, 9664 kB buff/cache, 9200 kB available. Swap 550904 kB total, 1236 kB used, 549668 kB free. `/dev/sda1` is active as a 524284 kB swap partition with priority -2 and 0 kB used; `/dev/zram0` is active as 26620 kB swap with priority 100 and 1236 kB used.
 [CORRECTION] BusyBox/OpenWrt `swapon` in this build does NOT support `--show`; use `swapon -s` for swap status. Do not repeat `swapon --show`.
 [FACT] Both USB swap and ZRAM survived the reboot and are active. No configuration changes were made.
+
+SYNC 2026-09-21: Post-reboot audit step 3 result.
+[RESULT] `/bin/mount`: `/dev/sda2` is mounted on `/overlay` as ext4 rw,noatime; root `/` is overlayfs using `/overlay/upper` and `/overlay/work`. `/dev/root` remains the read-only squashfs at `/rom`. `/tmp` is tmpfs.
+[FACT] USB extroot is active after reboot and the writable overlay is on USB-backed ext4. No configuration changes were made.
