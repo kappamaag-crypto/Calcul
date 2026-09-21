@@ -2185,3 +2185,10 @@ SYNC 2026-09-21: User said "Продолжай" and asked how much longer the me
 [WORKFLOW] This diagnostic branch is being kept intentionally short; the available sysfs interface has already shown that total allocated-object counts are not exposed via the usual `objects` file.
 [NEXT DIAGNOSTIC] Perform one final minimal read-only check on the representative `kmalloc-128` cache's `partial` metadata to determine whether it exposes usable per-slab allocation information. If it does not provide an actionable allocation count, document the kernel-interface limitation and close this slab-diagnosis branch rather than continuing low-value probing.
 [SAFETY] No Zapret2 restart, Telegram rule change, file relocation, filesystem/storage operation, or other state-changing action.
+
+SYNC 2026-09-21: User supplied final slab-branch check: `cat /sys/kernel/slab/kmalloc-128/partial` returned `49`.
+[CONFIRMED] The `partial` file exposes a count/value for this cache, but it represents the number of partial slabs, not a direct total allocated-object count or byte footprint.
+[CONCLUSION] The available sysfs fields (`object_size`, `objs_per_slab`, `objects_partial`, `partial`) are insufficient to derive a reliable total per-cache memory footprint on this build. The slab branch therefore does not provide evidence identifying the cause of the 7.5 MiB SUnreclaim or the prior OOM events.
+[DECISION] Close this low-value slab-probing branch. Do not issue further slab commands unless new evidence specifically justifies reopening it.
+[STATUS] STAGE 11 remains DONE. Telegram-specific troubleshooting remains BLOCKED pending stable Zapret2/memory diagnosis.
+[SAFETY] No Zapret2 restart, Telegram rule change, file relocation, filesystem/storage operation, or other state-changing action was performed.
