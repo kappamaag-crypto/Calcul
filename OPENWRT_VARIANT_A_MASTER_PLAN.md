@@ -2240,3 +2240,7 @@ SYNC 2026-09-21: https-dns-proxy autostart check.
 [RESULT] Command `/etc/init.d/https-dns-proxy enabled` produced no output.
 [FACT] No-output from this command is consistent with the service not being enabled; this is recorded as the observed result, without treating it as a broader DNS configuration proof.
 [NEXT] No disable command is required based on this result; verify the effective DNS configuration only if needed before marking the DNS stage fully DONE.
+
+SYNC 2026-09-21: DNS stage finalization resumed.
+[REQUEST] User explicitly requested transition to verification of the effective MikroTik DNS configuration and completion of the DNS stage.
+[WORKFLOW] First inspect the current dnsmasq/DHCP DNS-related UCI settings with one read-only command; do not modify configuration until the observed state is recorded.
