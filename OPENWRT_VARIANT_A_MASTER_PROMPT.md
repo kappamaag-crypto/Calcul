@@ -885,3 +885,13 @@ After each user message: first record the user's factual router result in the Ma
 - Не использовать полный `logread`, `cat /proc/meminfo`, `nft list ruleset`, `uci show` и аналогичные большие выводы, если для проверки достаточно выборки.
 - Не объединять несколько независимых диагностических действий в одну пользовательскую команду только ради сокращения количества сообщений: правило one-step-at-a-time сохраняется.
 - Цель компактного вывода — уменьшить объём текста для передачи ИИ без потери фактов, необходимых для PASS/FAIL и синхронизации мастер-плана.
+
+
+## WORKFLOW RULE — 2026-09-21 — blockcheck2 strategy discovery
+- Strategy discovery is performed on Windows 11 x64 using the official `blockcheck2` tooling from the same `bol-van/zapret2` project; this does not install a second Zapret implementation on the router.
+- Router-side Zapret2 remains pinned at v1.0.3 with `/opt/zapret2/nfq2/nfqws2`; do not alter its current strategy during PC discovery.
+- Use the official Windows bundle/minimal Cygwin environment. Do not install Cygwin separately if the bundle is used.
+- Start with controlled, non-parallel tests. For multi-domain COMMON/COVERAGE conclusions, use `SCANLEVEL=force` so skipped strategies do not make the comparison incomplete.
+- Capture exact successful parameters and test evidence before transferring anything to the router.
+- Transfer and test one strategy change at a time, with rollback available and resource measurements on the 64 MB hAP ac lite.
+- No router curl installation is required for the PC workflow; do not run full blockcheck2 on the router merely to select a strategy while nfqws2 is active.
