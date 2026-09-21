@@ -2268,3 +2268,8 @@ SYNC 2026-09-21: Post-power-loss reboot audit requested.
 SYNC 2026-09-21: Post-reboot audit step 1 result.
 [RESULT] `uptime; ubus call system board` after the power-loss reboot: uptime 8 min; load average 0.12, 0.51, 0.38; kernel 6.12.94; hostname OpenWrt; model MikroTik RouterBOARD 952Ui-5ac2nD (hAP ac lite); board ath79/mikrotik; OpenWrt 25.12.5 r33051-f5dae5ece4; rootfs_type squashfs.
 [FACT] The router booted successfully into the expected OpenWrt 25.12.5 build. No service or configuration changes were made.
+
+SYNC 2026-09-21: Post-reboot audit step 2 result.
+[RESULT] `free -h; swapon -s`: RAM 54852 kB total, 28468 kB used, 16720 kB free, 9664 kB buff/cache, 9200 kB available. Swap 550904 kB total, 1236 kB used, 549668 kB free. `/dev/sda1` is active as a 524284 kB swap partition with priority -2 and 0 kB used; `/dev/zram0` is active as 26620 kB swap with priority 100 and 1236 kB used.
+[CORRECTION] BusyBox/OpenWrt `swapon` in this build does NOT support `--show`; use `swapon -s` for swap status. Do not repeat `swapon --show`.
+[FACT] Both USB swap and ZRAM survived the reboot and are active. No configuration changes were made.
