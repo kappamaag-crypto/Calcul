@@ -2213,3 +2213,11 @@ SYNC 2026-09-21: DNS chain second-hop verification — user supplied `nslookup e
 [LIMITATION] The response does not reveal which upstream resolver TP-Link used, so it does not by itself prove that TP-Link forwarded the query specifically to GeoHide 37.230.192.51 or 193.233.112.88.
 [IMPORTANT] No router configuration or service state was changed by this test.
 [NEXT] To prove the TP-Link upstream DNS path, inspect the TP-Link WAN/DNS configuration or its status page; MikroTik cannot directly reveal the upstream resolver selected by TP-Link from this nslookup result.
+
+SYNC 2026-09-21: TP-Link Archer C20 WAN status supplied by user.
+[CONFIRMED] Internet connection is connected; WAN type is Dynamic IP.
+[CONFIRMED] TP-Link WAN IP is 100.96.43.54 and gateway is 100.96.0.1.
+[CONFIRMED] TP-Link WAN DNS servers displayed by its Internet status are 37.230.192.51 and 193.233.112.88, matching the GeoHide DNS addresses previously supplied by the user.
+[CONFIRMED] Combined with the earlier MikroTik `resolv.conf.auto` and `nslookup example.com 192.168.0.1` result, the configured DNS path is MikroTik → TP-Link (192.168.0.1) → TP-Link WAN DNS 37.230.192.51 / 193.233.112.88.
+[LIMITATION] This establishes the TP-Link configured/advertised upstream DNS servers; it does not independently packet-capture or cryptographically prove every individual query was forwarded to those servers.
+[NO CHANGE] No MikroTik configuration was changed during this verification.
