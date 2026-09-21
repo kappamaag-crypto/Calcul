@@ -2226,3 +2226,8 @@ SYNC 2026-09-21: Decision on https-dns-proxy.
 [DECISION] Direct MikroTik DoH via https-dns-proxy is not required for the current architecture because TP-Link Archer C20 already uses GeoHide DNS 37.230.192.51 and 193.233.112.88, and MikroTik uses TP-Link 192.168.0.1 as its DNS upstream.
 [DECISION] Keep the https-dns-proxy package as a reserve, but do not run it in the normal configuration. This avoids unnecessary RAM usage on the 54 MiB device and avoids recurrence of the previously observed duplicate-process/OOM condition.
 [SAFETY] Before stopping anything, first inspect the current service state. No service state was changed in this synchronization.
+
+SYNC 2026-09-21: https-dns-proxy service-state check.
+[RESULT] Command `/etc/init.d/https-dns-proxy status` returned `inactive`.
+[STATUS] https-dns-proxy is currently inactive. No stop operation was performed because the service is already stopped.
+[NEXT] Before disabling autostart or changing DNS configuration, the current init/autostart state must be checked deliberately in a later step.
