@@ -112,3 +112,10 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [INTERPRETATION] This is a bounded standard result, not proof that no working strategy exists globally; it only records the strategies tested by this run.
 - [NO ROUTER CHANGE] Router-side Zapret2 v1.0.3 configuration remains unchanged.
 - [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery / candidate review).
+
+
+## CHANGELOG — 2026-09-21 — [SYNC] next controlled Windows test selected
+- [DECISION] Official zapret2 documentation confirms `standard` is the investigation-oriented scan level, while `force` maximizes checks. Standard scripts include additional TLS desync families such as seqovl and fake/multi, so the previous two-candidate result must not be treated as exhaustive. citeturn0search3turn0search0turn0search4
+- [NEXT TEST] Continue with one controlled YouTube IPv4 TLS1.2 standard run, but preserve a log. Do not change router configuration.
+- [SAFETY] No router command is issued in this synchronization step. The Windows candidate-discovery workflow remains separate from router deployment.
+- [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery / candidate review).
