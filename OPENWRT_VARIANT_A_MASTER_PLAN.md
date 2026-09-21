@@ -175,3 +175,12 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [CONCLUSION] The active package manager executable is `/usr/bin/apk`. The previous `/sbin/apk` failure was only a path error. No package was installed and no service/configuration was changed.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] Retry the read-only curl package search using the confirmed `/usr/bin/apk` path.
+
+
+## CHANGELOG — 2026-09-21 — user safety guidance for blockcheck2
+[USER INPUT] User supplied a warning that running blockcheck2 directly on the low-resource router may create substantial CPU/process/memory load, and proposed running `blockcheck2.cmd` on a computer instead, then transferring the resulting strategy parameters to the router.
+[WEB VERIFICATION] Official zapret2 source confirms that blockcheck2 requires `curl`, checks for already-running DPI-bypass processes, and explicitly warns that such processes must be disabled because they can interfere with blockcheck. The checker contains many individual strategy tests, including repeated TCP-segment tests, so a full scan can be materially heavier than a single connectivity test. citeturn0search0turn0search9turn0search12
+[IMPORTANT QUALIFICATION] The specific claims of “hundreds of requests”, “dozens of parallel curl processes”, “100% CPU”, “OOM/reboot”, and a fixed “20–40 MB” memory cost were not established by the sources checked here. They must not be recorded as verified facts. The project's actual RAM constraints and process behavior require measurement or source-specific confirmation.
+[PROJECT DECISION] Given the current 64 MB-class hAP ac lite, active nfqws2, missing curl, and post-reboot validation stage, do not run blockcheck2 on the router at this point. A computer-based blockcheck2 run is a safer candidate workflow, but compatibility of its resulting strategy with this exact OpenWrt deployment must still be validated before applying it.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] The previously requested `apk search curl` result has not yet been supplied. Continue with the package-availability check only if needed; do not install curl or stop nfqws2 yet.
