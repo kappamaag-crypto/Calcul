@@ -33,8 +33,7 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — https-dns-proxy boot links verified absent
-[FACTUAL RESULT] The user executed `ls -l /etc/rc.d/ | grep https-dns-proxy`; the output was empty.
-[CONCLUSION] No matching https-dns-proxy boot symlinks are present in `/etc/rc.d/`.
-[STATUS] The service is verified disabled from the OpenWrt boot-link perspective. The package remains installed unless explicitly removed later.
-[STATUS] https-dns-proxy removal decision — DONE (runtime/boot removal path). Package uninstall is not part of this step and is not authorized implicitly.
+## CHANGELOG — 2026-09-21 — reboot requested to verify https-dns-proxy disabled state
+[FACTUAL RESULT] The user confirmed the empty boot-link check and explicitly requested a reboot to test whether https-dns-proxy starts automatically.
+[PLAN] Reboot is authorized as a non-destructive service-startup verification. After reboot, the first check will verify the service process/status and boot-link state before any further configuration changes.
+[STATUS] https-dns-proxy runtime/boot removal path — IN_PROGRESS pending post-reboot verification.
