@@ -16,7 +16,7 @@ STAGE 4 — DONE
 STAGE 5 — DONE
 STAGE 6 — IN_PROGRESS
 STAGE 7–10 — see detailed status below
-STAGE 11 — DONE
+STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation)
 STAGE 12–30 — NOT_STARTED
 
 ## One-step-at-a-time rule
@@ -33,9 +33,7 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — https-dns-proxy did not start after reboot
-[FACTUAL RESULT] After the reboot, the user executed `pgrep -a https-dns-proxy`; the output was empty.
-[CONCLUSION] No running https-dns-proxy process is present after reboot.
-[STATUS] Automatic startup verification — PASS for process absence.
-[STATUS] https-dns-proxy runtime/boot removal path — DONE.
-[NOTE] The package remains installed; no package removal was performed or implicitly authorized.
+## CHANGELOG — 2026-09-21 — expanded post-reboot Zapret2 validation scope
+[FACTUAL RESULT] The user requested to resume Zapret2 testing after reboot and explicitly expand application validation beyond Telegram to include WhatsApp and other relevant services.
+[PLAN] Re-validation must cover Telegram, WhatsApp, and a broader representative set of services, while preserving one-command-at-a-time execution and memory/OOM safety.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
