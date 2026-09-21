@@ -2244,3 +2244,9 @@ SYNC 2026-09-21: https-dns-proxy autostart check.
 SYNC 2026-09-21: DNS stage finalization resumed.
 [REQUEST] User explicitly requested transition to verification of the effective MikroTik DNS configuration and completion of the DNS stage.
 [WORKFLOW] First inspect the current dnsmasq/DHCP DNS-related UCI settings with one read-only command; do not modify configuration until the observed state is recorded.
+
+SYNC 2026-09-21: Effective dnsmasq DNS configuration verified.
+[RESULT] `uci show dhcp | grep -E 'dns|resolv|noresolv|server'` shows dnsmasq uses `resolvfile='/tmp/resolv.conf.d/resolv.conf.auto'`, but `noresolv='1'` and explicitly configured `server='192.168.0.1'`.
+[FACT] Therefore dnsmasq is explicitly forwarding DNS to TP-Link 192.168.0.1 rather than using any local https-dns-proxy listener. The earlier resolv.conf.auto result also showed TP-Link 192.168.0.1 as the WAN DNS upstream.
+[STATUS] The OpenWrt DNS path is now factually bounded as LAN clients → MikroTik dnsmasq → TP-Link 192.168.0.1. No configuration change was made in this step.
+[NEXT] Verify one client DNS query through MikroTik (and, if needed, one direct router-side lookup) before marking the DNS stage DONE.
