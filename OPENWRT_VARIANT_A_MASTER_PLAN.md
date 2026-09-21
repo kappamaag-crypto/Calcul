@@ -2206,3 +2206,10 @@ SYNC 2026-09-21: DNS chain verification on MikroTik — user supplied read-only 
 [IMPORTANT] The `0.0.0.0` entry is not a valid usable DNS resolver; no configuration change was made based on this observation.
 [INTERPRETATION] Given the user's TP-Link configuration with GeoHide DNS servers 37.230.192.51 and 193.233.112.88, MikroTik can reach GeoHide DNS indirectly through TP-Link, but this command alone does not prove which upstream server TP-Link actually contacted for a particular query.
 [WORKFLOW] User requested the result be recorded before continuing. No router state was changed by this verification.
+
+SYNC 2026-09-21: DNS chain second-hop verification — user supplied `nslookup example.com 192.168.0.1` result.
+[PASS] MikroTik successfully queried TP-Link DNS at 192.168.0.1:53 and received A records 104.20.23.154 and 172.66.147.243 plus AAAA records 2a06:98c1:3122:8000::1 and 2a06:98c1:3123:8000::1.
+[CONFIRMED] MikroTik → TP-Link DNS communication is operational.
+[LIMITATION] The response does not reveal which upstream resolver TP-Link used, so it does not by itself prove that TP-Link forwarded the query specifically to GeoHide 37.230.192.51 or 193.233.112.88.
+[IMPORTANT] No router configuration or service state was changed by this test.
+[NEXT] To prove the TP-Link upstream DNS path, inspect the TP-Link WAN/DNS configuration or its status page; MikroTik cannot directly reveal the upstream resolver selected by TP-Link from this nslookup result.
