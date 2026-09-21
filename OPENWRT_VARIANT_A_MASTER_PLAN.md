@@ -37,3 +37,9 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [FACTUAL RESULT] The user executed `pgrep -a nfqws2`; the output was empty.
 [CONCLUSION] No nfqws2 process is running after reboot.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+
+## CHANGELOG — 2026-09-21 — Zapret2 start command path not found
+[FACTUAL RESULT] The user executed `/opt/zapret2/init.d/sysv/zapret2 start`; BusyBox ash returned `-ash: /opt/zapret2/init.d/sysv/zapret2: not found`.
+[CONCLUSION] The previously referenced Zapret2 init-script path is not executable/resolvable at that exact path after reboot. This does not yet establish whether Zapret2 files are missing, relocated, or the script has an interpreter/path dependency problem.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Before any start attempt, inspect the exact Zapret2 path and available init-script locations with one read-only command.
