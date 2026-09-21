@@ -33,13 +33,6 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — post-reboot audit step 17
-[RESULT] User supplied read-only output of `/etc/init.d/dnsmasq status`.
-[CONFIRMED] dnsmasq service status is `running` after the power-loss reboot.
-[NO CHANGE] The command was read-only; no service, DNS configuration, network, firewall, or filesystem state changed.
-[STATUS] Post-reboot audit remains IN_PROGRESS.
-[NEXT] Await user instruction before issuing the next router command.
-
 ## CHANGELOG — 2026-09-21 — post-reboot audit step 18
 [RESULT] User supplied read-only output of `/etc/init.d/network status`.
 [CONFIRMED] The `network` init script did not return a runtime state; instead it printed its generic command syntax and available commands.
@@ -47,3 +40,12 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] No service, network, firewall, DNS, or filesystem state was changed.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Use the service's dedicated read-only `running` query: `/etc/init.d/network running`.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 19
+[RESULT] User supplied output of read-only command `/etc/init.d/network running`: output is empty.
+[CONFIRMED] The dedicated `running` check produced no output.
+[IMPORTANT] On this system, an empty result from this command does not provide positive evidence that the network service is running; therefore `network` runtime state remains NOT CONFIRMED from init-script status checks.
+[FACT] Network connectivity and interfaces are known from prior independent evidence, but that evidence is not substituted for the requested service-state check.
+[NO CHANGE] No service, network, firewall, DNS, or filesystem state was changed.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Use one read-only process/service inspection that is more reliable for this system: `ubus call network.interface dump`.
