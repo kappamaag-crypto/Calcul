@@ -98,3 +98,14 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The command was read-only; no service was started, stopped, restarted, or reconfigured.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Inspect the service process command lines/configuration relationship with one read-only command to determine how the two processes were launched; do not stop or restart the service yet.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 10
+[RESULT] Read-only command `ps w | grep '[h]ttps-dns-proxy'` showed two distinct configured instances:
+- PID 3227, user `nobody`: `/usr/sbin/https-dns-proxy -r https://cloudflare-dns.com/dns-query -p 5053 -b 1.1.1.1,1.0.0.1,2606:4700:47`
+- PID 3228, user `nobody`: `/usr/sbin/https-dns-proxy -r https://dns.google/dns-query -p 5054 -b 8.8.8.8,8.8.4.4,2001:4860:4860::8888`
+[CONFIRMED] The two processes are intentional separate DoH endpoints/configurations, not duplicate identical command lines: Cloudflare DoH listens on local port 5053 and Google DoH listens on local port 5054.
+[IMPORTANT] This explains why two processes are present, but does not establish that either is currently used by dnsmasq or required by the current DNS architecture.
+[IMPORTANT] Earlier OOM evidence remains relevant: two processes consume memory simultaneously, and a prior OOM snapshot showed two https-dns-proxy processes. This is a confirmed memory-footprint condition, not proof of sole causation.
+[NO CHANGE] The command was read-only; no service was started, stopped, restarted, or reconfigured.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Verify the effective dnsmasq DNS forwarding configuration with one read-only UCI query before deciding whether the running DoH instances are actually in the active DNS path.
