@@ -161,3 +161,10 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [SAFETY] Do not install curl or stop nfqws2 yet. Both would be an explicit state change and require checking package availability/resource impact and a controlled plan for stopping/restoring Zapret2.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] First determine whether a usable `curl` package is available from the configured OpenWrt package indexes, using a read-only package-cache/repository check. Do not install anything yet.
+
+
+## CHANGELOG — 2026-09-21 — incorrect apk path for curl availability check
+[FACTUAL RESULT] The user executed `/sbin/apk search curl 2>&1 | head -20`; BusyBox returned `-ash: /sbin/apk: not found`.
+[CONCLUSION] This result only establishes that `/sbin/apk` is not an executable path on the current system. It does not establish that the `apk` package manager is absent; the project state already identifies `apk` as the package manager and a prior shell environment used `apk` successfully. No package was installed and no service/configuration was changed.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Determine the actual `apk` executable path with one read-only command before retrying the curl availability check.
