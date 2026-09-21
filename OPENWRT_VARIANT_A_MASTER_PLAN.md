@@ -33,11 +33,14 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — post-reboot audit step 21
-[RESULT] User supplied grouped read-only `/etc/init.d/<service> running` checks for firewall, wpad, zram, dropbear, odhcpd, cron, sysntpd, fstab, packet_steering, pbr.
-[CONFIRMED] Empty output was returned for firewall, wpad, dropbear, odhcpd, cron, sysntpd, packet_steering, and pbr; this grouped `running` query therefore does not provide positive runtime-state confirmation for those services on this system.
-[CONFIRMED] The `zram` init script does not implement the `running` command and returned its command syntax instead.
-[CONFIRMED] The `fstab` init script does not implement the `running` command and returned its command syntax instead.
-[IMPORTANT] No service state was changed. The result shows that this init-script `running` method is not a reliable universal runtime test on this OpenWrt build.
-[STATUS] Post-reboot audit remains IN_PROGRESS.
-[NEXT] Use a single consolidated read-only process/service-state inspection that does not depend on init-script `running` support, while avoiding large log pipelines.
+## CHANGELOG — 2026-09-21 — post-reboot audit final consolidated check
+[RESULT] User supplied the final consolidated read-only audit: `ps w`, `ubus call network.interface dump`, `swapon -s`, and `df -h`.
+[CONFIRMED PROCESSES] procd, logd, dropbear, wpa_supplicant, hostapd, netifd, odhcpd, ntpd, udhcpc, dnsmasq, and two https-dns-proxy instances are running. Two https-dns-proxy instances are the configured Cloudflare listener on 5053 and Google listener on 5054.
+[CONFIRMED NETWORK] lan is up on br-lan at 192.168.1.1/24; wan is up on phy0-sta0 at 192.168.0.55/24 with default route via 192.168.0.1; wan6 is down with no DHCPv6 address.
+[CONFIRMED SWAP] /dev/sda1 524284 kB, used 0, priority -2; /dev/zram0 26620 kB, used 1748 kB, priority 100.
+[CONFIRMED STORAGE] /dev/sda2 6.6G mounted at /overlay with 13.5M used and 6.2G available; overlay root is 6.6G with 0% reported use; /tmp is 26.8M with 276K used; no swap is in /tmp.
+[IMPORTANT] This final consolidated check provides sufficient factual evidence for the post-reboot audit: core runtime processes, network interfaces, swap, extroot storage, and temporary filesystem are operational after the power-loss reboot.
+[NOTED] Init-script `running` checks were not a reliable universal method on this build; the final process and ubus evidence is used instead.
+[NO CHANGE] The final audit commands were read-only and made no service/configuration changes.
+[STATUS] Post-reboot audit — DONE.
+[NEXT] Zapret2/NFQWS2 must be separately re-validated after reboot. Do not change Zapret2 configuration during this audit record; next stage starts only after this audit is recorded.
