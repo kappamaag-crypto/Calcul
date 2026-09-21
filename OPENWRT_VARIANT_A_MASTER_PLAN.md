@@ -100,3 +100,15 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [COMMON/COVERAGE] Quick scan reported TLS1.2 and TLS1.3 as not working across all three domains; HTTP3 had 1/3 working (YouTube); HTTP had 1/3 working without bypass. The tool explicitly states quick mode can skip strategies, so COMMON/COVERAGE are not exhaustive/trustworthy for final strategy selection.
 - [TRANSFER GATE] No router-side strategy was changed. The YouTube QUIC candidate is recorded as a Windows candidate only; compatibility with router Zapret2 v1.0.3 and current NFQWS2 configuration must be reviewed before any transfer.
 - [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery / candidate review).
+
+
+## CHANGELOG — 2026-09-21 — [SYNC] YouTube IPv4 TLS1.2 standard test result
+- [TEST] Windows official blockcheck2 custom test: IPv4, domain `youtube.com`, HTTP=Y, TLS1.2=Y, TLS1.3=N, QUIC=N, repeats=1, scan level=standard.
+- [OBSERVED] TCP/80 to `216.58.198.46` connected; HTTP without DPI bypass was AVAILABLE.
+- [OBSERVED] TCP/443 to `216.58.198.46` connected, but direct HTTPS TLS1.2 timed out after ~2 seconds (`code=28`).
+- [OBSERVED] The IP-block tests used IANA as a control; certificate-name mismatch errors occurred when intentionally testing one hostname against another IP. These certificate errors do not by themselves establish IP blocking.
+- [RESULT] Standard scan tested two generated winws2 TLS1.2 strategies: `fake:blob=fake_default_tls:tcp_ts=-1000` and a fake/tcp_md5/multisplit combination. Both returned timeout `code=28`.
+- [RESULT] Summary: HTTP works directly; IPv4 HTTPS TLS1.2 has no working winws2 strategy found within this standard test pass.
+- [INTERPRETATION] This is a bounded standard result, not proof that no working strategy exists globally; it only records the strategies tested by this run.
+- [NO ROUTER CHANGE] Router-side Zapret2 v1.0.3 configuration remains unchanged.
+- [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery / candidate review).
