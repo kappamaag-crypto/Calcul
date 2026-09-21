@@ -72,4 +72,20 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [FACTUAL RESULT] User reports: Google works; YouTube does not work; Telegram does not work; WhatsApp does not work.
 [CONCLUSION] Current autohostlist Zapret2 configuration passes basic router-side HTTPS and Google client access, but client-side YouTube, Telegram, and WhatsApp are not working. Application-level validation therefore remains FAILED for those services under the current configuration; STAGE 11 remains IN_PROGRESS because diagnosis/strategy validation is incomplete.
 [USER NOTE] User recalls that an automatic strategy-selection/autodetection mechanism had previously been launched. This recollection is recorded as a hypothesis/previous workflow reference, not yet as a verified current runtime state.
-[NEXT] Inspect the deployed Zapret2 configuration for the current MODE_FILTER/autohostlist/strategy-selection settings with a read-only command before changing any rules.
+
+## CHANGELOG — 2026-09-21 — Zapret2 configuration audit: autohostlist confirmed
+[FACTUAL RESULT] The user executed:
+`grep -E '^(MODE_FILTER|NFQWS2_ENABLE|NFQWS2_OPT|NFQWS2_PORTS_TCP|NFQWS2_PORTS_UDP|FLOWOFFLOAD|INIT_APPLY_FW|DISABLE_IPV6)=' /opt/zapret2/config`
+Output:
+`NFQWS2_ENABLE=1`
+`NFQWS2_PORTS_TCP=80,443`
+`NFQWS2_PORTS_UDP=443`
+`NFQWS2_OPT="`
+`MODE_FILTER=autohostlist`
+`FLOWOFFLOAD=donttouch`
+`INIT_APPLY_FW=1`
+`DISABLE_IPV6=1`
+The command did not display the contents of the multiline `NFQWS2_OPT` value because the value starts with a quote and continues on subsequent lines.
+[CONCLUSION] NFQWS2 is enabled; configured TCP ports are 80/443; configured UDP port is 443; MODE_FILTER is `autohostlist`; FLOWOFFLOAD is `donttouch`; INIT_APPLY_FW is `1`; DISABLE_IPV6 is `1`. The exact multiline desync strategy block remains not yet re-read by this command and therefore is not re-verified by this result.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Continue with a read-only inspection that captures the complete multiline `NFQWS2_OPT` block before any strategy change.
