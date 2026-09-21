@@ -2171,3 +2171,12 @@ SYNC 2026-09-21: User said "Продолжай" after the slab metadata result w
 [NEXT DIAGNOSTIC] Use exactly one minimal read-only check to determine whether the kernel exposes per-cache allocated-object/slab counters through additional sysfs files. Inspect only the filenames available under /sys/kernel/slab/<cache> for one representative cache and do not read or modify any state. This avoids another large loop and avoids grep/logread pipelines.
 [COMMAND SELECTED] ls -1 /sys/kernel/slab/kmalloc-128
 [SAFETY] No Zapret2 restart, Telegram rule change, file relocation, filesystem/storage operation, or other state-changing action.
+
+
+SYNC 2026-09-21: User supplied output of the selected read-only command `ls -1 /sys/kernel/slab/kmalloc-128`.
+[PASS] The representative slab-cache directory exists and exposes metadata/control files including: aliases, align, ctor, cpu_partial, cpu_slabs, destroy_by_rcu, hwcache_align, min_partial, object_size, objects_partial, objs_per_slab, order, partial, reclaim_account, shrink, slab_size, slabs_cpu_partial, usersize.
+[CONFIRMED] The directory exposes `objects_partial`, `object_size`, `objs_per_slab`, `slab_size`, and `partial`, but no file named `objects` is present in this cache directory.
+[IMPORTANT] This confirms that the previously empty `objects` reads were due to the interface on this build rather than a missing cache directory. The available metadata still does not directly provide a total allocated-object count for this cache.
+[INTERPRETATION] The current result does not identify the cause of the 7.5 MiB SUnreclaim or either OOM event. No Zapret2 restart, Telegram rule change, file relocation, or storage operation was performed.
+[STATUS] STAGE 11 remains DONE. Telegram-specific troubleshooting remains BLOCKED pending stable Zapret2/memory diagnosis.
+[WORKFLOW] Current factual result is synchronized before any next router command.
