@@ -153,3 +153,11 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [SAFETY] No blockcheck2 scan has been launched and no strategy/configuration has been changed.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] Perform one read-only inspection of the script's usage/help path to determine supported invocation options before any test run.
+
+
+## CHANGELOG — 2026-09-21 — blockcheck2 prerequisite check
+[FACTUAL RESULT] The user invoked `/opt/zapret2/blockcheck2.sh --help 2>&1 | head -40`. The script detected Linux/OpenWrt, kernel 6.12.94, OpenWrt 25.12.5 r33051-f5dae5ece4, board `ath79/mikrotik`, arch `mips_24kc`, nftables firewall, and `CURL=curl`. It then reported `/opt/zapret2/blockcheck2.sh: line 406: curl: not found`, warned that DPI-bypass processes are already running, specifically that blockcheck requires all DPI-bypass methods to be disabled, and finally stopped at the prerequisite check with `curl does not exist. please install` and `press enter to continue`.
+[CONCLUSION] The installed blockcheck2 script is compatible enough to identify the current OpenWrt environment, but it cannot proceed in the current state because `curl` is absent and the active `nfqws2`/DPI-bypass process would interfere with blockcheck. No scan was performed and no strategy/configuration was changed.
+[SAFETY] Do not install curl or stop nfqws2 yet. Both would be an explicit state change and require checking package availability/resource impact and a controlled plan for stopping/restoring Zapret2.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] First determine whether a usable `curl` package is available from the configured OpenWrt package indexes, using a read-only package-cache/repository check. Do not install anything yet.
