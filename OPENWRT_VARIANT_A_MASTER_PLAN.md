@@ -2180,3 +2180,8 @@ SYNC 2026-09-21: User supplied output of the selected read-only command `ls -1 /
 [INTERPRETATION] The current result does not identify the cause of the 7.5 MiB SUnreclaim or either OOM event. No Zapret2 restart, Telegram rule change, file relocation, or storage operation was performed.
 [STATUS] STAGE 11 remains DONE. Telegram-specific troubleshooting remains BLOCKED pending stable Zapret2/memory diagnosis.
 [WORKFLOW] Current factual result is synchronized before any next router command.
+
+SYNC 2026-09-21: User said "Продолжай" and asked how much longer the memory/slab diagnosis will take.
+[WORKFLOW] This diagnostic branch is being kept intentionally short; the available sysfs interface has already shown that total allocated-object counts are not exposed via the usual `objects` file.
+[NEXT DIAGNOSTIC] Perform one final minimal read-only check on the representative `kmalloc-128` cache's `partial` metadata to determine whether it exposes usable per-slab allocation information. If it does not provide an actionable allocation count, document the kernel-interface limitation and close this slab-diagnosis branch rather than continuing low-value probing.
+[SAFETY] No Zapret2 restart, Telegram rule change, file relocation, filesystem/storage operation, or other state-changing action.
