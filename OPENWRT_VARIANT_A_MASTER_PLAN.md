@@ -33,11 +33,9 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — DNS replacement path verified at configuration/routing level
-[FACTUAL RESULT] Read-only audit showed `/tmp/resolv.conf.d/resolv.conf.auto` contains `nameserver 192.168.0.1` twice for WAN.
-[FACTUAL RESULT] Current dnsmasq still has `noresolv=1` and explicitly configured upstream listeners `127.0.0.1#5053` and `127.0.0.1#5054`; `doh_server` points to the same two local listeners.
-[FACTUAL RESULT] Current `doh_backup_server` is `192.168.0.1`.
-[FACTUAL RESULT] Routing table has default route `via 192.168.0.1 dev phy0-sta0`, with WAN source `192.168.0.55`.
-[CONCLUSION FOR WORKFLOW] `192.168.0.1` is confirmed as the WAN DNS resolver advertised to the MikroTik and as the default gateway. Direct DNS query success to `192.168.0.1` has not yet been tested.
-[SAFETY] No configuration or service was changed by this audit.
+## CHANGELOG — 2026-09-21 — direct upstream DNS verified
+[FACTUAL RESULT] Direct read-only query `nslookup example.com 192.168.0.1` succeeded.
+[FACTUAL RESULT] DNS server `192.168.0.1:53` returned IPv4 addresses `172.66.147.243` and `104.20.23.154`, plus IPv6 addresses `2a06:98c1:3123:8000::6` and `2a06:98c1:3122:8000::6`.
+[CONCLUSION FOR WORKFLOW] The proposed replacement upstream DNS path `MikroTik → 192.168.0.1` is reachable and successfully resolves DNS queries. This validates the upstream path itself; dnsmasq has not yet been reconfigured to use it.
+[SAFETY] No configuration or service was changed by this test.
 [STATUS] https-dns-proxy removal decision — IN_PROGRESS.
