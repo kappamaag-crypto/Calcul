@@ -2255,3 +2255,8 @@ SYNC 2026-09-21: DNS functional verification completed.
 [RESULT] `nslookup example.com 192.168.1.1` succeeded through the MikroTik LAN DNS listener and returned IPv4 addresses `8.47.69.6`, `8.6.112.6` plus IPv6 addresses `2a06:98c1:3122:8000::1` and `2a06:98c1:3123:8000::1`.
 [FACT] LAN clients can resolve DNS via MikroTik 192.168.1.1. Combined with the verified dnsmasq configuration, the effective path is LAN client → MikroTik dnsmasq → TP-Link 192.168.0.1. The exact upstream resolver selected by TP-Link for each query is not packet-capture verified here; TP-Link WAN status previously showed configured DNS 37.230.192.51 and 193.233.112.88.
 [STATUS] DNS stage functional verification: DONE for the current architecture. https-dns-proxy remains inactive and not enabled at boot; package retained as reserve.
+
+SYNC 2026-09-21: Stage order correction after DNS completion.
+[CORRECTION] The next stage is NOT selective routing/PBR. User explicitly confirmed that the next priority is to resume Zapret2/NFQWS2, launch it under controlled conditions, and test it.
+[PLAN] Zapret2 validation must include general HTTPS/web testing and a separate Telegram functional test. Telegram is a required part of the Zapret validation scope and was previously BLOCKED pending stable Zapret2/memory diagnosis.
+[SAFETY] Before restarting Zapret2, first perform a read-only runtime/status check and record the current state. Do not start Zapret2 in this same synchronization step.
