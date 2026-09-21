@@ -193,3 +193,13 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CONCLUSION] There is currently no single discovered strategy that can be recorded as fully covering TLS1.2 + TLS1.3 + QUIC.
 - [TEST REQUIREMENT] To establish full YouTube coverage, the same candidate must be separately reproduced on TLS1.2 and TLS1.3, while QUIC requires its own UDP/443 strategy test. A TLS strategy must not be assumed to cover QUIC.
 - [NEXT] Test the simplest TLS1.2 candidates from group A against TLS1.3; then separately re-test/identify QUIC. Only after these results can a combined router strategy be designed.
+
+
+## CHANGELOG — 2026-09-21 — [SYNC] Blockcheck2 three-protocol discovery matrix
+- [USER TASK] Define exact blockcheck2 selections to search independently for TLS1.2, TLS1.3 and QUIC/HTTP3 coverage.
+- [OFFICIAL SOURCE] blockcheck2 has separate switches/tests: ENABLE_HTTPS_TLS12, ENABLE_HTTPS_TLS13 and ENABLE_HTTP3; HTTP3 uses curl --http3-only. Standard suite contains separate TLS12/TLS13 and QUIC test functions.
+- [RECOMMENDED FIRST PASS] custom/standard test set: domain youtube.com; IPv4; HTTP=NO (control already established); TLS1.2=YES; TLS1.3=YES; QUIC/HTTP3=YES; repeats=1; parallel=NO; scan level=standard. This is the bounded discovery pass.
+- [IMPORTANT] A successful TLS1.2 result is not evidence for TLS1.3; a TLS result is not evidence for QUIC. Each must produce its own AVAILABLE result.
+- [FORCE] Do not start force for all three protocols in one run at this stage because the previous force run was excessively long. Use standard first; if needed, run focused force passes separately per protocol/domain.
+- [NO ROUTER CHANGE] Router Zapret2 v1.0.3 and current NFQWS2_OPT remain unchanged.
+- [STATUS] STAGE 11 IN_PROGRESS.
