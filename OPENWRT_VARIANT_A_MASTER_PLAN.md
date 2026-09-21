@@ -33,14 +33,15 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — post-reboot audit final consolidated check
-[RESULT] User supplied the final consolidated read-only audit: `ps w`, `ubus call network.interface dump`, `swapon -s`, and `df -h`.
-[CONFIRMED PROCESSES] procd, logd, dropbear, wpa_supplicant, hostapd, netifd, odhcpd, ntpd, udhcpc, dnsmasq, and two https-dns-proxy instances are running. Two https-dns-proxy instances are the configured Cloudflare listener on 5053 and Google listener on 5054.
-[CONFIRMED NETWORK] lan is up on br-lan at 192.168.1.1/24; wan is up on phy0-sta0 at 192.168.0.55/24 with default route via 192.168.0.1; wan6 is down with no DHCPv6 address.
-[CONFIRMED SWAP] /dev/sda1 524284 kB, used 0, priority -2; /dev/zram0 26620 kB, used 1748 kB, priority 100.
-[CONFIRMED STORAGE] /dev/sda2 6.6G mounted at /overlay with 13.5M used and 6.2G available; overlay root is 6.6G with 0% reported use; /tmp is 26.8M with 276K used; no swap is in /tmp.
-[IMPORTANT] This final consolidated check provides sufficient factual evidence for the post-reboot audit: core runtime processes, network interfaces, swap, extroot storage, and temporary filesystem are operational after the power-loss reboot.
-[NOTED] Init-script `running` checks were not a reliable universal method on this build; the final process and ubus evidence is used instead.
-[NO CHANGE] The final audit commands were read-only and made no service/configuration changes.
-[STATUS] Post-reboot audit — DONE.
-[NEXT] Zapret2/NFQWS2 must be separately re-validated after reboot. Do not change Zapret2 configuration during this audit record; next stage starts only after this audit is recorded.
+## CHANGELOG — 2026-09-21 — https-dns-proxy ↔ dnsmasq linkage audit
+[RESULT] User supplied read-only effective dnsmasq configuration, https-dns-proxy UCI configuration, and TCP listener inspection.
+[CONFIRMED DNSMASQ] dnsmasq has `noresolv='1'` and explicitly uses `127.0.0.1#5053` and `127.0.0.1#5054` as DNS servers. It also has `doh_server='127.0.0.1#5053' '127.0.0.1#5054'`.
+[CONFIRMED BACKUP] dnsmasq has `doh_backup_noresolv='1'` and `doh_backup_server='192.168.0.1'`.
+[CONFIRMED FORCE DNS] https-dns-proxy configuration has `force_dns='1'`, source interface `lan`, and intercepted destination ports 53 and 853.
+[CONFIRMED INSTANCES] One configured instance listens on 127.0.0.1:5053 and uses Cloudflare DoH; the second listens on 127.0.0.1:5054 and uses Google DoH.
+[CONFIRMED LISTENERS] dnsmasq listens on port 53 on LAN/WAN/loopback addresses; https-dns-proxy listens on 127.0.0.1:5053 and 127.0.0.1:5054.
+[IMPORTANT] The two https-dns-proxy processes are not independent unused duplicates: both are explicitly wired into dnsmasq's active DNS configuration, and LAN DNS/DoT traffic is forced toward the proxy.
+[IMPORTANT] This read-only result alone does not establish whether one instance can be removed without changing DNS redundancy/behavior; that requires a separate controlled decision and configuration change.
+[NO CHANGE] The command was read-only; no service, DNS, firewall, network, or filesystem state changed.
+[STATUS] Decision on two https-dns-proxy instances is now pending before Zapret2 re-validation.
+[NEXT] Do not start Zapret2 until the https-dns-proxy decision is made and any approved change is separately tested.
