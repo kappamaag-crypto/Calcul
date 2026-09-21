@@ -185,3 +185,11 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [TEST MATRIX] Следующий этап стратегии: 1) TLS1.2 — проверить воспроизводимость кандидатов группы A; 2) TLS1.3 — провести отдельный controlled test; 3) QUIC — сохранить отдельным направлением; 4) HTTP — только контрольный тест, если нет специальной причины исследовать его обход.
 - [NO ROUTER CHANGE] Текущий router-side Zapret2 v1.0.3 и `NFQWS2_OPT` не изменяются.
 - [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery / candidate review).
+
+
+## CHANGELOG — 2026-09-21 — [SYNC] Coverage status of discovered strategies
+- [CONFIRMED] The 22 discovered Windows candidates are proven only for `youtube.com` IPv4 HTTPS TLS1.2. None has yet been proven for TLS1.3 or QUIC/HTTP3.
+- [CONFIRMED] The previously discovered YouTube IPv4 QUIC candidate is a separate UDP/443 discovery result: `--wf-l3=ipv4 --wf-udp-out=443 --payload quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=11`. It does not prove TLS1.2 or TLS1.3 coverage.
+- [CONCLUSION] There is currently no single discovered strategy that can be recorded as fully covering TLS1.2 + TLS1.3 + QUIC.
+- [TEST REQUIREMENT] To establish full YouTube coverage, the same candidate must be separately reproduced on TLS1.2 and TLS1.3, while QUIC requires its own UDP/443 strategy test. A TLS strategy must not be assumed to cover QUIC.
+- [NEXT] Test the simplest TLS1.2 candidates from group A against TLS1.3; then separately re-test/identify QUIC. Only after these results can a combined router strategy be designed.
