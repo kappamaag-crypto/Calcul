@@ -33,9 +33,9 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — direct upstream DNS verified
-[FACTUAL RESULT] Direct read-only query `nslookup example.com 192.168.0.1` succeeded.
-[FACTUAL RESULT] DNS server `192.168.0.1:53` returned IPv4 addresses `172.66.147.243` and `104.20.23.154`, plus IPv6 addresses `2a06:98c1:3123:8000::6` and `2a06:98c1:3122:8000::6`.
-[CONCLUSION FOR WORKFLOW] The proposed replacement upstream DNS path `MikroTik → 192.168.0.1` is reachable and successfully resolves DNS queries. This validates the upstream path itself; dnsmasq has not yet been reconfigured to use it.
-[SAFETY] No configuration or service was changed by this test.
+## CHANGELOG — 2026-09-21 — dnsmasq switched to TP-Link upstream
+[FACTUAL RESULT] The user executed the DNS reconfiguration command. It set `dnsmasq.noresolv=1`, removed the previous `server` list, added `server=192.168.0.1`, removed `doh_server`, `doh_backup_noresolv`, and `doh_backup_server`, committed UCI, and restarted dnsmasq.
+[FACTUAL RESULT] The restart output included `udhcpc: started, v1.37.0`, `udhcpc: broadcasting discover`, and `udhcpc: no lease, failing`.
+[IMPORTANT] This output occurred during dnsmasq restart, but it does not by itself prove that the WAN interface lost its existing lease or that DNS failed. No further conclusion is recorded until a read-only verification is performed.
+[FACTUAL RESULT] The command did change and commit dnsmasq configuration; https-dns-proxy was not explicitly stopped or disabled by this command.
 [STATUS] https-dns-proxy removal decision — IN_PROGRESS.
