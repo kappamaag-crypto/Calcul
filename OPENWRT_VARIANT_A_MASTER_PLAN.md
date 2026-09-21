@@ -80,3 +80,12 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [NEXT] For the next Windows pass, use a shorter scan level rather than `force`. Prefer `standard` as the balanced official investigation mode; `quick` is reserved for the fastest first-working candidate and is less suitable for comparing multiple candidate strategies. Keep router-side Zapret2 v1.0.3 unchanged until cross-domain evidence is obtained.
 - [SAFETY] Before the next actual scan, the Windows PC must bypass the MikroTik's active nfqws2 path and connect directly to the TP-Link Archer C20 v4, so the current router-side Zapret2 does not contaminate strategy discovery.
 - [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery).
+
+
+## CHANGELOG — 2026-09-21 — [SYNC] quick scan repeated TLS matrix / autottl clarification
+- [OBSERVED] Windows quick scan is producing a long sequence of `UNAVAILABLE code=28` results while testing youtube.com IPv4 HTTPS TLS 1.2, including multiple fakedsplit positions and TTL values. The output is repetitive by design because the official standard test matrix iterates combinations.
+- [VERIFIED] Official zapret2 standard definitions already test ordinary TTL values and then automatic-TTL variants (`ip_autottl=-delta,3-20`); therefore a blanket claim that manual autottl must be enabled to fix the current slowdown is not established.
+- [VERIFIED] Official blockcheck2 defaults `CURL_MAX_TIME=2` seconds. Each failed candidate therefore contributes roughly a 2-second timeout, explaining the visible duration.
+- [CORRECTION] Do not manually disable all Lua desync tests: zapret2 blockcheck2 is specifically testing nfqws2/winws2 strategies and its standard matrix legitimately contains Lua desync methods such as multisplit/fakedsplit/multidisorder.
+- [DECISION] For the faster next pass, stop the current scan if it remains stuck in the same long matrix; use a narrowly scoped test rather than force/large multi-domain scanning. Router-side Zapret2 v1.0.3 remains unchanged.
+- [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery).
