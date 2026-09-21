@@ -46,3 +46,21 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [RESULT] Windows read-only PowerShell check returned: Microsoft Windows 11 Pro, version 10.0.26200, OSArchitecture 64-разрядная. This establishes Windows x64 for the next preparation decision.
 [STATUS] STAGE 11 — IN_PROGRESS.
 [NEXT] Use the official bol-van/zapret-win-bundle Windows x64 path. No router changes are part of this synchronization step.
+
+
+## CHANGELOG — 2026-09-21 — Zapret2 strategy-selection plan
+[DECISION] Strategy selection will be performed on the Windows 11 x64 PC using the official `blockcheck2` tooling from the same `bol-van/zapret2` project. The router already has official Zapret2 v1.0.3 installed and running as `/opt/zapret2/nfq2/nfqws2`; no second Zapret project is being installed.
+[PLAN]
+1. Keep the router's current working configuration unchanged during strategy discovery.
+2. On Windows, prepare the official `zapret-win-bundle` (minimal Cygwin + blockcheck2/winws2) for x64.
+3. Select a small, representative domain set matching the currently failing services; begin with controlled individual tests, not parallel hammering.
+4. Run blockcheck2 in batch mode with an explicit log, conservative timeouts, and `PARALLEL=0/1` only as appropriate; do not use parallel scanning by default.
+5. First establish DNS/IP reachability results, then run the standard HTTP/HTTPS/QUIC strategy tests supported by the tool.
+6. If comparing several domains, use `SCANLEVEL=force` when we need reliable COMMON/COVERAGE conclusions; otherwise treat skipped tests as non-exhaustive.
+7. Record only strategies that produce reproducible PASS results, together with protocol, domain, IP version, and exact generated parameters.
+8. Do not immediately copy the first successful strategy to the router. Review compatibility with the existing NFQWS2 config, hostlist/autohostlist behavior, memory budget, and current TCP/UDP scope first.
+9. Transfer one validated strategy change to the already-installed router-side Zapret2, then test the affected service(s) and router resource usage before any additional change.
+10. After each router-side strategy change, retain a rollback value and compare against the current known-good configuration.
+[SAFETY] No curl installation on the router is required for the PC-based workflow. Do not run full blockcheck2 on the low-RAM router while its current nfqws2 configuration is active unless a separate decision gate authorizes it.
+[STATUS] STAGE 11 — IN_PROGRESS (strategy discovery on PC).
+[NEXT USER STEP] Prepare the Windows official bundle only; no router command in this turn.
