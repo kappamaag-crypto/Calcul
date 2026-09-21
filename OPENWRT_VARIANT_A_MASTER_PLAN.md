@@ -43,5 +43,6 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [DECISION] Prepare the Windows PC before downloading/running blockcheck2. First verify Windows architecture/version because the official author's current bundle supports Windows x64/ARM64, and the exact preparation differs by architecture.
 [SAFETY] No router command or configuration change is required for this preparation step. Do not install Cygwin separately if the official bundle will be used; the bundle already includes a minimal Cygwin environment.
 [CURRENT ROUTER STATE] nfqws2 remains active on the MikroTik. Google works; YouTube/Telegram/WhatsApp remain non-working. No router strategy change has been made.
+[RESULT] Windows read-only PowerShell check returned: Microsoft Windows 11 Pro, version 10.0.26200, OSArchitecture 64-разрядная. This establishes Windows x64 for the next preparation decision.
 [STATUS] STAGE 11 — IN_PROGRESS.
-[NEXT] On the Windows PC, perform one read-only PowerShell check of OS architecture/version. After its result, choose the exact official bundle preparation path.
+[NEXT] Use the official bol-van/zapret-win-bundle Windows x64 path. No router changes are part of this synchronization step.
