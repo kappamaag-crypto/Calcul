@@ -2231,3 +2231,7 @@ SYNC 2026-09-21: https-dns-proxy service-state check.
 [RESULT] Command `/etc/init.d/https-dns-proxy status` returned `inactive`.
 [STATUS] https-dns-proxy is currently inactive. No stop operation was performed because the service is already stopped.
 [NEXT] Before disabling autostart or changing DNS configuration, the current init/autostart state must be checked deliberately in a later step.
+
+SYNC 2026-09-21: Follow-up after inactive-state verification.
+[RESULT] https-dns-proxy service is already inactive; therefore no stop command is required.
+[WORKFLOW] Proceed to a separate read-only check of init-script autostart state before making any change.
