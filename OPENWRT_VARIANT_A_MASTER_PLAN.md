@@ -2192,3 +2192,9 @@ SYNC 2026-09-21: User supplied final slab-branch check: `cat /sys/kernel/slab/km
 [DECISION] Close this low-value slab-probing branch. Do not issue further slab commands unless new evidence specifically justifies reopening it.
 [STATUS] STAGE 11 remains DONE. Telegram-specific troubleshooting remains BLOCKED pending stable Zapret2/memory diagnosis.
 [SAFETY] No Zapret2 restart, Telegram rule change, file relocation, filesystem/storage operation, or other state-changing action was performed.
+
+SYNC 2026-09-21: User asked whether the OOM could be related to two simultaneous `https-dns-proxy` processes.
+[FACTUAL BASIS] Earlier kernel OOM evidence showed two `https-dns-proxy` processes present in the first OOM snapshot (PIDs 3221 and 3222), with RSS values of 629 and 557 pages respectively, while dnsmasq simultaneously reported `Maximum number of concurrent DNS queries reached (max: 150)`.
+[INTERPRETATION] Yes, the two-process state is a plausible contributor to the first OOM/memory-pressure event, especially together with the DNS-query surge, but the evidence does not prove that merely having two processes caused the OOM. The first OOM specifically selected/killed PID 3221; the second OOM later selected/killed nfqws2 and occurred under different circumstances.
+[IMPORTANT] This strengthens the case for not running duplicate `https-dns-proxy` instances. The current project state had DoH intentionally rolled back to direct DNS, so `https-dns-proxy` should remain stopped until DoH is deliberately resumed and configured as a single controlled instance.
+[STATUS] STAGE 10 remains IN_PROGRESS (DoH baseline/chain verified, rolled back to direct DNS). Telegram troubleshooting remains BLOCKED.
