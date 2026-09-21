@@ -33,9 +33,8 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — dnsmasq replacement path validated
-[FACTUAL RESULT] Read-only verification showed dnsmasq now has `noresolv=1` and exactly `server=192.168.0.1`; the previous local 5053/5054 and doh_* entries are absent from the shown configuration.
-[FACTUAL RESULT] Direct `nslookup example.com 192.168.0.1` succeeded and returned IPv4 and IPv6 addresses.
-[CONCLUSION FOR WORKFLOW] The configured dnsmasq upstream path is valid at the DNS-server level. The output does not yet verify a client LAN query through dnsmasq itself, nor does it verify that https-dns-proxy has no remaining runtime dependency.
-[SAFETY] No configuration or service was changed during this verification.
+## CHANGELOG — 2026-09-21 — https-dns-proxy stopped
+[FACTUAL RESULT] `/etc/init.d/https-dns-proxy stop` completed successfully and reported `Stopping https-dns-proxy 2026.05.06-r1 ✓`.
+[FACTUAL RESULT] The package was stopped but not removed and not disabled from boot by this action.
+[SAFETY] No other service or configuration was changed by this stop command.
 [STATUS] https-dns-proxy removal decision — IN_PROGRESS.
