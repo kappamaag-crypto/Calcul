@@ -67,3 +67,16 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The status command was read-only; no service was started, stopped, or restarted.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Use one targeted read-only command for the important discrepancy: inspect the actual https-dns-proxy boot link and process/service state separately, without changing it. This will resolve whether the enabled S20 link actually corresponds to an active service after reboot.
+
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 7
+[RESULT] User supplied the combined read-only init-script status command:
+`/etc/init.d/https-dns-proxy status; /etc/init.d/pbr status; /etc/init.d/dnsmasq status; /etc/init.d/network status; /etc/init.d/firewall status; /etc/init.d/wpad status; /etc/init.d/zram status`.
+[CONFIRMED] `pbr status` produced its environment/table report and showed no configured policies, no marking chains, no nft sets, and only the main IPv4 routing table/rules. Uplink is `wan/phy0-sta0/192.168.0.1`.
+[CONFIRMED] `dnsmasq status` produced version/configuration information: dnsmasq 2.93, IPv6 enabled, DHCP/DHCPv6 disabled in this build.
+[CONFIRMED] `zram status` completed successfully and reports zram0 size 26 MiB, lzo-rle compression, original data 1.53 MiB, compressed data 0.43 MiB, memory used 2.02 MiB, maximum ever used 2.92 MiB.
+[CONFIRMED] Multiple init scripts returned `running`, and wpad returned `active with no instances`; however the combined command output does not preserve a reliable one-to-one mapping of each visible `running` line to each preceding command.
+[IMPORTANT] This result still does not safely establish the individual runtime state of `https-dns-proxy`, `network`, `firewall`, or `zram` from the combined output alone. The earlier `S20https-dns-proxy` boot link discrepancy therefore remains unresolved.
+[NO CHANGE] The command was read-only; no service was started, stopped, or restarted.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Run one targeted read-only command for `https-dns-proxy` status only; do not change the service.
