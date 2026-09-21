@@ -2133,3 +2133,6 @@ SYNC 2026-09-21: `/proc/meminfo` read-only check PASS. [CONFIRMED] MemTotal 5485
 
 
 SYNC 2026-09-21: User said "Продолжай" after the `/proc/meminfo` snapshot. [CONFIRMED] No router state changed since that read-only check. [NEXT] Inspect current kernel slab allocation breakdown with one read-only command, without grep/logread pipelines and without restarting Zapret2. This is to determine whether the notable 7.5 MiB SUnreclaim is concentrated in a specific slab cache. No file relocation, Telegram rule change, or service restart.
+
+
+SYNC 2026-09-21: Read-only slab inspection `cat /proc/slabinfo` FAILED because `/proc/slabinfo` is not present on this OpenWrt system: `cat: can't open '/proc/slabinfo': No such file or directory`. [CONFIRMED] No router state changed. [INTERPRETATION] The absence of `/proc/slabinfo` does not invalidate the `/proc/meminfo` SUnreclaim observation; it only means this traditional slab breakdown interface is unavailable. [NEXT] Select an alternative read-only kernel memory interface available on this build; do not restart Zapret2, modify Telegram rules, or move files.
