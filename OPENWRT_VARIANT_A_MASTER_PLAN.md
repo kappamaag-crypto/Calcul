@@ -176,3 +176,10 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The command was read-only; no service, routing, firewall, or configuration state changed.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Await user instruction before issuing the next router command.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 17
+[RESULT] User supplied read-only output of `/etc/init.d/dnsmasq status`.
+[CONFIRMED] dnsmasq service status is `running` after the power-loss reboot.
+[NO CHANGE] The command was read-only; no service, DNS configuration, network, firewall, or filesystem state changed.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Await user instruction before issuing the next router command.
