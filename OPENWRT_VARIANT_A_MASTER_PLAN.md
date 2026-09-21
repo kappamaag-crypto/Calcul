@@ -58,7 +58,6 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Perform one read-only targeted status check of the currently running key services, starting with `https-dns-proxy`, `pbr`, `dnsmasq`, `network`, `firewall`, `wpad`, and `zram`; do not start/stop/restart anything during the audit.
 
-
 ## CHANGELOG — 2026-09-21 — post-reboot audit step 6
 [RESULT] User supplied output for the combined init-script status command. The terminal output shown is only `running`.
 [IMPORTANT] The command line displayed by the terminal wraps `/etc/init.d/network status` across the visual line break, but the supplied result contains only one visible status line. Therefore the result cannot be safely attributed to all seven services individually.
@@ -67,7 +66,6 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The status command was read-only; no service was started, stopped, or restarted.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Use one targeted read-only command for the important discrepancy: inspect the actual https-dns-proxy boot link and process/service state separately, without changing it. This will resolve whether the enabled S20 link actually corresponds to an active service after reboot.
-
 
 ## CHANGELOG — 2026-09-21 — post-reboot audit step 7
 [RESULT] User supplied the combined read-only init-script status command:
@@ -134,7 +132,6 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [RESULT] Read-only inspection of `/etc/init.d/https-dns-proxy` (lines 1–240) completed.
 [CONFIRMED] The package init script uses `USE_PROCD=1` with `START=20` and `STOP=15`; therefore service supervision/instance lifecycle is implemented through Procd.
 [CONFIRMED] The script defines package-wide UCI variables including `dnsmasq_config_update`, `force_dns`, `notrack_dns`, source interfaces, listen address, user/group and other runtime options.
-[CONFIRMED] The script loads the package configuration using UCI and contains explicit functions for dnsmasq integration and nftables notrack handling.
 [IMPORTANT] The inspected portion does not show a generic `config.enabled` flag or establish that `uci set https-dns-proxy.config.enabled='0'` is a supported disable mechanism. Do not execute that unverified UCI change.
 [CONFIRMED] The current configuration therefore should be changed only using mechanisms actually implemented by this package/init script, after the audit establishes the desired DNS architecture.
 [NO CHANGE] Inspection was read-only; no service or configuration state changed.
@@ -152,3 +149,15 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The command was read-only; no service/configuration state changed.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Inspect the exact `start_service()` and `start_instance()` code block around lines 285–405 with one read-only command, to document the lifecycle precisely before any change.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 15
+[RESULT] User supplied read-only output of `sed -n '285,405p' /etc/init.d/https-dns-proxy`.
+[CONFIRMED] `start_instance()` reads each configured instance's `resolver_url`, `listen_addr`, `listen_port`, bootstrap DNS and other parameters, then constructs the proxy command through `append_parm`/related helpers.
+[CONFIRMED] When `dnsmasq_config_update='*'`, each configured proxy listener is added to the dnsmasq configuration via `dnsmasq_doh_server`; forced-DNS port handling is also configured.
+[CONFIRMED] Each instance is created with `procd_open_instance`, `procd_set_param command $PROG $PROG_param`, stdout/stderr enabled, and `procd_set_param respawn`. Therefore Procd explicitly supervises and respawns each configured proxy instance.
+[CONFIRMED] `start_service()` initializes the instance port at 5053, loads package configuration, then executes `config_foreach start_instance "$packageName" "$param"`. The script increments `port` after each successful instance, explaining the observed sequence 5053, 5054 for the two configured instances.
+[CONFIRMED] If `force_dns` is enabled, the script creates firewall redirect/rule data for configured source interfaces and DNS ports; with the current configuration this supports forced DNS handling for LAN on ports 53/853.
+[IMPORTANT] The observed two-process state is therefore fully explained by the package's two configuration sections plus Procd's per-instance supervision; it is not evidence of accidental duplicate process startup.
+[NO CHANGE] The command was read-only; no service, configuration, network, or firewall state changed.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Await user instruction before issuing the next router command; the current step has been fully documented and synchronized.
