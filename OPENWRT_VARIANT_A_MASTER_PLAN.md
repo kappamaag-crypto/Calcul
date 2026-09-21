@@ -97,3 +97,12 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [SAFETY] This does not change one-step-at-a-time: independent diagnostics are not combined merely to reduce message count.
 [COMMITS] MASTER PROMPT: b707d537a392475ed1d81f1c2af36fab19320649; GLOSSARY: ce5c9aa0da52504c095ad6d097531d1dfb617c15.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+
+## CHANGELOG — 2026-09-21 — full NFQWS2_OPT verified
+[FACTUAL RESULT] The user executed `sed -n '/^NFQWS2_OPT="/,/^"/p' /opt/zapret2/config` and the complete multiline value was returned:
+`--filter-tcp=80 --filter-l7=http <HOSTLIST> --payload=http_req --lua-desync=fake:blob=fake_default_http:tcp_md5 --lua-desync=multisplit:pos=method+2 --new`
+`--filter-tcp=443 --filter-l7=tls <HOSTLIST> --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_md5:tcp_seq=-10000 --lua-desync=multidisorder:pos=1,midsld --new`
+`--filter-udp=443 --filter-l7=quic <HOSTLIST_NOAUTO> --payload=quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=6`
+[CONCLUSION] The exact current NFQWS2 strategy block is now verified. TCP/80 uses HTTP `fake` + `multisplit`; TCP/443 uses TLS `fake` + `multidisorder`; UDP/443 uses QUIC `fake` with 6 repeats. No strategy change was made.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] The next diagnostic must be read-only and must verify the hostlist files referenced by the active configuration before any strategy modification.
