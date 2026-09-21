@@ -106,3 +106,9 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [CONCLUSION] The exact current NFQWS2 strategy block is now verified. TCP/80 uses HTTP `fake` + `multisplit`; TCP/443 uses TLS `fake` + `multidisorder`; UDP/443 uses QUIC `fake` with 6 repeats. No strategy change was made.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] The next diagnostic must be read-only and must verify the hostlist files referenced by the active configuration before any strategy modification.
+
+## CHANGELOG — 2026-09-21 — hostlist file probe returned empty
+[FACTUAL RESULT] The user executed `find /opt/zapret2 -maxdepth 2 -type f \\( -name '*hostlist*' -o -name '*.txt' \\) -printf '%p %s bytes\\n' 2>/dev/null | head -20`; output was empty.
+[CONCLUSION] No matching hostlist-named or `.txt` files were found within `/opt/zapret2` at max depth 2 by this probe. This does not yet prove that the active `<HOSTLIST>` / `<HOSTLIST_NOAUTO>` placeholders resolve to no data, because the actual paths may be generated elsewhere or represented under different filenames/deeper directories.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Perform one read-only diagnostic to identify how the active configuration resolves `<HOSTLIST>` and `<HOSTLIST_NOAUTO>`, without changing configuration.
