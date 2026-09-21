@@ -2250,3 +2250,8 @@ SYNC 2026-09-21: Effective dnsmasq DNS configuration verified.
 [FACT] Therefore dnsmasq is explicitly forwarding DNS to TP-Link 192.168.0.1 rather than using any local https-dns-proxy listener. The earlier resolv.conf.auto result also showed TP-Link 192.168.0.1 as the WAN DNS upstream.
 [STATUS] The OpenWrt DNS path is now factually bounded as LAN clients → MikroTik dnsmasq → TP-Link 192.168.0.1. No configuration change was made in this step.
 [NEXT] Verify one client DNS query through MikroTik (and, if needed, one direct router-side lookup) before marking the DNS stage DONE.
+
+SYNC 2026-09-21: DNS functional verification completed.
+[RESULT] `nslookup example.com 192.168.1.1` succeeded through the MikroTik LAN DNS listener and returned IPv4 addresses `8.47.69.6`, `8.6.112.6` plus IPv6 addresses `2a06:98c1:3122:8000::1` and `2a06:98c1:3123:8000::1`.
+[FACT] LAN clients can resolve DNS via MikroTik 192.168.1.1. Combined with the verified dnsmasq configuration, the effective path is LAN client → MikroTik dnsmasq → TP-Link 192.168.0.1. The exact upstream resolver selected by TP-Link for each query is not packet-capture verified here; TP-Link WAN status previously showed configured DNS 37.230.192.51 and 193.233.112.88.
+[STATUS] DNS stage functional verification: DONE for the current architecture. https-dns-proxy remains inactive and not enabled at boot; package retained as reserve.
