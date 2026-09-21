@@ -47,4 +47,9 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [FACTUAL RESULT] Read-only directory listing shows `/opt/zapret2` is present with binaries, config, nfq2, ipset, and `init.d`. Under `/opt/zapret2/init.d` there is no `sysv` directory; available directories are `custom.d.examples.linux` and `openwrt`.
 [CONCLUSION] The earlier `init.d/sysv/zapret2` path was incorrect for the currently deployed Zapret2 tree. Zapret2 itself is present; no deletion is indicated by this result.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
-[NEXT] Inspect the OpenWrt init directory contents with one read-only command before attempting a start.
+
+## CHANGELOG — 2026-09-21 — OpenWrt Zapret2 init script found
+[FACTUAL RESULT] Read-only listing of `/opt/zapret2/init.d/openwrt` shows executable `zapret2` (2987 bytes), plus `90-zapret2`, `firewall.zapret2`, `functions`, and `custom.d`.
+[CONCLUSION] The correct executable init script in the current deployment is `/opt/zapret2/init.d/openwrt/zapret2`.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Use the confirmed OpenWrt init script for the start attempt.
