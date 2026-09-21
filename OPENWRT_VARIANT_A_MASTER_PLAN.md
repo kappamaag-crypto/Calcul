@@ -2260,3 +2260,7 @@ SYNC 2026-09-21: Stage order correction after DNS completion.
 [CORRECTION] The next stage is NOT selective routing/PBR. User explicitly confirmed that the next priority is to resume Zapret2/NFQWS2, launch it under controlled conditions, and test it.
 [PLAN] Zapret2 validation must include general HTTPS/web testing and a separate Telegram functional test. Telegram is a required part of the Zapret validation scope and was previously BLOCKED pending stable Zapret2/memory diagnosis.
 [SAFETY] Before restarting Zapret2, first perform a read-only runtime/status check and record the current state. Do not start Zapret2 in this same synchronization step.
+
+SYNC 2026-09-21: Post-power-loss reboot audit requested.
+[REQUEST] User rebooted the MikroTik hAP ac lite after a power outage and wants a structured post-boot audit: system state, running services, autostart/boot behavior, network, storage/extroot, swap, DNS, and Zapret2 state before resuming configuration.
+[WORKFLOW] Perform the audit read-only and in controlled single-command steps. Record each observed result before issuing the next command. Do not restart or alter services during the audit.
