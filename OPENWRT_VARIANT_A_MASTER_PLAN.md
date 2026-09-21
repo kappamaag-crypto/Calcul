@@ -72,3 +72,11 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [TEST POLICY] First run the interactive blockcheck2 flow and allow its DNS/reachability checks. Use the currently failing services as test domains. Do not enable aggressive parallel testing. Save the generated log and exact successful strategy parameters. If a multi-domain COMMON/COVERAGE comparison is required, rerun with `SCANLEVEL=force`.
 [TRANSFER GATE] No router-side strategy is changed until a candidate result is recorded, reviewed against the existing v1.0.3 nfqws2 configuration, and then transferred as a single controlled change with rollback and resource checks.
 [STATUS] STAGE 11 — IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-21 — [SYNC] force scan stopped / faster re-scan decision
+- [OBSERVED] Windows official `blockcheck2` remained for hours in the `youtube.com` IPv4 HTTPS TLS 1.2 force scan and produced multiple `AVAILABLE` candidates plus many `UNAVAILABLE code=28` results.
+- [DECISION] Do not continue the current exhaustive force scan indefinitely. The user may stop it with Ctrl+C; this does not alter the router-side Zapret2 configuration.
+- [NEXT] For the next Windows pass, use a shorter scan level rather than `force`. Prefer `standard` as the balanced official investigation mode; `quick` is reserved for the fastest first-working candidate and is less suitable for comparing multiple candidate strategies. Keep router-side Zapret2 v1.0.3 unchanged until cross-domain evidence is obtained.
+- [SAFETY] Before the next actual scan, the Windows PC must bypass the MikroTik's active nfqws2 path and connect directly to the TP-Link Archer C20 v4, so the current router-side Zapret2 does not contaminate strategy discovery.
+- [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery).
