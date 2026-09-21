@@ -33,7 +33,6 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — reboot requested to verify https-dns-proxy disabled state
-[FACTUAL RESULT] The user confirmed the empty boot-link check and explicitly requested a reboot to test whether https-dns-proxy starts automatically.
-[PLAN] Reboot is authorized as a non-destructive service-startup verification. After reboot, the first check will verify the service process/status and boot-link state before any further configuration changes.
-[STATUS] https-dns-proxy runtime/boot removal path — IN_PROGRESS pending post-reboot verification.
+## CHANGELOG — 2026-09-21 — reboot completed for https-dns-proxy startup verification
+[FACTUAL RESULT] The user reported that the reboot completed successfully and they are back in the console.
+[STATUS] https-dns-proxy runtime/boot removal path — IN_PROGRESS pending direct post-reboot process/status verification.
