@@ -33,7 +33,7 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — expanded post-reboot Zapret2 validation scope
-[FACTUAL RESULT] The user requested to resume Zapret2 testing after reboot and explicitly expand application validation beyond Telegram to include WhatsApp and other relevant services.
-[PLAN] Re-validation must cover Telegram, WhatsApp, and a broader representative set of services, while preserving one-command-at-a-time execution and memory/OOM safety.
+## CHANGELOG — 2026-09-21 — nfqws2 absent after reboot
+[FACTUAL RESULT] The user executed `pgrep -a nfqws2`; the output was empty.
+[CONCLUSION] No nfqws2 process is running after reboot.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
