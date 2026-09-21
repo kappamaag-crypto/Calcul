@@ -57,4 +57,9 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [FACTUAL RESULT] The user executed `/opt/zapret2/init.d/openwrt/zapret2 start`. The command started `/opt/zapret2/nfq2/nfqws2` with qnum 300, TCP ports 80/443, UDP 443, and the configured autohostlist desync rules. Output reports successful nftables application, creation/reload of the nftables set backend, population of zapret/ipban/nozapret sets, insertion of IPv4 NFQWS postrouting/prerouting rules for TCP/UDP, and `net.netfilter.nf_conntrack_tcp_be_liberal = 1`. The command returned to the shell without an error.
 [CONCLUSION] Zapret2/NFQWS2 start procedure completed successfully after reboot. This establishes successful startup/configuration application, but does not yet establish stable runtime, absence of OOM recurrence, or application-level service functionality.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
-[NEXT] Verify the running nfqws2 process with a small read-only command before any functional network tests.
+
+## CHANGELOG — 2026-09-21 — nfqws2 remains running
+[FACTUAL RESULT] The user executed `pgrep -a nfqws2`; output was `3578 /opt/zapret2/nfq2/nfqws2`.
+[CONCLUSION] The nfqws2 process started by Zapret2 is still running at the verification point after startup.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Proceed to a minimal router-side HTTPS baseline test while nfqws2 is running.
