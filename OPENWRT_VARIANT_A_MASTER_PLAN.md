@@ -2157,3 +2157,12 @@ SYNC 2026-09-21: sysfs slab counter result —
 [NEXT] If the user says Продолжай, select one minimal read-only sysfs inspection for additional per-cache size/object metadata, without grep/logread pipelines.
 
 SYNC 2026-09-21: User said "Продолжай" after sysfs slab counter result. [NEXT] Perform exactly one minimal read-only inspection of available sysfs slab-cache metadata to determine whether per-cache object size/total-object fields are exposed. Use a direct shell loop over /sys/kernel/slab/* reading only object_size, objs_per_slab, and objects, with stderr suppressed, without grep/logread pipelines. No Zapret2 restart, Telegram rule change, file relocation, or destructive storage operation.
+SYNC 2026-09-21: User supplied the complete output of the read-only sysfs slab metadata loop (object_size, objs_per_slab, objects).
+[PASS] The command completed and returned object_size and objs_per_slab for the exposed slab caches; the objects field remained empty throughout the supplied output.
+[CONFIRMED] Per-cache object size metadata is available, but total allocated-object counts are not exposed through the objects file on this build/output. Therefore a reliable per-cache byte-footprint calculation still cannot be made from this result alone.
+[CONFIRMED] Examples from the supplied output include kmalloc-128 object_size=128 with objs_per_slab=32; kmalloc-4k object_size=4096 with objs_per_slab=8; TCP object_size=1792 with objs_per_slab=17; UDP object_size=776 with objs_per_slab=10; nf_conntrack object_size=200 with objs_per_slab=18.
+[IMPORTANT] objs_per_slab describes capacity per slab, not the number of allocated objects, so it must not be mistaken for current memory consumption.
+[INTERPRETATION] This result does not identify the cause of the prior 7.5 MiB SUnreclaim or the two confirmed OOM events. No evidence supports moving files to USB, changing Telegram rules, or restarting Zapret2 based on this result.
+[STATUS] STAGE 11 remains DONE. Telegram-specific troubleshooting remains BLOCKED pending stable Zapret2/memory diagnosis.
+[WORKFLOW] No router configuration, service, filesystem, or storage state was changed by this read-only command.
+[NEXT] If the user says Продолжай, choose one minimal read-only method that can expose actual per-cache slab counts/bytes on this kernel, if available; otherwise document the interface limitation and stop this diagnostic branch.
