@@ -33,10 +33,11 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Избегать больших `logread | grep` pipelines из-за ранее подтверждённых OOM.
 Для swap использовать `swapon -s`; `swapon --show` на этом BusyBox не поддерживается.
 
-## CHANGELOG — 2026-09-21 — https-dns-proxy removal decision pending
-[USER DECISION] User states that neither two nor one `https-dns-proxy` instances are needed and asks to consider stopping/removing the DoH proxy layer before Zapret2 re-validation.
-[CURRENT FACT] dnsmasq currently depends on local listeners 127.0.0.1:5053 and 127.0.0.1:5054, so simply stopping `https-dns-proxy` without first changing dnsmasq would leave its configured upstream listeners unavailable.
-[IMPORTANT] Therefore the safe sequence is: first define/verify the replacement DNS path, then change dnsmasq, verify DNS resolution, and only after successful verification stop/disable the two `https-dns-proxy` instances.
-[PROPOSED REPLACEMENT] The already observed WAN resolver path is 192.168.0.1 (TP-Link Archer C20), and the existing `doh_backup_server` is also 192.168.0.1. This is a candidate replacement path, but it must be explicitly confirmed before configuration changes.
-[SAFETY] No service or configuration has been changed yet. Zapret2 remains paused until the DNS architecture is settled and tested.
+## CHANGELOG — 2026-09-21 — DNS replacement path verified at configuration/routing level
+[FACTUAL RESULT] Read-only audit showed `/tmp/resolv.conf.d/resolv.conf.auto` contains `nameserver 192.168.0.1` twice for WAN.
+[FACTUAL RESULT] Current dnsmasq still has `noresolv=1` and explicitly configured upstream listeners `127.0.0.1#5053` and `127.0.0.1#5054`; `doh_server` points to the same two local listeners.
+[FACTUAL RESULT] Current `doh_backup_server` is `192.168.0.1`.
+[FACTUAL RESULT] Routing table has default route `via 192.168.0.1 dev phy0-sta0`, with WAN source `192.168.0.55`.
+[CONCLUSION FOR WORKFLOW] `192.168.0.1` is confirmed as the WAN DNS resolver advertised to the MikroTik and as the default gateway. Direct DNS query success to `192.168.0.1` has not yet been tested.
+[SAFETY] No configuration or service was changed by this audit.
 [STATUS] https-dns-proxy removal decision — IN_PROGRESS.
