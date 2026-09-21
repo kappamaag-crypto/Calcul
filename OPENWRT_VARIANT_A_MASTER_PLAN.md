@@ -117,3 +117,15 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [CONFIRMED] Two separate https-dns-proxy processes are currently running: Cloudflare DoH on local port 5053 and Google DoH on local port 5054.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Inspect `/etc/config/https-dns-proxy` read-only to determine the package's actual UCI configuration and how those two instances are defined.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 12
+[RESULT] User supplied two read-only configuration outputs.
+[CONFIRMED] Effective dnsmasq configuration has `noresolv='1'` and explicitly lists local DoH endpoints `127.0.0.1#5053` and `127.0.0.1#5054`. It also contains canary exclusions and a configured backup DNS `192.168.0.1` through `doh_backup_server`.
+[CONFIRMED] dnsmasq also has `doh_server='127.0.0.1#5053' '127.0.0.1#5054'`.
+[CONFIRMED] `/etc/config/https-dns-proxy` contains main section `config main 'config'` with `dnsmasq_config_update '*'`, `force_dns='1'`, LAN force-DNS ports 53/853, `notrack_dns='1'`, and listen address 127.0.0.1.
+[CONFIRMED] Two explicit `https-dns-proxy` instance sections exist: Cloudflare DoH on port 5053 with bootstrap DNS 1.1.1.1/1.0.0.1 plus IPv6; Google DoH on port 5054 with bootstrap DNS 8.8.8.8/8.8.4.4 plus IPv6.
+[CONCLUSION] The two running processes are intentionally defined by the package configuration and are actively referenced by dnsmasq. Therefore the earlier assumption that https-dns-proxy was unused is no longer correct for the current configuration.
+[IMPORTANT] This configuration also explains why the service automatically returns after reboot: it is configured and enabled, and its instances are integrated with dnsmasq/force-DNS behavior. Whether to disable it remains a deliberate architecture decision because doing so requires restoring the intended direct-upstream DNS path first.
+[NO CHANGE] The commands were read-only; no service or configuration state was changed.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Before changing DNS or stopping the proxy, perform one read-only inspection of the https-dns-proxy init script's enable/config handling to determine the supported disable mechanism; do not modify anything yet.
