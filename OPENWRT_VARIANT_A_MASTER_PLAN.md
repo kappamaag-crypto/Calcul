@@ -2155,3 +2155,5 @@ SYNC 2026-09-21: sysfs slab counter result —
 [INTERPRETATION] No individual cache can be identified as the cause of the prior OOM from this result. The previous meminfo finding remains unchanged: SUnreclaim is notable, but its cause is not established.
 [STATUS] STAGE 11 remains DONE. Telegram-specific troubleshooting remains BLOCKED pending stable Zapret2/memory diagnosis. No Zapret2 restart, Telegram rule change, file relocation, or destructive storage operation occurred.
 [NEXT] If the user says Продолжай, select one minimal read-only sysfs inspection for additional per-cache size/object metadata, without grep/logread pipelines.
+
+SYNC 2026-09-21: User said "Продолжай" after sysfs slab counter result. [NEXT] Perform exactly one minimal read-only inspection of available sysfs slab-cache metadata to determine whether per-cache object size/total-object fields are exposed. Use a direct shell loop over /sys/kernel/slab/* reading only object_size, objs_per_slab, and objects, with stderr suppressed, without grep/logread pipelines. No Zapret2 restart, Telegram rule change, file relocation, or destructive storage operation.
