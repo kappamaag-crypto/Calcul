@@ -57,3 +57,13 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] The command was read-only; no service, configuration, network, or filesystem state changed.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Perform one read-only targeted status check of the currently running key services, starting with `https-dns-proxy`, `pbr`, `dnsmasq`, `network`, `firewall`, `wpad`, and `zram`; do not start/stop/restart anything during the audit.
+
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 6
+[RESULT] User supplied output for the combined init-script status command. The terminal output shown is only `running`.
+[IMPORTANT] The command line displayed by the terminal wraps `/etc/init.d/network status` across the visual line break, but the supplied result contains only one visible status line. Therefore the result cannot be safely attributed to all seven services individually.
+[CONFIRMED] At least one of the queried init scripts returned `running`.
+[NOT CONFIRMED] Individual runtime states of https-dns-proxy, pbr, dnsmasq, network, firewall, wpad, and zram are not established from this combined output; no assumption is made from missing output.
+[NO CHANGE] The status command was read-only; no service was started, stopped, or restarted.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Use one targeted read-only command for the important discrepancy: inspect the actual https-dns-proxy boot link and process/service state separately, without changing it. This will resolve whether the enabled S20 link actually corresponds to an active service after reboot.
