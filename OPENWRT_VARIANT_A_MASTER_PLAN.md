@@ -168,3 +168,10 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [CONCLUSION] This result only establishes that `/sbin/apk` is not an executable path on the current system. It does not establish that the `apk` package manager is absent; the project state already identifies `apk` as the package manager and a prior shell environment used `apk` successfully. No package was installed and no service/configuration was changed.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] Determine the actual `apk` executable path with one read-only command before retrying the curl availability check.
+
+
+## CHANGELOG — 2026-09-21 — apk executable path confirmed
+[FACTUAL RESULT] The user executed `command -v apk`; output is `/usr/bin/apk`.
+[CONCLUSION] The active package manager executable is `/usr/bin/apk`. The previous `/sbin/apk` failure was only a path error. No package was installed and no service/configuration was changed.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Retry the read-only curl package search using the confirmed `/usr/bin/apk` path.
