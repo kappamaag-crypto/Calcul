@@ -2139,3 +2139,6 @@ SYNC 2026-09-21: Read-only slab inspection `cat /proc/slabinfo` FAILED because `
 
 
 SYNC 2026-09-21: User said "Продолжай" after `/proc/slabinfo` was unavailable. [CONFIRMED] No router state changed. [NEXT] Use one read-only command to inspect `/sys/kernel/slab` availability and count/list only its entries, avoiding grep/logread pipelines. This checks whether the kernel exposes slab-cache data through sysfs. No Zapret2 restart, no Telegram rule changes, no file relocation.
+
+
+SYNC 2026-09-21: Read-only `/sys/kernel/slab` inspection PASS. [CONFIRMED] The kernel exposes the sysfs slab-cache interface; the directory contains 143 entries including kmalloc caches, network/socket caches, nf_conntrack, skbuff caches, TCP/UDP caches, ext4/jbd2 caches, and other kernel objects. [IMPORTANT] This means a per-cache slab breakdown is available through sysfs despite `/proc/slabinfo` being absent. [STATUS] Telegram-specific troubleshooting remains BLOCKED pending stable Zapret2 recovery; STAGE 11 general validation remains DONE. No Zapret2 restart, Telegram rule change, file relocation, or other state-changing operation was performed by this inspection. [WORKFLOW] Current result is recorded before any next router command is issued.
