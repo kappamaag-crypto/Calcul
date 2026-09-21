@@ -119,3 +119,57 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [NEXT TEST] Continue with one controlled YouTube IPv4 TLS1.2 standard run, but preserve a log. Do not change router configuration.
 - [SAFETY] No router command is issued in this synchronization step. The Windows candidate-discovery workflow remains separate from router deployment.
 - [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery / candidate review).
+
+
+## CHANGELOG — 2026-09-21 — [SYNC] YouTube IPv4 TLS1.2 standard scan: candidate inventory fixed
+- [SOURCE] Windows official `blockcheck2` log: `blockcheck2-youtube-tls12-standard.log`.
+- [TEST CONTEXT] Domain `youtube.com`; IPv4; HTTP=Y; TLS1.2=Y; TLS1.3=N; QUIC=N; repeats=1; scan level=standard. Direct HTTP was AVAILABLE; direct HTTPS TLS1.2 timed out with `code=28`. No router-side Zapret2 change was made.
+- [IMPORTANT] The scan was stopped after >20 minutes. Therefore this is a bounded candidate inventory, not an exhaustive force scan and not a final common strategy.
+- [INVENTORY] Exactly 22 distinct strategies in the log returned `AVAILABLE` for the YouTube IPv4 TLS1.2 test. They are grouped below by mechanism.
+
+### A. MULTIDISORDER — primary candidate family (5)
+1. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=host+1`
+2. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=midsld`
+3. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=1,midsld`
+4. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=1,midsld,1220`
+5. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=1,sniext+1,host+1,midsld-2,midsld,midsld+2,endhost-1`
+- [ASSESSMENT] These are the cleanest initial candidates for controlled follow-up because they do not include the more complex seqovl/IP-TTL/TCP-header modifications.
+- [NOT YET VERIFIED] Reproducibility, cross-domain coverage, and compatibility with router Zapret2 v1.0.3.
+
+### B. SEQOVL + MULTISPLIT/MULTIDISORDER (5)
+6. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multisplit:pos=10,midsld:seqovl=1`
+7. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=midsld:seqovl=midsld-1`
+8. `--lua-init=fake_default_tls=tls_mod(fake_default_tls,'rnd') --lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=midsld:seqovl=midsld-1:seqovl_pattern=fake_default_tls`
+9. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=2,midsld:seqovl=1`
+10. `--lua-init=fake_default_tls=tls_mod(fake_default_tls,'rnd') --lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=2,midsld:seqovl=1:seqovl_pattern=fake_default_tls`
+- [ASSESSMENT] Reserve candidates. More complex than group A and therefore require separate compatibility/reproducibility testing.
+- [NOT YET VERIFIED] Router v1.0.3 transfer safety or cross-domain behavior.
+
+### C. FAKE + TCP/IP header modification (8)
+11. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_ttl=6:tls_mod=rnd,dupsid,padencap:repeats=1`
+12. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_md5:tls_mod=rnd,dupsid,padencap:repeats=1`
+13. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_md5:tls_mod=rnd,dupsid,padencap:repeats=1 --payload=empty --out-range=<s1 --lua-desync=send:tcp_md5`
+14. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:badsum:tls_mod=rnd,dupsid,padencap:repeats=1`
+15. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_ack=-66000:tcp_ts_up:tls_mod=rnd,dupsid,padencap:repeats=1`
+16. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_ts=-1000:tls_mod=rnd,dupsid,padencap:repeats=1`
+17. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_flags_unset=ACK:tls_mod=rnd,dupsid,padencap:repeats=1`
+18. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_flags_set=SYN:tls_mod=rnd,dupsid,padencap:repeats=1`
+- [ASSESSMENT] Reserve/specialized candidates. They alter TCP/IP header characteristics and should not be copied to the router without a dedicated compatibility test.
+
+### D. FAKE + automatic TTL (4)
+19. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-1,3-20:tls_mod=rnd,dupsid,padencap:repeats=1`
+20. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-2,3-20:tls_mod=rnd,dupsid,padencap:repeats=1`
+21. `--lua-desync=wssize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-3,3-20:tls_mod=rnd,dupsid,padencap:repeats=1`
+22. `--lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-4,3-20:tls_mod=rnd,dupsid,padencap:repeats=1 --payload=empty --out-range=s1<d1 --lua-desync=pktmod:ip_ttl=1`
+- [CORRECTION] The log contains successful autottl candidates, so manual autottl cannot be dismissed as ineffective. At the same time, this does not establish that autottl is required for the router.
+- [NOTE] Candidate 21 is recorded exactly as present in the extracted log only if the preceding `wssize:wsize=1:scale=6` text is confirmed; do not transfer it until the exact source line is rechecked. The other autottl candidates have the full `wssize:wsize=1:scale=6` prefix.
+
+### Candidate handling / transfer gate
+- [DISCOVERY ONLY] All 22 entries are Windows `winws2` results for one domain/IP version/protocol and remain discovery candidates.
+- [PRIMARY FOLLOW-UP] Start with group A, preferably candidates 1–3, because they are comparatively simple and avoid seqovl/header/TTL modifications.
+- [SECONDARY] Group B only if group A is not reproducible or insufficient.
+- [SPECIALIZED] Groups C/D are not to be transferred directly; require explicit compatibility review.
+- [VERSION GATE] Windows bundle version is not assumed identical to router-pinned Zapret2 v1.0.3. Router transfer requires syntax/runtime compatibility review against v1.0.3.
+- [NO ROUTER CHANGE] Current router-side `NFQWS2_OPT` remains unchanged.
+- [NEXT] Perform a short controlled repeat test of 2–3 group-A candidates on Windows, preferably with an explicit log, before considering any router-side change.
+- [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery / candidate review).
