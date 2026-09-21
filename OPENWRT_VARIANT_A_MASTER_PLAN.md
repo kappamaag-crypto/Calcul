@@ -121,3 +121,10 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [TELEGRAM SCOPE] Zapret2 is a DPI circumvention framework; it does not guarantee that every Telegram function will work. TCP/TLS web traffic and UDP/QUIC traffic can be targeted by configured nfqws2 profiles, but actual Telegram media/calls behavior depends on the Telegram transport, ports, DPI behavior, hostlists, and working strategy. No Telegram-specific success is currently established on this router.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] Perform a read-only inspection of the actual `/opt/zapret2/ipset` directory and relevant file sizes before considering automatic strategy testing.
+
+
+## CHANGELOG — 2026-09-21 — synchronization before next diagnostic
+[SYNC] This assistant response records the current factual state before issuing the next router diagnostic. No router configuration, service, firewall, hostlist, or strategy was changed by this synchronization.
+[VERIFICATION] Official zapret2 `common/list.sh` confirms that `HOSTLIST_BASE` defaults to `$ZAPRET_BASE/ipset`; `HOSTLIST_AUTO` is `$HOSTLIST_BASE/zapret-hosts-auto.txt`; and `<HOSTLIST>` / `<HOSTLIST_NOAUTO>` are expanded differently under `MODE_FILTER=autohostlist`. citeturn0view0
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] After this synchronization, issue exactly one read-only command to list files directly in `/opt/zapret2/ipset`.
