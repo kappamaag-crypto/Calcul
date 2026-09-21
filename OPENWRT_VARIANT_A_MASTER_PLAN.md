@@ -17,7 +17,7 @@ STAGE 4 — DONE
 STAGE 5 — DONE
 STAGE 6 — IN_PROGRESS
 STAGE 7–10 — see detailed status below
-STAGE 11 — IN_PROGRESS
+STAGE 11 — DONE
 STAGE 12–30 — NOT_STARTED
 
 ## STAGE 4 — Clean base verification
@@ -2085,3 +2085,5 @@ SYNC 2026-09-21: Assistant response to user "Продолжай". [NEXT] Continu
 
 
 SYNC 2026-09-21: Client-side functional Internet validation PASS in current autohostlist mode. User reported that both `https://example.com` and `https://www.google.com` open successfully from a client connected to the MikroTik Wi-Fi. [CONFIRMED] Client Internet access is operational for these control sites with Zapret2/NFQWS2 running in `MODE_FILTER=autohostlist`. This completes the planned client-side validation for the current Zapret2 configuration. YouTube had also previously opened, but the two explicit HTTPS control sites are the required confirmation. [STATUS] STAGE 11 remains IN_PROGRESS pending the remaining planned Stage 11 criteria/documentation; no router configuration change occurred from this user result. [WORKFLOW] Record this factual result before issuing any subsequent router command.
+
+SYNC 2026-09-21: STAGE 11 functional validation completed. [CONFIRMED] Zapret2/NFQWS2 is running in `MODE_FILTER=autohostlist`; router-side HTTPS to `example.com` passes; client-side HTTPS to `example.com` and `www.google.com` passes from MikroTik Wi-Fi; YouTube also previously passed. [DECISION] No further Zapret2 connectivity diagnostics are required at this point. [STATUS] STAGE 11 is now functionally complete and is marked DONE. [NEXT] Continue with the next unresolved planned component, STAGE 10 (DoH), while preserving the currently working DNS path until a separate, controlled DoH test is prepared. No router configuration change occurred in this synchronization.
