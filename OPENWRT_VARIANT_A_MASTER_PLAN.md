@@ -67,4 +67,9 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [FACTUAL RESULT] The user executed `wget -O /dev/null -T 10 https://example.com` while nfqws2 was running. Connection to `8.6.112.6:443` completed successfully and 559 bytes were downloaded.
 [CONCLUSION] Basic router-side HTTPS connectivity remains functional with the current Zapret2 configuration. This does not yet establish application-level functionality for Telegram, WhatsApp, or other client applications.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
-[NEXT] Validate client-side web connectivity for representative services, then application-level Telegram and WhatsApp behavior.
+
+## CHANGELOG — 2026-09-21 — Client service validation after Zapret2 restart
+[FACTUAL RESULT] User reports: Google works; YouTube does not work; Telegram does not work; WhatsApp does not work.
+[CONCLUSION] Current autohostlist Zapret2 configuration passes basic router-side HTTPS and Google client access, but client-side YouTube, Telegram, and WhatsApp are not working. Application-level validation therefore remains FAILED for those services under the current configuration; STAGE 11 remains IN_PROGRESS because diagnosis/strategy validation is incomplete.
+[USER NOTE] User recalls that an automatic strategy-selection/autodetection mechanism had previously been launched. This recollection is recorded as a hypothesis/previous workflow reference, not yet as a verified current runtime state.
+[NEXT] Inspect the deployed Zapret2 configuration for the current MODE_FILTER/autohostlist/strategy-selection settings with a read-only command before changing any rules.
