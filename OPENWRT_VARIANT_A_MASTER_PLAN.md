@@ -140,3 +140,15 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [NO CHANGE] Inspection was read-only; no service or configuration state changed.
 [STATUS] Post-reboot audit remains IN_PROGRESS.
 [NEXT] Inspect the remaining relevant part of the init script for the `start_service`/Procd logic and any boot/config enable conditions with one read-only targeted command; do not modify anything yet.
+
+## CHANGELOG — 2026-09-21 — post-reboot audit step 14
+[RESULT] Read-only grep of `/etc/init.d/https-dns-proxy` located the service startup/configuration logic.
+[CONFIRMED] `start_service()` loads package config and runs `config_foreach start_instance "$packageName" "$param"`, so every `config https-dns-proxy` section becomes a Procd-managed instance.
+[CONFIRMED] `start_instance()` reads each section's `resolver_url` and `listen_port`, then calls `procd_open_instance`, sets the command, and enables `procd_set_param respawn`.
+[CONFIRMED] With `dnsmasq_config_update='*'`, the script loads the DHCP config and appends each proxy listener to all dnsmasq instances; it also updates forced-DNS ports.
+[CONFIRMED] The script has config-change and interface triggers that can reload/restart the service, so Procd/triggers explain automatic lifecycle management.
+[IMPORTANT] No generic UCI `enabled` option is shown in the located startup logic. The earlier proposed `uci set https-dns-proxy.config.enabled='0'` remains unverified and must not be used.
+[IMPORTANT] The current two-instance behavior is now fully explained by the two `config https-dns-proxy` sections plus `config_foreach`; they are intentionally supervised by Procd with respawn.
+[NO CHANGE] The command was read-only; no service/configuration state changed.
+[STATUS] Post-reboot audit remains IN_PROGRESS.
+[NEXT] Inspect the exact `start_service()` and `start_instance()` code block around lines 285–405 with one read-only command, to document the lifecycle precisely before any change.
