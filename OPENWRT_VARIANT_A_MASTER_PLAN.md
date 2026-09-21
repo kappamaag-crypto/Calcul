@@ -184,3 +184,11 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [PROJECT DECISION] Given the current 64 MB-class hAP ac lite, active nfqws2, missing curl, and post-reboot validation stage, do not run blockcheck2 on the router at this point. A computer-based blockcheck2 run is a safer candidate workflow, but compatibility of its resulting strategy with this exact OpenWrt deployment must still be validated before applying it.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] The previously requested `apk search curl` result has not yet been supplied. Continue with the package-availability check only if needed; do not install curl or stop nfqws2 yet.
+
+
+## CHANGELOG — 2026-09-21 — curl package available in apk search
+[FACTUAL RESULT] The user executed `/usr/bin/apk search curl 2>&1 | head -20`. The package index search returned `curl-8.21.0-r1` and related curl/libcurl packages, including `libcurl4-8.21.0-r1`.
+[CONCLUSION] A `curl` package is visible to the current apk search, so the missing-curl prerequisite for blockcheck2 is potentially satisfiable from the configured package sources. This result does not establish that installation is currently safe or that the package database/repositories are fully healthy; it only establishes that `curl-8.21.0-r1` is discoverable by `apk search`.
+[SAFETY] No package was installed. `nfqws2` was not stopped. blockcheck2 was not run.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Before any installation or service change, verify the exact installed/package-manager state and available flash/RAM margin with one compact read-only diagnostic; do not install curl yet.
