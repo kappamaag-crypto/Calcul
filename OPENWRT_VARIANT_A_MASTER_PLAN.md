@@ -128,3 +128,14 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [VERIFICATION] Official zapret2 `common/list.sh` confirms that `HOSTLIST_BASE` defaults to `$ZAPRET_BASE/ipset`; `HOSTLIST_AUTO` is `$HOSTLIST_BASE/zapret-hosts-auto.txt`; and `<HOSTLIST>` / `<HOSTLIST_NOAUTO>` are expanded differently under `MODE_FILTER=autohostlist`. citeturn0view0
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] After this synchronization, issue exactly one read-only command to list files directly in `/opt/zapret2/ipset`.
+
+
+## CHANGELOG — 2026-09-21 — /opt/zapret2/ipset is empty; blockcheck2 context verified
+[FACTUAL RESULT] The user executed the planned read-only command listing regular files directly under `/opt/zapret2/ipset`; output was empty.
+[CONCLUSION] The deployed `/opt/zapret2/ipset` directory currently contains no regular files at maxdepth 1. Therefore the expected `zapret-hosts-auto.txt` file is not currently present there as a regular file. This explains why the previous hostlist probe found nothing, but it does not by itself prove that the active placeholder expansion is invalid or that autohostlist cannot create the file at runtime.
+[USER INPUT] User supplied information that official zapret2 includes the `blockcheck2.sh` automatic strategy-selection utility for Linux and `blockcheck2.cmd` for Windows, and described its purpose as testing multiple DPI-bypass strategies and reporting working parameters.
+[WEB VERIFICATION] The official `bol-van/zapret2` repository currently contains `blockcheck2.sh` and the `blockcheck2.d` test framework. Official release notes also document changes to blockcheck2. citeturn0search0turn0search2
+[IMPORTANT] The user-described automatic strategy selection is therefore an official zapret2 component, unlike the previously mentioned separate `zapret2-nextgen-blockcheck` project. However, no blockcheck2 run has been performed on this router in the current stage, and no strategy change is authorized by this result.
+[SAFETY] Do not launch blockcheck2 yet: first verify its local presence/version and invocation requirements with one read-only command. Running the checker may generate traffic, consume CPU/RAM, and interact with nfqws2/firewall state; current STAGE 11 is still a post-reboot validation stage.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] First verify the deployed `blockcheck2.sh` file and its basic usage/version information using a read-only command; do not start the strategy scan yet.
