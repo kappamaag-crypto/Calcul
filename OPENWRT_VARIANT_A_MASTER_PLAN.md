@@ -89,3 +89,11 @@ The command did not display the contents of the multiline `NFQWS2_OPT` value bec
 [CONCLUSION] NFQWS2 is enabled; configured TCP ports are 80/443; configured UDP port is 443; MODE_FILTER is `autohostlist`; FLOWOFFLOAD is `donttouch`; INIT_APPLY_FW is `1`; DISABLE_IPV6 is `1`. The exact multiline desync strategy block remains not yet re-read by this command and therefore is not re-verified by this result.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
 [NEXT] Continue with a read-only inspection that captures the complete multiline `NFQWS2_OPT` block before any strategy change.
+
+## CHANGELOG — 2026-09-21 — compact diagnostic output rule
+[DOCUMENTATION CHANGE] Added a compact-output rule to MASTER PROMPT and GLOSSARY.
+[MASTER PROMPT] Diagnostic commands should return only data required for the current PASS/FAIL criterion; prefer targeted grep/awk/sed/head/tail/tr over large raw outputs.
+[GLOSSARY] Added the same rule as a named glossary concept.
+[SAFETY] This does not change one-step-at-a-time: independent diagnostics are not combined merely to reduce message count.
+[COMMITS] MASTER PROMPT: b707d537a392475ed1d81f1c2af36fab19320649; GLOSSARY: ce5c9aa0da52504c095ad6d097531d1dfb617c15.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
