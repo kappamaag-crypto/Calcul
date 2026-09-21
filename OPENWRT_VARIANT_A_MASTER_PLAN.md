@@ -89,3 +89,14 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [CORRECTION] Do not manually disable all Lua desync tests: zapret2 blockcheck2 is specifically testing nfqws2/winws2 strategies and its standard matrix legitimately contains Lua desync methods such as multisplit/fakedsplit/multidisorder.
 - [DECISION] For the faster next pass, stop the current scan if it remains stuck in the same long matrix; use a narrowly scoped test rather than force/large multi-domain scanning. Router-side Zapret2 v1.0.3 remains unchanged.
 - [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery).
+
+
+## CHANGELOG — 2026-09-21 — [SYNC] Windows Cygwin blockcheck2 quick multi-domain result
+- [ENVIRONMENT] Official Windows bundle was launched through Cygwin; `blockcheck2` detected CYGWIN_NT-10.0-26200 x86_64, Windivert, curl 8.10.1 with HTTP/2 and HTTP/3 support.
+- [TEST] Interactive custom scan: domains `youtube.com telegram.org whatsapp.com`; IPv4 only; HTTP=Y; TLS1.2=Y; TLS1.3=Y; HTTP3/QUIC=Y; repeats=1; scan level=quick.
+- [RESULT youtube.com] HTTP works without bypass. HTTPS TLS1.2: no working winws2 strategy found in quick scan. TLS1.3: no working winws2 strategy found in quick scan. HTTP3/QUIC: working strategy found: `winws2 --wf-l3=ipv4 --wf-udp-out=443 --payload quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=11`.
+- [RESULT telegram.org] HTTP/TLS1.2/TLS1.3/HTTP3 all reported no working winws2 strategy in quick scan. TCP port 80/443 to the tested IPv4 `149.154.167.99` did not connect, so these results require manual interpretation and must not be treated as proof of a TLS-only DPI block.
+- [RESULT whatsapp.com] HTTP/TLS1.2/TLS1.3/HTTP3 all reported no working winws2 strategy in quick scan. TCP port 80/443 to the tested IPv4 `157.240.0.60` did not connect, so these results require manual interpretation and must not be treated as proof of a TLS-only DPI block.
+- [COMMON/COVERAGE] Quick scan reported TLS1.2 and TLS1.3 as not working across all three domains; HTTP3 had 1/3 working (YouTube); HTTP had 1/3 working without bypass. The tool explicitly states quick mode can skip strategies, so COMMON/COVERAGE are not exhaustive/trustworthy for final strategy selection.
+- [TRANSFER GATE] No router-side strategy was changed. The YouTube QUIC candidate is recorded as a Windows candidate only; compatibility with router Zapret2 v1.0.3 and current NFQWS2 configuration must be reviewed before any transfer.
+- [STATUS] STAGE 11 — IN_PROGRESS (Windows strategy discovery / candidate review).
