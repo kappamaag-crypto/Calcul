@@ -62,4 +62,9 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [FACTUAL RESULT] The user executed `pgrep -a nfqws2`; output was `3578 /opt/zapret2/nfq2/nfqws2`.
 [CONCLUSION] The nfqws2 process started by Zapret2 is still running at the verification point after startup.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
-[NEXT] Proceed to a minimal router-side HTTPS baseline test while nfqws2 is running.
+
+## CHANGELOG — 2026-09-21 — Router-side HTTPS baseline passes with Zapret2
+[FACTUAL RESULT] The user executed `wget -O /dev/null -T 10 https://example.com` while nfqws2 was running. Connection to `8.6.112.6:443` completed successfully and 559 bytes were downloaded.
+[CONCLUSION] Basic router-side HTTPS connectivity remains functional with the current Zapret2 configuration. This does not yet establish application-level functionality for Telegram, WhatsApp, or other client applications.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Validate client-side web connectivity for representative services, then application-level Telegram and WhatsApp behavior.
