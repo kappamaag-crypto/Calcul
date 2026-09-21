@@ -52,4 +52,9 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 [FACTUAL RESULT] Read-only listing of `/opt/zapret2/init.d/openwrt` shows executable `zapret2` (2987 bytes), plus `90-zapret2`, `firewall.zapret2`, `functions`, and `custom.d`.
 [CONCLUSION] The correct executable init script in the current deployment is `/opt/zapret2/init.d/openwrt/zapret2`.
 [STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
-[NEXT] Use the confirmed OpenWrt init script for the start attempt.
+
+## CHANGELOG — 2026-09-21 — Zapret2 started successfully after reboot
+[FACTUAL RESULT] The user executed `/opt/zapret2/init.d/openwrt/zapret2 start`. The command started `/opt/zapret2/nfq2/nfqws2` with qnum 300, TCP ports 80/443, UDP 443, and the configured autohostlist desync rules. Output reports successful nftables application, creation/reload of the nftables set backend, population of zapret/ipban/nozapret sets, insertion of IPv4 NFQWS postrouting/prerouting rules for TCP/UDP, and `net.netfilter.nf_conntrack_tcp_be_liberal = 1`. The command returned to the shell without an error.
+[CONCLUSION] Zapret2/NFQWS2 start procedure completed successfully after reboot. This establishes successful startup/configuration application, but does not yet establish stable runtime, absence of OOM recurrence, or application-level service functionality.
+[STATUS] STAGE 11 — IN_PROGRESS (post-reboot Zapret2 re-validation).
+[NEXT] Verify the running nfqws2 process with a small read-only command before any functional network tests.
