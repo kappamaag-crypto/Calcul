@@ -1448,3 +1448,104 @@ DESTRUCTIVE
 Команда не считается EXECUTED только потому, что она существует в мастер-плане или была рекомендована ассистентом. Фактический вывод хранится отдельно от команды.
 
 Историческая команда не является разрешением на повторный запуск, особенно для sysupgrade, операций с разделами, mount/swapon, opkg/apk add, UCI-изменений, firewall/nftables и изменения Zapret2 config.
+
+
+---
+
+# Дополнение — команды из раннего Variant A workflow, отсутствовавшие в реестре
+
+## 63. USB partition / filesystem commands
+
+~~~text
+fdisk
+fdisk /dev/sda
+mkfs
+mkfs.ext4
+mkfs.ext4 /dev/sda1
+block info
+blkid
+mount
+umount
+~~~
+
+Эти команды относятся к историческому USB workflow. fdisk, mkfs и аналогичные операции являются state-changing/destructive и не должны выполняться повторно без отдельного safety gate.
+
+## 64. Destructive-operation command names recorded by the project
+
+~~~text
+fdisk
+mkfs
+dd
+sysupgrade
+rm -rf
+~~~
+
+Это перечень опасных команд, который был отдельно установлен в мастер-правилах проекта. Наличие в глоссарии не означает, что команда разрешена к выполнению.
+
+## 65. extroot / filesystem preparation utilities
+
+~~~text
+parted
+losetup
+resize2fs
+tar
+~~~
+
+Применялись/упоминались в historical extroot/expand-root workflow.
+
+## 66. Memory / ZRAM utilities
+
+~~~text
+zramctl
+swapon -s
+swapoff /dev/sda1
+~~~
+
+zramctl был указан как инструмент проверки ZRAM; фактическое состояние ZRAM также анализировалось через /sys и /proc.
+
+## 67. OpenWrt ImageBuilder / image verification command names
+
+~~~text
+sha256sum
+sysupgrade -n /tmp/firmware.bin
+~~~
+
+sysupgrade -n относится к clean-flash workflow и является destructive/state-changing операцией.
+
+## 68. Package/install command names recorded in the historical plan
+
+~~~text
+apk add
+apk add --simulate
+opkg update
+opkg install
+~~~
+
+Точные пакеты и параметры должны проверяться по текущему OpenWrt release и архитектуре перед повторным использованием.
+
+## 69. Historical technical objects often passed to commands
+
+~~~text
+/dev/sda
+/dev/sda1
+/dev/sda2
+/dev/sda3
+/overlay
+/mnt/data
+/mnt/extroot
+/tmp/extroot
+~~~
+
+Это объекты/пути, а не самостоятельные shell-команды.
+
+## 70. Complete-registry note
+
+По состоянию на эту ревизию глоссарий объединяет:
+- основной command registry;
+- дополнения из MASTER PLAN;
+- дополнения из MASTER PROMPT;
+- доступные восстановимые команды из раннего Variant A workflow;
+- Windows/Cygwin и blockcheck2;
+- все 22 зафиксированных TLS1.2 кандидата и отдельный QUIC кандидат.
+
+Гарантировать наличие команд из чатов, содержимое которых не представлено в доступной истории/файлах, невозможно; такие команды не выдумываются.
