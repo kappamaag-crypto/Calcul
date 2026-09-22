@@ -203,3 +203,13 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [FORCE] Do not start force for all three protocols in one run at this stage because the previous force run was excessively long. Use standard first; if needed, run focused force passes separately per protocol/domain.
 - [NO ROUTER CHANGE] Router Zapret2 v1.0.3 and current NFQWS2_OPT remain unchanged.
 - [STATUS] STAGE 11 IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-22 — [SYNC] YouTube standard matrix produced TLS1.2 candidate
+- [TEST] Windows official blockcheck2 standard matrix: youtube.com, IPv4, HTTP=N, TLS1.2=Y, TLS1.3=Y, QUIC=Y, repeats=1, parallel=N, scan=standard.
+- [RESULT SHOWN] The supplied output is from the TLS1.2 phase: direct HTTPS test returned `curl: (28) Connection timed out after 2008 milliseconds` / `UNAVAILABLE code=28`.
+- [NEW CANDIDATE] blockcheck2 returned `AVAILABLE` for:
+  `winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=0x00000000:ip_autottl=-5,3-20:repeats=1 --lua-desync=multidisorder:pos=midsld --payload=empty --out-range=s1<d1 --lua-desync=pktmod:ip_ttl=1`
+- [INTERPRETATION] This is discovery evidence for YouTube IPv4 TLS1.2 only. It is not yet proof of TLS1.3 or QUIC/HTTP3 coverage, and not yet proof of reproducibility or router v1.0.3 compatibility.
+- [STATUS] STAGE 11 — IN_PROGRESS. TLS1.2 discovery has produced another candidate. Await/record the remaining TLS1.3 and QUIC portions of the same matrix before selecting a combined strategy.
+- [NO ROUTER CHANGE] MikroTik router-side Zapret2 configuration remains unchanged.
