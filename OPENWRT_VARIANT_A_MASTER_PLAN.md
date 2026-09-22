@@ -249,3 +249,14 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - Verified inventory from the complete source: TLS1.2 = 425 AVAILABLE; TLS1.3 = 479 AVAILABLE; QUIC/HTTP3 = 2 AVAILABLE; exact TLS1.2+TLS1.3 intersection = 75 TCP commands.
 - No router configuration changed by this preservation operation.
 - STAGE 11 remains IN_PROGRESS.
+
+
+## 2026-09-22 — отбор 75 common TCP-кандидатов для роутерной проверки
+- Полный исходный лог повторно разобран локально: 38,037 строк; точное пересечение TLS1.2/TLS1.3 = 75 команд.
+- Семейства: hostfakesplit = 40; fake + multisplit = 26; fake = 8; multisplit + fakedsplit = 1.
+- Отбор делается по разнообразию механизмов и снижению количества почти идентичных вариантов, а не как утверждение об эффективности.
+- Предварительный набор TCP для hAP: №27, №32, №47, №52, №24, №25, №70, №73 из полного списка 75.
+- QUIC: оба найденных кандидата сохраняются для отдельной проверки.
+- Критерий TCP: кандидат должен подтверждаться на TLS1.2 и TLS1.3 на роутере; QUIC-кандидат — на HTTP3/QUIC. Затем проверяется совместимость с текущим zapret2 v1.0.3.
+- До подтверждения не заменять постоянный NFQWS2_OPT; сначала сохранить текущую конфигурацию.
+- STAGE 11 остаётся IN_PROGRESS.
