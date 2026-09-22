@@ -241,3 +241,11 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [RATIONALE] Selection is a test-order reduction based on lower complexity / distinct mechanism families, not a ranking of political or normative kind and not a claim that these are globally superior.
 - [NEXT TEST] Repeat each TCP candidate against TLS1.2 and TLS1.3; separately repeat QUIC candidates. Preserve log with `tee`. Do not modify router.
 - [STATUS] STAGE 11 — IN_PROGRESS.
+
+
+## 2026-09-22 — blockcheck2 full source preservation
+- Original `blockcheck2-youtube-tls12-standard(1).log` verified in conversation files: 3,997,096 bytes / 38,037 lines.
+- Complete source preserved on GitHub as 8 sequential parts; manifest: `BLOCKCHECK2_YOUTUBE_FULL_INVENTORY.md`.
+- Verified inventory from the complete source: TLS1.2 = 425 AVAILABLE; TLS1.3 = 479 AVAILABLE; QUIC/HTTP3 = 2 AVAILABLE; exact TLS1.2+TLS1.3 intersection = 75 TCP commands.
+- No router configuration changed by this preservation operation.
+- STAGE 11 remains IN_PROGRESS.
