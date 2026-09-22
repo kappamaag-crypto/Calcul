@@ -1,4 +1,4 @@
-# SOURCE PART 01/08
+# ORIGINAL LOG PART 01/08
 
 * checking system
 enabling tcp timestamps
