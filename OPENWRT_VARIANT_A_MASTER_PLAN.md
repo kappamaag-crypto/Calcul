@@ -268,3 +268,9 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - Команда копирования завершилась без ошибки.
 - Вывод grep показал только начало многострочного `NFQWS2_OPT="`; полный параметр пока не извлекался и конфигурация не изменялась.
 - STAGE 11: IN_PROGRESS.
+
+- Полный сохранённый текущий NFQWS2_OPT подтверждён:
+  - TCP 80: fake_default_http + tcp_md5 + multisplit pos=method+2.
+  - TCP 443: fake_default_tls + tcp_md5 + tcp_seq=-10000 + multidisorder pos=1,midsld.
+  - UDP 443: fake_default_quic repeats=6.
+- Резервная копия считается подтверждённой перед временными тестами.
