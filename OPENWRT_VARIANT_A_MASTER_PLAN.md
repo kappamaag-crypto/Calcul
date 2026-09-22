@@ -228,3 +228,16 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [IMPORTANT] AVAILABLE is discovery evidence, not final router proof. Reproducibility, compatibility with router-side Zapret2 v1.0.3, hostlist filtering, resource usage and client-side validation remain outstanding.
 - [NO ROUTER CHANGE] Router-side Zapret2 configuration and current NFQWS2_OPT remain unchanged.
 - [STATUS] STAGE 11 — IN_PROGRESS.
+
+
+## CHANGELOG — 2026-09-22 — [SYNC] 75 common TLS1.2+TLS1.3 candidates filtered for controlled repeat
+- [SOURCE] Full Windows blockcheck2 log `blockcheck2-youtube-tls12-standard(1).log`.
+- [INVENTORY] 425 AVAILABLE TLS1.2 candidates, 479 AVAILABLE TLS1.3 candidates, 2 AVAILABLE QUIC/HTTP3 candidates; exact TLS1.2∩TLS1.3 intersection = 75 TCP candidates.
+- [SELECTION] Before router transfer, use a small controlled reproducibility set rather than all 75. Primary TCP candidates selected from the common intersection:
+  1. `winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=hostfakesplit:disorder_after:ip_ttl=3:repeats=1`
+  2. `winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=hostfakesplit:ip_autottl=-1,3-20:repeats=1`
+  3. `winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_ts=-1000:repeats=1 --lua-desync=multisplit:pos=1,midsld`
+- [QUIC] Two discovery candidates are recorded separately; primary `fake_default_quic:repeats=1`, secondary adds UDP IP fragmentation/drop.
+- [RATIONALE] Selection is a test-order reduction based on lower complexity / distinct mechanism families, not a ranking of political or normative kind and not a claim that these are globally superior.
+- [NEXT TEST] Repeat each TCP candidate against TLS1.2 and TLS1.3; separately repeat QUIC candidates. Preserve log with `tee`. Do not modify router.
+- [STATUS] STAGE 11 — IN_PROGRESS.
