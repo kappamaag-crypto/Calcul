@@ -486,3 +486,533 @@
 
 ## Compact-output rule
 **Компактный диагностический вывод — минимальный достаточный вывод** — команда должна возвращать только поля/строки, необходимые для текущего критерия PASS/FAIL. Для больших источников использовать точечные `grep -E`, `awk`, `sed -n`, `head`, `tail`; полный `logread`, `cat /proc/meminfo`, `nft list ruleset` и `uci show` применять только когда полный вывод действительно нужен. Компактность не должна объединять независимые шаги и нарушать one-step-at-a-time.
+
+
+---
+
+# Полный реестр команд проекта — исторический
+
+> Этот раздел добавлен для сохранения фактически использовавшихся команд из рабочих чатов Variant A.
+> Команды приведены в том виде, в котором они зафиксированы в истории/рабочем контексте.
+> Команды, которые были только предложены как пример и не подтверждены фактическим выполнением, не должны интерпретироваться как подтверждённые действия.
+> Destructive-команды не являются разрешением на повторное выполнение.
+
+## 1. RouterOS / подготовка MikroTik до OpenWrt
+
+~~~text
+/export file=before-openwrt
+/system backup save name=before-openwrt
+/system resource print
+/system package print
+/system routerboard print
+/system routerboard upgrade
+/system reboot
+~~~
+
+## 2. OpenWrt: базовая идентификация системы
+
+~~~text
+ubus call system board
+cat /etc/openwrt_release
+uname -a
+uname -r
+uname -m
+cat /proc/cpuinfo
+free
+free -h
+df -h
+df -h /
+df -h /overlay
+df -h /mnt/data
+~~~
+
+## 3. OpenWrt: блочные устройства, USB и kernel-модули
+
+~~~text
+ls -l /dev/
+ls -l /dev/sda*
+cat /sys/class/block/sda/size
+dmesg | grep -i usb
+dmesg | grep -Ei 'usb|scsi|sd[a-z]'
+find /lib/modules/6.12.94 -type f | grep -E 'usb|ehci|scsi|ext4'
+lsblk
+blkid
+mount
+mount | grep -E '(/overlay|/mnt/data|/dev/sda[123])'
+~~~
+
+## 4. USB/extroot: исторические команды
+
+~~~text
+opkg update
+opkg install kmod-usb-storage block-mount kmod-fs-ext4
+mkdir -p /tmp/extoverlay
+mount /dev/sda2 /tmp/extoverlay
+tar -C /overlay -cvf - . | tar -C /tmp/extoverlay -xf -
+umount /tmp/extoverlay
+sed -n '8820,8940p' /sbin/block
+sed -n '1390,1410p' /sbin/mount_root
+ls -la /mnt/data
+find /mnt/data -maxdepth 3 -printf '%M %u:%g %s %p\n' 2>/dev/null | sort
+~~~
+
+### Expand-root workflow
+
+~~~text
+opkg update
+opkg install parted losetup resize2fs
+wget -U "" -O expand-root.sh https://openwrt.org/_export/code/docs/guide-user/additional-software/extroot_configuration?codeblock=0
+chmod +x expand-root.sh
+./expand-root.sh
+reboot
+~~~
+
+## 5. Swap / память
+
+~~~text
+cat /proc/swaps
+swapon -s
+free
+free -h
+free -m
+cat /proc/meminfo
+grep -E '^(MemTotal|MemFree|MemAvailable|Buffers|Cached|SwapTotal|SwapFree|Slab|SReclaimable|SUnreclaim):' /proc/meminfo
+top -b -n 1
+swapon /dev/sda1
+~~~
+
+## 6. Сеть: интерфейсы, адреса и маршруты
+
+~~~text
+ip addr
+ip -br addr
+ip -4 addr
+ip link
+ip link show eth1
+ip route
+ip -4 route
+ip neigh
+ifstatus wan
+uci show network
+uci show network && echo '--- IPv4 ---' && ip -4 addr && echo '--- ROUTES ---' && ip -4 route
+ip link show eth1 && echo '--- DHCP/NETIFD ---' && logread | grep -E 'eth1|wan' | tail -50
+~~~
+
+## 7. Wi-Fi
+
+~~~text
+iw phy
+iw dev
+iw phy | grep -E 'Wiphy|Band|Interface modes|managed|AP|channel|HT|VHT' -A8 -B2
+iw dev phy0-sta0 link
+iw dev phy0-ap0 station dump
+iwinfo
+iw dev && echo '--- WIRELESS UCI ---' && uci show wireless
+uci show wireless
+wifi reload
+lsmod | grep -E 'ath|mac80211|cfg80211|wpad'
+~~~
+
+### Поиск механизмов reload Wi-Fi/network
+
+~~~text
+grep -RniE 'wifi[[:space:]]+(reload|up|down)|wifi[._-](reload|up|down)|hostapd(_cli)?[[:space:]]+(reload|config_set)|ubus[[:space:]].*hostapd|reload[[:space:]].*hostapd' /etc/hotplug.d /etc/init.d /lib/netifd /lib/wifi /usr/libexec 2>/dev/null
+grep -RniE '/etc/init\.d/network|service[[:space:]]+network|/etc/init\.d/.*network|ubus[[:space:]].*(network|network\.reload)|/sbin/ifup|/sbin/ifdown|/sbin/wifi' /etc/hotplug.d /etc/init.d /lib/netifd /lib/wifi /usr/libexec 2>/dev/null
+~~~
+
+## 8. DNS / resolver / dnsmasq
+
+~~~text
+cat /etc/resolv.conf
+cat /tmp/resolv.conf.d/resolv.conf.auto
+nslookup example.com 192.168.0.1
+nslookup example.com 192.168.1.1
+nslookup openwrt.org 127.0.0.1
+dnsmasq --version
+dnsmasq --version 2>&1 | head -5
+/etc/init.d/dnsmasq status
+/etc/init.d/dnsmasq restart
+netstat -lnp 2>/dev/null | grep ':53 ' || ss -lnp 2>/dev/null | grep ':53 '
+ps | grep '[h]ttps-dns-proxy'
+~~~
+
+### Поиск/проверка dnsmasq-пакетов
+
+~~~text
+apk search -v 'dnsmasq*' | grep -E 'dnsmasq|nft' | head -80
+apk list --installed 2>/dev/null | grep '^dnsmasq' || true
+apk info -s dnsmasq dnsmasq-full dnsmasq-nftset 2>/dev/null || true
+apk info -R dnsmasq-full
+apk add --simulate dnsmasq-full
+apk add dnsmasq-full
+apk list --installed | grep '^dnsmasq'
+dnsmasq --version | head -5
+~~~
+
+### DNS / PBR / nftset discovery
+
+~~~text
+nft --version 2>&1
+grep -R -E 'dnsmasq.nftset|nftset|resolver_set' /usr/share/pbr /etc/config/pbr 2>/dev/null | head -40
+find /usr/share -maxdepth 3 -type f \( -iname '*geo*' -o -iname '*site*' -o -iname '*domain*' \) 2>/dev/null | head -80
+uci get pbr.config.enabled
+~~~
+
+## 9. https-dns-proxy
+
+~~~text
+/etc/init.d/https-dns-proxy stop
+/etc/init.d/https-dns-proxy disable
+ls -l /etc/rc.d/ | grep https-dns-proxy
+pgrep -a https-dns-proxy
+ps | grep '[h]ttps-dns-proxy'
+~~~
+
+## 10. Проверка Интернет / DNS / HTTPS
+
+~~~text
+ping -c 2 192.168.0.1
+ping -c 2 1.1.1.1
+ping -c 2 openwrt.org
+ping -c 2 -W 3 1.1.1.1
+ping -c 4 192.168.0.1
+ping -c 4 1.1.1.1
+ping -c 4 openwrt.org
+wget https://example.com
+wget -O /dev/null -T 10 https://example.com
+curl -I --max-time 10 https://example.com
+~~~
+
+## 11. OpenWrt package manager / packages
+
+~~~text
+apk --version
+apk search curl
+command -v curl || echo 'curl: NOT_INSTALLED'
+apk info e2fsprogs
+apk policy luci-base luci-mod-admin-full luci-theme-bootstrap uhttpd uhttpd-mod-ubus
+apk list --installed 2>/dev/null | grep -E '^(luci|uhttpd|rpcd)'
+~~~
+
+Исторически до перехода на APK также использовались:
+
+~~~text
+opkg update
+opkg install wireguard-tools
+opkg install luci-proto-wireguard
+~~~
+
+## 12. UCI
+
+~~~text
+uci show
+uci show network
+uci show wireless
+uci show dhcp
+uci get <section.option>
+uci set <section.option>=<value>
+uci delete <section.option>
+uci commit
+~~~
+
+## 13. Zapret2: структура и установка v1.0.3
+
+~~~text
+sed -n '730,780p' /overlay/tmp/zapret2/extract/zapret2-v1.0.3/install_easy.sh
+sed -n '350,430p' /overlay/tmp/zapret2/extract/zapret2-v1.0.3/install_easy.sh
+cd /overlay/tmp/zapret2/extract/zapret2-v1.0.3 && sh ./install_bin.sh getarch
+printf '/opt: '; ls -ld /opt 2>/dev/null || echo ABSENT
+printf '/opt/zapret2: '; ls -ld /opt/zapret2 2>/dev/null || echo ABSENT
+sed -n '1,80p' /opt/zapret2/install_prereq.sh
+~~~
+
+Результат определения архитектуры:
+
+~~~text
+linux-mips
+~~~
+
+## 14. Zapret2: конфигурация и аудит
+
+~~~text
+grep -RniE 'NFQWS2_ENABLE|MODE_FILTER|FLOWOFFLOAD|OPENWRT_LAN|OPENWRT_WAN4|OPENWRT_WAN6|INIT_APPLY_FW' /opt/zapret2/common /opt/zapret2/*.sh 2>/dev/null | head -80
+grep -E '^(MODE_FILTER|NFQWS2_ENABLE|NFQWS2_OPT|NFQWS2_PORTS_TCP|NFQWS2_PORTS_UDP|FLOWOFFLOAD|INIT_APPLY_FW|DISABLE_IPV6)=' /opt/zapret2/config
+sed -n '/^NFQWS2_OPT=/,/^MODE_FILTER=/p' /opt/zapret2/config
+sed -n '/^NFQWS2_OPT="/,/^"/p' /opt/zapret2/config
+~~~
+
+Текущие исторически зафиксированные значения:
+
+~~~text
+NFQWS2_ENABLE=1
+NFQWS2_PORTS_TCP=80,443
+NFQWS2_PORTS_UDP=443
+MODE_FILTER=autohostlist
+FLOWOFFLOAD=donttouch
+INIT_APPLY_FW=1
+DISABLE_IPV6=1
+~~~
+
+## 15. Zapret2: точный NFQWS2_OPT
+
+~~~text
+--filter-tcp=80 --filter-l7=http <HOSTLIST> --payload=http_req --lua-desync=fake:blob=fake_default_http:tcp_md5 --lua-desync=multisplit:pos=method+2 --new
+--filter-tcp=443 --filter-l7=tls <HOSTLIST> --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_md5:tcp_seq=-10000 --lua-desync=multidisorder:pos=1,midsld --new
+--filter-udp=443 --filter-l7=quic <HOSTLIST_NOAUTO> --payload=quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=6
+~~~
+
+## 16. Zapret2: запуск, остановка и runtime
+
+~~~text
+/opt/zapret2/init.d/openwrt/zapret2 start
+/opt/zapret2/init.d/openwrt/zapret2 stop
+pgrep -a nfqws2
+ls -la /opt/zapret2/init.d/openwrt
+ls -l /etc/rc.d/ | grep zapret2
+/etc/init.d/<service> status
+/etc/init.d/<service> start
+/etc/init.d/<service> stop
+/etc/init.d/<service> enable
+/etc/init.d/<service> disable
+reboot
+~~~
+
+Исторически проверенный, но неправильный путь:
+
+~~~text
+/opt/zapret2/init.d/sysv/zapret2
+~~~
+
+## 17. Zapret2: nftables / NFQUEUE
+
+~~~text
+nft list ruleset 2>/dev/null | sed -n '1,120p'
+nft list table inet zapret2
+nft -a list table inet zapret2
+nft -a list chain inet zapret2 postnat
+sed -n '145,285p' /opt/zapret2/ipset/create_ipset.sh | grep -nE 'create_ipset|create_nfset|IPSET_OPT|SET_MAXELEM|nft|ipset|hash:net'
+find /opt/zapret2/ipset -maxdepth 1 -type f -print
+~~~
+
+## 18. Zapret2: hostlist / autohostlist
+
+~~~text
+find /opt/zapret2/ipset -maxdepth 1 -type f -print
+~~~
+
+Значения, использовавшиеся в тестах:
+
+~~~text
+MODE_FILTER=none
+MODE_FILTER=hostlist
+MODE_FILTER=autohostlist
+~~~
+
+## 19. Zapret2: set/qnum
+
+~~~text
+SET_MAXELEM=522288
+QNUM=300
+~~~
+
+## 20. Zapret2: процесс и фактические аргументы
+
+~~~text
+tr '\0' ' ' < /proc/$(pidof nfqws2)/cmdline
+pidof nfqws2
+pgrep -a nfqws2
+~~~
+
+## 21. blockcheck2 на роутере
+
+~~~text
+ls -l /opt/zapret2/blockcheck2.sh
+/opt/zapret2/blockcheck2.sh --help 2>&1 | head -40
+/usr/bin/apk search curl
+command -v curl || echo 'curl: NOT_INSTALLED'
+~~~
+
+## 22. Windows: официальный zapret-win-bundle / Cygwin
+
+~~~text
+Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,OSArchitecture
+C:\zapret-win-bundle\cygwin\cygwin.cmd
+~~~
+
+## 23. Windows/Cygwin: aliases
+
+~~~text
+alias blockcheck='C:/zapret-win-bundle/blockcheck/zapret/blockcheck.sh'
+alias blockcheck-kyber='CURL=curl-kyber 'C:/zapret-win-bundle/blockcheck/zapret/blockcheck.sh''
+alias blockcheck2='C:/zapret-win-bundle/blockcheck/zapret2/blockcheck2.sh'
+alias blockcheck2-kyber='CURL=curl-kyber 'C:/zapret-win-bundle/blockcheck/zapret2/blockcheck2.sh''
+alias ip2net='C:/zapret-win-bundle/blockcheck/zapret/ip2net/ip2net'
+alias ll='ls -la'
+alias ls='ls --color=auto'
+alias mdig='C:/zapret-win-bundle/blockcheck/zapret/mdig/mdig'
+alias winws='C:/zapret-win-bundle/blockcheck/zapret/nfq/winws'
+alias winws2='C:/zapret-win-bundle/blockcheck/zapret2/nfq2/winws2'
+alias winws2-antidpi='C:/zapret-win-bundle/blockcheck/zapret2/nfq2/winws2' --lua-init='@C:/zapret-win-bundle/blockcheck/zapret2/lua/zapret-lib.lua' --lua-init='@C:/zapret-win-bundle/blockcheck/zapret2/lua/zapret-antidpi.lua' --lua-init='@C:/zapret-win-bundle/blockcheck/zapret2/lua/zapret-auto.lua'
+~~~
+
+## 24. Windows/Cygwin: blockcheck2
+
+~~~text
+blockcheck2
+blockcheck2 2>&1 | tee ~/blockcheck2.log
+blockcheck2 2>&1 | tee ~/blockcheck2-youtube-tls12-standard.log
+~~~
+
+## 25. blockcheck2: использованные интерактивные матрицы
+
+### YouTube quick
+
+~~~text
+youtube.com
+IPv4
+HTTP=Y
+TLS1.2=Y
+TLS1.3=N
+QUIC=Y
+repeats=1
+scan=quick
+~~~
+
+### YouTube + Telegram + WhatsApp quick
+
+~~~text
+youtube.com telegram.org whatsapp.com
+IPv4
+HTTP=Y
+TLS1.2=Y
+TLS1.3=Y
+QUIC=Y
+repeats=1
+scan=quick
+~~~
+
+### YouTube TLS1.2 standard
+
+~~~text
+youtube.com
+IPv4
+HTTP=Y
+TLS1.2=Y
+TLS1.3=N
+QUIC=N
+repeats=1
+scan=standard
+~~~
+
+### Планируемый полный discovery
+
+~~~text
+youtube.com
+IPv4
+HTTP=N
+TLS1.2=Y
+TLS1.3=Y
+QUIC=Y
+repeats=1
+parallel=N
+scan=standard
+~~~
+
+## 26. QUIC/HTTP3: найденный кандидат
+
+~~~text
+winws2 --wf-l3=ipv4 --wf-udp-out=443 --payload quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=11
+~~~
+
+## 27. TLS1.2: 22 найденных YouTube IPv4 кандидата
+
+### A — wssize + multidisorder
+
+~~~text
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=host+1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=midsld
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=1,midsld
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=1,midsld,1220
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --lua-desync=wssize:wsize=1:scale=6 --payload=tls_client_hello --lua-desync=multidisorder:pos=1,sniext+1,host+1,midsld-2,midsld,midsld+2,endhost-1
+~~~
+
+### B — seqovl / multisplit / multidisorder
+
+~~~text
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=multisplit:pos=10,midsld:seqovl=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=multidisorder:pos=midsld:seqovl=midsld-1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --lua-init=fake_default_tls=tls_mod(fake_default_tls,'rnd') --lua-desync=multidisorder:pos=midsld:seqovl=midsld-1:seqovl_pattern=fake_default_tls
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=multidisorder:pos=2,midsld:seqovl=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-init=fake_default_tls=tls_mod(fake_default_tls,'rnd') --lua-desync=multidisorder:pos=2,midsld:seqovl=1:seqovl_pattern=fake_default_tls
+~~~
+
+### C — fake + TCP/IP header modification
+
+~~~text
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_ttl=6:tls_mod=rnd,dupsid,padencap:repeats=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_md5:tls_mod=rnd,dupsid,padencap:repeats=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_md5:tls_mod=rnd,dupsid,padencap:repeats=1 --payload=empty --out-range=<s1 --lua-desync=send:tcp_md5
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:badsum:tls_mod=rnd,dupsid,padencap:repeats=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_ack=-66000:tcp_ts_up:tls_mod=rnd,dupsid,padencap:repeats=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_ts=-1000:tls_mod=rnd,dupsid,padencap:repeats=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_flags_unset=ACK:tls_mod=rnd,dupsid,padencap:repeats=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_flags_set=SYN:tls_mod=rnd,dupsid,padencap:repeats=1
+~~~
+
+### D — fake + automatic TTL
+
+~~~text
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-1,3-20:tls_mod=rnd,dupsid,padencap:repeats=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-2,3-20:tls_mod=rnd,dupsid,padencap:repeats=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-3,3-20:tls_mod=rnd,dupsid,padencap:repeats=1
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:ip_autottl=-4,3-20:tls_mod=rnd,dupsid,padencap:repeats=1 --payload=empty --out-range=s1<d1 --lua-desync=pktmod:ip_ttl=1
+~~~
+
+## 28. Build workflow: Zapret2 / MIPS
+
+~~~text
+PKG_CONFIG_PATH="$HOME/zapret2-build/deps/lib/pkgconfig"
+./configure --prefix=/ --host=mips-unknown-linux-muslsf --enable-static --disable-shared --disable-dependency-tracking
+make clean >/dev/null 2>&1 || true && CPPFLAGS="-I$HOME/zapret2-build/deps/include" LDFLAGS="-L$HOME/zapret2-build/deps/lib" make -j"$(nproc)"
+~~~
+
+Staging paths:
+
+~~~text
+~/zapret2-build/deps/include
+~/zapret2-build/deps/lib
+~~~
+
+## 29. Исторические служебные/файловые команды
+
+~~~text
+cat /tmp/resolv.conf.d/resolv.conf.auto
+cat /etc/config/fstab
+ls -la
+ls -l /etc/rc.d/
+ls -l /etc/rc.d/ | grep zapret2
+ls -l /etc/rc.d/ | grep https-dns-proxy
+find /opt/zapret2/ipset -maxdepth 1 -type f -print
+~~~
+
+## 30. Правила интерпретации blockcheck2
+
+~~~text
+TLS1.2 AVAILABLE != TLS1.3 AVAILABLE
+TLS1.2 AVAILABLE != QUIC AVAILABLE
+TLS1.3 AVAILABLE != QUIC AVAILABLE
+~~~
+
+Это не shell-команды, а правила интерпретации результатов.
+
+## 31. Важное правило полноты
+
+Новый фактически использованный shell-командный вызов из рабочего чата Variant A добавляется в этот реестр с:
+1. точной командой;
+2. назначением;
+3. статусом/результатом, если он известен;
+4. пометкой, если команда была только предложена и не выполнялась.
+
+Не смешивать shell-команды, значения конфигурации, интерактивные ответы blockcheck2 и результаты тестов.
+
+Историческая команда не является разрешением на повторный запуск. Особенно это относится к sysupgrade, операциям с разделами, mount/swapon, opkg/apk add, UCI-изменениям, firewall/nftables и изменению Zapret2 config.
