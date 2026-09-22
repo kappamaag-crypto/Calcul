@@ -213,3 +213,18 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - [INTERPRETATION] This is discovery evidence for YouTube IPv4 TLS1.2 only. It is not yet proof of TLS1.3 or QUIC/HTTP3 coverage, and not yet proof of reproducibility or router v1.0.3 compatibility.
 - [STATUS] STAGE 11 — IN_PROGRESS. TLS1.2 discovery has produced another candidate. Await/record the remaining TLS1.3 and QUIC portions of the same matrix before selecting a combined strategy.
 - [NO ROUTER CHANGE] MikroTik router-side Zapret2 configuration remains unchanged.
+
+
+## CHANGELOG — 2026-09-22 — [SYNC] Full YouTube blockcheck2 standard log analysis
+- [SOURCE] User-provided complete Windows/Cygwin log `blockcheck2-youtube-tls12-standard(1).log`, 38,037 lines.
+- [MATRIX CONFIRMED] blockcheck2 interactive setup: standard; youtube.com; IPv4; HTTP=N; TLS1.2=Y; TLS1.3=Y; QUIC=Y; repeats=1; parallel=N; scan=standard. The log itself documents the TLS1.2/TLS1.3/QUIC split and states that what works for TLS1.2 also works for TLS1.3, but not vice versa.
+- [YOUTUBE RESULTS] Exact parsed AVAILABLE entries: TLS1.2 = 425; TLS1.3 = 479; QUIC/HTTP3 = 2. The YouTube TLS1.2/TLS1.3/QUIC sections complete before the subsequent Telegram tests begin.
+- [JOINT TLS] Exact command intersection between YouTube TLS1.2 and TLS1.3 = 75 commands. These are the only currently demonstrated TCP/443 candidates in this log that independently returned AVAILABLE for both protocol tests.
+- [JOINT TLS FAMILIES] The 75 shared commands group into: hostfakesplit (40), fake+multisplit (26), fake (8), fakedsplit/multisplit (1).
+- [QUIC] Two AVAILABLE YouTube IPv4 HTTP3 candidates:
+  1. `--wf-l3=ipv4 --wf-udp-out=443 --payload=quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=1`
+  2. `--wf-l3=ipv4 --wf-udp-out=443 --payload=quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=1 --lua-desync=send:ipfrag:ipfrag_pos_udp=16 --lua-desync=drop`
+- [FULL-COVERAGE INTERPRETATION] There is no single blockcheck2 candidate in the log that is simultaneously one command for TCP/TLS1.2, TCP/TLS1.3 and UDP/QUIC. A full three-protocol candidate set consists of one of the 75 shared TCP/443 commands plus one of the 2 QUIC UDP/443 commands; this gives 150 possible combinations by log evidence, not 150 independently validated final router profiles.
+- [IMPORTANT] AVAILABLE is discovery evidence, not final router proof. Reproducibility, compatibility with router-side Zapret2 v1.0.3, hostlist filtering, resource usage and client-side validation remain outstanding.
+- [NO ROUTER CHANGE] Router-side Zapret2 configuration and current NFQWS2_OPT remain unchanged.
+- [STATUS] STAGE 11 — IN_PROGRESS.
