@@ -1016,3 +1016,435 @@ TLS1.3 AVAILABLE != QUIC AVAILABLE
 Не смешивать shell-команды, значения конфигурации, интерактивные ответы blockcheck2 и результаты тестов.
 
 Историческая команда не является разрешением на повторный запуск. Особенно это относится к sysupgrade, операциям с разделами, mount/swapon, opkg/apk add, UCI-изменениям, firewall/nftables и изменению Zapret2 config.
+
+
+---
+
+# Дополнение к полному реестру — команды, восстановленные из MASTER PROMPT / MASTER PLAN и истории диалога
+
+> Цель этого блока — закрыть дополнительные команды, найденные при повторном сопоставлении текущего глоссария с накопленной историей проекта. Команды из этого блока не считаются автоматически выполненными только потому, что они записаны в документации.
+
+## 36. Root / extroot / mount_root / fstools
+
+~~~text
+mount; df -h
+strings /sbin/mount_root
+sed -n '1390,1410p' /sbin/mount_root
+sed -n '8820,8940p' /sbin/block
+grep -nE '...' /sbin/mount_root
+cat /sbin/mount_root
+cat /sbin/block
+mount /dev/sda2 /mnt/extroot
+umount /mnt/extroot
+swapoff /dev/sda1
+~~~
+
+Исторически анализировались:
+~~~text
+/lib/preinit/80_mount_root
+/sbin/mount_root
+/sbin/block
+/tmp/extroot
+/tmp/extroot/overlay
+/dev/mtdblock9
+~~~
+
+## 37. fstab / root / USB read-only inspection
+
+~~~text
+cat /etc/config/fstab
+grep -nE 'config global|auto_mount|overlay|uuid|sda1|sda2|sda3' /etc/config/fstab
+uci show fstab
+uci get fstab.@global[0].auto_mount
+mount | grep -E 'overlay|mnt/data|sda'
+df -h
+~~~
+
+## 38. Wireless netifd / ubus / AP+STA diagnostics
+
+~~~text
+ubus call network.wireless status
+iw dev
+iw phy
+iw phy phy1 info
+ip link show phy1-ap0
+ip link show phy0-ap0
+iw dev phy0-ap0 info
+iw dev phy0-ap0 link
+iw dev phy0-sta0 link
+iw dev phy0-ap0 station dump
+iw phy phy0 info
+iw phy phy0 info | grep -A25 -B5 'VHT Capabilities'
+iw dev | grep -A8 -B1 'phy0-ap0'
+iw dev && echo '--- WIRELESS UCI ---' && uci show wireless
+uci show wireless.radio0
+uci show wireless | grep -A12 -B2 'OpenWrt-5G'
+uci show wireless | grep -A8 -B2 'wireless.@wifi-iface'
+uci show wireless | grep -E 'country|country3'
+wifi status radio0
+wifi reload
+wifi down && wifi up
+~~~
+
+## 39. Direct iw radio parameter checks
+
+~~~text
+iw phy phy0 set distance 0
+iw phy phy0 set distance 10
+iw phy ... set antenna
+iw phy ... set distance
+iw phy ... set txpower
+iw reg get
+~~~
+
+## 40. hostapd / wpa_supplicant runtime
+
+~~~text
+ubus call hostapd.phy0 get_status
+ubus call hostapd.phy0-ap0 get_status
+hostapd.phy0 get_status
+hostapd.phy0-ap0 get_status
+ps | grep '[h]ostapd'
+ps | grep '[w]pa_supplicant'
+pgrep -af hostapd
+pgrep -af wpa_supplicant
+~~~
+
+Runtime paths:
+~~~text
+/usr/sbin/hostapd -s -g /var/run/hostapd/global
+/usr/sbin/wpa_supplicant -n -s -g /var/run/wpa_supplicant/global
+/var/run/hostapd-phy0.conf
+~~~
+
+## 41. Логи Wi-Fi / hostapd / kernel
+
+~~~text
+logread
+logread | tail -60
+logread | grep -B 5 -A 5 'Reload all interfaces' | tail -80
+logread | sed -n '/07:38:40/,/07:39:10/p'
+logread | sed -n '/07:38:45/,/07:39:10/p'
+dmesg
+dmesg | grep -Ei 'ath10k|ath9k|hostapd|wpa|phy0|phy1'
+grep -RniE 'Reload all interfaces|reload_all|reload.*interface|hostapd.*reload|ubus.*hostapd' /etc /usr/lib /lib 2>/dev/null | head -100
+~~~
+
+## 42. https-dns-proxy / procd / rc.common / hotplug
+
+~~~text
+uci show https-dns-proxy
+sed -n '440,475p' /etc/init.d/https-dns-proxy
+grep -nE 'on_interface_trigger|on_interface_up' /etc/init.d/https-dns-proxy
+grep -n 'procd_add_interface_trigger' /lib/functions/procd.sh
+grep -nE '^reload_service\(\)|reload_service' /etc/init.d/https-dns-proxy
+grep -nE 'start_service\(\)|stop_service\(\)|reload_service\(\)|reload\(\)' /etc/rc.common
+cat /etc/rc.common
+ls -l /etc/hotplug.d/iface/95-https-dns-proxy
+cat /etc/hotplug.d/iface/95-https-dns-proxy
+ls -l /etc/rc.d/S20https-dns-proxy
+~~~
+
+Исторически проверенные вызовы/строки:
+~~~text
+procd_add_raw_trigger 'interface.*.up' 5000 ... reload 'on_interface_up'
+procd_add_interface_trigger 'interface.*' '$i' ... reload 'on_interface_trigger'
+/etc/init.d/https-dns-proxy reload on_interface_trigger
+/etc/init.d/$name reload
+rc_procd start_service "$@"
+reload_service "$@"
+rc_procd start_service on_interface_trigger
+~~~
+
+## 43. pbr / background trigger checks
+
+~~~text
+/etc/init.d/pbr status
+pgrep -af pbr
+uci get pbr.config.enabled
+grep -R -E 'dnsmasq.nftset|nftset|resolver_set' /usr/share/pbr /etc/config/pbr 2>/dev/null | head -40
+crontab -l
+/etc/init.d/mwan3 status
+ls /etc/init.d/
+~~~
+
+## 44. Network / DHCP historical diagnostics
+
+~~~text
+ifstatus wan
+ubus call dhcp ipv4leases
+cat /tmp/dhcp.leases
+ip -4 addr
+ip -4 route
+ip neigh
+~~~
+
+Windows:
+~~~text
+ipconfig | findstr /R /C:'IPv4' /C:'Default Gateway'
+Get-NetIPConfiguration
+ping -S 192.168.1.146 1.1.1.1
+nslookup openwrt.org 192.168.1.1
+~~~
+
+## 45. Package / kernel / Zapret2 binary preflight
+
+~~~text
+apk info
+apk info e2fsprogs
+apk policy luci-base luci-mod-admin-full luci-theme-bootstrap uhttpd uhttpd-mod-ubus
+lsmod | grep -E 'ath|mac80211|cfg80211|wpad'
+nfqws2 --help
+nfqws2 --version
+/opt/zapret2/nfq2/nfqws2 --help
+/opt/zapret2/nfq2/nfqws2 --version
+sha256sum <file>
+hexdump -C <file> | head
+file <file>
+~~~
+
+## 46. Zapret2 installer/source inspection
+
+~~~text
+sed -n '1,80p' /opt/zapret2/install_prereq.sh
+sed -n '350,430p' /overlay/tmp/zapret2/extract/zapret2-v1.0.3/install_easy.sh
+sed -n '730,780p' /overlay/tmp/zapret2/extract/zapret2-v1.0.3/install_easy.sh
+cd /overlay/tmp/zapret2/extract/zapret2-v1.0.3 && sh ./install_bin.sh getarch
+~~~
+
+Результат определения архитектуры:
+~~~text
+linux-mips
+~~~
+
+## 47. Zapret2 file/deployment inspection
+
+~~~text
+ls -la /opt/zapret2
+ls -la /opt/zapret2/nfq2
+ls -la /opt/zapret2/lua
+ls -la /opt/zapret2/init.d/openwrt
+ls -la /opt/zapret2/ipset
+ls -l /opt/zapret2/config
+ls -l /opt/zapret2/config.default
+cmp /opt/zapret2/config /opt/zapret2/config.default
+sha256sum /opt/zapret2/config /opt/zapret2/config.default
+~~~
+
+Staging paths:
+~~~text
+/overlay/tmp/zapret2
+/overlay/tmp/zapret2/extract
+/overlay/tmp/zapret2/extract/zapret2-v1.0.3
+/overlay/tmp/zapret2/zapret2-v1.0.3-openwrt-embedded.tar.gz
+~~~
+
+## 48. Zapret2 nftables / queue / set audit
+
+~~~text
+nft list table inet zapret2
+nft -a list table inet zapret2
+nft -a list chain inet zapret2 postnat
+nft list ruleset
+nft --version 2>&1
+sed -n '145,285p' /opt/zapret2/ipset/create_ipset.sh | grep -nE 'create_ipset|create_nfset|IPSET_OPT|SET_MAXELEM|nft|ipset|hash:net'
+find /opt/zapret2/ipset -maxdepth 1 -type f -print
+~~~
+
+## 49. Zapret2 runtime arguments / process state
+
+~~~text
+pidof nfqws2
+pgrep -a nfqws2
+tr '\0' ' ' < /proc/$(pidof nfqws2)/cmdline
+~~~
+
+## 50. Zapret2 hostlist / filter configuration inspection
+
+~~~text
+grep -E '^(MODE_FILTER|NFQWS2_ENABLE|NFQWS2_OPT|NFQWS2_PORTS_TCP|NFQWS2_PORTS_UDP|FLOWOFFLOAD|INIT_APPLY_FW|DISABLE_IPV6)=' /opt/zapret2/config
+sed -n '/^NFQWS2_OPT=/,/^MODE_FILTER=/p' /opt/zapret2/config
+find /opt/zapret2/ipset -maxdepth 1 -type f -print
+~~~
+
+Исторические значения:
+~~~text
+MODE_FILTER=none
+MODE_FILTER=hostlist
+MODE_FILTER=autohostlist
+FLOWOFFLOAD=donttouch
+INIT_APPLY_FW=1
+DISABLE_IPV6=1
+NFQWS2_ENABLE=0
+NFQWS2_ENABLE=1
+NFQWS2_PORTS_TCP=80,443
+NFQWS2_PORTS_UDP=443
+SET_MAXELEM=522288
+QNUM=300
+~~~
+
+## 51. Internet / router-side application tests
+
+~~~text
+wget https://example.com
+wget -O /dev/null -T 10 https://example.com
+wget https://api.telegram.org
+curl -I --max-time 10 https://example.com
+nslookup example.com 192.168.1.1
+nslookup example.com 192.168.0.1
+ping -c 2 192.168.0.1
+ping -c 2 1.1.1.1
+~~~
+
+## 52. Windows official bundle / launch files
+
+~~~text
+C:\zapret-win-bundle\cygwin\cygwin.cmd
+C:\zapret-win-bundle\_CMD_ADMIN.cmd
+C:\zapret-win-bundle\blockcheck\blockcheck2.cmd
+C:\zapret-win-bundle\blockcheck\blockcheck2-kyber.cmd
+~~~
+
+## 53. Windows/Cygwin environment checks
+
+~~~text
+Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,OSArchitecture
+uname -a
+uname -m
+curl --version
+~~~
+
+Зафиксированный runtime:
+~~~text
+CYGWIN_NT-10.0-26200
+version 3.4.10-1.x86_64
+firewall type is windivert
+CURL=curl
+curl 8.10.1 (x86_64-pc-cygwin)
+~~~
+
+## 54. blockcheck2 interactive protocol selection
+
+~~~text
+test = custom / standard
+domain(s) = youtube.com
+IP version = IPv4
+HTTP = Y/N
+TLS 1.2 = Y/N
+TLS 1.3 = Y/N
+QUIC = Y/N
+repeats = 1
+scan level = quick / standard / force
+parallel = N
+~~~
+
+Текущий целевой discovery-вариант:
+~~~text
+standard
+youtube.com
+IPv4
+HTTP=N
+TLS1.2=Y
+TLS1.3=Y
+QUIC=Y
+repeats=1
+parallel=N
+~~~
+
+## 55. blockcheck2 logging
+
+~~~text
+blockcheck2 2>&1 | tee ~/blockcheck2.log
+blockcheck2 2>&1 | tee ~/blockcheck2-youtube-tls12-standard.log
+~~~
+
+## 56. Windows blockcheck2 negative/control candidates
+
+~~~text
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:tcp_ts=-1000
+winws2 --wf-l3=ipv4 --wf-tcp-out=443 --payload=tls_client_hello --lua-desync=fake:blob=0x00000000:tcp_md5:repeats=1 --lua-desync=fake:blob=fake_default_tls:tcp_md5:tls_mod=rnd,dupsid:repeats=1 --lua-desync=multisplit:pos=2
+~~~
+
+Обе стратегии в соответствующем стандартном YouTube TLS1.2 проходе завершились UNAVAILABLE code=28.
+
+## 57. Windows blockcheck2 candidate parameter families
+
+~~~text
+wssize:wsize=1:scale=6
+multidisorder:pos=host+1
+multidisorder:pos=midsld
+multidisorder:pos=1,midsld
+multisplit:pos=10,midsld:seqovl=1
+seqovl=midsld-1
+ip_ttl=6
+tcp_md5
+badsum
+tcp_ack=-66000
+tcp_ts=-1000
+tcp_flags_unset=ACK
+tcp_flags_set=SYN
+ip_autottl=-1,3-20
+ip_autottl=-2,3-20
+ip_autottl=-3,3-20
+ip_autottl=-4,3-20
+~~~
+
+## 58. QUIC / HTTP3
+
+~~~text
+winws2 --wf-l3=ipv4 --wf-udp-out=443 --payload quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=11
+curl --http3-only
+~~~
+
+## 59. Linux source/build workflow for MIPS
+
+~~~text
+PKG_CONFIG_PATH="$HOME/zapret2-build/deps/lib/pkgconfig"
+./configure --prefix=/ --host=mips-unknown-linux-muslsf --enable-static --disable-shared --disable-dependency-tracking
+make clean >/dev/null 2>&1 || true && CPPFLAGS="-I$HOME/zapret2-build/deps/include" LDFLAGS="-L$HOME/zapret2-build/deps/lib" make -j"$(nproc)"
+~~~
+
+## 60. File/process/low-level helper commands
+
+~~~text
+printf '/opt: '; ls -ld /opt 2>/dev/null || echo ABSENT
+printf '/opt/zapret2: '; ls -ld /opt/zapret2 2>/dev/null || echo ABSENT
+head -40
+tail -50
+grep -n 'procd_add_interface_trigger' /lib/functions/procd.sh
+find /usr/share -maxdepth 3 -type f \( -iname '*geo*' -o -iname '*site*' -o -iname '*domain*' \) 2>/dev/null | head -80
+cat /tmp/resolv.conf.d/resolv.conf.auto
+~~~
+
+## 61. Исторически неудачные / неподдержанные команды
+
+~~~text
+ubus call dhcp ipv4leases
+swapon --show
+ubus call hostapd.phy0 get_status
+/opt/zapret2/init.d/sysv/zapret2
+~~~
+
+Результаты:
+- ubus call dhcp ipv4leases → Method not found;
+- swapon --show → не поддерживается используемым BusyBox;
+- ubus call hostapd.phy0 get_status → объект/метод не найден в текущем runtime;
+- /opt/zapret2/init.d/sysv/zapret2 → путь не найден; рабочая OpenWrt-интеграция находится в /opt/zapret2/init.d/openwrt/zapret2.
+
+## 62. Правило накопительного реестра
+
+Каждая новая команда из рабочего чата добавляется в глоссарий в точной использованной форме. Рядом указывается один из типов/статусов:
+
+~~~text
+EXECUTED
+MENTIONED
+PROPOSED
+FAILED
+UNSUPPORTED
+STATE-CHANGING
+DESTRUCTIVE
+~~~
+
+Команда не считается EXECUTED только потому, что она существует в мастер-плане или была рекомендована ассистентом. Фактический вывод хранится отдельно от команды.
+
+Историческая команда не является разрешением на повторный запуск, особенно для sysupgrade, операций с разделами, mount/swapon, opkg/apk add, UCI-изменений, firewall/nftables и изменения Zapret2 config.
