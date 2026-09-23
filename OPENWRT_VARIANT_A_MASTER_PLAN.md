@@ -1160,3 +1160,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] Read-only inspection only; no Zapret2, nftables, WireGuard, firewall, or service configuration changed.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
 - [WORKFLOW] Diagnostic scope has been deliberately reduced: next action will be chosen from the established runtime path, with no redundant probing.
+
+## SYNC CHECKPOINT — 2026-09-23 — active custom.d direct probe
+- [RESULT] User checked the previously established runtime path via the interactive shell.
+- [OBSERVED] `ZAPRET_RW` is empty in the interactive shell (`ZAPRET_RW=`), so the expanded path could not be resolved there.
+- [OBSERVED] `$ZAPRET_RW/init.d/openwrt/custom.d` therefore was not found from the interactive shell.
+- [IMPORTANT] This is analogous to the earlier `CUSTOM_DIR` probe: it does not prove the init-time `ZAPRET_RW` is empty. The OpenWrt integration may define it internally before `custom_runner()` runs.
+- [CONCLUSION] We have established the path construction in the OpenWrt integration, but not the init-time value of `ZAPRET_RW` or the resulting concrete active custom.d path.
+- [SAFETY] No configuration/service state changed; this was read-only.
+- [STATUS] Diagnostic gate remains IN_PROGRESS, with reduced scope and no redundant broad testing.
