@@ -207,3 +207,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `standard_mode_nfqws()` builds qnum/options, calls `filter_apply_hostlist_target opt`, then starts nfqws2 via `do_nfqws`.
 - [IMPORTANT] No WAN/interface readiness wait is present in this daemon path.
 - [STATUS] The next relevant function is `filter_apply_hostlist_target`; no configuration changes made.
+
+## Zapret2 hostlist target function location — 2026-09-23
+- [RESULT] `filter_apply_hostlist_target()` is defined at `/opt/zapret2/common/list.sh:24`.
+- [STATUS] Next inspection targets this function only; no configuration changes made.
