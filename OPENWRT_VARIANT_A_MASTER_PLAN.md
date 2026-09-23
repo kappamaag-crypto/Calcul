@@ -1478,3 +1478,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] Standard qnum `300` HTTP/TLS/QUIC rules remain active.
 - [STATUS] A/B test phase = IN_PROGRESS; compare current Proton WireGuard behavior without `50-wg4all` to the previously observed outbound-only state.
 - [SAFETY] Reversible change only; no file deletion or package change.
+
+## SYNC CHECKPOINT — 2026-09-23 — A/B test result without 50-wg4all
+- [RESULT] With `50-wg4all` disabled and Zapret2 restarted, `wg show proton-test` after 5 seconds reports `0 B received`, `35.84 KiB sent`.
+- [COMPARISON] Prior enabled state also showed outbound traffic with `0 B received`; disabling the custom script did not restore the handshake.
+- [CONCLUSION] The missing Proton response is not explained by the presence of `50-wg4all` itself. The test does not prove whether `50-wg4all` helps, but it rules out the script as the sole cause of the missing response.
+- [DECISION] Restore the vendor `50-wg4all` integration to the active custom.d after the reversible A/B test.
+- [STATUS] `50-wg4all` functional integration = IN_PROGRESS pending restoration; Proton/WireGuard end-to-end validation = BLOCKED at missing peer response.
+- [SAFETY] The A/B change remains reversible; no destructive changes were made.
