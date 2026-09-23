@@ -937,3 +937,6 @@ After each user message: first record the user's factual router result in the Ma
 - Treat seqovl, TCP/IP-header, and autottl candidates as secondary/specialized until reproducibility and router-v1.0.3 compatibility are tested.
 - Never transfer a Windows candidate directly to the router solely because blockcheck2 returned `AVAILABLE`. First repeat it on Windows, record exact parameters, then review syntax/runtime compatibility with pinned Zapret2 v1.0.3 and the 64 MB memory budget.
 - Router-side `NFQWS2_OPT` remains unchanged during this candidate review.
+
+## STAGE 11 candidate-testing protocol
+Use the user-verified 8 TCP + 2 QUIC candidate set from the Master Plan. Do not rank candidates. Test one candidate at a time in temporary configuration; keep permanent working config untouched until PASS. First determine TCP strategy for YouTube TLS1.2/TLS1.3, then determine QUIC strategy, then compose/test final NFQWS2_OPT. Commands must have compact output suitable for copy/paste into the AI; target only PASS/FAIL evidence and avoid unnecessary full dumps.
