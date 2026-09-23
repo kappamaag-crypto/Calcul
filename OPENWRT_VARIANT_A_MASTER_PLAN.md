@@ -1135,3 +1135,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] No Zapret2, nftables, WireGuard, firewall, or service configuration was changed.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
 - [NEXT PENDING INSPECTION] Determine the current `CUSTOM_DIR` value and active `${CUSTOM_DIR}/custom.d` contents before any enablement action.
+
+## SYNC CHECKPOINT — 2026-09-23 — CUSTOM_DIR probe result
+- [RESULT] User entered `${CUSTOM_DIR}/custom.d/` at the shell prompt.
+- [OBSERVED] Shell expanded an unset/empty `CUSTOM_DIR` to `/custom.d/`, producing `-ash: /custom.d/: not found`.
+- [IMPORTANT] This does NOT prove the Zapret2 runtime variable `CUSTOM_DIR` is permanently unset; it only shows that the interactive shell currently has no value for that environment variable.
+- [CORRECTION] The previous pending question remains: determine where/how Zapret2 defines `CUSTOM_DIR` for the init process, and inspect the active custom.d directory safely.
+- [SAFETY] No configuration or service state was changed; this was an unsuccessful interactive probe only.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
