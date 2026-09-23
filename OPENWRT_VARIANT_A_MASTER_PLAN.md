@@ -2078,3 +2078,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISIVE TEST] Repeat the already-tested US Free #115 TCP/443 OpenVPN connection with Zapret2 fully stopped. Compare whether the control-channel timeout remains.
 - [SAFETY] hAP-only reversible runtime stop; TP-Link untouched.
 - [STATUS] Zapret2-vs-no-Zapret2 A/B = IN_PROGRESS; OpenVPN TCP fallback = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — decisive no-Zapret2 OpenVPN A/B result
+- [RESULT] With `zapret2` fully stopped and its nftables table cleared, the same US Free #115 TCP/443 OpenVPN test (route-nopull, auth-nocache, disable-dco) again established TCP to `84.20.27.33:443` and then timed out after `Server poll timeout` with no TLS/authentication progress.
+- [DECISIVE CONCLUSION] The OpenVPN control-channel timeout is not caused by `zapret2` or its nfqws2/nftables processing. The symptom persists in a clean no-Zapret2 state.
+- [CURRENT HYPOTHESIS] The remaining likely causes are upstream/application-layer filtering of OpenVPN control traffic, Proton-side endpoint behavior/config compatibility, or another transport-level factor independent of local zapret2.
+- [DECISION] Restore the vendor `zapret2` baseline immediately; stop experimenting with `multisplit` and WireGuard fake variants for this branch.
+- [STATUS] OpenVPN TCP fallback = BLOCKED by control-channel response; zapret2 causality = RULED OUT by A/B.
+- [CONSTRAINT] TP-Link remains untouched.
