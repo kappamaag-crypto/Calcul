@@ -1564,3 +1564,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not modify `NFQWS_OPT_DESYNC_WG` yet. First verify which alternative blobs/options are actually available in the installed v1.0.3 tree.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard end-to-end validation = BLOCKED at missing peer response.
 - [SAFETY] No configuration or service state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — installed strategy availability checked
+- [RESULT] Search of the installed v1.0.3 tree for `fake_default_udp` and `NFQWS_OPT_DESYNC_WG` found no `fake_default_udp` definition/reference; `NFQWS_OPT_DESYNC_WG` is defined only by the bundled `50-wg4all` example and active copy.
+- [CONCLUSION] The externally proposed `fake:blob=fake_default_udp...` cannot be used as a verified option on this installation without further evidence; it is not present in the installed tree.
+- [RESULT] Current active `50-wg4all` remains the vendor example: `--payload=wireguard_initiation,wireguard_response,wireguard_cookie --lua-desync=fake:blob=0x000...000:repeats=2`.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard end-to-end validation = BLOCKED at missing peer response.
+- [SAFETY] Read-only search; no config or runtime changes.
