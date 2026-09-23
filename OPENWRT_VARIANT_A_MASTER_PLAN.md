@@ -1749,3 +1749,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] Local interface address and the explicit host route to Proton's tunnel DNS endpoint are correct; peer parameter fields still need a read-only check.
 - [STATUS] Proton/WireGuard validation remains BLOCKED at missing peer response; badsum strategy currently active.
 - [SAFETY] No configuration/runtime changes; TP-Link untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — WireGuard profile validated; badsum A/B failed
+- [RESULT] The native WireGuard test interface has the expected local address/route and peer parameters: endpoint `185.107.56.235:51820`, `AllowedIPs=0.0.0.0/0, ::/0`, `PersistentKeepalive=25`.
+- [OFFICIAL CORROBORATION] Proton's current OpenWrt guide uses imported WireGuard configuration files with WireGuard interface/peer settings and `Route Allowed IPs` for normal operation. citeturn706418search0
+- [RESULT] Live `badsum` strategy test still produced `0 B received` and no handshake.
+- [CONCLUSION] The native test profile is structurally accepted; changing the fake from TTL to badsum has not restored the handshake.
+- [DECISION] Restore the original vendor `50-wg4all` strategy as the baseline and preserve the experimental version outside `custom.d`.
+- [STATUS] TTL strategy = FAILED; badsum strategy = FAILED; vendor `50-wg4all` baseline restoration = IN_PROGRESS.
+- [SAFETY] TP-Link remains untouched.
