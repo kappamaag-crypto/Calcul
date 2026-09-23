@@ -976,3 +976,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] Zapret2 is active again with the previously recorded working configuration; no further Zapret2 diagnostics are required at this point.
 - [PROJECT] The clean Proton VPN branch remains `BLOCKED`; the temporary WireGuard interface has been removed and persistent Proton config preserved.
 - [NEXT] Do not spend additional router-side tests on the already-established Proton failure. The next VPN step should be an architecture choice compatible with the hAP's MIPS/OpenWrt constraints.
+
+
+## Proton recommendations reassessed — 2026-09-23
+- [CORRECTION 1] The suggestion to change Proton TCP from port 8443 to 443 does not add a new test in the current project state. Earlier recorded testing already established TCP connections to `185.107.56.133:443` as well as `:8443`; both reached TCP but TLS handshake timed out. The official Proton OpenVPN TCP configuration path uses port 443. citeturn553566search6
+- [CORRECTION 2] The suggested command `openvpn ... --proto tcp --mssfix 1360` is not a valid MTU diagnostic for this TCP OpenVPN test. OpenVPN's official 2.7 manual states `--mssfix` is meaningful for UDP peer-to-peer transport, not OpenVPN TCP. It is intended for path-MTU problems where a VPN connection starts and then stalls, not for a TLS handshake that never completes. citeturn553566search9turn553566search10
+- [AWG] AmneziaWG is a separate protocol/implementation and requires an AmneziaWG-compatible server/config; it cannot simply consume a standard Proton WireGuard config. Current Amnezia documentation also uses third-party OpenWrt installation material rather than presenting standard Proton configs as AmneziaWG configs. citeturn553566search2
+- [DECISION] Do not modify the existing Proton TCP `.ovpn` file just to switch 8443→443, and do not add `--mssfix` to the TCP test. The previously recorded evidence is stronger than either proposed change.
