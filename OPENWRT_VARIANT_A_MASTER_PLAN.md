@@ -2144,3 +2144,5 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] NFQUEUE 65301 `last_packet_id=8`, `dropped=0`, `user_dropped=0`: packets were queued/processed without queue loss.
 - [CONCLUSION] `fakedsplit:pos=2` does not restore Proton OpenVPN control-channel response; candidate = FAILED.
 - [STATUS] OpenVPN local desync branch: `multisplit` = FAILED; `fakedsplit` = FAILED. Do not treat either as a fix.
+- [RESULT 2026-09-23] Initial raw `nc` probe did not execute because this BusyBox `nc` only supports `nc [IPADDR PORT]`; no network conclusion was drawn.
+- [STATUS] Proton raw TCP-service probe = NOT_STARTED; next test must use BusyBox-compatible `nc` syntax and external kill after a short interval.
