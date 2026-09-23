@@ -86,6 +86,13 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Post-reboot YouTube client/router failure — 2026-09-23
+- [FAIL] User reports YouTube does not work from a phone behind the hAP after reboot.
+- [FAIL] Router-side `wget --timeout=15 -O /dev/null https://www.youtube.com/` resolved YouTube to `142.251.153.4:443` but timed out.
+- [INVALID TEST] Prior `wget -S ...` diagnostic was invalid because this BusyBox wget treated `-S` as unsupported and printed help; no network conclusion was drawn from it.
+- [STATUS] Post-reboot functional validation remains FAILED; root cause not yet identified.
+- [SAFETY] No Zapret2 configuration changes made.
+
 ## Post-reboot functional test — 2026-09-23
 - [FAIL] Router-side YouTube HTTPS test after reboot: `wget -qO- --timeout=15 https://www.youtube.com/ | wc -c` returned `0`.
 - [STATUS] Post-reboot Zapret2 functional validation is FAILED/needs investigation, despite autostart and NFQUEUE application being confirmed.
