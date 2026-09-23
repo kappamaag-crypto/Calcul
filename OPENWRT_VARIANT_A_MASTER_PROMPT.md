@@ -235,7 +235,7 @@ G) Zapret2 rawsend/desync;
 H) combination.
 
 ## Final principle
-Сначала clean → measured → stable → reproducible base OpenWrt. Затем отдельно и последовательно построить extroot → ZRAM → USB swap и зафиксировать memory baseline. После этого возвращать DoH → Zapret2 → WireGuard/WARP/Proton → PBR по одному компоненту, после каждого этапа сравнивая RAM/OOM с предыдущей контрольной точкой.
+Сначала clean → measured → stable → reproducible base OpenWrt. Затем отдельно и последовательно построить extroot → ZRAM → USB swap и зафиксировать memory baseline. После этого возвращать Zapret2 → WireGuard/WARP/Proton → PBR по одному компоненту, после каждого этапа сравнивая RAM/OOM с предыдущей контрольной точкой.
 
 Целевая архитектура Variant A: чистый OpenWrt + extroot + ZRAM + USB swap. Extroot решает ограничение 16-МБ flash; ZRAM и USB swap предназначены для управления memory-pressure. Ни один из этих механизмов нельзя считать гарантией отсутствия OOM без измерений.
 
@@ -259,7 +259,7 @@ H) combination.
 - [ADDED] Предварительная модель приоритетов: ZRAM выше USB swap; фактическая конфигурация подтверждается тестами.
 - [ADDED] После clean base должен быть сохранён memory baseline до установки DoH/Zapret2/VPN/PBR.
 - [ADDED] После каждого крупного компонента фиксируются MemAvailable, SwapTotal/Free, ZRAM, slab, RSS ключевых процессов, load и OOM-события.
-- [ADDED] Цепочка восстановления функциональности: clean base → extroot → ZRAM → USB swap → DoH → Zapret2 → WireGuard/WARP/Proton → PBR, строго по одному компоненту.
+- [ADDED] Цепочка восстановления функциональности: clean base → extroot → ZRAM → USB swap → Zapret2 → WireGuard/WARP/Proton → PBR, строго по одному компоненту.
 - [ADDED] Главный диагностический вопрос теперь: как меняется RAM/OOM при добавлении каждого компонента относительно контролируемого baseline.
 
 
@@ -940,3 +940,9 @@ After each user message: first record the user's factual router result in the Ma
 
 ## STAGE 11 candidate-testing protocol
 Use the user-verified 8 TCP + 2 QUIC candidate set from the Master Plan. Do not rank candidates. Test one candidate at a time in temporary configuration; keep permanent working config untouched until PASS. First determine TCP strategy for YouTube TLS1.2/TLS1.3, then determine QUIC strategy, then compose/test final NFQWS2_OPT. Commands must have compact output suitable for copy/paste into the AI; target only PASS/FAIL evidence and avoid unnecessary full dumps.
+
+
+## Decision update — DoH abandoned — 2026-09-23
+- DoH/https-dns-proxy is retired from the current Variant A workflow by explicit user decision.
+- STAGE 10 is skipped/retired; do not reintroduce DoH without explicit user instruction.
+- Current sequence continues from the already verified extroot/ZRAM/USB-swap state to the next applicable stage after Zapret2, without DoH.
