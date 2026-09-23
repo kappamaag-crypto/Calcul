@@ -482,3 +482,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] For the hAP test, use **OpenVPN configuration files**, not WireGuard configuration.
 - [REASON] WireGuard is retired for this project; the installed router client is `openvpn-openssl`.
 - [NEXT] Generate/download the Proton Free `.ovpn` configuration for the Router platform, starting with UDP.
+
+
+## STAGE 23 Proton `.ovpn` inspection — 2026-09-23
+- [PASS] User provided a Proton OpenVPN configuration for the Router platform using `proto udp` and multiple fallback remote ports.
+- [FACT] The supplied file's header explicitly references exit server `NL-FREE#130` and provides the corresponding username suffix; this conflicts with the earlier UI selection shown by the user as `US-FREE#130`.
+- [FACT] The config uses `auth-user-pass`, so the router will require Proton's separate OpenVPN username/password, not the normal Proton account password. citeturn726966search0turn726966search3
+- [SAFETY] Do not expose or paste OpenVPN credentials into chat. Do not modify the embedded CA or tls-crypt material.
+- [NEXT] Before creating the router-side instance, use the exact downloaded `.ovpn` file and resolve/confirm the server identity from the file; no routing or firewall changes yet.
