@@ -2056,3 +2056,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [NEXT] Perform endpoint/profile A/B using the existing US Free #115 TCP profile, forced to TCP/443 via a temporary `/tmp` config derived from the installed profile. This will help distinguish a per-server/endpoint problem from a broader OpenVPN TCP control-channel block.
 - [SAFETY] No persistent config or UCI changes; no service enablement; TP-Link untouched.
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS; DCO hypothesis = FAILED.
+
+## SYNC CHECKPOINT — 2026-09-23 — US Proton OpenVPN TCP/443 A/B profile prepared
+- [RESULT] Created temporary `/tmp/proton-us-443.ovpn` from the existing US Free #115 TCP profile, removed its multiple `remote` directives, and added only `remote 84.20.27.33 443`.
+- [RESULT] Temporary profile retains `proto tcp`, `cipher AES-256-GCM`, `remote-cert-tls server`, and `auth-user-pass`; original `/etc/openvpn/proton-us-free-115-tcp.ovpn` was not modified.
+- [IMPORTANT] `remote-random` remains but is harmless with a single remote entry.
+- [NEXT] Run a single foreground OpenVPN TCP/443 test against the US endpoint with `route-nopull` and `--disable-dco` to isolate server/endpoint behavior.
+- [STATUS] OpenVPN TCP fallback = IN_PROGRESS; NL endpoint/control-channel test = FAILED; US endpoint A/B = READY.
+- [CONSTRAINT] TP-Link remains untouched.
