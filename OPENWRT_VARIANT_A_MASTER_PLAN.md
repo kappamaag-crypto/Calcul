@@ -2086,3 +2086,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Restore the vendor `zapret2` baseline immediately; stop experimenting with `multisplit` and WireGuard fake variants for this branch.
 - [STATUS] OpenVPN TCP fallback = BLOCKED by control-channel response; zapret2 causality = RULED OUT by A/B.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — forced postnat jump proposal rejected by existing evidence
+- [USER INPUT] User supplied a proposal to insert `nft insert rule ... postnat_hook ... jump postnat` for Proton US `84.20.27.33:443`, claiming this would bypass L7 filtering.
+- [FACT CHECK] The live table already has `postnat_hook` with `meta mark & 0x40000000 == 0` + `oifname @wanif` + `ip daddr != @nozapret` followed by `jump postnat`. The proposed manual jump would therefore duplicate a path that already exists for eligible outbound traffic; it does not bypass the qnum-300 daemon's own L7/payload filters.
+- [DECISIVE A/B] With `zapret2` fully stopped and its nftables table cleared, the same US OpenVPN TCP/443 test still established TCP and then timed out at `Server poll timeout`. Therefore local zapret2 interception is not the sole cause.
+- [DECISION] Do NOT insert the proposed manual jump rule. It is redundant on the current topology and would add unnecessary temporary firewall state.
+- [STATUS] OpenVPN TCP fallback = BLOCKED at control-channel response; zapret2 causality = RULED OUT by A/B.
+- [CONSTRAINT] TP-Link remains untouched.
