@@ -1431,3 +1431,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The dedicated `50-wg4all` queue is actively receiving/processing WireGuard traffic and is not dropping packets at the NFQUEUE layer.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
 - [NEXT] Check the actual WireGuard handshake timestamp; no configuration change.
+
+## SYNC CHECKPOINT — 2026-09-23 — external diagnosis narrowed by evidence
+- [RESULT] User supplied external claims that WireGuard UDP may bypass zapret2 or be too fast for nfqws.
+- [CURRENT EVIDENCE] qnum `65300` is active, bound to PID `4853`, receives WireGuard packets (`last_packet_id` advanced 113→206), and has zero queue drops.
+- [CONCLUSION] The bypass/queue-starvation explanation is not supported by current router evidence.
+- [OFFICIAL SOURCE] The official zapret2 `50-wg4all` example is specifically designed to recognize WireGuard handshake initiation/response/cookie packets and send them to a dedicated nfqws queue. citeturn847737search0
+- [OFFICIAL SOURCE] zapret2's standard UDP interception is configured through `NFQWS2_PORTS_UDP`, but the dedicated `50-wg4all` path does not require adding a generic all-UDP/51820 rule because its nft hook matches WireGuard packet structure directly. citeturn574010search0turn847737search0
+- [DECISION] Do not introduce `MODE_UDP`, `UDP_PORTS`, or arbitrary `--desync-split-pos`/TTL settings from the pasted advice yet.
+- [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard handshake validation = IN_PROGRESS.
