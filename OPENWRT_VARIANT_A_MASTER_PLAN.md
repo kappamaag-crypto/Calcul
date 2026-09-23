@@ -1255,3 +1255,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] User's latest message repeated the prior grep command and returned the same confirmed location: `/opt/zapret2/init.d/openwrt/zapret2:65:do_nfqws()`.
 - [NOTE] The requested `sed -n '55,105p' /opt/zapret2/init.d/openwrt/zapret2` command was not executed in this message; therefore its output remains unknown.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — `50-wg4all` daemon integration confirmed
+- [PASS] Read-only inspection of `/opt/zapret2/init.d/openwrt/zapret2:55-105` completed.
+- [RESULT] `do_nfqws()` delegates to `run_nfqws()`, which launches the configured `$NFQWS2` binary with `$NFQWS2_OPT_BASE` plus the custom options.
+- [CONCLUSION] The bundled `50-wg4all` custom script will use the already configured native `nfqws2` runtime; no second nfqws binary is required.
+- [RESULT] `start_daemons_procd()` runs both standard Zapret2 daemons and `custom_runner zapret_custom_daemons 1`, so an enabled custom script participates in normal service startup.
+- [IMPORTANT] `50-wg4all` remains disabled; no file was copied and no service restart occurred.
+- [STATUS] Diagnostic gate IN_PROGRESS; evidence for safe integration is now sufficient to move to controlled activation.
+- [WORKFLOW] Continue with synchronization → concise explanation → one command → user output.
