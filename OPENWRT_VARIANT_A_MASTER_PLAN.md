@@ -2185,3 +2185,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PURPOSE] Identify the hostname associated with the tested `84.20.27.33:443` endpoint so the next TLS probe can preserve the expected hostname/SNI.
 - [STATUS] SNI/hostname distinction = NOT_STARTED.
 - [SAFETY] Read-only local profile inspection; no service/configuration changes; TP-Link untouched.
+
+
+## SYNC CHECKPOINT — 2026-09-23 — Proton US profile remote list confirmed
+- [RESULT] `/etc/openvpn/proton-us-free-115-tcp.ovpn` contains three remotes, all on IP `84.20.27.33`: ports `8443`, `443`, and `7770`.
+- [IMPORTANT] The profile contains no hostname for this endpoint in its `remote` lines; the current TLS probe cannot be made SNI-aware from the `remote` directive alone.
+- [DECISION] Do not invent a Proton hostname or change the profile. The next diagnostic should use the existing profile metadata to identify any hostname/server-name directive, if present, before another TLS probe.
+- [STATUS] SNI/hostname distinction = IN_PROGRESS; current evidence confirms only IP-based remotes.
+- [SAFETY] Read-only profile inspection; no service/configuration changes; TP-Link untouched.
