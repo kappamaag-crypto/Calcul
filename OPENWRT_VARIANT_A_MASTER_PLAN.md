@@ -1934,3 +1934,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [NEXT] Inspect the `openvpn-openssl` package metadata before installation, including dependencies/size.
 - [SAFETY] No package installed yet; TP-Link untouched.
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN installation state clarification
+- [USER NOTE] User recalls that OpenVPN may already have been installed earlier.
+- [DECISION] Do not install or reinstall OpenVPN based only on package search results. First verify the actual installed package/binary state.
+- [STATUS] OpenVPN TCP fallback = IN_PROGRESS; no package changes in this checkpoint.
+- [CONSTRAINT] TP-Link remains untouched.
