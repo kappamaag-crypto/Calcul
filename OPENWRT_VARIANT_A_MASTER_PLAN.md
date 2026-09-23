@@ -1919,3 +1919,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] Further blind Zapret2 strategy changes are not justified. The remaining practical branch is to validate the current Proton-generated profile/server assignment with a freshly generated WireGuard configuration.
 - [DECISION] Keep vendor `50-wg4all` baseline unchanged and do not touch TP-Link. Do not install AmneziaWG or third-party feeds.
 - [STATUS] Zapret2 integration = DONE; Proton/WireGuard functional validation = BLOCKED pending validated current Proton profile/peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN TCP fallback branch
+- [USER INPUT] User proposed OpenVPN TCP on port 443 as an alternative to the failing WireGuard UDP path.
+- [OFFICIAL FACT] Proton officially supports OpenVPN on OpenWrt 22.03+ and instructs router users to download an OpenVPN config with Platform=Router; the config download flow allows choosing TCP, which uses port 443. citeturn983200search0turn983200search2
+- [IMPORTANT] OpenVPN TCP/443 should not be described as literally becoming HTTPS; Proton says TCP can be harder to block and uses the HTTPS-handled port, but DPI can still detect OpenVPN. citeturn983200search11
+- [DECISION] Treat OpenVPN TCP/443 as a fallback branch, without changing TP-Link and without further WireGuard strategy churn.
+- [SAFETY] No packages installed and no existing VPN/Zapret2 configuration changed. First check whether `openvpn*` packages are available in the configured official OpenWrt feeds.
+- [STATUS] OpenVPN TCP fallback = NOT_STARTED; standard `50-wg4all` baseline = DONE; WireGuard validation = BLOCKED at peer response.
