@@ -2126,3 +2126,5 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] If continuing local anti-DPI testing, use one `fakedsplit:pos=2` dry-run first; do not modify the active configuration until syntax is validated.
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS; `multisplit` test = FAILED; `fakedsplit` test = NOT_STARTED.
 - [CONSTRAINT] TP-Link remains untouched.
+- [RESULT 2026-09-23] `nfqws2 --dry-run --lua-desync=fakedsplit:pos=2` returned `command line parameters verified`.
+- [STATUS] OpenVPN `fakedsplit` A/B test = NOT_STARTED before live test; syntax validation = DONE.
