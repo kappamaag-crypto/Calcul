@@ -1074,3 +1074,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] It does not replace the existing Zapret2 TCP 80/TCP 443/QUIC configuration; it is an additional custom daemon/firewall path when loaded by the custom.d mechanism.
 - [SAFETY] No Zapret2 configuration or runtime state was changed by this inspection.
 - [NEXT] Verify the installed nft version/feature level before applying the example, because its nft path uses `@ih` payload matching.
+
+
+## WireGuard 50-wg4all nft prerequisite verified — 2026-09-23
+- [RESULT] `nft --version` returns `nftables v1.1.6 (Commodore Bullmoose #7)`.
+- [PASS] This satisfies the local `50-wg4all` example's `@ih` nft payload-matching prerequisite; the router is also running kernel 6.12.94, well above the example's stated recent-kernel requirement. citeturn884219search4
+- [STATUS] No runtime or persistent configuration changed.
+- [NEXT] Verify how the installed zapret2 loads `custom.d` examples before making any configuration change, so the official `50-wg4all` path is integrated without disturbing the working TCP/443 and QUIC configuration.
