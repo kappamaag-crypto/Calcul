@@ -1571,3 +1571,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] Current active `50-wg4all` remains the vendor example: `--payload=wireguard_initiation,wireguard_response,wireguard_cookie --lua-desync=fake:blob=0x000...000:repeats=2`.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard end-to-end validation = BLOCKED at missing peer response.
 - [SAFETY] Read-only search; no config or runtime changes.
+
+## SYNC CHECKPOINT — 2026-09-23 — available desync syntax inventory
+- [RESULT] Installed examples contain `--lua-desync=multisplit` and `--lua-desync=split`-related usage (including `synack_split`), and multiple UDP examples use the zero-blob `fake` strategy.
+- [RESULT] No installed reference to `fake_default_udp` was found.
+- [IMPORTANT] Presence of `split` in examples proves the function exists in this build, but does not prove that `split:pos=2` is valid/effective for the WireGuard payload handlers used by `50-wg4all`.
+- [DECISION] Do not edit `50-wg4all` or `NFQWS_OPT_DESYNC_WG` yet; first inspect the actual `nfqws2` desync option syntax exposed by the installed binary.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
