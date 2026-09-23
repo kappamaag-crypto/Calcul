@@ -15,7 +15,7 @@ STAGE 3 — DONE
 STAGE 4 — DONE
 STAGE 5 — DONE
 STAGE 6 — DONE (Zapret2 boot persistence and post-reboot validation)
-STAGE 7–10 — see detailed status below
+STAGE 7 — current baseline recorded; STAGE 8 — verified; STAGE 9 — verified; STAGE 10 — SKIPPED/RETIRED (DoH abandoned)
 STAGE 11 — DONE (permanent Zapret2 candidate validation)
 STAGE 12–30 — NOT_STARTED
 
@@ -34,7 +34,7 @@ STAGE 12–30 — NOT_STARTED
 ## Architecture
 TP-Link Archer C20 v4 остаётся главным маршрутизатором.
 MikroTik hAP ac lite работает downstream через Wi-Fi STA.
-Целевая Variant A: clean OpenWrt → новый extroot → ZRAM → USB swap → DoH → Zapret2 → WireGuard/WARP/Proton → PBR.
+Целевая Variant A: clean OpenWrt → новый extroot → ZRAM → USB swap → Zapret2 → WireGuard/WARP/Proton → PBR. DoH explicitly abandoned; do not reintroduce it unless the user separately requests.
 
 ## Safety
 Без явного отдельного подтверждения запрещены destructive storage operations. Во время post-reboot audit изменения сервисов/конфигурации не выполняются.
@@ -313,3 +313,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] ZRAM has higher priority than USB swap; USB swap is available as fallback.
 - [FACT] No swap is configured on /tmp in the observed state.
 - [STATUS] Existing ZRAM + USB swap configuration is operational; no reconfiguration performed.
+
+
+## STAGE 10 — DoH retirement — 2026-09-23
+- [DECISION] DoH was explicitly abandoned by the user.
+- [PASS] `/etc/init.d/https-dns-proxy status` returned `inactive`.
+- [STATUS] STAGE 10 is SKIPPED/RETIRED and is not a pending configuration task.
+- [RULE] Do not propose, install, enable, or test DoH/https-dns-proxy in the current Variant A sequence unless the user explicitly reopens this decision.
