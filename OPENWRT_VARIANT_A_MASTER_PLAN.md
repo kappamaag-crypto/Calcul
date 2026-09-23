@@ -293,3 +293,10 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [SAFETY] No package was installed and no configuration was changed.
 - [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-confirmed but functional PASS cannot be established from the router with the currently available client set.
 - [NEXT] Use a minimal client-side functional check from a device behind the hAP, if feasible, rather than installing a new package solely for testing.
+
+
+## SYNC — 2026-09-23 — client behind hAP reaches YouTube
+- [CONFIRMED] User connected a phone to the hAP/OpenWrt Wi-Fi and YouTube loads successfully with the temporary config active.
+- [LIMITATION] This confirms functional YouTube access but does not prove that the phone used HTTP/3/QUIC; the browser may have used TCP/TLS fallback.
+- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-confirmed but not yet functionally classified as QUIC PASS/FAIL.
+- [NEXT] Perform a client-side HTTP/3-specific check before considering QUIC candidate #1 a functional PASS.
