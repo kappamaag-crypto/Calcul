@@ -2152,3 +2152,18 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] Raw TLS endpoint probe = NOT_STARTED. Use existing HTTPS-capable `wget` rather than installing additional tooling.
 - [RESULT 2026-09-23] BusyBox `wget` does not support `-S`; the attempted HTTPS probe did not execute. No network conclusion was drawn.
 - [STATUS] Raw TLS endpoint probe = NOT_STARTED; use supported `wget --no-check-certificate -T 5` syntax.
+
+
+## SYNC CHECKPOINT — 2026-09-23 — raw TLS endpoint probe with supported BusyBox wget
+- [PENDING] User requested a supported raw TLS/HTTPS endpoint probe against Proton US endpoint `84.20.27.33:443`.
+- [TEST COMMAND]
+  ```
+  wget --no-check-certificate -O /tmp/tls443.out -T 5 https://84.20.27.33/
+  echo "exit=$?"
+  wc -c /tmp/tls443.out
+  ```
+- [PURPOSE] Determine whether BusyBox `wget` can complete an HTTPS/TLS request to the endpoint without certificate-name validation blocking the result.
+- [INTERPRETATION] `--no-check-certificate` disables only certificate verification for this diagnostic; it does not disable TLS or convert the request to plaintext.
+- [LIMIT] This test is not yet a Proton OpenVPN protocol test and cannot by itself prove OpenVPN service compatibility or DPI causality.
+- [STATUS] Raw TLS endpoint probe = IN_PROGRESS; result pending user execution.
+- [SAFETY] Read-only network diagnostic; no configuration/service/firewall changes.
