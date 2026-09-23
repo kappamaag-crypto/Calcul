@@ -1986,3 +1986,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PURPOSE] Determine whether generic TCP multisplit can get the existing Proton OpenVPN TCP/443 connection past the point where plain TCP succeeds but OpenVPN control/TLS exchange times out.
 - [SAFETY] Test is scoped to hAP only, temporary qnum/rule, and will be cleaned up after the observation. Existing vendor qnum 300 and 65300 remain otherwise unchanged; TP-Link untouched.
 - [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — temporary OpenVPN nfqws test launched
+- [PASS] Temporary `nfqws2` test process launched as PID 8082 with qnum 65301, TCP/443, payload=all, `multisplit:pos=2`.
+- [PASS] Temporary nftables rule was inserted for destination `185.107.56.133:443` to qnum 65301.
+- [IMPORTANT] This test is outside the persistent Zapret2 config and must be cleaned up after the observation.
+- [NEXT] Verify the temporary process log before starting OpenVPN.
+- [SAFETY] TP-Link untouched; vendor qnum 300 and qnum 65300 configuration remains unchanged.
+- [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS.
