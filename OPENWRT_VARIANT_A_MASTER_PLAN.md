@@ -738,3 +738,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `chmod 600 /etc/wireguard/proton.conf` completed with no output.
 - [STATE] The Proton WireGuard config permissions are now expected to be restricted to root; content remains unchanged.
 - [NEXT] Verify mode only, without exposing configuration contents.
+
+
+## STAGE 21 WireGuard config permission verification — 2026-09-23
+- [PASS] `/etc/wireguard/proton.conf` is mode `0600`, owned by `root:root`.
+- [PASS] Required Proton WireGuard fields were previously verified; private key remains undisclosed.
+- [STATUS] STAGE 21 — IN_PROGRESS.
+- [NEXT] Start a route-isolated WireGuard test: bring up the Proton interface with routing disabled so the existing default WAN remains unchanged.
