@@ -1817,3 +1817,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not install or switch to AmneziaWG yet. First verify whether compatible packages are actually available in the router's configured apk repositories.
 - [CONSTRAINT] TP-Link remains untouched.
 - [STATUS] Standard vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — AmneziaWG package search result
+- [RESULT] `apk search -v '*amneziawg*'` returned an empty result.
+- [CONCLUSION] No AmneziaWG package matching the wildcard is currently visible through the router's configured/cached apk package indexes.
+- [IMPORTANT] Empty `apk search` does not by itself prove that upstream OpenWrt has no such packages; repository/index configuration could limit visibility.
+- [DECISION] Do not install or manually fetch AmneziaWG packages. First inspect the configured apk repositories on the hAP.
+- [STATUS] Standard vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS; AmneziaWG = NOT_STARTED.
+- [CONSTRAINT] TP-Link remains untouched.
