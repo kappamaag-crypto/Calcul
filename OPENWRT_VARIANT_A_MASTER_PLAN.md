@@ -1885,3 +1885,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CURRENT ASSESSMENT] Router clock is aligned with the expected UTC+5 local display and NTP daemon is running, so time remains an unlikely cause of the WireGuard `UNREPLIED` state; explicit sync status is still unverified.
 - [NEXT] Inspect available `hotplug.ntp` methods read-only, without forcing synchronization.
 - [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — NTP inspection closed; clean source-port handshake test pending
+- [RESULT] `ubus -v list hotplug.ntp` exposes only method `call` with an `env` array; it is not a direct NTP synchronization-status interface.
+- [DECISION] Stop further NTP diagnostics. Existing evidence (NTP daemon running and correctly formatted system time) is sufficient to treat clock as unlikely root cause unless a future direct sync error appears.
+- [IMPORTANT] Temporary `proton-test` was previously assigned listening port `48744` with `wg set ... listen-port 0`; this creates a fresh WireGuard source port but has not yet been followed by a dedicated handshake observation in the current baseline.
+- [NEXT] Perform one read-only handshake check after the source-port change.
+- [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+- [CONSTRAINT] TP-Link untouched.
