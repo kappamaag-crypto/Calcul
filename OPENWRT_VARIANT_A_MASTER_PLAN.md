@@ -75,6 +75,10 @@ STAGE 11 — DONE.
 - [STATUS] STAGE 11 DONE.
 
 ## Autostart check — 2026-09-23
+- [PASS] Startup symlink confirmed: `/etc/rc.d/S21zapret2 -> ../init.d/zapret2`.
+- [STATUS] zapret2 is enabled for boot autostart.
+- [LIMIT] This confirms the boot symlink only; actual post-reboot startup has not yet been tested.
+
 - [ACTION] Ran `/etc/init.d/zapret2 enable`.
 - [RESULT] Command returned empty output; this is normal for a successful init-script enable operation, but startup-link creation has not yet been rechecked.
 - [STATUS] Autostart enable command executed; confirmation remains pending.
