@@ -87,9 +87,10 @@ STAGE 11 — DONE.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
 ## Post-reboot nftables audit — 2026-09-23
-- [RESULT] `nft list table inet zapret2 | grep -E 'queue num|wanif|lanif' | head -20` confirmed the `wanif`, `wanif6`, and `lanif` sets and their NAT-chain references.
-- [LIMIT] This filtered output did not expose the NFQUEUE queue-number lines, so actual queue application is not yet independently confirmed by this command.
-- [STATUS] Post-reboot nftables audit IN_PROGRESS; no configuration changes made.
+- [PASS] `inet zapret2` table is present after reboot with `wanif`, `wanif6`, and `lanif` sets and NAT-chain references.
+- [PASS] NFQUEUE rules are active for IPv4 UDP/443 (original packets 1–5, reply packets 1–3) and TCP 80/443 (original packets 1–20, reply packets 1–10).
+- [PASS] All shown NFQUEUE rules use queue number 300 and `flags bypass`.
+- [STATUS] Post-reboot nftables application is confirmed; no configuration changes made.
 
 ## Autostart check — 2026-09-23
 - [PASS] Startup symlink confirmed: `/etc/rc.d/S21zapret2 -> ../init.d/zapret2`.
