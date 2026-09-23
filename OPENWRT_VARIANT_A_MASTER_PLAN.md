@@ -394,3 +394,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] `/overlay` has 6.2 GiB available; disk capacity is not the immediate constraint for the interrupted OpenVPN installation.
 - [CONCLUSION] The observed process kill during `libopenssl3` installation is not explained by a nearly-full `/tmp` or `/overlay`; low available RAM remains the primary suspected cause.
 - [STATUS] No cleanup or package changes performed in this step.
+
+
+## STAGE 23 post-failure memory state — 2026-09-23
+- [RESULT] After the interrupted OpenVPN installation, RAM: total 54852 KiB, used 31592 KiB, free 15184 KiB, buff/cache 8076 KiB, available 6932 KiB.
+- [RESULT] Swap: total 550904 KiB, used 5988 KiB, free 544916 KiB.
+- [IMPORTANT] Available RAM dropped from 10576 KiB before the installation attempt to 6932 KiB afterwards, while swap usage rose from 1612 KiB to 5988 KiB.
+- [CONCLUSION] The data strongly supports memory pressure during the package transaction; `/tmp` and `/overlay` capacity were already confirmed sufficient.
+- [SAFETY] Do not retry the OpenVPN installation while the current memory state remains this constrained.
