@@ -1301,3 +1301,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] This explains why the absence of UCI `network` WireGuard entries does not mean no Proton WireGuard profiles exist; they are stored as native WireGuard configuration files.
 - [SAFETY] Private key material was not displayed, copied, or modified.
 - [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard end-to-end validation remains IN_PROGRESS pending inspection of the non-secret profile parameters.
+
+## SYNC CHECKPOINT — 2026-09-23 — Proton WireGuard profile parameters inspected
+- [RESULT] Read-only inspection of `/etc/wireguard/proton-test.conf` and `proton.conf` completed with `PrivateKey` redacted.
+- [RESULT] Both profiles target the same Proton peer `NL-FREE#128`, endpoint `185.107.56.235:51820`, address `10.2.0.2/32`, and `PersistentKeepalive=25`.
+- [IMPORTANT] `proton-test.conf` has `Table=off`, making it the safer profile for initial handshake testing because it does not install full-tunnel routes.
+- [SAFETY] No key material was exposed; no profile was modified.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard end-to-end validation = IN_PROGRESS.
