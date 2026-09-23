@@ -1093,3 +1093,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] No router configuration, firewall/nftables rules, Zapret2 config, WireGuard config, or service state was changed by this synchronization.
 - [STATUS] Current diagnostic gate remains IN_PROGRESS; wait for the factual output of the pending command before issuing another router command.
 - [DOCUMENTATION] This checkpoint follows the project rule: after each user+assistant pair, synchronize factual state in the Master Plan; update the Master Prompt when the workflow/safety rule itself changes.
+
+## SYNC CHECKPOINT — 2026-09-23 — Zapret2 custom.d hook audit
+- [PASS] Executed read-only grep against /etc/init.d/zapret2 and /opt/zapret2/init.d/*.
+- [RESULT] Only matching line: /etc/init.d/zapret2:73: custom_runner zapret_custom_daemons 1.
+- [IMPORTANT] No literal custom.d/custom_d path was found by this filtered search.
+- [RESULT] The installed init script invokes the function/hook name zapret_custom_daemons through custom_runner.
+- [LIMIT] This result identifies the hook invocation but does not yet establish where zapret_custom_daemons is defined or whether/how it maps to custom.d files.
+- [SAFETY] Read-only inspection only; no Zapret2, nftables, WireGuard, firewall, or service state was changed.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
+- [NEXT PENDING INSPECTION] Locate the definition/source path for custom_runner and zapret_custom_daemons before any configuration change.
