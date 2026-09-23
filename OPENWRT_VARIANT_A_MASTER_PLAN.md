@@ -121,3 +121,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] The previous `Command failed: Not found` message cannot be attributed to those literal strings in the init script by this targeted search.
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT yet classified PASS/FAIL.
 - [NEXT] Continue with a narrower read-only qualification of the restart path; do not modify candidate #52, UDP strategy, or permanent config.
+
+
+## SYNC — 2026-09-23 — STAGE 11 init-script call-path inspection
+- [OBSERVED] Targeted grep of /etc/init.d/zapret2 returned the rc.common header, my_extra_command registrations, procd_open_instance/procd_set_param command, rc_procd start_daemons_procd, procd_running/procd_kill, and start_service/stop_service entry points.
+- [CONFIRMED] The inspected first 40 matching lines do not contain an obvious literal external executable corresponding to `Command failed: Not found`.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT yet classified PASS/FAIL.
+- [NO CHANGE] No zapret2 configuration or permanent config was modified by this diagnostic.
+- [NEXT] Inspect the small procd/service section around the daemon command definition; remain read-only.
