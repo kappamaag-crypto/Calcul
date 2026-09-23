@@ -1657,3 +1657,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The external recommendation to replace WireGuard handling with `multisplit/split` is not supported by the inspected `multisplit` implementation.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
 - [SAFETY] Read-only source inspection only; no configuration/runtime state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — multisplit syntax dry-run pending
+- [USER INPUT] User proposed testing `--lua-desync=multisplit:pos=2` or `split:pos=2` for WireGuard.
+- [LOCAL SOURCE FACT] Installed `multisplit()` explicitly returns for non-TCP packets, so even a syntactically valid `multisplit` option would not provide WireGuard UDP processing.
+- [SAFE TEST] A dry-run syntax check for `multisplit:pos=2` was selected; no running daemon/config/firewall state will be changed.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
