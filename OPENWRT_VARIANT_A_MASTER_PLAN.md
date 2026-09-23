@@ -2064,3 +2064,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [NEXT] Run a single foreground OpenVPN TCP/443 test against the US endpoint with `route-nopull` and `--disable-dco` to isolate server/endpoint behavior.
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS; NL endpoint/control-channel test = FAILED; US endpoint A/B = READY.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — US Proton OpenVPN endpoint A/B failed
+- [RESULT] Existing US Free #115 TCP profile forced to `84.20.27.33:443` with `--route-nopull --disable-dco` established TCP successfully but then timed out at `Server poll timeout` with no TLS/authentication progress.
+- [CONCLUSION] NL Free #130 and US Free #115 show the same control-channel timeout pattern, so the issue is not confined to a single Proton server endpoint/profile entry.
+- [NEXT DECISIVE A/B] Temporarily stop only `zapret2` on hAP and immediately repeat one TCP/443 OpenVPN test. This separates OpenVPN/endpoint/upstream behavior from local zapret2 packet handling.
+- [SAFETY] This is a reversible runtime change on hAP only. TP-Link remains untouched; permanent Zapret2 config is not modified.
+- [STATUS] OpenVPN TCP fallback = IN_PROGRESS; endpoint-specific hypothesis = FAILED; zapret2-vs-non-zapret2 A/B = READY.
