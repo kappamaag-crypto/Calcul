@@ -796,3 +796,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] The Proton WireGuard endpoint has a normal underlay route through the Archer-side WAN/STA path.
 - [STATUS] No WireGuard handshake yet; routing to the endpoint is not the current missing prerequisite.
 - [NEXT] Verify that the local private key in the protected Proton config derives to the same public key currently loaded on `proton`, without printing the private key.
+
+
+## STAGE 21 WireGuard key consistency verified — 2026-09-23
+- [RESULT] Deriving the public key from the private key stored in `/etc/wireguard/proton.conf` produced `NH0oKZdjcC0rLTF4cW6qYWygVGihaujnr0Fxl35SBSI=`.
+- [PASS] This exactly matches the public key reported for runtime interface `proton` by `wg show proton`.
+- [CONCLUSION] The loaded local keypair is internally consistent; no key mismatch is indicated.
+- [NEXT] Generate one controlled packet through `proton` to force a WireGuard handshake, using only a temporary tunnel-local route and removing it in the same command.
