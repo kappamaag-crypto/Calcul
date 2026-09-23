@@ -512,3 +512,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATE] User opened `/etc/openvpn/proton.auth` in `vi`; screen shows an empty one-page buffer, so credentials have not yet been entered/saved.
 - [SECURITY] OpenVPN credentials remain local to the router and are not requested in chat.
 - [NEXT] User must enter the Proton OpenVPN username on line 1 and OpenVPN password on line 2, save, and exit `vi`.
+
+
+## STAGE 23 Proton credentials structural verification pending — 2026-09-23
+- [STATE] User reports credentials were entered into `/etc/openvpn/proton.auth`.
+- [SECURITY] Credential contents must not be displayed in chat.
+- [NEXT] Verify only that the file has exactly two non-empty lines, without revealing values.
