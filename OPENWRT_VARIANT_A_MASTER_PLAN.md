@@ -449,3 +449,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not retry `openvpn-openssl`. A single controlled attempt of `openvpn-mbedtls` is justified before closing Proton Free as infeasible.
 - [SAFETY] This is a package substitution, not a guarantee that installation will succeed; no VPN configuration will be applied yet.
 - [STATUS] STAGE 23 remains IN_PROGRESS pending the lighter OpenVPN package attempt.
+
+
+## STAGE 23 mbedTLS package switch blocked by apk world state — 2026-09-23
+- [RESULT] `apk add openvpn-mbedtls` failed because apk reports a conflict between `openvpn-mbedtls-2.7.6-r1` and the world requirement `openvpn-openssl`.
+- [FACT] Earlier interrupted `apk add openvpn-openssl` left an `openvpn-openssl` world entry even though `apk info` did not report the package as installed.
+- [CONCLUSION] The mbedTLS attempt is blocked by residual apk package-selection state, not by a package incompatibility or a new RAM failure.
+- [NEXT] Remove only the stale `openvpn-openssl` world requirement, then attempt the mbedTLS package once. No broad package cleanup or cache purge yet.
