@@ -66,9 +66,11 @@ STAGE 11 — IN_PROGRESS.
 - [CONFIRMED] Permanent TCP/443 is still baseline: fake_default_tls + tcp_md5 + tcp_seq=-10000 + multidisorder pos=1,midsld.
 - [CONFIRMED] Permanent UDP/443 is still baseline: fake_default_quic repeats=6.
 - [PASS] Backup exists: /opt/zapret2/config.backup-before-router-selection, 5542 bytes, root:root.
-- [SAFETY] No permanent configuration was changed by this check.
+- [PASS] cmp -s /opt/zapret2/config /opt/zapret2/config.backup-before-router-selection returned BACKUP_MATCH.
+- [CONCLUSION] The permanent config is byte-identical to the verified rollback backup before the candidate change.
+- [SAFETY] No permanent configuration was changed by the comparison.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] The candidate is validated in the temporary config and the backup is confirmed. Before committing to the permanent config, perform one final explicit content-preservation check of the full permanent config structure or use the backup as rollback reference. No change yet.
+- [NEXT] Candidate validation and rollback protection are complete. The next action will be a controlled permanent-config replacement of only the selected TCP/443 and UDP/443 strategy lines, followed by service restart and validation.
 
 ## Prior detailed sync record
 Earlier detailed candidate-testing history remains represented by the selected-candidate records above; no earlier PASS/FAIL state is being overwritten.
