@@ -714,3 +714,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SECURITY] PrivateKey was entered only on the router and was not shared in chat or GitHub.
 - [STATUS] STAGE 21 — IN_PROGRESS.
 - [NEXT] Perform a metadata-only validation of file permissions and required sections; do not print the private key or full config.
+
+
+## STAGE 21 WireGuard validation command correction — 2026-09-23
+- [RESULT] The long metadata-only `awk` command was not executed; the shell entered continuation prompt `>` because the pasted command was incomplete/line-wrapped.
+- [FACT] No WireGuard configuration was changed by this failed command entry.
+- [DECISION] Replace the oversized validation command with a shorter one to respect the user's compact-command preference.
