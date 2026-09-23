@@ -17,7 +17,7 @@ STAGE 5 — DONE
 STAGE 6 — DONE (Zapret2 boot persistence and post-reboot validation)
 STAGE 7 — current baseline recorded; STAGE 8 — verified; STAGE 9 — verified; STAGE 10 — SKIPPED/RETIRED (DoH abandoned)
 STAGE 11 — DONE (permanent Zapret2 candidate validation)
-STAGE 12–30 — NOT_STARTED
+STAGE 12–20 — RETIRED/OBSOLETE FOR CURRENT PATH; STAGE 21 — NEXT; STAGE 22–30 — NOT_STARTED
 
 ## Compact command-output policy
 - Цель: минимизировать текст, который пользователь копирует в ИИ.
@@ -320,3 +320,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] `/etc/init.d/https-dns-proxy status` returned `inactive`.
 - [STATUS] STAGE 10 is SKIPPED/RETIRED and is not a pending configuration task.
 - [RULE] Do not propose, install, enable, or test DoH/https-dns-proxy in the current Variant A sequence unless the user explicitly reopens this decision.
+
+
+## Current stage map correction — 2026-09-23
+- [DECISION] The old STAGE 12–20 SDK/build/dependency/NFQUEUE/Zapret2 sequence is historical and must not be repeated: Zapret2 is already installed, validated, persistent, and reboot-tested.
+- [DECISION] STAGE 10 DoH is retired.
+- [NEXT] The next applicable planned capability is STAGE 21 — WireGuard base.
+- [RULE] Before configuring WireGuard, perform only the minimum read-only audit needed to establish the current WireGuard/package/kernel state. No installation or configuration change in the audit step.
