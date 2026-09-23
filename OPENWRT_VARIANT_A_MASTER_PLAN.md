@@ -1360,3 +1360,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The installed firewall hook targets outbound IPv4 UDP WireGuard handshake packets before WAN transmission, consistent with the vendor `50-wg4all` example.
 - [STATUS] `50-wg4all` integration = DONE; end-to-end WireGuard/Proton validation = IN_PROGRESS.
 - [NEXT] Keep diagnostics minimal; verify only that the dedicated `nfqws2` consumer for qnum `65300` remains running.
+
+## SYNC CHECKPOINT — 2026-09-23 — two nfqws2 processes confirmed
+- [RESULT] `ps w | grep '[n]fqws2'` shows two running `nfqws2` processes, PIDs 4852 and 4853, both owned by `daemon`.
+- [LIMIT] The command output is truncated before the queue argument, so it does not by itself prove which PID is standard qnum 300 and which is WireGuard qnum 65300.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+- [SAFETY] Read-only process listing only; no state changed.
