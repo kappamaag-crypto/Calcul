@@ -1632,3 +1632,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [UPSTREAM CONFIRMATION] Current upstream `50-wg4all` calls `fake` for WireGuard handshake payloads; current upstream `zapret-antidpi.lua` defines `fake` and supports standard fooling such as `ip_ttl`. citeturn276408search0turn409902search0
 - [STATUS] No configuration change; `50-wg4all` remains the vendor strategy.
 - [NEXT] One targeted local lookup will verify the exact available function names and TTL/repeat parameters in the installed v1.0.3 Lua source.
+
+## SYNC CHECKPOINT — 2026-09-23 — corrected Lua compression diagnosis
+- [IMPORTANT CORRECTION] The external claim that `nfqws2` is running without Lua because only `.lua.gz` files exist is incorrect.
+- [UPSTREAM FACT] Zapret2 explicitly supports loading compressed Lua resources; upstream documentation/issue output refers to a Lua file being accessible as either `zapret-lib.lua` or `zapret-lib.lua.gz`. citeturn366117search11
+- [LOCAL FACT] The installed `nfqws2` processes start normally with `--lua-init=@/opt/zapret2/lua/zapret-lib.lua`, `zapret-antidpi.lua`, and `zapret-auto.lua`, while the installed directory contains the corresponding `.lua.gz` files.
+- [CONCLUSION] The existence of only `.lua.gz` files does not explain the WireGuard `[UNREPLIED]` result. Do NOT gunzip or overwrite the Lua directory on this basis.
+- [SAFETY] No Lua files were decompressed, copied, or modified.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
