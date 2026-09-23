@@ -1714,3 +1714,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CURRENT FACT] The later corrected command `sed -i 's/repeats=2/repeats=1:ip_ttl=4/' ... && /etc/init.d/zapret2 restart` succeeded, and the user's restart log explicitly showed daemon 2000 with `--lua-desync=fake:blob=0x000...000:repeats=1:ip_ttl=4`.
 - [CONCLUSION] Current `50-wg4all` runtime strategy is `repeats=1:ip_ttl=4`; the setting is applied. The brief network/SSH drop was caused by restarting Zapret2, not by failure to apply the setting.
 - [STATUS] TTL strategy A/B test = IN_PROGRESS; Proton/WireGuard validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — TTL A/B test failed
+- [RESULT] With `NFQWS_OPT_DESYNC_WG` set to `fake:blob=0x000...000:repeats=1:ip_ttl=4`, two sequential `wg show proton-test` checks showed `0 B received` and no handshake; sent counter increased from `75.45 KiB` to `82.53 KiB`.
+- [CONCLUSION] The TTL=4 variant did not restore the Proton WireGuard handshake during this test.
+- [STATUS] TTL strategy A/B test = FAILED; `50-wg4all` integration remains active with the failed experimental strategy until rollback/change.
+- [NEXT] Test one alternative `fake` fooling mode, not a generic UDP/split rewrite. First perform a dry-run syntax validation; no live config change yet.
+- [SAFETY] TP-Link untouched; no additional runtime change in this checkpoint.
