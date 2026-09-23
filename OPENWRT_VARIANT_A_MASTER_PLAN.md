@@ -180,3 +180,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
 - [NO CHANGE] No configuration-changing command was issued.
 - [NEXT] Read `/proc/4182/cmdline` in a compact filtered form to identify the active TCP/443 desync argument.
+
+
+## SYNC — 2026-09-23 — candidate #52 active confirmation
+- [CONFIRMED] `/proc/4182/cmdline` shows active TCP/443 strategy `--lua-desync=hostfakesplit:ip_ttl=3:repeats=1`, exactly TCP candidate #52.
+- [CONFIRMED] The same nfqws2 process also has the unchanged UDP/443 baseline `fake:blob=fake_default_quic:repeats=6` (temporary config behavior).
+- [CONFIRMED] Temporary runtime is active; permanent `/opt/zapret2/config` has not been modified.
+- [STATUS] TCP candidate #52 is runtime-confirmed but not yet functionally classified PASS/FAIL.
+- [NEXT] Perform one minimal functional HTTPS check for a target covered by the active hostlist; do not alter config.
