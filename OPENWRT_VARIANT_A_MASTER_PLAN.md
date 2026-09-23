@@ -1271,3 +1271,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] This is a file deployment only. The running Zapret2 service has NOT yet been restarted, so the new custom daemon/firewall hooks are not yet active in the running process/ruleset.
 - [SAFETY] No existing config was edited; only the previously inspected vendor example was copied into the designated active custom.d directory.
 - [STATUS] Zapret2 custom WireGuard integration: IN_PROGRESS; activation pending service restart.
+
+## SYNC CHECKPOINT — 2026-09-23 — `50-wg4all` runtime activation successful
+- [PASS] `/etc/init.d/zapret2 restart` completed successfully.
+- [PASS] Standard Zapret2 daemon 1 restarted on queue 300 with the established TCP 80/443 and UDP 443 configuration.
+- [PASS] Custom WireGuard daemon 2000 started using `nfqws2` with queue `65300` and `--payload=wireguard_initiation,wireguard_response,wireguard_cookie --lua-desync=fake:blob=0x00000000000000000000000000000000:repeats=2`.
+- [PASS] nftables added three `50-wg4all` postrouting matches on queue 65300 for UDP lengths/message types 156/0x01000000, 100/0x02000000, and 72/0x03000000.
+- [PASS] Normal Zapret2 nftables rules on queue 300 were recreated; no errors were reported by the restart.
+- [CONCLUSION] The bundled `50-wg4all` integration is now active in the running Zapret2 service.
+- [STATUS] Custom WireGuard desync activation = DONE; end-to-end WireGuard/Proton functional validation remains IN_PROGRESS.
+- [SAFETY] This was the first intended service restart after copying the vendor example; no other configuration was changed.
