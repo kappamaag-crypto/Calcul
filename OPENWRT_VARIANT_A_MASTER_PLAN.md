@@ -720,3 +720,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] The long metadata-only `awk` command was not executed; the shell entered continuation prompt `>` because the pasted command was incomplete/line-wrapped.
 - [FACT] No WireGuard configuration was changed by this failed command entry.
 - [DECISION] Replace the oversized validation command with a shorter one to respect the user's compact-command preference.
+
+
+## STAGE 21 concise WireGuard config validation — 2026-09-23
+- [NEXT] After the interrupted oversized `awk` entry, use a compact validation that checks file permissions and required WireGuard fields while masking the private key.
+- [RULE] Do not print the private key or upload the fresh Proton WireGuard config to GitHub.
