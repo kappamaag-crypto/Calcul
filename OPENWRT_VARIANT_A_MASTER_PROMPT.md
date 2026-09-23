@@ -955,3 +955,8 @@ Use the user-verified 8 TCP + 2 QUIC candidate set from the Master Plan. Do not 
 - That command is PROPOSED/PENDING, not EXECUTED, until the user supplies its router output.
 - Preserve the one-step-at-a-time rule: do not issue a second router command in the same response that synchronizes the current user result/request.
 - No configuration or service changes are permitted during this read-only discovery gate.
+
+## SYNC CHECKPOINT — 2026-09-23 — diagnostic scope refinement
+- [RULE] After the core loader mechanism is established, combine closely related read-only checks into one compact command where practical.
+- [RULE] Avoid redundant probes; once the required runtime fact is established, move to the actual decision point instead of expanding diagnostics.
+- [CURRENT FACT] OpenWrt Zapret2 uses `CUSTOM_DIR="$ZAPRET_RW/init.d/openwrt"`; active custom scripts are therefore under `$ZAPRET_RW/init.d/openwrt/custom.d`.
