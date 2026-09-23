@@ -686,3 +686,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PACKAGE STATUS] A third-party custom OpenWrt package feed currently publishes AWG-2.0 packages for OpenWrt 25.12.5, including all supported targets, but this is not the official OpenWrt package feed and therefore falls under the project's 'no unverified packages' constraint. citeturn953970search0turn953970search2
 - [DECISION] Do not install AWG packages from the third-party feed solely to connect to Proton. Continue with standard Proton WireGuard as the direct Proton integration candidate.
 - [ALTERNATIVE] AWG remains a separate future path only if a compatible AWG server/configuration is available; it would be a different VPN provider/server path, not a Proton Free endpoint.
+
+
+## STAGE 21 WireGuard packages installed — 2026-09-23
+- [PASS] User completed `apk add kmod-wireguard wireguard-tools` successfully.
+- [RESULT] Final apk state reported `OK: 21.0 MiB in 181 packages`.
+- [FACT] Standard WireGuard kernel module and userspace tools are now installed on the hAP.
+- [SECURITY] Fresh Proton private key remains outside chat/GitHub and has not been written into the router yet.
+- [STATUS] STAGE 21 — IN_PROGRESS.
+- [NEXT] Create the router-side WireGuard configuration locally using the fresh Proton NL-FREE#128 parameters; do not enable default routing yet.
