@@ -154,3 +154,13 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [SAFETY] No further zapret2 changes have been made.
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
 - [NEXT] Before resuming candidate validation, perform one minimal read-only check of recent kernel/service restart evidence.
+
+
+## SYNC — 2026-09-23 — recent log qualification
+- [CONFIRMED] Recent log contains no reboot sequence or Wi-Fi AP restart in the shown 20 lines.
+- [OBSERVED] `phy0-sta0` had normal WPA2 group rekey completion at 11:03:58 followed by `Unknown event 37`; this is not evidence of a router reboot.
+- [OBSERVED] Repeated `odhcpd` warnings report `No default route present, setting ra_lifetime to 0!`; this indicates an IPv6/default-route state issue but is not by itself evidence of the reported interruption.
+- [CONFIRMED] SSH connections from 192.168.0.101 at 10:42 and 11:19 succeeded, showing management connectivity remained available.
+- [SAFETY] No zapret2 configuration changes were made.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
+- [NEXT] Resume only with a minimal targeted check of the current service state; avoid broad logs.
