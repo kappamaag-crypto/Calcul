@@ -1765,3 +1765,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] Zapret2 restarted successfully with the original vendor strategy `repeats=2` on daemon 2000/qnum 65300 and the three WireGuard nft rules.
 - [STATUS] Vendor `50-wg4all` baseline restoration = DONE; Proton/WireGuard validation = IN_PROGRESS.
 - [SAFETY] Only hAP Zapret2 files/service were touched; TP-Link untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — next focus moved to Proton profile freshness
+- [CURRENT EVIDENCE] Zapret2 interception is proven (qnum 65300 receives packets with no drops); WireGuard profile is structurally accepted; `ip_ttl=4` and `badsum` A/B variants both failed to produce a handshake; vendor baseline restored.
+- [DECISION] Further arbitrary Zapret2 strategy changes are paused. The next useful hAP-only check is to compare the two local Proton profiles by hash/mtime/size, without exposing private keys.
+- [OFFICIAL CONTEXT] Proton currently instructs users to generate/download WireGuard router configurations from the Proton account Downloads → WireGuard configuration flow and notes that older configurations may need replacement for current IPv6 support. citeturn726328search0turn726328search1
+- [CONSTRAINT] TP-Link Archer remains completely untouched.
+- [STATUS] `50-wg4all` vendor baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
