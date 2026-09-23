@@ -880,3 +880,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `inet fw4 output_wan` contains only `jump accept_to_wan`.
 - [CONCLUSION] The WAN-specific output chain does not itself impose an additional block; WireGuard handshake traffic leaving through `phy0-sta0` is passed to `accept_to_wan`.
 - [NEXT] Inspect `accept_to_wan` to verify its exact rule set before changing anything.
+
+
+## STAGE 21 fw4 accept_to_wan verified — 2026-09-23
+- [RESULT] `inet fw4 accept_to_wan` drops only IPv4 `ct state invalid` on `eth1`/`phy0-sta0`; the following rule explicitly accepts WAN IPv4/IPv6 traffic on those interfaces.
+- [CONCLUSION] The hAP fw4 WAN output path is not an obvious blocker for locally generated WireGuard UDP handshake traffic.
+- [SAFETY] No firewall rule was changed.
+- [STATUS] WireGuard handshake remains absent despite: valid local keypair, matching peer parameters, reachable endpoint IP, and permissive WAN output policy.
+- [NEXT] Stop expanding firewall inspection and move to a controlled endpoint/peer validation outside the hAP, because the remaining evidence no longer points to local routing or fw4 output filtering.
