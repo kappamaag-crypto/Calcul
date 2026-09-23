@@ -1295,3 +1295,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CORRELATION] This matches the previous empty `wg show`: no active WireGuard tunnel is currently configured through OpenWrt UCI.
 - [STATUS] `50-wg4all` integration = DONE; end-to-end WireGuard/Proton validation = BLOCKED because no WireGuard tunnel/profile is configured.
 - [SAFETY] Read-only inspection only; no network configuration changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — WireGuard profile files found
+- [RESULT] `/etc/wireguard` exists and contains two profiles: `proton-test.conf` (357 bytes) and `proton.conf` (345 bytes), both mode `600`.
+- [IMPORTANT] This explains why the absence of UCI `network` WireGuard entries does not mean no Proton WireGuard profiles exist; they are stored as native WireGuard configuration files.
+- [SAFETY] Private key material was not displayed, copied, or modified.
+- [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard end-to-end validation remains IN_PROGRESS pending inspection of the non-secret profile parameters.
