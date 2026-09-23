@@ -94,3 +94,13 @@ Every candidate-test command must emit only the minimum result needed to classif
 
 ### Current status
 STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ranked as more effective before controlled testing.
+
+
+## SYNC — 2026-09-23 — STAGE 11 temporary config verification
+- [PASS] User checked /tmp/zapret2-config-test with a targeted grep.
+- [CONFIRMED] Temporary TCP/443 entry is TCP candidate #52: hostfakesplit:ip_ttl=3:repeats=1.
+- [CONFIRMED] Temporary UDP/443 entry remains the existing baseline: fake:blob=fake_default_quic:repeats=6; no UDP candidate change has been made.
+- [CONFIRMED] This step verifies only the temporary configuration content; it does not establish candidate runtime PASS.
+- [NO CHANGE] Permanent /opt/zapret2/config was not modified by this verification.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT GATE] The next router step will be the isolated runtime test of TCP candidate #52 only, while UDP remains untouched.
