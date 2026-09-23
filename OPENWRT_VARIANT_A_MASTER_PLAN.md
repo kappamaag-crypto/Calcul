@@ -1663,3 +1663,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [LOCAL SOURCE FACT] Installed `multisplit()` explicitly returns for non-TCP packets, so even a syntactically valid `multisplit` option would not provide WireGuard UDP processing.
 - [SAFE TEST] A dry-run syntax check for `multisplit:pos=2` was selected; no running daemon/config/firewall state will be changed.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — multisplit test result
+- [RESULT] `nfqws2 --dry-run` accepted `--lua-desync=multisplit:pos=2` for a `wireguard_initiation` payload and reported `command line parameters verified`.
+- [CRITICAL LOCAL SOURCE FACT] Despite syntax acceptance, installed `multisplit(ctx, desync)` contains `if not desync.dis.tcp then ... return`, so it will not actually process the WireGuard UDP handshake.
+- [CONCLUSION] `multisplit:pos=2` is ruled out as a practical WireGuard strategy on this build, despite being syntactically valid.
+- [NEXT] Safe dry-run check of `fake` with `ip_ttl=4` selected before any live configuration change.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+- [SAFETY] No running service/config/firewall state changed.
