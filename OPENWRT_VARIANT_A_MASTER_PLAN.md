@@ -268,3 +268,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [FACT] Restart recreated nfqws2 and the expected TCP 80/443 + UDP 443 NFQUEUE rules with qnum 300; no startup errors were reported.
 - [STATUS] This reproduces the previously known working restart path. No persistent `rc.local` modification has been made.
 - [NEXT] Verify functionality once after this restart before implementing any persistent delayed-start workaround.
+
+## Delayed restart functional confirmation — 2026-09-23
+- [PASS] After the delayed manual restart, router-side YouTube HTTPS test succeeded: `wget --timeout=15 -O /dev/null https://www.youtube.com/` downloaded `893226` bytes.
+- [CONFIRMED] The same persistent zapret2 configuration is functional after a delayed restart; earlier immediate post-boot failure is therefore consistent with startup ordering/readiness rather than the selected desync strategies.
+- [STATUS] Persistent autostart workaround has NOT yet been installed. `/etc/rc.local` remains unchanged.
+- [NEXT] If user approves, implement the minimal persistent workaround: keep normal zapret2 autostart and add a delayed post-boot `/etc/init.d/zapret2 restart` via `/etc/rc.local`.
