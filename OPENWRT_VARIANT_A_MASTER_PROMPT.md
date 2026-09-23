@@ -192,6 +192,15 @@ Reboot and verify all retained components.
 ### STAGE 30 — final acceptance
 Проверить OpenWrt version, profile, TP-Link role, WAN, LAN, AP, USB data, old extroot inactive, /mnt/data, swap/ZRAM, memory, OOM, DoH, Zapret2, VPN, PBR, IPv4, IPv6, DNS and reboot persistence.
 
+
+## Compact command-output policy
+- Цель: минимизировать текст, который пользователь копирует в ИИ.
+- Каждая router-команда должна давать компактный диагностический вывод: только поля/строки, необходимые для PASS/FAIL или следующего шага.
+- Не использовать полные `cat`, `logread`, `dmesg`, `nft list ruleset`, `iw ... info` и аналогичные большие выводы, если достаточно `grep/sed/awk/head/tail` с ограничением строк.
+- Предпочитать однострочные фильтры и агрегаты; ориентир обычно 3–15 строк вывода, а при необходимости — явно указать причину большего объёма.
+- Не объединять несколько независимых диагностических команд в один шаг только ради компактности: one-step-at-a-time сохраняется.
+- В ответе ассистента показывать команду + ожидаемый компактный результат + PASS/FAIL; после выполнения ждать фактический вывод пользователя.
+
 ## Per-step response format
 STATUS: IN_PROGRESS
 
