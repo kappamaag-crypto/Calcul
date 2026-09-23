@@ -1671,3 +1671,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [NEXT] Safe dry-run check of `fake` with `ip_ttl=4` selected before any live configuration change.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
 - [SAFETY] No running service/config/firewall state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — WireGuard TTL strategy syntax validated
+- [PASS] Dry-run accepted `--lua-desync=fake:blob=0x00000000000000000000000000000000:repeats=1:ip_ttl=4` and reported `command line parameters verified`.
+- [DECISION] Because `multisplit` is TCP-only in the installed source, the next live A/B test will use the existing WireGuard `fake` strategy with `repeats=1` and `ip_ttl=4`.
+- [SAFETY] The test is reversible: preserve the current `50-wg4all` file before changing only its `NFQWS_OPT_DESYNC_WG` assignment. No TP-Link changes.
+- [STATUS] `50-wg4all` runtime integration = IN_PROGRESS during controlled strategy A/B test; Proton/WireGuard validation = IN_PROGRESS.
