@@ -773,3 +773,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] Temporary WireGuard interface `proton` now exists and is up with address `10.2.0.2/32`.
 - [SAFETY] No routes were added and the default WAN route was not changed during this step.
 - [NEXT] Load the Proton peer/private-key parameters from the local protected config into the temporary `proton` interface; private key will not be printed.
+
+
+## STAGE 21 WireGuard peer load attempt — 2026-09-23
+- [RESULT] The runtime `wg set` command did not complete cleanly: shell returned `You have stopped jobs.` and the prompt returned.
+- [UNKNOWN] Do not assume the Proton private key/peer was successfully applied to `proton`.
+- [SAFETY] No route was intentionally added by the attempted command.
+- [NEXT] Verify the current WireGuard runtime state with a compact `wg show proton`; do not expose the private key.
