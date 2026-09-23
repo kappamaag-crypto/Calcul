@@ -86,6 +86,11 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Post-reboot functional test — 2026-09-23
+- [FAIL] Router-side YouTube HTTPS test after reboot: `wget -qO- --timeout=15 https://www.youtube.com/ | wc -c` returned `0`.
+- [STATUS] Post-reboot Zapret2 functional validation is FAILED/needs investigation, despite autostart and NFQUEUE application being confirmed.
+- [SAFETY] No configuration changes made; selected persistent Zapret2 strategies remain unchanged pending diagnosis.
+
 ## Post-reboot nftables audit — 2026-09-23
 - [PASS] `inet zapret2` table is present after reboot with `wanif`, `wanif6`, and `lanif` sets and NAT-chain references.
 - [PASS] NFQUEUE rules are active for IPv4 UDP/443 (original packets 1–5, reply packets 1–3) and TCP 80/443 (original packets 1–20, reply packets 1–10).
