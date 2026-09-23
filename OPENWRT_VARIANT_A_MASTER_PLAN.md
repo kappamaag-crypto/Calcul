@@ -780,3 +780,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [UNKNOWN] Do not assume the Proton private key/peer was successfully applied to `proton`.
 - [SAFETY] No route was intentionally added by the attempted command.
 - [NEXT] Verify the current WireGuard runtime state with a compact `wg show proton`; do not expose the private key.
+
+
+## STAGE 21 WireGuard runtime peer state verified — 2026-09-23
+- [RESULT] `wg show proton` confirms the temporary `proton` interface has a local public key and a hidden private key loaded.
+- [RESULT] Proton peer public key: `ocCFVEDN+6fTFKg96mQ6fW+oBTTZ9gW6xEk8gxTiR1E=`; endpoint `185.107.56.235:51820`; AllowedIPs `0.0.0.0/0, ::/0`; PersistentKeepalive 25s.
+- [RESULT] Runtime reports `2.31 KiB sent, 0 B received`; no `latest handshake` is shown.
+- [STATUS] WireGuard tunnel handshake is NOT established yet. This is not sufficient evidence to diagnose the cause.
+- [SAFETY] No default route has been added; normal WAN remains the underlay.
+- [NEXT] Verify the ordinary routing path to the Proton endpoint before changing any WireGuard settings.
