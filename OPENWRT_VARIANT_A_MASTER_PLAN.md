@@ -1832,3 +1832,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not install or manually fetch AmneziaWG. Locate the actual apk repository configuration first.
 - [STATUS] AmneziaWG = NOT_STARTED; standard vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — actual apk repository files located
+- [PASS] Located the OpenWrt apk repository configuration files:
+  - `/etc/apk/repositories.d/distfeeds.list`
+  - `/etc/apk/repositories.d/customfeeds.list`
+- [RESULT] `/etc/apk/arch`, trusted key, and apk world file are also present.
+- [CONCLUSION] The earlier absence of `/etc/apk/repositories` was only a path difference; apk repository configuration does exist.
+- [STATUS] AmneziaWG = NOT_STARTED; standard vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+- [CONSTRAINT] TP-Link remains untouched.
