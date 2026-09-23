@@ -129,3 +129,12 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT yet classified PASS/FAIL.
 - [NO CHANGE] No zapret2 configuration or permanent config was modified by this diagnostic.
 - [NEXT] Inspect the small procd/service section around the daemon command definition; remain read-only.
+
+
+## SYNC — 2026-09-23 — STAGE 11 procd daemon section inspected
+- [OBSERVED] `/etc/init.d/zapret2` defines `run_daemon()` using `procd_open_instance`, `procd_set_param command $2 $3`, pidfile setup, then `procd_close_instance`; `run_nfqws()` passes the nfqws2 binary and generated arguments into `run_daemon()`.
+- [CONFIRMED] `start_daemons_procd()` calls `standard_mode_daemons 1` and `custom_runner zapret_custom_daemons 1`; `start_daemons()` invokes `rc_procd start_daemons_procd`.
+- [CONCLUSION] The inspected section does not itself identify the `Command failed: Not found` source; the message may originate from a procd-managed command or another part of the startup path.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT yet classified PASS/FAIL.
+- [NO CHANGE] No zapret2 configuration was modified.
+- [NEXT] Inspect the definitions of `standard_mode_daemons` / relevant command construction, still read-only.
