@@ -1685,3 +1685,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CORRECTION] Move the backup outside `custom.d` and restart Zapret2 to restore a single custom WireGuard daemon. Do not yet change the strategy value.
 - [SAFETY] Reversible housekeeping; backup is preserved, not deleted. TP-Link untouched.
 - [STATUS] `50-wg4all` runtime integration = IN_PROGRESS pending duplicate-script cleanup; Proton/WireGuard validation = BLOCKED.
+
+## SYNC CHECKPOINT — 2026-09-23 — network/SSH transient restart observed
+- [USER RESULT] After the Zapret2 restart, the hAP network and SSH connection restarted/transiently dropped.
+- [CONTEXT] This occurred during `/etc/init.d/zapret2 restart`; upstream TP-Link was not modified or restarted.
+- [SAFETY] No additional changes made after reconnecting.
+- [STATUS] 50-wg4all duplicate cleanup = IN_PROGRESS pending verification; Proton/WireGuard validation = BLOCKED.
