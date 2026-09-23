@@ -364,3 +364,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CLARIFICATION] That command did not itself test for Cloudflare One Client binaries.
 - [OFFICIAL] Current Cloudflare One Client architecture uses the WARP daemon/service (warp-svc) plus warp-cli; Traffic and DNS mode routes device traffic through the encrypted tunnel and DNS through DoH. Current official Linux requirements list AMD64/x86-64 or ARM64/AArch64, not MIPS.
 - [DECISION] The user's working Windows Cloudflare One Client setup remains a PC reference and is not directly available as an official hAP/MIPS client.
+
+
+## STAGE 23 Proton Free package availability — 2026-09-23
+- [PASS] OpenWrt package repository exposes `openvpn-openssl-2.7.6-r1`.
+- [FACT] OpenVPN is not currently installed (`command -v openvpn` returned empty before this step).
+- [DECISION] Proton Free router test will use OpenVPN, since WireGuard and WARP are retired for the current path.
+- [RULE] Install only the core OpenVPN client first; do not add LuCI-specific packages unless needed.
+- [STATUS] STAGE 23 remains IN_PROGRESS; no package has been installed yet in this step.
