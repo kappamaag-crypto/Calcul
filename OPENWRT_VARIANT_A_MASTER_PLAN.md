@@ -910,3 +910,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SIGNIFICANCE] WireGuard puts a current TAI64N timestamp into handshake initiation; gross clock skew is therefore a relevant prerequisite to correct, although this evidence alone does not prove it is the cause of the missing handshake. OpenWrt documents BusyBox NTP as the normal time-synchronization mechanism.
 - [SAFETY] No clock/configuration change has been made yet.
 - [NEXT] Inspect the current OpenWrt NTP client configuration once, then decide on a minimal time-sync correction.
+
+
+## STAGE 21 NTP configuration verified — 2026-09-23
+- [RESULT] `uci show system.ntp` confirms the standard OpenWrt NTP client is enabled (`enabled='1'`), NTP server mode disabled, with the four default `openwrt.pool.ntp.org` servers.
+- [OFFICIAL CONTEXT] OpenWrt documents this exact `system.ntp` structure for the built-in NTP client and notes that `busybox-ntpd` is the standard synchronization mechanism. citeturn228382search0turn228382search1
+- [ISSUE] Despite the client being enabled, the previously observed router clock is approximately 5 hours ahead of UTC.
+- [NEXT] Perform the minimal runtime action of restarting the existing `sysntpd` service, without changing the persistent NTP configuration, then re-check the clock.
