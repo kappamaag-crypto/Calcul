@@ -1308,3 +1308,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] `proton-test.conf` has `Table=off`, making it the safer profile for initial handshake testing because it does not install full-tunnel routes.
 - [SAFETY] No key material was exposed; no profile was modified.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard end-to-end validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — `wg-quick` unavailable
+- [RESULT] `wg-quick up /etc/wireguard/proton-test.conf` returned `-ash: wg-quick: not found`.
+- [CONCLUSION] The test profile was not brought up and no network state changed from this command.
+- [IMPORTANT] `wg show` is available in the environment, but the `wg-quick` helper is not installed.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard end-to-end validation = IN_PROGRESS.
+- [NEXT] Determine the available native WireGuard control path without changing configuration.
