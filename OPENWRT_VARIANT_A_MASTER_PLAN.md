@@ -888,3 +888,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] No firewall rule was changed.
 - [STATUS] WireGuard handshake remains absent despite: valid local keypair, matching peer parameters, reachable endpoint IP, and permissive WAN output policy.
 - [NEXT] Stop expanding firewall inspection and move to a controlled endpoint/peer validation outside the hAP, because the remaining evidence no longer points to local routing or fw4 output filtering.
+
+
+## STAGE 21 Evidence threshold reached — 2026-09-23
+- [RESULT] `/proc/net/nf_conntrack` shows UDP flow `192.168.0.100:52235 -> 185.107.56.235:51820` with `packets=160` sent and `packets=0` received, state `[UNREPLIED]`.
+- [CONCLUSION] The hAP is transmitting WireGuard UDP packets toward the Proton endpoint, but no UDP response is arriving back to `192.168.0.100:52235` during the observation period.
+- [CORRELATION] This matches `wg show proton`: increasing sent bytes, `0 B received`, and `latest-handshakes=0`.
+- [ALREADY VERIFIED] Local keypair consistency, peer public key, endpoint/AllowedIPs/keepalive, underlay route, endpoint ICMP reachability, and fw4 WAN output acceptance.
+- [PROCESS] Diagnostic expansion is intentionally STOPPED here to avoid excessive tests. No firewall changes, route changes, or persistent WireGuard changes were made.
+- [STATUS] Stage 21 WireGuard tunnel integration remains BLOCKED at handshake establishment. The evidence is sufficient to pause router-side troubleshooting and later perform a single controlled external/Proton-side validation if needed.
