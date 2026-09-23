@@ -1640,3 +1640,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The existence of only `.lua.gz` files does not explain the WireGuard `[UNREPLIED]` result. Do NOT gunzip or overwrite the Lua directory on this basis.
 - [SAFETY] No Lua files were decompressed, copied, or modified.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — Lua loading hypothesis disproved
+- [PASS] `nfqws2 --dry-run` completed with the installed v1.0.3 build and the exact Lua init paths used by the running daemons.
+- [PASS] The binary accepted `wireguard_initiation` payload type and `--lua-desync=fake:blob=0x000...000:repeats=2`.
+- [PASS] Output reported `we have 1 user defined desync profile(s)` and `command line parameters verified`; no Lua initialization error occurred.
+- [CONCLUSION] The hypothesis that `.lua.gz` files are ignored and `nfqws2` therefore runs without Lua is disproved.
+- [DECISION] Do not decompress/overwrite Lua files and do not change the WireGuard strategy on that basis.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+- [SAFETY] Dry-run only; no service, nftables, WireGuard, package, or file state changed.
