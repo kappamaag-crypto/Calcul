@@ -1514,3 +1514,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The WireGuard interface itself is not configured with a WireGuard fwmark; the external claim that the tunnel automatically emits packets with `0x40000000` via its own fwmark is not supported.
 - [IMPORTANT] A separate firewall/PBR rule could still set packet marks, so this remains distinct from the WireGuard `fwmark` field.
 - [STATUS] `50-wg4all` functional integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — policy routing check excludes fwmark PBR
+- [RESULT] `ip rule show` returned only standard rules: `local`, `main`, `default`.
+- [CONCLUSION] There are no visible fwmark-based policy-routing rules that would route `proton-test` traffic based on a mark such as `0x40000000`.
+- [CORRELATION] Combined with `wg show proton-test fwmark = off`, the external claim that PBR pre-marks the WireGuard handshake with `0x40000000` is not supported by current routing configuration.
+- [STATUS] `50-wg4all` functional integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+- [SAFETY] Read-only inspection; no routing or nftables state changed.
