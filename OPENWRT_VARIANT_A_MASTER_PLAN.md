@@ -2042,3 +2042,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [NEXT] Inspect the remaining non-secret crypto/auth directives (`auth`, `data-ciphers`, TLS options) before modifying the client invocation.
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS; WireGuard remains BLOCKED at peer response.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN crypto directives inspected
+- [RESULT] `proton-nl-free-130-tcp.ovpn` explicitly contains `remote-cert-tls server` and `auth-user-pass`, but no explicit `auth`, `data-ciphers`, `data-ciphers-fallback`, or TLS version/cipher directives.
+- [CONCLUSION] There is no obvious static crypto-parameter conflict visible in the profile; OpenVPN 2.7.6 is using defaults for unspecified directives.
+- [NEW DIAGNOSTIC] OpenVPN 2.7.6 log shows DCO enabled. A temporary `--disable-dco` A/B test is appropriate to separate DCO-specific behavior from the network/DPI path.
+- [SAFETY] The test will be foreground/temporary, with `route-nopull`; no profile or persistent UCI configuration will be changed. TP-Link untouched.
+- [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS; DCO A/B test = NOT_STARTED.
