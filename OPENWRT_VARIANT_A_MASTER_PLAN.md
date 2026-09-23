@@ -2134,3 +2134,5 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT 2026-09-23] Second live `fakedsplit` attempt also did NOT reach the A/B comparison: OpenVPN prompted interactively for `Auth Username`, indicating `/tmp/proton-us-443.ovpn` did not supply the credentials file in this invocation. User did not provide credentials.
 - [ACTION] Test paused; need verify/clean temporary NFQUEUE 65301 process/rule before resuming. No Proton credentials were exposed.
 - [STATUS] `fakedsplit` live A/B remains NOT_STARTED.
+- [RESULT 2026-09-23] Cleanup check: no active `nfqws2` process for qnum 65301; temporary nft rule to `84.20.27.33:443` remained as handle 475 and is scheduled for removal before further testing.
+- [STATUS] Temporary fakedsplit test infrastructure = CLEANUP_REQUIRED (no daemon, rule still present).
