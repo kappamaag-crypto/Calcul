@@ -545,3 +545,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SECURITY] Credentials are not displayed or copied into chat.
 - [NEXT] Perform one masked structural check before starting OpenVPN.
 - [STATUS] STAGE 23 — IN_PROGRESS.
+
+
+## STAGE 23 Proton credentials structural verification — 2026-09-23
+- [PASS] `/etc/openvpn/proton.auth` now contains exactly two credential lines with username length 16 and password length 32.
+- [SECURITY] Actual credential values remain undisclosed.
+- [NEXT] Run a non-routing OpenVPN handshake test using the exact Proton `.ovpn` plus the local auth file; do not make VPN the default route yet.
