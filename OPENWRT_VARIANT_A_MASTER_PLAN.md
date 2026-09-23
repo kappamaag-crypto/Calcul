@@ -1471,3 +1471,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PURPOSE] Distinguish whether the `50-wg4all` desync strategy itself prevents the Proton peer response versus the response being absent independently of that strategy.
 - [SAFETY] The script is preserved and can be restored; no destructive deletion or package change is planned.
 - [STATUS] `50-wg4all` integration is functionally deployed but its effect on the Proton handshake is not yet validated.
+
+## SYNC CHECKPOINT — 2026-09-23 — reversible A/B state: 50-wg4all disabled
+- [PASS] `50-wg4all` was moved from the active custom.d into `/opt/zapret2/init.d/openwrt/custom.d.disabled`; the file was preserved.
+- [PASS] Zapret2 restarted successfully without the custom WireGuard daemon and without qnum `65300` firewall rules.
+- [RESULT] Standard qnum `300` HTTP/TLS/QUIC rules remain active.
+- [STATUS] A/B test phase = IN_PROGRESS; compare current Proton WireGuard behavior without `50-wg4all` to the previously observed outbound-only state.
+- [SAFETY] Reversible change only; no file deletion or package change.
