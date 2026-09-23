@@ -274,3 +274,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONFIRMED] The same persistent zapret2 configuration is functional after a delayed restart; earlier immediate post-boot failure is therefore consistent with startup ordering/readiness rather than the selected desync strategies.
 - [STATUS] Persistent autostart workaround has NOT yet been installed. `/etc/rc.local` remains unchanged.
 - [NEXT] If user approves, implement the minimal persistent workaround: keep normal zapret2 autostart and add a delayed post-boot `/etc/init.d/zapret2 restart` via `/etc/rc.local`.
+
+## Persistent delayed zapret2 restart installed — 2026-09-23
+- [DONE] User approved and installed the persistent `/etc/rc.local` workaround.
+- [CONFIG] After system init finishes, `rc.local` waits 20 seconds and runs `/etc/init.d/zapret2 restart`, then exits normally.
+- [SCOPE] No zapret2 strategy, hostlist, NFQUEUE, or package configuration was changed.
+- [NEXT] Reboot test is required to verify the workaround from a real cold boot/reboot; until then, startup workaround validation is pending.
