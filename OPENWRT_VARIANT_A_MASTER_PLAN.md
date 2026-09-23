@@ -2201,3 +2201,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [INTERPRETATION] The profile does not provide an explicit TLS server name that can be used to make an SNI-specific HTTPS probe. The endpoint is represented by IP/port remotes.
 - [PLAN] User requested a larger diagnostic batch. Next test may compare all three Proton TCP endpoints (8443/443/7770) using the existing profile and credentials, without changing persistent configuration.
 - [SAFETY] Use temporary/read-only diagnostics only; do not modify the Proton profile, Zapret2 configuration, routing, credentials, or TP-Link.
+
+
+## SYNC CHECKPOINT — 2026-09-23 — Proton multi-port diagnostic result
+- [RESULT] Profile confirms TCP remotes: `84.20.27.33:8443`, `:443`, `:7770`; cipher `AES-256-GCM`; `remote-cert-tls server`; `auth-user-pass`; no explicit TLS server-name directive in matched output.
+- [RESULT] BusyBox environment has no `timeout` command. Therefore the TCP connectivity loop and all three OpenVPN handshake sections did NOT execute their intended tests; they exited immediately with `timeout: not found` / code 127.
+- [RESULT] HTTPS probe: port 443 reached the endpoint and TLS failed with EOF; ports 8443 and 7770 timed out at the HTTPS connection stage.
+- [RESULT] Zapret2 remains running after the diagnostic; no configuration was changed by this test.
+- [INTERPRETATION] Current evidence distinguishes 443 from 8443/7770 at the HTTPS layer, but does not yet prove OpenVPN behavior on 8443/7770 because the OpenVPN commands were blocked by missing `timeout`.
+- [STATUS] Proton OpenVPN fallback remains BLOCKED; multi-port comparison IN_PROGRESS.
+- [SAFETY] No persistent configuration changes; credentials were not printed; TP-Link untouched.
