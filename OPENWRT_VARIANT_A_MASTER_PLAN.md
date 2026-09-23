@@ -1857,3 +1857,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] Read-only date check; no configuration/runtime change.
 - [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — hAP clock observed
+- [RESULT] Router reports `Wed Sep 23 17:51:32 GMT 2026` and `Wed Sep 23 12:51:32 UTC 2026`.
+- [IMPORTANT] Display timezone (`GMT0`) does not itself affect WireGuard cryptographic timing; the underlying UTC/Unix clock must be correct.
+- [DECISION] Before additional Zapret2 changes, inspect OpenWrt NTP configuration/status to determine whether the system clock is synchronized.
+- [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+- [CONSTRAINT] TP-Link remains untouched.
