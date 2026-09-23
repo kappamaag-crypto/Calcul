@@ -803,3 +803,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] This exactly matches the public key reported for runtime interface `proton` by `wg show proton`.
 - [CONCLUSION] The loaded local keypair is internally consistent; no key mismatch is indicated.
 - [NEXT] Generate one controlled packet through `proton` to force a WireGuard handshake, using only a temporary tunnel-local route and removing it in the same command.
+
+
+## STAGE 21 WireGuard handshake trigger — 2026-09-23
+- [RESULT] A one-packet `ping` to `10.2.0.1` via temporary route on `proton` transmitted 1 packet and received 0; the temporary route was then targeted for deletion.
+- [RESULT] Shell again reported `You have stopped jobs.` after the test, so the command wrapper is not suitable for further combined route/test/cleanup sequences.
+- [STATUS] No successful Proton WireGuard handshake has been demonstrated yet.
+- [CAUTION] Do not infer the cause from the ping failure alone; `10.2.0.1` need not answer ICMP. The keypair and endpoint underlay are already verified.
+- [NEXT] Check WireGuard's handshake state directly with a compact `wg show` output.
