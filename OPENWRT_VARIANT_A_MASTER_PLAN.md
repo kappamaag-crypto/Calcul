@@ -1793,3 +1793,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [OFFICIAL CONTEXT] Proton's current support documentation says WireGuard router configs are generated from the account Downloads → WireGuard configuration flow for a selected server. citeturn973056search1turn973056search0
 - [NEXT] Perform a read-only reverse-DNS lookup of `185.107.56.235` from the hAP.
 - [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — endpoint IP reachability confirmed
+- [RESULT] `ping -c 3 -W 2 185.107.56.235` succeeded: 3/3 replies, 0% packet loss, average RTT ~69 ms, TTL 53.
+- [CONCLUSION] The hAP has working IP reachability to the Proton endpoint address through the existing route; this does not prove UDP/51820 reachability or WireGuard acceptance.
+- [OFFICIAL CONTEXT] Proton's current OpenWrt setup guide instructs users to download a WireGuard configuration for Router from the account Downloads → WireGuard configuration flow; current Proton documentation also notes that older WireGuard configs may need replacement. citeturn587923search0turn587923search1
+- [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+- [CONSTRAINT] TP-Link remains untouched.
