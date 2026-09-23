@@ -671,3 +671,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Install only `kmod-wireguard` and `wireguard-tools`; keep the configuration CLI-based to minimize RAM/package footprint.
 - [STATUS] STAGE 21 — IN_PROGRESS.
 - [PENDING SECURITY] Previously uploaded WireGuard config containing an old private key must be deleted from GitHub and not reused.
+
+
+## STAGE 21 exposed WireGuard config cleanup check — 2026-09-23
+- [PASS] Previous `wg-NL-FREE-128.conf` is no longer found in the repository (GitHub fetch returned 404).
+- [SECURITY] The exposed old private key is no longer present in the current default-branch file path; the old config must not be reused.
+- [NEXT] Install only the minimum WireGuard runtime packages: `kmod-wireguard` and `wireguard-tools`.
