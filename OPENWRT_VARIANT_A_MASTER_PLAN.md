@@ -1450,3 +1450,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] User again executed `wg show proton-test latest-handshake` (singular); `wg` rejected it and displayed the valid parameter `latest-handshakes`.
 - [IMPORTANT] No system/network state changed from this repeated read-only command.
 - [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard handshake validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — WireGuard handshake timestamp confirmed absent
+- [RESULT] `wg show proton-test latest-handshakes` returned the Proton peer public key followed by `0`.
+- [CONCLUSION] No successful WireGuard handshake has ever been recorded for the temporary `proton-test` interface during this test.
+- [CURRENT EVIDENCE] WireGuard sent traffic (25.58 KiB observed), qnum 65300 receives packets, drops are 0, and the endpoint route is correct; the missing element is a received response/handshake.
+- [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard end-to-end validation = BLOCKED at peer response/handshake.
+- [NEXT] Inspect existing kernel conntrack state for the Proton UDP endpoint; read-only, no redundant nft/NFQUEUE checks.
