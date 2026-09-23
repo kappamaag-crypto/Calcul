@@ -506,3 +506,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [FACT] The router now has the exact Proton NL-FREE#130 UDP configuration file at `/etc/openvpn/proton-nl-free-130.ovpn`.
 - [SAFETY] OpenVPN has not been started, default routing has not been changed, and firewall/PBR have not been modified.
 - [NEXT] Configure Proton OpenVPN credentials locally on the router without exposing them in chat.
+
+
+## STAGE 23 Proton credentials file creation — 2026-09-23
+- [STATE] User opened `/etc/openvpn/proton.auth` in `vi`; screen shows an empty one-page buffer, so credentials have not yet been entered/saved.
+- [SECURITY] OpenVPN credentials remain local to the router and are not requested in chat.
+- [NEXT] User must enter the Proton OpenVPN username on line 1 and OpenVPN password on line 2, save, and exit `vi`.
