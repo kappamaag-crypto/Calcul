@@ -2177,3 +2177,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] Raw HTTPS/TLS access to `84.20.27.33:443` does not complete from the hAP. This is consistent with the earlier OpenVPN symptom (TCP connect succeeds, then no useful protocol response), but it does not by itself distinguish upstream filtering from endpoint-side behavior.
 - [STATUS] Raw TLS endpoint probe = FAILED; OpenVPN TCP fallback remains BLOCKED at control-channel response.
 - [SAFETY] Read-only network diagnostic; no Zapret2/OpenVPN/configuration changes; TP-Link untouched.
+
+
+## NEXT DIAGNOSTIC — 2026-09-23 — distinguish IP-TLS/SNI from endpoint TLS failure
+- [DECISION] The previous raw HTTPS test against `https://84.20.27.33/` is not sufficient to prove that the Proton TLS service itself fails, because an HTTPS request made directly to an IP may present the IP as the TLS server name (SNI), while the service may require its configured hostname.
+- [NEXT TEST] Read only the original Proton US profile's `remote` hostnames/ports from `/etc/openvpn/proton-us-free-115-tcp.ovpn`.
+- [PURPOSE] Identify the hostname associated with the tested `84.20.27.33:443` endpoint so the next TLS probe can preserve the expected hostname/SNI.
+- [STATUS] SNI/hostname distinction = NOT_STARTED.
+- [SAFETY] Read-only local profile inspection; no service/configuration changes; TP-Link untouched.
