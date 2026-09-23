@@ -1323,3 +1323,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] WireGuard kernel support/tools are installed, but the `wg-quick` helper is not present in this OpenWrt environment.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard end-to-end validation = IN_PROGRESS.
 - [SAFETY] Read-only inventory only; no network or package state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — native WireGuard path selected
+- [RESULT] `wireguard-tools` package contains only `/usr/bin/wg`; `wg-quick` is not included.
+- [DECISION] For the current controlled validation, use OpenWrt's existing native `wg` and `ip` tooling rather than installing another package or changing the package set.
+- [SAFETY] No network configuration was changed by this decision; it is a tooling choice for the next controlled test.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard end-to-end validation = IN_PROGRESS.
