@@ -2071,3 +2071,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [NEXT DECISIVE A/B] Temporarily stop only `zapret2` on hAP and immediately repeat one TCP/443 OpenVPN test. This separates OpenVPN/endpoint/upstream behavior from local zapret2 packet handling.
 - [SAFETY] This is a reversible runtime change on hAP only. TP-Link remains untouched; permanent Zapret2 config is not modified.
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS; endpoint-specific hypothesis = FAILED; zapret2-vs-non-zapret2 A/B = READY.
+
+## SYNC CHECKPOINT — 2026-09-23 — Zapret2 stopped for decisive A/B
+- [RESULT] `/etc/init.d/zapret2 stop` completed successfully and cleared the Zapret2 nftables rules.
+- [CURRENT STATE] Vendor `50-wg4all` configuration remains on disk but is not active; no persistent file changes were made in this step.
+- [DECISIVE TEST] Repeat the already-tested US Free #115 TCP/443 OpenVPN connection with Zapret2 fully stopped. Compare whether the control-channel timeout remains.
+- [SAFETY] hAP-only reversible runtime stop; TP-Link untouched.
+- [STATUS] Zapret2-vs-no-Zapret2 A/B = IN_PROGRESS; OpenVPN TCP fallback = IN_PROGRESS.
