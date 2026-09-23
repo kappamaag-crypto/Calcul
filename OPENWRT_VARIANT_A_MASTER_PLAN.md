@@ -2001,3 +2001,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] Two normal Zapret2 `nfqws2` processes are also running (current PIDs 7938 and 7939); qnum 65301 is an additional temporary test consumer.
 - [STATUS] OpenVPN TCP/443 live multisplit test = READY TO RUN.
 - [SAFETY] Temporary only; no persistent configuration changed; TP-Link untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN TCP/443 test result and temporary hook follow-up
+- [USER RESULT] Foreground OpenVPN test using the NL profile attempted `185.107.56.133` on TCP ports 7770, 443, and 8443. Each TCP connection established, but all timed out at `Server poll timeout`; no `Initialization Sequence Completed` or TLS/authentication progress appeared.
+- [IMPORTANT] This proves TCP connectability to those ports but does not by itself prove that TSPU blocked the OpenVPN TLS exchange; server-side/protocol/configuration causes remain possible.
+- [CURRENT TEST STATE] A temporary `nfqws2` qnum `65301` process (PID 8082) and a temporary nft rule for `185.107.56.133:443` were created before this OpenVPN attempt. The process was not automatically cleaned up when the foreground OpenVPN exited.
+- [DECISION] Do not start a second `65301` daemon or duplicate nft rule. First inspect the existing temporary rule's counter to determine whether OpenVPN 443 packets actually entered qnum 65301.
+- [FACT CHECK] `multisplit:pos=method+2` is tied to HTTP-style position markers and is not an appropriate generic OpenVPN marker; `multisplit` is nevertheless TCP-capable in this build. 
+- [STATUS] OpenVPN TCP fallback = IN_PROGRESS; temporary qnum 65301 test = IN_PROGRESS pending counter inspection.
+- [CONSTRAINT] TP-Link remains untouched.
