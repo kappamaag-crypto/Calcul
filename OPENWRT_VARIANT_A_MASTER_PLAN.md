@@ -43,8 +43,9 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - Временная копия создана: `/tmp/zapret2-config-test`.
 - Последняя проверка существования: `ls -l /tmp/zapret2-config-test` → файл существует, размер 5542 bytes, права `-rw-r--r--`, владелец root:root, время Sep 23 10:42.
 - Проверка структуры временной копии подтвердила точную baseline-структуру `NFQWS2_OPT`: отдельные блоки TCP/80, TCP/443 и UDP/443, с `<HOSTLIST>` для TCP и `<HOSTLIST_NOAUTO>` для QUIC.
-- Постоянный `/opt/zapret2/config` после создания временной копии не изменялся.
-- Следующий шаг: изменить только TCP/443 и UDP/443 во временном config для первого controlled router-side кандидата; TCP/80 оставить baseline.
+- Последняя попытка изменения временного config через длинную `sed -i` команду прервана shell continuation prompt `>`; фактическая замена не подтверждена.
+- Постоянный `/opt/zapret2/config` не изменялся.
+- Следующий шаг: после возврата к обычному `root@OpenWrt:~#` использовать более безопасный короткий способ изменения временного config.
 
 ## STATUS
 STAGE 11 — IN_PROGRESS.
