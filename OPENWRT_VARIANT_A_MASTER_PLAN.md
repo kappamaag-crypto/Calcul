@@ -2111,3 +2111,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] OpenVPN TCP fallback = BLOCKED at OpenVPN control-channel response; local zapret2 causality = RULED OUT by A/B.
 - [NEXT] Avoid further generic `multisplit`/TLS assumptions. The next diagnostic should verify the exact Proton profile's server-side compatibility/freshness and whether Proton currently expects a different client/profile for this server.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — next diagnostic: Proton profile metadata
+- [CURRENT EVIDENCE] Verbose OpenVPN showed TCP connect success followed by outbound `P_CONTROL_HARD_RESET_CLIENT_V2` packets and zero inbound OpenVPN control response.
+- [DECISION] Stop treating this as a generic TLS/DPI issue. Inspect non-secret header/metadata of the exact Proton profile used in the test, to verify server/config generation details and any protocol directives not captured by earlier grep.
+- [SAFETY] Read-only inspection; no OpenVPN/Zapret2/runtime changes; TP-Link untouched.
+- [STATUS] OpenVPN TCP fallback = BLOCKED at control-channel response; diagnosis = IN_PROGRESS.
