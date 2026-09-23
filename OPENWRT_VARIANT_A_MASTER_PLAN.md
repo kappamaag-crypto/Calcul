@@ -1329,3 +1329,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] For the current controlled validation, use OpenWrt's existing native `wg` and `ip` tooling rather than installing another package or changing the package set.
 - [SAFETY] No network configuration was changed by this decision; it is a tooling choice for the next controlled test.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard end-to-end validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — native WireGuard test interface created
+- [PASS] Created `proton-test` WireGuard interface using the existing native `ip` + `wg` tools and the non-secret parameters from `proton-test.conf`.
+- [PASS] Assigned `10.2.0.2/32`, brought the interface up, and added the host route to `10.2.0.1`.
+- [RESULT] `wg show proton-test` reports endpoint `185.107.56.235:51820`, persistent keepalive 25s, `148 B sent`, `0 B received`.
+- [INTERPRETATION] Outbound WireGuard traffic was generated, but no response/handshake was received at the moment of inspection. This is not yet a failure diagnosis; it is the first end-to-end runtime observation with `50-wg4all` active.
+- [IMPORTANT] Private key remained hidden; the source profile was not modified.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+- [SAFETY] The only state change was creation of the temporary `proton-test` interface for the requested validation; no persistent UCI configuration was added.
