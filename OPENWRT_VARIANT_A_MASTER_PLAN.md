@@ -954,3 +954,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PROTOCOL LIMIT] Official Proton router guidance currently exposes WireGuard and OpenVPN for OpenWrt; Stealth/Smart Protocol are app-side protocol/features rather than alternate router `.conf` transports. citeturn705764search0turn705764search1turn705764search8
 - [DECISION] Stop endpoint/config cycling for Proton on this hAP. Keep local Proton configuration files for future use; do not expose or upload private keys/credentials.
 - [NEXT] Remove only the temporary runtime `proton` interface; do not delete the persistent `/etc/wireguard/proton.conf` or alter routing/firewall.
+
+
+## STAGE 21 Temporary Proton interface removed — 2026-09-23
+- [RESULT] `ip link delete proton` completed with empty output.
+- [PASS] The temporary WireGuard runtime interface used for the isolated Proton test is removed.
+- [PRESERVED] Persistent `/etc/wireguard/proton.conf` remains untouched; no firewall or route configuration was changed by the removal.
+- [STATUS] Stage 21 Proton WireGuard integration remains `BLOCKED` for the current network/environment.
+- [NEXT] Do not continue Proton endpoint cycling. Return to the main project roadmap; before the next VPN architecture, account for current Zapret2 state (it was previously stopped for VPN testing and has not been assumed running).
