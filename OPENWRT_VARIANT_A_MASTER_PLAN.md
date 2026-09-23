@@ -181,3 +181,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] `nft list set inet zapret2 wanif` shows `elements = { "phy0-sta0" }`.
 - [IMPORTANT] The post-boot `wanif` set is populated with the expected upstream Wi-Fi interface, so an empty/missing wanif set is ruled out as the immediate cause of the YouTube timeout.
 - [STATUS] Boot-time race hypothesis is narrowed but not eliminated; no configuration changes made.
+
+## Zapret2 init script startup-path audit — 2026-09-23
+- [RESULT] Filtered inspection shows `start_service()` at line 118 and `start_daemons_procd` at line 120; `stop_service()` starts at line 127.
+- [RESULT] The script header contains the comment `# after network`, but this grep did not establish an explicit runtime wait for WAN readiness.
+- [STATUS] No configuration changes made. Next inspection will target the compact `start_service()` block only.
