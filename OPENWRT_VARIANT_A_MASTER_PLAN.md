@@ -258,3 +258,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [FACT] Same persistent configuration becomes functional immediately after manual `/etc/init.d/zapret2 restart`.
 - [WORKING HYPOTHESIS] Boot-order/readiness race remains the simplest explanation; strategy selection is not being re-tested.
 - [NEXT] Before changing autostart, inspect existing `/etc/rc.local` so any delayed post-boot restart can be added without overwriting existing user logic.
+
+## rc.local audit — 2026-09-23
+- [PASS] `/etc/rc.local` contains only the default comments and `exit 0`; no existing custom commands would conflict with a post-boot zapret2 action.
+- [NEXT] A minimal delayed `zapret2 restart` can be considered as a workaround for the observed boot-order/readiness issue; no change made yet.
