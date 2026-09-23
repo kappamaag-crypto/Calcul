@@ -1250,3 +1250,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [USER FEEDBACK] User asked to avoid an excessively long test sequence; the remaining inspection is intentionally limited to this integration point.
 - [SAFETY] No configuration or service state changed.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — repeated command output
+- [RESULT] User's latest message repeated the prior grep command and returned the same confirmed location: `/opt/zapret2/init.d/openwrt/zapret2:65:do_nfqws()`.
+- [NOTE] The requested `sed -n '55,105p' /opt/zapret2/init.d/openwrt/zapret2` command was not executed in this message; therefore its output remains unknown.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
