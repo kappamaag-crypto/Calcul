@@ -2010,3 +2010,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [FACT CHECK] `multisplit:pos=method+2` is tied to HTTP-style position markers and is not an appropriate generic OpenVPN marker; `multisplit` is nevertheless TCP-capable in this build. 
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS; temporary qnum 65301 test = IN_PROGRESS pending counter inspection.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN temporary hook definitely matched traffic
+- [RESULT] Live `postnat_hook` counter shows `ip daddr 185.107.56.133 tcp dport 443 ... counter packets 23 bytes 2276 queue flags bypass to 65301` (handle 418).
+- [CONCLUSION] The temporary qnum 65301 nft rule definitely intercepted 23 outbound TCP/443 packets from the OpenVPN test. The earlier claim that OpenVPN 443 packets simply bypass the desync path is therefore disproven for this test.
+- [LIMIT] The counter only proves nftables queue admission, not that `multisplit` produced a useful anti-DPI effect or that the server responded.
+- [NEXT] Read qnum 65301 kernel queue statistics to confirm userspace processing and check for queue drops.
+- [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS; temporary multisplit test = IN_PROGRESS.
+- [SAFETY] Read-only check; temporary rule/process remain in place pending test conclusion; TP-Link untouched.
