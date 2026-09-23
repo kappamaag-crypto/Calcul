@@ -1772,3 +1772,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [OFFICIAL CONTEXT] Proton currently instructs users to generate/download WireGuard router configurations from the Proton account Downloads → WireGuard configuration flow and notes that older configurations may need replacement for current IPv6 support. citeturn726328search0turn726328search1
 - [CONSTRAINT] TP-Link Archer remains completely untouched.
 - [STATUS] `50-wg4all` vendor baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — Proton profile hashes and missing stat utility
+- [RESULT] `sha256sum` shows different hashes for `proton-test.conf` and `proton.conf`.
+- [IMPORTANT] Different hashes are expected because the files are not byte-identical; earlier inspection already showed `proton-test.conf` contains `Table=off` while `proton.conf` does not.
+- [RESULT] `stat` is not installed on this OpenWrt environment; no state changed.
+- [NEXT] Compare the two profiles after redacting `PrivateKey`, to identify any material difference in peer/network parameters without exposing secret key material.
+- [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
