@@ -1342,3 +1342,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 ## SYNC CHECKPOINT — 2026-09-23 — command explanation requirement
 - [USER RULE] Every router command in this troubleshooting sequence must be accompanied by a brief explanation of what the command does and what result we are looking for.
 - [WORKFLOW] Keep the cadence: synchronize the just-reported result → explain the next command briefly → give exactly one command → wait for the user's output.
+
+## SYNC CHECKPOINT — 2026-09-23 — WireGuard handshake still unanswered
+- [RESULT] After 5 seconds, `wg show proton-test` reports `1.73 KiB sent`, `0 B received`, persistent keepalive 25s, and no `latest handshake` field.
+- [INTERPRETATION] WireGuard continues transmitting toward the Proton endpoint, but no response has been received yet.
+- [NEXT DIAGNOSTIC] Inspect packet counters for the newly installed `qnum=65300` nftables rules to determine whether WireGuard packets are actually matching `50-wg4all`.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
