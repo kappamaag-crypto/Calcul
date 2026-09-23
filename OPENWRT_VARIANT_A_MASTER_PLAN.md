@@ -1593,3 +1593,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Keep the vendor `50-wg4all` strategy unchanged until the installed Lua source confirms exact function/parameter support.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
 - [SAFETY] Read-only help inspection; no configuration/runtime state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — consolidated Lua inspection requested
+- [USER INPUT] User proposed three read-only inspections: desync functions in `zapret-lib.lua`, fake definitions in `zapret-antidpi.lua`, and WireGuard references in `zapret-auto.lua`.
+- [WORKFLOW] To reduce test count, these three independent read-only lookups will be executed in one shell command with labeled output.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
