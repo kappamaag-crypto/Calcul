@@ -2226,3 +2226,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 ## SYNC CHECKPOINT — 2026-09-23 — Requested next step: read-only Proton profile audit
 - [NEXT] User requested one read-only test of the Proton OpenVPN profile contents.
 - [SCOPE] Inspect metadata/directives only; do not print credentials, inline certificates, private keys, or full secret-bearing blocks; do not modify the profile or services.
+
+
+## SYNC CHECKPOINT — 2026-09-23 — User clarified active objective is WireGuard
+- [CLARIFICATION] Current primary objective is Proton WireGuard setup; the OpenVPN branch is fallback/diagnostic only and must not displace the WireGuard work.
+- [RESULT] Read-only audit of the Proton OpenVPN profile found inline `<ca>` and `<tls-crypt>` blocks, 3 `remote` entries, and SHA-256 `b311a1e1b6656060b633412c4d2e52388bc7146f63d6b7d3144cff28b728eec7`.
+- [DECISION] Do not perform further OpenVPN profile diagnostics unless explicitly requested or needed as a documented fallback. Return focus to Proton WireGuard.
+- [SAFETY] No configuration changes made; secret block contents were not printed.
