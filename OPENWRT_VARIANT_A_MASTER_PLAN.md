@@ -859,3 +859,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] No evidence from this compact inspection justifies changing firewall policy yet.
 - [SAFETY] Firewall configuration remains untouched.
 - [NEXT] Inspect the complete fw4 output chain to verify how locally generated WireGuard UDP packets are handled before any change.
+
+
+## STAGE 21 Methodology correction: AllowedIPs / routing isolation — 2026-09-23
+- [USER CONCERN ACKNOWLEDGED] A Proton config containing `AllowedIPs = 0.0.0.0/0, ::/0` must not be brought up with `wg-quick` for an isolated test unless route creation is explicitly disabled (e.g. `Table = off`). Upstream `wg-quick` infers routes from AllowedIPs and treats a default route specially; `Table = off` disables route creation. This is documented in the upstream `wg-quick` manual.
+- [FACTUAL DISTINCTION] That route-changing path was NOT used on this OpenWrt router because `wg-quick` is unavailable. We manually created `proton`, assigned `10.2.0.2/32`, and used `wg set` to load the peer. `wg set` configures runtime WireGuard parameters; it does not itself install kernel routes. OpenWrt's native netifd route behavior is controlled separately via `route_allowed_ips`.
+- [PERSISTENT CONFIG] `/etc/wireguard/proton.conf` was not modified by the runtime `wg set` commands. The separate `proton-test.conf` copy with `Table = off` remains only a local test artifact.
+- [ROUTING STATE] The previously verified route to Proton endpoint remained `via 192.168.0.1 dev phy0-sta0`; no default route switch to `proton` was intentionally performed.
+- [PROCESS CORRECTION] Before any persistent WireGuard integration, first use an isolated native OpenWrt/netifd configuration or an explicit `Table = off` test copy. Never bring the original Proton full-tunnel config up blindly on this small router.
