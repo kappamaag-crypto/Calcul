@@ -17,7 +17,7 @@ STAGE 5 — DONE
 STAGE 6 — DONE (Zapret2 boot persistence and post-reboot validation)
 STAGE 7 — current baseline recorded; STAGE 8 — verified; STAGE 9 — verified; STAGE 10 — SKIPPED/RETIRED (DoH abandoned)
 STAGE 11 — DONE (permanent Zapret2 candidate validation)
-STAGE 12–22 — RETIRED/SKIPPED FOR CURRENT PATH; STAGE 23 — NEXT; STAGE 24–30 — NOT_STARTED
+STAGE 12–20 — RETIRED/OBSOLETE FOR CURRENT PATH; STAGE 21 — IN_PROGRESS (WireGuard reopened); STAGE 22–23 — IN_PROGRESS/ALTERNATE PATH; STAGE 24–30 — NOT_STARTED
 
 ## Compact command-output policy
 - Цель: минимизировать текст, который пользователь копирует в ИИ.
@@ -637,3 +637,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONTROL] No protocol/package change; only the Proton Free server was changed from NL-FREE#130 to US-FREE#115.
 - [SAFETY] No default-route, firewall, or PBR changes have been made for this test.
 - [NEXT] Run one controlled OpenVPN TCP handshake test with `--route-nopull` using the existing local credentials.
+
+
+## STAGE 21 WireGuard reopened after Proton Free verification — 2026-09-23
+- [CORRECTION] Earlier retirement of WireGuard was based on the assumption that Proton Free did not provide manual WireGuard configurations. That assumption is now corrected.
+- [OFFICIAL] Proton's current documentation explicitly states that Free users can generate WireGuard configuration files for third-party WireGuard clients, including router clients. On Free, VPN Accelerator is the available VPN option during configuration. citeturn891093search0turn891093search9
+- [DECISION] Reopen STAGE 21 and prefer Proton Free WireGuard as the router VPN candidate over OpenVPN, because Proton itself recommends WireGuard for OpenWrt unless there is a strong reason to use OpenVPN. citeturn891093search9
+- [STATUS] STAGE 21 — IN_PROGRESS.
+- [NEXT] Generate one official Proton Free WireGuard `.conf` for the Router platform; no hAP package/configuration changes yet.
