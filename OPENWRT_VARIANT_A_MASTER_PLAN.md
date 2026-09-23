@@ -622,3 +622,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONTROL] Keep protocol and configuration method unchanged for comparability: official Router OpenVPN TCP configuration; do not manually edit the file.
 - [LIMIT] This is not a claim that US-FREE#130 is objectively better; it is a controlled server-variable test.
 - [NEXT] Generate/download the official TCP Router `.ovpn` for `US-FREE#130` and upload it to the GitHub repository. No router changes yet.
+
+
+## STAGE 23 Proton US-FREE#115 TCP config verified — 2026-09-23
+- [PASS] Repository file `us-free-115.protonvpn.tcp.ovpn` fetched successfully.
+- [IDENTITY] The file explicitly identifies `US-FREE#115`.
+- [PASS] Configuration uses `proto tcp` with endpoints `84.20.27.33:8443`, `:443`, and `:7770`.
+- [CONTROL] This is an alternate Free server test; the server variable changed from NL-FREE#130 to US-FREE#115 while keeping TCP OpenVPN unchanged.
+- [NEXT] Copy the official file unchanged to `/etc/openvpn/` and test it with the existing local Proton credentials and `--route-nopull`.
