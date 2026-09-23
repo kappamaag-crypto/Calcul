@@ -402,3 +402,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] Available RAM dropped from 10576 KiB before the installation attempt to 6932 KiB afterwards, while swap usage rose from 1612 KiB to 5988 KiB.
 - [CONCLUSION] The data strongly supports memory pressure during the package transaction; `/tmp` and `/overlay` capacity were already confirmed sufficient.
 - [SAFETY] Do not retry the OpenVPN installation while the current memory state remains this constrained.
+
+
+## STAGE 23 temporary Zapret2 stop for memory recovery — 2026-09-23
+- [ACTION] User ran `/etc/init.d/zapret2 stop` to temporarily release runtime memory before further package work.
+- [RESULT] Zapret2 stopped cleanly; output shows `Clearing nftables` and conntrack liberal setting reset to 0.
+- [SAFETY] Persistent Zapret2 configuration was not changed or removed; this is a runtime stop only.
+- [NEXT] Measure current memory before any OpenVPN installation retry.
