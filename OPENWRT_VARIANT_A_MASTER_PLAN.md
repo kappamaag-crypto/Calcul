@@ -1109,3 +1109,19 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - No router configuration was changed in the preceding step.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
 - [NEXT STEP] Locate the definitions of `custom_runner` and `zapret_custom_daemons`; read-only inspection only.
+
+## SYNC CHECKPOINT — 2026-09-23 — Zapret2 custom hook definitions located
+- [PASS] Read-only grep located `custom_runner()` in `/opt/zapret2/common/custom.sh:1`.
+- [PASS] The installed Zapret2 tree contains example custom daemon hooks implementing `zapret_custom_daemons()`:
+  - `/opt/zapret2/init.d/custom.d.examples.linux/20-fw-extra`
+  - `/opt/zapret2/init.d/custom.d.examples.linux/40-webserver`
+  - `/opt/zapret2/init.d/custom.d.examples.linux/50-stun4all`
+  - `/opt/zapret2/init.d/custom.d.examples.linux/50-wg4all`
+  - `/opt/zapret2/init.d/custom.d.examples.linux/50-dht4all`
+  - `/opt/zapret2/init.d/custom.d.examples.linux/50-discord-media`
+  - `/opt/zapret2/init.d/custom.d.examples.linux/50-quic4all`
+  - `/opt/zapret2/init.d/custom.d.examples.linux/50-nfqws-ipset`
+- [RESULT] The installed package has a dedicated `common/custom.sh` implementation plus a Linux custom.d examples directory; the exact loader/source selection behavior of `custom_runner()` still needs inspection.
+- [IMPORTANT] `50-wg4all` is present in the installed examples, but it has NOT been enabled or copied into the active custom.d path and no configuration change was made.
+- [SAFETY] Read-only inspection only; no Zapret2/nftables/WireGuard/firewall/service state changed.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
