@@ -231,3 +231,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `nft list chain inet zapret2 postnat | grep -E 'queue|counter'` shows the expected IPv4 UDP/443 and TCP 80/443 NFQUEUE rules to queue 300.
 - [LIMIT] The installed rules do not contain nftables `counter` statements, so this output cannot show whether a YouTube connection actually hit NFQUEUE.
 - [STATUS] No configuration changes made; the direct traffic-hit question remains unresolved.
+
+## Process timing diagnostic correction — 2026-09-23
+- [INVALID COMMAND] The attempted `/proc/2206/stat` check failed because PID 2206 no longer exists; PID was from an earlier audit and is not persistent.
+- [INVALID COMMAND] BusyBox `ps` on this router does not support `-o`; only the documented `w` wide-output option is available.
+- [RESULT] No system state was changed by these failed diagnostics.
+- [STATUS] Process timing check must use the current nfqws2 PID; no configuration changes made.
