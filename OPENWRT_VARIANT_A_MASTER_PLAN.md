@@ -48,31 +48,27 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
   - TCP 443: fake_default_tls + tcp_md5 + tcp_seq=-10000 + multidisorder pos=1,midsld.
   - UDP 443: fake_default_quic repeats=6.
 - Официальный init-скрипт zapret2 использует ZAPRET_CONFIG, по умолчанию /opt/zapret2/config; временный config может быть выбран через эту переменную без изменения постоянного файла.
-- Временная копия создана: /tmp/zapret2-config-test.
-- Временный config содержит TCP/80 baseline, TCP/443 candidate #52 и UDP/443 candidate #1.
-- Постоянный /opt/zapret2/config не изменялся.
+- Временная копия: /tmp/zapret2-config-test; содержит TCP/80 baseline, TCP/443 candidate #52, UDP/443 candidate #1.
+- Постоянный /opt/zapret2/config до сих пор не изменён.
 
 ## STATUS
 STAGE 11 — IN_PROGRESS.
 
-## STAGE 11 — TCP/QUIC candidate reduction
-User selected 8 TCP and 2 QUIC candidates from the complete blockcheck2 intersection for mechanism coverage, not ranking.
+## STAGE 11 — selected candidate validation
+- TCP #52 — hostfakesplit:ip_ttl=3:repeats=1 — functional PASS for YouTube HTTPS.
+- QUIC #1 — fake:blob=fake_default_quic:repeats=1 — functional PASS; Chrome DevTools behind hAP showed h3.
+- Separate TLS1.2/TLS1.3 proof remains unavailable because openssl is absent and BusyBox wget has no direct TLS-version selector.
+- Combined temporary validation PASS: YouTube works and client shows h3, h2, http/1.1.
 
-### Selected candidates
-- TCP #52 — hostfakesplit:ip_ttl=3:repeats=1. Functional PASS for YouTube HTTPS; separate TLS1.2/TLS1.3 proof remains unavailable because no openssl and BusyBox wget has no direct TLS-version selector.
-- QUIC #1 — fake:blob=fake_default_quic:repeats=1. Functional PASS via client behind hAP: Chrome DevTools showed real h3 traffic while temporary config was active.
-- Mixed h3/h2/http1.1 is normal; h3 confirms actual HTTP/3 traffic over UDP/443 behind hAP.
-- The candidate PASS classification is functional under the controlled temporary configuration and does not isolate causal necessity from browser fallback/other factors.
-
-## Combined validation
-- [PASS] Temporary config contains TCP #52 + QUIC #1 simultaneously.
-- [PASS] Restart with temporary config completed cleanly; nfqws2 qnum=300 started and nftables NFQUEUE rules for TCP 80/443 and UDP 443 were applied.
-- [PASS] Combined client-side validation: user reports YouTube works and Chrome DevTools Network shows h3, h2, and http/1.1 requests while connected behind hAP.
-- [INTERPRETATION] Presence of h3 confirms successful HTTP/3/QUIC client traffic behind hAP in the combined test. h2/http1.1 represent normal protocol fallback/mixed traffic.
-- [CONFIRMED] Previous Command failed: Not found message did not recur.
-- [CONFIRMED] Permanent /opt/zapret2/config remains untouched.
+## Permanent config comparison
+- [PASS] Temporary TCP/443 is candidate #52: hostfakesplit:ip_ttl=3:repeats=1.
+- [PASS] Temporary UDP/443 is QUIC #1: fake:blob=fake_default_quic:repeats=1.
+- [CONFIRMED] Permanent TCP/443 is still baseline: fake_default_tls + tcp_md5 + tcp_seq=-10000 + multidisorder pos=1,midsld.
+- [CONFIRMED] Permanent UDP/443 is still baseline: fake_default_quic repeats=6.
+- [PASS] Backup exists: /opt/zapret2/config.backup-before-router-selection, 5542 bytes, root:root.
+- [SAFETY] No permanent configuration was changed by this check.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Before changing the permanent configuration, perform one compact read-only comparison of the selected temporary TCP/443 and UDP/443 entries against the permanent config and confirm the backup file exists. No configuration change in this step.
+- [NEXT] The candidate is validated in the temporary config and the backup is confirmed. Before committing to the permanent config, perform one final explicit content-preservation check of the full permanent config structure or use the backup as rollback reference. No change yet.
 
 ## Prior detailed sync record
 Earlier detailed candidate-testing history remains represented by the selected-candidate records above; no earlier PASS/FAIL state is being overwritten.
