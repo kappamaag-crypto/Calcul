@@ -831,3 +831,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The exact Proton endpoint IP is reachable over the ordinary underlay path.
 - [STATUS] WireGuard still has `0 B received` and no handshake despite transmitted traffic; the unresolved issue is now specific to the WireGuard/UDP path or peer/configuration, not basic IP reachability.
 - [NEXT] Inspect the local Proton WireGuard configuration fields while excluding `PrivateKey`, `DNS`, and any secret material from output.
+
+
+## STAGE 21 Proton config fields verified — 2026-09-23
+- [RESULT] Safe fields from `/etc/wireguard/proton.conf` match the runtime peer: `Address 10.2.0.2/32`, peer public key `ocCFVEDN+6fTFKg96mQ6fW+oBTTZ9gW6xEk8gxTiR1E=`, `AllowedIPs 0.0.0.0/0, ::/0`, endpoint `185.107.56.235:51820`, keepalive 25s.
+- [CONCLUSION] No mismatch is visible between the local Proton config and the runtime WireGuard peer parameters.
+- [STATUS] Handshake remains unestablished (`0 B received`).
+- [NEXT] Determine whether the endpoint's UDP port is being rejected/filtered on the path, using the available BusyBox `nc` tool; this is only a transport probe and will not alter routing.
