@@ -589,3 +589,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] Router reports `Download completed (5047 bytes)`.
 - [SAFETY] No OpenVPN process started and no routing/firewall/PBR changes performed in this step.
 - [NEXT] Run a controlled TCP OpenVPN handshake test using the existing local credentials and `--route-nopull`.
+
+
+## STAGE 23 Proton TCP handshake interpretation — 2026-09-23
+- [CORRECTION] `TCP connection established` proves only successful TCP establishment to the Proton endpoint; it does not by itself prove DPI/TSPU blocking.
+- [RESULT] The official TCP config already includes port 443. The hAP successfully established TCP to `185.107.56.133:443`, but OpenVPN TLS negotiation still timed out.
+- [CONCLUSION] The generic recommendation to simply change `8443` to `443` is not applicable because the official config already tested 443 and the failure persisted at the OpenVPN TLS layer.
+- [NEXT] Stop the automatic OpenVPN retry loop before selecting the next controlled test.
