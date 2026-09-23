@@ -1081,3 +1081,15 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] This satisfies the local `50-wg4all` example's `@ih` nft payload-matching prerequisite; the router is also running kernel 6.12.94, well above the example's stated recent-kernel requirement. citeturn884219search4
 - [STATUS] No runtime or persistent configuration changed.
 - [NEXT] Verify how the installed zapret2 loads `custom.d` examples before making any configuration change, so the official `50-wg4all` path is integrated without disturbing the working TCP/443 and QUIC configuration.
+
+## SYNC CHECKPOINT — 2026-09-23 16:00 +05:00 — current conversation boundary
+- [SYNC] Recorded from the user's latest message before any new router command is executed.
+- [CONFIRMED] Latest router-side command actually reported by the user: nft --version.
+- [PASS] Reported output: nftables v1.1.6 (Commodore Bullmoose #7).
+- [RESULT] nftables 1.1.6 is the currently established nft runtime version on the hAP.
+- [CONTEXT] This version is compatible with the planned 50-wg4all integration review; no configuration change was authorized or performed from the version check alone.
+- [NEXT PENDING DIAGNOSTIC] Previously proposed read-only command to determine how installed Zapret2 connects custom.d is pending user execution: grep -nE 'custom\.d|custom_d|zapret_custom_' /etc/init.d/zapret2 /opt/zapret2/init.d/* 2>/dev/null | head -30
+- [IMPORTANT] The pending command is PROPOSED/PENDING, not EXECUTED; its output is not yet known.
+- [SAFETY] No router configuration, firewall/nftables rules, Zapret2 config, WireGuard config, or service state was changed by this synchronization.
+- [STATUS] Current diagnostic gate remains IN_PROGRESS; wait for the factual output of the pending command before issuing another router command.
+- [DOCUMENTATION] This checkpoint follows the project rule: after each user+assistant pair, synchronize factual state in the Master Plan; update the Master Prompt when the workflow/safety rule itself changes.
