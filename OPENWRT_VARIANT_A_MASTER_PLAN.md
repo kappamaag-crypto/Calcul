@@ -695,3 +695,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SECURITY] Fresh Proton private key remains outside chat/GitHub and has not been written into the router yet.
 - [STATUS] STAGE 21 — IN_PROGRESS.
 - [NEXT] Create the router-side WireGuard configuration locally using the fresh Proton NL-FREE#128 parameters; do not enable default routing yet.
+
+
+## STAGE 21 WireGuard config directory correction — 2026-09-23
+- [RESULT] `/etc/wireguard` does not exist yet, so `vi /etc/wireguard/proton.conf` could not open the target path.
+- [FACT] WireGuard packages are installed, but the configuration directory/file has not been created.
+- [NEXT] Create `/etc/wireguard` only; no configuration or routing changes yet.
