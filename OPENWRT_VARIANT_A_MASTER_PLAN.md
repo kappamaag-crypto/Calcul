@@ -1964,3 +1964,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] First OpenVPN TCP test will use the existing NL profile and force its 443 remote, without changing TP-Link or persistent UCI/routing configuration.
 - [NEXT] Inspect only the credential-file shape before launching any OpenVPN process.
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS; WireGuard branch remains BLOCKED at peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN credential file validated
+- [RESULT] `/etc/openvpn/proton.auth` contains exactly 2 lines, lengths 16 and 32 characters, matching the expected username/password file structure for `auth-user-pass`.
+- [DECISION] Proceed with a controlled NL Free #130 OpenVPN TCP/443 handshake test using the existing profile and credentials, but with `route-nopull` so the test does not replace the hAP default route or steal all traffic.
+- [SAFETY] The test will be temporary/foreground and does not enable the UCI OpenVPN service or alter the TP-Link.
+- [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS.
