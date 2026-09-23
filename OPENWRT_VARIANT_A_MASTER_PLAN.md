@@ -789,3 +789,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] WireGuard tunnel handshake is NOT established yet. This is not sufficient evidence to diagnose the cause.
 - [SAFETY] No default route has been added; normal WAN remains the underlay.
 - [NEXT] Verify the ordinary routing path to the Proton endpoint before changing any WireGuard settings.
+
+
+## STAGE 21 Underlay route verification — 2026-09-23
+- [RESULT] `ip route get 185.107.56.235` resolves via `192.168.0.1` on `phy0-sta0`, source `192.168.0.100`.
+- [PASS] The Proton WireGuard endpoint has a normal underlay route through the Archer-side WAN/STA path.
+- [STATUS] No WireGuard handshake yet; routing to the endpoint is not the current missing prerequisite.
+- [NEXT] Verify that the local private key in the protected Proton config derives to the same public key currently loaded on `proton`, without printing the private key.
