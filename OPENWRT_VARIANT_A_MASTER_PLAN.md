@@ -74,6 +74,11 @@ STAGE 11 — DONE.
 - [SAFETY] Stage 11 changes are persistent and rollback backup remains available.
 - [STATUS] STAGE 11 DONE.
 
+## Post-reboot autostart audit — 2026-09-23
+- [PASS] User rebooted the hAP after enabling zapret2 autostart.
+- [PASS] `/etc/init.d/zapret2 status` returned `running` after reboot.
+- [STATUS] zapret2 autostart is functionally confirmed.
+
 ## Autostart check — 2026-09-23
 - [PASS] Startup symlink confirmed: `/etc/rc.d/S21zapret2 -> ../init.d/zapret2`.
 - [STATUS] zapret2 is enabled for boot autostart.
