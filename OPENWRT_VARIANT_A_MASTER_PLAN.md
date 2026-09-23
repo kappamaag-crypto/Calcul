@@ -2128,3 +2128,6 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONSTRAINT] TP-Link remains untouched.
 - [RESULT 2026-09-23] `nfqws2 --dry-run --lua-desync=fakedsplit:pos=2` returned `command line parameters verified`.
 - [STATUS] OpenVPN `fakedsplit` A/B test = NOT_STARTED before live test; syntax validation = DONE.
+- [RESULT 2026-09-23] Planned live `fakedsplit` A/B test did NOT execute because BusyBox/OpenWrt environment has no `timeout` command. No OpenVPN result can be inferred from this attempt.
+- [RESULT] Temporary NFQUEUE 65301 daemon reached queue binding successfully; no daemon error was shown in the captured log before the script stopped at missing `timeout`.
+- [STATUS] `fakedsplit` live A/B = NOT_STARTED (test aborted before OpenVPN launch).
