@@ -2146,3 +2146,5 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] OpenVPN local desync branch: `multisplit` = FAILED; `fakedsplit` = FAILED. Do not treat either as a fix.
 - [RESULT 2026-09-23] Initial raw `nc` probe did not execute because this BusyBox `nc` only supports `nc [IPADDR PORT]`; no network conclusion was drawn.
 - [STATUS] Proton raw TCP-service probe = NOT_STARTED; next test must use BusyBox-compatible `nc` syntax and external kill after a short interval.
+- [RESULT 2026-09-23] Raw `nc` HTTP probe to `84.20.27.33:443` returned 0 bytes. This is NON-DIAGNOSTIC because port 443 expects TLS, while the probe sent plaintext HTTP.
+- [STATUS] Raw TLS-handshake probe = NOT_STARTED.
