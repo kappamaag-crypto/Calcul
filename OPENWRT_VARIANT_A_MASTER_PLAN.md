@@ -380,3 +380,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] The `Killed` result is consistent with the router's previously observed severe memory pressure; this is not treated as a successful OpenVPN installation.
 - [SAFETY] Do not retry `apk add openvpn-openssl` blindly. First verify the post-abort package/system state with a minimal read-only check.
 - [STATUS] STAGE 23 — FAILED/PENDING recovery from interrupted installation.
+
+
+## STAGE 23 interrupted-installation state check — 2026-09-23
+- [RESULT] `apk info | grep -E '^(openvpn-openssl|libopenssl3)'` returned empty output.
+- [FACT] Neither `openvpn-openssl` nor `libopenssl3` is present in the installed-package database after the killed transaction.
+- [FACT] Some dependency packages were reported installed before the interruption, so the transaction was partial and must not be assumed cleanly rolled back as a whole.
+- [STATUS] STAGE 23 remains FAILED/PENDING recovery; no retry performed.
