@@ -924,3 +924,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] Do NOT treat the clock as the cause of the missing WireGuard handshake based on the `date` output alone.
 - [ACTION] No NTP restart or time-setting change was performed; persistent NTP configuration remains untouched.
 - [STATUS] The prior WireGuard evidence remains: endpoint IP reachable, underlay route valid, WAN output accepted, peer/key parameters match, but handshake timestamp remains `0` and conntrack is `[UNREPLIED]`.
+
+
+## STAGE 21 External control test planned — 2026-09-23
+- [PROCESS] Router-side diagnostic expansion is paused after reaching the evidence threshold.
+- [NEXT] Use the same freshly generated Proton WireGuard configuration as a control test on the user's Windows PC, preferably from the same Archer-side Internet connection. Do not paste or upload the private key.
+- [DIAGNOSTIC PURPOSE] If the identical config handshakes on the PC, the investigation returns to the hAP/OpenWrt WireGuard implementation/path. If it also fails on the PC, the evidence for an upstream/protocol/Proton-endpoint issue becomes materially stronger. This is a comparative test, not a claim of ISP/TSPU blocking.
