@@ -1366,3 +1366,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [LIMIT] The command output is truncated before the queue argument, so it does not by itself prove which PID is standard qnum 300 and which is WireGuard qnum 65300.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
 - [SAFETY] Read-only process listing only; no state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — dedicated nfqws2 queue verified
+- [RESULT] `/proc/<pid>/cmdline` confirmed PID 4852 uses `qnum=300` and PID 4853 uses `qnum=65300`.
+- [CONCLUSION] The dedicated `50-wg4all` nfqws2 consumer is running as a separate process and is bound to the intended WireGuard queue.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+- [NEXT] Use a single passive packet capture against the Proton endpoint to distinguish outbound-only behavior from any returned UDP response.
