@@ -1626,3 +1626,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] WireGuard-specific payload selection comes from `50-wg4all`; the Lua auto script does not add a separate WireGuard-specific strategy.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
 - [SAFETY] Read-only inspection only; no files/packages/configuration changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — concrete antidpi function lookup refined
+- [RESULT] Prior compressed-Lua search showed the concrete `fake` processing path in `zapret-antidpi.lua.gz`, while the requested `desync_` naming pattern did not match the actual function declarations.
+- [UPSTREAM CONFIRMATION] Current upstream `50-wg4all` calls `fake` for WireGuard handshake payloads; current upstream `zapret-antidpi.lua` defines `fake` and supports standard fooling such as `ip_ttl`. citeturn276408search0turn409902search0
+- [STATUS] No configuration change; `50-wg4all` remains the vendor strategy.
+- [NEXT] One targeted local lookup will verify the exact available function names and TTL/repeat parameters in the installed v1.0.3 Lua source.
