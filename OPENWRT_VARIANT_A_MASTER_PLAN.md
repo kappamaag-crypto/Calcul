@@ -432,3 +432,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] No single userspace process is consuming several MiB of RSS; the kernel OOM during `apk` installation likely involved overall low-memory conditions, kernel memory/cache/slab, and/or transient allocation pressure rather than one dominant daemon.
 - [LIMIT] The command itself created small transient processes (`sort`, `head`, `ash`), so those entries are not meaningful persistent consumers.
 - [NEXT] Inspect compact slab memory fields before deciding how to create installation headroom.
+
+
+## STAGE 23 memory-pressure conclusion — 2026-09-23
+- [RESULT] Slab = 8472 KiB; SReclaimable = 1200 KiB; SUnreclaim = 7272 KiB.
+- [CONCLUSION] The hAP's very limited RAM is under substantial kernel-memory pressure. Combined with the confirmed global OOM killing `apk` during `libopenssl3` installation, the current hardware/runtime state does not provide a safe margin for installing the Proton OpenVPN stack.
+- [USER CONSTRAINT] User explicitly requested no further diagnostic-test expansion.
+- [DECISION] Do not continue probing RAM consumers or retry the same OpenVPN installation. The current Proton Free router path is treated as infeasible on this hAP unless a materially lighter, officially compatible approach is identified.
+- [STATUS] STAGE 23 — SKIPPED/RETIRED for the current hAP configuration after confirmed OOM during installation.
+- [NEXT] STAGE 24 PBR depends on a VPN base, so it is also not actionable in the current path. Do not configure PBR until a supported VPN base is available.
