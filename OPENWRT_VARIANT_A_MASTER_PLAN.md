@@ -86,6 +86,12 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Post-reboot nfqws2 command-line audit — 2026-09-23
+- [PASS] PID 2206 is running with qnum=300 and the selected TCP/UDP desync strategies.
+- [IMPORTANT] Runtime uses `--hostlist-auto=/opt/zapret2/ipset/zapret-hosts-auto.txt` for TCP 80/443 and `--hostlist=/opt/zapret2/ipset/zapret-hosts-auto.txt` for QUIC.
+- [STATUS] This exposes a possible post-reboot functional dependency on the auto-hostlist file; its contents/state have not yet been checked.
+- [SAFETY] No configuration changes made.
+
 ## Post-reboot NFQUEUE consumer audit — 2026-09-23
 - [PASS] `/proc/net/netfilter/nfnetlink_queue` shows queue `300` bound to PID `2206`, matching the running `nfqws2` process.
 - [PASS] Queue 300 has an active consumer after reboot; this rules out an unbound NFQUEUE as the immediate cause.
