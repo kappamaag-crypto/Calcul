@@ -752,3 +752,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] Original `/etc/wireguard/proton.conf` will remain unchanged.
 - [TEST DESIGN] The test copy will contain `Table = off` in `[Interface]`, preventing wg-quick from installing the full-tunnel routes during the first handshake test.
 - [NEXT] Create `/etc/wireguard/proton-test.conf` from the current config and set mode 0600.
+
+
+## STAGE 21 route-isolated WireGuard test copy created — 2026-09-23
+- [RESULT] `/etc/wireguard/proton-test.conf` created from the fresh Proton config and modified only by adding `Table = off` under `[Interface]`.
+- [PASS] Test copy permissions set to `0600`.
+- [SAFETY] Original `/etc/wireguard/proton.conf` remains unchanged; no default route was changed during preparation.
+- [NEXT] Bring up `proton-test` with `wg-quick`; first test must remain route-isolated.
