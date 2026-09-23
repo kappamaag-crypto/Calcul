@@ -214,3 +214,12 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [STATUS] STAGE 11 remains IN_PROGRESS; TLS1.2/TLS1.3 separate coverage is still unverified.
 - [NO CHANGE] No package installation or configuration modification was performed.
 - [NEXT] Use an already available lightweight TLS-capable tool only if present; first identify available `wget` TLS feature/version with one compact command.
+
+
+## SYNC — 2026-09-23 — wget capability check
+- [CONFIRMED] The router uses a BusyBox-style `wget`; `wget --version` is unsupported and returns its usage text.
+- [CONFIRMED] This does not provide a direct TLS-version selector, so separate TLS1.2/TLS1.3 validation cannot be performed with the current `wget` invocation alone.
+- [PASS] The prior real HTTPS YouTube fetch remains the functional TCP candidate #52 PASS criterion.
+- [STATUS] STAGE 11 remains IN_PROGRESS; candidate #52 is functionally passing, while separate TLS-version coverage remains unverified.
+- [NO CHANGE] No package or configuration changes were made.
+- [NEXT] Avoid adding packages solely for protocol introspection; continue with the planned independent QUIC candidate testing after recording this limitation.
