@@ -874,3 +874,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] Locally generated traffic is accepted on loopback; established/related is accepted; traffic leaving via `eth1` or `phy0-sta0` is passed to `output_wan`.
 - [CONCLUSION] The top-level output policy does not itself block locally generated WireGuard handshake traffic.
 - [NEXT] Inspect `output_wan` only, because that is the chain actually handling local traffic sent via the Archer-side underlay `phy0-sta0`.
+
+
+## STAGE 21 fw4 output_wan chain verified — 2026-09-23
+- [RESULT] `inet fw4 output_wan` contains only `jump accept_to_wan`.
+- [CONCLUSION] The WAN-specific output chain does not itself impose an additional block; WireGuard handshake traffic leaving through `phy0-sta0` is passed to `accept_to_wan`.
+- [NEXT] Inspect `accept_to_wan` to verify its exact rule set before changing anything.
