@@ -1338,3 +1338,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] Private key remained hidden; the source profile was not modified.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
 - [SAFETY] The only state change was creation of the temporary `proton-test` interface for the requested validation; no persistent UCI configuration was added.
+
+## SYNC CHECKPOINT — 2026-09-23 — command explanation requirement
+- [USER RULE] Every router command in this troubleshooting sequence must be accompanied by a brief explanation of what the command does and what result we are looking for.
+- [WORKFLOW] Keep the cadence: synchronize the just-reported result → explain the next command briefly → give exactly one command → wait for the user's output.
