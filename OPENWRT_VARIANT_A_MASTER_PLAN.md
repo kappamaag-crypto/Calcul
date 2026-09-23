@@ -49,7 +49,7 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
   - UDP 443: fake_default_quic repeats=6.
 - Официальный init-скрипт zapret2 использует ZAPRET_CONFIG, по умолчанию /opt/zapret2/config; временный config может быть выбран через эту переменную без изменения постоянного файла.
 - Временная копия: /tmp/zapret2-config-test; содержит TCP/80 baseline, TCP/443 candidate #52, UDP/443 candidate #1.
-- Постоянный /opt/zapret2/config теперь содержит выбранный TCP/443 кандидат #52; UDP/443 пока baseline.
+- Постоянный /opt/zapret2/config теперь содержит выбранные TCP/443 кандидат #52 и UDP/443 кандидат #1; сервис пока не перезапущен после этих постоянных изменений.
 
 ## STATUS
 STAGE 11 — IN_PROGRESS.
@@ -64,11 +64,12 @@ STAGE 11 — IN_PROGRESS.
 - [PASS] Temporary TCP/443 is candidate #52: hostfakesplit:ip_ttl=3:repeats=1.
 - [PASS] Temporary UDP/443 is QUIC #1: fake:blob=fake_default_quic:repeats=1.
 - [CONFIRMED] Backup existed and matched permanent config before commit.
-- [PASS] Permanent TCP/443 replacement completed; verified exact line:
-  --filter-tcp=443 --filter-l7=tls <HOSTLIST> --payload=tls_client_hello --lua-desync=hostfakesplit:ip_ttl=3:repeats=1 --new
-- [SAFETY] Service was not restarted by this edit; UDP/443 remains unchanged.
+- [PASS] Permanent TCP/443 replacement completed and verified.
+- [PASS] Permanent UDP/443 replacement completed; verified exact line:
+  --filter-udp=443 --filter-l7=quic <HOSTLIST_NOAUTO> --payload=quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=1
+- [SAFETY] Both persistent strategy-line changes are complete; service has not yet been restarted.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Persist the validated UDP/443 candidate #1 as the second and final strategy-line change, then verify before restart.
+- [NEXT] Perform one normal zapret2 service restart using the permanent config, then inspect only the compact startup result before client validation.
 
 ## Prior detailed sync record
 Earlier detailed candidate-testing history remains represented by the selected-candidate records above; no earlier PASS/FAIL state is being overwritten.
