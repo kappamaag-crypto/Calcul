@@ -1169,3 +1169,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] We have established the path construction in the OpenWrt integration, but not the init-time value of `ZAPRET_RW` or the resulting concrete active custom.d path.
 - [SAFETY] No configuration/service state changed; this was read-only.
 - [STATUS] Diagnostic gate remains IN_PROGRESS, with reduced scope and no redundant broad testing.
+
+## SYNC CHECKPOINT — 2026-09-23 — workflow format update
+- [USER RULE] For this troubleshooting sequence, use the cadence: synchronize the just-reported result → give the single next command. Do not narrate or announce a future stage/step.
+- [STATUS] Zapret2 custom hook diagnostic remains IN_PROGRESS.
