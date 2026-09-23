@@ -518,3 +518,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATE] User reports credentials were entered into `/etc/openvpn/proton.auth`.
 - [SECURITY] Credential contents must not be displayed in chat.
 - [NEXT] Verify only that the file has exactly two non-empty lines, without revealing values.
+
+
+## STAGE 23 Proton credentials correction — 2026-09-23
+- [RESULT] Structural check found 3 non-empty lines in `/etc/openvpn/proton.auth`; expected exactly 2.
+- [ACTION] Remove only lines 3 and onward, preserving the first two credential lines.
+- [SECURITY] Credential values remain undisclosed.
