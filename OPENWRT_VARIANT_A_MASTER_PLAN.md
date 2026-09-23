@@ -1243,3 +1243,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] If custom scripts are present, the installer explicitly warns that nfqws-based custom scripts will not work with system-wide offloading.
 - [IMPORTANT] Current project setting `FLOWOFFLOAD=donttouch` remains unchanged; no UCI or firewall setting was modified by this inspection.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — do_nfqws location confirmed
+- [RESULT] Read-only search located the active `do_nfqws()` implementation at `/opt/zapret2/init.d/openwrt/zapret2:65`.
+- [RELEVANCE] This is the last unresolved integration point before deciding whether the bundled `50-wg4all` example can be enabled safely alongside the current `NFQWS2_ENABLE=1` setup.
+- [USER FEEDBACK] User asked to avoid an excessively long test sequence; the remaining inspection is intentionally limited to this integration point.
+- [SAFETY] No configuration or service state changed.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
