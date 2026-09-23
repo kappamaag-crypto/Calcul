@@ -490,3 +490,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [FACT] The config uses `auth-user-pass`, so the router will require Proton's separate OpenVPN username/password, not the normal Proton account password. citeturn726966search0turn726966search3
 - [SAFETY] Do not expose or paste OpenVPN credentials into chat. Do not modify the embedded CA or tls-crypt material.
 - [NEXT] Before creating the router-side instance, use the exact downloaded `.ovpn` file and resolve/confirm the server identity from the file; no routing or firewall changes yet.
+
+
+## STAGE 23 Proton `.ovpn` repository file verified — 2026-09-23
+- [PASS] The user stored `nl-free-130.protonvpn.udp (1).ovpn` in the project GitHub repository; the exact file was fetched successfully.
+- [PASS] File contents match the previously supplied Proton Router OpenVPN configuration: `proto udp`, remote 185.107.56.133 with fallback ports 4569/5060/80/51820/1194, embedded CA and `tls-crypt`, and `auth-user-pass`.
+- [IDENTITY] The downloaded file is for the `NL-FREE#130` configuration family, as stated in its header and filename.
+- [SECURITY] The file does not contain the user's OpenVPN password; credentials must remain outside the repository/chat.
+- [NEXT] Copy this exact configuration to `/etc/openvpn/` on the hAP. Do not yet enable it as the default WAN route or alter firewall/PBR.
