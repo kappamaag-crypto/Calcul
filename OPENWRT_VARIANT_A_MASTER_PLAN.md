@@ -146,3 +146,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
 - [NO CHANGE] No configuration-changing command was issued after the previous diagnostic.
 - [NEXT] First distinguish device reboot from Wi-Fi/service restart using a minimal uptime check.
+
+
+## SYNC — 2026-09-23 — restart classification
+- [CONFIRMED] `uptime` reports `up 15:38`, so the hAP did not reboot immediately before this check.
+- [CONCLUSION] The reported interruption was not a full router reboot; it may have been Wi-Fi/service/interface related, but that is not yet established.
+- [SAFETY] No further zapret2 changes have been made.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
+- [NEXT] Before resuming candidate validation, perform one minimal read-only check of recent kernel/service restart evidence.
