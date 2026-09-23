@@ -1445,3 +1445,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `wg show proton-test latest-handshake` failed because this `wg` build accepts `latest-handshakes` (plural), not `latest-handshake`.
 - [RESULT] The preceding accidental `EIF` shell input returned `not found` and made no configuration/runtime change.
 - [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard handshake validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — repeated singular handshake query
+- [RESULT] User again executed `wg show proton-test latest-handshake` (singular); `wg` rejected it and displayed the valid parameter `latest-handshakes`.
+- [IMPORTANT] No system/network state changed from this repeated read-only command.
+- [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard handshake validation = IN_PROGRESS.
