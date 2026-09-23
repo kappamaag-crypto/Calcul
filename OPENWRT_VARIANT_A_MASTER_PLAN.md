@@ -230,3 +230,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] Temporary config has therefore not been changed at this step; no QUIC candidate switch occurred.
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains functionally PASS, QUIC candidate selection not started.
 - [NEXT] Reissue only the intended single `sed -i` command; do not restart zapret2 until the edit is separately verified.
+
+
+## SYNC — 2026-09-23 — QUIC candidate #1 edit executed
+- [CONFIRMED] The `sed -i` command to change only the temporary UDP/443 entry completed with empty output, consistent with a successful edit.
+- [CONFIRMED] This step changed only `/tmp/zapret2-config-test`; the permanent `/opt/zapret2/config` was not modified.
+- [NOT_YET_VERIFIED] The temporary UDP/443 line has not yet been re-read, so QUIC candidate #1 is not yet confirmed in the test config.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains functionally PASS; QUIC candidate #1 is pending config verification.
+- [NEXT] Verify only the UDP/443 line in the temporary config before restarting zapret2.
