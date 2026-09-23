@@ -306,3 +306,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] root filesystem uses overlayfs with upperdir=/overlay/upper and workdir=/overlay/work.
 - [FACT] /mnt/data is not currently mounted according to the filtered mount output.
 - [STATUS] Existing extroot is operational; no destructive USB changes are required. Stage 8 is treated as already implemented/verified in the current system state.
+
+## STAGE 9 current ZRAM + USB swap audit — 2026-09-23
+- [PASS] /dev/zram0 active, size 26620 KiB, priority 100, used 1612 KiB.
+- [PASS] /dev/sda1 active as partition swap, size 524284 KiB, priority -2, used 0 KiB.
+- [PASS] ZRAM has higher priority than USB swap; USB swap is available as fallback.
+- [FACT] No swap is configured on /tmp in the observed state.
+- [STATUS] Existing ZRAM + USB swap configuration is operational; no reconfiguration performed.
