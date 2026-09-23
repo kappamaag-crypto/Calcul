@@ -707,3 +707,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [USER RESULT] `/etc/wireguard` was created successfully; no output indicates normal completion of `mkdir -p`.
 - [STATUS] STAGE 21 — IN_PROGRESS.
 - [NEXT] Create the Proton WireGuard config locally with restrictive file permissions (`0600`); the private key must stay only on the router and must not appear in chat/GitHub.
+
+
+## STAGE 21 Proton WireGuard local config created — 2026-09-23
+- [USER RESULT] Fresh Proton WireGuard configuration was written locally to `/etc/wireguard/proton.conf` with `umask 077`.
+- [SECURITY] PrivateKey was entered only on the router and was not shared in chat or GitHub.
+- [STATUS] STAGE 21 — IN_PROGRESS.
+- [NEXT] Perform a metadata-only validation of file permissions and required sections; do not print the private key or full config.
