@@ -2150,3 +2150,5 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] Raw TLS-handshake probe = NOT_STARTED.
 - [RESULT 2026-09-23] `openssl` is not installed on OpenWrt; package installation is unnecessary for this probe.
 - [STATUS] Raw TLS endpoint probe = NOT_STARTED. Use existing HTTPS-capable `wget` rather than installing additional tooling.
+- [RESULT 2026-09-23] BusyBox `wget` does not support `-S`; the attempted HTTPS probe did not execute. No network conclusion was drawn.
+- [STATUS] Raw TLS endpoint probe = NOT_STARTED; use supported `wget --no-check-certificate -T 5` syntax.
