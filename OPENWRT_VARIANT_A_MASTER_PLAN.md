@@ -285,3 +285,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [READY] QUIC candidate #1 is runtime-confirmed in the active temporary config.
 - [STATUS] STAGE 11 remains IN_PROGRESS; functional QUIC PASS/FAIL is not established.
 - [NEXT] Check for an already-installed QUIC/HTTP3-capable client only; no package installation and no config changes.
+
+
+## SYNC — 2026-09-23 — no QUIC/HTTP3 client installed
+- [CONFIRMED] Capability check found only /usr/bin/wget; curl, quiche-client, and nghttp3-client are absent from PATH.
+- [CONCLUSION] The hAP currently has no identified QUIC/HTTP3-capable client for a direct router-side functional QUIC test.
+- [SAFETY] No package was installed and no configuration was changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-confirmed but functional PASS cannot be established from the router with the currently available client set.
+- [NEXT] Use a minimal client-side functional check from a device behind the hAP, if feasible, rather than installing a new package solely for testing.
