@@ -1699,3 +1699,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATE] Backup `/opt/zapret2/init.d/openwrt/50-wg4all.bak` is preserved outside `custom.d`.
 - [STATUS] Duplicate custom script issue = DONE; TTL strategy A/B test = NOT_STARTED.
 - [SAFETY] No destructive action; TP-Link untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — live WireGuard TTL A/B strategy applied
+- [PASS] The `50-wg4all` strategy was successfully changed to `repeats=1:ip_ttl=4`.
+- [PASS] Zapret2 restarted successfully and daemon 2000/qnum 65300 now starts with `--lua-desync=fake:blob=0x00000000000000000000000000000000:repeats=1:ip_ttl=4`.
+- [PASS] The three WireGuard nftables matches remain active on qnum 65300.
+- [STATUS] TTL strategy A/B test = IN_PROGRESS; Proton/WireGuard validation = IN_PROGRESS.
+- [SAFETY] Only the active `50-wg4all` strategy on hAP was changed; TP-Link untouched. Backup remains at `/opt/zapret2/init.d/openwrt/50-wg4all.bak`.
