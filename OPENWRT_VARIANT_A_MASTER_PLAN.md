@@ -645,3 +645,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Reopen STAGE 21 and prefer Proton Free WireGuard as the router VPN candidate over OpenVPN, because Proton itself recommends WireGuard for OpenWrt unless there is a strong reason to use OpenVPN. citeturn891093search9
 - [STATUS] STAGE 21 — IN_PROGRESS.
 - [NEXT] Generate one official Proton Free WireGuard `.conf` for the Router platform; no hAP package/configuration changes yet.
+
+
+## STAGE 21 Proton Free WireGuard config audit — 2026-09-23
+- [PASS] User generated and uploaded `wg-NL-FREE-128.conf`; configuration identifies Proton `NL-FREE#128`, VPN Accelerator=on, NAT-PMP off, Bouncing=1.
+- [PASS] WireGuard interface parameters are structurally coherent: `Address=10.2.0.2/32`, DNS `10.2.0.1`, peer endpoint `185.107.56.235:51820`, `PersistentKeepalive=25`, full-tunnel AllowedIPs for IPv4/IPv6.
+- [SECURITY INCIDENT] The uploaded repository file contains a WireGuard `PrivateKey`. It must be treated as compromised because it was placed in a GitHub repository. Do not use that key/configuration for the router.
+- [ACTION REQUIRED] Delete the exposed config from GitHub and generate a fresh Proton WireGuard configuration with a new private key. Never paste the new private key into chat or the repository.
+- [STATUS] STAGE 21 — IN_PROGRESS, blocked on credential regeneration.
+- [NEXT] After a fresh config is generated, inspect only non-secret fields and then install the minimum WireGuard packages on hAP.
