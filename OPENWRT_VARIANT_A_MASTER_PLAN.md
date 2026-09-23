@@ -114,3 +114,10 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] No permanent `/opt/zapret2/config` edit was made by this command.
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 is NOT yet classified PASS/FAIL.
 - [NEXT] Do not change the candidate or UDP strategy yet. First record/qualify the startup result and then perform the minimal controlled functional check.
+
+
+## SYNC — 2026-09-23 — STAGE 11 startup-message diagnosis
+- [OBSERVED] Targeted search in /etc/init.d/zapret2 for nf_conntrack_tcp_be_liberal, sysctl, not found, and command failed returned empty output.
+- [CONFIRMED] The previous `Command failed: Not found` message cannot be attributed to those literal strings in the init script by this targeted search.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT yet classified PASS/FAIL.
+- [NEXT] Continue with a narrower read-only qualification of the restart path; do not modify candidate #52, UDP strategy, or permanent config.
