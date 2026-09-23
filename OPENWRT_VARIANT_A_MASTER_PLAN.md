@@ -221,3 +221,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `MODE_FILTER=autohostlist` builds two paths: normal hostlist-marked rules receive `--hostlist-auto=$HOSTLIST_AUTO` plus related parameters; `HOSTLIST_NOAUTO_MARKER` receives `--hostlist=$HOSTLIST_AUTO` via `parmNA`.
 - [IMPORTANT] This behavior is deterministic and does not itself explain why manual restart differs from boot, because the same config is used after both starts.
 - [STATUS] Hostlist substitution path is understood; no configuration changes made.
+
+## Post-reboot lanif set audit — 2026-09-23
+- [PASS] `nft list set inet zapret2 lanif` shows `elements = { "br-lan" }`.
+- [IMPORTANT] Both interface sets are populated after reboot: `wanif=phy0-sta0`, `lanif=br-lan`.
+- [STATUS] Empty/missing interface-set population is ruled out as the immediate cause; no configuration changes made.
