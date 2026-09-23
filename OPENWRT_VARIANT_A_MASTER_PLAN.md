@@ -1457,3 +1457,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CURRENT EVIDENCE] WireGuard sent traffic (25.58 KiB observed), qnum 65300 receives packets, drops are 0, and the endpoint route is correct; the missing element is a received response/handshake.
 - [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard end-to-end validation = BLOCKED at peer response/handshake.
 - [NEXT] Inspect existing kernel conntrack state for the Proton UDP endpoint; read-only, no redundant nft/NFQUEUE checks.
+
+## SYNC CHECKPOINT — 2026-09-23 — conntrack confirms UNREPLIED Proton UDP flow
+- [RESULT] `/proc/net/nf_conntrack` shows `src=192.168.0.100 sport=42293 -> dst=185.107.56.235 dport=51820`, `packets=232 bytes=40832 [UNREPLIED]`, with reverse direction `packets=0 bytes=0`.
+- [CONCLUSION] The OpenWrt conntrack layer sees substantial outbound WireGuard UDP traffic, but no inbound response from the endpoint.
+- [IMPORTANT] This does not identify whether the loss occurs at the upstream Archer/NAT path, ISP/TSPU path, or remote endpoint. It also does not justify changing Zapret2 yet.
+- [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard end-to-end validation = BLOCKED at missing peer response.
+- [SAFETY] Read-only inspection only; no configuration or service state changed.
