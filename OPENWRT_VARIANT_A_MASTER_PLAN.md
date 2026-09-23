@@ -566,3 +566,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] This result does not by itself prove ISP/TSPU blocking, incorrect credentials, or certificate/time failure; it only proves that the TLS handshake did not complete over the tested UDP endpoints.
 - [CORRECTION] Do not manually convert the UDP `.ovpn` by changing `proto` and ports. Use Proton's separately generated TCP OpenVPN configuration instead.
 - [NEXT] Stop the current OpenVPN process, then obtain/use the official Proton TCP Router `.ovpn` for the same Free server family before another connection test.
+
+
+## STAGE 23 Proton TCP fallback selected — 2026-09-23
+- [DECISION] Because the official Proton NL-FREE#130 UDP configuration reached the server address but never completed TLS negotiation, test Proton's separately generated TCP configuration next.
+- [OFFICIAL] Proton states UDP is recommended generally, but TCP uses port 443 and is the fallback when UDP cannot connect; TCP can also help on networks where UDP VPN traffic is blocked. citeturn757013search0turn757013search9
+- [RULE] Do not manually edit the UDP `.ovpn` to convert it to TCP; download Proton's official TCP Router configuration.
+- [NEXT] Generate/download the TCP Router `.ovpn` for `NL-FREE#130` and provide/store that exact file before another router-side test.
