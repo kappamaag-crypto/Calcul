@@ -946,3 +946,12 @@ Use the user-verified 8 TCP + 2 QUIC candidate set from the Master Plan. Do not 
 - DoH/https-dns-proxy is retired from the current Variant A workflow by explicit user decision.
 - STAGE 10 is skipped/retired; do not reintroduce DoH without explicit user instruction.
 - Current sequence continues from the already verified extroot/ZRAM/USB-swap state to the next applicable stage after Zapret2, without DoH.
+
+## SYNC CHECKPOINT — 2026-09-23 16:00 +05:00
+- Latest confirmed router-side nft runtime: nftables v1.1.6 (Commodore Bullmoose #7) from nft --version.
+- Treat this as a factual checkpoint, not permission to change nftables, Zapret2, WireGuard, or firewall configuration.
+- Current investigation is read-only discovery of how the installed Zapret2 integration consumes custom.d; do not infer the hook mechanism from the nft version alone.
+- Pending diagnostic: grep -nE 'custom\.d|custom_d|zapret_custom_' /etc/init.d/zapret2 /opt/zapret2/init.d/* 2>/dev/null | head -30
+- That command is PROPOSED/PENDING, not EXECUTED, until the user supplies its router output.
+- Preserve the one-step-at-a-time rule: do not issue a second router command in the same response that synchronizes the current user result/request.
+- No configuration or service changes are permitted during this read-only discovery gate.
