@@ -2018,3 +2018,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [NEXT] Read qnum 65301 kernel queue statistics to confirm userspace processing and check for queue drops.
 - [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS; temporary multisplit test = IN_PROGRESS.
 - [SAFETY] Read-only check; temporary rule/process remain in place pending test conclusion; TP-Link untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN multisplit live test concluded
+- [RESULT] Temporary qnum `65301` queue stats: `pid=8082`, `queued_now=0`, `dropped=0`, `user_dropped=0`, `last_packet_id=24` after the OpenVPN test.
+- [CONCLUSION] The temporary qnum 65301 path actively processed the OpenVPN TCP/443 traffic without NFQUEUE drops, while the foreground OpenVPN client still timed out after each TCP connection. The experiment therefore did not restore the OpenVPN session.
+- [IMPORTANT] The failure is not attributable to the rule being completely bypassed; 23 packets hit the nft rule and the queue processed them.
+- [DECISION] End the temporary qnum 65301 experiment and remove only its temporary nft rule/process. Keep the permanent vendor Zapret2 baseline unchanged.
+- [STATUS] OpenVPN TCP/443 generic multisplit test = FAILED; temporary test cleanup = IN_PROGRESS; OpenVPN fallback branch remains IN_PROGRESS.
+- [CONSTRAINT] TP-Link untouched.
