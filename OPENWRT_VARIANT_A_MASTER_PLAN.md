@@ -86,6 +86,12 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Post-reboot auto-hostlist audit — 2026-09-23
+- [PASS] `zapret-hosts-auto.txt` exists and contains 45 entries.
+- [PASS] The file contains YouTube-related domains including `www.youtube.com`, `s.youtube.com`, `accounts.youtube.com`, and multiple `googlevideo.com`/YouTube subdomains.
+- [STATUS] A completely empty/missing auto-hostlist is ruled out as the immediate cause of the post-reboot YouTube failure.
+- [SAFETY] No configuration changes made.
+
 ## Post-reboot nfqws2 command-line audit — 2026-09-23
 - [PASS] PID 2206 is running with qnum=300 and the selected TCP/UDP desync strategies.
 - [IMPORTANT] Runtime uses `--hostlist-auto=/opt/zapret2/ipset/zapret-hosts-auto.txt` for TCP 80/443 and `--hostlist=/opt/zapret2/ipset/zapret-hosts-auto.txt` for QUIC.
