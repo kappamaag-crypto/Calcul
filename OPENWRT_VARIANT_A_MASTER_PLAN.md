@@ -1825,3 +1825,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not install or manually fetch AmneziaWG packages. First inspect the configured apk repositories on the hAP.
 - [STATUS] Standard vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS; AmneziaWG = NOT_STARTED.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — apk repository path check
+- [RESULT] `/etc/apk/repositories` does not exist on the hAP (`cat: can't open ... No such file or directory`).
+- [CONCLUSION] This only rules out that legacy/simple repository-file location; it does not prove apk has no configured package sources.
+- [DECISION] Do not install or manually fetch AmneziaWG. Locate the actual apk repository configuration first.
+- [STATUS] AmneziaWG = NOT_STARTED; standard vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+- [CONSTRAINT] TP-Link remains untouched.
