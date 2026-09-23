@@ -852,3 +852,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONFIRMED] No WireGuard handshake has ever been received by the runtime interface during the current test.
 - [CONTEXT] Local keypair consistency, Proton peer parameters, endpoint underlay route, and ICMP reachability to `185.107.56.235` are already verified.
 - [NEXT] Inspect the existing firewall ruleset for UDP handling before making any firewall change.
+
+
+## STAGE 21 Firewall inspection — 2026-09-23
+- [RESULT] Ruleset grep shows no explicit rule for UDP/51820 or UDP/52235 and shows the standard fw4 `ct state established, related` accepts for inbound/forwarded/outbound flows.
+- [CONCLUSION] No evidence from this compact inspection justifies changing firewall policy yet.
+- [SAFETY] Firewall configuration remains untouched.
+- [NEXT] Inspect the complete fw4 output chain to verify how locally generated WireGuard UDP packets are handled before any change.
