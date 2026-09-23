@@ -138,3 +138,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT yet classified PASS/FAIL.
 - [NO CHANGE] No zapret2 configuration was modified.
 - [NEXT] Inspect the definitions of `standard_mode_daemons` / relevant command construction, still read-only.
+
+
+## SYNC — 2026-09-23 — unexpected router/Wi-Fi restart observed
+- [OBSERVED] User reports that the router or Wi-Fi restarted unexpectedly during Stage 11 read-only diagnosis.
+- [SAFETY] Pause further zapret2 candidate testing until it is established whether the hAP itself rebooted or only Wi-Fi/service state changed.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
+- [NO CHANGE] No configuration-changing command was issued after the previous diagnostic.
+- [NEXT] First distinguish device reboot from Wi-Fi/service restart using a minimal uptime check.
