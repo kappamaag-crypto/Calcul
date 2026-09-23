@@ -1948,3 +1948,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [NEXT] Inspect existing OpenVPN configuration/profile files before starting any service or modifying routing.
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS; no OpenVPN configuration changed.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — existing Proton OpenVPN profiles found
+- [RESULT] `/etc/openvpn` contains `proton-nl-free-130-tcp.ovpn`, `proton-nl-free-130.ovpn`, `proton-us-free-115-tcp.ovpn`, and `proton.auth`.
+- [RESULT] UCI OpenVPN configuration contains only disabled sample/custom sections; no active OpenVPN client is currently enabled through UCI (`enabled='0'`).
+- [DECISION] Reuse the existing Proton TCP profiles rather than downloading another configuration. Inspect only non-secret directives before any launch.
+- [SAFETY] No OpenVPN service started and no routing/configuration changed; credential file contents are not to be displayed.
+- [STATUS] OpenVPN TCP fallback = IN_PROGRESS.
+- [CONSTRAINT] TP-Link remains untouched.
