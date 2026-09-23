@@ -1521,3 +1521,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CORRELATION] Combined with `wg show proton-test fwmark = off`, the external claim that PBR pre-marks the WireGuard handshake with `0x40000000` is not supported by current routing configuration.
 - [STATUS] `50-wg4all` functional integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
 - [SAFETY] Read-only inspection; no routing or nftables state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — fwmark hypothesis effectively excluded
+- [RESULT] No fwmark-based `ip rule` policy routing exists; WireGuard interface fwmark is `off`.
+- [RESULT] A/B test with `50-wg4all` disabled still produced outbound WireGuard traffic with `0 B received`, while standard Zapret2 only intercepted UDP 443, not UDP 51820.
+- [CONCLUSION] Current evidence does not support the claim that a pre-existing `0x40000000` fwmark is causing the Proton handshake to bypass Zapret2. qnum 65300 is reached when the custom script is enabled.
+- [DECISION] Do not manually insert a forced jump or alter `DESYNC_MARK/FW_MARK_MASK` based on this theory.
+- [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
