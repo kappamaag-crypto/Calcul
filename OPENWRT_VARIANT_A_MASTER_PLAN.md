@@ -2221,3 +2221,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [INTERPRETATION] Combined with the earlier test where Zapret2 was fully stopped and the same control-channel timeout occurred, local Zapret2 is not established as the sole cause. The failure is after TCP establishment and before successful OpenVPN control-channel exchange.
 - [STATUS] Proton OpenVPN TCP fallback = BLOCKED at server control-channel response; Zapret2 causality = RULED OUT as sole cause; further blind desync testing is NOT justified.
 - [NEXT] Before changing router configuration, verify whether the Proton profile/endpoint set is current and whether the selected server IP is still a valid/current Proton endpoint; use official Proton sources where available.
+
+
+## SYNC CHECKPOINT — 2026-09-23 — Requested next step: read-only Proton profile audit
+- [NEXT] User requested one read-only test of the Proton OpenVPN profile contents.
+- [SCOPE] Inspect metadata/directives only; do not print credentials, inline certificates, private keys, or full secret-bearing blocks; do not modify the profile or services.
