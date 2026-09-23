@@ -902,3 +902,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 ## STAGE 21 Resume: clock prerequisite check — 2026-09-23
 - [PROCESS] Stage 21 diagnostics resumed at the user's request, still one command at a time and without broadening into multiple probes.
 - [NEXT] Check the hAP system clock because WireGuard handshakes depend on valid time-based cryptographic state; this is a prerequisite check before externalizing the diagnosis.
+
+
+## STAGE 21 Clock check — 2026-09-23
+- [RESULT] Router reports `Wed Sep 23 15:10:22 GMT 2026`.
+- [OBSERVATION] At the same point in the session the actual user-local time is 15:10 at UTC+5, i.e. approximately 10:10 UTC. Therefore the router's displayed time is approximately 5 hours ahead of UTC, not merely a local-time display difference.
+- [SIGNIFICANCE] WireGuard puts a current TAI64N timestamp into handshake initiation; gross clock skew is therefore a relevant prerequisite to correct, although this evidence alone does not prove it is the cause of the missing handshake. OpenWrt documents BusyBox NTP as the normal time-synchronization mechanism.
+- [SAFETY] No clock/configuration change has been made yet.
+- [NEXT] Inspect the current OpenWrt NTP client configuration once, then decide on a minimal time-sync correction.
