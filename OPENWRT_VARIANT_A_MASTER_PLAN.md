@@ -1808,3 +1808,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [TEST] `wg set proton-test listen-port 0` is a runtime-only change to the temporary test interface; WireGuard documents port 0 as random listen-port selection. citeturn413801search0turn413801search2
 - [SAFETY] Persistent profile files, Zapret2 configuration, and TP-Link are untouched.
 - [STATUS] WireGuard/Proton validation = IN_PROGRESS; vendor `50-wg4all` baseline = DONE.
+
+## SYNC CHECKPOINT — 2026-09-23 — AmneziaWG proposal fact-checked
+- [USER INPUT] User supplied a proposal to replace standard WireGuard with AmneziaWG using obfuscation parameters Jc/Jmin/Jmax/S1/S2.
+- [CURRENT FACT] AmneziaWG is a distinct protocol variant/fork rather than a transparent client-side add-on to standard WireGuard. Its official OpenWrt integration uses `kmod-amneziawg` plus `amneziawg-tools`/`luci-proto-amneziawg`; an alternative userspace implementation is `amneziawg-go`. citeturn356609search7turn356609search3
+- [COMPATIBILITY CAUTION] Amnezia's official OpenWrt guide describes AmneziaWG for supported/self-hosted AWG configurations. No current Proton VPN official source found in this review states that Proton's standard WireGuard servers accept AmneziaWG obfuscation parameters. citeturn356609search1turn480797search2
+- [KNOWN ISSUE] The official AmneziaWG OpenWrt repository has an open issue documenting unpredictable/failed handshakes when obfuscation parameters are specified, reinforcing that random Jc/Jmin/Jmax/etc. should not be injected blindly. citeturn480797search0
+- [DECISION] Do not install or switch to AmneziaWG yet. First verify whether compatible packages are actually available in the router's configured apk repositories.
+- [CONSTRAINT] TP-Link remains untouched.
+- [STATUS] Standard vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
