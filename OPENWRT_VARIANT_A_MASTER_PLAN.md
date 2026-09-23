@@ -766,3 +766,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CORRECTION] OpenWrt's supported WireGuard integration uses netifd with `proto wireguard`; `wireguard-tools` supplies `wg` and a netifd protocol helper rather than requiring `wg-quick`. citeturn894353search2turn894353search9
 - [DECISION] Do not install another package solely to obtain `wg-quick`.
 - [NEXT] Perform a temporary runtime-only WireGuard handshake using `wg`/`ip`, with no routes added. The persistent UCI configuration will be created only after handshake success.
+
+
+## STAGE 21 WireGuard runtime interface created — 2026-09-23
+- [RESULT] `ip link add proton type wireguard && ip addr add 10.2.0.2/32 dev proton && ip link set proton up` completed with empty output.
+- [PASS] Temporary WireGuard interface `proton` now exists and is up with address `10.2.0.2/32`.
+- [SAFETY] No routes were added and the default WAN route was not changed during this step.
+- [NEXT] Load the Proton peer/private-key parameters from the local protected config into the temporary `proton` interface; private key will not be printed.
