@@ -237,3 +237,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [INVALID COMMAND] BusyBox `ps` on this router does not support `-o`; only the documented `w` wide-output option is available.
 - [RESULT] No system state was changed by these failed diagnostics.
 - [STATUS] Process timing check must use the current nfqws2 PID; no configuration changes made.
+
+## Current nfqws2 PID audit — 2026-09-23
+- [PASS] Current `nfqws2` process PID is `3573` and runs as user `daemon`.
+- [IMPORTANT] Earlier PID 2206 was stale; process identity must not be assumed across restarts.
+- [STATUS] No configuration changes made.
