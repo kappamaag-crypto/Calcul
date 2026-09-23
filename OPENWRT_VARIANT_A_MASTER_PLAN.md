@@ -197,3 +197,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `start_daemons_procd()` calls `standard_mode_daemons 1` and `custom_runner zapret_custom_daemons 1`; it contains no explicit WAN/interface readiness wait.
 - [IMPORTANT] The remaining startup behavior is delegated to sourced Zapret2 functions, so changing the init script now would be premature.
 - [STATUS] Diagnosis narrowed to the standard daemon/firewall startup path; no configuration changes made.
+
+## Zapret2 standard daemon function location — 2026-09-23
+- [RESULT] `standard_mode_daemons()` is defined at `/opt/zapret2/common/linux_daemons.sh:11`.
+- [STATUS] Next inspection targets this small function; no configuration changes made.
