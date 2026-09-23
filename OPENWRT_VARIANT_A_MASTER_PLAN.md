@@ -1416,3 +1416,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not add the externally suggested legacy/generic variables `MODE_UDP` or `UDP_PORTS`, and do not replace the established `/opt/zapret2/config` with `/opt/zapret/config` based on that advice.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
 - [SAFETY] No configuration or runtime state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — decisive NFQUEUE evidence
+- [RESULT] Current `/proc/net/netfilter/nfnetlink_queue` entry for qnum `65300`: `65300 4853 0 2 65531 0 0 113 1`.
+- [INTERPRETATION] Linux nfnetlink_queue documents field 8 as the sequence number of the most recent packet queued. Thus qnum `65300` has received queued packets (sequence 113); `queue_total=0` means none are waiting, and both kernel/user drop counters are 0. citeturn628735search0turn628735search1
+- [CONCLUSION] The active `50-wg4all` nftables rule path is not being bypassed; WireGuard packets are reaching the dedicated nfqws2 queue.
+- [CONCLUSION] The prior hypothesis that packets are 'too fast for nfqws' or simply bypass UDP interception is not supported by the current evidence.
+- [DECISION] Do not add `MODE_UDP`, `UDP_PORTS=51820`, or replace the established `NFQWS2` configuration based on the pasted external advice.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS, now narrowed to whether the selected desync causes a usable peer response.
