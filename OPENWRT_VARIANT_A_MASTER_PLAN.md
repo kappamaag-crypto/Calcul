@@ -211,3 +211,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 ## Zapret2 hostlist target function location — 2026-09-23
 - [RESULT] `filter_apply_hostlist_target()` is defined at `/opt/zapret2/common/list.sh:24`.
 - [STATUS] Next inspection targets this function only; no configuration changes made.
+
+## Zapret2 filter_apply_hostlist_target audit — 2026-09-23
+- [RESULT] In `MODE_FILTER=autohostlist`, the function sets `--hostlist-auto=$HOSTLIST_AUTO` and related auto-hostlist parameters; it also prepares `parm13=--hostlist=$HOSTLIST_AUTO`.
+- [IMPORTANT] The displayed function portion ends before the final parameter assembly/assignment, so it is not yet safe to conclude whether `parm13` is applied to all traffic at startup.
+- [STATUS] No configuration changes made; next inspection will fetch only the remaining lines of this function.
