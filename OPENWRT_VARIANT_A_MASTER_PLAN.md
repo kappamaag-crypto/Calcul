@@ -357,3 +357,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RULE] Do not install unsupported third-party WARP binaries or substitute cloudflared for WARP: cloudflared is a Cloudflare Tunnel daemon, not the device-traffic WARP client.
 - [STATUS] STAGE 22 — SKIPPED/RETIRED.
 - [NEXT] STAGE 23 — Proton Free, subject to the same compatibility-first audit.
+
+
+## Cloudflare One Client clarification — 2026-09-23
+- [FACT] The previous OpenVPN availability command returned empty output; OpenVPN is not installed.
+- [CLARIFICATION] That command did not itself test for Cloudflare One Client binaries.
+- [OFFICIAL] Current Cloudflare One Client architecture uses the WARP daemon/service (warp-svc) plus warp-cli; Traffic and DNS mode routes device traffic through the encrypted tunnel and DNS through DoH. Current official Linux requirements list AMD64/x86-64 or ARM64/AArch64, not MIPS.
+- [DECISION] The user's working Windows Cloudflare One Client setup remains a PC reference and is not directly available as an official hAP/MIPS client.
