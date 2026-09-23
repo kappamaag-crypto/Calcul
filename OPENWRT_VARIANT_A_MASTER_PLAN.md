@@ -1031,3 +1031,14 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [ASSESSMENT] The profile is a public service configuration, not a personal credential file. However, a downloaded OpenVPN profile should be reviewed before execution because directives such as routes, DNS options, scripts, or other client directives can change router behavior. OpenWrt's OpenVPN documentation explicitly treats the client profile as configuration that must be reviewed/adjusted to the server before use. citeturn379838search0turn379838search3
 - [SAFETY] Do not copy the profile into `/etc/openvpn`, enable OpenVPN, or change routing/firewall yet.
 - [NEXT] Inspect the actual downloaded `antizapret-tcp.ovpn` content before running it. User may upload the file for direct review; do not expose or run any embedded secret material without need.
+
+
+## AntiZapret TCP profile inspected — 2026-09-23
+- [FILE REVIEW] User supplied the downloaded `antizapret-tcp.ovpn`; static inspection completed before any router execution.
+- [PROFILE] Uses `client`, `dev tun`, `proto tcp`, `remote v.31337.lol`, `remote-cert-tls server`, `cipher AES-128-CBC`, optional `data-ciphers AES-128-GCM:AES-256-GCM:AES-128-CBC`, `resolv-retry infinite`, `persist-key`, `persist-tun`.
+- [SECURITY] The profile embeds a client certificate and a corresponding private key whose certificate subject is `antizapret-client-shared`; the private key is shared by design in the public profile. It is not a user-specific password/key, but it still must not be uploaded to the project's GitHub repo or reused for unrelated services.
+- [INTEGRITY] Local cryptographic inspection confirmed the embedded private key matches the embedded client certificate. Certificate validity in the supplied file is 2023-03-12 through 2033-03-09.
+- [SCRIPT AUDIT] No active `script`, `up`, `down`, `plugin`, or `auth-user-pass` directive is present. The DNS helper examples are commented out. `setenv FRIENDLY_NAME` is metadata, not an executable hook.
+- [ROUTING] The static file contains no explicit `redirect-gateway`, `route`, or `route-ipv6` directives. Server-pushed options may still change routes/DNS when the client connects; therefore the profile must not be enabled persistently until pushed options are inspected.
+- [TRANSPORT] `proto tcp` is explicit; no port is specified on the `remote` line, so OpenVPN's default port behavior applies unless server-pushed/other configuration changes it.
+- [DECISION] Profile is acceptable for a controlled test, but not yet for permanent OpenWrt integration. Preserve current WAN/Zapret2 fallback and inspect runtime server-pushed options before accepting routing/DNS changes.
