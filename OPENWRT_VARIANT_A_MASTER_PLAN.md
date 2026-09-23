@@ -86,6 +86,11 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Post-reboot NFQUEUE consumer audit — 2026-09-23
+- [PASS] `/proc/net/netfilter/nfnetlink_queue` shows queue `300` bound to PID `2206`, matching the running `nfqws2` process.
+- [PASS] Queue 300 has an active consumer after reboot; this rules out an unbound NFQUEUE as the immediate cause.
+- [STATUS] YouTube timeout remains unexplained; no configuration changes made.
+
 ## Post-reboot nfqws2 process audit — 2026-09-23
 - [PASS] `ps w | grep '[n]fqws'` shows `/opt/zapret2/nfq2/nfqws2` running as user `daemon` after reboot.
 - [STATUS] nfqws2 process is present; YouTube timeout is not explained by a missing nfqws2 process.
