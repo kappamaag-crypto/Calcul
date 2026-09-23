@@ -86,6 +86,13 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Post-reboot manual restart comparison — 2026-09-23
+- [RESULT] Manual `/etc/init.d/zapret2 restart` completed without errors.
+- [PASS] Restart loaded the same selected strategies: TCP/443 `hostfakesplit:ip_ttl=3:repeats=1`; UDP/443 `fake:blob=fake_default_quic:repeats=1`; TCP/80 baseline unchanged.
+- [PASS] Restart reapplied NFQUEUE 300 rules for TCP 80/443 and UDP 443.
+- [IMPORTANT] This establishes a meaningful difference between post-boot state and post-manual-restart state, but functional YouTube status after the restart has not yet been tested.
+- [STATUS] No persistent configuration changes made.
+
 ## Post-reboot NFQUEUE rule activity audit — 2026-09-23
 - [RESULT] `postnat` shows the expected IPv4 UDP/443 and TCP 80/443 NFQUEUE rules to queue 300.
 - [LIMIT] The filtered nft output exposes no packet counters, so this command does not show whether YouTube traffic actually reached the queue.
