@@ -86,6 +86,11 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Post-reboot nftables audit — 2026-09-23
+- [RESULT] `nft list table inet zapret2 | grep -E 'queue num|wanif|lanif' | head -20` confirmed the `wanif`, `wanif6`, and `lanif` sets and their NAT-chain references.
+- [LIMIT] This filtered output did not expose the NFQUEUE queue-number lines, so actual queue application is not yet independently confirmed by this command.
+- [STATUS] Post-reboot nftables audit IN_PROGRESS; no configuration changes made.
+
 ## Autostart check — 2026-09-23
 - [PASS] Startup symlink confirmed: `/etc/rc.d/S21zapret2 -> ../init.d/zapret2`.
 - [STATUS] zapret2 is enabled for boot autostart.
