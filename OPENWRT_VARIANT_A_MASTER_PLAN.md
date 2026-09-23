@@ -327,3 +327,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] STAGE 10 DoH is retired.
 - [NEXT] The next applicable planned capability is STAGE 21 — WireGuard base.
 - [RULE] Before configuring WireGuard, perform only the minimum read-only audit needed to establish the current WireGuard/package/kernel state. No installation or configuration change in the audit step.
+
+## STAGE 21 WireGuard availability audit — 2026-09-23
+- [RESULT] `command -v wg`, `command -v wg-quick`, and the filtered WireGuard module check produced empty output.
+- [FACT] No `wg`/`wg-quick` executable was found in PATH and no matching loaded WireGuard kernel module was shown by the command.
+- [STATUS] STAGE 21 remains IN_PROGRESS; this was a read-only availability check and made no changes.
