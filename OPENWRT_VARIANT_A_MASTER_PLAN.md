@@ -1604,3 +1604,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] Earlier running `nfqws2` command lines referenced those paths, so the current installation may use generated/embedded or symlinked Lua resources elsewhere; the actual filesystem layout must be checked before further source inspection.
 - [SAFETY] Read-only failure only; no configuration/runtime state changed.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — actual Lua files are gzip-compressed
+- [RESULT] `/opt/zapret2/lua` contains `zapret-lib.lua.gz`, `zapret-antidpi.lua.gz`, `zapret-auto.lua.gz`, plus other compressed Lua resources.
+- [CONCLUSION] Previous source checks used nonexistent uncompressed filenames; this explains the `No such file or directory` results.
+- [WORKFLOW] Use `zgrep` directly on the installed `.lua.gz` files rather than creating decompressed copies, keeping the inspection read-only and compact.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+- [SAFETY] No files were decompressed or modified.
