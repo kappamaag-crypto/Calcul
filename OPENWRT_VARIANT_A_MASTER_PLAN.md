@@ -86,6 +86,11 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Post-reboot NFQUEUE rule activity audit — 2026-09-23
+- [RESULT] `postnat` shows the expected IPv4 UDP/443 and TCP 80/443 NFQUEUE rules to queue 300.
+- [LIMIT] The filtered nft output exposes no packet counters, so this command does not show whether YouTube traffic actually reached the queue.
+- [STATUS] No configuration changes made.
+
 ## Post-reboot auto-hostlist audit — 2026-09-23
 - [PASS] `zapret-hosts-auto.txt` exists and contains 45 entries.
 - [PASS] The file contains YouTube-related domains including `www.youtube.com`, `s.youtube.com`, `accounts.youtube.com`, and multiple `googlevideo.com`/YouTube subdomains.
