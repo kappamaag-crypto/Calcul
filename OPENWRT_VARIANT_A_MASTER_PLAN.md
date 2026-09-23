@@ -1372,3 +1372,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The dedicated `50-wg4all` nfqws2 consumer is running as a separate process and is bound to the intended WireGuard queue.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
 - [NEXT] Use a single passive packet capture against the Proton endpoint to distinguish outbound-only behavior from any returned UDP response.
+
+## SYNC CHECKPOINT — 2026-09-23 — external WireGuard advice reviewed
+- [USER INPUT] User supplied an external recommendation to add generic UDP variables such as `MODE_UDP=nfqws`, `NFQWS_OPT_DESYNC_UDP`, and `UDP_PORTS=51820`, followed by a generic `/etc/init.d/zapret restart`.
+- [DECISION] These suggested changes are NOT adopted. The installed Zapret2 already has the vendor `50-wg4all` custom integration specifically matching WireGuard initiation/response/cookie packets and using a dedicated qnum 65300.
+- [FACT CHECK] The current official Zapret2 configuration model uses `NFQWS2_ENABLE`, `NFQWS2_PORTS_UDP`, and custom scripts; there is no need to introduce the pasted legacy/generic variable names into the current config based on that advice. citeturn761261search0
+- [IMPORTANT] The user did not provide the output of the earlier `tcpdump` command, so the claim that the incoming response is blocked by TSPU is not independently established by packet capture yet.
+- [SAFETY] No config/service/nftables/WireGuard changes were made in response to the pasted recommendation.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
