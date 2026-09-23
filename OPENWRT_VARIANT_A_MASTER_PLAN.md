@@ -293,3 +293,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DONE] Minimal workaround installed in /etc/rc.local: sleep 20, then /etc/init.d/zapret2 restart.
 - [DONE] Real reboot validation passed: YouTube HTTPS downloaded 888457 bytes without manual intervention.
 - [DONE] Stage 6 is closed; no further Zapret2 strategy diagnostics are required unless a later regression appears.
+
+## STAGE 7 current memory snapshot — 2026-09-23
+- [PASS] RAM: total 54852 KiB, used 28408 KiB, free 19380 KiB, buff/cache 7064 KiB, available 10576 KiB.
+- [PASS] Swap: total 550904 KiB, used 1612 KiB, free 549292 KiB.
+- [PASS] Active swap devices: /dev/zram0 26620 KiB, priority 100; /dev/sda1 524284 KiB, priority -2.
+- [FACT] ZRAM is prioritized above USB swap as intended.
+- [STATUS] This is the current post-Zapret2/post-reboot operational memory snapshot, not a clean-base Stage 7 baseline.
