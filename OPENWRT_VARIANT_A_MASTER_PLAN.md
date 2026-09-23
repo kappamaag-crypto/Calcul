@@ -538,3 +538,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SECURITY] Password must not be pasted into chat.
 - [NEXT] User will retrieve the dedicated OpenVPN username/password from Proton and replace both lines in `/etc/openvpn/proton.auth`.
 - [STATUS] STAGE 23 — IN_PROGRESS, credentials correction pending.
+
+
+## STAGE 23 Proton credentials corrected by user — 2026-09-23
+- [USER CONFIRMATION] User states the Proton OpenVPN username and password in `/etc/openvpn/proton.auth` have now been entered correctly.
+- [SECURITY] Credentials are not displayed or copied into chat.
+- [NEXT] Perform one masked structural check before starting OpenVPN.
+- [STATUS] STAGE 23 — IN_PROGRESS.
