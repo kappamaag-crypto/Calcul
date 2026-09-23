@@ -551,3 +551,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] `/etc/openvpn/proton.auth` now contains exactly two credential lines with username length 16 and password length 32.
 - [SECURITY] Actual credential values remain undisclosed.
 - [NEXT] Run a non-routing OpenVPN handshake test using the exact Proton `.ovpn` plus the local auth file; do not make VPN the default route yet.
+
+
+## STAGE 23 Proton OpenVPN handshake attempt — 2026-09-23
+- [RESULT] OpenVPN 2.7.6 starts successfully on MIPS/OpenWrt using OpenSSL 3.5.7 and DCO kernel support.
+- [RESULT] The client resolved/selected Proton endpoint `185.107.56.133:4569` over UDP and opened the UDP link.
+- [LIMIT] The supplied output stops before TLS/authentication or `Initialization Sequence Completed`; therefore VPN authentication success is not yet established.
+- [SAFETY] `--route-nopull` was used, so this test is not intended to replace the router's default route.
+- [STATUS] STAGE 23 — IN_PROGRESS; handshake result pending from the same process.
