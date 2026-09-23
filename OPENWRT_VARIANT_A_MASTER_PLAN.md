@@ -1066,3 +1066,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] The official WireGuard-specific zapret2 example is present in the installed local v1.0.3 tree.
 - [STATUS] No configuration or runtime behavior was changed by this check.
 - [NEXT] Inspect the example's active/non-commented lines before adapting it to the existing Proton WireGuard test.
+
+
+## WireGuard 50-wg4all local rule audit — 2026-09-23
+- [RESULT] Installed `/opt/zapret2/init.d/custom.d.examples.linux/50-wg4all` exactly contains the dedicated WireGuard desync example.
+- [MECHANISM] It defines `NFQWS_OPT_DESYNC_WG` as `--payload=wireguard_initiation,wireguard_response,wireguard_cookie` with `fake:blob=0x00000000000000000000000000000000:repeats=2`, creates a dedicated `DNUM_WG4ALL` and `QNUM_WG4ALL`, and installs three UDP match rules for WireGuard message lengths/types 156/100/72.
+- [IMPORTANT] It does not replace the existing Zapret2 TCP 80/TCP 443/QUIC configuration; it is an additional custom daemon/firewall path when loaded by the custom.d mechanism.
+- [SAFETY] No Zapret2 configuration or runtime state was changed by this inspection.
+- [NEXT] Verify the installed nft version/feature level before applying the example, because its nft path uses `@ih` payload matching.
