@@ -530,3 +530,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `sed -i '3,$d' /etc/openvpn/proton.auth` completed with empty output.
 - [STATUS] The third and later lines were removed; first two credential lines were preserved.
 - [SECURITY] Do not print the password into chat. For verification, display the username locally and only password length/masked representation.
+
+
+## STAGE 23 Proton credentials correction required — 2026-09-23
+- [FAIL] Structural verification showed the stored username is exactly one character (`i`); this is not the expected Proton-generated OpenVPN username.
+- [FACT] Proton states that OpenVPN username/password are separate credentials found under Account → OpenVPN username, distinct from the normal Proton account credentials. citeturn626998search0turn626998search1
+- [SECURITY] Password must not be pasted into chat.
+- [NEXT] User will retrieve the dedicated OpenVPN username/password from Proton and replace both lines in `/etc/openvpn/proton.auth`.
+- [STATUS] STAGE 23 — IN_PROGRESS, credentials correction pending.
