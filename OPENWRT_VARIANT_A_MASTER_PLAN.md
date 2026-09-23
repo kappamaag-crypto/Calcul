@@ -25,7 +25,7 @@ STAGE 12–30 — NOT_STARTED
 - Не использовать полные cat, logread, dmesg, nft list ruleset, iw ... info и аналогичные большие выводы, если достаточно grep/sed/awk/head/tail с ограничением строк.
 - Предпочитать однострочные фильтры и агрегаты; ориентир обычно 3–15 строк вывода, а при необходимости — явно указать причину большего объёма.
 - Не объединять несколько независимых диагностических команд в один шаг только ради компактности: one-step-at-a-time сохраняется.
-- В ответе ассистента показывать команду + ожидаемый компактный результат + PASS/FAIL; после выполнения ждать фактический вывод пользователя.
+- В ответе ассистента показывать команду + ожидаемый компактный результат + PASS/FAIL; после выполнения ждать фактического вывода пользователя.
 
 ## One-step-at-a-time rule
 После каждого пользовательского сообщения и каждого ответа ассистента мастер-план синхронизируется с фактическим состоянинием. Следующий router command выдаётся только после фактического результата предыдущего.
@@ -49,7 +49,7 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
   - UDP 443: fake_default_quic repeats=6.
 - Официальный init-скрипт zapret2 использует ZAPRET_CONFIG, по умолчанию /opt/zapret2/config; временный config может быть выбран через эту переменную без изменения постоянного файла.
 - Временная копия: /tmp/zapret2-config-test; содержит TCP/80 baseline, TCP/443 candidate #52, UDP/443 candidate #1.
-- Постоянный /opt/zapret2/config до сих пор не изменён.
+- Постоянный /opt/zapret2/config теперь содержит выбранный TCP/443 кандидат #52; UDP/443 пока baseline.
 
 ## STATUS
 STAGE 11 — IN_PROGRESS.
@@ -60,17 +60,15 @@ STAGE 11 — IN_PROGRESS.
 - Separate TLS1.2/TLS1.3 proof remains unavailable because openssl is absent and BusyBox wget has no direct TLS-version selector.
 - Combined temporary validation PASS: YouTube works and client shows h3, h2, http/1.1.
 
-## Permanent config comparison
+## Permanent config comparison / commit
 - [PASS] Temporary TCP/443 is candidate #52: hostfakesplit:ip_ttl=3:repeats=1.
 - [PASS] Temporary UDP/443 is QUIC #1: fake:blob=fake_default_quic:repeats=1.
-- [CONFIRMED] Permanent TCP/443 is still baseline: fake_default_tls + tcp_md5 + tcp_seq=-10000 + multidisorder pos=1,midsld.
-- [CONFIRMED] Permanent UDP/443 is still baseline: fake_default_quic repeats=6.
-- [PASS] Backup exists: /opt/zapret2/config.backup-before-router-selection, 5542 bytes, root:root.
-- [PASS] cmp -s /opt/zapret2/config /opt/zapret2/config.backup-before-router-selection returned BACKUP_MATCH.
-- [CONCLUSION] The permanent config is byte-identical to the verified rollback backup before the candidate change.
-- [SAFETY] No permanent configuration was changed by the comparison.
+- [CONFIRMED] Backup existed and matched permanent config before commit.
+- [PASS] Permanent TCP/443 replacement completed; verified exact line:
+  --filter-tcp=443 --filter-l7=tls <HOSTLIST> --payload=tls_client_hello --lua-desync=hostfakesplit:ip_ttl=3:repeats=1 --new
+- [SAFETY] Service was not restarted by this edit; UDP/443 remains unchanged.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Candidate validation and rollback protection are complete. The next action will be a controlled permanent-config replacement of only the selected TCP/443 and UDP/443 strategy lines, followed by service restart and validation.
+- [NEXT] Persist the validated UDP/443 candidate #1 as the second and final strategy-line change, then verify before restart.
 
 ## Prior detailed sync record
 Earlier detailed candidate-testing history remains represented by the selected-candidate records above; no earlier PASS/FAIL state is being overwritten.
