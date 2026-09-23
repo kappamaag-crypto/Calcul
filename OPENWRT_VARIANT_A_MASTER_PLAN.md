@@ -1149,3 +1149,14 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [WORKFLOW UPDATE] Agreed to reduce diagnostic fragmentation: from this point, combine closely related read-only checks into one compact command where practical, avoid redundant tests, and stop once the required fact is established.
 - [STATUS] Zapret2 custom hook diagnosis remains IN_PROGRESS.
 - [NEXT] Use one consolidated read-only search for `CUSTOM_DIR` definitions/references, then decide from the result rather than adding speculative probes.
+
+## SYNC CHECKPOINT — 2026-09-23 — CUSTOM_DIR runtime path established
+- [PASS] Consolidated read-only search located the active OpenWrt Zapret2 `CUSTOM_DIR` assignment.
+- [RESULT] `/opt/zapret2/init.d/openwrt/90-zapret2:15` sets `CUSTOM_DIR="$ZAPRET_RW/init.d/openwrt"`.
+- [RESULT] `/opt/zapret2/init.d/openwrt/functions:16` contains the same assignment.
+- [RESULT] Therefore the OpenWrt integration's active custom-script directory is `$ZAPRET_RW/init.d/openwrt/custom.d`.
+- [IMPORTANT] The prior interactive `${CUSTOM_DIR}` probe was not representative of the init environment; the runtime path is defined inside the OpenWrt integration files.
+- [RESULT] Installer references also confirm separate sysv/openwrt custom locations, but no installer behavior was changed or executed.
+- [SAFETY] Read-only inspection only; no Zapret2, nftables, WireGuard, firewall, or service configuration changed.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
+- [WORKFLOW] Diagnostic scope has been deliberately reduced: next action will be chosen from the established runtime path, with no redundant probing.
