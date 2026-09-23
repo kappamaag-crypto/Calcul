@@ -838,3 +838,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] No mismatch is visible between the local Proton config and the runtime WireGuard peer parameters.
 - [STATUS] Handshake remains unestablished (`0 B received`).
 - [NEXT] Determine whether the endpoint's UDP port is being rejected/filtered on the path, using the available BusyBox `nc` tool; this is only a transport probe and will not alter routing.
+
+
+## STAGE 21 BusyBox nc limitation — 2026-09-23
+- [RESULT] `nc -u -z -v -w 3 ... 51820` returned BusyBox usage because this `nc` only supports `nc [IPADDR PORT]`.
+- [CORRECTION] Do not repeat GNU/OpenBSD `nc` UDP-option syntax on this router.
+- [STATUS] No new network conclusion from this probe; WireGuard remains without a received handshake.
+- [NEXT] Use WireGuard's own compact handshake timestamp/status output instead of an unsupported UDP netcat probe.
