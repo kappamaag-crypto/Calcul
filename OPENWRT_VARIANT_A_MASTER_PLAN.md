@@ -17,7 +17,7 @@ STAGE 5 — DONE
 STAGE 6 — DONE (Zapret2 boot persistence and post-reboot validation)
 STAGE 7 — current baseline recorded; STAGE 8 — verified; STAGE 9 — verified; STAGE 10 — SKIPPED/RETIRED (DoH abandoned)
 STAGE 11 — DONE (permanent Zapret2 candidate validation)
-STAGE 12–20 — RETIRED/OBSOLETE FOR CURRENT PATH; STAGE 21 — NEXT; STAGE 22–30 — NOT_STARTED
+STAGE 12–21 — RETIRED/SKIPPED FOR CURRENT PATH; STAGE 22 — NEXT; STAGE 23–30 — NOT_STARTED
 
 ## Compact command-output policy
 - Цель: минимизировать текст, который пользователь копирует в ИИ.
@@ -332,3 +332,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `command -v wg`, `command -v wg-quick`, and the filtered WireGuard module check produced empty output.
 - [FACT] No `wg`/`wg-quick` executable was found in PATH and no matching loaded WireGuard kernel module was shown by the command.
 - [STATUS] STAGE 21 remains IN_PROGRESS; this was a read-only availability check and made no changes.
+
+
+## STAGE 21 — WireGuard retirement — 2026-09-23
+- [DECISION] User explicitly abandoned the WireGuard stage because there is no free configuration/provider configuration available for the intended use.
+- [STATUS] STAGE 21 is SKIPPED/RETIRED.
+- [RULE] Do not install, configure, or test WireGuard unless the user explicitly reopens this decision.
+- [NEXT] Continue to the next applicable stage without WireGuard.
