@@ -279,3 +279,9 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] The runtime uses the temporary test configuration; permanent /opt/zapret2/config has not been modified.
 - [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-confirmed but not yet functionally classified.
 - [NEXT] Perform one functional QUIC-specific test if a suitable already-installed client is available; do not change configuration.
+
+
+## SYNC — 2026-09-23 — ready for QUIC client capability check
+- [READY] QUIC candidate #1 is runtime-confirmed in the active temporary config.
+- [STATUS] STAGE 11 remains IN_PROGRESS; functional QUIC PASS/FAIL is not established.
+- [NEXT] Check for an already-installed QUIC/HTTP3-capable client only; no package installation and no config changes.
