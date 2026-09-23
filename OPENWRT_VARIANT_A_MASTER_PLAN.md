@@ -1042,3 +1042,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [ROUTING] The static file contains no explicit `redirect-gateway`, `route`, or `route-ipv6` directives. Server-pushed options may still change routes/DNS when the client connects; therefore the profile must not be enabled persistently until pushed options are inspected.
 - [TRANSPORT] `proto tcp` is explicit; no port is specified on the `remote` line, so OpenVPN's default port behavior applies unless server-pushed/other configuration changes it.
 - [DECISION] Profile is acceptable for a controlled test, but not yet for permanent OpenWrt integration. Preserve current WAN/Zapret2 fallback and inspect runtime server-pushed options before accepting routing/DNS changes.
+
+
+## Cloudflare One Client gateway architecture — 2026-09-23
+- [VERIFIED] Current Cloudflare One Client `Traffic and DNS (HTTPS)` uses MASQUE/HTTP3 as the default tunnel transport; current client docs state MASQUE is the default and describe the WireGuard/MASQUE choices. citeturn762714search2turn762714search13
+- [VERIFIED] Current Cloudflare desktop/Linux builds support AMD64/x86-64 and ARM64/AArch64, not MIPS. Linux client uses `warp-cli` and currently defaults to MASQUE. citeturn425871search5turn425871search3
+- [ARCHITECTURE CANDIDATE] Use an x86-64 PC/Linux VM as a WARP gateway: official Cloudflare One Client runs there in MASQUE mode; the hAP remains a pure router and sends only selected destinations to the gateway. The gateway NATs those selected flows into WARP. This is an experimental network topology, not an officially documented Cloudflare router-gateway mode; forwarded-traffic behavior must be validated before adoption.
+- [ALTERNATE] Cloudflare One Client Local proxy mode exists on Windows/Linux/macOS, uses MASQUE, listens on `127.0.0.1` (default port 40000), supports HTTP/SOCKS5 proxy-aware applications, and has a 10-second request timeout. Therefore it is unsuitable as a transparent router-wide gateway and would require an additional proxy relay on the PC plus proxy/transparent handling on the hAP. citeturn834584search0
+- [RECOMMENDATION] Prefer the x86-64 VM gateway architecture over trying to port WARP to MIPS or building a transparent proxy chain on the 64 MB hAP. Keep the existing Windows Cloudflare One Client untouched; use a separate VM only if this architecture is pursued.
+- [STATUS] No hAP configuration changes made. Zapret2 remains `running`. Proton branches remain `BLOCKED`.
