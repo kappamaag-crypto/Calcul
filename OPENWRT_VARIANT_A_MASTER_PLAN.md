@@ -1208,3 +1208,14 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] This does not yet establish whether Zapret2's active firewall integration calls `zapret_custom_firewall_nft()` on this OpenWrt path. No script was copied or activated.
 - [SAFETY] Read-only inspection only; no Zapret2/nftables/WireGuard/firewall/service state changed.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — custom firewall hook path confirmed
+- [PASS] Read-only grep confirmed active firewall hook integration points:
+  - `/opt/zapret2/common/nft.sh:686` → `custom_runner zapret_custom_firewall_nft`
+  - `/opt/zapret2/common/nft.sh:708` → `custom_runner zapret_custom_firewall_nft_flush`
+  - `/opt/zapret2/common/ipt.sh:302` → `custom_runner zapret_custom_firewall $1`
+- [RESULT] Therefore the `50-wg4all` example's `zapret_custom_firewall_nft()` is compatible with the discovered custom-runner mechanism in principle, subject to its activation and surrounding runtime conditions.
+- [IMPORTANT] User pasted an external recommendation to set `NFQWS_OPT_DESYNC_UDP="--desync-split-pos=2"` and referred to `/opt/zapret/config`; these are NOT adopted or validated. Current installed config path established earlier is `/opt/zapret2/config`.
+- [IMPORTANT] No configuration change was made and no `50-wg4all` script was activated.
+- [SAFETY] Read-only inspection only; nftables/Zapret2/WireGuard/firewall/service state unchanged.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
