@@ -1264,3 +1264,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] `50-wg4all` remains disabled; no file was copied and no service restart occurred.
 - [STATUS] Diagnostic gate IN_PROGRESS; evidence for safe integration is now sufficient to move to controlled activation.
 - [WORKFLOW] Continue with synchronization → concise explanation → one command → user output.
+
+## SYNC CHECKPOINT — 2026-09-23 — `50-wg4all` activated in active custom.d (file deployment)
+- [PASS] User copied the bundled `/opt/zapret2/init.d/custom.d.examples.linux/50-wg4all` to `/opt/zapret2/init.d/openwrt/custom.d/50-wg4all`.
+- [RESULT] Active custom script now exists with mode `-rw-r--r--`, owner `root:root`, size 1566 bytes.
+- [IMPORTANT] This is a file deployment only. The running Zapret2 service has NOT yet been restarted, so the new custom daemon/firewall hooks are not yet active in the running process/ruleset.
+- [SAFETY] No existing config was edited; only the previously inspected vendor example was copied into the designated active custom.d directory.
+- [STATUS] Zapret2 custom WireGuard integration: IN_PROGRESS; activation pending service restart.
