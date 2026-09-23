@@ -379,7 +379,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [FACT] Packages already reported as installed before termination include kmod crypto dependencies, kmod-udptunnel4/6, kmod-ovpn-backports, kmod-tun, libcap-ng, liblz4-1, liblzo2-2, libnl-core200, libnl-genl200 and libatomic1; `libopenssl3` installation was interrupted at the shown point.
 - [IMPORTANT] The `Killed` result is consistent with the router's previously observed severe memory pressure; this is not treated as a successful OpenVPN installation.
 - [SAFETY] Do not retry `apk add openvpn-openssl` blindly. First verify the post-abort package/system state with a minimal read-only check.
-- [STATUS] STAGE 23 — FAILED/PENDING recovery from interrupted installation.
+- [STATUS] STAGE 23 — IN_PROGRESS.
 
 
 ## STAGE 23 interrupted-installation state check — 2026-09-23
@@ -424,7 +424,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `netifd invoked oom-killer`; the OOM task was `apk` in the root memory cgroup.
 - [CONCLUSION] The OpenVPN installation failure is definitively memory-pressure related. Available RAM before the failed transaction was already only 10.6 MiB and later fell to 6.9 MiB / 5.6 MiB in subsequent snapshots.
 - [SAFETY] Do not retry the OpenVPN installation unchanged. First identify the largest current RAM consumers and determine a reversible way to create installation headroom.
-- [STATUS] STAGE 23 — FAILED pending memory-headroom recovery.
+- [STATUS] STAGE 23 — IN_PROGRESS.
 
 
 ## STAGE 23 RAM consumer audit — 2026-09-23
@@ -439,7 +439,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The hAP's very limited RAM is under substantial kernel-memory pressure. Combined with the confirmed global OOM killing `apk` during `libopenssl3` installation, the current hardware/runtime state does not provide a safe margin for installing the Proton OpenVPN stack.
 - [USER CONSTRAINT] User explicitly requested no further diagnostic-test expansion.
 - [DECISION] Do not continue probing RAM consumers or retry the same OpenVPN installation. The current Proton Free router path is treated as infeasible on this hAP unless a materially lighter, officially compatible approach is identified.
-- [STATUS] STAGE 23 — SKIPPED/RETIRED for the current hAP configuration after confirmed OOM during installation.
+- [STATUS] STAGE 23 — IN_PROGRESS.
 - [NEXT] STAGE 24 PBR depends on a VPN base, so it is also not actionable in the current path. Do not configure PBR until a supported VPN base is available.
 
 
@@ -456,3 +456,14 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [FACT] Earlier interrupted `apk add openvpn-openssl` left an `openvpn-openssl` world entry even though `apk info` did not report the package as installed.
 - [CONCLUSION] The mbedTLS attempt is blocked by residual apk package-selection state, not by a package incompatibility or a new RAM failure.
 - [NEXT] Remove only the stale `openvpn-openssl` world requirement, then attempt the mbedTLS package once. No broad package cleanup or cache purge yet.
+
+
+## STAGE 23 OpenVPN successful installation — 2026-09-23
+- [CORRECTION] The earlier OpenVPN installation was not conclusively failed as a package-installation outcome; the user subsequently reran `apk add openvpn-openssl` and the full transaction completed successfully.
+- [PASS] `openvpn-openssl-2.7.6-r1` installed successfully, including `libopenssl3` and required dependencies.
+- [PASS] Final apk output: `OK: 20.8 MiB in 176 packages`.
+- [FACT] The previous kernel OOM event did occur during an earlier installation attempt, but the same package installation later succeeded. Therefore OOM is a transient/conditions-dependent risk, not a definitive blocker for OpenVPN on this router.
+- [DECISION] Keep `openvpn-openssl`; do not switch to or install `openvpn-mbedtls`, because the OpenSSL variant is now installed and the two variants conflict.
+- [STATE] Zapret2 was intentionally stopped before the successful installation attempt and remains stopped until explicitly restarted.
+- [STATUS] STAGE 23 — IN_PROGRESS.
+- [NEXT] Proceed to obtaining/validating a Proton Free OpenVPN configuration; do not perform another package-installation experiment.
