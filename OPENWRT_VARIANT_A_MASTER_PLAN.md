@@ -62,3 +62,35 @@ STAGE 11 — IN_PROGRESS.
 
 - Исправление методики: TCP/443 и UDP/443 не изменяются одной длинной `sed`-командой. Для соблюдения правила one-step-at-a-time каждый параметр изменяется отдельной короткой `sed -i '/pattern/c\...'` командой с отдельной проверкой результата между изменениями.
 - На текущем шаге TCP/443 уже пытались заменить на TCP candidate №52 (`hostfakesplit:ip_ttl=3:repeats=1`), но результат ещё не подтверждён; UDP/443 пока не изменялся.
+
+
+
+## STAGE 11 — TCP/QUIC candidate reduction from complete blockcheck2 intersection
+
+User re-reviewed all 75 exact common TCP TLS1.2+TLS1.3 results independently. This is a coverage-based selection, NOT an efficiency ranking. Goal: minimize near-duplicate variants while covering distinct desync mechanisms.
+
+### TCP: 8 candidates
+1. TCP #27 — hostfakesplit:disorder_after:ip_autottl=-1,3-20:repeats=1
+2. TCP #32 — hostfakesplit:disorder_after:ip_ttl=3:repeats=1
+3. TCP #47 — hostfakesplit:ip_autottl=-1,3-20:repeats=1
+4. TCP #52 — hostfakesplit:ip_ttl=3:repeats=1
+5. TCP #24 — fake:blob=fake_default_tls:tcp_ts=-1000:repeats=1 + multisplit:pos=1,midsld
+6. TCP #25 — fake:blob=fake_default_tls:tcp_ts=-1000:repeats=1 + multisplit:pos=1,midsld,1220
+7. TCP #70 — multisplit:blob=fake_default_tls:tcp_seq=-3000:pos=2:nodrop:repeats=1 + fakedsplit:pos=host+1:tcp_seq=-3000
+8. TCP #73 — multisplit:blob=fake_default_tls:tcp_ts=-1000:pos=2:nodrop:repeats=1 + multisplit:pos=1,midsld
+
+### QUIC: 2 candidates
+- QUIC #1 — fake:blob=fake_default_quic:repeats=1
+- QUIC #2 — fake:blob=fake_default_quic:repeats=1 + send:ipfrag:ipfrag_pos_udp=16 + drop
+
+### Test order / isolation
+Do NOT test all 16 TCP×QUIC combinations. First select a working TCP strategy using the 8 TCP candidates against YouTube TCP/443 with TLS1.2 and TLS1.3 coverage. Then independently select a working QUIC strategy from the 2 QUIC candidates. Only after both are selected, compose the final NFQWS2_OPT and test it on hAP.
+
+### Safety
+Candidate testing uses a temporary/test configuration and must not modify the known working permanent configuration until a candidate passes. Test one candidate at a time. Record PASS/FAIL and exact candidate number.
+
+### Compact output
+Every candidate-test command must emit only the minimum result needed to classify PASS/FAIL. Prefer a short one-line/few-line summary. Avoid full nftables/log dumps unless targeted failure diagnosis requires them.
+
+### Current status
+STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ranked as more effective before controlled testing.
