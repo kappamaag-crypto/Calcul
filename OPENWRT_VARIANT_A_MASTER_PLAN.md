@@ -1893,3 +1893,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [NEXT] Perform one read-only handshake check after the source-port change.
 - [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
 - [CONSTRAINT] TP-Link untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — Zapret2 strategy loop closed
+- [RESULT] Vendor `50-wg4all` baseline restored and active; current source-port is 48744; repeated handshake checks remain `0 B received` / no `latest handshake`.
+- [DECISIVE A/B] With `50-wg4all` temporarily disabled, Zapret2 restarted without qnum `65300`; UDP/51820 then was not handled by the WireGuard custom queue, yet the Proton flow still remained outbound-only (`0 B received`, `[UNREPLIED]`).
+- [CONCLUSION] The missing Proton handshake is not attributable solely to the `50-wg4all` desync strategy or its qnum 65300 interception.
+- [CONCLUSION] Repeated changes among vendor fake, TTL=4, and badsum did not restore the peer response. Further blind desync permutations are not justified by current evidence.
+- [CURRENT STATE] IP endpoint reachability works (ICMP 0% loss), but UDP/51820/WireGuard handshake remains unanswered.
+- [DECISION] Freeze Zapret2 strategy at vendor baseline and shift diagnosis toward endpoint/peer validity or upstream UDP handling, without touching the TP-Link.
+- [STATUS] Zapret2 WireGuard integration = DONE; Proton/WireGuard functional validation = BLOCKED at peer response.
