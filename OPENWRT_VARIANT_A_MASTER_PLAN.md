@@ -937,3 +937,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONTEXT] Earlier Proton OpenVPN TCP testing to `185.107.56.235` reached TCP but did not complete TLS; this is consistent with, but does not prove, protocol/path filtering.
 - [DECISION] Do not continue broad WireGuard/firewall diagnostics on the hAP without new evidence.
 - [NEXT] Use the previously prepared Proton OpenVPN `US-FREE#115` profile as a single alternate-endpoint control test. Its result has not yet been recorded, so it must not be assumed to work.
+
+
+## STAGE 21 Proton clean-config branch closed — 2026-09-23
+- [USER RESULT] User confirms that clean Proton VPN configurations do not work in the current environment; no further endpoint-by-endpoint Proton config testing is desired.
+- [VERIFIED] Official Proton router documentation currently supports router setup using WireGuard or OpenVPN. Proton's app-specific protocols/features include Stealth and Smart Protocol; they are not presented as standard router `.conf` protocols in the official OpenWrt guides. Source: https://protonvpn.com/support/openwrt-wireguard and https://protonvpn.com/support/how-to-set-up-protonvpn-on-openwrt-routers
+- [CONCLUSION] Do not continue retrying clean Proton WireGuard/OpenVPN configurations on the hAP as the primary troubleshooting path.
+- [STATUS] Stage 21 Proton WireGuard integration: BLOCKED. Stage 23 Proton OpenVPN fallback: BLOCKED based on previously recorded failed TLS tests.
+- [SAFETY] Existing local Proton configs remain untouched; no firewall/routing changes were made from this branch.
+- [NEXT ARCHITECTURAL QUESTION] Select an actual obfuscated/transported VPN architecture or an external VPN gateway if Proton-through-hAP remains mandatory. Do not install unverified third-party obfuscation packages without a separate compatibility/source review.
