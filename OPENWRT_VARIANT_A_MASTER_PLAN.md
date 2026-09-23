@@ -280,3 +280,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONFIG] After system init finishes, `rc.local` waits 20 seconds and runs `/etc/init.d/zapret2 restart`, then exits normally.
 - [SCOPE] No zapret2 strategy, hostlist, NFQUEUE, or package configuration was changed.
 - [NEXT] Reboot test is required to verify the workaround from a real cold boot/reboot; until then, startup workaround validation is pending.
+
+## Cold-boot delayed restart validation — 2026-09-23
+- [DONE] After reboot and SSH recovery, router-side YouTube HTTPS test succeeded without a manual zapret2 restart: `wget --timeout=15 -O /dev/null https://www.youtube.com/` downloaded `888457` bytes.
+- [CONFIRMED] Persistent `/etc/rc.local` 20-second delayed `zapret2 restart` workaround fixes the previously observed post-boot failure.
+- [RESULT] Zapret2 startup/boot workaround is functionally validated from a real reboot.
