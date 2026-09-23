@@ -604,3 +604,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CORRECTION] The suggestion to simply switch `8443` to `443` is not applicable to the official TCP file, because the file already contains `remote ... 443`, and the 443 TCP connection itself was established before the TLS timeout.
 - [IMPORTANT] Because Zapret2 was stopped during this test, the failure cannot currently be attributed to the Zapret2 NFQUEUE/desync path.
 - [STATUS] STAGE 23 remains IN_PROGRESS; no conclusion of ISP/DPI blocking has been recorded as fact.
+
+
+## STAGE 23 Proton integration target — 2026-09-23
+- [DECISION] User's goal is to determine whether Proton VPN can be integrated into the hAP, not merely installed as a standalone client.
+- [ARCHITECTURE] Target design: Proton OpenVPN as a separate `tun*` VPN interface; keep the existing Archer/Wi-Fi WAN as the ordinary underlay/default path initially.
+- [ARCHITECTURE] Do not make Proton the default route during initial validation. First establish the tunnel, verify the assigned VPN state, and only then consider selective routing.
+- [NEXT LOGIC] If the tunnel becomes functional, use OpenWrt PBR/netifd mechanisms to route selected hosts/subnets/domains through the Proton interface while leaving other traffic on the normal WAN. OpenWrt PBR explicitly supports VPN split-tunneling and unmanaged OpenVPN `tun*` interfaces. citeturn184409search5turn184409search9
+- [LIMIT] Current blocker is upstream of integration: the Proton OpenVPN TLS handshake has not completed on the tested NL-FREE#130 UDP and TCP configurations.
+- [OFFICIAL] Proton supports router connections on Proton Free and provides an OpenWrt OpenVPN procedure. citeturn184409search0turn184409search6
+- [STATUS] STAGE 23 — IN_PROGRESS.
