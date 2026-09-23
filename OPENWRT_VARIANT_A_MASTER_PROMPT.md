@@ -964,3 +964,10 @@ Use the user-verified 8 TCP + 2 QUIC candidate set from the Master Plan. Do not 
 ## SYNC CHECKPOINT — 2026-09-23 — command transparency rule
 - [RULE] Before each router command, briefly explain its purpose, what it changes (if anything), and what result matters.
 - [RULE] Preserve one-command-at-a-time execution and compact diagnostics.
+
+## WORKFLOW RULE — 2026-09-23 — package-name verification
+- Before a multi-package `apk add` on OpenWrt, verify uncertain package names with `apk search` on the target release/architecture rather than assuming Debian/Alpine/other-distro names.
+- If a package is unavailable, substitute only an explicitly confirmed package with equivalent purpose; do not invent package names.
+- Record package-name corrections in the glossary and master plan when they affect the project workflow.
+- On the 64 MB hAP ac lite, prefer useful CLI diagnostics installed on extroot and run on demand; avoid unnecessary heavyweight tools/daemons.
+- `vim-full` is optional and currently excluded; `nano` is the preferred lightweight interactive editor when manual editing is necessary.
