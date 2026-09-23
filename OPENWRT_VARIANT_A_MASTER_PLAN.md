@@ -17,7 +17,7 @@ STAGE 5 — DONE
 STAGE 6 — DONE (Zapret2 boot persistence and post-reboot validation)
 STAGE 7 — current baseline recorded; STAGE 8 — verified; STAGE 9 — verified; STAGE 10 — SKIPPED/RETIRED (DoH abandoned)
 STAGE 11 — DONE (permanent Zapret2 candidate validation)
-STAGE 12–21 — RETIRED/SKIPPED FOR CURRENT PATH; STAGE 22 — NEXT; STAGE 23–30 — NOT_STARTED
+STAGE 12–22 — RETIRED/SKIPPED FOR CURRENT PATH; STAGE 23 — NEXT; STAGE 24–30 — NOT_STARTED
 
 ## Compact command-output policy
 - Цель: минимизировать текст, который пользователь копирует в ИИ.
@@ -346,3 +346,14 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [VERIFIED SEMANTICS] Cloudflare documents Traffic and DNS (HTTPS) as routing all device traffic through the WARP tunnel while encrypting DNS with DoH; this is not a DNS-only mode.
 - [LIMIT] This is a working PC reference, not evidence that the same client can be installed on the hAP's MIPS OpenWrt environment.
 - [RULE] Do not treat the PC configuration as a router implementation or install an unsupported Cloudflare client on hAP without an explicit, verified OpenWrt/MIPS-compatible method.
+
+
+## STAGE 22 — WARP Free retirement after official compatibility check — 2026-09-23
+- [CHECK] Current Cloudflare WARP documentation was reviewed.
+- [FACT] Cloudflare's current Linux WARP client system requirements list x86-64/AMD64 and ARM64/AArch64 processors; MIPS is not listed.
+- [FACT] Current WARP “Traffic and DNS” mode uses the WARP tunnel (MASQUE) for device traffic; DNS-only is a separate mode.
+- [REFERENCE] User's PC uses Cloudflare One Client in “Traffic and DNS (HTTPS)” and reports Telegram, WhatsApp, and torrent-related sites work through that client.
+- [DECISION] The PC behavior is retained as a reference configuration, but Stage 22 is skipped/retired for the hAP because the official client does not support its MIPS architecture.
+- [RULE] Do not install unsupported third-party WARP binaries or substitute cloudflared for WARP: cloudflared is a Cloudflare Tunnel daemon, not the device-traffic WARP client.
+- [STATUS] STAGE 22 — SKIPPED/RETIRED.
+- [NEXT] STAGE 23 — Proton Free, subject to the same compatibility-first audit.
