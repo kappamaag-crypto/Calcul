@@ -524,3 +524,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] Structural check found 3 non-empty lines in `/etc/openvpn/proton.auth`; expected exactly 2.
 - [ACTION] Remove only lines 3 and onward, preserving the first two credential lines.
 - [SECURITY] Credential values remain undisclosed.
+
+
+## STAGE 23 Proton credentials line correction result — 2026-09-23
+- [RESULT] `sed -i '3,$d' /etc/openvpn/proton.auth` completed with empty output.
+- [STATUS] The third and later lines were removed; first two credential lines were preserved.
+- [SECURITY] Do not print the password into chat. For verification, display the username locally and only password length/masked representation.
