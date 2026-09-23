@@ -1059,3 +1059,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] The suggested `NFQWS_OPT_DESYNC_UDP="--desync-split-pos=2"` is rejected as the proposed implementation. zapret documentation states UDP cannot be fragmented at the transport layer; current zapret2's WireGuard-specific example instead identifies WireGuard payload types and applies fake desync. citeturn129770search3turn884219search4
 - [COMPATIBILITY] The official example notes it is intended for original WireGuard and that the special `@ih` matching requires nft 1.0.1+ and a sufficiently recent kernel; the hAP is on OpenWrt 25.12.5/kernel 6.12.94, so compatibility is plausible but must be checked on the installed v1.0.3 files before applying changes. citeturn884219search4
 - [PROCESS] Preserve the current working Zapret2 HTTP/TLS/QUIC configuration. Do not modify `NFQWS2_OPT` or firewall rules until the locally installed `50-wg4all` example is confirmed and reviewed.
+
+
+## WireGuard 50-wg4all example presence — 2026-09-23
+- [RESULT] `test -f /opt/zapret2/init.d/custom.d.examples.linux/50-wg4all` returned `PRESENT` twice (the terminal input appears duplicated, but the file existence check passed).
+- [PASS] The official WireGuard-specific zapret2 example is present in the installed local v1.0.3 tree.
+- [STATUS] No configuration or runtime behavior was changed by this check.
+- [NEXT] Inspect the example's active/non-commented lines before adapting it to the existing Proton WireGuard test.
