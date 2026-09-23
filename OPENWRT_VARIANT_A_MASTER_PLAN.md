@@ -867,3 +867,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PERSISTENT CONFIG] `/etc/wireguard/proton.conf` was not modified by the runtime `wg set` commands. The separate `proton-test.conf` copy with `Table = off` remains only a local test artifact.
 - [ROUTING STATE] The previously verified route to Proton endpoint remained `via 192.168.0.1 dev phy0-sta0`; no default route switch to `proton` was intentionally performed.
 - [PROCESS CORRECTION] Before any persistent WireGuard integration, first use an isolated native OpenWrt/netifd configuration or an explicit `Table = off` test copy. Never bring the original Proton full-tunnel config up blindly on this small router.
+
+
+## STAGE 21 fw4 output chain verified — 2026-09-23
+- [RESULT] `inet fw4 output` has policy `accept`.
+- [RESULT] Locally generated traffic is accepted on loopback; established/related is accepted; traffic leaving via `eth1` or `phy0-sta0` is passed to `output_wan`.
+- [CONCLUSION] The top-level output policy does not itself block locally generated WireGuard handshake traffic.
+- [NEXT] Inspect `output_wan` only, because that is the chain actually handling local traffic sent via the Archer-side underlay `phy0-sta0`.
