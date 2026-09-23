@@ -397,8 +397,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 
 
 ## STAGE 23 post-failure memory state — 2026-09-23
-- [RESULT] After the interrupted OpenVPN installation, RAM: total 54852 KiB, used 31592 KiB, free 15184 KiB, buff/cache 8076 KiB, available 6932 KiB.
-- [RESULT] Swap: total 550904 KiB, used 5988 KiB, free 544916 KiB.
+- [RESULT] After the interrupted OpenVPN installation, RAM: total 54852 KiB, used 31592 KiB, free 15184 KiB, buff/cache 8076 KiB, available 6932 KiB.- [RESULT] Swap: total 550904 KiB, used 5988 KiB, free 544916 KiB.
 - [IMPORTANT] Available RAM dropped from 10576 KiB before the installation attempt to 6932 KiB afterwards, while swap usage rose from 1612 KiB to 5988 KiB.
 - [CONCLUSION] The data strongly supports memory pressure during the package transaction; `/tmp` and `/overlay` capacity were already confirmed sufficient.
 - [SAFETY] Do not retry the OpenVPN installation while the current memory state remains this constrained.
@@ -796,7 +795,6 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] The Proton WireGuard endpoint has a normal underlay route through the Archer-side WAN/STA path.
 - [STATUS] No WireGuard handshake yet; routing to the endpoint is not the current missing prerequisite.
 - [NEXT] Verify that the local private key in the protected Proton config derives to the same public key currently loaded on `proton`, without printing the private key.
-
 
 ## STAGE 21 WireGuard key consistency verified — 2026-09-23
 - [RESULT] Deriving the public key from the private key stored in `/etc/wireguard/proton.conf` produced `NH0oKZdjcC0rLTF4cW6qYWygVGihaujnr0Fxl35SBSI=`.
@@ -1198,7 +1196,6 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] No files were copied, edited, enabled, or executed; Zapret2/nftables/WireGuard/firewall/service state unchanged.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
 - [WORKFLOW] Continue with synchronization → concise explanation → one command → wait for the user's output.
-
 ## SYNC CHECKPOINT — 2026-09-23 — `50-wg4all` example inspected
 - [PASS] Read-only inspection of `/opt/zapret2/init.d/custom.d.examples.linux/50-wg4all` completed.
 - [RESULT] The example defines `NFQWS_OPT_DESYNC_WG` with a default WireGuard payload desync using `fake` and a zero blob, repeats=2; this is an option for desynchronizing WireGuard handshake initiation/response/cookie packets.
@@ -1598,7 +1595,6 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [USER INPUT] User proposed three read-only inspections: desync functions in `zapret-lib.lua`, fake definitions in `zapret-antidpi.lua`, and WireGuard references in `zapret-auto.lua`.
 - [WORKFLOW] To reduce test count, these three independent read-only lookups will be executed in one shell command with labeled output.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
-
 ## SYNC CHECKPOINT — 2026-09-23 — Lua path mismatch
 - [RESULT] The consolidated Lua inspection failed because `/opt/zapret2/lua/zapret-lib.lua`, `/opt/zapret2/lua/zapret-antidpi.lua`, and `/opt/zapret2/lua/zapret-auto.lua` do not exist at those paths.
 - [IMPORTANT] Earlier running `nfqws2` command lines referenced those paths, so the current installation may use generated/embedded or symlinked Lua resources elsewhere; the actual filesystem layout must be checked before further source inspection.
@@ -1997,8 +1993,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 
 ## SYNC CHECKPOINT — 2026-09-23 — temporary OpenVPN nfqws2 test process validated
 - [PASS] Temporary qnum `65301` `nfqws2` process PID 8082 is running.
-- [PASS] Its log shows `LUA v5.1 LuaJIT 2.1...`, opens NFQ library, binds IPv4/IPv6 netfilter handlers, binds socket to queue `65301`, and sets copy_packet mode; no startup/Lua errors.
-- [RESULT] Two normal Zapret2 `nfqws2` processes are also running (current PIDs 7938 and 7939); qnum 65301 is an additional temporary test consumer.
+- [PASS] Its log shows `LUA v5.1 LuaJIT 2.1...`, opens NFQ library, binds IPv4/IPv6 netfilter handlers, binds socket to queue `65301`, and sets copy_packet mode; no startup/Lua errors.- [RESULT] Two normal Zapret2 `nfqws2` processes are also running (current PIDs 7938 and 7939); qnum 65301 is an additional temporary test consumer.
 - [STATUS] OpenVPN TCP/443 live multisplit test = READY TO RUN.
 - [SAFETY] Temporary only; no persistent configuration changed; TP-Link untouched.
 
@@ -2233,3 +2228,17 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] Read-only audit of the Proton OpenVPN profile found inline `<ca>` and `<tls-crypt>` blocks, 3 `remote` entries, and SHA-256 `b311a1e1b6656060b633412c4d2e52388bc7146f63d6b7d3144cff28b728eec7`.
 - [DECISION] Do not perform further OpenVPN profile diagnostics unless explicitly requested or needed as a documented fallback. Return focus to Proton WireGuard.
 - [SAFETY] No configuration changes made; secret block contents were not printed.
+
+## STAGE 21 WireGuard audit — 2026-09-23
+- [RESULT] WireGuard userspace tooling is installed: `wg` = `wireguard-tools v1.0.20260223`; `wg-quick` is not installed.
+- [RESULT] Active runtime interface is `proton-test`, listening on UDP port 48744, with Proton peer endpoint `185.107.56.235:51820` and `PersistentKeepalive=25`.
+- [RESULT] Runtime peer has `AllowedIPs=0.0.0.0/0, ::/0`, but the kernel routing table remains unchanged for the isolated test: default route is still via `192.168.0.1 dev phy0-sta0`; only `10.2.0.1 dev proton-test` is present for the tunnel peer.
+- [RESULT] No WireGuard handshake has been received: transfer is `0 B received`, `211.30 KiB sent`; no `latest handshake` line is shown by `wg show`.
+- [RESULT] Persistent files `/etc/wireguard/proton-test.conf` and `/etc/wireguard/proton.conf` exist with the same non-secret metadata: `10.2.0.2/32`, DNS `10.2.0.1`, default AllowedIPs, endpoint `185.107.56.235:51820`, keepalive 25. No UCI WireGuard section was found in the filtered `network` output.
+- [RESULT] No explicit WireGuard/51820/Proton firewall rule was found by the compact ruleset grep. The broader fw4 output-path audit already established that locally generated WAN traffic is accepted through `phy0-sta0`.
+- [RESULT] Proton DNS resolution works through local DNS: `protonvpn.com -> 185.159.159.140`; `api.protonmail.ch -> 185.70.42.25`.
+- [RESULT] Kernel WireGuard support is present and loaded: `wireguard`, `udp_tunnel`, `libcurve25519_generic`, `libchacha20poly1305`, and `poly1305_mips`; dmesg reports WireGuard 1.0.0 loaded.
+- [RESULT] Zapret2 is currently `running`.
+- [CONCLUSION] The current isolated Proton WireGuard test is still BLOCKED specifically at peer handshake/response: local WireGuard is operational and transmitting, routing is not accidentally hijacked, DNS works, and kernel support is present, but the peer returns no handshake/data.
+- [SAFETY] This audit made no persistent configuration changes and exposed no private key material. TP-Link Archer remains untouched.
+- [STATUS] STAGE 21 Proton WireGuard integration = BLOCKED; router-side evidence threshold remains satisfied. Do not start another broad diagnostic batch without new evidence or an explicitly chosen next architecture/test.
