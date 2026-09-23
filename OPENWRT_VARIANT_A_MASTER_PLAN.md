@@ -1348,3 +1348,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [INTERPRETATION] WireGuard continues transmitting toward the Proton endpoint, but no response has been received yet.
 - [NEXT DIAGNOSTIC] Inspect packet counters for the newly installed `qnum=65300` nftables rules to determine whether WireGuard packets are actually matching `50-wg4all`.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — qnum 65300 rule presence, match not proven
+- [RESULT] `nft -a list table inet zapret2 | grep -E '65300|counter'` showed three rules for qnum `65300` with handles 135, 136, 137, matching UDP lengths 156/100/72 and WireGuard message types `0x01000000/0x02000000/0x03000000`.
+- [IMPORTANT] The rules contain no nft `counter`, so this output proves installation of the rules but does NOT prove that live WireGuard packets have matched them.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+- [SAFETY] Read-only inspection; no nftables or WireGuard state changed.
