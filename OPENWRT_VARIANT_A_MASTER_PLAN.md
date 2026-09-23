@@ -238,3 +238,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [NOT_YET_VERIFIED] The temporary UDP/443 line has not yet been re-read, so QUIC candidate #1 is not yet confirmed in the test config.
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains functionally PASS; QUIC candidate #1 is pending config verification.
 - [NEXT] Verify only the UDP/443 line in the temporary config before restarting zapret2.
+
+
+## SYNC — 2026-09-23 — QUIC candidate #1 config verified
+- [PASS] Temporary `/tmp/zapret2-config-test` UDP/443 entry is exactly QUIC candidate #1: `fake:blob=fake_default_quic:repeats=1` with `<HOSTLIST_NOAUTO>`.
+- [CONFIRMED] TCP/443 remains candidate #52 in the temporary config; only UDP/443 was changed in this step.
+- [CONFIRMED] Permanent `/opt/zapret2/config` remains untouched.
+- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is config-verified but not yet functionally classified.
+- [NEXT] Restart using the temporary config, then inspect runtime before functional QUIC testing.
