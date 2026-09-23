@@ -1540,3 +1540,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CORRECTION] Earlier documentation described `custom.d.disabled` as a directory; in fact the A/B command used it as the destination path for the single script file. Current existence/location must be checked before restoration.
 - [SAFETY] No configuration or service state changed in this failed restore attempt; TP-Link remains untouched.
 - [STATUS] `50-wg4all` restoration = BLOCKED pending locating the preserved script; Proton/WireGuard validation remains BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — 50-wg4all already present after failed restore command
+- [RESULT] `ls -la /opt/zapret2/init.d/openwrt/custom.d ...` shows the active `custom.d` contains `.keep` and `50-wg4all` (1566 bytes, root:root, mode 644).
+- [CONCLUSION] The previous failed `mv` restore attempt did not remove or alter the active `50-wg4all`; it is already present in the intended active directory.
+- [IMPORTANT] Because the failed `mv` used `&&`, no subsequent Zapret2 restart occurred in that command. The current disk state and running service state therefore needed to be distinguished.
+- [STATUS] `50-wg4all` file deployment = DONE; runtime activation state after the latest A/B test = PENDING restart; Proton/WireGuard handshake validation = BLOCKED at missing peer response.
+- [SAFETY] Read-only listing only; TP-Link untouched.
