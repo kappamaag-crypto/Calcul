@@ -476,3 +476,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] First controlled config: Platform=Router, OpenVPN=UDP, VPN Accelerator=ON, NAT-PMP/port forwarding=OFF. Port forwarding is a paid-plan feature and is not needed for ordinary VPN egress. citeturn466218search0turn466218search1
 - [SERVER] Use Proton's currently displayed recommended Free server `US-FREE#130` for the first test; do not treat the selected server as a permanent preference.
 - [NEXT] Generate and download the `.ovpn` file. No router configuration change until the exact file is inspected.
+
+
+## STAGE 23 Proton configuration type selected — 2026-09-23
+- [DECISION] For the hAP test, use **OpenVPN configuration files**, not WireGuard configuration.
+- [REASON] WireGuard is retired for this project; the installed router client is `openvpn-openssl`.
+- [NEXT] Generate/download the Proton Free `.ovpn` configuration for the Router platform, starting with UDP.
