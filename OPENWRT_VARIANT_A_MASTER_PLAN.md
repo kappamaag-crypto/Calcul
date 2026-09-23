@@ -262,3 +262,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 ## rc.local audit — 2026-09-23
 - [PASS] `/etc/rc.local` contains only the default comments and `exit 0`; no existing custom commands would conflict with a post-boot zapret2 action.
 - [NEXT] A minimal delayed `zapret2 restart` can be considered as a workaround for the observed boot-order/readiness issue; no change made yet.
+
+## Manual delayed restart confirmation — 2026-09-23
+- [PASS] After waiting 20 seconds, manual `/etc/init.d/zapret2 restart` completed normally.
+- [FACT] Restart recreated nfqws2 and the expected TCP 80/443 + UDP 443 NFQUEUE rules with qnum 300; no startup errors were reported.
+- [STATUS] This reproduces the previously known working restart path. No persistent `rc.local` modification has been made.
+- [NEXT] Verify functionality once after this restart before implementing any persistent delayed-start workaround.
