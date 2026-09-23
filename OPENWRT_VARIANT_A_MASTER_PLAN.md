@@ -1578,3 +1578,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] Presence of `split` in examples proves the function exists in this build, but does not prove that `split:pos=2` is valid/effective for the WireGuard payload handlers used by `50-wg4all`.
 - [DECISION] Do not edit `50-wg4all` or `NFQWS_OPT_DESYNC_WG` yet; first inspect the actual `nfqws2` desync option syntax exposed by the installed binary.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — latest Proton A/B observation
+- [RESULT] User reports `wg show proton-test`: `51.89 KiB sent`, `0 B received`, no `latest handshake`.
+- [RESULT] Conntrack shows `359` outbound packets / `63184` bytes to `185.107.56.235:51820`, reverse direction `0` packets / `0` bytes, state `[UNREPLIED]`.
+- [CONCLUSION] The outbound-only condition persists after restoring `50-wg4all`; prior A/B without the script showed the same condition, so `50-wg4all` is not the sole cause.
+- [IMPORTANT] The prior requested `nfqws2 --help` command was not executed; the user repeated the earlier grep instead. No option syntax change is being made.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+- [SAFETY] No new configuration change occurred in this message.
