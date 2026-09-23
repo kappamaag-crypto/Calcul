@@ -308,3 +308,13 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] YouTube remains functional from the phone behind hAP.
 - [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 remains runtime-confirmed but functionally unclassified.
 - [NEXT] Avoid adding packages. Use a desktop client behind hAP with browser network protocol information to directly distinguish HTTP/3 (h3) from HTTP/2/TCP.
+
+
+## SYNC — 2026-09-23 — QUIC candidate #1 functional PASS via client
+- [PASS] On a client connected behind the hAP/OpenWrt Wi-Fi, Chrome DevTools Network showed requests using protocol `h3`; the same session also showed `h2` and `http/1.1` for other requests.
+- [INTERPRETATION] Presence of `h3` confirms that real client traffic behind the hAP successfully used HTTP/3/QUIC over UDP/443. Mixed protocols are normal and do not negate the h3 result.
+- [PASS] QUIC candidate #1 is now functionally PASS in the controlled client-side test with the temporary config active.
+- [CONFIRMED] TCP candidate #52 remains the first functionally passing TCP candidate, based on the earlier successful YouTube HTTPS fetch.
+- [CONFIRMED] Permanent `/opt/zapret2/config` remains unchanged.
+- [STATUS] STAGE 11 remains IN_PROGRESS. Selected working candidates are currently TCP #52 and QUIC #1; final composition has not yet been committed to the permanent config.
+- [NEXT] Compose the selected TCP #52 + QUIC #1 strategies in the temporary configuration and perform the final combined validation before any permanent change.
