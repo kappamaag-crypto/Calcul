@@ -1864,3 +1864,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Before additional Zapret2 changes, inspect OpenWrt NTP configuration/status to determine whether the system clock is synchronized.
 - [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — NTP service state confirmed
+- [RESULT] OpenWrt NTP is enabled with four pool servers (`0-3.openwrt.pool.ntp.org`), and `/usr/sbin/ntpd` is running under the OpenWrt jail.
+- [CONCLUSION] Time synchronization infrastructure is active; the display timezone is `UTC+5`, while the underlying system time is shown in GMT/UTC as expected for that configuration.
+- [DECISION] Do not change timezone/NTP configuration unless the log proves synchronization failure.
+- [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+- [CONSTRAINT] TP-Link remains untouched.
