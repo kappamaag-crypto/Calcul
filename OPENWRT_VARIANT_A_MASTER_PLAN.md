@@ -16,7 +16,7 @@ STAGE 4 — DONE
 STAGE 5 — DONE
 STAGE 6 — IN_PROGRESS
 STAGE 7–10 — see detailed status below
-STAGE 11 — IN_PROGRESS (router-side Zapret2 candidate validation)
+STAGE 11 — DONE (permanent Zapret2 candidate validation)
 STAGE 12–30 — NOT_STARTED
 
 ## Compact command-output policy
@@ -52,13 +52,14 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 - Постоянный /opt/zapret2/config содержит выбранные TCP/443 кандидат #52 и UDP/443 кандидат #1.
 
 ## STATUS
-STAGE 11 — IN_PROGRESS.
+STAGE 11 — DONE.
 
 ## STAGE 11 — selected candidate validation
 - TCP #52 — hostfakesplit:ip_ttl=3:repeats=1 — functional PASS for YouTube HTTPS.
 - QUIC #1 — fake:blob=fake_default_quic:repeats=1 — functional PASS; Chrome DevTools behind hAP showed h3.
 - Separate TLS1.2/TLS1.3 proof remains unavailable because openssl is absent and BusyBox wget has no direct TLS-version selector.
 - Combined temporary validation PASS: YouTube works and client shows h3, h2, http/1.1.
+- Permanent runtime validation PASS: after normal restart, client-side Chrome DevTools observed h3 and h2 through the hAP.
 
 ## Permanent config comparison / commit
 - [PASS] Temporary TCP/443 is candidate #52: hostfakesplit:ip_ttl=3:repeats=1.
@@ -69,9 +70,9 @@ STAGE 11 — IN_PROGRESS.
 - [PASS] Normal /etc/init.d/zapret2 restart completed without startup error.
 - [PASS] Runtime loaded TCP/443 candidate #52 and UDP/443 candidate #1.
 - [PASS] Runtime applied nftables NFQUEUE rules for TCP 80/443 and UDP 443; qnum=300.
-- [SAFETY] No additional configuration change was made during restart.
-- [STATUS] STAGE 11 remains IN_PROGRESS pending client-side validation of the permanent runtime.
-- [NEXT] Run one minimal client-side validation: YouTube HTTPS plus Chrome DevTools protocol observation, as previously used for the temporary combined config.
+- [PASS] Permanent client validation observed h3/h2.
+- [SAFETY] Stage 11 changes are persistent and rollback backup remains available.
+- [STATUS] STAGE 11 DONE.
 
 ## Prior detailed sync record
 Earlier detailed candidate-testing history remains represented by the selected-candidate records above; no earlier PASS/FAIL state is being overwritten.
