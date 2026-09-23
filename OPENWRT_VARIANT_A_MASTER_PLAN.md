@@ -1288,3 +1288,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] This does not invalidate `50-wg4all`; it only means there is no active WireGuard tunnel to exercise its UDP handshake matching rules.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton functional validation = BLOCKED pending a configured/started WireGuard interface.
 - [SAFETY] No configuration or service state changed; `wg show` is read-only.
+
+## SYNC CHECKPOINT — 2026-09-23 — no WireGuard UCI configuration
+- [RESULT] User ran `uci show network | grep -E 'wireguard|wg[0-9]'`; output was empty.
+- [CONCLUSION] There is no WireGuard interface/peer definition in the current `/etc/config/network` UCI configuration.
+- [CORRELATION] This matches the previous empty `wg show`: no active WireGuard tunnel is currently configured through OpenWrt UCI.
+- [STATUS] `50-wg4all` integration = DONE; end-to-end WireGuard/Proton validation = BLOCKED because no WireGuard tunnel/profile is configured.
+- [SAFETY] Read-only inspection only; no network configuration changed.
