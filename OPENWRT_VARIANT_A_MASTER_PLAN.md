@@ -917,3 +917,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [OFFICIAL CONTEXT] OpenWrt documents this exact `system.ntp` structure for the built-in NTP client and notes that `busybox-ntpd` is the standard synchronization mechanism. citeturn228382search0turn228382search1
 - [ISSUE] Despite the client being enabled, the previously observed router clock is approximately 5 hours ahead of UTC.
 - [NEXT] Perform the minimal runtime action of restarting the existing `sysntpd` service, without changing the persistent NTP configuration, then re-check the clock.
+
+
+## STAGE 21 Clock assessment corrected — 2026-09-23
+- [CORRECTION] The previous assessment that the hAP clock was approximately 5 hours ahead was incorrect. The router's `date` output showed `15:10`, matching the user's actual wall-clock time of approximately 15:10; the `GMT` label indicates the configured/displayed timezone name and is not by itself evidence that the underlying clock/epoch is wrong.
+- [CONCLUSION] Do NOT treat the clock as the cause of the missing WireGuard handshake based on the `date` output alone.
+- [ACTION] No NTP restart or time-setting change was performed; persistent NTP configuration remains untouched.
+- [STATUS] The prior WireGuard evidence remains: endpoint IP reachable, underlay route valid, WAN output accepted, peer/key parameters match, but handshake timestamp remains `0` and conntrack is `[UNREPLIED]`.
