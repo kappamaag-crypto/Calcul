@@ -1677,3 +1677,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Because `multisplit` is TCP-only in the installed source, the next live A/B test will use the existing WireGuard `fake` strategy with `repeats=1` and `ip_ttl=4`.
 - [SAFETY] The test is reversible: preserve the current `50-wg4all` file before changing only its `NFQWS_OPT_DESYNC_WG` assignment. No TP-Link changes.
 - [STATUS] `50-wg4all` runtime integration = IN_PROGRESS during controlled strategy A/B test; Proton/WireGuard validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — duplicate custom script caused by backup placement
+- [RESULT] The attempted `sed -i 's/repeats=2"/.../'` did not change the active `50-wg4all`; restart output still shows `repeats=2`.
+- [CRITICAL] The backup was created as `/opt/zapret2/init.d/openwrt/custom.d/50-wg4all.bak` inside the active `custom.d`.
+- [CAUSE] `custom_runner()` sources every regular file in `custom.d`, regardless of filename extension, so both `50-wg4all` and `50-wg4all.bak` were executed. This explains the duplicate daemon 2000 and duplicate qnum 65300 nft rules in the restart log.
+- [CORRECTION] Move the backup outside `custom.d` and restart Zapret2 to restore a single custom WireGuard daemon. Do not yet change the strategy value.
+- [SAFETY] Reversible housekeeping; backup is preserved, not deleted. TP-Link untouched.
+- [STATUS] `50-wg4all` runtime integration = IN_PROGRESS pending duplicate-script cleanup; Proton/WireGuard validation = BLOCKED.
