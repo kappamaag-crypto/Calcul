@@ -1219,3 +1219,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] No configuration change was made and no `50-wg4all` script was activated.
 - [SAFETY] Read-only inspection only; nftables/Zapret2/WireGuard/firewall/service state unchanged.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — nft custom firewall execution confirmed
+- [PASS] Read-only inspection of `/opt/zapret2/common/nft.sh` completed.
+- [RESULT] `zapret_apply_firewall_rules_nft()` first applies the standard Zapret2 nftables rules and then calls `custom_runner zapret_custom_firewall_nft`.
+- [RESULT] `zapret_apply_firewall_nft()` invokes `zapret_apply_firewall_rules_nft()`, so active custom nft firewall hooks are part of the normal firewall application path.
+- [RESULT] `zapret_unapply_firewall_nft()` calls `custom_runner zapret_custom_firewall_nft_flush` during nftables cleanup.
+- [CONCLUSION] The `50-wg4all` example can integrate with the installed nftables firewall path through its `zapret_custom_firewall_nft()` function once the script is actually placed in the active `custom.d`; this is now confirmed from source, not assumed.
+- [IMPORTANT] The example has still NOT been enabled. No configuration, firewall, nftables, WireGuard, or service state changed.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
