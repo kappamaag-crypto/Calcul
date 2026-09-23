@@ -818,3 +818,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] WireGuard is actively transmitting handshake/keepalive traffic, but no peer response has been observed.
 - [NOT YET DIAGNOSED] Do not label this as ISP/DPI/Proton-side blocking solely from this result; the remaining possibilities still include endpoint-specific connectivity/configuration issues.
 - [NEXT] Check whether UDP/51820 to the exact Proton endpoint is reachable at the socket level, without changing routes or tunnel configuration.
+
+
+## STAGE 21 Tool availability check — 2026-09-23
+- [RESULT] `command -v nc` -> `/usr/bin/nc`; `command -v tcpdump` returned empty.
+- [IMPACT] BusyBox/netcat is available, but packet capture is not available for a direct observation of UDP/51820 responses.
+- [NEXT] Check basic IP reachability of the exact Proton endpoint before considering UDP-specific causes.
