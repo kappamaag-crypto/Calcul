@@ -1979,3 +1979,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not insert the proposed manual nft rule or start a new live daemon yet. First perform a dry-run with a protocol-agnostic TCP payload position (`multisplit:pos=2`) and `--payload=all`.
 - [SAFETY] No live OpenVPN/zapret2 configuration changed; TP-Link untouched.
 - [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS; WireGuard validation = BLOCKED.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN TCP/443 live desync test prepared
+- [PASS] Dry-run accepted `--filter-tcp=443 --payload=all --lua-desync=multisplit:pos=2` on the installed nfqws2 v1.0.3.
+- [DECISION] A controlled live test will use a temporary qnum `65301` daemon and one nftables rule restricted to destination `185.107.56.133:443` in `postnat_hook`.
+- [PURPOSE] Determine whether generic TCP multisplit can get the existing Proton OpenVPN TCP/443 connection past the point where plain TCP succeeds but OpenVPN control/TLS exchange times out.
+- [SAFETY] Test is scoped to hAP only, temporary qnum/rule, and will be cleaned up after the observation. Existing vendor qnum 300 and 65300 remain otherwise unchanged; TP-Link untouched.
+- [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS.
