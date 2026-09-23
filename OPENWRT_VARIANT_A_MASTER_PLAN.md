@@ -946,3 +946,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] Stage 21 Proton WireGuard integration: BLOCKED. Stage 23 Proton OpenVPN fallback: BLOCKED based on previously recorded failed TLS tests.
 - [SAFETY] Existing local Proton configs remain untouched; no firewall/routing changes were made from this branch.
 - [NEXT ARCHITECTURAL QUESTION] Select an actual obfuscated/transported VPN architecture or an external VPN gateway if Proton-through-hAP remains mandatory. Do not install unverified third-party obfuscation packages without a separate compatibility/source review.
+
+
+## STAGE 21 Finalize current Proton attempt — 2026-09-23
+- [STATUS] Proton clean WireGuard/OpenVPN integration on the hAP is BLOCKED in the current network/environment.
+- [EVIDENCE] WireGuard runtime sent repeated UDP traffic to the Proton endpoint but received no response and never recorded a handshake. Earlier OpenVPN UDP/TCP profiles also failed to complete TLS.
+- [PROTOCOL LIMIT] Official Proton router guidance currently exposes WireGuard and OpenVPN for OpenWrt; Stealth/Smart Protocol are app-side protocol/features rather than alternate router `.conf` transports. citeturn705764search0turn705764search1turn705764search8
+- [DECISION] Stop endpoint/config cycling for Proton on this hAP. Keep local Proton configuration files for future use; do not expose or upload private keys/credentials.
+- [NEXT] Remove only the temporary runtime `proton` interface; do not delete the persistent `/etc/wireguard/proton.conf` or alter routing/firewall.
