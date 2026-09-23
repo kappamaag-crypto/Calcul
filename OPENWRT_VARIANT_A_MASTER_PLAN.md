@@ -1727,3 +1727,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Proceed with one live A/B test: replace the failed TTL variant `repeats=1:ip_ttl=4` with `repeats=1:badsum` in active `50-wg4all`.
 - [SAFETY] Only the active WireGuard custom strategy is changed; TP-Link untouched. Existing backup `/opt/zapret2/init.d/openwrt/50-wg4all.bak` remains available.
 - [STATUS] TTL strategy = FAILED; badsum strategy A/B = IN_PROGRESS; `50-wg4all` runtime integration = IN_PROGRESS during strategy test.
+
+## SYNC CHECKPOINT — 2026-09-23 — badsum strategy live
+- [PASS] Active `50-wg4all` strategy is now `fake:blob=0x00000000000000000000000000000000:repeats=1:badsum`.
+- [PASS] Zapret2 restarted successfully; exactly one WireGuard custom daemon 2000/qnum 65300 is configured, and the three WireGuard nft rules were recreated.
+- [STATUS] TTL strategy = FAILED; badsum strategy A/B = IN_PROGRESS.
+- [SAFETY] Only hAP Zapret2 configuration was changed; TP-Link untouched.
