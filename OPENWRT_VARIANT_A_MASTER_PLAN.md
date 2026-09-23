@@ -300,3 +300,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [LIMITATION] This confirms functional YouTube access but does not prove that the phone used HTTP/3/QUIC; the browser may have used TCP/TLS fallback.
 - [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-confirmed but not yet functionally classified as QUIC PASS/FAIL.
 - [NEXT] Perform a client-side HTTP/3-specific check before considering QUIC candidate #1 a functional PASS.
+
+
+## SYNC — 2026-09-23 — HTTP/3 test site inaccessible from phone
+- [OBSERVED] User reports the proposed http3check.net test site cannot be reached from the phone connected to hAP Wi-Fi.
+- [CONCLUSION] This result cannot classify QUIC candidate #1 because the test site itself may be inaccessible for unrelated reasons.
+- [CONFIRMED] YouTube remains functional from the phone behind hAP.
+- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 remains runtime-confirmed but functionally unclassified.
+- [NEXT] Avoid adding packages. Use a desktop client behind hAP with browser network protocol information to directly distinguish HTTP/3 (h3) from HTTP/2/TCP.
