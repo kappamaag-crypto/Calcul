@@ -216,3 +216,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] In `MODE_FILTER=autohostlist`, the function sets `--hostlist-auto=$HOSTLIST_AUTO` and related auto-hostlist parameters; it also prepares `parm13=--hostlist=$HOSTLIST_AUTO`.
 - [IMPORTANT] The displayed function portion ends before the final parameter assembly/assignment, so it is not yet safe to conclude whether `parm13` is applied to all traffic at startup.
 - [STATUS] No configuration changes made; next inspection will fetch only the remaining lines of this function.
+
+## Zapret2 hostlist parameter assembly — 2026-09-23
+- [RESULT] `MODE_FILTER=autohostlist` builds two paths: normal hostlist-marked rules receive `--hostlist-auto=$HOSTLIST_AUTO` plus related parameters; `HOSTLIST_NOAUTO_MARKER` receives `--hostlist=$HOSTLIST_AUTO` via `parmNA`.
+- [IMPORTANT] This behavior is deterministic and does not itself explain why manual restart differs from boot, because the same config is used after both starts.
+- [STATUS] Hostlist substitution path is understood; no configuration changes made.
