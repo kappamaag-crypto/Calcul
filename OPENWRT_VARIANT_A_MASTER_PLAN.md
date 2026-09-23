@@ -176,3 +176,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] WAN uptime at time of check: 1264 seconds; IPv4 address is present.
 - [IMPORTANT] The current WAN state is healthy, but this snapshot does not prove WAN readiness at the exact moment zapret2 started during boot.
 - [STATUS] Boot-time race/readiness hypothesis remains plausible; no configuration changes made.
+
+## Post-reboot wanif set audit — 2026-09-23
+- [PASS] `nft list set inet zapret2 wanif` shows `elements = { "phy0-sta0" }`.
+- [IMPORTANT] The post-boot `wanif` set is populated with the expected upstream Wi-Fi interface, so an empty/missing wanif set is ruled out as the immediate cause of the YouTube timeout.
+- [STATUS] Boot-time race hypothesis is narrowed but not eliminated; no configuration changes made.
