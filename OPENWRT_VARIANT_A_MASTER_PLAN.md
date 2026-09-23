@@ -1533,3 +1533,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [USER RULE] Further WireGuard/Zapret2 troubleshooting must be performed only on the MikroTik hAP/OpenWrt.
 - [CONSTRAINT] Do not modify, restart, reconfigure, or run diagnostics on the upstream TP-Link Archer C20 v4 unless the user explicitly requests it.
 - [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — restore command failed: backup path missing
+- [RESULT] Attempt to restore `50-wg4all` with `mv /opt/zapret2/init.d/openwrt/custom.d.disabled /opt/zapret2/init.d/openwrt/custom.d/50-wg4all` failed with `No such file or directory`.
+- [CONCLUSION] No restore occurred and the subsequent `zapret2 restart` was not executed because the `&&` chain stopped at `mv` failure.
+- [CORRECTION] Earlier documentation described `custom.d.disabled` as a directory; in fact the A/B command used it as the destination path for the single script file. Current existence/location must be checked before restoration.
+- [SAFETY] No configuration or service state changed in this failed restore attempt; TP-Link remains untouched.
+- [STATUS] `50-wg4all` restoration = BLOCKED pending locating the preserved script; Proton/WireGuard validation remains BLOCKED at missing peer response.
