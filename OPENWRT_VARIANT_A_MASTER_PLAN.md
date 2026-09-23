@@ -226,3 +226,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] `nft list set inet zapret2 lanif` shows `elements = { "br-lan" }`.
 - [IMPORTANT] Both interface sets are populated after reboot: `wanif=phy0-sta0`, `lanif=br-lan`.
 - [STATUS] Empty/missing interface-set population is ruled out as the immediate cause; no configuration changes made.
+
+## Post-reboot NFQUEUE rule counter check — 2026-09-23
+- [RESULT] `nft list chain inet zapret2 postnat | grep -E 'queue|counter'` shows the expected IPv4 UDP/443 and TCP 80/443 NFQUEUE rules to queue 300.
+- [LIMIT] The installed rules do not contain nftables `counter` statements, so this output cannot show whether a YouTube connection actually hit NFQUEUE.
+- [STATUS] No configuration changes made; the direct traffic-hit question remains unresolved.
