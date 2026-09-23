@@ -1528,3 +1528,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] Current evidence does not support the claim that a pre-existing `0x40000000` fwmark is causing the Proton handshake to bypass Zapret2. qnum 65300 is reached when the custom script is enabled.
 - [DECISION] Do not manually insert a forced jump or alter `DESYNC_MARK/FW_MARK_MASK` based on this theory.
 - [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — scope restriction: TP-Link untouched
+- [USER RULE] Further WireGuard/Zapret2 troubleshooting must be performed only on the MikroTik hAP/OpenWrt.
+- [CONSTRAINT] Do not modify, restart, reconfigure, or run diagnostics on the upstream TP-Link Archer C20 v4 unless the user explicitly requests it.
+- [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
