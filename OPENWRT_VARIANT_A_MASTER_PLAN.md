@@ -1464,3 +1464,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] This does not identify whether the loss occurs at the upstream Archer/NAT path, ISP/TSPU path, or remote endpoint. It also does not justify changing Zapret2 yet.
 - [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard end-to-end validation = BLOCKED at missing peer response.
 - [SAFETY] Read-only inspection only; no configuration or service state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — decision for single A/B test
+- [DECISION] Stop redundant `nft`/NFQUEUE diagnostics: current evidence already proves qnum `65300` receives WireGuard packets with zero queue drops.
+- [TEST PLAN] Use one reversible A/B test: temporarily move `50-wg4all` out of the active `custom.d` (not delete it), restart Zapret2, then observe the existing `proton-test` handshake.
+- [PURPOSE] Distinguish whether the `50-wg4all` desync strategy itself prevents the Proton peer response versus the response being absent independently of that strategy.
+- [SAFETY] The script is preserved and can be restored; no destructive deletion or package change is planned.
+- [STATUS] `50-wg4all` integration is functionally deployed but its effect on the Proton handshake is not yet validated.
