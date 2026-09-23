@@ -1970,3 +1970,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Proceed with a controlled NL Free #130 OpenVPN TCP/443 handshake test using the existing profile and credentials, but with `route-nopull` so the test does not replace the hAP default route or steal all traffic.
 - [SAFETY] The test will be temporary/foreground and does not enable the UCI OpenVPN service or alter the TP-Link.
 - [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN TCP/443 desync proposal reviewed
+- [RESULT] Existing Proton NL OpenVPN TCP profile successfully establishes TCP connections to `185.107.56.133:443`, but the OpenVPN control/TLS exchange times out before authentication.
+- [USER INPUT] External proposal suggested forcing all TCP/443 traffic for the Proton IP into a separate qnum 65301 using `multisplit:pos=method+2`.
+- [FACT CHECK] In the installed Lua source, `multisplit()` is TCP-only, and its default/general position handling is based on payload position markers. `method+2` is not an appropriate generic marker for OpenVPN traffic because OpenVPN control traffic is not HTTP. The current official zapret2 default also uses `method+2` specifically in its HTTP rule. citeturn805138search1
+- [OFFICIAL CONTEXT] Proton officially supports OpenVPN TCP configs for routers and uses port 443 for TCP mode, while noting that TCP mode is not literally HTTPS and can still be detected by DPI. citeturn805138search0turn805138search3
+- [DECISION] Do not insert the proposed manual nft rule or start a new live daemon yet. First perform a dry-run with a protocol-agnostic TCP payload position (`multisplit:pos=2`) and `--payload=all`.
+- [SAFETY] No live OpenVPN/zapret2 configuration changed; TP-Link untouched.
+- [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS; WireGuard validation = BLOCKED.
