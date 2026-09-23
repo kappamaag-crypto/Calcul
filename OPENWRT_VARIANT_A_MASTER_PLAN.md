@@ -1779,3 +1779,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `stat` is not installed on this OpenWrt environment; no state changed.
 - [NEXT] Compare the two profiles after redacting `PrivateKey`, to identify any material difference in peer/network parameters without exposing secret key material.
 - [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — diff utility unavailable; profile comparison already established
+- [RESULT] `diff` is not installed; the proposed comparison command returned `-ash: diff: not found`.
+- [CONCLUSION] No additional comparison utility will be installed. Earlier full profile output already established that the peer public key, endpoint `185.107.56.235:51820`, address `10.2.0.2/32`, DNS, and `PersistentKeepalive=25` are the same in both files; `proton-test.conf` additionally has `Table=off`.
+- [SAFETY] No state changed.
+- [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
