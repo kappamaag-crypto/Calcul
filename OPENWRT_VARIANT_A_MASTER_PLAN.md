@@ -186,3 +186,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] Filtered inspection shows `start_service()` at line 118 and `start_daemons_procd` at line 120; `stop_service()` starts at line 127.
 - [RESULT] The script header contains the comment `# after network`, but this grep did not establish an explicit runtime wait for WAN readiness.
 - [STATUS] No configuration changes made. Next inspection will target the compact `start_service()` block only.
+
+## Zapret2 start_service audit — 2026-09-23
+- [RESULT] `start_service()` directly calls `start_daemons_procd`, then applies firewall integration when `INIT_APPLY_FW=1`.
+- [IMPORTANT] No explicit WAN/interface readiness wait is present in `start_service()` itself.
+- [STATUS] This strengthens the startup-order/readiness hypothesis, but does not yet prove the exact failure point.
+- [SAFETY] No configuration changes made.
