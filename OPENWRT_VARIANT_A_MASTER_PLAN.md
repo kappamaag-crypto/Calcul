@@ -2034,3 +2034,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Shift diagnosis to the actual Proton OpenVPN profile/control-channel parameters rather than further blind nft/nfqws experimentation.
 - [STATUS] OpenVPN TCP/443 generic multisplit test = FAILED/closed; OpenVPN fallback = IN_PROGRESS.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — Proton OpenVPN profile TLS structure confirmed
+- [RESULT] `proton-nl-free-130-tcp.ovpn` contains `proto tcp`, three server endpoints (`8443/7770/443`), `cipher AES-256-GCM`, `remote-cert-tls server`, `auth-user-pass`, an inline `<ca>` block, and an inline `<tls-crypt>` block.
+- [CONCLUSION] The downloaded profile is a complete Proton OpenVPN client profile with TLS control-channel protection; it is not missing the static TLS key block.
+- [OFFICIAL CONTEXT] Proton's router guide says the downloaded router profile should be used with the Proton OpenVPN username/password and confirms OpenVPN is supported on OpenWrt 22.03+. citeturn234743search1
+- [NEXT] Inspect the remaining non-secret crypto/auth directives (`auth`, `data-ciphers`, TLS options) before modifying the client invocation.
+- [STATUS] OpenVPN TCP fallback = IN_PROGRESS; WireGuard remains BLOCKED at peer response.
+- [CONSTRAINT] TP-Link remains untouched.
