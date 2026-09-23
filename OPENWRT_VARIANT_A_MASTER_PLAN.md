@@ -372,3 +372,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Proton Free router test will use OpenVPN, since WireGuard and WARP are retired for the current path.
 - [RULE] Install only the core OpenVPN client first; do not add LuCI-specific packages unless needed.
 - [STATUS] STAGE 23 remains IN_PROGRESS; no package has been installed yet in this step.
+
+
+## STAGE 23 OpenVPN installation OOM — 2026-09-23
+- [FAIL] `apk add openvpn-openssl` started installing dependencies but the process was killed during installation of `libopenssl3` at 47%.
+- [FACT] Packages already reported as installed before termination include kmod crypto dependencies, kmod-udptunnel4/6, kmod-ovpn-backports, kmod-tun, libcap-ng, liblz4-1, liblzo2-2, libnl-core200, libnl-genl200 and libatomic1; `libopenssl3` installation was interrupted at the shown point.
+- [IMPORTANT] The `Killed` result is consistent with the router's previously observed severe memory pressure; this is not treated as a successful OpenVPN installation.
+- [SAFETY] Do not retry `apk add openvpn-openssl` blindly. First verify the post-abort package/system state with a minimal read-only check.
+- [STATUS] STAGE 23 — FAILED/PENDING recovery from interrupted installation.
