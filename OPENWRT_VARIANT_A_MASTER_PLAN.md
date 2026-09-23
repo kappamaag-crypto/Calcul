@@ -1235,3 +1235,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] No active custom script was enabled by this inspection.
 - [SAFETY] No configuration, file, firewall, nftables, WireGuard, or service state changed.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — installer flow-offload logic reviewed
+- [PASS] Read-only inspection of `/opt/zapret2/install_easy.sh:700-755` completed.
+- [RESULT] With `FLOWOFFLOAD=donttouch` and `NFQWS2_ENABLE=1`, the installer considers system-wide flow offloading incompatible with nfqws TCP data tampering and will disable it if found enabled.
+- [RESULT] If system-wide flow offloading is already disabled, installer reports it as OK.
+- [RESULT] If custom scripts are present, the installer explicitly warns that nfqws-based custom scripts will not work with system-wide offloading.
+- [IMPORTANT] Current project setting `FLOWOFFLOAD=donttouch` remains unchanged; no UCI or firewall setting was modified by this inspection.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
