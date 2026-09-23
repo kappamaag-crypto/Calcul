@@ -425,3 +425,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The OpenVPN installation failure is definitively memory-pressure related. Available RAM before the failed transaction was already only 10.6 MiB and later fell to 6.9 MiB / 5.6 MiB in subsequent snapshots.
 - [SAFETY] Do not retry the OpenVPN installation unchanged. First identify the largest current RAM consumers and determine a reversible way to create installation headroom.
 - [STATUS] STAGE 23 — FAILED pending memory-headroom recovery.
+
+
+## STAGE 23 RAM consumer audit — 2026-09-23
+- [RESULT] Largest observed process RSS was `hostapd` 1480 KiB; `netifd` 1072 KiB; remaining listed processes were <=1028 KiB, including command-side `sort/head/ash` processes.
+- [CONCLUSION] No single userspace process is consuming several MiB of RSS; the kernel OOM during `apk` installation likely involved overall low-memory conditions, kernel memory/cache/slab, and/or transient allocation pressure rather than one dominant daemon.
+- [LIMIT] The command itself created small transient processes (`sort`, `head`, `ash`), so those entries are not meaningful persistent consumers.
+- [NEXT] Inspect compact slab memory fields before deciding how to create installation headroom.
