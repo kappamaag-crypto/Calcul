@@ -223,3 +223,10 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [STATUS] STAGE 11 remains IN_PROGRESS; candidate #52 is functionally passing, while separate TLS-version coverage remains unverified.
 - [NO CHANGE] No package or configuration changes were made.
 - [NEXT] Avoid adding packages solely for protocol introspection; continue with the planned independent QUIC candidate testing after recording this limitation.
+
+
+## SYNC — 2026-09-23 — repeated wget output / QUIC change not executed
+- [OBSERVED] User returned the previous `wget --version` output again; the requested `sed -i` command for QUIC candidate #1 was not executed.
+- [CONFIRMED] Temporary config has therefore not been changed at this step; no QUIC candidate switch occurred.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains functionally PASS, QUIC candidate selection not started.
+- [NEXT] Reissue only the intended single `sed -i` command; do not restart zapret2 until the edit is separately verified.
