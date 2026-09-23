@@ -86,6 +86,11 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Boot order audit — 2026-09-23
+- [RESULT] Startup links: dnsmasq `S19`, firewall `S19`, network `S20`, zapret2 `S21`.
+- [IMPORTANT] zapret2 is scheduled after network, but the `S20network` link alone does not prove that the Wi-Fi STA/upstream interface was fully usable when zapret2 started.
+- [STATUS] Boot-order race remains a plausible cause of the post-reboot failure; no configuration changes made.
+
 ## Post-reboot manual-restart functional comparison — 2026-09-23
 - [PASS] After manual `/etc/init.d/zapret2 restart`, router-side YouTube HTTPS download succeeded: 888563 bytes.
 - [IMPORTANT] This confirms the selected Zapret2 strategies remain functional and strongly isolates the failure to the boot-time startup state/order rather than the strategy itself.
