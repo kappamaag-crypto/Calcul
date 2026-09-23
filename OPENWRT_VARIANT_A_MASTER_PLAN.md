@@ -1380,3 +1380,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] The user did not provide the output of the earlier `tcpdump` command, so the claim that the incoming response is blocked by TSPU is not independently established by packet capture yet.
 - [SAFETY] No config/service/nftables/WireGuard changes were made in response to the pasted recommendation.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — tcpdump unavailable
+- [RESULT] `tcpdump -ni phy0-sta0 'host 185.107.56.235 and udp port 51820' -c 6` returned `-ash: tcpdump: not found`.
+- [CONCLUSION] Packet capture via tcpdump is unavailable on the current installation; no package was installed for this diagnostic.
+- [SAFETY] No network, package, firewall, nftables, or WireGuard configuration changed.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+- [NEXT] Use existing kernel NFQUEUE runtime statistics instead of adding tcpdump solely for this test.
