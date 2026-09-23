@@ -2131,3 +2131,6 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT 2026-09-23] Planned live `fakedsplit` A/B test did NOT execute because BusyBox/OpenWrt environment has no `timeout` command. No OpenVPN result can be inferred from this attempt.
 - [RESULT] Temporary NFQUEUE 65301 daemon reached queue binding successfully; no daemon error was shown in the captured log before the script stopped at missing `timeout`.
 - [STATUS] `fakedsplit` live A/B = NOT_STARTED (test aborted before OpenVPN launch).
+- [RESULT 2026-09-23] Second live `fakedsplit` attempt also did NOT reach the A/B comparison: OpenVPN prompted interactively for `Auth Username`, indicating `/tmp/proton-us-443.ovpn` did not supply the credentials file in this invocation. User did not provide credentials.
+- [ACTION] Test paused; need verify/clean temporary NFQUEUE 65301 process/rule before resuming. No Proton credentials were exposed.
+- [STATUS] `fakedsplit` live A/B remains NOT_STARTED.
