@@ -86,6 +86,11 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Post-reboot nfqws2 process audit — 2026-09-23
+- [PASS] `ps w | grep '[n]fqws'` shows `/opt/zapret2/nfq2/nfqws2` running as user `daemon` after reboot.
+- [STATUS] nfqws2 process is present; YouTube timeout is not explained by a missing nfqws2 process.
+- [SAFETY] No configuration changes made.
+
 ## Post-reboot YouTube client/router failure — 2026-09-23
 - [FAIL] User reports YouTube does not work from a phone behind the hAP after reboot.
 - [FAIL] Router-side `wget --timeout=15 -O /dev/null https://www.youtube.com/` resolved YouTube to `142.251.153.4:443` but timed out.
