@@ -1741,3 +1741,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The configuration is syntactically and structurally accepted by WireGuard. However, `0 B received` / `latest-handshakes=0` means acceptance does not imply successful server handshake.
 - [STATUS] `50-wg4all` runtime integration = DONE; badsum strategy A/B = FAILED if no handshake is observed; Proton/WireGuard validation remains BLOCKED at peer response.
 - [SAFETY] No config change in this checkpoint; TP-Link untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — native WireGuard interface/address routing verified
+- [RESULT] `ip -4 addr show dev proton-test` confirms `10.2.0.2/32` is assigned and interface is UP/LOWER_UP.
+- [RESULT] `ip -4 route show dev proton-test` confirms `10.2.0.1 scope link` route is present.
+- [RESULT] The combined `wg show ... endpoints allowed-ips persistent-keepalive` portion did not execute as intended; the `wg` CLI rejected the combined option syntax. No state changed.
+- [CONCLUSION] Local interface address and the explicit host route to Proton's tunnel DNS endpoint are correct; peer parameter fields still need a read-only check.
+- [STATUS] Proton/WireGuard validation remains BLOCKED at missing peer response; badsum strategy currently active.
+- [SAFETY] No configuration/runtime changes; TP-Link untouched.
