@@ -2167,3 +2167,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [LIMIT] This test is not yet a Proton OpenVPN protocol test and cannot by itself prove OpenVPN service compatibility or DPI causality.
 - [STATUS] Raw TLS endpoint probe = IN_PROGRESS; result pending user execution.
 - [SAFETY] Read-only network diagnostic; no configuration/service/firewall changes.
+
+
+## SYNC CHECKPOINT — 2026-09-23 — raw TLS endpoint probe result
+- [RESULT] Supported BusyBox `wget` connected to Proton US endpoint `84.20.27.33:443`, then failed during TLS with: `SSL error: SSL - The connection indicated an EOF`.
+- [RESULT] `wget` returned exit code `4` (`Connection error: Connection failed`).
+- [RESULT] No response body was written; the user-provided output contains no `wc -c` byte count after the failure, so the exact file size is not recorded beyond the failed transfer.
+- [IMPORTANT] `--no-check-certificate` was correctly used only to prevent certificate verification/name mismatch from terminating the diagnostic. The connection still failed during TLS establishment, before an HTTPS response could be obtained.
+- [CONCLUSION] Raw HTTPS/TLS access to `84.20.27.33:443` does not complete from the hAP. This is consistent with the earlier OpenVPN symptom (TCP connect succeeds, then no useful protocol response), but it does not by itself distinguish upstream filtering from endpoint-side behavior.
+- [STATUS] Raw TLS endpoint probe = FAILED; OpenVPN TCP fallback remains BLOCKED at control-channel response.
+- [SAFETY] Read-only network diagnostic; no Zapret2/OpenVPN/configuration changes; TP-Link untouched.
