@@ -1387,3 +1387,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] No network, package, firewall, nftables, or WireGuard configuration changed.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
 - [NEXT] Use existing kernel NFQUEUE runtime statistics instead of adding tcpdump solely for this test.
+
+## SYNC CHECKPOINT — 2026-09-23 — NFQUEUE 65300 grep returned empty
+- [RESULT] Read-only `grep ' 65300 ' /proc/net/netfilter/nfnetlink_queue` returned no output.
+- [IMPORTANT] This does not yet prove that qnum 65300 is unbound because the grep assumes a specific whitespace/line representation; the complete proc-file content has not been inspected in this checkpoint.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+- [SAFETY] No configuration or runtime state changed.
+- [WORKFLOW] Avoid further speculative tests; the next check is limited to reading the complete existing NFQUEUE proc statistics.
