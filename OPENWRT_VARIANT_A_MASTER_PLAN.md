@@ -1401,3 +1401,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] The proc-file output does not by itself provide a reliable live match counter for the WireGuard nft rules; it confirms queue registration, not successful server response.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
 - [SAFETY] Read-only inspection; no state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — WireGuard remains outbound-only
+- [RESULT] `wg show proton-test` now reports `25.58 KiB sent`, `0 B received`, no `latest handshake`, endpoint `185.107.56.235:51820`.
+- [CONCLUSION] The WireGuard client is repeatedly transmitting, but no response has reached the interface so far.
+- [CORRELATION] qnum `65300` is confirmed registered to PID `4853`, so the dedicated WireGuard nfqws2 consumer exists. The empty receive counter remains the end-to-end blocker.
+- [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard functional validation = IN_PROGRESS.
+- [SAFETY] Read-only `wg show`; no configuration/state change.
