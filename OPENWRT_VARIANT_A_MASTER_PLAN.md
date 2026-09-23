@@ -1649,3 +1649,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not decompress/overwrite Lua files and do not change the WireGuard strategy on that basis.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
 - [SAFETY] Dry-run only; no service, nftables, WireGuard, package, or file state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — fake implementation and TCP-only multisplit confirmed
+- [RESULT] `fake(ctx, desync)` checks `(desync.dis.tcp or desync.dis.udp)` and then calls `rawsend_payload_segmented(desync,fake_payload)`, so the vendor `fake` strategy is explicitly capable of acting on UDP payloads.
+- [RESULT] `fake()` requires the supplied `blob`; with the vendor `50-wg4all` value, the Lua function constructs and sends the fake payload.
+- [RESULT] `multisplit(ctx, desync)` contains an explicit `if not desync.dis.tcp then ... return`, so `multisplit` is TCP-only in this installed source and is not a valid generic replacement for WireGuard UDP.
+- [CONCLUSION] The external recommendation to replace WireGuard handling with `multisplit/split` is not supported by the inspected `multisplit` implementation.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+- [SAFETY] Read-only source inspection only; no configuration/runtime state changed.
