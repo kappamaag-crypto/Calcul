@@ -75,6 +75,10 @@ STAGE 11 — DONE.
 - [STATUS] STAGE 11 DONE.
 
 ## Autostart check — 2026-09-23
+- [ACTION] Ran `/etc/init.d/zapret2 enable`.
+- [RESULT] Command returned empty output; this is normal for a successful init-script enable operation, but startup-link creation has not yet been rechecked.
+- [STATUS] Autostart enable command executed; confirmation remains pending.
+
 - [CHECK] Command: `ls -l /etc/rc.d/*zapret2* 2>/dev/null`
 - [RESULT] Empty output; no matching startup symlink was found.
 - [STATUS] zapret2 autostart is NOT_CONFIRMED / currently appears not enabled.
