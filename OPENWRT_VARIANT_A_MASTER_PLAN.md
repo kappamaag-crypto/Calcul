@@ -962,3 +962,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PRESERVED] Persistent `/etc/wireguard/proton.conf` remains untouched; no firewall or route configuration was changed by the removal.
 - [STATUS] Stage 21 Proton WireGuard integration remains `BLOCKED` for the current network/environment.
 - [NEXT] Do not continue Proton endpoint cycling. Return to the main project roadmap; before the next VPN architecture, account for current Zapret2 state (it was previously stopped for VPN testing and has not been assumed running).
+
+
+## ZAPRET2 resumed after Proton branch — 2026-09-23
+- [RESULT] `/etc/init.d/zapret2 restart` restarted zapret2 successfully enough to launch `nfqws2`, apply nftables, and insert the expected IPv4 TCP/UDP NFQUEUE rules at qnum 300.
+- [OBSERVATION] Restart output contains an intermediate `Command failed: Not found`, but the daemon launch and subsequent nftables application completed; this did not abort the service startup.
+- [ACTIVE CONFIG] TCP 80: `fake:blob=fake_default_http:tcp_md5` + `multisplit:pos=method+2`; TCP 443: `hostfakesplit:ip_ttl=3:repeats=1`; UDP 443: `fake:blob=fake_default_quic:repeats=1`; `hostlist-auto` for TCP and hostlist for QUIC; qnum 300.
+- [PROCESS] No additional functional traffic tests are being started yet; first verify the init service status compactly.
