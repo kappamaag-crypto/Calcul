@@ -897,3 +897,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [ALREADY VERIFIED] Local keypair consistency, peer public key, endpoint/AllowedIPs/keepalive, underlay route, endpoint ICMP reachability, and fw4 WAN output acceptance.
 - [PROCESS] Diagnostic expansion is intentionally STOPPED here to avoid excessive tests. No firewall changes, route changes, or persistent WireGuard changes were made.
 - [STATUS] Stage 21 WireGuard tunnel integration remains BLOCKED at handshake establishment. The evidence is sufficient to pause router-side troubleshooting and later perform a single controlled external/Proton-side validation if needed.
+
+
+## STAGE 21 Resume: clock prerequisite check — 2026-09-23
+- [PROCESS] Stage 21 diagnostics resumed at the user's request, still one command at a time and without broadening into multiple probes.
+- [NEXT] Check the hAP system clock because WireGuard handshakes depend on valid time-based cryptographic state; this is a prerequisite check before externalizing the diagnosis.
