@@ -1408,3 +1408,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CORRELATION] qnum `65300` is confirmed registered to PID `4853`, so the dedicated WireGuard nfqws2 consumer exists. The empty receive counter remains the end-to-end blocker.
 - [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard functional validation = IN_PROGRESS.
 - [SAFETY] Read-only `wg show`; no configuration/state change.
+
+## SYNC CHECKPOINT — 2026-09-23 — routing and current Zapret2 model verified
+- [RESULT] `ip route get 185.107.56.235` shows endpoint routed via `192.168.0.1` on `phy0-sta0`, source `192.168.0.100`.
+- [CONCLUSION] The Proton endpoint is using the correct known WAN path; no interface/routing change is indicated.
+- [FACT CHECK] Current official zapret2 uses `NFQWS2_PORTS_UDP` for standard UDP interception, while the bundled `50-wg4all` custom script separately matches WireGuard handshake initiation/response/cookie packet structure and sends those packets to its dedicated queue. citeturn154962search0turn154962search2
+- [DECISION] Do not add the externally suggested legacy/generic variables `MODE_UDP` or `UDP_PORTS`, and do not replace the established `/opt/zapret2/config` with `/opt/zapret/config` based on that advice.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+- [SAFETY] No configuration or runtime state changed.
