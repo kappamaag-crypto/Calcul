@@ -409,3 +409,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] Zapret2 stopped cleanly; output shows `Clearing nftables` and conntrack liberal setting reset to 0.
 - [SAFETY] Persistent Zapret2 configuration was not changed or removed; this is a runtime stop only.
 - [NEXT] Measure current memory before any OpenVPN installation retry.
+
+
+## STAGE 23 memory result after stopping Zapret2 — 2026-09-23
+- [RESULT] After stopping Zapret2, RAM: total 54852 KiB, used 32172 KiB, free 13024 KiB, buff/cache 9656 KiB, available 5556 KiB.
+- [IMPORTANT] Stopping Zapret2 did not increase available memory; Available decreased further from 6932 KiB to 5556 KiB in the observed snapshots.
+- [CONCLUSION] Do not attribute the OpenVPN installation kill solely to Zapret2/nfqws2 RSS without further evidence.
+- [NEXT] Verify whether the kernel recorded an OOM kill, using a compact filtered log check.
