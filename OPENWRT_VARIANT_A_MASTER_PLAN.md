@@ -1878,3 +1878,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Use a read-only `ubus` inventory to see whether this OpenWrt build exposes an NTP/time status object, avoiding disruptive ntpd debug/force-sync commands.
 - [STATUS] Time prerequisite = UNVERIFIED; vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
 - [SAFETY] No configuration/runtime state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — NTP ubus object found
+- [RESULT] `ubus list | grep -Ei 'ntp|time'` returned `hotplug.ntp`.
+- [CONCLUSION] The OpenWrt build exposes an NTP hotplug ubus object, but this listing alone is not a synchronization-status indicator.
+- [CURRENT ASSESSMENT] Router clock is aligned with the expected UTC+5 local display and NTP daemon is running, so time remains an unlikely cause of the WireGuard `UNREPLIED` state; explicit sync status is still unverified.
+- [NEXT] Inspect available `hotplug.ntp` methods read-only, without forcing synchronization.
+- [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
