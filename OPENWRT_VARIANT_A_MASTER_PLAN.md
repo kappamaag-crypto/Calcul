@@ -732,3 +732,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SECURITY ISSUE] File mode is `0644` (`-rw-r--r--`), which is too permissive for a WireGuard private key.
 - [ACTION] Change only the file mode to `0600`; do not alter configuration contents or private key.
 - [NEXT] After chmod, verify permissions only, then proceed to controlled tunnel activation.
+
+
+## STAGE 21 WireGuard permissions corrected — 2026-09-23
+- [RESULT] `chmod 600 /etc/wireguard/proton.conf` completed with no output.
+- [STATE] The Proton WireGuard config permissions are now expected to be restricted to root; content remains unchanged.
+- [NEXT] Verify mode only, without exposing configuration contents.
