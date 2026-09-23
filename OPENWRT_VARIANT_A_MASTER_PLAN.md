@@ -824,3 +824,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `command -v nc` -> `/usr/bin/nc`; `command -v tcpdump` returned empty.
 - [IMPACT] BusyBox/netcat is available, but packet capture is not available for a direct observation of UDP/51820 responses.
 - [NEXT] Check basic IP reachability of the exact Proton endpoint before considering UDP-specific causes.
+
+
+## STAGE 21 Proton endpoint IP reachability verified — 2026-09-23
+- [RESULT] `ping -c 1 -W 3 185.107.56.235` succeeded: 1/1 reply, 0% packet loss, RTT 70.955 ms.
+- [CONCLUSION] The exact Proton endpoint IP is reachable over the ordinary underlay path.
+- [STATUS] WireGuard still has `0 B received` and no handshake despite transmitted traffic; the unresolved issue is now specific to the WireGuard/UDP path or peer/configuration, not basic IP reachability.
+- [NEXT] Inspect the local Proton WireGuard configuration fields while excluding `PrivateKey`, `DNS`, and any secret material from output.
