@@ -654,3 +654,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [ACTION REQUIRED] Delete the exposed config from GitHub and generate a fresh Proton WireGuard configuration with a new private key. Never paste the new private key into chat or the repository.
 - [STATUS] STAGE 21 — IN_PROGRESS, blocked on credential regeneration.
 - [NEXT] After a fresh config is generated, inspect only non-secret fields and then install the minimum WireGuard packages on hAP.
+
+
+## STAGE 21 fresh Proton Free WireGuard config — 2026-09-23
+- [PASS] User supplied a sanitized fresh Proton WireGuard configuration for `NL-FREE#128`; the private key was intentionally omitted from chat.
+- [PASS] Safe fields: `Address=10.2.0.2/32`, `DNS=10.2.0.1`, peer endpoint `185.107.56.235:51820`, `AllowedIPs=0.0.0.0/0, ::/0`, `PersistentKeepalive=25`; VPN Accelerator=on, NAT-PMP off, Bouncing=1.
+- [SECURITY] The actual private key must remain only on the user's local machine/router and must never be committed to GitHub or pasted into chat.
+- [STATUS] STAGE 21 — IN_PROGRESS.
+- [PENDING SECURITY] Previously uploaded `wg-NL-FREE-128.conf` containing the old private key still needs deletion from GitHub; do not reuse that exposed key.
+- [NEXT] Verify availability of the minimum WireGuard packages in the current OpenWrt package feed; no router configuration change yet.
