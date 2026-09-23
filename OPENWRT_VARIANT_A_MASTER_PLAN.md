@@ -1691,3 +1691,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONTEXT] This occurred during `/etc/init.d/zapret2 restart`; upstream TP-Link was not modified or restarted.
 - [SAFETY] No additional changes made after reconnecting.
 - [STATUS] 50-wg4all duplicate cleanup = IN_PROGRESS pending verification; Proton/WireGuard validation = BLOCKED.
+
+## SYNC CHECKPOINT — 2026-09-23 — strategy change did not apply; duplicate cleanup successful
+- [RESULT] After moving the backup outside active `custom.d` and restarting Zapret2, exactly two `nfqws2` processes are present: one standard daemon and one WireGuard daemon.
+- [RESULT] Active `50-wg4all` still contains the vendor strategy `repeats=2`; the intended `repeats=1:ip_ttl=4` change did not apply.
+- [CAUSE] The earlier `sed` pattern searched for `repeats=2"`, but the assignment line has `repeats=2}` inside shell parameter expansion; therefore the substitution matched nothing.
+- [STATE] Backup `/opt/zapret2/init.d/openwrt/50-wg4all.bak` is preserved outside `custom.d`.
+- [STATUS] Duplicate custom script issue = DONE; TTL strategy A/B test = NOT_STARTED.
+- [SAFETY] No destructive action; TP-Link untouched.
