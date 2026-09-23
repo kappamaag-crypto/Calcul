@@ -630,3 +630,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] Configuration uses `proto tcp` with endpoints `84.20.27.33:8443`, `:443`, and `:7770`.
 - [CONTROL] This is an alternate Free server test; the server variable changed from NL-FREE#130 to US-FREE#115 while keeping TCP OpenVPN unchanged.
 - [NEXT] Copy the official file unchanged to `/etc/openvpn/` and test it with the existing local Proton credentials and `--route-nopull`.
+
+
+## STAGE 23 Proton US-FREE#115 TCP config copied to hAP — 2026-09-23
+- [USER RESULT] User reports the official `us-free-115.protonvpn.tcp.ovpn` file was copied to the hAP at `/etc/openvpn/proton-us-free-115-tcp.ovpn`.
+- [CONTROL] No protocol/package change; only the Proton Free server was changed from NL-FREE#130 to US-FREE#115.
+- [SAFETY] No default-route, firewall, or PBR changes have been made for this test.
+- [NEXT] Run one controlled OpenVPN TCP handshake test with `--route-nopull` using the existing local credentials.
