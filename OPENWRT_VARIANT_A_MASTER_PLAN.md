@@ -205,3 +205,12 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [STATUS] STAGE 11 remains IN_PROGRESS; TLS 1.2/TLS 1.3 protocol-specific coverage is not yet established.
 - [NO CHANGE] No configuration was modified.
 - [NEXT] Identify whether `openssl` is available before repeating any protocol test.
+
+
+## SYNC — 2026-09-23 — openssl unavailable
+- [CONFIRMED] `command -v openssl` returned empty output; `openssl` is not available in the current PATH.
+- [EXPLAINED] The earlier TLS 1.2 probe therefore could not establish protocol support and must remain unclassified, not FAIL.
+- [CONFIRMED] TCP candidate #52 remains functionally PASS for the direct YouTube HTTPS fetch (890841 bytes).
+- [STATUS] STAGE 11 remains IN_PROGRESS; TLS1.2/TLS1.3 separate coverage is still unverified.
+- [NO CHANGE] No package installation or configuration modification was performed.
+- [NEXT] Use an already available lightweight TLS-capable tool only if present; first identify available `wget` TLS feature/version with one compact command.
