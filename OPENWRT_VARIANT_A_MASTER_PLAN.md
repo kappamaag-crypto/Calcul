@@ -164,3 +164,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [SAFETY] No zapret2 configuration changes were made.
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
 - [NEXT] Resume only with a minimal targeted check of the current service state; avoid broad logs.
+
+
+## SYNC — 2026-09-23 — zapret2 current state after interruption check
+- [CONFIRMED] `/etc/init.d/zapret2 status` reports `running`.
+- [CONFIRMED] No zapret2 stop/restart was performed during the interruption investigation.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
+- [SAFETY] Permanent `/opt/zapret2/config` has not been modified.
+- [NEXT] Before any functional candidate test, qualify which config is currently active and confirm the temporary test config remains selected; use one compact read-only check.
