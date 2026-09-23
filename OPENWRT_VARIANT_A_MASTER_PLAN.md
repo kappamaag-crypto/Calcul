@@ -930,3 +930,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PROCESS] Router-side diagnostic expansion is paused after reaching the evidence threshold.
 - [NEXT] Use the same freshly generated Proton WireGuard configuration as a control test on the user's Windows PC, preferably from the same Archer-side Internet connection. Do not paste or upload the private key.
 - [DIAGNOSTIC PURPOSE] If the identical config handshakes on the PC, the investigation returns to the hAP/OpenWrt WireGuard implementation/path. If it also fails on the PC, the evidence for an upstream/protocol/Proton-endpoint issue becomes materially stronger. This is a comparative test, not a claim of ISP/TSPU blocking.
+
+
+## STAGE 21 Control-test limitation and alternate path — 2026-09-23
+- [RESULT] External Windows control test is not available because Proton is inaccessible on the user's PC in the user's current region; do not require it.
+- [CONTEXT] Earlier Proton OpenVPN TCP testing to `185.107.56.235` reached TCP but did not complete TLS; this is consistent with, but does not prove, protocol/path filtering.
+- [DECISION] Do not continue broad WireGuard/firewall diagnostics on the hAP without new evidence.
+- [NEXT] Use the previously prepared Proton OpenVPN `US-FREE#115` profile as a single alternate-endpoint control test. Its result has not yet been recorded, so it must not be assumed to work.
