@@ -1994,3 +1994,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [NEXT] Verify the temporary process log before starting OpenVPN.
 - [SAFETY] TP-Link untouched; vendor qnum 300 and qnum 65300 configuration remains unchanged.
 - [STATUS] OpenVPN TCP/443 fallback = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — temporary OpenVPN nfqws2 test process validated
+- [PASS] Temporary qnum `65301` `nfqws2` process PID 8082 is running.
+- [PASS] Its log shows `LUA v5.1 LuaJIT 2.1...`, opens NFQ library, binds IPv4/IPv6 netfilter handlers, binds socket to queue `65301`, and sets copy_packet mode; no startup/Lua errors.
+- [RESULT] Two normal Zapret2 `nfqws2` processes are also running (current PIDs 7938 and 7939); qnum 65301 is an additional temporary test consumer.
+- [STATUS] OpenVPN TCP/443 live multisplit test = READY TO RUN.
+- [SAFETY] Temporary only; no persistent configuration changed; TP-Link untouched.
