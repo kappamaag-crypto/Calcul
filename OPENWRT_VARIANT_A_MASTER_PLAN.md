@@ -1494,3 +1494,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] The proposed manual command in the pasted advice references `postnat_hook`, while the actual installed table previously showed `postrouting_hook` and `postnat`; this must be verified from the live chain before any manual insertion. No manual nft rule was added.
 - [DECISION] Do not modify marks or add a forced jump based on the external claim yet.
 - [STATUS] `50-wg4all` functional integration = IN_PROGRESS (restore pending); Proton/WireGuard validation = BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — postrouting_hook is empty
+- [RESULT] `nft -a list chain inet zapret2 postrouting_hook` shows an empty chain, handle 175, with only hook declaration and policy accept.
+- [CONCLUSION] The externally cited rule `meta mark & 0x40000000 == 0x00000000 jump postnat` is not present in this chain in the current live ruleset.
+- [SAFETY] No manual nft rule was inserted; no configuration/runtime state changed.
+- [STATUS] `50-wg4all` functional integration = IN_PROGRESS; Proton/WireGuard validation = BLOCKED at peer response.
+- [NEXT] Locate any actual mark-mask/jump rule in the live `inet zapret2` table before considering any mark-related hypothesis.
