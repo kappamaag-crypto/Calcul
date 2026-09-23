@@ -960,3 +960,7 @@ Use the user-verified 8 TCP + 2 QUIC candidate set from the Master Plan. Do not 
 - [RULE] After the core loader mechanism is established, combine closely related read-only checks into one compact command where practical.
 - [RULE] Avoid redundant probes; once the required runtime fact is established, move to the actual decision point instead of expanding diagnostics.
 - [CURRENT FACT] OpenWrt Zapret2 uses `CUSTOM_DIR="$ZAPRET_RW/init.d/openwrt"`; active custom scripts are therefore under `$ZAPRET_RW/init.d/openwrt/custom.d`.
+
+## SYNC CHECKPOINT — 2026-09-23 — command transparency rule
+- [RULE] Before each router command, briefly explain its purpose, what it changes (if anything), and what result matters.
+- [RULE] Preserve one-command-at-a-time execution and compact diagnostics.
