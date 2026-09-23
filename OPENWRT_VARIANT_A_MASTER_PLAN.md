@@ -86,6 +86,12 @@ STAGE 11 — DONE.
 - [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
 - [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
 
+## Post-reboot manual-restart functional comparison — 2026-09-23
+- [PASS] After manual `/etc/init.d/zapret2 restart`, router-side YouTube HTTPS download succeeded: 888563 bytes.
+- [IMPORTANT] This confirms the selected Zapret2 strategies remain functional and strongly isolates the failure to the boot-time startup state/order rather than the strategy itself.
+- [STATUS] Post-reboot direct startup remains FAILED until the boot-time difference is identified; manual restart restores functionality.
+- [SAFETY] No persistent Zapret2 configuration changes made.
+
 ## Post-reboot manual restart comparison — 2026-09-23
 - [RESULT] Manual `/etc/init.d/zapret2 restart` completed without errors.
 - [PASS] Restart loaded the same selected strategies: TCP/443 `hostfakesplit:ip_ttl=3:repeats=1`; UDP/443 `fake:blob=fake_default_quic:repeats=1`; TCP/80 baseline unchanged.
