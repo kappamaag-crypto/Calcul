@@ -2103,3 +2103,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] hAP is back to the intended Zapret2 baseline after all A/B tests. The OpenVPN TCP/443 failure remains independent of local Zapret2 based on the decisive no-Zapret2 test.
 - [STATUS] Zapret2 baseline = DONE; OpenVPN TCP fallback = BLOCKED at control-channel response; WireGuard = BLOCKED at peer response.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN verb 7 clarified failure stage
+- [RESULT] Verbose OpenVPN test to US `84.20.27.33:443` shows TCP connection established, followed by three outbound `P_CONTROL_HARD_RESET_CLIENT_V2` control packets (`WRITE [54]`, PIDs #1/#2/#3), with no inbound OpenVPN control packet before `Server poll timeout`.
+- [IMPORTANT CORRECTION] The failure occurs before a conventional OpenVPN TLS handshake is established. Previous descriptions of the issue as 'TLS handshake blocked' were too strong; the observed missing response is at the OpenVPN control-channel packet stage.
+- [CONCLUSION] OpenVPN itself is generating and sending valid control-channel packets; the endpoint/path sends no response. DCO, zapret2 on/off, NL/US endpoint selection, and TCP/443 all previously showed the same no-response symptom.
+- [STATUS] OpenVPN TCP fallback = BLOCKED at OpenVPN control-channel response; local zapret2 causality = RULED OUT by A/B.
+- [NEXT] Avoid further generic `multisplit`/TLS assumptions. The next diagnostic should verify the exact Proton profile's server-side compatibility/freshness and whether Proton currently expects a different client/profile for this server.
+- [CONSTRAINT] TP-Link remains untouched.
