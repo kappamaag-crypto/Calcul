@@ -2140,3 +2140,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `/tmp/proton-us-443.ovpn` has `auth-user-pass` without a filename (line 59), so OpenVPN prompts interactively. This explains the prior aborted fakedsplit attempt; it does not indicate invalid credentials.
 - [DECISION] For the next live test, override credentials only on the OpenVPN command line with `--auth-user-pass /etc/openvpn/proton.auth`; do not modify or print the credentials file/profile.
 - [STATUS] `fakedsplit` live A/B = NOT_STARTED; test infrastructure = CLEAN.
+- [RESULT 2026-09-23] Live `fakedsplit:pos=2` A/B test completed. OpenVPN reached `TCP connection established` to `84.20.27.33:443`, then `Server poll timeout` after ~10 s; no initialization/auth success.
+- [RESULT] NFQUEUE 65301 `last_packet_id=8`, `dropped=0`, `user_dropped=0`: packets were queued/processed without queue loss.
+- [CONCLUSION] `fakedsplit:pos=2` does not restore Proton OpenVPN control-channel response; candidate = FAILED.
+- [STATUS] OpenVPN local desync branch: `multisplit` = FAILED; `fakedsplit` = FAILED. Do not treat either as a fix.
