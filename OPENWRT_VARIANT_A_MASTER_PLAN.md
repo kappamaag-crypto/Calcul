@@ -1394,3 +1394,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
 - [SAFETY] No configuration or runtime state changed.
 - [WORKFLOW] Avoid further speculative tests; the next check is limited to reading the complete existing NFQUEUE proc statistics.
+
+## SYNC CHECKPOINT — 2026-09-23 — NFQUEUE 65300 confirmed bound
+- [PASS] Full `/proc/net/netfilter/nfnetlink_queue` shows queue `65300` bound to PID `4853`, and queue `300` bound to PID `4852`.
+- [RESULT] Both Zapret2 queues are registered with the kernel and have active userspace consumers.
+- [IMPORTANT] The proc-file output does not by itself provide a reliable live match counter for the WireGuard nft rules; it confirms queue registration, not successful server response.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+- [SAFETY] Read-only inspection; no state changed.
