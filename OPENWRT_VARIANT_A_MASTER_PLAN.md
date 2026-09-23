@@ -1547,3 +1547,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] Because the failed `mv` used `&&`, no subsequent Zapret2 restart occurred in that command. The current disk state and running service state therefore needed to be distinguished.
 - [STATUS] `50-wg4all` file deployment = DONE; runtime activation state after the latest A/B test = PENDING restart; Proton/WireGuard handshake validation = BLOCKED at missing peer response.
 - [SAFETY] Read-only listing only; TP-Link untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — `50-wg4all` runtime restored
+- [PASS] `/etc/init.d/zapret2 restart` completed successfully.
+- [PASS] Standard qnum `300` daemon started with the established TCP 80/443 and UDP 443 rules.
+- [PASS] Dedicated `50-wg4all` daemon 2000 started with qnum `65300` and the WireGuard payload desync option.
+- [PASS] Three WireGuard nftables postrouting rules were recreated for packet lengths/message types 156/100/72.
+- [CONCLUSION] `50-wg4all` is active again in the running Zapret2 service.
+- [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard end-to-end validation = IN_PROGRESS.
+- [SAFETY] Only Zapret2 was restarted on hAP; TP-Link was not touched.
