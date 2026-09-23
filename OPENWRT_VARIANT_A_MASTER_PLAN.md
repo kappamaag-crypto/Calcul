@@ -701,3 +701,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] `/etc/wireguard` does not exist yet, so `vi /etc/wireguard/proton.conf` could not open the target path.
 - [FACT] WireGuard packages are installed, but the configuration directory/file has not been created.
 - [NEXT] Create `/etc/wireguard` only; no configuration or routing changes yet.
+
+
+## STAGE 21 WireGuard config directory created — 2026-09-23
+- [USER RESULT] `/etc/wireguard` was created successfully; no output indicates normal completion of `mkdir -p`.
+- [STATUS] STAGE 21 — IN_PROGRESS.
+- [NEXT] Create the Proton WireGuard config locally with restrictive file permissions (`0600`); the private key must stay only on the router and must not appear in chat/GitHub.
