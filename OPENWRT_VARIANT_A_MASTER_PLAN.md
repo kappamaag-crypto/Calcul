@@ -1228,3 +1228,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The `50-wg4all` example can integrate with the installed nftables firewall path through its `zapret_custom_firewall_nft()` function once the script is actually placed in the active `custom.d`; this is now confirmed from source, not assumed.
 - [IMPORTANT] The example has still NOT been enabled. No configuration, firewall, nftables, WireGuard, or service state changed.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — installer search result
+- [RESULT] Read-only search found one relevant installer line: `/opt/zapret2/install_easy.sh:382` copies both `init.d/openwrt` and `init.d/custom.d.examples.linux` into the installation tree.
+- [CONCLUSION] The installer bundles the Linux custom-script examples, but this result does not show that an individual example such as `50-wg4all` is automatically enabled into the active `/opt/zapret2/init.d/openwrt/custom.d`.
+- [RESULT] No active custom script was enabled by this inspection.
+- [SAFETY] No configuration, file, firewall, nftables, WireGuard, or service state changed.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
