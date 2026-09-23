@@ -1173,3 +1173,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 ## SYNC CHECKPOINT — 2026-09-23 — workflow format update
 - [USER RULE] For this troubleshooting sequence, use the cadence: synchronize the just-reported result → give the single next command. Do not narrate or announce a future stage/step.
 - [STATUS] Zapret2 custom hook diagnostic remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenWrt functions initialization confirmed
+- [PASS] Read-only inspection of `/opt/zapret2/init.d/openwrt/functions` completed.
+- [RESULT] `ZAPRET_BASE` defaults to `/opt/zapret2`.
+- [RESULT] `ZAPRET_RW` defaults to `"$ZAPRET_BASE"` unless already set.
+- [RESULT] `ZAPRET_CONFIG` defaults to `"$ZAPRET_RW/config"`, and that config is sourced before `CUSTOM_DIR` is assigned.
+- [RESULT] `CUSTOM_DIR` is explicitly assigned to `"$ZAPRET_RW/init.d/openwrt"`.
+- [IMPORTANT] Because `/opt/zapret2/config` is sourced before `CUSTOM_DIR` is assigned, the remaining concrete check is whether the active config overrides `ZAPRET_RW`.
+- [SAFETY] Read-only inspection only; no service, nftables, firewall, WireGuard, or Zapret2 configuration changed.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
