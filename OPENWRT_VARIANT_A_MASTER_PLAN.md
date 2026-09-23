@@ -1706,3 +1706,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] The three WireGuard nftables matches remain active on qnum 65300.
 - [STATUS] TTL strategy A/B test = IN_PROGRESS; Proton/WireGuard validation = IN_PROGRESS.
 - [SAFETY] Only the active `50-wg4all` strategy on hAP was changed; TP-Link untouched. Backup remains at `/opt/zapret2/init.d/openwrt/50-wg4all.bak`.
+
+## SYNC CHECKPOINT — 2026-09-23 — clarification of TTL strategy application
+- [USER QUESTION] User asked whether the earlier command might have failed to apply settings because the network/SSH restarted.
+- [CLARIFICATION] The network/SSH restart is not evidence that the configuration change failed; it is consistent with the Zapret2 service restart.
+- [IMPORTANT] The specific earlier command using `sed -i 's/repeats=2"/.../'` did NOT apply the TTL change because its pattern did not match the actual line. This was subsequently corrected.
+- [CURRENT FACT] The later corrected command `sed -i 's/repeats=2/repeats=1:ip_ttl=4/' ... && /etc/init.d/zapret2 restart` succeeded, and the user's restart log explicitly showed daemon 2000 with `--lua-desync=fake:blob=0x000...000:repeats=1:ip_ttl=4`.
+- [CONCLUSION] Current `50-wg4all` runtime strategy is `repeats=1:ip_ttl=4`; the setting is applied. The brief network/SSH drop was caused by restarting Zapret2, not by failure to apply the setting.
+- [STATUS] TTL strategy A/B test = IN_PROGRESS; Proton/WireGuard validation = IN_PROGRESS.
