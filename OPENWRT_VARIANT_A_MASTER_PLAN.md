@@ -1940,3 +1940,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not install or reinstall OpenVPN based only on package search results. First verify the actual installed package/binary state.
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS; no package changes in this checkpoint.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN already installed
+- [RESULT] `apk info -a openvpn-openssl` confirms installed package `openvpn-openssl-2.7.6-r1`, installed size 421 KiB, with `/usr/sbin/openvpn` and `/etc/init.d/openvpn` included.
+- [RESULT] `command -v openvpn` returned `/usr/sbin/openvpn`; `apk info` confirms `openvpn-openssl` installed.
+- [DECISION] Do not install/reinstall OpenVPN. Reuse the existing installation for the TCP/443 fallback branch.
+- [NEXT] Inspect existing OpenVPN configuration/profile files before starting any service or modifying routing.
+- [STATUS] OpenVPN TCP fallback = IN_PROGRESS; no OpenVPN configuration changed.
+- [CONSTRAINT] TP-Link remains untouched.
