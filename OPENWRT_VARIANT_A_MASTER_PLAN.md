@@ -582,3 +582,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] Embedded CA and `tls-crypt` blocks are present; `auth-user-pass` is retained for the local credentials file.
 - [DECISION] Use the official TCP file unchanged for the next connection test; do not manually rewrite ports or protocol.
 - [NEXT] Copy the exact TCP file to `/etc/openvpn/` on the hAP. Keep `--route-nopull` for the first connectivity test so the existing default route is preserved.
+
+
+## STAGE 23 Proton TCP `.ovpn` copied to hAP — 2026-09-23
+- [PASS] Downloaded official `nl-free-130.protonvpn.tcp.ovpn` to `/etc/openvpn/proton-nl-free-130-tcp.ovpn`.
+- [PASS] Router reports `Download completed (5047 bytes)`.
+- [SAFETY] No OpenVPN process started and no routing/firewall/PBR changes performed in this step.
+- [NEXT] Run a controlled TCP OpenVPN handshake test using the existing local credentials and `--route-nopull`.
