@@ -559,3 +559,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [LIMIT] The supplied output stops before TLS/authentication or `Initialization Sequence Completed`; therefore VPN authentication success is not yet established.
 - [SAFETY] `--route-nopull` was used, so this test is not intended to replace the router's default route.
 - [STATUS] STAGE 23 — IN_PROGRESS; handshake result pending from the same process.
+
+
+## STAGE 23 Proton UDP TLS handshake failure — 2026-09-23
+- [FAIL] The Proton `NL-FREE#130` UDP OpenVPN test did not complete TLS negotiation: after 60 seconds OpenVPN reported `TLS key negotiation failed` and `TLS handshake failed`, then rotated to fallback UDP port 80/1194.
+- [IMPORTANT] This result does not by itself prove ISP/TSPU blocking, incorrect credentials, or certificate/time failure; it only proves that the TLS handshake did not complete over the tested UDP endpoints.
+- [CORRECTION] Do not manually convert the UDP `.ovpn` by changing `proto` and ports. Use Proton's separately generated TCP OpenVPN configuration instead.
+- [NEXT] Stop the current OpenVPN process, then obtain/use the official Proton TCP Router `.ovpn` for the same Free server family before another connection test.
