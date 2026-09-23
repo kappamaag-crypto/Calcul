@@ -339,3 +339,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] STAGE 21 is SKIPPED/RETIRED.
 - [RULE] Do not install, configure, or test WireGuard unless the user explicitly reopens this decision.
 - [NEXT] Continue to the next applicable stage without WireGuard.
+
+
+## WARP reference from user's PC — 2026-09-23
+- [REFERENCE] User reports Cloudflare One Client on PC is configured as “Traffic and DNS (HTTPS)” and appears to allow Telegram, WhatsApp, and torrent-related sites.
+- [VERIFIED SEMANTICS] Cloudflare documents Traffic and DNS (HTTPS) as routing all device traffic through the WARP tunnel while encrypting DNS with DoH; this is not a DNS-only mode.
+- [LIMIT] This is a working PC reference, not evidence that the same client can be installed on the hAP's MIPS OpenWrt environment.
+- [RULE] Do not treat the PC configuration as a router implementation or install an unsupported Cloudflare client on hAP without an explicit, verified OpenWrt/MIPS-compatible method.
