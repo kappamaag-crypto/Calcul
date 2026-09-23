@@ -79,6 +79,13 @@ STAGE 11 — DONE.
 - [PASS] `/etc/init.d/zapret2 status` returned `running` after reboot.
 - [STATUS] zapret2 autostart is functionally confirmed.
 
+## Post-reboot configuration audit — 2026-09-23
+- [PASS] Permanent config remains enabled for TCP 80/443 and UDP 443 after reboot.
+- [PASS] TCP/80 baseline: `fake_default_http + tcp_md5 + multisplit pos=method+2`.
+- [PASS] TCP/443 selected candidate #52: `hostfakesplit:ip_ttl=3:repeats=1`.
+- [PASS] UDP/443 selected candidate #1: `fake:blob=fake_default_quic:repeats=1`.
+- [STATUS] Persistent Zapret2 strategy configuration survived reboot unchanged.
+
 ## Autostart check — 2026-09-23
 - [PASS] Startup symlink confirmed: `/etc/rc.d/S21zapret2 -> ../init.d/zapret2`.
 - [STATUS] zapret2 is enabled for boot autostart.
