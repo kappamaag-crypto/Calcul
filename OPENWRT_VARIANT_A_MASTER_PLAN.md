@@ -300,3 +300,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] Active swap devices: /dev/zram0 26620 KiB, priority 100; /dev/sda1 524284 KiB, priority -2.
 - [FACT] ZRAM is prioritized above USB swap as intended.
 - [STATUS] This is the current post-Zapret2/post-reboot operational memory snapshot, not a clean-base Stage 7 baseline.
+
+## STAGE 8 current extroot audit — 2026-09-23
+- [PASS] /dev/sda2 is mounted read-write at /overlay as ext4.
+- [PASS] root filesystem uses overlayfs with upperdir=/overlay/upper and workdir=/overlay/work.
+- [FACT] /mnt/data is not currently mounted according to the filtered mount output.
+- [STATUS] Existing extroot is operational; no destructive USB changes are required. Stage 8 is treated as already implemented/verified in the current system state.
