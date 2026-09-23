@@ -1850,3 +1850,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not install AmneziaWG or add a third-party feed at this point.
 - [STATUS] AmneziaWG = BLOCKED by official-feed availability; vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — system clock check added
+- [DECISION] AmneziaWG remains deferred because it is not available in the official configured 25.12.5 feeds and would require third-party packages.
+- [NEW DIAGNOSTIC FOCUS] Before further WireGuard transport/DPI changes, verify the hAP system clock. Correct time is a prerequisite for a valid WireGuard handshake.
+- [SAFETY] Read-only date check; no configuration/runtime change.
+- [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+- [CONSTRAINT] TP-Link remains untouched.
