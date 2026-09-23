@@ -1785,3 +1785,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] No additional comparison utility will be installed. Earlier full profile output already established that the peer public key, endpoint `185.107.56.235:51820`, address `10.2.0.2/32`, DNS, and `PersistentKeepalive=25` are the same in both files; `proton-test.conf` additionally has `Table=off`.
 - [SAFETY] No state changed.
 - [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — profile comparison utility unavailable; endpoint verification focus
+- [RESULT] `diff` is not installed; no additional package will be installed for file comparison.
+- [RESULT] Earlier manual inspection already established that `proton-test.conf` and `proton.conf` share the same peer public key, endpoint `185.107.56.235:51820`, address `10.2.0.2/32`, DNS `10.2.0.1`, and keepalive 25; `proton-test.conf` additionally has `Table=off`.
+- [DECISION] Current diagnosis shifts from local profile syntax to endpoint identity/freshness without modifying the TP-Link or the existing hAP routing configuration.
+- [OFFICIAL CONTEXT] Proton's current support documentation says WireGuard router configs are generated from the account Downloads → WireGuard configuration flow for a selected server. citeturn973056search1turn973056search0
+- [NEXT] Perform a read-only reverse-DNS lookup of `185.107.56.235` from the hAP.
+- [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
