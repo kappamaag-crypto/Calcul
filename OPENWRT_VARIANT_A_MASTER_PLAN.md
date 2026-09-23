@@ -49,7 +49,7 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
   - UDP 443: fake_default_quic repeats=6.
 - Официальный init-скрипт zapret2 использует ZAPRET_CONFIG, по умолчанию /opt/zapret2/config; временный config может быть выбран через эту переменную без изменения постоянного файла.
 - Временная копия: /tmp/zapret2-config-test; содержит TCP/80 baseline, TCP/443 candidate #52, UDP/443 candidate #1.
-- Постоянный /opt/zapret2/config теперь содержит выбранные TCP/443 кандидат #52 и UDP/443 кандидат #1; сервис пока не перезапущен после этих постоянных изменений.
+- Постоянный /opt/zapret2/config содержит выбранные TCP/443 кандидат #52 и UDP/443 кандидат #1.
 
 ## STATUS
 STAGE 11 — IN_PROGRESS.
@@ -65,11 +65,13 @@ STAGE 11 — IN_PROGRESS.
 - [PASS] Temporary UDP/443 is QUIC #1: fake:blob=fake_default_quic:repeats=1.
 - [CONFIRMED] Backup existed and matched permanent config before commit.
 - [PASS] Permanent TCP/443 replacement completed and verified.
-- [PASS] Permanent UDP/443 replacement completed; verified exact line:
-  --filter-udp=443 --filter-l7=quic <HOSTLIST_NOAUTO> --payload=quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=1
-- [SAFETY] Both persistent strategy-line changes are complete; service has not yet been restarted.
-- [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Perform one normal zapret2 service restart using the permanent config, then inspect only the compact startup result before client validation.
+- [PASS] Permanent UDP/443 replacement completed and verified.
+- [PASS] Normal /etc/init.d/zapret2 restart completed without startup error.
+- [PASS] Runtime loaded TCP/443 candidate #52 and UDP/443 candidate #1.
+- [PASS] Runtime applied nftables NFQUEUE rules for TCP 80/443 and UDP 443; qnum=300.
+- [SAFETY] No additional configuration change was made during restart.
+- [STATUS] STAGE 11 remains IN_PROGRESS pending client-side validation of the permanent runtime.
+- [NEXT] Run one minimal client-side validation: YouTube HTTPS plus Chrome DevTools protocol observation, as previously used for the temporary combined config.
 
 ## Prior detailed sync record
 Earlier detailed candidate-testing history remains represented by the selected-candidate records above; no earlier PASS/FAIL state is being overwritten.
