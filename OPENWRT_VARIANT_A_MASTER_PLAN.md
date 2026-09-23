@@ -1017,3 +1017,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] AntiZapret public VPN/OpenVPN becomes the primary zero-cost VPN candidate for this project. It is distinct from Proton/hide.me because the service itself is specifically built for selective access to blocked resources.
 - [STATUS] No AntiZapret router configuration has yet been applied or changed. Zapret2 remains `running`.
 - [NEXT] Obtain/use the public `antizapret-tcp.ovpn` profile on the hAP as a controlled OpenVPN test. Do not combine the first test with permanent routing changes; preserve the current OpenWrt WAN as fallback.
+
+
+## AntiZapret profile download from hAP failed — 2026-09-23
+- [RESULT] Router command `wget -qO /tmp/antizapret-tcp.ovpn https://antizapret.prostovpn.org/antizapret-tcp.ovpn` failed with `SSL error: SSL - The connection indicated an EOF`.
+- [IMPORTANT] This is a failure to download the public profile over HTTPS from the hAP's BusyBox wget; it is NOT evidence that the AntiZapret VPN tunnel itself fails.
+- [WEB VERIFICATION] The current AntiZapret page still advertises the VPN method for routers and links the `antizapret-tcp.ovpn` profile. The web fetcher could not parse the profile directly because its content type is `application/x-openvpn-profile`, but the page confirms the profile exists. citeturn742447view0
+- [PROCESS] Avoid further router-side HTTPS/client permutations. The practical next step is to obtain the public profile outside the hAP (browser/PC/phone) and transfer only the `.ovpn` file to the router; it contains service connection parameters and must be treated as untrusted external configuration until inspected.
