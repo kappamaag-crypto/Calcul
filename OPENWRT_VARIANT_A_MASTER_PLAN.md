@@ -2094,3 +2094,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do NOT insert the proposed manual jump rule. It is redundant on the current topology and would add unnecessary temporary firewall state.
 - [STATUS] OpenVPN TCP fallback = BLOCKED at control-channel response; zapret2 causality = RULED OUT by A/B.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — Zapret2 baseline restored and running
+- [RESULT] User ran `/etc/init.d/zapret2 start` successfully; standard daemon qnum 300 and vendor WireGuard daemon qnum 65300 were started.
+- [RESULT] Vendor `50-wg4all` is active with original `--lua-desync=fake:blob=0x000...000:repeats=2`.
+- [RESULT] `/etc/init.d/zapret2 status` returned `running`.
+- [RESULT] The temporary qnum 65301 OpenVPN test was previously removed; starting Zapret2 restored only the persistent qnum 300/65300 paths.
+- [CONCLUSION] hAP is back to the intended Zapret2 baseline after all A/B tests. The OpenVPN TCP/443 failure remains independent of local Zapret2 based on the decisive no-Zapret2 test.
+- [STATUS] Zapret2 baseline = DONE; OpenVPN TCP fallback = BLOCKED at control-channel response; WireGuard = BLOCKED at peer response.
+- [CONSTRAINT] TP-Link remains untouched.
