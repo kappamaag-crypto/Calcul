@@ -1871,3 +1871,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not change timezone/NTP configuration unless the log proves synchronization failure.
 - [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — ntpd log does not prove synchronization
+- [RESULT] The filtered `logread` output contains process/kernel accounting entries for `ntpd`, but no explicit NTP synchronization/offset status.
+- [CONCLUSION] NTP daemon is running, but synchronization success has not been proven by that log.
+- [DECISION] Use a read-only `ubus` inventory to see whether this OpenWrt build exposes an NTP/time status object, avoiding disruptive ntpd debug/force-sync commands.
+- [STATUS] Time prerequisite = UNVERIFIED; vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+- [SAFETY] No configuration/runtime state changed.
