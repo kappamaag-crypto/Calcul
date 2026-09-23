@@ -1486,3 +1486,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Restore the vendor `50-wg4all` integration to the active custom.d after the reversible A/B test.
 - [STATUS] `50-wg4all` functional integration = IN_PROGRESS pending restoration; Proton/WireGuard end-to-end validation = BLOCKED at missing peer response.
 - [SAFETY] The A/B change remains reversible; no destructive changes were made.
+
+## SYNC CHECKPOINT — 2026-09-23 — external fwmark theory fact-checked
+- [USER INPUT] User supplied a diagnosis claiming packets already carry `0x40000000` due to policy routing and are therefore skipped by Zapret2.
+- [FACT CHECK] Official zapret2 defines `DESYNC_MARK=0x40000000` as the mark bit used by nfqws to prevent processing loops; it is not, by itself, evidence of PBR. citeturn453842search0turn453842search10
+- [IMPORTANT] The previously observed conntrack entry had `mark=1073741824` (`0x40000000`). Because the active Zapret2 nft rules themselves set the packet/conntrack mark when queueing, that conntrack mark cannot be used to prove the original WireGuard packet entered the chain already marked.
+- [IMPORTANT] The proposed manual command in the pasted advice references `postnat_hook`, while the actual installed table previously showed `postrouting_hook` and `postnat`; this must be verified from the live chain before any manual insertion. No manual nft rule was added.
+- [DECISION] Do not modify marks or add a forced jump based on the external claim yet.
+- [STATUS] `50-wg4all` functional integration = IN_PROGRESS (restore pending); Proton/WireGuard validation = BLOCKED at missing peer response.
