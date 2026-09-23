@@ -1598,3 +1598,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [USER INPUT] User proposed three read-only inspections: desync functions in `zapret-lib.lua`, fake definitions in `zapret-antidpi.lua`, and WireGuard references in `zapret-auto.lua`.
 - [WORKFLOW] To reduce test count, these three independent read-only lookups will be executed in one shell command with labeled output.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — Lua path mismatch
+- [RESULT] The consolidated Lua inspection failed because `/opt/zapret2/lua/zapret-lib.lua`, `/opt/zapret2/lua/zapret-antidpi.lua`, and `/opt/zapret2/lua/zapret-auto.lua` do not exist at those paths.
+- [IMPORTANT] Earlier running `nfqws2` command lines referenced those paths, so the current installation may use generated/embedded or symlinked Lua resources elsewhere; the actual filesystem layout must be checked before further source inspection.
+- [SAFETY] Read-only failure only; no configuration/runtime state changed.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
