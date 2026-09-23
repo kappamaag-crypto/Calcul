@@ -318,3 +318,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] Permanent `/opt/zapret2/config` remains unchanged.
 - [STATUS] STAGE 11 remains IN_PROGRESS. Selected working candidates are currently TCP #52 and QUIC #1; final composition has not yet been committed to the permanent config.
 - [NEXT] Compose the selected TCP #52 + QUIC #1 strategies in the temporary configuration and perform the final combined validation before any permanent change.
+
+
+## SYNC — 2026-09-23 — ready for final combined candidate validation
+- [READY] TCP candidate #52 and QUIC candidate #1 both passed their isolated functional checks.
+- [CONFIRMED] Both strategies are already combined in the active temporary config; no new config edit is required before combined validation.
+- [SAFETY] Permanent /opt/zapret2/config remains unchanged.
+- [STATUS] STAGE 11 remains IN_PROGRESS.
+- [NEXT] Restart the service once with the same temporary config and then perform a combined client-side YouTube check; no additional candidate combinations are needed.
