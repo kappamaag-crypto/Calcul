@@ -1190,3 +1190,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] The expected OpenWrt custom script directory is consequently `/opt/zapret2/init.d/openwrt/custom.d` for the current installation.
 - [SAFETY] No configuration or service state changed; read-only check only.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — active custom.d directory verified
+- [PASS] Read-only inspection confirmed `/opt/zapret2/init.d/openwrt/custom.d` exists.
+- [RESULT] Directory currently contains only `.keep`; no active custom Zapret2 scripts are enabled there.
+- [IMPORTANT] This explains why the installed `50-wg4all` example is not currently being executed through `custom_runner zapret_custom_daemons`.
+- [SAFETY] No files were copied, edited, enabled, or executed; Zapret2/nftables/WireGuard/firewall/service state unchanged.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
+- [WORKFLOW] Continue with synchronization → concise explanation → one command → wait for the user's output.
