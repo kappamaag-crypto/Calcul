@@ -170,3 +170,9 @@ STAGE 11 — DONE.
 
 ## Prior detailed sync record
 Earlier detailed candidate-testing history remains represented by the selected-candidate records above; no earlier PASS/FAIL state is being overwritten.
+
+## Post-reboot WAN readiness audit — 2026-09-23
+- [PASS] `ubus call network.interface.wan status` reports `up=true`, `pending=false`, `available=true`.
+- [RESULT] WAN uptime at time of check: 1264 seconds; IPv4 address is present.
+- [IMPORTANT] The current WAN state is healthy, but this snapshot does not prove WAN readiness at the exact moment zapret2 started during boot.
+- [STATUS] Boot-time race/readiness hypothesis remains plausible; no configuration changes made.
