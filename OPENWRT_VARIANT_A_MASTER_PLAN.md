@@ -416,3 +416,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] Stopping Zapret2 did not increase available memory; Available decreased further from 6932 KiB to 5556 KiB in the observed snapshots.
 - [CONCLUSION] Do not attribute the OpenVPN installation kill solely to Zapret2/nfqws2 RSS without further evidence.
 - [NEXT] Verify whether the kernel recorded an OOM kill, using a compact filtered log check.
+
+
+## STAGE 23 — kernel OOM confirmed during OpenVPN installation — 2026-09-23
+- [CONFIRMED] Kernel log records `global_oom` at 13:33:19 and explicitly reports `Out of memory: Killed process 3533 (apk)`.
+- [CONFIRMED] `apk` was killed during the `apk add openvpn-openssl` transaction; this is a kernel OOM event, not a package-manager error or `/tmp` capacity error.
+- [RESULT] `netifd invoked oom-killer`; the OOM task was `apk` in the root memory cgroup.
+- [CONCLUSION] The OpenVPN installation failure is definitively memory-pressure related. Available RAM before the failed transaction was already only 10.6 MiB and later fell to 6.9 MiB / 5.6 MiB in subsequent snapshots.
+- [SAFETY] Do not retry the OpenVPN installation unchanged. First identify the largest current RAM consumers and determine a reversible way to create installation headroom.
+- [STATUS] STAGE 23 — FAILED pending memory-headroom recovery.
