@@ -1143,3 +1143,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CORRECTION] The previous pending question remains: determine where/how Zapret2 defines `CUSTOM_DIR` for the init process, and inspect the active custom.d directory safely.
 - [SAFETY] No configuration or service state was changed; this was an unsuccessful interactive probe only.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — diagnostic scope reduced
+- [USER FEEDBACK] User asked whether the number of tests is excessive.
+- [WORKFLOW UPDATE] Agreed to reduce diagnostic fragmentation: from this point, combine closely related read-only checks into one compact command where practical, avoid redundant tests, and stop once the required fact is established.
+- [STATUS] Zapret2 custom hook diagnosis remains IN_PROGRESS.
+- [NEXT] Use one consolidated read-only search for `CUSTOM_DIR` definitions/references, then decide from the result rather than adding speculative probes.
