@@ -1198,3 +1198,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] No files were copied, edited, enabled, or executed; Zapret2/nftables/WireGuard/firewall/service state unchanged.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
 - [WORKFLOW] Continue with synchronization → concise explanation → one command → wait for the user's output.
+
+## SYNC CHECKPOINT — 2026-09-23 — `50-wg4all` example inspected
+- [PASS] Read-only inspection of `/opt/zapret2/init.d/custom.d.examples.linux/50-wg4all` completed.
+- [RESULT] The example defines `NFQWS_OPT_DESYNC_WG` with a default WireGuard payload desync using `fake` and a zero blob, repeats=2; this is an option for desynchronizing WireGuard handshake initiation/response/cookie packets.
+- [RESULT] The script allocates a dedicated daemon number and queue number, then defines `zapret_custom_daemons()` to start `nfqws` on that queue.
+- [RESULT] It also defines `zapret_custom_firewall()` and `zapret_custom_firewall_nft()` to match WireGuard initiation/response/cookie packet lengths and message types and send them to the dedicated queue.
+- [COMPATIBILITY NOTE] The example itself states nft 1.0.1+ and an updated kernel are required for `@ih`; current reported system has nftables 1.1.6 and kernel 6.12.94, so the documented version/kernel prerequisite is met.
+- [IMPORTANT] This does not yet establish whether Zapret2's active firewall integration calls `zapret_custom_firewall_nft()` on this OpenWrt path. No script was copied or activated.
+- [SAFETY] Read-only inspection only; no Zapret2/nftables/WireGuard/firewall/service state changed.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
