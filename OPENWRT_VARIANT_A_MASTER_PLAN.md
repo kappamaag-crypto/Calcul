@@ -663,3 +663,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] STAGE 21 — IN_PROGRESS.
 - [PENDING SECURITY] Previously uploaded `wg-NL-FREE-128.conf` containing the old private key still needs deletion from GitHub; do not reuse that exposed key.
 - [NEXT] Verify availability of the minimum WireGuard packages in the current OpenWrt package feed; no router configuration change yet.
+
+
+## STAGE 21 WireGuard package availability — 2026-09-23
+- [PASS] Official OpenWrt package feed exposes `kmod-wireguard-6.12.94-r1` and `wireguard-tools-1.0.20260223-r1` for the current system.
+- [AVAILABLE] `luci-proto-wireguard`, `rpcd-mod-wireguard`, and a Prometheus WireGuard exporter are also available, but they are not required for the first controlled tunnel test.
+- [DECISION] Install only `kmod-wireguard` and `wireguard-tools`; keep the configuration CLI-based to minimize RAM/package footprint.
+- [STATUS] STAGE 21 — IN_PROGRESS.
+- [PENDING SECURITY] Previously uploaded WireGuard config containing an old private key must be deleted from GitHub and not reused.
