@@ -1758,3 +1758,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Restore the original vendor `50-wg4all` strategy as the baseline and preserve the experimental version outside `custom.d`.
 - [STATUS] TTL strategy = FAILED; badsum strategy = FAILED; vendor `50-wg4all` baseline restoration = IN_PROGRESS.
 - [SAFETY] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — vendor 50-wg4all baseline restored
+- [PASS] The experimental active `50-wg4all` was preserved as `/opt/zapret2/init.d/openwrt/50-wg4all.badsum`.
+- [PASS] The original vendor backup was restored to active `/opt/zapret2/init.d/openwrt/custom.d/50-wg4all`.
+- [PASS] Zapret2 restarted successfully with the original vendor strategy `repeats=2` on daemon 2000/qnum 65300 and the three WireGuard nft rules.
+- [STATUS] Vendor `50-wg4all` baseline restoration = DONE; Proton/WireGuard validation = IN_PROGRESS.
+- [SAFETY] Only hAP Zapret2 files/service were touched; TP-Link untouched.
