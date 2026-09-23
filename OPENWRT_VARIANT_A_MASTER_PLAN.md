@@ -1733,3 +1733,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] Zapret2 restarted successfully; exactly one WireGuard custom daemon 2000/qnum 65300 is configured, and the three WireGuard nft rules were recreated.
 - [STATUS] TTL strategy = FAILED; badsum strategy A/B = IN_PROGRESS.
 - [SAFETY] Only hAP Zapret2 configuration was changed; TP-Link untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — Proton test profile acceptance clarified
+- [RESULT] The temporary `proton-test` interface was created successfully with `ip link add` and its peer configuration was accepted by `wg setconf` without error.
+- [RESULT] `wg show proton-test` displays a valid local interface public key, peer public key, endpoint `185.107.56.235:51820`, `AllowedIPs=0.0.0.0/0, ::/0`, and `PersistentKeepalive=25`.
+- [IMPORTANT] `Table=off` and `DNS=10.2.0.1` from the Proton file were intentionally removed before `wg setconf` because they are not `wg` peer/interface parameters in this native workflow. `10.2.0.2/32` was applied with `ip addr`, and a host route to `10.2.0.1` was added manually.
+- [CONCLUSION] The configuration is syntactically and structurally accepted by WireGuard. However, `0 B received` / `latest-handshakes=0` means acceptance does not imply successful server handshake.
+- [STATUS] `50-wg4all` runtime integration = DONE; badsum strategy A/B = FAILED if no handshake is observed; Proton/WireGuard validation remains BLOCKED at peer response.
+- [SAFETY] No config change in this checkpoint; TP-Link untouched.
