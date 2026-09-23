@@ -596,3 +596,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] The official TCP config already includes port 443. The hAP successfully established TCP to `185.107.56.133:443`, but OpenVPN TLS negotiation still timed out.
 - [CONCLUSION] The generic recommendation to simply change `8443` to `443` is not applicable because the official config already tested 443 and the failure persisted at the OpenVPN TLS layer.
 - [NEXT] Stop the automatic OpenVPN retry loop before selecting the next controlled test.
+
+
+## STAGE 23 assessment of Proton TCP failure — 2026-09-23
+- [ANALYSIS] With Zapret2 stopped, the official Proton TCP configuration established TCP connections to `185.107.56.133:8443` and `:443`, but no OpenVPN TLS handshake completed within 60 seconds.
+- [CORRECTION] This does not prove that Russian ISP/TSPU DPI is responsible. OpenVPN's own troubleshooting documentation lists multiple possible causes for TLS key-negotiation timeout, including reachability/port/server-side filtering and incorrect connection parameters. citeturn695236search0turn695236search1
+- [CORRECTION] The suggestion to simply switch `8443` to `443` is not applicable to the official TCP file, because the file already contains `remote ... 443`, and the 443 TCP connection itself was established before the TLS timeout.
+- [IMPORTANT] Because Zapret2 was stopped during this test, the failure cannot currently be attributed to the Zapret2 NFQUEUE/desync path.
+- [STATUS] STAGE 23 remains IN_PROGRESS; no conclusion of ISP/DPI blocking has been recorded as fact.
