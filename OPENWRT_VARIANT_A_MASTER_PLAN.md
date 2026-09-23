@@ -192,3 +192,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] No explicit WAN/interface readiness wait is present in `start_service()` itself.
 - [STATUS] This strengthens the startup-order/readiness hypothesis, but does not yet prove the exact failure point.
 - [SAFETY] No configuration changes made.
+
+## Zapret2 daemon startup-path audit — 2026-09-23
+- [RESULT] `start_daemons_procd()` calls `standard_mode_daemons 1` and `custom_runner zapret_custom_daemons 1`; it contains no explicit WAN/interface readiness wait.
+- [IMPORTANT] The remaining startup behavior is delegated to sourced Zapret2 functions, so changing the init script now would be premature.
+- [STATUS] Diagnosis narrowed to the standard daemon/firewall startup path; no configuration changes made.
