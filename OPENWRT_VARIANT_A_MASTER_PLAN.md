@@ -759,3 +759,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] Test copy permissions set to `0600`.
 - [SAFETY] Original `/etc/wireguard/proton.conf` remains unchanged; no default route was changed during preparation.
 - [NEXT] Bring up `proton-test` with `wg-quick`; first test must remain route-isolated.
+
+
+## STAGE 21 `wg-quick` correction — 2026-09-23
+- [RESULT] `/bin/ash` reports `wg-quick: not found` when attempting to bring up the route-isolated test config.
+- [CORRECTION] OpenWrt's supported WireGuard integration uses netifd with `proto wireguard`; `wireguard-tools` supplies `wg` and a netifd protocol helper rather than requiring `wg-quick`. citeturn894353search2turn894353search9
+- [DECISION] Do not install another package solely to obtain `wg-quick`.
+- [NEXT] Perform a temporary runtime-only WireGuard handshake using `wg`/`ip`, with no routes added. The persistent UCI configuration will be created only after handshake success.
