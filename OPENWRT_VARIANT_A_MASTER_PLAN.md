@@ -274,3 +274,6 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
   - TCP 443: fake_default_tls + tcp_md5 + tcp_seq=-10000 + multidisorder pos=1,midsld.
   - UDP 443: fake_default_quic repeats=6.
 - Резервная копия считается подтверждённой перед временными тестами.
+
+- Перед временным тестом проверен официальный OpenWrt init-скрипт zapret2: конфигурация берётся через `ZAPRET_CONFIG`, по умолчанию `/opt/zapret2/config`; переменную можно переопределить для тестовой конфигурации без записи в постоянный файл.
+- Следующий шаг: создать отдельную временную копию config и использовать её через `ZAPRET_CONFIG`; постоянный config не изменять.
