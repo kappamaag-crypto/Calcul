@@ -1424,3 +1424,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The prior hypothesis that packets are 'too fast for nfqws' or simply bypass UDP interception is not supported by the current evidence.
 - [DECISION] Do not add `MODE_UDP`, `UDP_PORTS=51820`, or replace the established `NFQWS2` configuration based on the pasted external advice.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS, now narrowed to whether the selected desync causes a usable peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — NFQUEUE packet flow confirmed
+- [RESULT] qnum `65300` statistics now show `queued_now=0`, `dropped=0`, `user_dropped=0`, `last_packet_id=206`.
+- [IMPORTANT] Previous observation was `last_packet_id=113`; the increase to 206 confirms additional WireGuard packets reached NFQUEUE 65300 during testing.
+- [CONCLUSION] The dedicated `50-wg4all` queue is actively receiving/processing WireGuard traffic and is not dropping packets at the NFQUEUE layer.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
+- [NEXT] Check the actual WireGuard handshake timestamp; no configuration change.
