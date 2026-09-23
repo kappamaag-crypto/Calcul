@@ -172,3 +172,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
 - [SAFETY] Permanent `/opt/zapret2/config` has not been modified.
 - [NEXT] Before any functional candidate test, qualify which config is currently active and confirm the temporary test config remains selected; use one compact read-only check.
+
+
+## SYNC — 2026-09-23 — nfqws2 process confirmation
+- [CONFIRMED] `ps` shows nfqws2 PID 4182 running as user `daemon`.
+- [OBSERVED] The BusyBox `ps w` output truncates the command line before the filter arguments, so it does not yet prove whether candidate #52 or the permanent strategy is active.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
+- [NO CHANGE] No configuration-changing command was issued.
+- [NEXT] Read `/proc/4182/cmdline` in a compact filtered form to identify the active TCP/443 desync argument.
