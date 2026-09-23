@@ -467,3 +467,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATE] Zapret2 was intentionally stopped before the successful installation attempt and remains stopped until explicitly restarted.
 - [STATUS] STAGE 23 — IN_PROGRESS.
 - [NEXT] Proceed to obtaining/validating a Proton Free OpenVPN configuration; do not perform another package-installation experiment.
+
+
+## STAGE 23 Proton OpenVPN configuration generation — 2026-09-23
+- [USER INPUT] Proton account page offers Platform=Router and OpenVPN config generation for Free servers.
+- [OFFICIAL] Proton documents router connections as available on Proton Free when the router supports OpenVPN or WireGuard. citeturn466218search3
+- [OFFICIAL] For OpenVPN, Proton recommends UDP unless there is a concrete reason to use TCP; TCP can be a fallback if UDP cannot connect. citeturn466218search8
+- [DECISION] First controlled config: Platform=Router, OpenVPN=UDP, VPN Accelerator=ON, NAT-PMP/port forwarding=OFF. Port forwarding is a paid-plan feature and is not needed for ordinary VPN egress. citeturn466218search0turn466218search1
+- [SERVER] Use Proton's currently displayed recommended Free server `US-FREE#130` for the first test; do not treat the selected server as a permanent preference.
+- [NEXT] Generate and download the `.ovpn` file. No router configuration change until the exact file is inspected.
