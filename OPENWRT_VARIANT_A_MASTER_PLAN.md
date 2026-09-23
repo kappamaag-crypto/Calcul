@@ -441,3 +441,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not continue probing RAM consumers or retry the same OpenVPN installation. The current Proton Free router path is treated as infeasible on this hAP unless a materially lighter, officially compatible approach is identified.
 - [STATUS] STAGE 23 — SKIPPED/RETIRED for the current hAP configuration after confirmed OOM during installation.
 - [NEXT] STAGE 24 PBR depends on a VPN base, so it is also not actionable in the current path. Do not configure PBR until a supported VPN base is available.
+
+
+## STAGE 23 alternate OpenVPN package path — 2026-09-23
+- [NEW OPTION] Official OpenWrt 25.12.5 MIPS package feed contains `openvpn-mbedtls-2.7.6-r1` alongside `openvpn-openssl-2.7.6-r1`.
+- [RATIONALE] The failed OpenSSL variant was killed by kernel global OOM while installing `libopenssl3`. The mbedTLS variant avoids the `libopenssl3` dependency path and is therefore the preferred next installation candidate on this 64-MiB router.
+- [DECISION] Do not retry `openvpn-openssl`. A single controlled attempt of `openvpn-mbedtls` is justified before closing Proton Free as infeasible.
+- [SAFETY] This is a package substitution, not a guarantee that installation will succeed; no VPN configuration will be applied yet.
+- [STATUS] STAGE 23 remains IN_PROGRESS pending the lighter OpenVPN package attempt.
