@@ -1800,3 +1800,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [OFFICIAL CONTEXT] Proton's current OpenWrt setup guide instructs users to download a WireGuard configuration for Router from the account Downloads → WireGuard configuration flow; current Proton documentation also notes that older WireGuard configs may need replacement. citeturn587923search0turn587923search1
 - [STATUS] Vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — clean WireGuard source-port diagnostic selected
+- [RESULT] Endpoint IP `185.107.56.235` responds to ICMP with 0% packet loss and ~69 ms RTT.
+- [CONCLUSION] IP-level reachability is confirmed, but UDP/51820 response remains absent.
+- [DIAGNOSTIC DECISION] After sufficient Zapret2/NFQUEUE/mark/strategy checks, avoid more DPI rule changes. Use a clean WireGuard runtime source-port test to eliminate stale UDP conntrack/source-port state as a confounding factor.
+- [TEST] `wg set proton-test listen-port 0` is a runtime-only change to the temporary test interface; WireGuard documents port 0 as random listen-port selection. citeturn413801search0turn413801search2
+- [SAFETY] Persistent profile files, Zapret2 configuration, and TP-Link are untouched.
+- [STATUS] WireGuard/Proton validation = IN_PROGRESS; vendor `50-wg4all` baseline = DONE.
