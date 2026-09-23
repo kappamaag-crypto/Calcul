@@ -2211,3 +2211,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [INTERPRETATION] Current evidence distinguishes 443 from 8443/7770 at the HTTPS layer, but does not yet prove OpenVPN behavior on 8443/7770 because the OpenVPN commands were blocked by missing `timeout`.
 - [STATUS] Proton OpenVPN fallback remains BLOCKED; multi-port comparison IN_PROGRESS.
 - [SAFETY] No persistent configuration changes; credentials were not printed; TP-Link untouched.
+
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN multi-port control-channel test completed
+- [RESULT] Direct OpenVPN tests against Proton profile were run for requested ports 443, 8443, and 7770 with credentials file referenced but not printed.
+- [RESULT] For all three requested ports, TCP connection to 84.20.27.33 succeeds, but OpenVPN receives no server control-channel response before `Server poll timeout`.
+- [RESULT] Because the profile retains its other `remote` entries, each invocation can fail over/cycle through 8443/443/7770 before termination. This is visible in the logs; therefore the clean conclusion is endpoint-wide control-channel non-response, not a precise per-port isolation result.
+- [RESULT] No OpenVPN TLS/authentication success or `Initialization Sequence Completed` was observed.
+- [INTERPRETATION] Combined with the earlier test where Zapret2 was fully stopped and the same control-channel timeout occurred, local Zapret2 is not established as the sole cause. The failure is after TCP establishment and before successful OpenVPN control-channel exchange.
+- [STATUS] Proton OpenVPN TCP fallback = BLOCKED at server control-channel response; Zapret2 causality = RULED OUT as sole cause; further blind desync testing is NOT justified.
+- [NEXT] Before changing router configuration, verify whether the Proton profile/endpoint set is current and whether the selected server IP is still a valid/current Proton endpoint; use official Proton sources where available.
