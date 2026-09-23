@@ -1103,3 +1103,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] Read-only inspection only; no Zapret2, nftables, WireGuard, firewall, or service state was changed.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
 - [NEXT PENDING INSPECTION] Locate the definition/source path for custom_runner and zapret_custom_daemons before any configuration change.
+
+## SYNC CHECKPOINT — 2026-09-23 — continuation gate
+- Previous read-only audit result has been recorded: /etc/init.d/zapret2 invokes `custom_runner zapret_custom_daemons 1` at line 73.
+- No router configuration was changed in the preceding step.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
+- [NEXT STEP] Locate the definitions of `custom_runner` and `zapret_custom_daemons`; read-only inspection only.
