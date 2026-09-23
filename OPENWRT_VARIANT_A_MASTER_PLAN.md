@@ -271,3 +271,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] No runtime state or configuration was changed by this attempt.
 - [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is still runtime-started but not yet independently confirmed from the process command line.
 - [NEXT] Reissue the same read-only check as a shorter command that avoids the shell continuation issue.
+
+
+## SYNC — 2026-09-23 — QUIC candidate #1 runtime confirmed
+- [PASS] Active nfqws2 process contains UDP/443 QUIC candidate #1 exactly: fake:blob=fake_default_quic:repeats=1.
+- [CONFIRMED] Active TCP/443 remains candidate #52: hostfakesplit:ip_ttl=3:repeats=1.
+- [CONFIRMED] The runtime uses the temporary test configuration; permanent /opt/zapret2/config has not been modified.
+- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-confirmed but not yet functionally classified.
+- [NEXT] Perform one functional QUIC-specific test if a suitable already-installed client is available; do not change configuration.
