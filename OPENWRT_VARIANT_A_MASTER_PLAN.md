@@ -188,3 +188,11 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] Temporary runtime is active; permanent `/opt/zapret2/config` has not been modified.
 - [STATUS] TCP candidate #52 is runtime-confirmed but not yet functionally classified PASS/FAIL.
 - [NEXT] Perform one minimal functional HTTPS check for a target covered by the active hostlist; do not alter config.
+
+
+## SYNC — 2026-09-23 — TCP candidate #52 functional result
+- [PASS] With the temporary config active and TCP candidate #52 selected, direct HTTPS fetch of `https://www.youtube.com/` succeeded: `890841` bytes received within the 15-second timeout.
+- [CONFIRMED] This establishes a functional PASS for the current hAP-side TCP/443 test against YouTube, but does not by itself prove TLS1.2 and TLS1.3 separately.
+- [CONFIRMED] Permanent `/opt/zapret2/config` remains unchanged.
+- [STATUS] STAGE 11 remains IN_PROGRESS. TCP candidate #52 is currently the first functionally passing TCP candidate.
+- [NEXT] Do not test additional TCP candidates yet; first record the exact PASS and then perform the planned protocol-coverage check (TLS1.2/TLS1.3) before selecting the TCP strategy.
