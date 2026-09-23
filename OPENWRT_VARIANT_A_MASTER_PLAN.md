@@ -246,3 +246,15 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] Permanent `/opt/zapret2/config` remains untouched.
 - [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is config-verified but not yet functionally classified.
 - [NEXT] Restart using the temporary config, then inspect runtime before functional QUIC testing.
+
+
+# SYNC — 2026-09-23 — QUIC candidate #1 runtime start
+- [PARTIAL/PRE-PASS] User restarted zapret2 with `ZAPRET_CONFIG=/tmp/zapret2-config-test`.
+- [CONFIRMED] nfqws2 started successfully with qnum=300.
+- [CONFIRMED] TCP/443 remains candidate #52: `hostfakesplit:ip_ttl=3:repeats=1`.
+- [CONFIRMED] UDP/443 is now QUIC candidate #1: `fake:blob=fake_default_quic:repeats=1`.
+- [CONFIRMED] nftables applied NFQUEUE rules for TCP 80/443 and UDP 443.
+- [OBSERVED] The prior `Command failed: Not found` message did not recur in this restart output.
+- [CONFIRMED] Permanent `/opt/zapret2/config` was not modified.
+- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-started but not yet functionally classified.
+- [NEXT] Perform one minimal read-only/runtime confirmation before the functional QUIC test.
