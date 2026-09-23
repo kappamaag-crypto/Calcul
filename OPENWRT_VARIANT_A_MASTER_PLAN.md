@@ -19,14 +19,13 @@ STAGE 7–10 — see detailed status below
 STAGE 11 — IN_PROGRESS (router-side Zapret2 candidate validation)
 STAGE 12–30 — NOT_STARTED
 
-
 ## Compact command-output policy
 - Цель: минимизировать текст, который пользователь копирует в ИИ.
 - Каждая router-команда должна давать компактный диагностический вывод: только поля/строки, необходимые для PASS/FAIL или следующего шага.
-- Не использовать полные `cat`, `logread`, `dmesg`, `nft list ruleset`, `iw ... info` и аналогичные большие выводы, если достаточно `grep/sed/awk/head/tail` с ограничением строк.
+- Не использовать полные cat, logread, dmesg, nft list ruleset, iw ... info и аналогичные большие выводы, если достаточно grep/sed/awk/head/tail с ограничением строк.
 - Предпочитать однострочные фильтры и агрегаты; ориентир обычно 3–15 строк вывода, а при необходимости — явно указать причину большего объёма.
 - Не объединять несколько независимых диагностических команд в один шаг только ради компактности: one-step-at-a-time сохраняется.
-- В ответе ассистента показывать команду + ожидаемый компактный результат + PASS/FAIL; после выполнения ждать фактический вывод пользователя.
+- В ответе ассистента показывать команду + ожидаемый компактный результат + PASS/FAIL; после выполнения ждать фактического вывода пользователя.
 
 ## One-step-at-a-time rule
 После каждого пользовательского сообщения и каждого ответа ассистента мастер-план синхронизируется с фактическим состоянинием. Следующий router command выдаётся только после фактического результата предыдущего.
@@ -43,31 +42,22 @@ MikroTik hAP ac lite работает downstream через Wi-Fi STA.
 Для swap использовать swapon -s; swapon --show на этом BusyBox не поддерживается.
 
 ## Zapret2 router-side candidate validation — current record
-- Рабочий baseline сохранён в: `/opt/zapret2/config.backup-before-router-selection`.
-- Полный baseline `NFQWS2_OPT` подтверждён:
+- Рабочий baseline сохранён в: /opt/zapret2/config.backup-before-router-selection.
+- Полный baseline NFQWS2_OPT подтверждён:
   - TCP 80: fake_default_http + tcp_md5 + multisplit pos=method+2.
   - TCP 443: fake_default_tls + tcp_md5 + tcp_seq=-10000 + multidisorder pos=1,midsld.
   - UDP 443: fake_default_quic repeats=6.
-- Официальный init-скрипт zapret2 использует `ZAPRET_CONFIG`, по умолчанию `/opt/zapret2/config`; временный config может быть выбран через эту переменную без изменения постоянного файла.
-- Временная копия создана: `/tmp/zapret2-config-test`.
-- Последняя проверка существования: `ls -l /tmp/zapret2-config-test` → файл существует, размер 5542 bytes, права `-rw-r--r--`, владелец root:root, время Sep 23 10:42.
-- Проверка структуры временной копии подтвердила точную baseline-структуру `NFQWS2_OPT`: отдельные блоки TCP/80, TCP/443 и UDP/443, с `<HOSTLIST>` для TCP и `<HOSTLIST_NOAUTO>` для QUIC.
-- Попытка длинной `sed -i` команды была прервана shell continuation prompt `>`.
-- Следующая короткая `sed -i` команда завершилась без вывода; это само по себе не подтверждает замену.
-- Постоянный `/opt/zapret2/config` не изменялся.
-- Следующий шаг: проверить только строки TCP/443 и UDP/443 во временном config перед запуском сервиса.
+- Официальный init-скрипт zapret2 использует ZAPRET_CONFIG, по умолчанию /opt/zapret2/config; временный config может быть выбран через эту переменную без изменения постоянного файла.
+- Временная копия создана: /tmp/zapret2-config-test.
+- Последняя проверка существования: ls -l /tmp/zapret2-config-test → файл существует, размер 5542 bytes, права -rw-r--r--, владелец root:root, время Sep 23 10:42.
+- Временный config содержит TCP/80 baseline, TCP/443 candidate #52 и UDP/443 candidate #1.
+- Постоянный /opt/zapret2/config не изменялся.
 
 ## STATUS
 STAGE 11 — IN_PROGRESS.
 
-- Исправление методики: TCP/443 и UDP/443 не изменяются одной длинной `sed`-командой. Для соблюдения правила one-step-at-a-time каждый параметр изменяется отдельной короткой `sed -i '/pattern/c\...'` командой с отдельной проверкой результата между изменениями.
-- На текущем шаге TCP/443 уже пытались заменить на TCP candidate №52 (`hostfakesplit:ip_ttl=3:repeats=1`), но результат ещё не подтверждён; UDP/443 пока не изменялся.
-
-
-
 ## STAGE 11 — TCP/QUIC candidate reduction from complete blockcheck2 intersection
-
-User re-reviewed all 75 exact common TCP TLS1.2+TLS1.3 results independently. This is a coverage-based selection, NOT an efficiency ranking. Goal: minimize near-duplicate variants while covering distinct desync mechanisms.
+User re-reviewed all 75 exact common TCP TLS1.2+TLS1.3 results independently. This is a coverage-based selection, NOT an efficiency ranking.
 
 ### TCP: 8 candidates
 1. TCP #27 — hostfakesplit:disorder_after:ip_autottl=-1,3-20:repeats=1
@@ -84,245 +74,22 @@ User re-reviewed all 75 exact common TCP TLS1.2+TLS1.3 results independently. Th
 - QUIC #2 — fake:blob=fake_default_quic:repeats=1 + send:ipfrag:ipfrag_pos_udp=16 + drop
 
 ### Test order / isolation
-Do NOT test all 16 TCP×QUIC combinations. First select a working TCP strategy using the 8 TCP candidates against YouTube TCP/443 with TLS1.2 and TLS1.3 coverage. Then independently select a working QUIC strategy from the 2 QUIC candidates. Only after both are selected, compose the final NFQWS2_OPT and test it on hAP.
+Do NOT test all 16 TCP×QUIC combinations. First select a working TCP strategy, then independently select a working QUIC strategy, then compose the final NFQWS2_OPT and test it on hAP.
 
-### Safety
-Candidate testing uses a temporary/test configuration and must not modify the known working permanent configuration until a candidate passes. Test one candidate at a time. Record PASS/FAIL and exact candidate number.
+### Current selected candidates
+- TCP #52 — functional PASS for YouTube HTTPS; separate TLS1.2/TLS1.3 proof unavailable because no openssl and BusyBox wget has no direct TLS-version selector.
+- QUIC #1 — functional PASS via client behind hAP: Chrome DevTools showed real h3 traffic while temporary config was active. Mixed h3/h2/http1.1 is normal.
+- This PASS means functional candidate validation under the controlled temporary configuration; it does not isolate causal necessity of the candidate from browser fallback/other factors.
 
-### Compact output
-Every candidate-test command must emit only the minimum result needed to classify PASS/FAIL. Prefer a short one-line/few-line summary. Avoid full nftables/log dumps unless targeted failure diagnosis requires them.
-
-### Current status
-STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ranked as more effective before controlled testing.
-
-
-## SYNC — 2026-09-23 — STAGE 11 temporary config verification
-- [PASS] User checked /tmp/zapret2-config-test with a targeted grep.
-- [CONFIRMED] Temporary TCP/443 entry is TCP candidate #52: hostfakesplit:ip_ttl=3:repeats=1.
-- [CONFIRMED] Temporary UDP/443 entry remains the existing baseline: fake:blob=fake_default_quic:repeats=6; no UDP candidate change has been made.
-- [CONFIRMED] This step verifies only the temporary configuration content; it does not establish candidate runtime PASS.
-- [NO CHANGE] Permanent /opt/zapret2/config was not modified by this verification.
+## Combined validation state
+- Both selected strategies are already combined in /tmp/zapret2-config-test.
+- User ran ZAPRET_CONFIG=/tmp/zapret2-config-test /etc/init.d/zapret2 restart.
+- [PASS] Restart completed cleanly: nfqws2 started with qnum=300; TCP/80 baseline, TCP/443 candidate #52, UDP/443 candidate #1 were loaded; nftables NFQUEUE rules for TCP 80/443 and UDP 443 were applied.
+- [CONFIRMED] The previous Command failed: Not found message did not recur in this restart.
+- [CONFIRMED] net.netfilter.nf_conntrack_tcp_be_liberal changed 0 → 1 as part of the normal service start sequence.
+- [CONFIRMED] Permanent /opt/zapret2/config remains untouched.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT GATE] The next router step will be the isolated runtime test of TCP candidate #52 only, while UDP remains untouched.
+- [NEXT] Perform one combined client-side YouTube functional check with the temporary config active. Do not modify configuration before the result.
 
-
-## SYNC — 2026-09-23 — STAGE 11 TCP candidate #52 runtime start
-- [PARTIAL/PRE-PASS] Temporary config was started with `ZAPRET_CONFIG=/tmp/zapret2-config-test /etc/init.d/zapret2 restart`.
-- [CONFIRMED] nfqws2 started with qnum=300 and the temporary TCP/443 strategy is candidate #52: `hostfakesplit:ip_ttl=3:repeats=1`.
-- [CONFIRMED] Temporary runtime applied nftables NFQUEUE rules for TCP 80/443 and UDP 443; therefore UDP was not isolated at the firewall-runtime level, although its strategy remained the unchanged baseline.
-- [OBSERVED] Startup printed `Command failed: Not found` during the restart sequence. Despite that message, nfqws2 started and nftables application continued. This must be diagnosed/qualified before declaring runtime PASS.
-- [CONFIRMED] No permanent `/opt/zapret2/config` edit was made by this command.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 is NOT yet classified PASS/FAIL.
-- [NEXT] Do not change the candidate or UDP strategy yet. First record/qualify the startup result and then perform the minimal controlled functional check.
-
-
-## SYNC — 2026-09-23 — STAGE 11 startup-message diagnosis
-- [OBSERVED] Targeted search in /etc/init.d/zapret2 for nf_conntrack_tcp_be_liberal, sysctl, not found, and command failed returned empty output.
-- [CONFIRMED] The previous `Command failed: Not found` message cannot be attributed to those literal strings in the init script by this targeted search.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT yet classified PASS/FAIL.
-- [NEXT] Continue with a narrower read-only qualification of the restart path; do not modify candidate #52, UDP strategy, or permanent config.
-
-
-## SYNC — 2026-09-23 — STAGE 11 init-script call-path inspection
-- [OBSERVED] Targeted grep of /etc/init.d/zapret2 returned the rc.common header, my_extra_command registrations, procd_open_instance/procd_set_param command, rc_procd start_daemons_procd, procd_running/procd_kill, and start_service/stop_service entry points.
-- [CONFIRMED] The inspected first 40 matching lines do not contain an obvious literal external executable corresponding to `Command failed: Not found`.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT yet classified PASS/FAIL.
-- [NO CHANGE] No zapret2 configuration or permanent config was modified by this diagnostic.
-- [NEXT] Inspect the small procd/service section around the daemon command definition; remain read-only.
-
-
-## SYNC — 2026-09-23 — STAGE 11 procd daemon section inspected
-- [OBSERVED] `/etc/init.d/zapret2` defines `run_daemon()` using `procd_open_instance`, `procd_set_param command $2 $3`, pidfile setup, then `procd_close_instance`; `run_nfqws()` passes the nfqws2 binary and generated arguments into `run_daemon()`.
-- [CONFIRMED] `start_daemons_procd()` calls `standard_mode_daemons 1` and `custom_runner zapret_custom_daemons 1`; `start_daemons()` invokes `rc_procd start_daemons_procd`.
-- [CONCLUSION] The inspected section does not itself identify the `Command failed: Not found` source; the message may originate from a procd-managed command or another part of the startup path.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT yet classified PASS/FAIL.
-- [NO CHANGE] No zapret2 configuration was modified.
-- [NEXT] Inspect the definitions of `standard_mode_daemons` / relevant command construction, still read-only.
-
-
-## SYNC — 2026-09-23 — unexpected router/Wi-Fi restart observed
-- [OBSERVED] User reports that the router or Wi-Fi restarted unexpectedly during Stage 11 read-only diagnosis.
-- [SAFETY] Pause further zapret2 candidate testing until it is established whether the hAP itself rebooted or only Wi-Fi/service state changed.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
-- [NO CHANGE] No configuration-changing command was issued after the previous diagnostic.
-- [NEXT] First distinguish device reboot from Wi-Fi/service restart using a minimal uptime check.
-
-
-## SYNC — 2026-09-23 — restart classification
-- [CONFIRMED] `uptime` reports `up 15:38`, so the hAP did not reboot immediately before this check.
-- [CONCLUSION] The reported interruption was not a full router reboot; it may have been Wi-Fi/service/interface related, but that is not yet established.
-- [SAFETY] No further zapret2 changes have been made.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
-- [NEXT] Before resuming candidate validation, perform one minimal read-only check of recent kernel/service restart evidence.
-
-
-## SYNC — 2026-09-23 — recent log qualification
-- [CONFIRMED] Recent log contains no reboot sequence or Wi-Fi AP restart in the shown 20 lines.
-- [OBSERVED] `phy0-sta0` had normal WPA2 group rekey completion at 11:03:58 followed by `Unknown event 37`; this is not evidence of a router reboot.
-- [OBSERVED] Repeated `odhcpd` warnings report `No default route present, setting ra_lifetime to 0!`; this indicates an IPv6/default-route state issue but is not by itself evidence of the reported interruption.
-- [CONFIRMED] SSH connections from 192.168.0.101 at 10:42 and 11:19 succeeded, showing management connectivity remained available.
-- [SAFETY] No zapret2 configuration changes were made.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
-- [NEXT] Resume only with a minimal targeted check of the current service state; avoid broad logs.
-
-
-## SYNC — 2026-09-23 — zapret2 current state after interruption check
-- [CONFIRMED] `/etc/init.d/zapret2 status` reports `running`.
-- [CONFIRMED] No zapret2 stop/restart was performed during the interruption investigation.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
-- [SAFETY] Permanent `/opt/zapret2/config` has not been modified.
-- [NEXT] Before any functional candidate test, qualify which config is currently active and confirm the temporary test config remains selected; use one compact read-only check.
-
-
-## SYNC — 2026-09-23 — nfqws2 process confirmation
-- [CONFIRMED] `ps` shows nfqws2 PID 4182 running as user `daemon`.
-- [OBSERVED] The BusyBox `ps w` output truncates the command line before the filter arguments, so it does not yet prove whether candidate #52 or the permanent strategy is active.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains NOT classified PASS/FAIL.
-- [NO CHANGE] No configuration-changing command was issued.
-- [NEXT] Read `/proc/4182/cmdline` in a compact filtered form to identify the active TCP/443 desync argument.
-
-
-## SYNC — 2026-09-23 — candidate #52 active confirmation
-- [CONFIRMED] `/proc/4182/cmdline` shows active TCP/443 strategy `--lua-desync=hostfakesplit:ip_ttl=3:repeats=1`, exactly TCP candidate #52.
-- [CONFIRMED] The same nfqws2 process also has the unchanged UDP/443 baseline `fake:blob=fake_default_quic:repeats=6` (temporary config behavior).
-- [CONFIRMED] Temporary runtime is active; permanent `/opt/zapret2/config` has not been modified.
-- [STATUS] TCP candidate #52 is runtime-confirmed but not yet functionally classified PASS/FAIL.
-- [NEXT] Perform one minimal functional HTTPS check for a target covered by the active hostlist; do not alter config.
-
-
-## SYNC — 2026-09-23 — TCP candidate #52 functional result
-- [PASS] With the temporary config active and TCP candidate #52 selected, direct HTTPS fetch of `https://www.youtube.com/` succeeded: `890841` bytes received within the 15-second timeout.
-- [CONFIRMED] This establishes a functional PASS for the current hAP-side TCP/443 test against YouTube, but does not by itself prove TLS1.2 and TLS1.3 separately.
-- [CONFIRMED] Permanent `/opt/zapret2/config` remains unchanged.
-- [STATUS] STAGE 11 remains IN_PROGRESS. TCP candidate #52 is currently the first functionally passing TCP candidate.
-- [NEXT] Do not test additional TCP candidates yet; first record the exact PASS and then perform the planned protocol-coverage check (TLS1.2/TLS1.3) before selecting the TCP strategy.
-
-
-## SYNC — 2026-09-23 — TLS 1.2 probe returned empty
-- [OBSERVED] The TLS 1.2 `openssl s_client` probe for `www.youtube.com:443` returned no output after stderr was suppressed.
-- [NOT_CLASSIFIED] This does not establish TLS 1.2 FAIL because the command may have failed due to missing `openssl`, handshake failure, or another local condition hidden by `2>/dev/null`.
-- [CONFIRMED] TCP candidate #52 remains functionally PASS for the prior YouTube HTTPS fetch (890841 bytes).
-- [STATUS] STAGE 11 remains IN_PROGRESS; TLS 1.2/TLS 1.3 protocol-specific coverage is not yet established.
-- [NO CHANGE] No configuration was modified.
-- [NEXT] Identify whether `openssl` is available before repeating any protocol test.
-
-
-## SYNC — 2026-09-23 — openssl unavailable
-- [CONFIRMED] `command -v openssl` returned empty output; `openssl` is not available in the current PATH.
-- [EXPLAINED] The earlier TLS 1.2 probe therefore could not establish protocol support and must remain unclassified, not FAIL.
-- [CONFIRMED] TCP candidate #52 remains functionally PASS for the direct YouTube HTTPS fetch (890841 bytes).
-- [STATUS] STAGE 11 remains IN_PROGRESS; TLS1.2/TLS1.3 separate coverage is still unverified.
-- [NO CHANGE] No package installation or configuration modification was performed.
-- [NEXT] Use an already available lightweight TLS-capable tool only if present; first identify available `wget` TLS feature/version with one compact command.
-
-
-## SYNC — 2026-09-23 — wget capability check
-- [CONFIRMED] The router uses a BusyBox-style `wget`; `wget --version` is unsupported and returns its usage text.
-- [CONFIRMED] This does not provide a direct TLS-version selector, so separate TLS1.2/TLS1.3 validation cannot be performed with the current `wget` invocation alone.
-- [PASS] The prior real HTTPS YouTube fetch remains the functional TCP candidate #52 PASS criterion.
-- [STATUS] STAGE 11 remains IN_PROGRESS; candidate #52 is functionally passing, while separate TLS-version coverage remains unverified.
-- [NO CHANGE] No package or configuration changes were made.
-- [NEXT] Avoid adding packages solely for protocol introspection; continue with the planned independent QUIC candidate testing after recording this limitation.
-
-
-## SYNC — 2026-09-23 — repeated wget output / QUIC change not executed
-- [OBSERVED] User returned the previous `wget --version` output again; the requested `sed -i` command for QUIC candidate #1 was not executed.
-- [CONFIRMED] Temporary config has therefore not been changed at this step; no QUIC candidate switch occurred.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains functionally PASS, QUIC candidate selection not started.
-- [NEXT] Reissue only the intended single `sed -i` command; do not restart zapret2 until the edit is separately verified.
-
-
-## SYNC — 2026-09-23 — QUIC candidate #1 edit executed
-- [CONFIRMED] The `sed -i` command to change only the temporary UDP/443 entry completed with empty output, consistent with a successful edit.
-- [CONFIRMED] This step changed only `/tmp/zapret2-config-test`; the permanent `/opt/zapret2/config` was not modified.
-- [NOT_YET_VERIFIED] The temporary UDP/443 line has not yet been re-read, so QUIC candidate #1 is not yet confirmed in the test config.
-- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 remains functionally PASS; QUIC candidate #1 is pending config verification.
-- [NEXT] Verify only the UDP/443 line in the temporary config before restarting zapret2.
-
-
-## SYNC — 2026-09-23 — QUIC candidate #1 config verified
-- [PASS] Temporary `/tmp/zapret2-config-test` UDP/443 entry is exactly QUIC candidate #1: `fake:blob=fake_default_quic:repeats=1` with `<HOSTLIST_NOAUTO>`.
-- [CONFIRMED] TCP/443 remains candidate #52 in the temporary config; only UDP/443 was changed in this step.
-- [CONFIRMED] Permanent `/opt/zapret2/config` remains untouched.
-- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is config-verified but not yet functionally classified.
-- [NEXT] Restart using the temporary config, then inspect runtime before functional QUIC testing.
-
-
-# SYNC — 2026-09-23 — QUIC candidate #1 runtime start
-- [PARTIAL/PRE-PASS] User restarted zapret2 with `ZAPRET_CONFIG=/tmp/zapret2-config-test`.
-- [CONFIRMED] nfqws2 started successfully with qnum=300.
-- [CONFIRMED] TCP/443 remains candidate #52: `hostfakesplit:ip_ttl=3:repeats=1`.
-- [CONFIRMED] UDP/443 is now QUIC candidate #1: `fake:blob=fake_default_quic:repeats=1`.
-- [CONFIRMED] nftables applied NFQUEUE rules for TCP 80/443 and UDP 443.
-- [OBSERVED] The prior `Command failed: Not found` message did not recur in this restart output.
-- [CONFIRMED] Permanent `/opt/zapret2/config` was not modified.
-- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-started but not yet functionally classified.
-- [NEXT] Perform one minimal read-only/runtime confirmation before the functional QUIC test.
-
-
-## SYNC — 2026-09-23 — QUIC candidate #1 runtime confirmation pending
-- [READY] Previous restart successfully started nfqws2 with TCP candidate #52 and QUIC candidate #1; nftables NFQUEUE rules were applied.
-- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-started but not yet functionally classified.
-- [NEXT] Run one compact read-only check of the active nfqws2 command line to confirm the exact UDP/443 candidate before functional testing.
-
-
-## SYNC — 2026-09-23 — QUIC runtime confirmation command not executed
-- [OBSERVED] The compact process-command check was split at --filter-udp=44 and the shell entered continuation prompt >.
-- [CONFIRMED] No runtime state or configuration was changed by this attempt.
-- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is still runtime-started but not yet independently confirmed from the process command line.
-- [NEXT] Reissue the same read-only check as a shorter command that avoids the shell continuation issue.
-
-
-## SYNC — 2026-09-23 — QUIC candidate #1 runtime confirmed
-- [PASS] Active nfqws2 process contains UDP/443 QUIC candidate #1 exactly: fake:blob=fake_default_quic:repeats=1.
-- [CONFIRMED] Active TCP/443 remains candidate #52: hostfakesplit:ip_ttl=3:repeats=1.
-- [CONFIRMED] The runtime uses the temporary test configuration; permanent /opt/zapret2/config has not been modified.
-- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-confirmed but not yet functionally classified.
-- [NEXT] Perform one functional QUIC-specific test if a suitable already-installed client is available; do not change configuration.
-
-
-## SYNC — 2026-09-23 — ready for QUIC client capability check
-- [READY] QUIC candidate #1 is runtime-confirmed in the active temporary config.
-- [STATUS] STAGE 11 remains IN_PROGRESS; functional QUIC PASS/FAIL is not established.
-- [NEXT] Check for an already-installed QUIC/HTTP3-capable client only; no package installation and no config changes.
-
-
-## SYNC — 2026-09-23 — no QUIC/HTTP3 client installed
-- [CONFIRMED] Capability check found only /usr/bin/wget; curl, quiche-client, and nghttp3-client are absent from PATH.
-- [CONCLUSION] The hAP currently has no identified QUIC/HTTP3-capable client for a direct router-side functional QUIC test.
-- [SAFETY] No package was installed and no configuration was changed.
-- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-confirmed but functional PASS cannot be established from the router with the currently available client set.
-- [NEXT] Use a minimal client-side functional check from a device behind the hAP, if feasible, rather than installing a new package solely for testing.
-
-
-## SYNC — 2026-09-23 — client behind hAP reaches YouTube
-- [CONFIRMED] User connected a phone to the hAP/OpenWrt Wi-Fi and YouTube loads successfully with the temporary config active.
-- [LIMITATION] This confirms functional YouTube access but does not prove that the phone used HTTP/3/QUIC; the browser may have used TCP/TLS fallback.
-- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-confirmed but not yet functionally classified as QUIC PASS/FAIL.
-- [NEXT] Perform a client-side HTTP/3-specific check before considering QUIC candidate #1 a functional PASS.
-
-
-## SYNC — 2026-09-23 — HTTP/3 test site inaccessible from phone
-- [OBSERVED] User reports the proposed http3check.net test site cannot be reached from the phone connected to hAP Wi-Fi.
-- [CONCLUSION] This result cannot classify QUIC candidate #1 because the test site itself may be inaccessible for unrelated reasons.
-- [CONFIRMED] YouTube remains functional from the phone behind hAP.
-- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 remains runtime-confirmed but functionally unclassified.
-- [NEXT] Avoid adding packages. Use a desktop client behind hAP with browser network protocol information to directly distinguish HTTP/3 (h3) from HTTP/2/TCP.
-
-
-## SYNC — 2026-09-23 — QUIC candidate #1 functional PASS via client
-- [PASS] On a client connected behind the hAP/OpenWrt Wi-Fi, Chrome DevTools Network showed requests using protocol `h3`; the same session also showed `h2` and `http/1.1` for other requests.
-- [INTERPRETATION] Presence of `h3` confirms that real client traffic behind the hAP successfully used HTTP/3/QUIC over UDP/443. Mixed protocols are normal and do not negate the h3 result.
-- [PASS] QUIC candidate #1 is now functionally PASS in the controlled client-side test with the temporary config active.
-- [CONFIRMED] TCP candidate #52 remains the first functionally passing TCP candidate, based on the earlier successful YouTube HTTPS fetch.
-- [CONFIRMED] Permanent `/opt/zapret2/config` remains unchanged.
-- [STATUS] STAGE 11 remains IN_PROGRESS. Selected working candidates are currently TCP #52 and QUIC #1; final composition has not yet been committed to the permanent config.
-- [NEXT] Compose the selected TCP #52 + QUIC #1 strategies in the temporary configuration and perform the final combined validation before any permanent change.
-
-
-## SYNC — 2026-09-23 — ready for final combined candidate validation
-- [READY] TCP candidate #52 and QUIC candidate #1 both passed their isolated functional checks.
-- [CONFIRMED] Both strategies are already combined in the active temporary config; no new config edit is required before combined validation.
-- [SAFETY] Permanent /opt/zapret2/config remains unchanged.
-- [STATUS] STAGE 11 remains IN_PROGRESS.
-- [NEXT] Restart the service once with the same temporary config and then perform a combined client-side YouTube check; no additional candidate combinations are needed.
+## Prior detailed sync record
+Earlier detailed candidate-testing history remains represented by the selected-candidate records above; no earlier PASS/FAIL state is being overwritten.
