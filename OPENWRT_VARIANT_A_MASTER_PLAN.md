@@ -498,3 +498,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IDENTITY] The downloaded file is for the `NL-FREE#130` configuration family, as stated in its header and filename.
 - [SECURITY] The file does not contain the user's OpenVPN password; credentials must remain outside the repository/chat.
 - [NEXT] Copy this exact configuration to `/etc/openvpn/` on the hAP. Do not yet enable it as the default WAN route or alter firewall/PBR.
+
+
+## STAGE 23 Proton `.ovpn` copied to hAP — 2026-09-23
+- [PASS] Created `/etc/openvpn` and downloaded `proton-nl-free-130.ovpn` from the repository raw URL.
+- [PASS] Router reports `Download completed (5101 bytes)`.
+- [FACT] The router now has the exact Proton NL-FREE#130 UDP configuration file at `/etc/openvpn/proton-nl-free-130.ovpn`.
+- [SAFETY] OpenVPN has not been started, default routing has not been changed, and firewall/PBR have not been modified.
+- [NEXT] Configure Proton OpenVPN credentials locally on the router without exposing them in chat.
