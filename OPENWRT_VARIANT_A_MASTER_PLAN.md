@@ -1315,3 +1315,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] `wg show` is available in the environment, but the `wg-quick` helper is not installed.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard end-to-end validation = IN_PROGRESS.
 - [NEXT] Determine the available native WireGuard control path without changing configuration.
+
+## SYNC CHECKPOINT — 2026-09-23 — WireGuard tooling inventory
+- [RESULT] `command -v wg` returned `/usr/bin/wg`.
+- [RESULT] `command -v wg-quick` returned nothing.
+- [RESULT] Installed package list contains `kmod-wireguard` and `wireguard-tools`.
+- [CONCLUSION] WireGuard kernel support/tools are installed, but the `wg-quick` helper is not present in this OpenWrt environment.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard end-to-end validation = IN_PROGRESS.
+- [SAFETY] Read-only inventory only; no network or package state changed.
