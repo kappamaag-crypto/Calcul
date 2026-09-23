@@ -1902,3 +1902,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CURRENT STATE] IP endpoint reachability works (ICMP 0% loss), but UDP/51820/WireGuard handshake remains unanswered.
 - [DECISION] Freeze Zapret2 strategy at vendor baseline and shift diagnosis toward endpoint/peer validity or upstream UDP handling, without touching the TP-Link.
 - [STATUS] Zapret2 WireGuard integration = DONE; Proton/WireGuard functional validation = BLOCKED at peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — current root-cause focus
+- [WEB CHECK] Current official Proton documentation states that router WireGuard configs are downloaded/generated from Account → Downloads → WireGuard configuration with Platform=Router, and the endpoint/public key come from that generated config. citeturn113136search0turn113136search6
+- [CURRENT EVIDENCE] hAP IP route to `185.107.56.235` works; ICMP to the endpoint has 0% loss; native WireGuard interface config is accepted; qnum 65300 receives WireGuard packets with zero queue drops; vendor/TTL/badsum variants all remain `0 B received`; a new random source port 48744 also remains unanswered; no fwmark PBR exists.
+- [CONCLUSION] Further blind Zapret2 strategy changes are not justified. The remaining likely branches are endpoint/peer configuration validity or upstream UDP handling independent of Zapret2.
+- [DECISION] Keep vendor `50-wg4all` baseline and do not touch TP-Link.
+- [STATUS] Zapret2 integration = DONE; Proton/WireGuard validation = BLOCKED at peer response.
