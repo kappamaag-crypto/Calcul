@@ -745,3 +745,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] Required Proton WireGuard fields were previously verified; private key remains undisclosed.
 - [STATUS] STAGE 21 — IN_PROGRESS.
 - [NEXT] Start a route-isolated WireGuard test: bring up the Proton interface with routing disabled so the existing default WAN remains unchanged.
+
+
+## STAGE 21 route-isolated WireGuard test preparation — 2026-09-23
+- [DECISION] User approved creating a separate test copy of the Proton WireGuard config.
+- [SAFETY] Original `/etc/wireguard/proton.conf` will remain unchanged.
+- [TEST DESIGN] The test copy will contain `Table = off` in `[Interface]`, preventing wg-quick from installing the full-tunnel routes during the first handshake test.
+- [NEXT] Create `/etc/wireguard/proton-test.conf` from the current config and set mode 0600.
