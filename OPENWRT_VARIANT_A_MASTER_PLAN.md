@@ -264,3 +264,10 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [READY] Previous restart successfully started nfqws2 with TCP candidate #52 and QUIC candidate #1; nftables NFQUEUE rules were applied.
 - [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-started but not yet functionally classified.
 - [NEXT] Run one compact read-only check of the active nfqws2 command line to confirm the exact UDP/443 candidate before functional testing.
+
+
+## SYNC — 2026-09-23 — QUIC runtime confirmation command not executed
+- [OBSERVED] The compact process-command check was split at --filter-udp=44 and the shell entered continuation prompt >.
+- [CONFIRMED] No runtime state or configuration was changed by this attempt.
+- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is still runtime-started but not yet independently confirmed from the process command line.
+- [NEXT] Reissue the same read-only check as a shorter command that avoids the shell continuation issue.
