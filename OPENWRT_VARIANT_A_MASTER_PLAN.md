@@ -104,3 +104,13 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [NO CHANGE] Permanent /opt/zapret2/config was not modified by this verification.
 - [STATUS] STAGE 11 remains IN_PROGRESS.
 - [NEXT GATE] The next router step will be the isolated runtime test of TCP candidate #52 only, while UDP remains untouched.
+
+
+## SYNC — 2026-09-23 — STAGE 11 TCP candidate #52 runtime start
+- [PARTIAL/PRE-PASS] Temporary config was started with `ZAPRET_CONFIG=/tmp/zapret2-config-test /etc/init.d/zapret2 restart`.
+- [CONFIRMED] nfqws2 started with qnum=300 and the temporary TCP/443 strategy is candidate #52: `hostfakesplit:ip_ttl=3:repeats=1`.
+- [CONFIRMED] Temporary runtime applied nftables NFQUEUE rules for TCP 80/443 and UDP 443; therefore UDP was not isolated at the firewall-runtime level, although its strategy remained the unchanged baseline.
+- [OBSERVED] Startup printed `Command failed: Not found` during the restart sequence. Despite that message, nfqws2 started and nftables application continued. This must be diagnosed/qualified before declaring runtime PASS.
+- [CONFIRMED] No permanent `/opt/zapret2/config` edit was made by this command.
+- [STATUS] STAGE 11 remains IN_PROGRESS; TCP candidate #52 is NOT yet classified PASS/FAIL.
+- [NEXT] Do not change the candidate or UDP strategy yet. First record/qualify the startup result and then perform the minimal controlled functional check.
