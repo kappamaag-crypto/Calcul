@@ -1617,3 +1617,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not install an extra package for this inspection. Use the existing `gzip -cd` utility piped to `grep` against the compressed Lua files.
 - [SAFETY] No files, packages, configuration, or services changed.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — Lua source inspection result
+- [RESULT] Reading the installed compressed Lua sources with `gzip -cd` succeeded.
+- [RESULT] `zapret-lib.lua.gz` exposes `desync_copy`, `desync_orchestrator_example`, `desync_opts`, and `desync_timer_name` in the searched pattern; it does not itself reveal the concrete `fake`/`split` implementation names.
+- [RESULT] `zapret-antidpi.lua.gz` contains the `fake` processing path (`blob(desync, desync.arg.blob)` and `rawsend_payload_segmented(...)`).
+- [RESULT] `zapret-auto.lua.gz` contains no `wireguard` match in the searched output.
+- [CONCLUSION] WireGuard-specific payload selection comes from `50-wg4all`; the Lua auto script does not add a separate WireGuard-specific strategy.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+- [SAFETY] Read-only inspection only; no files/packages/configuration changed.
