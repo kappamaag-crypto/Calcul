@@ -1009,3 +1009,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [ARCHITECTURE] A public free AntiZapret selective VPN and a self-hosted AntiZapret server are different offerings. The self-hosted WG/AWG implementation is not a free public VPN service: it requires an external server.
 - [RESOURCE] Do not describe OpenVPN on the 64 MB hAP as categorically impossible. The router already installed `openvpn-openssl`; the practical concern is runtime RAM/CPU headroom alongside Zapret2, not protocol impossibility.
 - [DECISION] AntiZapret remains a meaningful architecture candidate because selective routing fits the project's goal. For zero-cost use, the realistic public service path is its OpenVPN profile; for obfuscated WG/AWG, self-hosting requires a server. No router changes made.
+
+
+## AntiZapret public free VPN confirmed — 2026-09-23
+- [VERIFIED] Current official AntiZapret page explicitly recommends its VPN method for Android/iOS, computers, and routers and links the free `antizapret-tcp.ovpn` profile. citeturn871685view1
+- [VERIFIED] The service states that only sites from the Russian unified blocklist are proxied while other sites go directly; this matches the project's desired selective-routing architecture. citeturn871685view1
+- [DECISION] AntiZapret public VPN/OpenVPN becomes the primary zero-cost VPN candidate for this project. It is distinct from Proton/hide.me because the service itself is specifically built for selective access to blocked resources.
+- [STATUS] No AntiZapret router configuration has yet been applied or changed. Zapret2 remains `running`.
+- [NEXT] Obtain/use the public `antizapret-tcp.ovpn` profile on the hAP as a controlled OpenVPN test. Do not combine the first test with permanent routing changes; preserve the current OpenWrt WAN as fallback.
