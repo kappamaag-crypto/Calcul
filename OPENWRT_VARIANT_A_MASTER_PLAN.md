@@ -1281,3 +1281,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The bundled `50-wg4all` integration is now active in the running Zapret2 service.
 - [STATUS] Custom WireGuard desync activation = DONE; end-to-end WireGuard/Proton functional validation remains IN_PROGRESS.
 - [SAFETY] This was the first intended service restart after copying the vendor example; no other configuration was changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — WireGuard runtime state check
+- [RESULT] User ran `wg show`; output was empty.
+- [CONCLUSION] No WireGuard interface is currently instantiated/active in the kernel, so end-to-end validation of the newly activated `50-wg4all` against a WireGuard tunnel cannot yet be performed.
+- [IMPORTANT] This does not invalidate `50-wg4all`; it only means there is no active WireGuard tunnel to exercise its UDP handshake matching rules.
+- [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton functional validation = BLOCKED pending a configured/started WireGuard interface.
+- [SAFETY] No configuration or service state changed; `wg show` is read-only.
