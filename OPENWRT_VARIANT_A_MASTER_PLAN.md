@@ -1956,3 +1956,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] No OpenVPN service started and no routing/configuration changed; credential file contents are not to be displayed.
 - [STATUS] OpenVPN TCP fallback = IN_PROGRESS.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — Proton OpenVPN TCP profile details confirmed
+- [RESULT] `proton-nl-free-130-tcp.ovpn`: `proto tcp`, remotes `185.107.56.133:8443`, `:7770`, `:443`, `auth-user-pass`, `AES-256-GCM`, `persist-key`, `persist-tun`, `remote-cert-tls server`.
+- [RESULT] `proton-us-free-115-tcp.ovpn`: `proto tcp`, remotes `84.20.27.33:8443`, `:443`, `:7770`, same main crypto/auth directives.
+- [IMPORTANT] Therefore the downloaded profiles are TCP profiles with multiple fallback ports; 443 is one fallback, not the sole endpoint.
+- [DECISION] First OpenVPN TCP test will use the existing NL profile and force its 443 remote, without changing TP-Link or persistent UCI/routing configuration.
+- [NEXT] Inspect only the credential-file shape before launching any OpenVPN process.
+- [STATUS] OpenVPN TCP fallback = IN_PROGRESS; WireGuard branch remains BLOCKED at peer response.
