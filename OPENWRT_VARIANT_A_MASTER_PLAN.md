@@ -1024,3 +1024,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] This is a failure to download the public profile over HTTPS from the hAP's BusyBox wget; it is NOT evidence that the AntiZapret VPN tunnel itself fails.
 - [WEB VERIFICATION] The current AntiZapret page still advertises the VPN method for routers and links the `antizapret-tcp.ovpn` profile. The web fetcher could not parse the profile directly because its content type is `application/x-openvpn-profile`, but the page confirms the profile exists. citeturn742447view0
 - [PROCESS] Avoid further router-side HTTPS/client permutations. The practical next step is to obtain the public profile outside the hAP (browser/PC/phone) and transfer only the `.ovpn` file to the router; it contains service connection parameters and must be treated as untrusted external configuration until inspected.
+
+
+## AntiZapret OpenVPN profile safety gate — 2026-09-23
+- [USER] User downloaded the public `antizapret-tcp.ovpn` profile and asks whether it is safe to use.
+- [ASSESSMENT] The profile is a public service configuration, not a personal credential file. However, a downloaded OpenVPN profile should be reviewed before execution because directives such as routes, DNS options, scripts, or other client directives can change router behavior. OpenWrt's OpenVPN documentation explicitly treats the client profile as configuration that must be reviewed/adjusted to the server before use. citeturn379838search0turn379838search3
+- [SAFETY] Do not copy the profile into `/etc/openvpn`, enable OpenVPN, or change routing/firewall yet.
+- [NEXT] Inspect the actual downloaded `antizapret-tcp.ovpn` content before running it. User may upload the file for direct review; do not expose or run any embedded secret material without need.
