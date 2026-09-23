@@ -387,3 +387,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [FACT] Neither `openvpn-openssl` nor `libopenssl3` is present in the installed-package database after the killed transaction.
 - [FACT] Some dependency packages were reported installed before the interruption, so the transaction was partial and must not be assumed cleanly rolled back as a whole.
 - [STATUS] STAGE 23 remains FAILED/PENDING recovery; no retry performed.
+
+
+## STAGE 23 RAM/tmpfs storage hypothesis check — 2026-09-23
+- [PASS] `/tmp` is a 26.8 MiB tmpfs with only 1.8 MiB used and 25.0 MiB available at the time of check.
+- [PASS] `/overlay` has 6.2 GiB available; disk capacity is not the immediate constraint for the interrupted OpenVPN installation.
+- [CONCLUSION] The observed process kill during `libopenssl3` installation is not explained by a nearly-full `/tmp` or `/overlay`; low available RAM remains the primary suspected cause.
+- [STATUS] No cleanup or package changes performed in this step.
