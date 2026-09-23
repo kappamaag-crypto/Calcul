@@ -1354,3 +1354,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] The rules contain no nft `counter`, so this output proves installation of the rules but does NOT prove that live WireGuard packets have matched them.
 - [STATUS] `50-wg4all` integration = DONE; WireGuard/Proton end-to-end validation = IN_PROGRESS.
 - [SAFETY] Read-only inspection; no nftables or WireGuard state changed.
+
+## SYNC CHECKPOINT — 2026-09-23 — `50-wg4all` nft hook location confirmed
+- [RESULT] qnum `65300` rules are in chain `postnat`, under the nftables postrouting path.
+- [CONCLUSION] The installed firewall hook targets outbound IPv4 UDP WireGuard handshake packets before WAN transmission, consistent with the vendor `50-wg4all` example.
+- [STATUS] `50-wg4all` integration = DONE; end-to-end WireGuard/Proton validation = IN_PROGRESS.
+- [NEXT] Keep diagnostics minimal; verify only that the dedicated `nfqws2` consumer for qnum `65300` remains running.
