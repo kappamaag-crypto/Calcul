@@ -1440,3 +1440,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [OFFICIAL SOURCE] zapret2's standard UDP interception is configured through `NFQWS2_PORTS_UDP`, but the dedicated `50-wg4all` path does not require adding a generic all-UDP/51820 rule because its nft hook matches WireGuard packet structure directly. citeturn574010search0turn847737search0
 - [DECISION] Do not introduce `MODE_UDP`, `UDP_PORTS`, or arbitrary `--desync-split-pos`/TTL settings from the pasted advice yet.
 - [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard handshake validation = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — corrected wg handshake query
+- [RESULT] `wg show proton-test latest-handshake` failed because this `wg` build accepts `latest-handshakes` (plural), not `latest-handshake`.
+- [RESULT] The preceding accidental `EIF` shell input returned `not found` and made no configuration/runtime change.
+- [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard handshake validation = IN_PROGRESS.
