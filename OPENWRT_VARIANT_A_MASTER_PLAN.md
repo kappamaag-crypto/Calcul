@@ -811,3 +811,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] No successful Proton WireGuard handshake has been demonstrated yet.
 - [CAUTION] Do not infer the cause from the ping failure alone; `10.2.0.1` need not answer ICMP. The keypair and endpoint underlay are already verified.
 - [NEXT] Check WireGuard's handshake state directly with a compact `wg show` output.
+
+
+## STAGE 21 WireGuard no-response state — 2026-09-23
+- [RESULT] Repeated `wg show proton` after the handshake trigger shows transfer increased to `7.52 KiB sent`, while `0 B received` remains and no `latest handshake` appears.
+- [CONCLUSION] WireGuard is actively transmitting handshake/keepalive traffic, but no peer response has been observed.
+- [NOT YET DIAGNOSED] Do not label this as ISP/DPI/Proton-side blocking solely from this result; the remaining possibilities still include endpoint-specific connectivity/configuration issues.
+- [NEXT] Check whether UDP/51820 to the exact Proton endpoint is reachable at the socket level, without changing routes or tunnel configuration.
