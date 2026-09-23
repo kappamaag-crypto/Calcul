@@ -258,3 +258,9 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] Permanent `/opt/zapret2/config` was not modified.
 - [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-started but not yet functionally classified.
 - [NEXT] Perform one minimal read-only/runtime confirmation before the functional QUIC test.
+
+
+## SYNC — 2026-09-23 — QUIC candidate #1 runtime confirmation pending
+- [READY] Previous restart successfully started nfqws2 with TCP candidate #52 and QUIC candidate #1; nftables NFQUEUE rules were applied.
+- [STATUS] STAGE 11 remains IN_PROGRESS; QUIC candidate #1 is runtime-started but not yet functionally classified.
+- [NEXT] Run one compact read-only check of the active nfqws2 command line to confirm the exact UDP/443 candidate before functional testing.
