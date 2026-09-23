@@ -1556,3 +1556,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] `50-wg4all` is active again in the running Zapret2 service.
 - [STATUS] `50-wg4all` integration = DONE; Proton/WireGuard end-to-end validation = IN_PROGRESS.
 - [SAFETY] Only Zapret2 was restarted on hAP; TP-Link was not touched.
+
+## SYNC CHECKPOINT — 2026-09-23 — proposed alternate WireGuard strategies not yet adopted
+- [USER INPUT] User supplied a claim that the current `50-wg4all` zero-blob fake is ineffective in 2026 and proposed `split`, TTL, and `fake_default_udp` alternatives.
+- [UPSTREAM FACT] Current upstream `zapret2` still ships `50-wg4all` with the zero-blob `fake` strategy as its default, so the claim that this strategy is generally obsolete is not established by upstream source. citeturn171422search0turn518279search2
+- [UPSTREAM FACT] Current zapret2 documentation demonstrates `lua-desync` functions including `split` and TTL-related packet modifications, but applicability depends on payload/protocol and exact function parameters. citeturn947305search1turn947305search4
+- [DECISION] Do not modify `NFQWS_OPT_DESYNC_WG` yet. First verify which alternative blobs/options are actually available in the installed v1.0.3 tree.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard end-to-end validation = BLOCKED at missing peer response.
+- [SAFETY] No configuration or service state changed.
