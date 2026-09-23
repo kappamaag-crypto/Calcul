@@ -845,3 +845,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CORRECTION] Do not repeat GNU/OpenBSD `nc` UDP-option syntax on this router.
 - [STATUS] No new network conclusion from this probe; WireGuard remains without a received handshake.
 - [NEXT] Use WireGuard's own compact handshake timestamp/status output instead of an unsupported UDP netcat probe.
+
+
+## STAGE 21 Handshake timestamp confirmed absent — 2026-09-23
+- [RESULT] `wg show proton latest-handshakes` returns the Proton peer public key with timestamp `0`.
+- [CONFIRMED] No WireGuard handshake has ever been received by the runtime interface during the current test.
+- [CONTEXT] Local keypair consistency, Proton peer parameters, endpoint underlay route, and ICMP reachability to `185.107.56.235` are already verified.
+- [NEXT] Inspect the existing firewall ruleset for UDP handling before making any firewall change.
