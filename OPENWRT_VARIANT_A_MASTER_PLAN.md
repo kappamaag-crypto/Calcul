@@ -2193,3 +2193,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Do not invent a Proton hostname or change the profile. The next diagnostic should use the existing profile metadata to identify any hostname/server-name directive, if present, before another TLS probe.
 - [STATUS] SNI/hostname distinction = IN_PROGRESS; current evidence confirms only IP-based remotes.
 - [SAFETY] Read-only profile inspection; no service/configuration changes; TP-Link untouched.
+
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN profile TLS/server-name directives
+- [RESULT] Relevant directives in `/etc/openvpn/proton-us-free-115-tcp.ovpn`: `proto tcp`, `setenv CLIENT_CERT 0`, `remote-cert-tls server`.
+- [RESULT] No `tls-server-name`, `verify-x509-name`, or `peer-fingerprint` directive is present in the matched output.
+- [INTERPRETATION] The profile does not provide an explicit TLS server name that can be used to make an SNI-specific HTTPS probe. The endpoint is represented by IP/port remotes.
+- [PLAN] User requested a larger diagnostic batch. Next test may compare all three Proton TCP endpoints (8443/443/7770) using the existing profile and credentials, without changing persistent configuration.
+- [SAFETY] Use temporary/read-only diagnostics only; do not modify the Proton profile, Zapret2 configuration, routing, credentials, or TP-Link.
