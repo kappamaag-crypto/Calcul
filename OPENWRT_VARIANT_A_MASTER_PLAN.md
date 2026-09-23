@@ -725,3 +725,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 ## STAGE 21 concise WireGuard config validation — 2026-09-23
 - [NEXT] After the interrupted oversized `awk` entry, use a compact validation that checks file permissions and required WireGuard fields while masking the private key.
 - [RULE] Do not print the private key or upload the fresh Proton WireGuard config to GitHub.
+
+
+## STAGE 21 WireGuard config permissions correction — 2026-09-23
+- [PASS] `/etc/wireguard/proton.conf` contains the required Interface/Peer fields; `PrivateKey` is set and masked in verification output.
+- [SECURITY ISSUE] File mode is `0644` (`-rw-r--r--`), which is too permissive for a WireGuard private key.
+- [ACTION] Change only the file mode to `0600`; do not alter configuration contents or private key.
+- [NEXT] After chmod, verify permissions only, then proceed to controlled tunnel activation.
