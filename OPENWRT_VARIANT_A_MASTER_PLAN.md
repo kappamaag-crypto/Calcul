@@ -201,3 +201,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 ## Zapret2 standard daemon function location — 2026-09-23
 - [RESULT] `standard_mode_daemons()` is defined at `/opt/zapret2/common/linux_daemons.sh:11`.
 - [STATUS] Next inspection targets this small function; no configuration changes made.
+
+## Zapret2 standard_mode_daemons audit — 2026-09-23
+- [RESULT] `standard_mode_daemons()` only calls `standard_mode_nfqws $1`.
+- [RESULT] `standard_mode_nfqws()` builds qnum/options, calls `filter_apply_hostlist_target opt`, then starts nfqws2 via `do_nfqws`.
+- [IMPORTANT] No WAN/interface readiness wait is present in this daemon path.
+- [STATUS] The next relevant function is `filter_apply_hostlist_target`; no configuration changes made.
