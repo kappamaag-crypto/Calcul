@@ -2148,3 +2148,5 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] Proton raw TCP-service probe = NOT_STARTED; next test must use BusyBox-compatible `nc` syntax and external kill after a short interval.
 - [RESULT 2026-09-23] Raw `nc` HTTP probe to `84.20.27.33:443` returned 0 bytes. This is NON-DIAGNOSTIC because port 443 expects TLS, while the probe sent plaintext HTTP.
 - [STATUS] Raw TLS-handshake probe = NOT_STARTED.
+- [RESULT 2026-09-23] `openssl` is not installed on OpenWrt; package installation is unnecessary for this probe.
+- [STATUS] Raw TLS endpoint probe = NOT_STARTED. Use existing HTTPS-capable `wget` rather than installing additional tooling.
