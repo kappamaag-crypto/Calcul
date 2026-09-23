@@ -1183,3 +1183,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] Because `/opt/zapret2/config` is sourced before `CUSTOM_DIR` is assigned, the remaining concrete check is whether the active config overrides `ZAPRET_RW`.
 - [SAFETY] Read-only inspection only; no service, nftables, firewall, WireGuard, or Zapret2 configuration changed.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — Zapret config variable probe
+- [RESULT] Read-only grep of `/opt/zapret2/config` for `ZAPRET_BASE`, `ZAPRET_RW`, and `ZAPRET_CONFIG` returned an empty output.
+- [CONCLUSION] The active config does not explicitly override these three variables. With the OpenWrt integration defaults, `ZAPRET_RW` therefore resolves to `/opt/zapret2` unless supplied externally by the init environment.
+- [RESULT] The expected OpenWrt custom script directory is consequently `/opt/zapret2/init.d/openwrt/custom.d` for the current installation.
+- [SAFETY] No configuration or service state changed; read-only check only.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
