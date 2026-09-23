@@ -14,7 +14,7 @@ STAGE 2 — DONE
 STAGE 3 — DONE
 STAGE 4 — DONE
 STAGE 5 — DONE
-STAGE 6 — IN_PROGRESS
+STAGE 6 — DONE (Zapret2 boot persistence and post-reboot validation)
 STAGE 7–10 — see detailed status below
 STAGE 11 — DONE (permanent Zapret2 candidate validation)
 STAGE 12–30 — NOT_STARTED
@@ -285,3 +285,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DONE] After reboot and SSH recovery, router-side YouTube HTTPS test succeeded without a manual zapret2 restart: `wget --timeout=15 -O /dev/null https://www.youtube.com/` downloaded `888457` bytes.
 - [CONFIRMED] Persistent `/etc/rc.local` 20-second delayed `zapret2 restart` workaround fixes the previously observed post-boot failure.
 - [RESULT] Zapret2 startup/boot workaround is functionally validated from a real reboot.
+
+
+## Stage 6 closure — 2026-09-23
+- [DONE] Zapret2 persistent autostart is enabled.
+- [DONE] Boot-time readiness issue was reproduced: immediate post-boot YouTube failed while manual restart restored operation.
+- [DONE] Minimal workaround installed in /etc/rc.local: sleep 20, then /etc/init.d/zapret2 restart.
+- [DONE] Real reboot validation passed: YouTube HTTPS downloaded 888457 bytes without manual intervention.
+- [DONE] Stage 6 is closed; no further Zapret2 strategy diagnostics are required unless a later regression appears.
