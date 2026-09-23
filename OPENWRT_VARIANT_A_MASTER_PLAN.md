@@ -251,3 +251,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 ## CLK_TCK diagnostic correction — 2026-09-23
 - [BLOCKED] `getconf` is not installed on this OpenWrt BusyBox system; command returned `getconf: not found`.
 - [STATUS] No package installation and no configuration changes.
+
+## Diagnostic stop / simplified resolution path — 2026-09-23
+- [DONE] Diagnostic expansion stopped by user request; no further timing/PID micro-tests planned.
+- [FACT] Boot log shows zapret2 reaches nfqws2 startup, applies nftables, inserts IPv4 NFQUEUE rules for TCP/UDP, and exits startup without an error.
+- [FACT] Same persistent configuration becomes functional immediately after manual `/etc/init.d/zapret2 restart`.
+- [WORKING HYPOTHESIS] Boot-order/readiness race remains the simplest explanation; strategy selection is not being re-tested.
+- [NEXT] Before changing autostart, inspect existing `/etc/rc.local` so any delayed post-boot restart can be added without overwriting existing user logic.
