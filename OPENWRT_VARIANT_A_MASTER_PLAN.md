@@ -573,3 +573,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [OFFICIAL] Proton states UDP is recommended generally, but TCP uses port 443 and is the fallback when UDP cannot connect; TCP can also help on networks where UDP VPN traffic is blocked. citeturn757013search0turn757013search9
 - [RULE] Do not manually edit the UDP `.ovpn` to convert it to TCP; download Proton's official TCP Router configuration.
 - [NEXT] Generate/download the TCP Router `.ovpn` for `NL-FREE#130` and provide/store that exact file before another router-side test.
+
+
+## STAGE 23 Proton TCP `.ovpn` verified — 2026-09-23
+- [PASS] Repository file `nl-free-130.protonvpn.tcp.ovpn` fetched successfully.
+- [PASS] Configuration uses `proto tcp` with Proton endpoints `185.107.56.133:8443`, `:7770`, and `:443` and `remote-random`.
+- [IDENTITY] Header explicitly identifies the `NL-FREE#130` exit configuration family.
+- [PASS] Embedded CA and `tls-crypt` blocks are present; `auth-user-pass` is retained for the local credentials file.
+- [DECISION] Use the official TCP file unchanged for the next connection test; do not manually rewrite ports or protocol.
+- [NEXT] Copy the exact TCP file to `/etc/openvpn/` on the hAP. Keep `--route-nopull` for the first connectivity test so the existing default route is preserved.
