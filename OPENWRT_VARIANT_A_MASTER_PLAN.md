@@ -969,3 +969,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [OBSERVATION] Restart output contains an intermediate `Command failed: Not found`, but the daemon launch and subsequent nftables application completed; this did not abort the service startup.
 - [ACTIVE CONFIG] TCP 80: `fake:blob=fake_default_http:tcp_md5` + `multisplit:pos=method+2`; TCP 443: `hostfakesplit:ip_ttl=3:repeats=1`; UDP 443: `fake:blob=fake_default_quic:repeats=1`; `hostlist-auto` for TCP and hostlist for QUIC; qnum 300.
 - [PROCESS] No additional functional traffic tests are being started yet; first verify the init service status compactly.
+
+
+## ZAPRET2 operational status confirmed — 2026-09-23
+- [RESULT] `/etc/init.d/zapret2 status` returns `running` after the restart.
+- [STATUS] Zapret2 is active again with the previously recorded working configuration; no further Zapret2 diagnostics are required at this point.
+- [PROJECT] The clean Proton VPN branch remains `BLOCKED`; the temporary WireGuard interface has been removed and persistent Proton config preserved.
+- [NEXT] Do not spend additional router-side tests on the already-established Proton failure. The next VPN step should be an architecture choice compatible with the hAP's MIPS/OpenWrt constraints.
