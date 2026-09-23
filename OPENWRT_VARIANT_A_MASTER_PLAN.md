@@ -2242,3 +2242,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The current isolated Proton WireGuard test is still BLOCKED specifically at peer handshake/response: local WireGuard is operational and transmitting, routing is not accidentally hijacked, DNS works, and kernel support is present, but the peer returns no handshake/data.
 - [SAFETY] This audit made no persistent configuration changes and exposed no private key material. TP-Link Archer remains untouched.
 - [STATUS] STAGE 21 Proton WireGuard integration = BLOCKED; router-side evidence threshold remains satisfied. Do not start another broad diagnostic batch without new evidence or an explicitly chosen next architecture/test.
+
+## DIAGNOSTIC TOOLKIT SYNC — 2026-09-23
+- [PASS] Расширенный CLI-набор диагностических пакетов установлен на OpenWrt 25.12.5 / ath79/mikrotik.
+- [RESULT] `apk add` завершился: `OK: 32.2 MiB in 231 packages`.
+- [PACKAGES] Установлены: tcpdump, ip-full, ss, ethtool, curl, socat, conntrack, netcat, iperf3, bind-dig, openssl-util, ca-bundle, ca-certificates, strace, lsof, procps-ng, htop, file, less, nano, diffutils, findutils, gawk, tar, gzip, xz, unzip.
+- [CORRECTION] `conntrack-tools`, `netcat-openbsd` и отдельный `zip` отсутствуют в доступных индексах; использованы `conntrack` и `netcat`, `zip` исключён.
+- [CHOICE] `vim-full` не устанавливался, так как сейчас не нужен; предпочтён более лёгкий `nano`.
+- [STATUS] Diagnostic toolkit installation DONE.
+- [SAFETY] Из-за ограниченной RAM (~64 MB total) инструменты не запускаются одновременно без необходимости; набор предназначен для on-demand диагностики.
