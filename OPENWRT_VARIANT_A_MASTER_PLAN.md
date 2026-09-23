@@ -242,3 +242,8 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] Current `nfqws2` process PID is `3573` and runs as user `daemon`.
 - [IMPORTANT] Earlier PID 2206 was stale; process identity must not be assumed across restarts.
 - [STATUS] No configuration changes made.
+
+## nfqws2 process start tick — 2026-09-23
+- [PASS] Current nfqws2 PID `3573` has `START_TICKS=109510` from `/proc/3573/stat` field 22.
+- [STATUS] This gives the process start position relative to system boot; conversion to seconds requires the kernel clock tick rate (CLK_TCK), which has not yet been established.
+- [STATUS] No configuration changes made.
