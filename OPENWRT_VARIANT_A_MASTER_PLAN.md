@@ -1125,3 +1125,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] `50-wg4all` is present in the installed examples, but it has NOT been enabled or copied into the active custom.d path and no configuration change was made.
 - [SAFETY] Read-only inspection only; no Zapret2/nftables/WireGuard/firewall/service state changed.
 - [STATUS] Diagnostic gate remains IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — custom_runner implementation confirmed
+- [PASS] Read-only inspection of `/opt/zapret2/common/custom.sh` completed.
+- [RESULT] `custom_runner()` returns immediately when `DISABLE_CUSTOM=1`.
+- [RESULT] Otherwise it checks `[ -d "$CUSTOM_DIR/custom.d" ]` and requires that directory to be non-empty.
+- [RESULT] It iterates over every regular file in `"$CUSTOM_DIR/custom.d/"*`, unsets the target function, sources the script, then invokes the function when present.
+- [IMPORTANT] Therefore active custom scripts are loaded from `${CUSTOM_DIR}/custom.d/`; the remaining unknown is the actual runtime value of `CUSTOM_DIR` and whether the desired `50-wg4all` example is intended to be copied/enabled there.
+- [SAFETY] No Zapret2, nftables, WireGuard, firewall, or service configuration was changed.
+- [STATUS] Diagnostic gate remains IN_PROGRESS.
+- [NEXT PENDING INSPECTION] Determine the current `CUSTOM_DIR` value and active `${CUSTOM_DIR}/custom.d` contents before any enablement action.
