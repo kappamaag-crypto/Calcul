@@ -1927,3 +1927,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Treat OpenVPN TCP/443 as a fallback branch, without changing TP-Link and without further WireGuard strategy churn.
 - [SAFETY] No packages installed and no existing VPN/Zapret2 configuration changed. First check whether `openvpn*` packages are available in the configured official OpenWrt feeds.
 - [STATUS] OpenVPN TCP fallback = NOT_STARTED; standard `50-wg4all` baseline = DONE; WireGuard validation = BLOCKED at peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — OpenVPN package availability confirmed
+- [RESULT] Official hAP apk indexes contain `openvpn-openssl-2.7.6-r1`, `openvpn-mbedtls-2.7.6-r1`, `openvpn-easy-rsa`, and `luci-app-openvpn`.
+- [DECISION] For a client-only Proton TCP/443 test, only the OpenVPN runtime is needed; `easy-rsa` and LuCI are not required.
+- [NEXT] Inspect the `openvpn-openssl` package metadata before installation, including dependencies/size.
+- [SAFETY] No package installed yet; TP-Link untouched.
+- [STATUS] OpenVPN TCP fallback = IN_PROGRESS.
