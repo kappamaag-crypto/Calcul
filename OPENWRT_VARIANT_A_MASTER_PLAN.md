@@ -1611,3 +1611,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [WORKFLOW] Use `zgrep` directly on the installed `.lua.gz` files rather than creating decompressed copies, keeping the inspection read-only and compact.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
 - [SAFETY] No files were decompressed or modified.
+
+## SYNC CHECKPOINT — 2026-09-23 — zgrep unavailable
+- [RESULT] `zgrep` is not installed; all three proposed compressed-Lua searches returned `-ash: zgrep: not found`.
+- [DECISION] Do not install an extra package for this inspection. Use the existing `gzip -cd` utility piped to `grep` against the compressed Lua files.
+- [SAFETY] No files, packages, configuration, or services changed.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
