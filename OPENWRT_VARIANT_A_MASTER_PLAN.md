@@ -614,3 +614,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [LIMIT] Current blocker is upstream of integration: the Proton OpenVPN TLS handshake has not completed on the tested NL-FREE#130 UDP and TCP configurations.
 - [OFFICIAL] Proton supports router connections on Proton Free and provides an OpenWrt OpenVPN procedure. citeturn184409search0turn184409search6
 - [STATUS] STAGE 23 — IN_PROGRESS.
+
+
+## STAGE 23 Proton server-isolation test selected — 2026-09-23
+- [DECISION] To determine whether the NL-FREE#130 TLS failure is server-specific or affects the Proton Free OpenVPN path generally, test one alternate Free server only.
+- [SERVER] Use `US-FREE#130`, because this was the server shown as Proton's selected/recommended Free server in the user's earlier account-page output.
+- [CONTROL] Keep protocol and configuration method unchanged for comparability: official Router OpenVPN TCP configuration; do not manually edit the file.
+- [LIMIT] This is not a claim that US-FREE#130 is objectively better; it is a controlled server-variable test.
+- [NEXT] Generate/download the official TCP Router `.ovpn` for `US-FREE#130` and upload it to the GitHub repository. No router changes yet.
