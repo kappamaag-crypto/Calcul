@@ -1721,3 +1721,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] TTL strategy A/B test = FAILED; `50-wg4all` integration remains active with the failed experimental strategy until rollback/change.
 - [NEXT] Test one alternative `fake` fooling mode, not a generic UDP/split rewrite. First perform a dry-run syntax validation; no live config change yet.
 - [SAFETY] TP-Link untouched; no additional runtime change in this checkpoint.
+
+## SYNC CHECKPOINT — 2026-09-23 — badsum strategy syntax validated
+- [PASS] Dry-run accepted `fake:blob=0x00000000000000000000000000000000:badsum:repeats=1` and reported `command line parameters verified`.
+- [DECISION] Proceed with one live A/B test: replace the failed TTL variant `repeats=1:ip_ttl=4` with `repeats=1:badsum` in active `50-wg4all`.
+- [SAFETY] Only the active WireGuard custom strategy is changed; TP-Link untouched. Existing backup `/opt/zapret2/init.d/openwrt/50-wg4all.bak` remains available.
+- [STATUS] TTL strategy = FAILED; badsum strategy A/B = IN_PROGRESS; `50-wg4all` runtime integration = IN_PROGRESS during strategy test.
