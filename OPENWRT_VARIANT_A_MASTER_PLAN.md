@@ -2026,3 +2026,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] End the temporary qnum 65301 experiment and remove only its temporary nft rule/process. Keep the permanent vendor Zapret2 baseline unchanged.
 - [STATUS] OpenVPN TCP/443 generic multisplit test = FAILED; temporary test cleanup = IN_PROGRESS; OpenVPN fallback branch remains IN_PROGRESS.
 - [CONSTRAINT] TP-Link untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — temporary OpenVPN test cleaned up
+- [USER RESULT] User confirmed the temporary qnum `65301` nft rule/process was removed after the OpenVPN multisplit test.
+- [CONCLUSION] Temporary OpenVPN desync experiment is fully closed; permanent Zapret2 vendor baseline remains active and unchanged.
+- [RESULT] The temporary test had proven OpenVPN TCP/443 traffic could be queued and processed, but did not restore the OpenVPN session.
+- [DECISION] Shift diagnosis to the actual Proton OpenVPN profile/control-channel parameters rather than further blind nft/nfqws experimentation.
+- [STATUS] OpenVPN TCP/443 generic multisplit test = FAILED/closed; OpenVPN fallback = IN_PROGRESS.
+- [CONSTRAINT] TP-Link remains untouched.
