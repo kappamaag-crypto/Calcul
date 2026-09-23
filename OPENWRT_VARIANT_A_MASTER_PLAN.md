@@ -1586,3 +1586,10 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [IMPORTANT] The prior requested `nfqws2 --help` command was not executed; the user repeated the earlier grep instead. No option syntax change is being made.
 - [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
 - [SAFETY] No new configuration change occurred in this message.
+
+## SYNC CHECKPOINT — 2026-09-23 — nfqws2 Lua interface confirmed
+- [PASS] `/opt/zapret2/nfq2/nfqws2 --help` confirms `--lua-desync=<function>[:param1=val1[:param2=val2]]` and explicitly lists payload types `wireguard_initiation`, `wireguard_response`, `wireguard_cookie`, `wireguard_keepalive`, and `wireguard_data`.
+- [LIMIT] Help output does not enumerate the accepted parameters for each Lua desync function, so proposed `split:pos=2`, `ip_ttl=4`, `fooling=...`, etc. are not yet validated for this build.
+- [DECISION] Keep the vendor `50-wg4all` strategy unchanged until the installed Lua source confirms exact function/parameter support.
+- [STATUS] `50-wg4all` runtime integration = DONE; Proton/WireGuard validation = BLOCKED at missing peer response.
+- [SAFETY] Read-only help inspection; no configuration/runtime state changed.
