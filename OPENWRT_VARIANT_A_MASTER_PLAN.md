@@ -74,5 +74,11 @@ STAGE 11 — DONE.
 - [SAFETY] Stage 11 changes are persistent and rollback backup remains available.
 - [STATUS] STAGE 11 DONE.
 
+## Autostart check — 2026-09-23
+- [CHECK] Command: `ls -l /etc/rc.d/*zapret2* 2>/dev/null`
+- [RESULT] Empty output; no matching startup symlink was found.
+- [STATUS] zapret2 autostart is NOT_CONFIRMED / currently appears not enabled.
+- [SAFETY] No configuration was changed and no reboot was performed.
+
 ## Prior detailed sync record
 Earlier detailed candidate-testing history remains represented by the selected-candidate records above; no earlier PASS/FAIL state is being overwritten.
