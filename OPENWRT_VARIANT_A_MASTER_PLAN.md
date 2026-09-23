@@ -196,3 +196,12 @@ STAGE 11 remains IN_PROGRESS. Candidate set: 8 TCP + 2 QUIC. No candidate is ran
 - [CONFIRMED] Permanent `/opt/zapret2/config` remains unchanged.
 - [STATUS] STAGE 11 remains IN_PROGRESS. TCP candidate #52 is currently the first functionally passing TCP candidate.
 - [NEXT] Do not test additional TCP candidates yet; first record the exact PASS and then perform the planned protocol-coverage check (TLS1.2/TLS1.3) before selecting the TCP strategy.
+
+
+## SYNC — 2026-09-23 — TLS 1.2 probe returned empty
+- [OBSERVED] The TLS 1.2 `openssl s_client` probe for `www.youtube.com:443` returned no output after stderr was suppressed.
+- [NOT_CLASSIFIED] This does not establish TLS 1.2 FAIL because the command may have failed due to missing `openssl`, handshake failure, or another local condition hidden by `2>/dev/null`.
+- [CONFIRMED] TCP candidate #52 remains functionally PASS for the prior YouTube HTTPS fetch (890841 bytes).
+- [STATUS] STAGE 11 remains IN_PROGRESS; TLS 1.2/TLS 1.3 protocol-specific coverage is not yet established.
+- [NO CHANGE] No configuration was modified.
+- [NEXT] Identify whether `openssl` is available before repeating any protocol test.
