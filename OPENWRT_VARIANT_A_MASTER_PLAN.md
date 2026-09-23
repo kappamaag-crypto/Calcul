@@ -2117,3 +2117,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Stop treating this as a generic TLS/DPI issue. Inspect non-secret header/metadata of the exact Proton profile used in the test, to verify server/config generation details and any protocol directives not captured by earlier grep.
 - [SAFETY] Read-only inspection; no OpenVPN/Zapret2/runtime changes; TP-Link untouched.
 - [STATUS] OpenVPN TCP fallback = BLOCKED at control-channel response; diagnosis = IN_PROGRESS.
+
+## SYNC CHECKPOINT — 2026-09-23 — next OpenVPN desync candidate: fakedsplit
+- [RESULT] OpenVPN credentials/profile structure remain valid; Proton requires separate OpenVPN credentials for manual clients, and current router setup follows that model. citeturn919595search0turn919595search1
+- [RESULT] Verbose OpenVPN shows the client sends `P_CONTROL_HARD_RESET_CLIENT_V2` packets after TCP connect, with no inbound OpenVPN control response.
+- [RESULT] Generic `multisplit:pos=2` was already tested through a live qnum 65301 path and did not restore the session.
+- [LOCAL SOURCE FACT] Installed `fakedsplit(ctx, desync)` is TCP-specific and sends a fake first segment followed by the real split segment, unlike `multisplit`'s plain split behavior.
+- [DECISION] If continuing local anti-DPI testing, use one `fakedsplit:pos=2` dry-run first; do not modify the active configuration until syntax is validated.
+- [STATUS] OpenVPN TCP fallback = IN_PROGRESS; `multisplit` test = FAILED; `fakedsplit` test = NOT_STARTED.
+- [CONSTRAINT] TP-Link remains untouched.
