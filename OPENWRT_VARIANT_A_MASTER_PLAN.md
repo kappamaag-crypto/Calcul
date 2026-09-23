@@ -1841,3 +1841,12 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] The earlier absence of `/etc/apk/repositories` was only a path difference; apk repository configuration does exist.
 - [STATUS] AmneziaWG = NOT_STARTED; standard vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
 - [CONSTRAINT] TP-Link remains untouched.
+
+## SYNC CHECKPOINT — 2026-09-23 — AmneziaWG official package availability conclusion
+- [RESULT] Router apk sources are official OpenWrt 25.12.5 release feeds for ath79/mikrotik and mips_24kc; `customfeeds.list` is empty apart from comments.
+- [RESULT] Local `apk search -v '*amneziawg*'` returned no packages.
+- [CURRENT UPSTREAM STATUS] OpenWrt's packages repository shows `amneziawg-tools` and `kmod-amneziawg` as open pull requests dated September 9, 2026, rather than merged release packages. citeturn943084search2
+- [CONCLUSION] AmneziaWG is not currently available as a standard package from the hAP's configured official 25.12.5 feeds. Using it would require a third-party/custom feed or manually sourced packages, with additional compatibility and flash/RAM risk.
+- [DECISION] Do not install AmneziaWG or add a third-party feed at this point.
+- [STATUS] AmneziaWG = BLOCKED by official-feed availability; vendor `50-wg4all` baseline = DONE; Proton/WireGuard validation = IN_PROGRESS.
+- [CONSTRAINT] TP-Link remains untouched.
