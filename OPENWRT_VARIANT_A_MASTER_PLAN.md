@@ -1909,3 +1909,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CONCLUSION] Further blind Zapret2 strategy changes are not justified. The remaining likely branches are endpoint/peer configuration validity or upstream UDP handling independent of Zapret2.
 - [DECISION] Keep vendor `50-wg4all` baseline and do not touch TP-Link.
 - [STATUS] Zapret2 integration = DONE; Proton/WireGuard validation = BLOCKED at peer response.
+
+## SYNC CHECKPOINT — 2026-09-23 — current diagnostic branch closed
+- [RESULT] Fresh source-port test on `proton-test` (listen port 48744) still produced `0 B received`, no latest handshake, with `110.28 KiB sent` observed.
+- [RESULT] Current vendor `50-wg4all` baseline is active with the original `repeats=2` strategy; qnum 65300 is receiving WireGuard packets.
+- [RESULT] Alternate live strategies `ip_ttl=4` and `badsum` both failed; disabling `50-wg4all` also failed to restore a handshake.
+- [RESULT] Endpoint IP `185.107.56.235` is reachable by ICMP with 0% loss and ~69 ms RTT.
+- [WEB] Current public search did not produce an authoritative current mapping for the specific peer public key or exact `185.107.56.235:51820`. Proton's current official OpenWrt guide says to generate/download a WireGuard configuration for Router from Account → Downloads → WireGuard configuration, and the configuration supplies the endpoint/public key used by the client. citeturn113136search0turn113136search6
+- [CONCLUSION] Further blind Zapret2 strategy changes are not justified. The remaining practical branch is to validate the current Proton-generated profile/server assignment with a freshly generated WireGuard configuration.
+- [DECISION] Keep vendor `50-wg4all` baseline unchanged and do not touch TP-Link. Do not install AmneziaWG or third-party feeds.
+- [STATUS] Zapret2 integration = DONE; Proton/WireGuard functional validation = BLOCKED pending validated current Proton profile/peer response.
