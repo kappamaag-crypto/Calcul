@@ -2307,3 +2307,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PLAN] Telegram/WhatsApp, if required later, are to be handled as a separate service-specific/transport mechanism rather than assumed to be solved by the current generic Zapret2 configuration.
 - [SAFETY] No router configuration, Zapret2 strategy, firewall rule, or service state was changed as part of this checkpoint.
 - [STATUS] Zapret2 generic HTTPS baseline = DONE; Telegram/WhatsApp via generic Zapret2 = NOT_ASSUMED / deferred.
+
+
+## STAGE 11A — Zapret2 blocking-type capability matrix — 2026-09-24
+- [GOAL] Separately determine which blocking classes the current Zapret2 configuration can bypass on this exact hAP/Archer network, without assuming success from generic HTTPS.
+- [SCOPE] Test capability classes independently: (1) TCP/80 HTTP host-based DPI; (2) TCP/443 TLS/SNI DPI; (3) UDP/443 QUIC DPI; (4) IP-level blocking where the hostname is not the decisive signal; (5) DNS-level blocking; (6) non-443/application-specific blocking.
+- [CURRENT EVIDENCE] TCP/443 generic HTTPS through Zapret2 is PASS for example.com. Prior client validation also established YouTube HTTPS/QUIC functionality with the selected TCP/443 and UDP/443 strategies.
+- [LIMIT] Telegram failure is not sufficient to classify generic Zapret2 failure because service/network blocking can be IP-level or otherwise application-specific.
+- [METHOD] Use one controlled test at a time, preferably comparing the same target with Zapret2 active/inactive only when the comparison is necessary and safe. Do not change the persistent Zapret2 configuration during capability classification.
+- [SAFETY] No strategy tuning, hostlist edits, routing changes, VPN changes, or TP-Link changes during this classification stage.
+- [STATUS] STAGE 11A = IN_PROGRESS; capability matrix not yet complete.
