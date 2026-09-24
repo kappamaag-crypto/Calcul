@@ -469,3 +469,9 @@
 - [INTERPRETATION] The live nftables output appears structurally compatible with the watchdog's documented predicates, yet `--check` still reports `nft=0`. Therefore the cause is not established; the next step is to identify which individual watchdog text predicate actually fails in the router's shell/grep environment.
 - [SAFETY] This inspection was read-only. No Zapret2 restart, nftables modification, configuration edit, package change, or watchdog activation occurred.
 - [STATUS] STAGE 11D remains IN_PROGRESS. Automatic recovery remains NOT_ACTIVE.
+
+
+- [RESULT 2026-09-25] Individual watchdog nft predicate test isolated the failure: all predicates pass except literal `tcp dport { 80,443 }`, which returns `FAIL`. The live nft output actually contains `tcp dport { 80, 443 }` (with a space after the comma).
+- [ROOT CAUSE IDENTIFIED] The watchdog's `nft_ok()` expects the exact string `tcp dport { 80,443 }`, but nft renders `tcp dport { 80, 443 }`; therefore `nft_good=0` is a false negative caused by overly strict text matching, not by a demonstrated Zapret2/nftables runtime failure.
+- [SAFETY] No runtime configuration was changed and no Zapret2 restart occurred.
+- [STATUS] STAGE 11D watchdog structural-check bug identified; automatic recovery remains NOT_ACTIVE until the repository script is corrected and the corrected copy is deliberately deployed/tested.
