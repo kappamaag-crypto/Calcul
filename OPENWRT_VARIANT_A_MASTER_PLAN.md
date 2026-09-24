@@ -203,3 +203,13 @@
 - [INTERPRETATION] The service status and live process agree. This confirms that the previously configured Zapret2 instance is active at the time of this check.
 - [SAFETY] Read-only check only. No Zapret2, firewall, routing, Wi-Fi, VPN, memory, swap, or configuration changes were made.
 - [STATUS] Zapret2 runtime = **RUNNING**. STAGE 14 VPN candidate work remains IN_PROGRESS independently.
+
+
+### STAGE 14 runtime event — Zapret2 manual restart — 2026-09-25
+- User manually executed `/etc/init.d/zapret2 restart`.
+- Restart completed without an error message.
+- Zapret2 restarted daemon 1 (QNUM 300) with current `MODE_FILTER=autohostlist` rules for TCP 80/443 and UDP 443, plus daemon 2000 (QNUM 65300) for WireGuard patterns.
+- nftables were cleared and reapplied; NFQUEUE rules for TCP 80/443 and UDP 443 were inserted.
+- `net.netfilter.nf_conntrack_tcp_be_liberal` changed 0 → 1 during start.
+- This is a service restart only; no configuration values were changed.
+- Next action: one short post-restart YouTube test, then decide whether further diagnosis is needed.
