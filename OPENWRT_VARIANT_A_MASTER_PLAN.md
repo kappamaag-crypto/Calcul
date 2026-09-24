@@ -397,7 +397,6 @@
 - Mark/defrag chains присутствуют.
 - В правилах нет counter statements, поэтому nft list table output сам по себе не даёт packet counters.
 - Текущее runtime state считается structurally consistent; ненужный restart запрещён.
-
 ## L. Watchdog concept and implementation
 - Цель: автоматическая проверка Zapret2, автоматический restart только при подтверждённой неисправности, сохранение доказательств на USB и machine-readable reason.
 - Принцип: PID nfqws2 сам по себе недостаточен; проверяется несколько уровней.
@@ -424,3 +423,17 @@
 - Master Prompt changes only when workflow/safety rules change.
 - Do not claim synchronization or testing unless the repository write/result is actually confirmed.
 - User prefers compact command outputs and dislikes redundant diagnostics.
+
+
+## STAGE 11D — Zapret2 watchdog deployment preparation — 2026-09-25
+- [REQUEST] User authorized proceeding with making the Zapret2 watchdog operational.
+- [IMPLEMENTATION] Watchdog script remains `OPENWRT_ZAPRET2_WATCHDOG.sh`; repository hardening commit: `493f00d609e033c20a3107fffb5c9f7305cf0d3d`.
+- [CHANGE] Persistent watchdog log rotation is now a hard byte limit: when the log exceeds `LOG_MAX_BYTES=131072`, it is reduced with `tail -c 131072`, so the retained main log is bounded to 128 KiB rather than merely retaining a fixed number of lines.
+- [CHANGE] Restart history is bounded to the latest `STATE_KEEP=20` entries; this prevents unbounded growth of the restart state file.
+- [CHANGE] HTTP probes now use curl `-f`, so HTTP 4xx/5xx responses are not falsely counted as successful probes.
+- [CHANGE] Functional probe target was reduced from the YouTube homepage to `https://www.youtube.com/generate_204` to keep the periodic watchdog probe lightweight.
+- [IMPLEMENTATION] Added `OPENWRT_ZAPRET2_WATCHDOG_INITD.sh`, a native OpenWrt procd service definition. It runs the watchdog in foreground `--daemon` mode, forwards stdout/stderr to logd, and uses controlled procd respawn.
+- [SAFETY] The watchdog service is NOT yet installed, enabled, or started on the router. Repository preparation alone does not activate monitoring or automatic recovery.
+- [NEXT GATE] Router deployment must remain one-command-at-a-time: install the watchdog executable and init.d service, run read-only `--check`, run a controlled `--once`, then only after PASS enable/start the procd service and verify persistence. Automatic Zapret2 restart capability is not considered active until these gates pass.
+- [TECHNICAL BASIS] OpenWrt documents procd init scripts and `procd_set_param respawn` for supervised foreground services. citeturn0search0turn0search1
+- [STATUS] STAGE 11D = IN_PROGRESS.
