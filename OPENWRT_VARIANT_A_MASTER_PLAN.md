@@ -600,3 +600,11 @@
 - [WEB VERIFICATION] Current 2Grey documentation states that OpenWrt 25.12 uses signed APK repositories from the project's custom feed and that the supported 25.12.5 release provides AWG 3.1 packages. The same documentation identifies the three required components: `amneziawg-tools`, `kmod-amneziawg`, and `luci-proto-amneziawg`. citeturn0search1turn0search0
 - [SAFETY] No package installation, third-party feed addition, kernel-module loading, reboot, network/routing/firewall/DNS/Zapret2/watchdog change occurred.
 - [STATUS] STAGE 14 remains IN_PROGRESS. Official-feed visibility gate = DONE (AWG absent). Third-party feed compatibility gate = NOT_STARTED. Next step must be a read-only compatibility/source verification before adding any feed or installing a kernel module.
+
+
+## STAGE 14 — AmneziaWG next-step decision — 2026-09-25
+- [USER REQUEST] User said to continue after the malformed AmneziaWG installer command was rejected.
+- [WEB VERIFICATION] OpenWrt 25.12.5 has the ath79/mikrotik target and the ath79 release uses kernel 6.12.94; the relevant MIPS package architecture is mips_24kc. citeturn0search0turn0search1turn0search2
+- [DECISION] Before adding the third-party AmneziaWG APK feed or installing any kernel module, obtain the router's exact live board/release/kernel/APK architecture identifiers with one read-only command. This is the compatibility gate for the exact device, not a package installation step.
+- [SAFETY] No router configuration or runtime state is changed by the next check. Zapret2, its watchdog, DNS, routing, firewall and existing VPN-related state remain untouched.
+- [STATUS] STAGE 14 = IN_PROGRESS. AmneziaWG third-party feed compatibility gate = IN_PROGRESS. Installation gate = NOT_STARTED.
