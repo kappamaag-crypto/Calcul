@@ -443,3 +443,10 @@
 - [NEXT GATE] Router deployment must remain one-command-at-a-time: install the watchdog executable and init.d service, run read-only `--check`, run a controlled `--once`, then only after PASS enable/start the procd service and verify persistence. Automatic Zapret2 restart capability is not considered active until these gates pass.
 - [TECHNICAL BASIS] OpenWrt documents procd init scripts and `procd_set_param respawn` for supervised foreground services. citeturn0search0turn0search1
 - [STATUS] STAGE 11D = IN_PROGRESS.
+
+
+- [RESULT 2026-09-25] Deployment copy gate succeeded using built-in `cp` after the earlier `install: not found` blocker. Router now has:
+  - `/usr/bin/zapret2-watchdog` — executable, 8958 bytes, mode 755.
+  - `/etc/init.d/zapret2-watchdog` — executable, 543 bytes, mode 755.
+- [SAFETY] The command only copied files and set permissions. The watchdog was NOT started or enabled; Zapret2 configuration/runtime was not changed.
+- [STATUS] STAGE 11D deployment-prep file-install gate = DONE. Next gate is read-only watchdog `--check`; no service activation yet.
