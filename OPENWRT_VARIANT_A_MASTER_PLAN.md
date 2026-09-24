@@ -164,3 +164,17 @@
 - OOM log output contains only previously recorded events; no newer OOM event was shown after the last recorded hostapd OOM at uptime 107002.118096.
 - Result: post-ZRAM-finalization memory state is stable enough to continue. No additional memory tuning is introduced.
 - Next focus: return to network/Zapret2 functional validation; do not reopen ZRAM/LZ4 work.
+
+
+## STAGE 13 — Zapret2 Telegram/WhatsApp functional scope — 2026-09-25
+
+- [TEST] Functional check with current Zapret2 configuration (`MODE_FILTER=autohostlist`): `wget -qO- -T 7 https://example.com` returned normal Example Domain HTML.
+- [TEST] Same check for `https://api.telegram.org`: no response body was returned within the command output; this is consistent with the previously observed Telegram failure on this router/path.
+- [CURRENT CONFIG] Zapret2 remains enabled; no configuration was changed during this check.
+- [EXTERNAL CONTEXT] Current Zapret2 documentation distinguishes hostlist/autohostlist filtering from IP-based filtering. When a hostname is available, autohostlist can detect failed TCP connections and add domains to an auto-list; however, this mechanism is still DPI/flow manipulation and is not equivalent to bypassing an IP-address block. citeturn0search1
+- [2026 CONTEXT] Current 2026 reports/discussions describe Telegram and WhatsApp access restrictions in Russia as increasingly involving IP-level blocking/restriction, for which ordinary DPI desynchronization mechanisms such as Zapret may be ineffective. A March–April 2026 zapret2 discussion specifically reports that, for many providers, Telegram and WhatsApp could no longer be bypassed through zapret because of IP blocking. This is community evidence rather than an authoritative measurement for every ISP. citeturn0search0turn0search2
+- [TELEGRAM] A separate proxy/tunneling mechanism is therefore technically different from Zapret2 DPI bypass. Current Zapret2-related UI documentation explicitly describes Telegram as commonly requiring a separate proxy when access is blocked by IP. citeturn0search2
+- [WHATSAPP] 2026 reporting also documents full WhatsApp blocking in Russia, reinforcing that its current access problem cannot be assumed to be a simple website-DPI problem solvable by TCP desynchronization alone. citeturn0news5turn0search4
+- [DECISION] Do not spend further cycles blindly tuning `NFQWS2_OPT`, `MODE_FILTER`, fake/split parameters, or increasing capture volume solely to force Telegram/WhatsApp through Zapret2. The current evidence points to a different blocking layer for at least part of the problem.
+- [STATUS] STAGE 13 = BLOCKED for Telegram/WhatsApp by the current Zapret2-only approach; Zapret2 remains useful for DPI-based services such as the already verified HTTPS example.com path.
+- [SAFETY] No Zapret2, firewall, routing, Wi-Fi, VM, swap, or memory settings were changed by this conclusion.
