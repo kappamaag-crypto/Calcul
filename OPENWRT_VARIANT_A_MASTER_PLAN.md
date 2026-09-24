@@ -561,3 +561,14 @@
 - [INTERPRETATION] No `sing-box` executable was found in PATH, and `apk info -e` did not report either `sing-box` or `sing-box-tiny` as installed. This is consistent with the package not yet being installed.
 - [SAFETY] Read-only check only. No package installation, configuration, routing, firewall, DNS, Zapret2, watchdog, or service state changed.
 - [STATUS] STAGE 14 remains IN_PROGRESS. sing-box-tiny installation-state gate = DONE (not installed). Next gate remains read-only; do not install yet.
+
+
+## STAGE 14 — Resource baseline before WireGuard path — 2026-09-25
+- [RESULT] Router-side read-only snapshot: `df -k /overlay /mnt/data; free -k`.
+- [RESULT] `/overlay`: 6,496,196 kB available (~6.2 GiB); filesystem usage 0%.
+- [RESULT] Current RAM: total 54,852 kB; used 33,768 kB; free 8,924 kB; buff/cache 12,160 kB; MemAvailable 14,412 kB.
+- [RESULT] Current swap: total 550,904 kB; used 5,408 kB; free 545,496 kB.
+- [INTERPRETATION] Storage headroom is ample for a small WireGuard package/configuration. Current MemAvailable is ~14.1 MiB, above the watchdog recovery floor of 4 MiB, but the router remains memory-constrained; no memory-intensive VPN component should be installed without a resource gate.
+- [TECHNICAL CONTEXT] Official OpenWrt 25.12 mips_24kc feeds provide `wireguard-tools`; WireGuard uses the kernel module plus userspace tools. This supports evaluating WireGuard as a lightweight path if the VPN provider supplies a native WireGuard configuration. citeturn0search0turn0search11
+- [SAFETY] Read-only snapshot only. No package, network, firewall, DNS, Zapret2, watchdog, swap, or VM configuration changed.
+- [STATUS] STAGE 14 remains IN_PROGRESS. Resource baseline gate = RECORDED. Next gate: read-only check of WireGuard package availability/installation state; do not install yet.
