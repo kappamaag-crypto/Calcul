@@ -1652,3 +1652,9 @@ The successful start confirms the service and nftables/NFQUEUE rules were applie
 ### Historical note
 The qnum=65300 WireGuard-related rules are runtime rules observed during this start; their presence must not be treated as proof that WireGuard traffic is successfully handshaking.
 
+
+
+## 73. Workflow checkpoint — 2026-09-24
+- Repository state was re-read before continuing the router workflow.
+- Zapret2 remains documented as ACTIVE after the successful service start.
+- No router configuration was changed by this checkpoint.
