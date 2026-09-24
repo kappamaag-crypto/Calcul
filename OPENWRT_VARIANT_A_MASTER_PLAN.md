@@ -475,3 +475,9 @@
 - [ROOT CAUSE IDENTIFIED] The watchdog's `nft_ok()` expects the exact string `tcp dport { 80,443 }`, but nft renders `tcp dport { 80, 443 }`; therefore `nft_good=0` is a false negative caused by overly strict text matching, not by a demonstrated Zapret2/nftables runtime failure.
 - [SAFETY] No runtime configuration was changed and no Zapret2 restart occurred.
 - [STATUS] STAGE 11D watchdog structural-check bug identified; automatic recovery remains NOT_ACTIVE until the repository script is corrected and the corrected copy is deliberately deployed/tested.
+
+
+- [CHANGE 2026-09-25] Corrected repository watchdog `OPENWRT_ZAPRET2_WATCHDOG.sh` structural nft predicate for TCP ports. The exact-match check `tcp dport { 80,443 }` was replaced with a spacing-tolerant extended-regex check matching both `{ 80,443 }` and `{ 80, 443 }`.
+- [SYNC] Watchdog script commit: `8120ca2a3e33a8b4850fba66ea91afcb9cd835d4`; content SHA: `ee22c13fb751b8e5965786838430e9ea7936b205`.
+- [SAFETY] Repository-only change; no router runtime state was modified.
+- [NEXT GATE] Deploy the corrected script to the router, but do not restart/enable Zapret2 or the watchdog during deployment.
