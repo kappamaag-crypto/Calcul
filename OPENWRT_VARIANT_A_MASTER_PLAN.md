@@ -54,3 +54,10 @@
 - [INTERPRETATION] The router can currently perform a bounded IPv4 HTTPS download with output discarded. This establishes a usable baseline for the next load test and separates the two failed Hetzner-source probes from a general inability to make HTTPS requests.
 - [SAFETY] No file was written to flash/tmp; no configuration, service, firewall, routing, Wi-Fi, swap, VM, or Zapret2 state was changed.
 - [STATUS] STAGE 11C remains IN_PROGRESS. Next load test should use the known-good HTTPS path and remain bounded; avoid `tcpdump` because prior heavy capture coincided with system-wide OOM events.
+
+
+## STAGE 11C — Repeated known-good HTTPS load — follow-up — 2026-09-24
+- [RESULT] Six sequential IPv4 HTTPS requests to `https://example.com` with `wget -4 -qO /dev/null -T 10` all completed successfully: rounds 1–6, `RC=0` each.
+- [INTERPRETATION] Repeated bounded HTTPS activity is currently stable at the application level. No SSH/Wi-Fi outage or OOM was reported during this six-round test.
+- [SAFETY] No data was written to flash/tmp; no configuration or service state was changed.
+- [NEXT] A controlled tcpdump capture remains appropriate for packet-path diagnosis, but must be tightly bounded because a previous larger capture coincided with an OOM event that killed hostapd/nfqws2 and temporarily disrupted Wi-Fi.
