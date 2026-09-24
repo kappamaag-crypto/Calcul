@@ -2321,3 +2321,22 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 
 ### Большой диагностический прогон — подготовка
 Перед дальнейшей классификацией STAGE 11A выбран единый read-only диагностический прогон без изменения конфигурации Zapret2, firewall, routing или VPN. Цель — одновременно собрать признаки для TCP/80 HTTP, TCP/443 TLS/SNI, UDP/443 QUIC (если поддерживается curl), DNS, IP/endpoint reachability и отдельных application endpoints. Результаты будут классифицироваться только после фактического вывода роутера.
+
+
+### STAGE 11A — Большой диагностический прогон: результат 2026-09-24 16:40 GMT
+- Zapret2 service: RUNNING.
+- Config confirmed: MODE_FILTER=autohostlist; TCP 80,443; UDP 443; FLOWOFFLOAD=donttouch; INIT_APPLY_FW=1; DISABLE_IPV6=1; SET_MAXELEM=522288.
+- Network: br-lan=192.168.1.1/24; phy0-sta0=192.168.0.100/24; default via 192.168.0.1.
+- DNS via 192.168.1.1: PASS for example.com.
+- TCP/80 HTTP: PASS for example.com (HTTP 200, 0.49s) and neverssl.com (HTTP 200, 2.57s).
+- TCP/443 HTTPS/TLS: PASS for example.com, www.youtube.com and www.google.com (HTTP 200).
+- Raw openssl s_client section produced no matching summary lines; therefore raw TLS handshake is NOT classified separately from curl HTTPS.
+- Router curl has no HTTP/3 support; QUIC/HTTP3 test SKIPPED. Existing earlier YouTube h3 evidence remains separate historical evidence.
+- Telegram: api.telegram.org and telegram.org timed out after ~12s (HTTP 000).
+- WhatsApp: www.whatsapp.com and web.whatsapp.com reset the connection (HTTP 000).
+- nc TCP/443 returned exit=1 for all tested hosts; this probe is not treated as authoritative because nc's behavior with this nft/NFQUEUE setup is insufficient to classify application reachability.
+- Direct fixed-IP test example.com via 93.184.216.34 with SNI timed out; this does NOT establish generic IP blocking because the fixed address may be stale/non-serving/otherwise unsuitable.
+- autohostlist currently contains 61 entries; tail includes multiple YouTube/googlevideo, Discord, ProtonVPN and c.whatsapp.net entries.
+- nftables shows active NFQUEUE rules for TCP 80/443 and UDP 443 plus reverse-direction rules, with queues 300 and 65300.
+- Classification after this run: DNS and generic TCP/80 + TCP/443 HTTPS currently work; Telegram and WhatsApp remain blocked/unusable by router-side endpoint tests. QUIC capability remains UNDETERMINED in this run. IP-level blocking remains UNDETERMINED. Do not claim Zapret2 alone is causal without A/B testing.
+- Next planned classification: one controlled QUIC-capable test or packet-level UDP/443 test, without changing persistent config.
