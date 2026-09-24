@@ -592,3 +592,11 @@
 - [CURRENT DECISION] Do not run the pasted command and do not run the AmneziaWG installer yet. First perform a single read-only check against the router's configured package manager to establish whether any AWG packages are already installed/visible in the configured feeds.
 - [SAFETY] No router state changed from the user's pasted instruction. Zapret2/watchdog/DNS/routing remain untouched.
 - [STATUS] STAGE 14 remains IN_PROGRESS. AmneziaWG installation gate = NOT_STARTED; read-only package/feed visibility check is next.
+
+
+## STAGE 14 — AmneziaWG configured-feed package check — 2026-09-25
+- [RESULT] Router command `apk policy kmod-amneziawg amneziawg-tools luci-proto-amneziawg; apk info -e kmod-amneziawg amneziawg-tools luci-proto-amneziawg 2>/dev/null` returned no output.
+- [INTERPRETATION] None of the three AmneziaWG packages is installed, and none is visible through the router's currently configured APK repositories. This is expected because AmneziaWG is supplied through a separate third-party feed rather than the standard OpenWrt package feed.
+- [WEB VERIFICATION] Current 2Grey documentation states that OpenWrt 25.12 uses signed APK repositories from the project's custom feed and that the supported 25.12.5 release provides AWG 3.1 packages. The same documentation identifies the three required components: `amneziawg-tools`, `kmod-amneziawg`, and `luci-proto-amneziawg`. citeturn0search1turn0search0
+- [SAFETY] No package installation, third-party feed addition, kernel-module loading, reboot, network/routing/firewall/DNS/Zapret2/watchdog change occurred.
+- [STATUS] STAGE 14 remains IN_PROGRESS. Official-feed visibility gate = DONE (AWG absent). Third-party feed compatibility gate = NOT_STARTED. Next step must be a read-only compatibility/source verification before adding any feed or installing a kernel module.
