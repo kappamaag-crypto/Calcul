@@ -979,3 +979,19 @@ Use the user-verified 8 TCP + 2 QUIC candidate set from the Master Plan. Do not 
 - Record only verified factual state from the conversation; do not fabricate tests, commits, or router results.
 - Master Prompt changes are required only when a workflow/safety rule itself changes; factual router/WARP results belong in the Master Plan.
 
+
+
+## WORKFLOW RULE — 2026-09-25 — Zapret2 watchdog / automatic recovery
+- A lightweight watchdog may be developed for Zapret2 because the 2026-09-25 incident showed that a surviving nfqws2 PID does not prove the complete datapath is healthy.
+- The watchdog must NOT be enabled automatically merely because its script exists. Deployment, test-run, enablement and automatic-recovery activation remain separate gates.
+- The watchdog must be conservative on the 64 MB hAP ac lite: no continuous tcpdump, no heavyweight monitoring daemon, no package installation solely for the watchdog, and no modification of Zapret2 configuration.
+- Health evaluation must include more than process existence: Zapret2 service status, expected nfqws2 process count, required inet zapret2 structure/NFQUEUE rules, a bounded baseline HTTPS probe, and a bounded functional probe.
+- A baseline HTTPS failure must be classified as upstream/DNS/internet failure and MUST NOT trigger a Zapret2 restart by itself.
+- Structural or Zapret2 functional failure requires consecutive failed checks before recovery; current implementation uses 2 consecutive failures.
+- Before any automatic restart, the watchdog must save a bounded diagnostic snapshot to USB /mnt/data, including reason, service status, nfqws2 processes, nftables table, memory, swap/VM state and relevant OOM/system logs.
+- Automatic restart must have hard anti-loop protection: cooldown, restart-window limit and a low-memory block. Current implementation uses 300-second cooldown, max 2 restarts/900 seconds and blocks below 4096 KiB MemAvailable.
+- After restart, immediately perform a post-restart health check and log PASS/FAIL. Preserve both pre- and post-restart evidence.
+- If USB logging is unavailable, automatic recovery must be blocked rather than performing an unlogged restart.
+- Current repository implementation: OPENWRT_ZAPRET2_WATCHDOG.sh. It is created but not yet deployed to the router.
+- OpenWrt procd is the preferred future supervisor for the watchdog process because procd is the native process/service manager and supports controlled service lifecycle/respawn. citeturn287253search0turn287253search3
+- One-router-command-at-a-time and user-result → plan-sync ordering remain mandatory during watchdog deployment/testing.
