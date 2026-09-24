@@ -697,3 +697,13 @@
 - [COMPATIBILITY RESULT] Combined with the previously confirmed exact dependency `kernel=6.12.94~1951ed9cd221294b56a47180c29ca5a9-r1`, the known kmod dependency chain is resolved for the live firmware.
 - [SAFETY] Read-only policy query only. No package installation, kernel-module loading, reboot, or network/routing/firewall/DNS/Zapret2/watchdog change occurred.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG kmod dependency resolution = DONE. AWG installation = NOT_STARTED. Next step is a final read-only installation-scope/resource check before installing the third-party AWG userspace package and kernel module; `luci-proto-amneziawg` remains excluded because LuCI is not used.
+
+
+## STAGE 14 — AmneziaWG userspace package metadata / install-scope gate — 2026-09-25
+- [USER RESULT] Read-only command `apk info -a amneziawg-tools` returned `amneziawg-tools-3.1.20260812-r1`.
+- [FACTUAL RESULT] Installed size is 65 KiB. Package provides the userspace `awg` control program, a netifd protocol helper, and a re-resolve watchdog script.
+- [DEPENDENCY RESULT] The package declares dependencies on `ip`, `kmod-amneziawg`, and `libc`. This confirms that the userspace package intentionally depends on the already-validated AWG kernel module.
+- [SCOPE] Planned installation remains limited to `amneziawg-tools` + `kmod-amneziawg`; `luci-proto-amneziawg` remains excluded because LuCI is not used.
+- [SAFETY] Read-only metadata inspection. No package, kernel module, reboot, network/routing/firewall/DNS/Zapret2/watchdog state changed.
+- [STATUS] STAGE 14 = IN_PROGRESS. Resource baseline = RECORDED. Exact kernel ABI = DONE. AWG kmod dependency chain = DONE. Userspace metadata/scope gate = DONE. AWG installation = NOT_STARTED.
+- [NEXT GATE] The next operation is the first modifying step: install only `kmod-amneziawg` and `amneziawg-tools`. Because this introduces a third-party kernel module, treat the installation as a safety-gated change; do not run a generic AmneziaWG installer and do not install LuCI.
