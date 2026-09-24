@@ -1616,3 +1616,39 @@ apk add tcpdump ip-full ss ethtool curl socat conntrack netcat iperf3 bind-dig o
 Статус: **EXECUTED / PASS**. Пакеты установлены; итог `apk` — 32.2 MiB in 231 packages.
 
 Важно: наличие этих пакетов в глоссарии не означает, что все инструменты должны запускаться одновременно. Из-за ограниченной RAM hAP ac lite (~64 MB) диагностические инструменты используются по одному/по необходимости.
+
+
+
+## 72. Zapret2 startup / runtime activation — 2026-09-24
+### Command
+```text
+/etc/init.d/zapret2 start
+```
+
+### Status
+**EXECUTED / STATE-CHANGING / PASS**
+
+### Verified startup result
+- Started `nfqws2` qnum=300 with TCP 80/443 and UDP 443 filters under `MODE_FILTER=autohostlist`.
+- Started `nfqws2` qnum=65300 for payload selectors:
+  - `wireguard_initiation`
+  - `wireguard_response`
+  - `wireguard_cookie`
+- Applied nftables successfully.
+- Inserted qnum=300 rules:
+  - IPv4 TCP destination ports 80/443, original packets 1–20;
+  - IPv4 TCP source ports 80/443, reply packets 1–10;
+  - IPv4 UDP destination port 443, original packets 1–5;
+  - IPv4 UDP source port 443, reply packets 1–3.
+- Inserted qnum=65300 rules:
+  - UDP length 156 with payload marker `0x01000000`;
+  - UDP length 100 with payload marker `0x02000000`;
+  - UDP length 72 with payload marker `0x03000000`.
+- Startup set `net.netfilter.nf_conntrack_tcp_be_liberal = 1`.
+
+### Important interpretation
+The successful start confirms the service and nftables/NFQUEUE rules were applied. It does **not** by itself prove that any specific application (for example WARP or YouTube) is functioning through those rules.
+
+### Historical note
+The qnum=65300 WireGuard-related rules are runtime rules observed during this start; their presence must not be treated as proof that WireGuard traffic is successfully handshaking.
+
