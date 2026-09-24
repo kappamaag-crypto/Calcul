@@ -521,3 +521,8 @@
 - [RESULT 2026-09-25] Runtime/autostart verification passed: init script reports `ENABLED`; active process is `16572 /bin/sh /usr/bin/zapret2-watchdog --daemon`.
 - [STATUS] Watchdog daemon is ACTIVE and configured for autostart. Zapret2 remains untouched by the activation verification.
 - [NEXT] Final operational verification should confirm the daemon has performed a periodic health cycle and is recording healthy state in its log.
+
+
+- [FINAL RESULT 2026-09-25] Final operational gate passed: watchdog daemon produced a subsequent periodic health record at `2026-09-25 01:46:28`: `HEALTH state=HEALTHY nfqws2=2/2 service=1 nft=1 baseline=1 youtube=1 avail_kb=14504`.
+- [FINAL STATUS] STAGE 11D / Zapret2 watchdog deployment = DONE. Watchdog is enabled for autostart, running under procd in `--daemon` mode, and has completed a periodic healthy check. No automatic restart has been triggered during validation.
+- [FINAL SAFETY STATE] Watchdog recovery rules remain conservative: two consecutive structural/functional failures required; upstream/DNS failure does not restart Zapret2; restart memory floor 4096 KiB; maximum 2 restarts per 15 minutes; 5-minute cooldown; no continuous tcpdump; no Zapret2 configuration edits.
