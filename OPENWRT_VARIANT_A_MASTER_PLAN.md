@@ -707,3 +707,12 @@
 - [SAFETY] Read-only metadata inspection. No package, kernel module, reboot, network/routing/firewall/DNS/Zapret2/watchdog state changed.
 - [STATUS] STAGE 14 = IN_PROGRESS. Resource baseline = RECORDED. Exact kernel ABI = DONE. AWG kmod dependency chain = DONE. Userspace metadata/scope gate = DONE. AWG installation = NOT_STARTED.
 - [NEXT GATE] The next operation is the first modifying step: install only `kmod-amneziawg` and `amneziawg-tools`. Because this introduces a third-party kernel module, treat the installation as a safety-gated change; do not run a generic AmneziaWG installer and do not install LuCI.
+
+
+## STAGE 14 — AmneziaWG package installation result — 2026-09-25
+- [USER RESULT] The approved modifying command `apk add kmod-amneziawg amneziawg-tools` completed successfully. The supplied output shows `amneziawg-tools-3.1.20260812-r1` installed and the final package database summary `OK: 32.4 MiB in 235 packages`.
+- [INTERPRETATION] The two-package installation completed without a reported dependency error or package-manager failure. The output explicitly shows `amneziawg-tools` depends on `kmod-amneziawg`; because the operation was requested as a two-package transaction and finished with OK, the AWG kernel module package was included successfully unless a subsequent installed-state check proves otherwise.
+- [SAFETY] This was the first modifying AWG operation. No LuCI package was installed. No intentional network/routing/firewall/DNS/Zapret2/watchdog configuration change was made. No reboot was performed in this step.
+- [RESOURCE] Package database increased from the prior recorded `32.2 MiB in 231 packages` to `32.4 MiB in 235 packages`, consistent with the small AWG package footprint plus dependency/package-state metadata.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG package installation = DONE (transaction success). AWG kernel module loaded/active = NOT_YET_VERIFIED. AWG interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Perform one read-only installed-state/module check before any reboot or network configuration. Do not import a Proton configuration or alter Zapret2 yet.
