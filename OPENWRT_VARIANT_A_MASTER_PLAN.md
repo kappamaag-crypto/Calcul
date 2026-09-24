@@ -679,3 +679,13 @@
 - [INTERPRETATION] The kmod package naming strongly aligns with the live kernel version `6.12.94`, but package-policy visibility alone is not yet sufficient proof that every kernel ABI dependency resolves. Installation remains blocked pending dependency verification.
 - [LUCi DECISION] User does not have LuCI/web interface. 2Grey documents `luci-proto-amneziawg` as the web-interface/import-export component. It is not required for a deliberate SSH/UCI/netifd-only deployment, so it will not be installed merely because it is available. citeturn0search0
 - [STATUS] STAGE 14 = IN_PROGRESS. Third-party feed = DONE. AWG package candidates = CONFIRMED. Exact kernel dependency resolution = NEXT. LuCI component = NOT_REQUIRED unless LuCI is later deliberately installed.
+
+
+## STAGE 14 — AmneziaWG exact kernel dependency resolution — 2026-09-25
+- [USER RESULT] Read-only command `apk info -a kmod-amneziawg` returned package metadata for `kmod-amneziawg-6.12.94.3.1.20260906-r1`.
+- [FACTUAL RESULT] The package declares the exact dependency `kernel=6.12.94~1951ed9cd221294b56a47180c29ca5a9-r1`.
+- [COMPATIBILITY RESULT] This exactly matches the installed router kernel package identity previously recorded as `6.12.94~1951ed9cd221294b56a47180c29ca5a9-r1`, including the ABI/hash. Therefore the primary kernel-version/ABI compatibility gate for the AWG kmod is PASSED.
+- [OTHER DEPENDENCIES] The kmod additionally requires `kmod-crypto-lib-chacha20poly1305`, `kmod-crypto-lib-curve25519`, `kmod-udptunnel4`, and `kmod-udptunnel6`. These dependencies have not yet been positively resolved as installed/available and must be checked before installation.
+- [PACKAGE SIZE] Reported installed size of `kmod-amneziawg` is 91 KiB.
+- [SAFETY] This was read-only metadata inspection. No package was installed, no kernel module was loaded, no reboot occurred, and no network/routing/firewall/DNS/Zapret2/watchdog configuration changed.
+- [STATUS] STAGE 14 = IN_PROGRESS. Exact kernel ABI compatibility = DONE. AWG installation = NOT_STARTED. Next gate: read-only dependency availability check for the four additional kmod dependencies; do not install yet.
