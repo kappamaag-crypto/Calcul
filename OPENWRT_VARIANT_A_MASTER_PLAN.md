@@ -2372,3 +2372,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SOURCE CONTEXT] Linux documents `/proc/allocinfo` as optional kernel memory-allocation profiling information; its absence is therefore a kernel/build capability limitation, not evidence that allocations are absent.
 - [SAFETY] No configuration, service, routing, firewall, or Zapret2 state changed.
 - [STATUS] STAGE 11A remains BLOCKED; proceed with minimal read-only kernel memory interfaces rather than allocation profiling.
+
+
+## STAGE 11A — /proc/slabinfo availability check — 2026-09-24
+- [RESULT] Read-only check of `/proc/slabinfo` returned `SLABINFO=UNAVAILABLE`; the interface is not available in this OpenWrt kernel/build.
+- [INTERPRETATION] Kernel slab statistics cannot be obtained through the standard `/proc/slabinfo` interface on this build. This does not mean slab memory is absent; `/proc/meminfo` still reports `Slab`, `SReclaimable`, and `SUnreclaim`.
+- [SAFETY] No configuration, service, routing, firewall, or Zapret2 state changed.
+- [DECISION] Do not install/debug-enable slab tooling or rebuild/replace the kernel solely for this investigation. Move to compact read-only VM/buddy/watermark counters.
+- [STATUS] STAGE 11A remains BLOCKED pending localization of the memory pressure through lower-level counters.
