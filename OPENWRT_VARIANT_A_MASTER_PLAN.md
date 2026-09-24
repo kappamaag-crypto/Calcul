@@ -2290,3 +2290,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SYNC] Current documented runtime state was re-read from the repository before continuing.
 - [STATUS] Zapret2 remains ACTIVE; no new router-side configuration change is being made in this checkpoint.
 - [WORKFLOW] Continue one step at a time; functional validation is deferred until explicitly requested/selected as the next test.
+
+
+## Zapret2 functional baseline — 2026-09-24
+- [PASS] With Zapret2 active, `wget -qO- -T 5 https://example.com | head -c 100` successfully returned the Example Domain HTML beginning `<!doctype html><html lang="en"><head><title>Example Domain`.
+- [RESULT] Basic HTTPS connectivity from the hAP is confirmed while Zapret2 is active.
+- [LIMIT] This test does not establish application-specific success for Telegram, YouTube, or other services.
