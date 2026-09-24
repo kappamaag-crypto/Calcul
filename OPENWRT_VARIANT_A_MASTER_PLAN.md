@@ -671,3 +671,11 @@
 - [SAFETY] No AWG package was installed, no kernel module was loaded, no reboot occurred, and no network/routing/firewall/DNS/Zapret2/watchdog configuration was changed by this operation.
 - [STATUS] STAGE 14 = IN_PROGRESS. Third-party feed addition = DONE. Exact AWG package/kernel dependency resolution = NEXT. AWG installation = NOT_STARTED.
 - [NEXT GATE] Perform one read-only `apk policy` query for `kmod-amneziawg`, `amneziawg-tools`, and `luci-proto-amneziawg`; do not install anything until the exact kernel dependency is positively resolved.
+
+
+## STAGE 14 — AWG package policy after third-party feed refresh — 2026-09-25
+- [USER RESULT] `apk policy kmod-amneziawg amneziawg-tools luci-proto-amneziawg` now resolves all three packages from the signed 2Grey feed.
+- [FACTUAL RESULT] `amneziawg-tools` candidate = `3.1.20260812-r1`; `kmod-amneziawg` candidate = `6.12.94.3.1.20260906-r1`; `luci-proto-amneziawg` candidate = `3.1.1-r1`. All are from `https://2grey.github.io/awg-openwrt/25.12.5/ath79/mikrotik/packages.adb`.
+- [INTERPRETATION] The kmod package naming strongly aligns with the live kernel version `6.12.94`, but package-policy visibility alone is not yet sufficient proof that every kernel ABI dependency resolves. Installation remains blocked pending dependency verification.
+- [LUCi DECISION] User does not have LuCI/web interface. 2Grey documents `luci-proto-amneziawg` as the web-interface/import-export component. It is not required for a deliberate SSH/UCI/netifd-only deployment, so it will not be installed merely because it is available. citeturn0search0
+- [STATUS] STAGE 14 = IN_PROGRESS. Third-party feed = DONE. AWG package candidates = CONFIRMED. Exact kernel dependency resolution = NEXT. LuCI component = NOT_REQUIRED unless LuCI is later deliberately installed.
