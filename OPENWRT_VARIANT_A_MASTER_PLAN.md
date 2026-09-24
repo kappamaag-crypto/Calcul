@@ -249,3 +249,178 @@
 - [SAFETY] The monitor must not run tcpdump continuously, must not intentionally reproduce the failure, must not change Zapret2 configuration, and must have a restart cooldown plus a maximum number of automatic restarts per time window.
 - [IMPLEMENTATION] Prefer a small procd-managed service or similarly lightweight periodic check rather than a heavy monitoring stack. OpenWrt procd is the native process/service manager and supports respawn/service lifecycle handling; nftables NFQUEUE also supports bypass behavior so a missing userspace listener need not automatically blackhole matching traffic. citeturn0search1turn0search2
 - [STATUS] Design = NOT_STARTED. No monitoring script, cron job, procd service, or automatic restart mechanism has been installed yet.
+
+
+## STAGE 14 — Zapret2 watchdog implementation — 2026-09-25
+- [IMPLEMENTED] Added repository file OPENWRT_ZAPRET2_WATCHDOG.sh.
+- [COMMIT] 5ab294419b4a7f51c293f37144c846db8b92846d.
+- [FUNCTION] Lightweight Zapret2 health monitor for the current 64-MB hAP ac lite deployment.
+- [CHECKS] Service status; exact nfqws2 process count 2; expected inet zapret2 structure; WAN/LAN interfaces; TCP 80/443 queue 300; UDP 443 queue 300; QNUM 65300; bounded example.com baseline probe; bounded YouTube probe.
+- [RECOVERY] Two consecutive STRUCTURAL_FAIL or FUNCTIONAL_FAIL observations are required before restart.
+- [NO_RESTART] UPSTREAM_FAIL / DNS failure does not trigger Zapret2 restart.
+- [SAFETY] Automatic restart requires writable USB log area, MemAvailable >=4096 KiB, fewer than 2 restarts in 900 s, and >=300 s since previous restart.
+- [EVIDENCE] Pre-restart snapshot includes service status, nfqws2 processes, full inet zapret2 table, memory, VM reserve, swap, sockstat, relevant OOM/dmesg lines and recent system log.
+- [AUDIT] Restart stdout/stderr is saved; a post-restart snapshot and PASS/FAIL are written.
+- [RETENTION] Main log limited to 128 KiB; up to 20 event snapshots retained.
+- [SCOPE] No continuous tcpdump, no config edits, no package install, no firewall modifications.
+- [MODES] --check, --once, --daemon.
+- [VALIDATION] sh -n on the generated script returned syntax_rc=0.
+- [DEPLOYMENT] The script has not been copied to the router and automatic recovery is not active.
+- [STATUS] Watchdog implementation = IN_PROGRESS; deployment/activation = NOT_STARTED.
+- [SOURCE] OpenWrt documents procd as the native process/service manager and provides controlled service lifecycle/respawn facilities. citeturn287253search0turn287253search3
+
+
+# PROJECT HISTORY — RESTORED DETAILED RECORD FROM AVAILABLE CHAT CONTEXT — 2026-09-25
+
+## A. Архитектура и аппаратная база
+- Основной роутер: TP-Link Archer C20 v4 (hardware 00000004). Он остаётся главным роутером.
+- Downstream-роутер: MikroTik hAP ac lite / RB952Ui-5ac2nD, FCC TV7RB952-5AC2ND.
+- Ограничения: 64 MiB RAM, 16 MiB internal flash, MIPS 24Kc 650 MHz.
+- OpenWrt: 25.12.5 r33051-f5dae5ece4, target ath79/mikrotik, kernel 6.12.94, board QCA9533 ver 2 rev 0.
+- Схема: Archer Wi-Fi → hAP Wi-Fi STA → hAP LAN/Wi-Fi. hAP не должен становиться главным роутером без отдельного решения.
+- hAP LAN: br-lan 192.168.1.1/24.
+- Archer-side hAP STA: phy0-sta0 192.168.0.100/24 через 192.168.0.1.
+- Ранее была устранена путаница адресов: 192.168.1.1 относится к hAP LAN, 192.168.0.100 — к hAP на upstream-сети Archer.
+
+## B. USB/extroot/swap
+- USB сначала использовался для swap/data/extroot; затем была выполнена целевая переразметка.
+- Зафиксированная схема: /dev/sda1 ≈512 MiB swap; /dev/sda2 ext4 label extroot, UUID 244b7bbc-add1-46cd-bc1a-0143cfca5d6c, mounted /overlay, ≈5.6 GiB; /dev/sda3 ext4 label data, UUID 635bc144-d79a-4e6d-a315-0e1655eb995c, mounted /mnt/data, ≈1.0 GiB.
+- Swap: /dev/sda1 ≈512 MiB, priority -2; zram0 ≈32 MiB, priority 100.
+- Правило пользователя: swap не размещать в /tmp.
+- extroot трактуется как расширение flash, а не RAM.
+- /mnt/data является предпочтительным постоянным местом для технических журналов watchdog.
+
+## C. Wi-Fi и DNS
+- Оба hAP AP используют общий SSID OpenWrt и WPA2.
+- Ранее был открыт 2.4 GHz AP; это состояние было исправлено.
+- Отдельный незавершённый пункт: подключение к hAP/OpenWrt со стороны Archer Wi-Fi без LAN.
+- DNS-инцидент: изменение DNS приводило к остановке dnsmasq и невозможности получения IP телефоном; затем dnsmasq был восстановлен. В истории присутствует ошибка Cannot resolve server name at line 21.
+- DoH/https-dns-proxy позднее явно выведен из текущего Variant A workflow и не должен возвращаться без отдельной команды пользователя.
+
+## D. Диагностика памяти и OOM
+- На hAP установлены необходимые CLI-диагностические пакеты, включая tcpdump, curl, conntrack, iperf3, bind-dig, strace, lsof, procps-ng и др.
+- История содержит несколько системных OOM-событий с разными процессами-жертвами, включая nfqws2, hostapd и apk.
+- Особо важное событие: более тяжёлая работа tcpdump совпала с OOM, после чего были убиты hostapd и nfqws2 и временно пропал Wi-Fi.
+- Поэтому open-ended tcpdump и тяжёлые monitoring daemons на 64-MB hAP запрещены как штатный механизм контроля.
+- /proc/net/sockstat не показывал текущего socket-memory pressure; /proc/pressure/memory отсутствует на данном build.
+- История не подтверждает, что один пользовательский процесс сам по себе объясняет прошлые OOM: происходили system-wide memory pressure events.
+
+## E. vm.min_free_kbytes
+- Базовое значение: 8192 kB.
+- Проведено контролируемое снижение: 8192 → 4096 → 2048 kB.
+- При 4096 наблюдалось MemAvailable около 12.9 MB; при 2048 — около 16.6 MB, при этом Slab/SUnreclaim не уменьшались.
+- При 2048 watermark были min=512, low=640, high=768.
+- 60-секундное idle-наблюдение при 2048 не приблизилось к low/min.
+- Выполнен валидный sustained-load тест: iperf3 reverse 60 s, 8 streams, endpoint 185.182.195.76:5201, параллельно bounded tcpdump TCP/443 -c 100.
+- iPerf3: ≈211 MB received at 29.5 Mbit/s; sender ≈218 MB at 30.4 Mbit/s; 870 retransmissions.
+- tcpdump: 100 captured, 116 received by filter, 0 dropped by kernel.
+- Post-test: RAM total 54852 kB, used 32744 kB, free 14676 kB, buff/cache 7432 kB, available 15544 kB; swap total 550904 kB, used 4340 kB, free 546564 kB.
+- hostapd и nfqws2 остались живы; в предоставленном post-test dmesg не появился новый OOM.
+- 2048 kB было принято как проверенное runtime-значение и затем сохранено в /etc/sysctl.conf.
+- service sysctl restart прошёл без ошибки; /proc/sys/vm/min_free_kbytes = 2048.
+- Ниже 2048 снижать нельзя без отдельной доказательной процедуры.
+
+## F. ZRAM
+- Baseline: zram0 использовал [lzo-rle] lzo, размер около 26620 KiB, priority 100.
+- Была проведена попытка LZ4 через UCI.
+- Штатный zram init сообщил, что LZ4 не поддерживается активным zram device.
+- kmod-lib-lz4 был установлен, но kmod-zram-6.12.94-r1 exposes only lzo-rle/lzo.
+- Альтернативный готовый zram package для LZ4 в подключённых репозиториях не найден.
+- Custom kernel/module build на роутере не выполнялся из-за риска для 64-MB устройства и отсутствия отдельного build host.
+- Финально восстановлен lzo-rle; USB swap остаётся lower-priority fallback.
+- STAGE 12 = DONE; LZ4 = BLOCKED.
+
+## G. Zapret2 deployment/configuration
+- Zapret2 зафиксирован на v1.0.3.
+- Runtime config создавался контролируемо из config.default, без blind install.
+- Проверена byte-identical integrity: 5534 bytes, SHA-256 758cf25e3d57ccf2c0dd053b218d571e6ebb293293f341c8e5294a35ceed2f7b.
+- Default audit: NFQWS2_ENABLE=0, MODE_FILTER=none, FLOWOFFLOAD=donttouch, INIT_APPLY_FW=1. Activation оставалась отдельным gate.
+- Binary deployment, config editing, service activation, firewall/NFQUEUE activation и interface hooks разделялись.
+- Текущая рабочая конфигурация:
+  NFQWS2_ENABLE=1
+  NFQWS2_PORTS_TCP=80,443
+  NFQWS2_PORTS_UDP=443
+  QNUM=300
+  WireGuard-pattern QNUM=65300
+  MODE_FILTER=autohostlist
+  FLOWOFFLOAD=donttouch
+  INIT_APPLY_FW=1
+  DISABLE_IPV6=1
+  SET_MAXELEM=522288
+  wanif=phy0-sta0
+  lanif=br-lan
+- nftables runtime содержит sets zapret/ipban size 522288 и nozapret size 65536, обычные NFQUEUE 300, WireGuard-pattern queue 65300, reply-direction rules и mark/defrag chains.
+- Реальное правило использует queue flags bypass to 300 / 65300; поэтому grep по literal queue num 300 не находил правила и не являлся доказательством их отсутствия.
+
+## H. Zapret2 strategy discovery
+- Windows blockcheck2 использовался отдельно от роутера для поиска кандидатов.
+- Длительный standard scan YouTube IPv4 TLS 1.2 был остановлен; полученный набор AVAILABLE считается discovery inventory, а не final strategy.
+- Зафиксирован discovery candidate для YouTube IPv4 QUIC:
+  --wf-l3=ipv4 --wf-udp-out=443 --payload quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=11
+- Router-side v1.0.3 configuration не менялась только из-за одного candidate.
+- Запрет/strategy testing должен быть по одному варианту, с rollback и memory checks.
+
+## I. Telegram/WhatsApp
+- При текущем Zapret2 example.com работал, а api.telegram.org не давал успешный ответ.
+- В Master Plan зафиксирован вывод: текущие проблемы Telegram/WhatsApp нельзя автоматически сводить к обычному DPI; частичный/полный IP-level blocking требует другого transport/path.
+- Поэтому Telegram/WhatsApp находятся вне текущего Zapret2-only tuning scope.
+- Выбран будущий transport candidate: VLESS + REALITY / Xray-core.
+- Установка, server selection, PBR и VPN routes пока не выполнялись.
+
+## J. Инцидент YouTube 2026-09-25
+- До restart: /etc/init.d/zapret2 status = running (1/2), pidof nfqws2 показал PID 12532.
+- Router-side probe: wget -4 -qO- -T 10 https://www.youtube.com/ | head -c 100; echo — body не вернулся.
+- Пользователь вручную выполнил /etc/init.d/zapret2 restart.
+- Restart завершился без ошибки: nftables были cleared/reapplied; запущены daemon 1 QNUM 300 и daemon 2000 QNUM 65300.
+- Во время start изменился net.netfilter.nf_conntrack_tcp_be_liberal 0 → 1.
+- Тот же YouTube probe сразу после restart вернул HTML.
+- Клиент в Wi-Fi сети hAP также восстановил YouTube.
+- zapret-hosts-auto.txt уже содержал www.youtube.com и множество googlevideo/YouTube hosts; пустой autohostlist исключён.
+- logread -e zapret был пуст; optional zapret-hosts-auto-debug.log отсутствовал.
+- После restart присутствовали два nfqws2 процесса.
+- Полный nft list table inet zapret2 показал ожидаемую структуру и не показал очевидной потери NFQUEUE path.
+- Точный root cause остаётся UNCONFIRMED.
+- Наиболее сильная гипотеза: stale/inconsistent runtime state nfqws2/nftables, потому что configuration не менялась, а restart rebuilt оба daemon и firewall path.
+- OOM остаётся правдоподобным background failure mode, но для этого конкретного YouTube outage нет correlated new OOM evidence; OOM не записывать как подтверждённую причину.
+- Изменение nf_conntrack_tcp_be_liberal могло участвовать в recovery, но causal attribution не доказана.
+- Не воспроизводить outage намеренно.
+
+## K. Current runtime audit after YouTube recovery
+- inet zapret2 существует.
+- wanif содержит phy0-sta0.
+- lanif содержит br-lan.
+- zapret/ipban size 522288, nozapret size 65536.
+- TCP 80/443 queue 300.
+- UDP 443 queue 300.
+- Configured WireGuard-pattern queue 65300.
+- Reply-direction queues присутствуют.
+- Mark/defrag chains присутствуют.
+- В правилах нет counter statements, поэтому nft list table output сам по себе не даёт packet counters.
+- Текущее runtime state считается structurally consistent; ненужный restart запрещён.
+
+## L. Watchdog concept and implementation
+- Цель: автоматическая проверка Zapret2, автоматический restart только при подтверждённой неисправности, сохранение доказательств на USB и machine-readable reason.
+- Принцип: PID nfqws2 сам по себе недостаточен; проверяется несколько уровней.
+- Health gates: service status; expected nfqws2 count=2; presence/shape of inet zapret2; NFQUEUE 300 and 65300; baseline HTTPS probe example.com; target HTTPS probe www.youtube.com.
+- Если baseline example.com не работает, событие классифицируется как UPSTREAM_OR_DNS и Zapret2 не перезапускается.
+- Structural failure или YouTube functional failure должны произойти два раза подряд.
+- Перед automatic restart сохраняются service status, nfqws2 process list, full nftables table, memory, vm settings, swap, sockstat, relevant OOM/dmesg and recent logread.
+- Restart output сохраняется отдельно; после restart выполняется post-check и фиксируется PASS/FAIL.
+- Защиты: minimum MemAvailable 4096 KiB; максимум 2 automatic restarts per 15 minutes; cooldown 5 minutes.
+- Main log bounded to 128 KiB; event snapshots retained up to 20.
+- Нет continuous tcpdump, нет Zapret2 config edits, нет package installs and no firewall modifications from watchdog.
+- Script modes: --check (read-only), --once (single decision cycle), --daemon (periodic loop every 90 s).
+- USB logging path: /mnt/data/zapret2-watchdog.
+- Repository file created: OPENWRT_ZAPRET2_WATCHDOG.sh.
+- Repository commit for the script: 5ab294419b4a7f51c293f37144c846db8b92846d.
+- Local shell syntax validation completed with sh -n and syntax_rc=0.
+- Script is NOT installed on router, NOT enabled and NOT started yet.
+- Current status: watchdog implementation = IN_PROGRESS; deployment = NOT_STARTED.
+
+## M. Project workflow
+- One router command at a time remains mandatory.
+- Before each router command, state purpose and whether it changes anything.
+- After each user result and assistant response, synchronize factual state to Master Plan before the next router command.
+- Master Prompt changes only when workflow/safety rules change.
+- Do not claim synchronization or testing unless the repository write/result is actually confirmed.
+- User prefers compact command outputs and dislikes redundant diagnostics.
