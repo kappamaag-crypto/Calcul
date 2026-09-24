@@ -2364,3 +2364,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] The targeted check completed without SSH loss, Wi-Fi interruption, OOM message, or persistent configuration change.
 - [DECISION] Do not expand this into another full-cache enumeration. The current evidence is insufficient to identify the source of `SUnreclaim` by this method.
 - [STATUS] STAGE 11A remains BLOCKED pending a safer, minimal memory-pressure investigation.
+
+
+## STAGE 11A — /proc/allocinfo availability check — 2026-09-24
+- [RESULT] Read-only check returned `ALLOCINFO=UNAVAILABLE`; `/proc/allocinfo` is not readable/present on this OpenWrt build.
+- [INTERPRETATION] The kernel's allocation-profiling interface is unavailable, so allocation call-site accounting cannot be used to localize the memory pressure.
+- [SOURCE CONTEXT] Linux documents `/proc/allocinfo` as optional kernel memory-allocation profiling information; its absence is therefore a kernel/build capability limitation, not evidence that allocations are absent.
+- [SAFETY] No configuration, service, routing, firewall, or Zapret2 state changed.
+- [STATUS] STAGE 11A remains BLOCKED; proceed with minimal read-only kernel memory interfaces rather than allocation profiling.
