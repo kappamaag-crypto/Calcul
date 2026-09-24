@@ -94,7 +94,7 @@ nft_ok() {
     printf '%s\n' "$out" | grep -q 'set zapret {' || return 1
     printf '%s\n' "$out" | grep -q 'elements = { "'$WAN_IF'" }' || return 1
     printf '%s\n' "$out" | grep -q 'elements = { "'$LAN_IF'" }' || return 1
-    printf '%s\n' "$out" | grep -q 'tcp dport { 80,443 }' || return 1
+    printf '%s\n' "$out" | grep -Eq 'tcp dport \{ 80, ?443 \}' || return 1
     printf '%s\n' "$out" | grep -q 'udp dport 443' || return 1
     printf '%s\n' "$out" | grep -q 'queue flags bypass to '$MAIN_QNUM || return 1
     printf '%s\n' "$out" | grep -q 'queue flags bypass to '$WG_QNUM || return 1
