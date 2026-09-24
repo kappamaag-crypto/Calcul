@@ -140,3 +140,18 @@
 - [VERIFICATION] Current OpenWrt documentation states that the sysctl service loads `/etc/sysctl.conf` at boot, so the setting is persistent across reboot.
 - [SAFETY] Only `vm.min_free_kbytes` was persisted. `vm.swappiness`, `vm.watermark_scale_factor`, swap, Zapret2, routing, firewall, and Wi-Fi configuration were not changed by this persistence step.
 - [STATUS] STAGE 11C = DONE. `vm.min_free_kbytes=2048` is now persistent and runtime-verified.
+
+
+## STAGE 12 — ZRAM compression algorithm — 2026-09-24
+- [OBJECTIVE] Evaluate switching ZRAM compression from the current LZO-RLE to LZ4 without changing the router firmware/kernel.
+- [BASELINE] Before the experiment, `zram0` used `[lzo-rle] lzo`, size 26620 KiB, priority 100, with about 4340 KiB used; USB swap `/dev/sda1` was 524284 KiB, priority -2, unused.
+- [PREPARATION] Added `system.@system[0].zram_comp_algo='lz4'` and committed it to UCI.
+- [APPLICATION TEST] Restarted the штатный `/etc/init.d/zram`. The script reported `compression algorithm 'lz4' is not supported for '/dev/zram0'` and correctly continued with the available default. `zram0` remained active and functional on `[lzo-rle] lzo`.
+- [PACKAGE CHECK] `kmod-lib-lz4` was available for the exact kernel ABI `6.12.94-r1` and was installed successfully. The LZ4 modules `lz4.ko`, `lz4_compress.ko`, and `lz4_decompress.ko` loaded successfully.
+- [KERNEL MODULE CHECK] Installed `kmod-zram-6.12.94-r1` metadata shows dependency on `kmod-lib-lzo` only. The active `zram.ko` exposes only `lzo-rle` and `lzo` in `/sys/block/zram0/comp_algorithm`.
+- [REPOSITORY CHECK] `apk search -v 'kmod-zram*'` returned only `kmod-zram-6.12.94-r1`; no ready-made alternative ZRAM package with LZ4 backend is available in the configured repositories.
+- [DECISION] No custom kernel-module build will be attempted on the 64-MB hAP ac lite because there is no PC/build host available and an on-router build would introduce unnecessary RAM/storage/CPU risk.
+- [FINAL CONFIG] Restored and committed `system.@system[0].zram_comp_algo='lzo-rle'`. Active state verified as `[lzo-rle] lzo`.
+- [RESULT] ZRAM remains operational; no swap loss was left behind. USB swap remains configured as the lower-priority fallback.
+- [STATUS] STAGE 12 = DONE — LZO-RLE retained. LZ4 evaluation is BLOCKED by the currently available prebuilt `kmod-zram`; no further LZ4 work is planned unless a compatible build host or official package becomes available.
+- [SAFETY] `vm.min_free_kbytes=2048` remains unchanged and persistent. No Zapret2, firewall, routing, Wi-Fi, or swap-priority changes were made during the finalization.
