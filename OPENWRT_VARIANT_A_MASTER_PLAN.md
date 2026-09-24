@@ -2263,3 +2263,16 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [STATUS] STAGE 22 — BLOCKED for the current hAP WARP WireGuard path.
 - [SAFETY] Windows WARP reconnection is paused; Zapret2 remains inactive; no persistent WARP or firewall configuration changes were made during these checks.
 
+
+
+
+## Zapret2 runtime activation — 2026-09-24
+- [PASS] User executed `/etc/init.d/zapret2 start` successfully.
+- [PASS] `nfqws2` daemon 1 started with qnum=300 for TCP 80/443 and UDP 443 using current `MODE_FILTER=autohostlist` hostlist-auto configuration.
+- [PASS] `nfqws2` daemon 2000 started with qnum=65300 for WireGuard initiation/response/cookie payload matching.
+- [PASS] nftables integration was applied successfully.
+- [PASS] NFQUEUE rules were inserted for TCP 80/443, UDP 443, and the three shown WireGuard-related UDP length/payload rules to qnum=65300.
+- [PASS] `net.netfilter.nf_conntrack_tcp_be_liberal = 1` was applied by the startup path.
+- [RESULT] Zapret2 is currently ACTIVE at runtime.
+- [STATUS] Functional post-start application validation is NOT_YET_VERIFIED; no connectivity conclusion is drawn from startup output alone.
+- [SAFETY] No Zapret2 configuration was changed by this action; only the service was started.
