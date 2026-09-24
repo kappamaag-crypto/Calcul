@@ -535,3 +535,15 @@
 - [IMPORTANT VERSION GATE] The available package is 26.3.27-r1. Earlier research identified official Xray reports of MIPSLE crashes associated with Xray 26.3.27-era builds, so availability alone is not an installation approval. Version/runtime compatibility must be checked before installation.
 - [SAFETY] `apk policy` is a read-only package-availability check. No package was installed and no router configuration, routing, firewall, Zapret2, or watchdog state was changed.
 - [STATUS] STAGE 14 = IN_PROGRESS. Package-availability gate = DONE. Next gate: inspect package metadata/dependencies and installation size/resource impact before any installation.
+
+
+## STAGE 14 — VLESS + REALITY / sing-box + Podkop — package/resource gate — 2026-09-25
+- [RESULT] Router-side read-only command `apk policy sing-box && apk info -a sing-box | head -30` completed successfully.
+- [RESULT] Official OpenWrt 25.12.5 `mips_24kc` feed provides `sing-box 1.13.21-r1`.
+- [RESULT] The full `sing-box-1.13.21-r1` package reports installed size **48 MiB** and depends on `ca-bundle`, `kmod-inet-diag`, `kmod-tun`, and `libc`; it provides `sing-box-any`.
+- [RESULT] `apk info -a` also began listing `sing-box-tiny-1.13.21-r1`; the supplied output was truncated at its `installed size` line, so the exact tiny installed size was NOT captured and must not be guessed.
+- [INTERPRETATION] Full sing-box is larger than the already inspected Xray-core 26.3.27-r1 (32 MiB installed), so full sing-box is not the lightweight choice on package size alone.
+- [IMPORTANT] The presence of a `sing-box-tiny` variant is promising for this 64-MB hAP ac lite, but its exact installed size and dependency set must be read before any installation decision.
+- [PODKOP CONTEXT] Current Podkop documentation states OpenWrt 24.10+ and at least 25 MB free space; Podkop uses sing-box and modifies dnsmasq/sing-box configuration. This makes Podkop a viable architectural candidate, but also means installation/configuration must be treated as a potentially invasive change and must not be performed before the resource/configuration gate passes. citeturn0search5turn0search2
+- [SAFETY] No package was installed; no Podkop, sing-box, Xray, routing, firewall, DNS, Zapret2, or watchdog configuration/runtime state was changed.
+- [STATUS] STAGE 14 = IN_PROGRESS. Full sing-box resource gate = NOT_PREFERRED; sing-box-tiny resource gate = BLOCKED pending exact metadata. Next gate: inspect only the `sing-box-tiny` metadata/size, without installing anything.
