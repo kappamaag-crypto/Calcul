@@ -47,3 +47,10 @@
 - [VERIFICATION] Current Hetzner documentation still lists `fsn1-speed.hetzner.com/100MB.bin` as its official speed-test file and documents curl/wget for measuring download speed. citeturn0search0 Therefore the problem is specific to this router/path/request rather than the test URL being invented.
 - [SAFETY] No file was written to flash/tmp because output was discarded to `/dev/null`; no configuration, service, firewall, routing, Wi-Fi, swap, VM, or Zapret2 state was changed.
 - [STATUS] STAGE 11C remains IN_PROGRESS. Do not repeat the same source. Next step should use a different bounded large-download source or another controlled load mechanism; avoid `tcpdump` because prior heavy capture coincided with system-wide OOM events.
+
+
+## STAGE 11C — Known-good HTTPS baseline — follow-up — 2026-09-24
+- [RESULT] `wget -4 -qO /dev/null -T 10 https://example.com` completed with `RC=0`.
+- [INTERPRETATION] The router can currently perform a bounded IPv4 HTTPS download with output discarded. This establishes a usable baseline for the next load test and separates the two failed Hetzner-source probes from a general inability to make HTTPS requests.
+- [SAFETY] No file was written to flash/tmp; no configuration, service, firewall, routing, Wi-Fi, swap, VM, or Zapret2 state was changed.
+- [STATUS] STAGE 11C remains IN_PROGRESS. Next load test should use the known-good HTTPS path and remain bounded; avoid `tcpdump` because prior heavy capture coincided with system-wide OOM events.
