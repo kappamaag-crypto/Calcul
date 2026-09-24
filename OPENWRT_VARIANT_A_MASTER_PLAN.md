@@ -689,3 +689,11 @@
 - [PACKAGE SIZE] Reported installed size of `kmod-amneziawg` is 91 KiB.
 - [SAFETY] This was read-only metadata inspection. No package was installed, no kernel module was loaded, no reboot occurred, and no network/routing/firewall/DNS/Zapret2/watchdog configuration changed.
 - [STATUS] STAGE 14 = IN_PROGRESS. Exact kernel ABI compatibility = DONE. AWG installation = NOT_STARTED. Next gate: read-only dependency availability check for the four additional kmod dependencies; do not install yet.
+
+
+## STAGE 14 — AmneziaWG dependency availability resolution — 2026-09-25
+- [USER RESULT] Read-only command `apk policy kmod-crypto-lib-chacha20poly1305 kmod-crypto-lib-curve25519 kmod-udptunnel4 kmod-udptunnel6` returned `6.12.94-r1` for all four dependencies, with `lib/apk/db/installed` listed as the installed source and the matching official OpenWrt 25.12.5 ath79/mikrotik kmods feed.
+- [FACTUAL RESULT] All four runtime kernel-module dependencies required by `kmod-amneziawg` are already installed on the router and correspond to the current 6.12.94 kmod repository.
+- [COMPATIBILITY RESULT] Combined with the previously confirmed exact dependency `kernel=6.12.94~1951ed9cd221294b56a47180c29ca5a9-r1`, the known kmod dependency chain is resolved for the live firmware.
+- [SAFETY] Read-only policy query only. No package installation, kernel-module loading, reboot, or network/routing/firewall/DNS/Zapret2/watchdog change occurred.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG kmod dependency resolution = DONE. AWG installation = NOT_STARTED. Next step is a final read-only installation-scope/resource check before installing the third-party AWG userspace package and kernel module; `luci-proto-amneziawg` remains excluded because LuCI is not used.
