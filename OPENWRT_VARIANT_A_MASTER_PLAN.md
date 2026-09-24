@@ -457,3 +457,9 @@
 - [INTERPRETATION] Both expected `nfqws2` processes are present; Zapret2 service is running; baseline HTTPS and YouTube functional probes pass; available memory is 14008 KiB (> 4096 KiB safety floor). The structural gate reports `nft=0`, so the watchdog does not consider the nftables structure healthy.
 - [SAFETY] This was a read-only check. No service restart, nftables change, configuration change, package change, or watchdog activation occurred.
 - [STATUS] STAGE 11D = IN_PROGRESS. Automatic recovery remains NOT_ACTIVE. Next step is to inspect why the watchdog's nftables structural test returns `nft=0`, without restarting Zapret2.
+
+
+- [RESULT 2026-09-25] Watchdog source audit result: `grep -nE 'nft|STRUCTURAL_FAIL|SERVICE_OR_PROCESS_OR_NFTABLES|QNUM|NFQUEUE|zapret2' /usr/bin/zapret2-watchdog` confirmed the structural gate is implemented in `nft_ok()` and requires literal matches for: `set zapret {`; WAN set elements exactly `elements = { "phy0-sta0" }`; LAN set elements exactly `elements = { "br-lan" }`; `tcp dport { 80,443 }`; `udp dport 443`; queue 300; queue 65300.
+- [INTERPRETATION] The prior `--check` reported `nft=0` while service/process counts and both functional probes passed. This does not establish that nftables is actually broken; the watchdog's literal-text matching may be too strict for the installed nft output formatting/structure.
+- [SAFETY] Source audit was read-only. No Zapret2 restart, firewall modification, config edit, package change, or watchdog activation.
+- [STATUS] STAGE 11D remains IN_PROGRESS. Next diagnostic is a single read-only comparison of the live `inet zapret2` table against the watchdog's expected text patterns.
