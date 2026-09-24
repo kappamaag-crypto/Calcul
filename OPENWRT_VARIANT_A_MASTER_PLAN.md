@@ -511,3 +511,8 @@
 - [ACTIVATION REQUEST 2026-09-25] User explicitly requested to proceed with the watchdog activation phase completely after successful `--check` and controlled `--once` validation.
 - [PRE-ACTIVATION SAFETY] Corrected watchdog is installed and executable; read-only health check is HEALTHY; controlled one-cycle check recorded HEALTHY; no recovery/restart was triggered. Activation will use the existing init script only; no Zapret2 configuration changes are planned.
 - [STATUS] Automatic watchdog activation gate = IN_PROGRESS. Next action: enable and start `/etc/init.d/zapret2-watchdog`.
+
+
+- [RESULT 2026-09-25] `/etc/init.d/zapret2-watchdog enable && /etc/init.d/zapret2-watchdog start` produced no terminal output.
+- [INTERPRETATION] Empty output is normal for successful OpenWrt init/procd commands, but it does not by itself prove the daemon is running or enabled.
+- [STATUS] Watchdog activation command executed; runtime/autostart verification is PENDING. No evidence of a Zapret2 restart or config change from the command output.
