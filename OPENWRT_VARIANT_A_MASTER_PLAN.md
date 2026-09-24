@@ -7,12 +7,17 @@
 - [STATUS] STAGE 11A remains IN_PROGRESS; next localization step should read per-process VmRSS directly from `/proc/*/status` without heavy sorting/enumeration.
 - [SAFETY] No configuration, service, routing, firewall, Wi-Fi, swap, VM, or Zapret2 state changed.
 
-
 ## STAGE 11B — Memory/zone current snapshot — 2026-09-24
-- [RESULT] Current snapshot: MemFree=15324 kB, MemAvailable=7216 kB, Buffers=1928 kB, Cached=5140 kB, AnonPages=3104 kB, KReclaimable=1400 kB, Slab=9212 kB, SReclaimable=1400 kB, SUnreclaim=7812 kB.
-- [RESULT] Compared with the immediately preceding snapshot, MemAvailable increased from ~6160 kB to 7216 kB, while SUnreclaim remained 7812 kB; this does not show continued growth of unreclaimable slab in the sampled interval.
-- [RESULT] Normal-zone snapshot: pages free=3802, min=2048, low=2560, high=3072, managed=13713. Free pages are currently above the high watermark.
-- [INTERPRETATION] The router is currently outside the low/min watermark danger region, but the available-memory margin remains small on a 64 MB-class device. Current data does not establish a steadily growing kernel-memory leak.
-- [SOURCE CONTEXT] Linux documents MemAvailable as an estimate of memory available for new applications and SUnreclaim as slab memory that cannot be reclaimed under memory pressure; zone watermarks are used by the VM when managing free pages.
-- [STATUS] STAGE 11B = IN_PROGRESS; next step is a lightweight idle trend sample of MemAvailable and SUnreclaim to distinguish a stable fixed overhead from ongoing accumulation.
-- [SAFETY] No configuration, service, routing, firewall, Wi-Fi, swap, VM, or Zapret2 state changed.
+- [RESULT] Current snapshot before VM tuning: MemFree=15324 kB, MemAvailable=7216 kB, Buffers=1928 kB, Cached=5140 kB, AnonPages=3104 kB, KReclaimable=1400 kB, Slab=9212 kB, SReclaimable=1400 kB, SUnreclaim=7812 kB.
+- [RESULT] Normal-zone snapshot before VM tuning: pages free=3802, min=2048, low=2560, high=3072, managed=13713.
+- [INTERPRETATION] The router had a narrow available-memory margin, but SUnreclaim was not observed growing during the sampled interval.
+
+## STAGE 11C — Runtime VM free-memory reserve tuning — 2026-09-24
+- [CHANGE] Runtime-only `vm.min_free_kbytes` was reduced from 8192 kB → 4096 kB → 2048 kB. No persistent sysctl/UCI change was made.
+- [RESULT @ 4096] `min_free_kbytes=4096`; Normal zone: free=3628, min=1024, low=1280, high=1536, managed=13713; MemFree=14904 kB; MemAvailable=12944 kB; Slab=9212 kB; SReclaimable=1400 kB; SUnreclaim=7812 kB.
+- [RESULT @ 2048] `min_free_kbytes=2048`; Normal zone: free=3414, min=512, low=640, high=768, managed=13713; MemFree=14704 kB; MemAvailable=16608 kB; Slab=9212 kB; SReclaimable=1400 kB; SUnreclaim=7812 kB.
+- [INTERPRETATION] Lowering `min_free_kbytes` does not reduce Slab/SUnreclaim; it reduces the VM's reserved free-page watermark target. Consequently Linux reports substantially more memory as available for allocation: about 7.2 MB → 12.9 MB at 4096 and → 16.6 MB at 2048 in these snapshots. This is additional usable headroom, not newly created RAM.
+- [VM EFFECT] The Normal-zone watermarks were recalculated downward: at 8192 the observed min/low/high were 2048/2560/3072; at 4096 they became 1024/1280/1536; at 2048 they became 512/640/768.
+- [RISK] This is an aggressive runtime tuning experiment. A lower reserve gives the kernel less emergency free memory for allocations/reclaim; under heavy bursts it can increase allocation stalls or make low-memory behavior less forgiving. Linux documents `min_free_kbytes` as the minimum amount of free memory the VM keeps and warns that setting it too low can cause problems; it should not be lowered further casually.
+- [SAFETY] Change is runtime-only and reversible. Reboot should restore the default unless OpenWrt later persists a setting; do not persist yet.
+- [STATUS] STAGE 11C = IN_PROGRESS. Keep 2048 kB isolated as the only changed VM variable until stability is observed. Do not simultaneously change swappiness, watermark_scale_factor, swap, Zapret2 set limits, or Wi-Fi settings.
