@@ -2340,3 +2340,15 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - nftables shows active NFQUEUE rules for TCP 80/443 and UDP 443 plus reverse-direction rules, with queues 300 and 65300.
 - Classification after this run: DNS and generic TCP/80 + TCP/443 HTTPS currently work; Telegram and WhatsApp remain blocked/unusable by router-side endpoint tests. QUIC capability remains UNDETERMINED in this run. IP-level blocking remains UNDETERMINED. Do not claim Zapret2 alone is causal without A/B testing.
 - Next planned classification: one controlled QUIC-capable test or packet-level UDP/443 test, without changing persistent config.
+
+
+## STAGE 11A — Repeated OOM during read-only diagnostics — 2026-09-24
+- [RESULT] After the earlier LAN tcpdump event, a read-only /sys/kernel/slab enumeration was attempted to localize the kernel Slab. The SSH connection was aborted again and Wi-Fi disappeared temporarily.
+- [CONFIRMED] Subsequent log extraction shows a second independent OOM event at 18:44:58–18:45:33 UTC: cat invoked oom-killer, followed by Out of memory: Killed process 12817 (hostapd), then netifd radio0 ... Tearing down phy0; shortly afterward radio1 ... Tearing down phy1 also occurred.
+- [HISTORICAL PATTERN] The log already contained prior OOM events: at 17:37:03 UTC hostapd invoked oom-killer and nfqws2 was killed; at 22:52:10 UTC the apk process invoked OOM and was killed. This confirms recurring system-wide memory pressure, not a single tcpdump-only incident.
+- [IMPORTANT] OOM-killer victim selection does not identify the largest memory consumer. The current nfqws2 RSS measurement was only 1052 kB before this test, so nfqws2 is not established as the primary RAM consumer.
+- [MEMORY CONTEXT] Before the latest Slab enumeration, the router had MemTotal=54852 kB, MemAvailable=8412 kB, Slab=9124 kB, SReclaimable=1284 kB, SUnreclaim=7840 kB, conntrack 174/7168, and socket counts/memory were low. Earlier /tmp usage was only 2.0 MB.
+- [INTERPRETATION] /tmp file accumulation is not supported as the cause. The recurring OOMs happen with different small user-space commands and persist despite ample swap remaining. The exact source of the ~7.8 MB current unreclaimable Slab/other kernel pressure is not localized yet.
+- [DECISION] Stop all further heavy or enumerative diagnostics on the live router for now. Do not rerun /sys/kernel/slab loops, tcpdump, large grep/find/sort pipelines, package operations, or change Zapret2/firewall/routing solely for this investigation.
+- [STATUS] STAGE 11A = BLOCKED pending a safer memory-pressure investigation; LAN UDP/443 client association remains unfinished.
+- [SAFETY] No persistent router configuration was changed by the failed Slab enumeration. TP-Link Archer remains untouched.
