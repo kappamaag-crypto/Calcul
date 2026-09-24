@@ -516,3 +516,8 @@
 - [RESULT 2026-09-25] `/etc/init.d/zapret2-watchdog enable && /etc/init.d/zapret2-watchdog start` produced no terminal output.
 - [INTERPRETATION] Empty output is normal for successful OpenWrt init/procd commands, but it does not by itself prove the daemon is running or enabled.
 - [STATUS] Watchdog activation command executed; runtime/autostart verification is PENDING. No evidence of a Zapret2 restart or config change from the command output.
+
+
+- [RESULT 2026-09-25] Runtime/autostart verification passed: init script reports `ENABLED`; active process is `16572 /bin/sh /usr/bin/zapret2-watchdog --daemon`.
+- [STATUS] Watchdog daemon is ACTIVE and configured for autostart. Zapret2 remains untouched by the activation verification.
+- [NEXT] Final operational verification should confirm the daemon has performed a periodic health cycle and is recording healthy state in its log.
