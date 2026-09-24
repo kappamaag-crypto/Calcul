@@ -2317,3 +2317,7 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [METHOD] Use one controlled test at a time, preferably comparing the same target with Zapret2 active/inactive only when the comparison is necessary and safe. Do not change the persistent Zapret2 configuration during capability classification.
 - [SAFETY] No strategy tuning, hostlist edits, routing changes, VPN changes, or TP-Link changes during this classification stage.
 - [STATUS] STAGE 11A = IN_PROGRESS; capability matrix not yet complete.
+
+
+### Большой диагностический прогон — подготовка
+Перед дальнейшей классификацией STAGE 11A выбран единый read-only диагностический прогон без изменения конфигурации Zapret2, firewall, routing или VPN. Цель — одновременно собрать признаки для TCP/80 HTTP, TCP/443 TLS/SNI, UDP/443 QUIC (если поддерживается curl), DNS, IP/endpoint reachability и отдельных application endpoints. Результаты будут классифицироваться только после фактического вывода роутера.
