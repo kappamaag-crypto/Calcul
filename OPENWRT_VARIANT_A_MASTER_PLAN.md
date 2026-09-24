@@ -111,3 +111,10 @@
 - [OOM INTERPRETATION] The supplied output does not include memory/OOM telemetry, so the test cannot yet be declared a memory-safety pass. We need the post-test kernel/OOM and memory snapshot before concluding whether `vm.min_free_kbytes=2048` remained stable under load.
 - [SAFETY] No destination file was used by iperf3; no intentional filesystem write, VM/Zapret2/Wi-Fi/config change was made.
 - [STATUS] STAGE 11C remains IN_PROGRESS pending post-load memory/OOM verification.
+
+## STAGE 11C — Post-load memory/OOM check — 2026-09-24
+- [RESULT] Immediately after the successful 30-second iPerf3 reverse test, `free -m` reported: RAM total 54852 kB, used 31620 kB, free 14840 kB, buff/cache 8392 kB, available 16732 kB; swap total 550904 kB, used 4084 kB, free 546820 kB.
+- [OOM LOG] The supplied `dmesg | grep -Ei 'oom|out of memory|killed process'` output contains historical global OOM events involving `nfqws2`, `apk`, and `hostapd`, including the previously known `tcpdump`-related event. No new OOM event is visible in the supplied excerpt after the last recorded event at dmesg timestamp 107002.118743.
+- [IMPORTANT] The timestamps in dmesg are uptime-relative and the user output does not include the exact iPerf3 test timestamp, so this result alone cannot prove that the 107002 event predates the iPerf3 test. Therefore the 30-second load test is currently classified as **no observed OOM in the supplied post-test excerpt**, not as a definitive OOM-free pass.
+- [INTERPRETATION] Current post-test `MemAvailable=16732 kB` and swap use of 4084 kB do not indicate an immediate exhausted-memory state at the moment of measurement. Linux documents that `vm.min_free_kbytes` sets the minimum free-page watermark and that below the min watermark allocations can trigger direct reclaim/compaction; OOM-killer activity is separately recorded when the kernel reaches an OOM condition. citeturn0search0turn0search1
+- [STATUS] STAGE 11C remains IN_PROGRESS. Before declaring the 2048-kB setting validated under load, correlate the iPerf3 run with dmesg uptime and perform the planned post-load stability observation.
