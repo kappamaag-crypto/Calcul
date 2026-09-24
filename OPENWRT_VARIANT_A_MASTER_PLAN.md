@@ -490,3 +490,9 @@
 - [RESULT 2026-09-25] Corrected watchdog installed to `/usr/bin/zapret2-watchdog`; permissions set to executable. Router-reported SHA-256: `a32d5bddfe0e9e88b6b81cf5d0a9eda30287e458a936314416ae92702f044fa2`.
 - [STATUS] Corrected watchdog deployment gate PASSED. No Zapret2 restart and no watchdog service start/enable occurred.
 - [NEXT GATE] Run the corrected watchdog in read-only `--check` mode to confirm the false nftables failure is gone.
+
+
+- [RESULT 2026-09-25] Corrected watchdog read-only `--check` now reports: `state=HEALTHY reason=none nfqws2=2/2 service=1 nft=1 baseline=1 youtube=1 avail_kb=14404`.
+- [VALIDATION] Service, both expected nfqws2 processes, nftables structure, baseline HTTPS, YouTube probe, and memory safety floor all pass. The previous nftables false negative is resolved.
+- [SAFETY] `--check` is read-only; no restart or configuration change occurred.
+- [STATUS] STAGE 11D structural/functional health-check gate = DONE. Automatic watchdog recovery is still NOT_ACTIVE; controlled `--once` validation remains the next gate before activation.
