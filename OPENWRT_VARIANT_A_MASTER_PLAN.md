@@ -663,3 +663,11 @@
 - [SAFETY GATE] User said to continue. The next router operation may add only the signed 2Grey APK feed and refresh package indexes; it MUST NOT install AWG packages, upgrade existing packages, alter network/firewall/DNS/Zapret2/watchdog configuration, or reboot.
 - [RATIONALE] 2Grey documents a signed APK feed for OpenWrt 25.x and the installer constructs the feed from detected version/target/subtarget. For this router the expected feed is https://2grey.github.io/awg-openwrt/25.12.5/ath79/mikrotik/packages.adb. citeturn0search1
 - [STATUS] STAGE 14 = IN_PROGRESS. Exact AWG asset = CONFIRMED. Third-party feed addition = NEXT. AWG package installation = NOT_STARTED.
+
+
+## STAGE 14 — Third-party AWG feed refresh result — 2026-09-25
+- [USER RESULT] The approved feed-only command completed successfully on the router: `apk update` ended with `OK: 11089 distinct packages available`.
+- [INTERPRETATION] The signed 2Grey APK feed was accepted and its package index was refreshed successfully. This establishes feed visibility/update success, but does NOT establish that the AWG kernel module dependency matches the live kernel ABI.
+- [SAFETY] No AWG package was installed, no kernel module was loaded, no reboot occurred, and no network/routing/firewall/DNS/Zapret2/watchdog configuration was changed by this operation.
+- [STATUS] STAGE 14 = IN_PROGRESS. Third-party feed addition = DONE. Exact AWG package/kernel dependency resolution = NEXT. AWG installation = NOT_STARTED.
+- [NEXT GATE] Perform one read-only `apk policy` query for `kmod-amneziawg`, `amneziawg-tools`, and `luci-proto-amneziawg`; do not install anything until the exact kernel dependency is positively resolved.
