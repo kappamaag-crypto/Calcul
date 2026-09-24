@@ -193,3 +193,13 @@
 - [NEXT GATE] Before any installation: verify exact official/current Xray-core availability for OpenWrt 25.12.5 / MIPS 24Kc, package size and dependencies, expected RAM impact, and whether the required client mode can coexist with current Zapret2 without introducing another OOM risk.
 - [SAFETY] No router configuration was changed by this stage decision.
 - [STATUS] STAGE 14 = IN_PROGRESS — candidate selected; compatibility and installation gate not yet passed.
+
+
+## STAGE 14 — Zapret2 runtime confirmation — 2026-09-25
+
+- [CHECK] Read-only runtime check: `/etc/init.d/zapret2 status` returned `running (1/2)`.
+- [CHECK] `pidof nfqws2` returned PID `12532`.
+- [RESULT] Zapret2 is **currently running**; the `nfqws2` worker process is alive.
+- [INTERPRETATION] The service status and live process agree. This confirms that the previously configured Zapret2 instance is active at the time of this check.
+- [SAFETY] Read-only check only. No Zapret2, firewall, routing, Wi-Fi, VPN, memory, swap, or configuration changes were made.
+- [STATUS] Zapret2 runtime = **RUNNING**. STAGE 14 VPN candidate work remains IN_PROGRESS independently.
