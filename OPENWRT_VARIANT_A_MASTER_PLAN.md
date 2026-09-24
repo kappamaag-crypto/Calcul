@@ -2296,3 +2296,14 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PASS] With Zapret2 active, `wget -qO- -T 5 https://example.com | head -c 100` successfully returned the Example Domain HTML beginning `<!doctype html><html lang="en"><head><title>Example Domain`.
 - [RESULT] Basic HTTPS connectivity from the hAP is confirmed while Zapret2 is active.
 - [LIMIT] This test does not establish application-specific success for Telegram, YouTube, or other services.
+
+
+## Telegram/WhatsApp applicability checkpoint — 2026-09-24
+- [OBSERVATION] User reports that, based on current 2026 experience/data in Russia, ordinary Zapret should not be treated as a reliable bypass mechanism for Telegram and WhatsApp.
+- [CORROBORATION] Current OONI measurements show Telegram blocking in Russia from 20 March 2026 onward on many tested networks, with connection resets/timeouts; the measurements also note that the behavior is not identical across all tested networks. OONI separately lists WhatsApp among messaging services blocked in Russia. citeturn0search0turn0search1
+- [INTERPRETATION] Therefore failure of a direct Telegram API test must not by itself be used as evidence that the current Zapret2 configuration is broken. Blocking mechanisms and network behavior can differ by service and ISP.
+- [DECISION] Do not spend the current Zapret2 stage on iterative Telegram/WhatsApp strategy tuning.
+- [RESULT] Current generic Zapret2 validation target remains basic HTTPS/DPI functionality; the 2026-09-24 example.com HTTPS test is PASS.
+- [PLAN] Telegram/WhatsApp, if required later, are to be handled as a separate service-specific/transport mechanism rather than assumed to be solved by the current generic Zapret2 configuration.
+- [SAFETY] No router configuration, Zapret2 strategy, firewall rule, or service state was changed as part of this checkpoint.
+- [STATUS] Zapret2 generic HTTPS baseline = DONE; Telegram/WhatsApp via generic Zapret2 = NOT_ASSUMED / deferred.
