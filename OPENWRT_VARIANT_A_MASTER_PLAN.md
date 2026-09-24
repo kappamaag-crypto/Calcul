@@ -496,3 +496,8 @@
 - [VALIDATION] Service, both expected nfqws2 processes, nftables structure, baseline HTTPS, YouTube probe, and memory safety floor all pass. The previous nftables false negative is resolved.
 - [SAFETY] `--check` is read-only; no restart or configuration change occurred.
 - [STATUS] STAGE 11D structural/functional health-check gate = DONE. Automatic watchdog recovery is still NOT_ACTIVE; controlled `--once` validation remains the next gate before activation.
+
+
+- [RESULT 2026-09-25] Controlled `/usr/bin/zapret2-watchdog --once` produced no terminal output. This is expected from the script implementation: `--once` writes health/action information to the watchdog log and does not echo a result to stdout.
+- [SAFETY] No indication of a restart or configuration change from the command's terminal result; however, the log should be checked to confirm the cycle recorded `HEALTH state=HEALTHY`.
+- [STATUS] Controlled `--once` execution gate = EXECUTED; validation result pending log inspection. Automatic watchdog remains NOT_ACTIVE.
