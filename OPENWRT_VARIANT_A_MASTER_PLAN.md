@@ -716,3 +716,14 @@
 - [RESOURCE] Package database increased from the prior recorded `32.2 MiB in 231 packages` to `32.4 MiB in 235 packages`, consistent with the small AWG package footprint plus dependency/package-state metadata.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG package installation = DONE (transaction success). AWG kernel module loaded/active = NOT_YET_VERIFIED. AWG interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Perform one read-only installed-state/module check before any reboot or network configuration. Do not import a Proton configuration or alter Zapret2 yet.
+
+
+## STAGE 14 — AmneziaWG installed-state/module-load check — 2026-09-25
+- [USER RESULT] Read-only command `apk info -e kmod-amneziawg amneziawg-tools; lsmod | grep amneziawg`.
+- [RESULT] `apk info -e` confirmed both `kmod-amneziawg` and `amneziawg-tools` are installed.
+- [RESULT] `lsmod | grep amneziawg` returned no line. Therefore the AWG kernel module is installed on disk but is not currently loaded into the running kernel.
+- [INTERPRETATION] This is consistent with the expected post-install state when a kernel module has not yet been loaded/activated in the current boot. It does not indicate package-install failure.
+- [WEB CONTEXT] OpenWrt documents kernel modules as loadable kernel components; module loading is distinct from package installation. OpenWrt's driver documentation notes that loadable modules are separate from the running kernel and may be loaded explicitly. citeturn0search9turn0search10
+- [SAFETY] Read-only check only. No module was manually loaded, no reboot, and no network/routing/firewall/DNS/Zapret2/watchdog configuration changed.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE. AWG module loaded = NOT_STARTED/NOT_YET_VERIFIED. AWG interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Do not manually `insmod` yet. First determine whether the package provides an autoload entry and whether the documented installation path expects a reboot; then perform the least-invasive activation step.
