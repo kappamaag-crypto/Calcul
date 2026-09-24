@@ -2380,3 +2380,13 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [SAFETY] No configuration, service, routing, firewall, or Zapret2 state changed.
 - [DECISION] Do not install/debug-enable slab tooling or rebuild/replace the kernel solely for this investigation. Move to compact read-only VM/buddy/watermark counters.
 - [STATUS] STAGE 11A remains BLOCKED pending localization of the memory pressure through lower-level counters.
+
+
+## STAGE 11A — Memory / VM / zone watermark snapshot — 2026-09-24
+- [RESULT] Node 0 Normal: pages free=2897; min=2048; low=2560; high=3072; managed=13713 pages.
+- [RESULT] Node 0 Movable exists but managed=0.
+- [RESULT] The requested pgscan/pgsteal/pgrefill/allocstall/kswapd/direct counters produced no output in this build, so their availability/value is not established by this check.
+- [INTERPRETATION] Free pages are above min but below high: 2897 pages versus high=3072 and low=2560. Therefore the zone is not currently below its low watermark, but its free-page level is close to the reclaim threshold on a 54.9 MiB device.
+- [INTERPRETATION] Combined with MemAvailable=6676 kB and SUnreclaim=7812 kB, the snapshot confirms a narrow memory margin. It still does not identify the owner of the unreclaimable kernel memory or prove fragmentation as the OOM cause.
+- [DECISION] No VM, swap, Zapret2, firewall, Wi-Fi, or service configuration changes made. Continue with read-only localization.
+- [STATUS] STAGE 11A remains IN_PROGRESS.
