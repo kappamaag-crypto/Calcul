@@ -526,3 +526,12 @@
 - [FINAL RESULT 2026-09-25] Final operational gate passed: watchdog daemon produced a subsequent periodic health record at `2026-09-25 01:46:28`: `HEALTH state=HEALTHY nfqws2=2/2 service=1 nft=1 baseline=1 youtube=1 avail_kb=14504`.
 - [FINAL STATUS] STAGE 11D / Zapret2 watchdog deployment = DONE. Watchdog is enabled for autostart, running under procd in `--daemon` mode, and has completed a periodic healthy check. No automatic restart has been triggered during validation.
 - [FINAL SAFETY STATE] Watchdog recovery rules remain conservative: two consecutive structural/functional failures required; upstream/DNS failure does not restart Zapret2; restart memory floor 4096 KiB; maximum 2 restarts per 15 minutes; 5-minute cooldown; no continuous tcpdump; no Zapret2 configuration edits.
+
+
+## STAGE 14 — VLESS + REALITY / Xray-core — package availability check — 2026-09-25
+- [RESULT] On the hAP ac lite running OpenWrt 25.12.5, the router-side command `apk update >/dev/null 2>&1 && apk policy xray-core` completed successfully.
+- [RESULT] Current package policy reports `xray-core 26.3.27-r1` from the official OpenWrt 25.12.5 `mips_24kc` packages feed: `https://downloads.openwrt.org/releases/25.12.5/packages/mips_24kc/packages/packages.adb`.
+- [INTERPRETATION] Xray-core is directly available through the router's configured OpenWrt package feed for this architecture; a manual third-party binary is not required for the initial installation path.
+- [IMPORTANT VERSION GATE] The available package is 26.3.27-r1. Earlier research identified official Xray reports of MIPSLE crashes associated with Xray 26.3.27-era builds, so availability alone is not an installation approval. Version/runtime compatibility must be checked before installation.
+- [SAFETY] `apk policy` is a read-only package-availability check. No package was installed and no router configuration, routing, firewall, Zapret2, or watchdog state was changed.
+- [STATUS] STAGE 14 = IN_PROGRESS. Package-availability gate = DONE. Next gate: inspect package metadata/dependencies and installation size/resource impact before any installation.
