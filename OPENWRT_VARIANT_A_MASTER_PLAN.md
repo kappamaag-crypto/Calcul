@@ -416,6 +416,9 @@
 - Script is NOT installed on router, NOT enabled and NOT started yet.
 - Current status: watchdog implementation = IN_PROGRESS; deployment = NOT_STARTED.
 
+- [RESULT 2026-09-25] Router downloaded both watchdog files to /tmp successfully: watchdog script 8958 bytes, init.d file 543 bytes; `sh -n /tmp/zapret2-watchdog.sh` returned PASS. This was read-only/preparation only: files were not yet installed into /usr/bin or /etc/init.d, and watchdog was not enabled or started.
+- [STATUS UPDATE] STAGE 11D deployment preparation remains IN_PROGRESS; download/integrity gate = DONE.
+
 ## M. Project workflow
 - One router command at a time remains mandatory.
 - Before each router command, state purpose and whether it changes anything.
