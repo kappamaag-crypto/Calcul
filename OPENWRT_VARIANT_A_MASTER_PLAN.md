@@ -572,3 +572,14 @@
 - [TECHNICAL CONTEXT] Official OpenWrt 25.12 mips_24kc feeds provide `wireguard-tools`; WireGuard uses the kernel module plus userspace tools. This supports evaluating WireGuard as a lightweight path if the VPN provider supplies a native WireGuard configuration. citeturn0search0turn0search11
 - [SAFETY] Read-only snapshot only. No package, network, firewall, DNS, Zapret2, watchdog, swap, or VM configuration changed.
 - [STATUS] STAGE 14 remains IN_PROGRESS. Resource baseline gate = RECORDED. Next gate: read-only check of WireGuard package availability/installation state; do not install yet.
+
+
+## STAGE 14 — AmneziaWG candidate re-evaluation — 2026-09-25
+- [USER INPUT] User provided an external OpenWrt/AmneziaWG setup description and raised AmneziaWG as an alternative to classic WireGuard for the current Russian-network environment.
+- [WEB VERIFICATION] Current Amnezia documentation says its OpenWrt guide supports OpenWrt 23.05+ and uses an installer script; it also states that Amnezia Premium configurations issued only for AmneziaWG 3.1 cannot be used with the older AmneziaWG 2.0 format. citeturn0search3
+- [WEB VERIFICATION] Current community builds do exist for OpenWrt 25.12.x. The current 2Grey project publishes signed APK feeds/releases and reports AmneziaWG 3.1 components; its 25.12.5 release includes AWG components. citeturn0search4turn0search9
+- [IMPORTANT ARCHITECTURE] AmneziaWG is a WireGuard-derived VPN transport with kernel-space support available through `kmod-amneziawg`; it is not part of the standard official OpenWrt package feed for this router. Installation therefore introduces a third-party package/kernel-module trust and compatibility gate, unlike ordinary WireGuard packages from the official OpenWrt feed.
+- [IMPORTANT VERSION GATE] The user-supplied generic claim that AWG is simply required/available everywhere is too broad. Exact AWG version and provider configuration format must match. Current sources show both AWG 3.1 and 25.12.5-specific community builds, while the official Amnezia guide still warns about configuration-version compatibility. citeturn0search3turn0search4
+- [RESOURCE CONTEXT] Current router snapshot immediately before this evaluation: 54,852 kB RAM total, 14,412 kB MemAvailable, ~6.2 GiB free on /overlay, ~5.3 MiB swap used. The device remains memory-constrained, so kernel-module/tools size and runtime RAM/CPU impact must be measured before acceptance.
+- [SAFETY] No AmneziaWG package was installed and no network, firewall, DNS, Zapret2, watchdog, routing, swap, or VM configuration was changed.
+- [STATUS] STAGE 14 remains IN_PROGRESS. AmneziaWG is now an active candidate for evaluation, but not approved for installation. Next gate: read-only package/feed availability and architecture/firmware compatibility check for the exact hAP ac lite OpenWrt 25.12.5 `ath79/mikrotik` target.
