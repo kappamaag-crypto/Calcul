@@ -155,3 +155,12 @@
 - [RESULT] ZRAM remains operational; no swap loss was left behind. USB swap remains configured as the lower-priority fallback.
 - [STATUS] STAGE 12 = DONE — LZO-RLE retained. LZ4 evaluation is BLOCKED by the currently available prebuilt `kmod-zram`; no further LZ4 work is planned unless a compatible build host or official package becomes available.
 - [SAFETY] `vm.min_free_kbytes=2048` remains unchanged and persistent. No Zapret2, firewall, routing, Wi-Fi, or swap-priority changes were made during the finalization.
+
+
+## Post-STAGE 12 memory checkpoint — 2026-09-24
+- RAM: 54,852 KiB total; 30,980 KiB used; 14,440 KiB free; 9,432 KiB buff/cache; 15,904 KiB available.
+- Swap: 550,904 KiB total; 3,832 KiB used; 547,072 KiB free. ZRAM remains 26,620 KiB at priority 100; USB swap 524,284 KiB at priority -2 and unused.
+- Required services are alive: hostapd, nfqws2, dnsmasq.
+- OOM log output contains only previously recorded events; no newer OOM event was shown after the last recorded hostapd OOM at uptime 107002.118096.
+- Result: post-ZRAM-finalization memory state is stable enough to continue. No additional memory tuning is introduced.
+- Next focus: return to network/Zapret2 functional validation; do not reopen ZRAM/LZ4 work.
