@@ -971,3 +971,11 @@ Use the user-verified 8 TCP + 2 QUIC candidate set from the Master Plan. Do not 
 - Record package-name corrections in the glossary and master plan when they affect the project workflow.
 - On the 64 MB hAP ac lite, prefer useful CLI diagnostics installed on extroot and run on demand; avoid unnecessary heavyweight tools/daemons.
 - `vim-full` is optional and currently excluded; `nano` is the preferred lightweight interactive editor when manual editing is necessary.
+
+
+## WORKFLOW ENFORCEMENT — 2026-09-24 — synchronization must be executed, not merely planned
+- After each user result and assistant response, the Master Plan must actually be synchronized before issuing the next router command.
+- Do not claim that synchronization was completed unless the repository write succeeded.
+- Record only verified factual state from the conversation; do not fabricate tests, commits, or router results.
+- Master Prompt changes are required only when a workflow/safety rule itself changes; factual router/WARP results belong in the Master Plan.
+
