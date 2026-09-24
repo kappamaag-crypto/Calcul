@@ -647,3 +647,12 @@
 - [INTERPRETATION] This confirms only that the currently configured repositories do not expose an AWG kernel package. It does not justify installing a random APK or running a third-party installer.
 - [NEXT GATE] Before any feed addition or installation, verify the exact 2Grey v25.12.5 release asset for `kmod-amneziawg` against the router's `ath79/mikrotik` target/subtarget and exact kernel ABI `6.12.94~1951ed9cd221294b56a47180c29ca5a9-r1`.
 - [STATUS] AWG exact-package compatibility = IN_PROGRESS; third-party feed addition = NOT_STARTED; AWG installation = NOT_STARTED.
+
+
+## STAGE 14 — Exact 2Grey AWG v25.12.5 asset verification — 2026-09-25
+- [WEB RESULT] 2Grey release `v25.12.5` is published for OpenWrt 25.12.5 and AWG 3.1. The release contains a target-specific kernel module asset exactly named `kmod-amneziawg_v25.12.5_mips_24kc_ath79_mikrotik.apk`. Release asset SHA-256: `322cd18ed25e4309fa59c26408df4cb0fc7e8189315ae731e26f689f58d68365`. citeturn0search0
+- [WEB RESULT] The same release contains `amneziawg-tools_v25.12.5_mips_24kc_ath79_mikrotik.apk`; its SHA-256 is `a53bb21861468f9611975ed7719ae6442b1aebba387a1997df195f7a39119425`. The 2Grey documentation identifies `kmod-amneziawg`, `amneziawg-tools`, and `luci-proto-amneziawg` as the required package set and says OpenWrt 25.12 uses APK packages. citeturn0search1turn0search6
+- [WEB RESULT] The 2Grey feed installer constructs the exact feed URL from detected OpenWrt version and target/subtarget: `https://2grey.github.io/awg-openwrt/25.12.5/ath79/mikrotik` for this router. It installs a signed feed key, writes `customfeeds.list`, runs `apk update`, and only then installs the AWG packages. The installer is therefore a modifying operation, not a read-only check. citeturn0search1
+- [IMPORTANT] Existence of the exact target/subtarget asset is now confirmed. The remaining compatibility proof is the package manager's dependency resolution against the router's exact kernel package identity `6.12.94~1951ed9cd221294b56a47180c29ca5a9-r1`. Do not install `kmod-amneziawg` until that dependency is positively resolved.
+- [SAFETY] No AWG feed was added and no AWG package/kernel module was installed during this verification. Zapret2/watchdog/DNS/routing/firewall remain untouched.
+- [STATUS] STAGE 14 = IN_PROGRESS. Exact target/subtarget asset = CONFIRMED. Exact kernel ABI compatibility = IN_PROGRESS. Third-party feed addition = NOT_STARTED. AWG installation = NOT_STARTED.
