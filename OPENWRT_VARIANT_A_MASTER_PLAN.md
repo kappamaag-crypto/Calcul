@@ -450,3 +450,10 @@
   - `/etc/init.d/zapret2-watchdog` — executable, 543 bytes, mode 755.
 - [SAFETY] The command only copied files and set permissions. The watchdog was NOT started or enabled; Zapret2 configuration/runtime was not changed.
 - [STATUS] STAGE 11D deployment-prep file-install gate = DONE. Next gate is read-only watchdog `--check`; no service activation yet.
+
+
+- [RESULT 2026-09-25] First installed watchdog read-only check executed: `/usr/bin/zapret2-watchdog --check`.
+- [RESULT] `state=STRUCTURAL_FAIL reason=SERVICE_OR_PROCESS_OR_NFTABLES nfqws2=2/2 service=1 nft=0 baseline=1 youtube=1 avail_kb=14008`.
+- [INTERPRETATION] Both expected `nfqws2` processes are present; Zapret2 service is running; baseline HTTPS and YouTube functional probes pass; available memory is 14008 KiB (> 4096 KiB safety floor). The structural gate reports `nft=0`, so the watchdog does not consider the nftables structure healthy.
+- [SAFETY] This was a read-only check. No service restart, nftables change, configuration change, package change, or watchdog activation occurred.
+- [STATUS] STAGE 11D = IN_PROGRESS. Automatic recovery remains NOT_ACTIVE. Next step is to inspect why the watchdog's nftables structural test returns `nft=0`, without restarting Zapret2.
