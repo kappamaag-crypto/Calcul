@@ -21,3 +21,13 @@
 - [RISK] This is an aggressive runtime tuning experiment. A lower reserve gives the kernel less emergency free memory for allocations/reclaim; under heavy bursts it can increase allocation stalls or make low-memory behavior less forgiving. Linux documents `min_free_kbytes` as the minimum amount of free memory the VM keeps and warns that setting it too low can cause problems; it should not be lowered further casually.
 - [SAFETY] Change is runtime-only and reversible. Reboot should restore the default unless OpenWrt later persists a setting; do not persist yet.
 - [STATUS] STAGE 11C = IN_PROGRESS. Keep 2048 kB isolated as the only changed VM variable until stability is observed. Do not simultaneously change swappiness, watermark_scale_factor, swap, Zapret2 set limits, or Wi-Fi settings.
+
+
+## STAGE 11C — Runtime VM free-memory reserve tuning — follow-up observation — 2026-09-24
+- [RESULT] With runtime-only `vm.min_free_kbytes=2048`, a 60-second lightweight idle sample showed Normal-zone `pages free` from 3038 to 3737 pages while watermarks stayed at min=512, low=640, high=768.
+- [RESULT] `MemAvailable` ranged 14204–17044 kB; `MemFree` ranged 12300–15140 kB.
+- [INTERPRETATION] During this sample, free pages remained about 4.0–4.9× above the high watermark and about 6.0–7.3× above the low watermark; the zone never approached the critical min watermark. No allocation stall, OOM, network, or Wi-Fi failure was reported during the sample.
+- [CONCLUSION] The 2048 kB setting is not showing immediate watermark stress in idle conditions. This does NOT prove safety under traffic/load; the meaningful test is later behavior under normal router workload.
+- [STATUS] STAGE 11C remains IN_PROGRESS. Keep 2048 kB unchanged for now; do not lower further yet.
+- [SOURCE CONTEXT] Linux documents that below the low watermark kswapd is woken, while below min allocations may trigger direct reclaim/compaction; min_free_kbytes determines the min watermark. citeturn0search1turn0search2
+- [SAFETY] No additional configuration or service changes were made during this observation.
