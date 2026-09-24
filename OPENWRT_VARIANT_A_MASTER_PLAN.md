@@ -178,3 +178,18 @@
 - [DECISION] Do not spend further cycles blindly tuning `NFQWS2_OPT`, `MODE_FILTER`, fake/split parameters, or increasing capture volume solely to force Telegram/WhatsApp through Zapret2. The current evidence points to a different blocking layer for at least part of the problem.
 - [STATUS] STAGE 13 = BLOCKED for Telegram/WhatsApp by the current Zapret2-only approach; Zapret2 remains useful for DPI-based services such as the already verified HTTPS example.com path.
 - [SAFETY] No Zapret2, firewall, routing, Wi-Fi, VM, swap, or memory settings were changed by this conclusion.
+
+
+## STAGE 14 — VPN transport selection: VLESS + REALITY / Xray-core — 2026-09-25
+
+- [DECISION] User explicitly selected **VLESS + REALITY / Xray-core** as the current VPN-transport candidate №1 for further evaluation.
+- [USER CONSTRAINT] **Proton VPN Free via ordinary WireGuard is excluded** from the candidate list because it was already tested and is considered blocked/unusable in the user's 2026 РФ network conditions.
+- [CANDIDATE] VLESS + REALITY with Xray-core is to be evaluated as a separate transport from ordinary WireGuard and from Zapret2. It is intended for traffic that cannot be handled by DPI desynchronization alone, including the Telegram/WhatsApp problem currently blocked at STAGE 13.
+- [HARDWARE FIT — PRELIMINARY] Target router is MikroTik hAP ac lite, MIPS 24Kc, 64 MB RAM, OpenWrt 25.12.5. The router has a history of system-wide OOM events, so memory impact is a first-class acceptance criterion.
+- [CURRENT OFFICIAL REPOSITORY CHECK] OpenWrt 25.12.5 publishes a dedicated `mips_24kc` package tree, confirming that the architecture has an official package repository. This does **not yet prove** that the exact current Xray-core package and all required dependencies are available for the router's target; that must be checked before installation. citeturn0search0turn0search4
+- [NO INSTALL YET] Xray-core, VLESS, REALITY, sing-box, AmneziaWG, PBR, VPN routes, firewall rules, and proxy configuration have **not** been installed or changed as part of STAGE 14.
+- [NO SERVER SELECTED] No VPS/server/provider has been selected yet. VLESS + REALITY requires a compatible remote endpoint; the present stage only fixes the transport candidate, not a server.
+- [ALTERNATIVES] sing-box + VLESS/REALITY and AmneziaWG remain secondary candidates only. Ordinary WireGuard/Proton WireGuard remains excluded.
+- [NEXT GATE] Before any installation: verify exact official/current Xray-core availability for OpenWrt 25.12.5 / MIPS 24Kc, package size and dependencies, expected RAM impact, and whether the required client mode can coexist with current Zapret2 without introducing another OOM risk.
+- [SAFETY] No router configuration was changed by this stage decision.
+- [STATUS] STAGE 14 = IN_PROGRESS — candidate selected; compatibility and installation gate not yet passed.
