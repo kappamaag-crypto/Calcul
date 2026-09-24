@@ -481,3 +481,7 @@
 - [SYNC] Watchdog script commit: `8120ca2a3e33a8b4850fba66ea91afcb9cd835d4`; content SHA: `ee22c13fb751b8e5965786838430e9ea7936b205`.
 - [SAFETY] Repository-only change; no router runtime state was modified.
 - [NEXT GATE] Deploy the corrected script to the router, but do not restart/enable Zapret2 or the watchdog during deployment.
+
+
+- [RESULT 2026-09-25] Corrected watchdog script downloaded to `/tmp/zapret2-watchdog.new`; download succeeded, shell syntax check `sh -n` passed, size reported 8963 bytes.
+- [STATUS] Temporary-file deployment gate PASSED. The corrected script is not yet installed over the active `/usr/bin/zapret2-watchdog`; no service restart or watchdog activation occurred.
