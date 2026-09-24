@@ -506,3 +506,8 @@
 - [RESULT 2026-09-25] Watchdog log after controlled `--once`: `2026-09-25 01:45:04 HEALTH state=HEALTHY nfqws2=2/2 service=1 nft=1 baseline=1 youtube=1 avail_kb=14476`.
 - [VALIDATION] Controlled one-cycle execution recorded a healthy state and did not trigger recovery/restart.
 - [STATUS] STAGE 11D watchdog validation = DONE for read-only `--check` and controlled `--once`. Automatic daemon activation remains NOT_ACTIVE pending explicit activation gate.
+
+
+- [ACTIVATION REQUEST 2026-09-25] User explicitly requested to proceed with the watchdog activation phase completely after successful `--check` and controlled `--once` validation.
+- [PRE-ACTIVATION SAFETY] Corrected watchdog is installed and executable; read-only health check is HEALTHY; controlled one-cycle check recorded HEALTHY; no recovery/restart was triggered. Activation will use the existing init script only; no Zapret2 configuration changes are planned.
+- [STATUS] Automatic watchdog activation gate = IN_PROGRESS. Next action: enable and start `/etc/init.d/zapret2-watchdog`.
