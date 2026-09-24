@@ -2276,3 +2276,11 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [RESULT] Zapret2 is currently ACTIVE at runtime.
 - [STATUS] Functional post-start application validation is NOT_YET_VERIFIED; no connectivity conclusion is drawn from startup output alone.
 - [SAFETY] No Zapret2 configuration was changed by this action; only the service was started.
+
+
+## Plan reprioritization — 2026-09-24 — WARP deferred
+- [DECISION] User requested to postpone the current Cloudflare WARP work until the end of the plan.
+- [STATUS] The current hAP WARP WireGuard path remains BLOCKED; no further WARP troubleshooting is scheduled in the immediate path.
+- [PRESERVE] All previously verified WARP artifacts and diagnostics remain recorded, including the generated `/etc/wireguard/warp-test.conf`, endpoint/route checks, tcpdump/conntrack observations, and Windows Cloudflare One Client protocol tests.
+- [SAFETY] Do not reconnect or modify the Windows Cloudflare One Client, and do not restart or alter the hAP WARP test interface solely for this deferred stage unless the user explicitly reopens WARP.
+- [PLAN] WARP is moved to the end of the active roadmap as a deferred/last-priority task, after the currently planned non-WARP stages.
