@@ -608,3 +608,42 @@
 - [DECISION] Before adding the third-party AmneziaWG APK feed or installing any kernel module, obtain the router's exact live board/release/kernel/APK architecture identifiers with one read-only command. This is the compatibility gate for the exact device, not a package installation step.
 - [SAFETY] No router configuration or runtime state is changed by the next check. Zapret2, its watchdog, DNS, routing, firewall and existing VPN-related state remain untouched.
 - [STATUS] STAGE 14 = IN_PROGRESS. AmneziaWG third-party feed compatibility gate = IN_PROGRESS. Installation gate = NOT_STARTED.
+
+
+## MASTER WORKFLOW RULE — Mandatory Master Plan read before every project response — 2026-09-25
+- [USER REQUIREMENT] Before every assistant response that concerns the OpenWrt project, the assistant MUST read the current `OPENWRT_VARIANT_A_MASTER_PLAN.md` from the project repository first. This is mandatory, not optional.
+- [ORDER OF OPERATIONS] 1) Read current Master Plan; 2) compare the current user result/request with recorded state; 3) perform web/technical verification when required; 4) if the factual project state changes, update Master Plan before issuing the next router command; 5) only then provide the next instruction.
+- [SOURCE OF TRUTH] The Master Plan is the authoritative project-state/history record. The user's GitHub repository is a state log, NOT a technical authority. Technical claims must be verified against authoritative OpenWrt/project documentation or other appropriate primary sources.
+- [NO FALSE SYNC] The assistant MUST NOT say that the Master Plan was updated unless the GitHub tool confirms a successful commit. If the GitHub update fails or is blocked, explicitly state that synchronization was not completed.
+- [ONE-STEP RULE] Only one router command/test per step unless the user explicitly requests a batch. State purpose and whether the command changes anything. Prefer compact output.
+- [STATE STATUS] Continue using explicit statuses: `NOT_STARTED / IN_PROGRESS / BLOCKED / FAILED / DONE`.
+- [HISTORY] Record material user results, decisions, rejected approaches, safety gates, configuration changes and failures in sufficient detail to reconstruct the project history.
+- [SAFETY] Never execute pasted installation commands blindly. Destructive or externally sourced package/kernel-module changes require a compatibility/safety gate first.
+
+## STAGE 14 — Live AmneziaWG platform/kernel verification — 2026-09-25
+- [USER RESULT] Read-only command executed on the router: `ubus call system board; uname -r; apk --print-arch`.
+- [FACTUAL RESULT] Model: MikroTik RouterBOARD 952Ui-5ac2nD (hAP ac lite); SoC: Qualcomm Atheros QCA9533 ver 2 rev 0; board: `mikrotik,routerboard-952ui-5ac2nd`; rootfs: squashfs; OpenWrt `25.12.5`, revision `r33051-f5dae5ece4`; target `ath79/mikrotik`; kernel `6.12.94`; APK architecture reported as `mips`.
+- [USER RESULT] Read-only command `apk policy 'kmod-amneziawg*'` returned empty output.
+- [INTERPRETATION] No AWG kernel module is visible through the currently configured official OpenWrt APK repositories. This does NOT prove incompatibility; it confirms only that the third-party AWG feed has not been added and no matching package is currently exposed through configured feeds.
+- [USER RESULT] Read-only command `apk policy kernel` returned: `6.12.94~1951ed9cd221294b56a47180c29ca5a9-r1: lib/apk/db/installed https://downloads.openwrt.org/releases/25.12.5/targets/ath79/mikrotik/packages/packages.adb`.
+- [KERNEL GATE] Exact live kernel package identity is therefore `6.12.94~1951ed9cd221294b56a47180c29ca5a9-r1`, including ABI/hash `1951ed9cd221294b56a47180c29ca5a9`. Any third-party `kmod-amneziawg` must be verified against the exact OpenWrt kernel ABI, not merely the human-readable kernel version.
+- [WEB VERIFICATION] Current OpenWrt documentation confirms OpenWrt 25.12 uses apk and that repository entries determine package visibility; OpenWrt also warns against blind package mass-upgrades. Current 2Grey documentation confirms AWG 3.1 packages for OpenWrt 25.12.5 and identifies `kmod-amneziawg`, `amneziawg-tools`, and `luci-proto-amneziawg` as the required components. citeturn0search0turn0search1turn0search6
+- [SAFETY] No AWG feed was added, no package was installed, no kernel module was loaded, and no reboot/network/firewall/DNS/Zapret2/watchdog/routing state changed during these checks.
+- [STATUS] STAGE 14 = IN_PROGRESS. Live platform identification = DONE. Official-feed AWG visibility = DONE (absent). Exact third-party kernel-module compatibility = IN_PROGRESS. AWG installation = NOT_STARTED.
+
+## STAGE 14 — AWG vs VLESS/sing-box decision framework — 2026-09-25
+- [USER INPUT] User supplied a proposal to use AmneziaWG with a free Proton VPN configuration and Zapret2, and separately supplied a proposal to use VLESS+REALITY with sing-box as a lighter alternative.
+- [DECISION] These are candidates, not approved configurations. Do not change the working Zapret2/watchdog configuration while evaluating the transport layer.
+- [TECHNICAL CORRECTION] It is not established that Xray will 'instantly consume all RAM' or that sing-box will necessarily consume 'many times less' memory. The hAP has a constrained memory budget, so actual resident memory/CPU and stability must be measured on this exact MIPS device before acceptance.
+- [TECHNICAL CORRECTION] VLESS+REALITY is not automatically guaranteed to evade every DPI implementation; it is a different transport and does not eliminate the need for route/proxy testing. Likewise, Zapret2 UDP desync must not be assumed necessary or effective for Proton/AWG without an actual tunnel/handshake test.
+- [SCOPE] Ordinary WireGuard is already considered/closed from earlier project work and MUST NOT be reopened unless the user explicitly requests it. Current comparison is AmneziaWG+Proton Free versus VLESS+REALITY via sing-box (with existing working VLESS profile available as a candidate configuration source; credentials must never be reproduced).
+- [SING-BOX] Official OpenWrt package metadata previously verified: `sing-box` 1.13.21-r1 (~48 MiB installed size) and `sing-box-tiny` 1.13.21-r1 (~33 MiB installed size) are available for the router's OpenWrt 25.12 package architecture. No sing-box package is currently installed. The exact runtime memory impact remains untested.
+- [AWG] Current 2Grey documentation says the v25.12.5 release supports AWG 3.1 and publishes the three required components; package selection is target/subtarget-specific. citeturn0search1turn0search6
+- [SAFETY] No VPN package, AWG feed, VLESS route, proxy/TUN, firewall rule, DNS change or Zapret2 configuration was changed as a result of these proposals.
+- [STATUS] STAGE 14 = IN_PROGRESS. Candidate evaluation continues. AWG exact-package gate remains open; VLESS/sing-box remains an alternative path, not yet installed.
+
+## STAGE 14 — Current next gate after empty AWG package policy — 2026-09-25
+- [RESULT] `apk policy 'kmod-amneziawg*'` returned empty output.
+- [INTERPRETATION] This confirms only that the currently configured repositories do not expose an AWG kernel package. It does not justify installing a random APK or running a third-party installer.
+- [NEXT GATE] Before any feed addition or installation, verify the exact 2Grey v25.12.5 release asset for `kmod-amneziawg` against the router's `ath79/mikrotik` target/subtarget and exact kernel ABI `6.12.94~1951ed9cd221294b56a47180c29ca5a9-r1`.
+- [STATUS] AWG exact-package compatibility = IN_PROGRESS; third-party feed addition = NOT_STARTED; AWG installation = NOT_STARTED.
