@@ -547,3 +547,11 @@
 - [PODKOP CONTEXT] Current Podkop documentation states OpenWrt 24.10+ and at least 25 MB free space; Podkop uses sing-box and modifies dnsmasq/sing-box configuration. This makes Podkop a viable architectural candidate, but also means installation/configuration must be treated as a potentially invasive change and must not be performed before the resource/configuration gate passes. citeturn0search5turn0search2
 - [SAFETY] No package was installed; no Podkop, sing-box, Xray, routing, firewall, DNS, Zapret2, or watchdog configuration/runtime state was changed.
 - [STATUS] STAGE 14 = IN_PROGRESS. Full sing-box resource gate = NOT_PREFERRED; sing-box-tiny resource gate = BLOCKED pending exact metadata. Next gate: inspect only the `sing-box-tiny` metadata/size, without installing anything.
+
+## STAGE 14 — VLESS + REALITY / sing-box-tiny — runtime binary check — 2026-09-25
+- [RESULT] Router-side read-only command `sing-box-tiny version` was executed.
+- [RESULT] OpenWrt returned `-ash: sing-box-tiny: not found`.
+- [INTERPRETATION] The package metadata previously inspected for `sing-box-tiny-1.13.21-r1` does not mean that an executable named `sing-box-tiny` is installed or available in PATH. The package is not installed; therefore no runtime/version test was actually performed.
+- [TECHNICAL CONTEXT] The official OpenWrt package definition installs the binary as `/usr/bin/sing-box`, including for the `sing-box-tiny` variant; the variant name is a package/build variant, not the runtime command name. citeturn0search0
+- [SAFETY] No package was installed and no configuration, routing, firewall, DNS, Zapret2, watchdog, or service state changed.
+- [STATUS] STAGE 14 remains IN_PROGRESS. The previous runtime gate is corrected: first verify package installation state and, if absent, do not install yet. The next router check must be read-only.
