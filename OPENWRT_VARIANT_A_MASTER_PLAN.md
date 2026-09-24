@@ -61,3 +61,11 @@
 - [INTERPRETATION] Repeated bounded HTTPS activity is currently stable at the application level. No SSH/Wi-Fi outage or OOM was reported during this six-round test.
 - [SAFETY] No data was written to flash/tmp; no configuration or service state was changed.
 - [NEXT] A controlled tcpdump capture remains appropriate for packet-path diagnosis, but must be tightly bounded because a previous larger capture coincided with an OOM event that killed hostapd/nfqws2 and temporarily disrupted Wi-Fi.
+
+
+## STAGE 11C — Controlled WAN UDP/443 capture — follow-up — 2026-09-24
+- [RESULT] `tcpdump -ni phy0-sta0 -nn -s 96 -c 10 'udp port 443'` was started successfully, but after waiting and manual interrupt it reported `0 packets captured / 0 packets received by filter / 0 packets dropped by kernel`.
+- [CORRELATED TEST] Immediately afterward, `wget -4 -qO /dev/null -T 10 https://example.com` completed successfully (no RC error shown).
+- [INTERPRETATION] No UDP/443 traffic was observed on `phy0-sta0` during this capture window. This does not imply UDP/443 is blocked or broken because the concurrent HTTPS baseline uses TCP/443; it only establishes that this specific capture window had no matching UDP/443 packets.
+- [SAFETY] Capture was bounded by `-s 96 -c 10`, produced no packet drops, and did not cause an observed OOM/Wi-Fi/SSH outage.
+- [NEXT] Do not repeat an open-ended UDP capture. If QUIC/UDP/443 needs testing, first generate known UDP/443 traffic from a client/application or use a deliberately bounded capture window.
