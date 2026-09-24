@@ -485,3 +485,8 @@
 
 - [RESULT 2026-09-25] Corrected watchdog script downloaded to `/tmp/zapret2-watchdog.new`; download succeeded, shell syntax check `sh -n` passed, size reported 8963 bytes.
 - [STATUS] Temporary-file deployment gate PASSED. The corrected script is not yet installed over the active `/usr/bin/zapret2-watchdog`; no service restart or watchdog activation occurred.
+
+
+- [RESULT 2026-09-25] Corrected watchdog installed to `/usr/bin/zapret2-watchdog`; permissions set to executable. Router-reported SHA-256: `a32d5bddfe0e9e88b6b81cf5d0a9eda30287e458a936314416ae92702f044fa2`.
+- [STATUS] Corrected watchdog deployment gate PASSED. No Zapret2 restart and no watchdog service start/enable occurred.
+- [NEXT GATE] Run the corrected watchdog in read-only `--check` mode to confirm the false nftables failure is gone.
