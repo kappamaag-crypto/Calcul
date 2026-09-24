@@ -2284,3 +2284,9 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [PRESERVE] All previously verified WARP artifacts and diagnostics remain recorded, including the generated `/etc/wireguard/warp-test.conf`, endpoint/route checks, tcpdump/conntrack observations, and Windows Cloudflare One Client protocol tests.
 - [SAFETY] Do not reconnect or modify the Windows Cloudflare One Client, and do not restart or alter the hAP WARP test interface solely for this deferred stage unless the user explicitly reopens WARP.
 - [PLAN] WARP is moved to the end of the active roadmap as a deferred/last-priority task, after the currently planned non-WARP stages.
+
+
+## Workflow checkpoint — 2026-09-24 — continue after Zapret2 activation
+- [SYNC] Current documented runtime state was re-read from the repository before continuing.
+- [STATUS] Zapret2 remains ACTIVE; no new router-side configuration change is being made in this checkpoint.
+- [WORKFLOW] Continue one step at a time; functional validation is deferred until explicitly requested/selected as the next test.
