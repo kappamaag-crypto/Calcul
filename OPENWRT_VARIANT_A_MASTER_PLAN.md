@@ -77,3 +77,11 @@
 - [REQUIRED TEST PROPERTY] The next test must create materially higher sustained network traffic than a tiny sequential `example.com` request, while avoiding writes to flash/tmp and keeping the test bounded/recoverable.
 - [INTERPRETATION RULE] The previous six successful requests must not be recorded as proof that the 2048-KB reserve is safe under network load. They only show that ordinary repeated HTTPS requests remained functional during that small baseline.
 - [STATUS] STAGE 11C remains IN_PROGRESS. No additional VM/Zapret2 tuning should be made before the bounded network-load/OOM test.
+
+
+## STAGE 11C — Network-load/OOM test — execution started — 2026-09-24
+- [TEST] Started bounded 60-second IPv4 HTTPS download to `/dev/null`: `wget -4 -O /dev/null -T 60 https://fsn1-speed.hetzner.com/100MB.bin`.
+- [OBSERVATION] Connection reached `78.46.170.2:443`; at the time of the user report the transfer had not yet completed.
+- [SOURCE] Hetzner officially documents `fsn1-speed.hetzner.com/100MB.bin` as a network download test file. citeturn0search0
+- [SAFETY] No output is being written to flash/tmp because destination is `/dev/null`. No configuration changes were made.
+- [STATUS] Test IN_PROGRESS; wait for completion/timeout or any SSH/Wi-Fi/OOM symptom before interpreting the result.
