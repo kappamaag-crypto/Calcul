@@ -213,3 +213,18 @@
 - `net.netfilter.nf_conntrack_tcp_be_liberal` changed 0 → 1 during start.
 - This is a service restart only; no configuration values were changed.
 - Next action: one short post-restart YouTube test, then decide whether further diagnosis is needed.
+
+
+### STAGE 14 diagnostic retrospective — YouTube failure recovered by Zapret2 restart — 2026-09-25
+- [OBSERVED] Before restart, `/etc/init.d/zapret2 status` reported `running (1/2)` and `pidof nfqws2` returned one PID (`12532`). This established that at least one nfqws2 process was alive, but did not establish that the full two-daemon runtime and nftables state were healthy.
+- [OBSERVED] Immediately before restart, a direct router-side HTTPS request to `https://www.youtube.com/` returned no body within the bounded command.
+- [OBSERVED] The restart cleared nftables, started both configured nfqws2 daemons (QNUM 300 and QNUM 65300), and reapplied all configured NFQUEUE rules. The restart also changed `net.netfilter.nf_conntrack_tcp_be_liberal` from 0 to 1 as part of the Zapret2 start sequence.
+- [RESULT] Immediately after restart, the same bounded YouTube request returned YouTube HTML, and the client device on the OpenWrt Wi-Fi could load YouTube and play/use it.
+- [OBSERVED] `zapret-hosts-auto.txt` was present and already contained `www.youtube.com` plus multiple `googlevideo.com`/YouTube-related hostnames. Therefore the recovery cannot be explained by an empty autohostlist.
+- [OBSERVED] No Zapret2-specific entries were returned by `logread -e zapret`; the optional `zapret-hosts-auto-debug.log` did not exist.
+- [IMPORTANT] The exact root cause is **not yet proven**. The strongest current hypothesis is stale/inconsistent runtime state of the nfqws2/nftables path, because a restart that did not change the Zapret2 configuration restored service and explicitly rebuilt nftables and both daemons.
+- [SECONDARY POSSIBILITY] Historical system-wide OOM events previously killed `nfqws2` and `hostapd` on this 64-MB router. This makes memory pressure a credible background failure mode, but there is no new OOM event correlated with this specific YouTube outage, so OOM must not be recorded as the confirmed cause.
+- [SECONDARY POSSIBILITY] The conntrack setting change during restart may have influenced recovery, but causality is unverified; do not attribute the fix solely to `nf_conntrack_tcp_be_liberal=1`.
+- [EXCLUDED AS PRIMARY CAUSE] The recent ZRAM LZ4 experiment ended with active LZO-RLE restored; no Zapret2 configuration was changed by that stage. The diagnostic history therefore provides no direct evidence that the ZRAM experiment caused the YouTube outage.
+- [NEXT DIAGNOSTIC GOAL] If the failure recurs, capture the pre-restart runtime state first (both nfqws2 PIDs, nftables table/rules, and relevant OOM/dmesg evidence) before restarting Zapret2. Do not reproduce the outage intentionally.
+- [STATUS] Root cause = **UNCONFIRMED**; recovery mechanism = **RESTART OF ZAPRET2 RESTORED FUNCTION**.
