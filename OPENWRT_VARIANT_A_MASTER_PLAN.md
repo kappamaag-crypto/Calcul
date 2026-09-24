@@ -69,3 +69,11 @@
 - [INTERPRETATION] No UDP/443 traffic was observed on `phy0-sta0` during this capture window. This does not imply UDP/443 is blocked or broken because the concurrent HTTPS baseline uses TCP/443; it only establishes that this specific capture window had no matching UDP/443 packets.
 - [SAFETY] Capture was bounded by `-s 96 -c 10`, produced no packet drops, and did not cause an observed OOM/Wi-Fi/SSH outage.
 - [NEXT] Do not repeat an open-ended UDP capture. If QUIC/UDP/443 needs testing, first generate known UDP/443 traffic from a client/application or use a deliberately bounded capture window.
+
+
+## STAGE 11C — Scope correction: network-load OOM validation — 2026-09-24
+- [CORRECTION] The six sequential `wget https://example.com` requests are only a connectivity/application baseline; they are **not** a meaningful sustained network-load/OOM stress test.
+- [OBJECTIVE] The actual purpose of this Stage 11C experiment is to determine whether realistic network load causes memory pressure, OOM-killer activity, hostapd/nfqws2 termination, SSH/Wi-Fi loss, or other instability while `vm.min_free_kbytes=2048` and the current Zapret2 configuration remain unchanged.
+- [REQUIRED TEST PROPERTY] The next test must create materially higher sustained network traffic than a tiny sequential `example.com` request, while avoiding writes to flash/tmp and keeping the test bounded/recoverable.
+- [INTERPRETATION RULE] The previous six successful requests must not be recorded as proof that the 2048-KB reserve is safe under network load. They only show that ordinary repeated HTTPS requests remained functional during that small baseline.
+- [STATUS] STAGE 11C remains IN_PROGRESS. No additional VM/Zapret2 tuning should be made before the bounded network-load/OOM test.
