@@ -583,3 +583,12 @@
 - [RESOURCE CONTEXT] Current router snapshot immediately before this evaluation: 54,852 kB RAM total, 14,412 kB MemAvailable, ~6.2 GiB free on /overlay, ~5.3 MiB swap used. The device remains memory-constrained, so kernel-module/tools size and runtime RAM/CPU impact must be measured before acceptance.
 - [SAFETY] No AmneziaWG package was installed and no network, firewall, DNS, Zapret2, watchdog, routing, swap, or VM configuration was changed.
 - [STATUS] STAGE 14 remains IN_PROGRESS. AmneziaWG is now an active candidate for evaluation, but not approved for installation. Next gate: read-only package/feed availability and architecture/firmware compatibility check for the exact hAP ac lite OpenWrt 25.12.5 `ath79/mikrotik` target.
+
+
+## STAGE 14 — AmneziaWG installer safety correction — 2026-09-25
+- [USER INPUT] User supplied a generic AmneziaWG/OpenWrt installation instruction ending with the command `wget -qO- https://githubusercontent.com`.
+- [VALIDATION] The supplied command is incomplete/invalid as an AmneziaWG installer command and must NOT be executed. Current documented installers use a specific `raw.githubusercontent.com` script URL, not the bare `githubusercontent.com` host. The current 2Grey project documents a signed custom package-feed installer and a separate setup script; it supports OpenWrt 25.12.5 and AWG 3.1. citeturn0search1turn0search2
+- [IMPORTANT] Even the documented installer performs package installation and can load a third-party kernel module; therefore it is not a read-only diagnostic and is not to be run before the package/source/kernel compatibility gate is passed.
+- [CURRENT DECISION] Do not run the pasted command and do not run the AmneziaWG installer yet. First perform a single read-only check against the router's configured package manager to establish whether any AWG packages are already installed/visible in the configured feeds.
+- [SAFETY] No router state changed from the user's pasted instruction. Zapret2/watchdog/DNS/routing remain untouched.
+- [STATUS] STAGE 14 remains IN_PROGRESS. AmneziaWG installation gate = NOT_STARTED; read-only package/feed visibility check is next.
