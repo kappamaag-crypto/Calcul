@@ -656,3 +656,10 @@
 - [IMPORTANT] Existence of the exact target/subtarget asset is now confirmed. The remaining compatibility proof is the package manager's dependency resolution against the router's exact kernel package identity `6.12.94~1951ed9cd221294b56a47180c29ca5a9-r1`. Do not install `kmod-amneziawg` until that dependency is positively resolved.
 - [SAFETY] No AWG feed was added and no AWG package/kernel module was installed during this verification. Zapret2/watchdog/DNS/routing/firewall remain untouched.
 - [STATUS] STAGE 14 = IN_PROGRESS. Exact target/subtarget asset = CONFIRMED. Exact kernel ABI compatibility = IN_PROGRESS. Third-party feed addition = NOT_STARTED. AWG installation = NOT_STARTED.
+
+
+## STAGE 14 — Third-party AWG feed addition gate — 2026-09-25
+- [DECISION] Exact 2Grey v25.12.5 target/subtarget assets are confirmed for this router. The remaining check is APK dependency resolution against the live kernel ABI.
+- [SAFETY GATE] User said to continue. The next router operation may add only the signed 2Grey APK feed and refresh package indexes; it MUST NOT install AWG packages, upgrade existing packages, alter network/firewall/DNS/Zapret2/watchdog configuration, or reboot.
+- [RATIONALE] 2Grey documents a signed APK feed for OpenWrt 25.x and the installer constructs the feed from detected version/target/subtarget. For this router the expected feed is https://2grey.github.io/awg-openwrt/25.12.5/ath79/mikrotik/packages.adb. citeturn0search1
+- [STATUS] STAGE 14 = IN_PROGRESS. Exact AWG asset = CONFIRMED. Third-party feed addition = NEXT. AWG package installation = NOT_STARTED.
