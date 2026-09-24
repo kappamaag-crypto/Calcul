@@ -102,3 +102,12 @@
 - [VERIFICATION] The current public iPerf3 server list still lists `iperf-ams-nl.eranium.net` in Amsterdam and documents reverse mode (`-R`) for download testing; the same list also provides alternative Amsterdam/Netherlands servers. citeturn0search0turn0search7
 - [SAFETY] No configuration, VM, Zapret2, Wi-Fi, swap, or filesystem state was changed. No flash/tmp write was performed by this failed connection attempt.
 - [STATUS] STAGE 11C remains IN_PROGRESS. Do not interpret this as a load-test pass/fail. Next step should use a different currently listed iPerf3 endpoint, preferably with a specified port, and remain bounded.
+
+## STAGE 11C — Sustained iPerf3 network-load test — 2026-09-24
+- [TEST] `iperf3 -4 -c 185.182.195.76 -p 5201 -t 30 -P 4 -R`.
+- [RESULT] Test completed successfully: 4 reverse TCP streams, 30 seconds. Aggregate receiver: 73.5 MBytes at 20.6 Mbit/s. Aggregate sender: 80.5 MBytes at 22.5 Mbit/s with 322 retransmissions. Per-stream receiver rates were approximately 4.58–5.45 Mbit/s.
+- [RESULT] Shell returned `RC=0`.
+- [INTERPRETATION] This is the first valid sustained network-load test in Stage 11C: materially higher and continuous traffic reached the router for 30 seconds. The transfer itself completed without an application-level failure.
+- [OOM INTERPRETATION] The supplied output does not include memory/OOM telemetry, so the test cannot yet be declared a memory-safety pass. We need the post-test kernel/OOM and memory snapshot before concluding whether `vm.min_free_kbytes=2048` remained stable under load.
+- [SAFETY] No destination file was used by iperf3; no intentional filesystem write, VM/Zapret2/Wi-Fi/config change was made.
+- [STATUS] STAGE 11C remains IN_PROGRESS pending post-load memory/OOM verification.
