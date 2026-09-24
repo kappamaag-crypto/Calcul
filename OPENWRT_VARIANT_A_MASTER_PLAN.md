@@ -463,3 +463,9 @@
 - [INTERPRETATION] The prior `--check` reported `nft=0` while service/process counts and both functional probes passed. This does not establish that nftables is actually broken; the watchdog's literal-text matching may be too strict for the installed nft output formatting/structure.
 - [SAFETY] Source audit was read-only. No Zapret2 restart, firewall modification, config edit, package change, or watchdog activation.
 - [STATUS] STAGE 11D remains IN_PROGRESS. Next diagnostic is a single read-only comparison of the live `inet zapret2` table against the watchdog's expected text patterns.
+
+
+- [RESULT 2026-09-25] Live `nft list table inet zapret2` output was inspected. The table exists and contains all values that the watchdog source currently expects by text: `set zapret`; `wanif` element `"phy0-sta0"`; `lanif` element `"br-lan"`; TCP dports `{ 80, 443 }`; UDP dport `443`; queue `300`; queue `65300`.
+- [INTERPRETATION] The live nftables output appears structurally compatible with the watchdog's documented predicates, yet `--check` still reports `nft=0`. Therefore the cause is not established; the next step is to identify which individual watchdog text predicate actually fails in the router's shell/grep environment.
+- [SAFETY] This inspection was read-only. No Zapret2 restart, nftables modification, configuration edit, package change, or watchdog activation occurred.
+- [STATUS] STAGE 11D remains IN_PROGRESS. Automatic recovery remains NOT_ACTIVE.
