@@ -130,3 +130,13 @@
 - [CONCLUSION] This is the strongest completed Stage 11C load test so far and provides evidence that runtime-only `vm.min_free_kbytes=2048` remained operational under approximately 29.5 Mbit/s sustained reverse TCP load for 60 seconds with concurrent bounded TCP/443 capture. The historical OOM entries are older than the current load test based on the previously correlated uptime; no new OOM was observed during this final test.
 - [STATUS] STAGE 11C = DONE (load-validation criterion). The 2048-kB setting is validated as a runtime-tested candidate under the bounded workload used here. It is NOT persisted yet.
 - [SAFETY] No persistent sysctl/UCI change was made. Do not lower `vm.min_free_kbytes` further. Do not persist 2048 kB until a separate explicit decision is made. No swap, Zapret2, routing, firewall, or Wi-Fi configuration was changed by this test.
+
+
+## STAGE 11C — Persist vm.min_free_kbytes=2048 — 2026-09-24
+- [CHANGE] Added `vm.min_free_kbytes=2048` as a dedicated line in `/etc/sysctl.conf`.
+- [RESULT] The entry was verified at line 3: `3:vm.min_free_kbytes=2048`.
+- [RESULT] `service sysctl restart` completed with no error output.
+- [RESULT] `cat /proc/sys/vm/min_free_kbytes` returned exactly `2048`, confirming the persistent configuration was successfully applied to the running kernel.
+- [VERIFICATION] Current OpenWrt documentation states that the sysctl service loads `/etc/sysctl.conf` at boot, so the setting is persistent across reboot.
+- [SAFETY] Only `vm.min_free_kbytes` was persisted. `vm.swappiness`, `vm.watermark_scale_factor`, swap, Zapret2, routing, firewall, and Wi-Fi configuration were not changed by this persistence step.
+- [STATUS] STAGE 11C = DONE. `vm.min_free_kbytes=2048` is now persistent and runtime-verified.
