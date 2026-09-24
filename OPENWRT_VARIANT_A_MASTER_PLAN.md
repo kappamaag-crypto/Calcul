@@ -501,3 +501,8 @@
 - [RESULT 2026-09-25] Controlled `/usr/bin/zapret2-watchdog --once` produced no terminal output. This is expected from the script implementation: `--once` writes health/action information to the watchdog log and does not echo a result to stdout.
 - [SAFETY] No indication of a restart or configuration change from the command's terminal result; however, the log should be checked to confirm the cycle recorded `HEALTH state=HEALTHY`.
 - [STATUS] Controlled `--once` execution gate = EXECUTED; validation result pending log inspection. Automatic watchdog remains NOT_ACTIVE.
+
+
+- [RESULT 2026-09-25] Watchdog log after controlled `--once`: `2026-09-25 01:45:04 HEALTH state=HEALTHY nfqws2=2/2 service=1 nft=1 baseline=1 youtube=1 avail_kb=14476`.
+- [VALIDATION] Controlled one-cycle execution recorded a healthy state and did not trigger recovery/restart.
+- [STATUS] STAGE 11D watchdog validation = DONE for read-only `--check` and controlled `--once`. Automatic daemon activation remains NOT_ACTIVE pending explicit activation gate.
