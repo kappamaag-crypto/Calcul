@@ -36,9 +36,11 @@ COOLDOWN=300
 MIN_AVAIL_KB=4096
 KEEP_EVENTS=20
 LOG_MAX_BYTES=131072
+# Keep the persistent restart history bounded as well.
+STATE_KEEP=20
 
 BASELINE_URL='https://example.com/'
-TARGET_URL='https://www.youtube.com/'
+TARGET_URL='https://www.youtube.com/generate_204'
 PROBE_TIMEOUT=7
 
 setup() {
@@ -57,7 +59,7 @@ trim_log() {
     size="$(wc -c < "$LOG_FILE" 2>/dev/null || echo 0)"
     case "$size" in ''|*[!0-9]*) return 0 ;; esac
     [ "$size" -le "$LOG_MAX_BYTES" ] || {
-        tail -n 1000 "$LOG_FILE" > "$LOG_FILE.tmp" 2>/dev/null &&
+        tail -c "$LOG_MAX_BYTES" "$LOG_FILE" > "$LOG_FILE.tmp" 2>/dev/null &&
         mv -f "$LOG_FILE.tmp" "$LOG_FILE" 2>/dev/null || rm -f "$LOG_FILE.tmp"
     }
 }
@@ -76,7 +78,7 @@ avail_kb() {
 }
 
 probe() {
-    curl -4 -sS -o /dev/null --connect-timeout 3 --max-time "$PROBE_TIMEOUT" "$1" >/dev/null 2>&1
+    curl -4 -fsS -o /dev/null --connect-timeout 3 --max-time "$PROBE_TIMEOUT" "$1" >/dev/null 2>&1
 }
 
 service_status() {
@@ -167,6 +169,16 @@ snapshot() {
         logread 2>&1 | tail -n 80 || true
     } > "$file" 2>&1
     printf '%s\n' "$file"
+}
+
+prune_state() {
+    [ -f "$STATE_FILE" ] || return 0
+    n="$(wc -l < "$STATE_FILE" 2>/dev/null || echo 0)"
+    case "$n" in ''|*[!0-9]*) return 0 ;; esac
+    [ "$n" -le "$STATE_KEEP" ] || {
+        tail -n "$STATE_KEEP" "$STATE_FILE" > "$STATE_FILE.tmp" 2>/dev/null &&
+        mv -f "$STATE_FILE.tmp" "$STATE_FILE" 2>/dev/null || rm -f "$STATE_FILE.tmp"
+    }
 }
 
 prune_events() {
@@ -265,6 +277,7 @@ once() {
             ;;
     esac
     trim_log
+    prune_state
 }
 
 main() {
