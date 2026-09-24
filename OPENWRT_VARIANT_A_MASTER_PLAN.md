@@ -2352,3 +2352,15 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [DECISION] Stop all further heavy or enumerative diagnostics on the live router for now. Do not rerun /sys/kernel/slab loops, tcpdump, large grep/find/sort pipelines, package operations, or change Zapret2/firewall/routing solely for this investigation.
 - [STATUS] STAGE 11A = BLOCKED pending a safer memory-pressure investigation; LAN UDP/443 client association remains unfinished.
 - [SAFETY] No persistent router configuration was changed by the failed Slab enumeration. TP-Link Archer remains untouched.
+
+
+## STAGE 11A — Targeted SLAB sysfs cache check — 2026-09-24
+- [RESULT] A narrowly scoped read-only check inspected only `kmalloc-64`, `kmalloc-128`, `skbuff_head_cache`, and `nf_conntrack`.
+- [RESULT] `kmalloc-64` directory was not present.
+- [RESULT] `kmalloc-128`: `object_size=128`, `objs_per_slab=32`; `slabs` and `total_objects` attributes were not present/readable in this build.
+- [RESULT] `skbuff_head_cache`: `object_size=184`, `objs_per_slab=21`; `slabs` and `total_objects` attributes were not present/readable.
+- [RESULT] `nf_conntrack`: `object_size=200`, `objs_per_slab=18`; `slabs` and `total_objects` attributes were not present/readable.
+- [INTERPRETATION] The targeted sysfs interface exposes cache object size and objects-per-slab, but not enough live population data to calculate cache memory usage from these entries. Linux documents these sysfs attributes as kernel ABI fields, but their availability can vary by kernel configuration/build.
+- [SAFETY] The targeted check completed without SSH loss, Wi-Fi interruption, OOM message, or persistent configuration change.
+- [DECISION] Do not expand this into another full-cache enumeration. The current evidence is insufficient to identify the source of `SUnreclaim` by this method.
+- [STATUS] STAGE 11A remains BLOCKED pending a safer, minimal memory-pressure investigation.
