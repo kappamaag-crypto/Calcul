@@ -228,3 +228,24 @@
 - [EXCLUDED AS PRIMARY CAUSE] The recent ZRAM LZ4 experiment ended with active LZO-RLE restored; no Zapret2 configuration was changed by that stage. The diagnostic history therefore provides no direct evidence that the ZRAM experiment caused the YouTube outage.
 - [NEXT DIAGNOSTIC GOAL] If the failure recurs, capture the pre-restart runtime state first (both nfqws2 PIDs, nftables table/rules, and relevant OOM/dmesg evidence) before restarting Zapret2. Do not reproduce the outage intentionally.
 - [STATUS] Root cause = **UNCONFIRMED**; recovery mechanism = **RESTART OF ZAPRET2 RESTORED FUNCTION**.
+
+
+### STAGE 14 — Zapret2 current nftables runtime audit — 2026-09-25
+- [RESULT] Full read-only `nft list table inet zapret2` was reviewed after the successful Zapret2 restart.
+- [RESULT] Table `inet zapret2` is present with `wanif=phy0-sta0`, `lanif=br-lan`, sets `zapret/ipban` size 522288 and `nozapret` size 65536.
+- [RESULT] Current packet-path rules include NFQUEUE QNUM 300 for TCP 80/443 and UDP 443, QNUM 65300 for the configured WireGuard-pattern UDP rules, plus reply-direction queues and the expected mark/defrag chains.
+- [RESULT] The rules use `queue flags bypass to 300` / `bypass to 65300`; therefore the earlier grep for literal `queue num 300`/65300 produced no matches. This was a search-pattern issue, not evidence that the rules were absent.
+- [RESULT] No `counter` statements are present in the displayed rules, so this ruleset does not expose packet counters through those rules.
+- [INTERPRETATION] The post-restart nftables structure is consistent with the successful Zapret2 startup and does not show current rule loss or an obvious missing NFQUEUE path.
+- [IMPORTANT] The previous YouTube outage root cause remains UNCONFIRMED. The restart restored function and rebuilt both nfqws2 daemons/nftables, but the exact failed component was not isolated.
+- [NEXT] Do not restart or alter Zapret2 merely for diagnosis while it is working. If the failure recurs, collect pre-restart state first, then restart only after the evidence is saved.
+
+### STAGE 14 — Zapret2 self-monitoring/auto-recovery design — 2026-09-25
+- [OBJECTIVE] Design a lightweight automatic health monitor that detects a broken/stale Zapret2 runtime, saves diagnostic evidence to USB, records the reason for recovery, and restarts Zapret2 only when a defined health gate fails.
+- [DESIGN PRINCIPLE] Do not rely only on `pidof nfqws2`: the recent incident showed that a process can exist while the end-to-end YouTube path is not necessarily healthy.
+- [PROPOSED HEALTH GATES] 1) expected nfqws2 process count/identity; 2) `/etc/init.d/zapret2 status`; 3) presence of the expected `inet zapret2` table and required NFQUEUE rules; 4) a bounded, low-cost connectivity probe to a known-good HTTPS target, preferably from the router itself; 5) cooldown/debounce to avoid restart loops.
+- [RECOVERY LOGGING] Before any automatic restart, save timestamp, reason, service status, nfqws2 process list, compact nftables ruleset, relevant `dmesg`/OOM lines, memory/swap snapshot, and recent system log lines to USB `/mnt/data`. Keep logs bounded/rotated because the router has only 64 MB RAM.
+- [RECOVERY ACTION] If and only if the health gate fails, write a machine-readable event line such as `ZAPRET2_AUTO_RESTART reason=<...>`, execute the Zapret2 restart, then immediately perform a post-restart health check and record PASS/FAIL.
+- [SAFETY] The monitor must not run tcpdump continuously, must not intentionally reproduce the failure, must not change Zapret2 configuration, and must have a restart cooldown plus a maximum number of automatic restarts per time window.
+- [IMPLEMENTATION] Prefer a small procd-managed service or similarly lightweight periodic check rather than a heavy monitoring stack. OpenWrt procd is the native process/service manager and supports respawn/service lifecycle handling; nftables NFQUEUE also supports bypass behavior so a missing userspace listener need not automatically blackhole matching traffic. citeturn0search1turn0search2
+- [STATUS] Design = NOT_STARTED. No monitoring script, cron job, procd service, or automatic restart mechanism has been installed yet.
