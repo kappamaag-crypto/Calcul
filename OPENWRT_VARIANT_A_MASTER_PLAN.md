@@ -85,3 +85,11 @@
 - [SOURCE] Hetzner officially documents `fsn1-speed.hetzner.com/100MB.bin` as a network download test file. citeturn0search0
 - [SAFETY] No output is being written to flash/tmp because destination is `/dev/null`. No configuration changes were made.
 - [STATUS] Test IN_PROGRESS; wait for completion/timeout or any SSH/Wi-Fi/OOM symptom before interpreting the result.
+
+
+## STAGE 11C — Network-load/OOM test — failed source attempt — 2026-09-24
+- [RESULT] `wget -4 -O /dev/null -T 60 https://fsn1-speed.hetzner.com/100MB.bin` reached `78.46.170.2:443` but then returned `Connection error: Connection timed out`; shell reported `RC=4`.
+- [INTERPRETATION] This is **not an OOM result**. The download did not reach sustained transfer, so it cannot be used to judge whether `vm.min_free_kbytes=2048` survives heavy network load.
+- [SOURCE VALIDITY] Hetzner's current documentation still lists `fsn1-speed.hetzner.com/100MB.bin` as an official download-speed test file, so the failure is router/path-specific or otherwise connection-specific rather than evidence that the documented test file is invalid. citeturn0search0
+- [SAFETY] No flash/tmp write; no configuration change; no OOM/Wi-Fi/SSH failure was reported during this attempt.
+- [STATUS] STAGE 11C remains IN_PROGRESS. A different verified, reachable high-volume network-load mechanism is required; do not lower `min_free_kbytes` further or change Zapret2 before that test.
