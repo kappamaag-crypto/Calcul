@@ -2251,3 +2251,15 @@ Earlier detailed candidate-testing history remains represented by the selected-c
 - [CHOICE] `vim-full` не устанавливался, так как сейчас не нужен; предпочтён более лёгкий `nano`.
 - [STATUS] Diagnostic toolkit installation DONE.
 - [SAFETY] Из-за ограниченной RAM (~64 MB total) инструменты не запускаются одновременно без необходимости; набор предназначен для on-demand диагностики.
+
+
+## SYNC CORRECTION — 2026-09-24 — STAGE 22 WARP diagnostic state
+- [CORRECTION] The immediately preceding user/assistant exchange was not synchronized to the Master Plan before the next router command; this entry records the omitted synchronization.
+- [PASS] Windows Cloudflare One Client is currently disconnected; `warp-cli status` returned `Status update: Disconnected` with reason `Settings Changed`.
+- [PASS] User reports Windows internet is currently stable with WARP disconnected.
+- [PASS] On the hAP, `wg show warp-test` shows endpoint `162.159.192.1:2408`, persistent keepalive 25 s, TX `1.38 MiB`, RX `0 B`, and no latest handshake.
+- [PASS] On the hAP, `ip route get 162.159.192.1` resolves via `192.168.0.1` on `phy0-sta0` with source `192.168.0.100`.
+- [RESULT] These read-only checks confirm the hAP has a valid route and continues sending WireGuard traffic, while no WireGuard response/handshake has been observed.
+- [STATUS] STAGE 22 — BLOCKED for the current hAP WARP WireGuard path.
+- [SAFETY] Windows WARP reconnection is paused; Zapret2 remains inactive; no persistent WARP or firewall configuration changes were made during these checks.
+
