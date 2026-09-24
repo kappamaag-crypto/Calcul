@@ -31,3 +31,11 @@
 - [STATUS] STAGE 11C remains IN_PROGRESS. Keep 2048 kB unchanged for now; do not lower further yet.
 - [SOURCE CONTEXT] Linux documents that below the low watermark kswapd is woken, while below min allocations may trigger direct reclaim/compaction; min_free_kbytes determines the min watermark. citeturn0search1turn0search2
 - [SAFETY] No additional configuration or service changes were made during this observation.
+
+
+## STAGE 11C — Bounded network-load test preparation — 2026-09-24
+- [RESULT] Preliminary large-download probe with runtime-only `vm.min_free_kbytes=2048`: `wget -4 -qO /dev/null -T 10 https://speed.hetzner.de/100MB.bin` returned `Failed to send request: Operation not permitted` and `RC=4`.
+- [INTERPRETATION] The selected test URL cannot currently be used as the load source from the router. This result does not by itself demonstrate a memory failure; no OOM/Wi-Fi/routing failure occurred during this one-request probe.
+- [SOURCE CONTEXT] Hetzner's current documentation identifies `https://fsn1-speed.hetzner.com/100MB.bin` as an official speed-test file and recommends using `curl` or `wget` for download testing. citeturn243162search0
+- [SAFETY] No file was written to flash/tmp because output was directed to `/dev/null`; no configuration, service, firewall, routing, Wi-Fi, swap, or VM setting was changed.
+- [STATUS] STAGE 11C remains IN_PROGRESS. Do not repeat the failed URL. Next load step should use a bounded source known to be reachable, with output discarded to `/dev/null`, and avoid `tcpdump` because prior heavy capture coincided with system-wide OOM events.
