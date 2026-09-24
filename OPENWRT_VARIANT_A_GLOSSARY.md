@@ -1658,3 +1658,8 @@ The qnum=65300 WireGuard-related rules are runtime rules observed during this st
 - Repository state was re-read before continuing the router workflow.
 - Zapret2 remains documented as ACTIVE after the successful service start.
 - No router configuration was changed by this checkpoint.
+
+
+## 74. Zapret2 functional baseline — 2026-09-24
+- With Zapret2 active, an HTTPS request to example.com completed within the 5-second timeout and returned HTML from Example Domain.
+- This confirms basic HTTPS connectivity with the current runtime rules; it is not proof of application-specific bypass behavior.
