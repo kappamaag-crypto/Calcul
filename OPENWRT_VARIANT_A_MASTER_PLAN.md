@@ -419,6 +419,9 @@
 - [RESULT 2026-09-25] Router downloaded both watchdog files to /tmp successfully: watchdog script 8958 bytes, init.d file 543 bytes; `sh -n /tmp/zapret2-watchdog.sh` returned PASS. This was read-only/preparation only: files were not yet installed into /usr/bin or /etc/init.d, and watchdog was not enabled or started.
 - [STATUS UPDATE] STAGE 11D deployment preparation remains IN_PROGRESS; download/integrity gate = DONE.
 
+- [RESULT 2026-09-25] Installation gate attempt failed before copying either file: OpenWrt shell returned `-ash: install: not found`. Both destination files remained absent (`/usr/bin/zapret2-watchdog` and `/etc/init.d/zapret2-watchdog`). No watchdog process/service was started and Zapret2 configuration was not changed.
+- [BLOCKER] The BusyBox/OpenWrt environment does not provide the `install` utility; next deployment step must use a built-in file-copy method and preserve executable permissions.
+
 ## M. Project workflow
 - One router command at a time remains mandatory.
 - Before each router command, state purpose and whether it changes anything.
