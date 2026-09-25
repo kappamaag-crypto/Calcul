@@ -1902,3 +1902,12 @@ No historical information is to be deleted merely because it is no longer curren
 - [NEXT SAFE STEP] Before any package installation or filesystem operation, perform one read-only repository-package availability check for e2fsprogs. This does not change router state and addresses the current ext4-formatting blocker.
 - [SAFETY] No formatting, partitioning, mounting, extroot activation, package installation, or reboot is authorized by this checkpoint.
 - [STATUS] USB ext4/extroot preparation = BLOCKED pending tooling reconciliation; WireGuard = PAUSED.
+
+
+## 2026-09-25 — USB e2fsprogs availability check result
+
+- Command: apk search -e e2fsprogs.
+- Result: **NON-DIAGNOSTIC / PACKAGE-INDEX CACHE UNAVAILABLE**, not proof that e2fsprogs is unavailable.
+- apk reported missing local cache/index files (packages.adb) for the configured AWG and official OpenWrt repositories.
+- Therefore the previous wording **"USB ext4/extroot — BLOCKED"** is narrowed: the actual blocker is currently **unresolved package-index availability / package acquisition**, while /dev/sda2 remains unformatted. No formatting or package installation was performed.
+- Next safe action must determine whether the configured apk repositories can refresh their indexes; no filesystem change is authorized yet.
