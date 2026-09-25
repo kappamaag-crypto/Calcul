@@ -1683,3 +1683,11 @@ Type: AUTHORITATIVE STATE / POLICY
 - [DECISION] Do not apply I1-I5=1..5. Test only the numeric AWG parameters from Variant 2 in isolation: Jc=5, Jmin=50, Jmax=100, S1=45, S2=112, S3=78, S4=93. This remains an unverified compatibility experiment, not a Proton requirement.
 - [STATUS] Gate 4 remains IN_PROGRESS / handshake NOT_VALIDATED. No default route or full VPN routing.
 - [NEXT] Apply the seven numeric runtime-only parameters to isolated proton_awg_test, then perform one bounded handshake observation.
+
+
+## STAGE 14 — Proton-AWG Gate 4.3 — Variant 2 numeric parameters applied — 2026-09-25
+- [RESULT] Runtime-only proton_awg_test parameters successfully applied and read back: Jc=5, Jmin=50, Jmax=100, S1=45, S2=112, S3=78, S4=93; H1-H4 remain 1/2/3/4; RandomTrailers=off; DisableCookies=off.
+- [RESULT] No error from awg set; verification output exactly matches the requested seven numeric parameters.
+- [TECHNICAL] Official amneziawg-tools documents I1-I5 as tagged-junk strings, so the supplied numeric I1-I5=1..5 are not applied. Official source confirms the syntax. 
+- [STATUS] Gate 4.3 parameter application = DONE; handshake remains NOT_VALIDATED.
+- [NEXT] Perform one bounded 20-second read-only handshake observation; no route, service, Zapret2, or persistent configuration changes.
