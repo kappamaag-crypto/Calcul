@@ -727,3 +727,13 @@
 - [SAFETY] Read-only check only. No module was manually loaded, no reboot, and no network/routing/firewall/DNS/Zapret2/watchdog configuration changed.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE. AWG module loaded = NOT_STARTED/NOT_YET_VERIFIED. AWG interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Do not manually `insmod` yet. First determine whether the package provides an autoload entry and whether the documented installation path expects a reboot; then perform the least-invasive activation step.
+
+
+## STAGE 14 — AWG autoload-entry check — 2026-09-25
+- [USER RESULT] `grep -R amneziawg /etc/modules.d /etc/modules-boot.d 2>/dev/null` returned empty.
+- [RESULT] No AWG autoload entry is present in the overlay's `/etc/modules.d` or `/etc/modules-boot.d`.
+- [INTERPRETATION] The installed third-party AWG package did not create a visible OpenWrt module-autoload entry in these directories. OpenWrt's packaging system normally creates such entries when a kernel package declares AUTOLOAD, but absence here does not by itself prove that the module cannot be loaded or that a reboot is required.
+- [WEB VERIFICATION] Official OpenWrt documentation confirms kernel modules are loadable components and that package metadata can create `/etc/modules.d/` autoload entries; OpenWrt also documents `insmod` as the available module-loading mechanism on firmware where `modprobe` may be absent. citeturn0search0turn0search3
+- [SAFETY] Read-only check only. No module load, reboot, interface, routing, firewall, DNS, Zapret2 or watchdog change.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE. AWG module loaded = NOT_STARTED. AWG interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Inspect the installed package contents/metadata for the exact module filename and any post-install behavior before deciding between a controlled manual module load and reboot. Do not use a generic AWG installer.
