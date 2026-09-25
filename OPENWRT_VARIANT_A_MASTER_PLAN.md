@@ -1979,3 +1979,20 @@ The highest-priority incomplete non-tunnel capability identified by this audit i
 - current routes relevant to 192.168.0.0/24 and 192.168.1.0/24.
 
 No firewall opening, LuCI binding change, routing change, or other state-changing operation is authorized merely from this Wi-Fi audit.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — ARCHER-SIDE MANAGEMENT AUDIT
+
+### Fresh read-only evidence
+- IPv4 routing includes default via 192.168.0.1 dev phy0-sta0 src 192.168.0.100; 192.168.0.0/24 directly connected to phy0-sta0; 192.168.1.0/24 directly connected to br-lan; Proton endpoint host route 194.180.33.20/32 via 192.168.0.1 on phy0-sta0.
+- Firewall defaults: input=REJECT, output=ACCEPT, forward=REJECT.
+- WAN zone: input=REJECT, output=ACCEPT, forward=DROP.
+- Existing WAN rule Allow-SSH-from-TPLink is present.
+- Dropbear: enabled, TCP/22, listeners on 0.0.0.0:22 and :::22.
+- uci show uhttpd: Entry not found; no TCP/80 or TCP/443 management listener was observed in the supplied listener audit.
+- Capability status: hAP routing to Archer-side network = RUNTIME_VERIFIED; Dropbear listening for local TCP/22 = RUNTIME_VERIFIED; dedicated Archer-side SSH firewall rule presence = RUNTIME_VERIFIED; end-to-end Archer Wi-Fi client to 192.168.0.100:22 reachability = NOT VALIDATED / INCOMPLETE.
+- Security-relevant observation: Dropbear currently has PasswordAuth='on' and RootPasswordAuth='on'. No change was made; this is recorded for later security review, not as a reason to alter access before reachability is established.
+
+### Next controlled step
+Inspect the exact UCI parameters of the existing Allow-SSH-from-TPLink rule. This is read-only and is required before deciding whether any firewall change is needed. Do not create another SSH rule or weaken WAN input policy until this rule is understood.
