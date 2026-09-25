@@ -1737,3 +1737,18 @@ Type: AUTHORITATIVE STATE / POLICY
 - [TECHNICAL DECISION] A blind Cartesian mass search over J/S/H/I is not justified for the current Proton endpoint. S/H/I modifications can require compatible AWG behavior/server-side expectations, while Proton-generated profiles are documented as standard WireGuard. Numeric I1-I5=1..5 remain invalid as a documented AWG representation. citeturn895469search7turn776760search2
 - [AUTOMATION OPTION] A controlled local harness is technically possible, but should be limited to a finite source-justified matrix and one isolated profile at a time, with no default route and a fixed acceptance condition (latest handshake and RX>0). Do not enumerate hundreds/thousands of random combinations against a third-party Proton endpoint.
 - [NEXT HYPOTHESIS] The higher-value next A/B is a fresh official Proton WireGuard profile pointing to a different Proton server endpoint, tested without inventing AWG S/H/I values. This can distinguish an endpoint-specific/upstream reachability issue from the current AWG parameter experiment. No route change is implied.
+
+
+## STAGE 14 — Proton-AWG J-only finite matrix — 2026-09-25 22:35 GMT
+- [USER RESULT] The isolated `proton_awg_test` J-only matrix was executed with S1-S4=0 and H1-H4=1/2/3/4, then three runtime-only J profiles were applied sequentially:
+  1. Jc=4, Jmin=20, Jmax=60
+  2. Jc=8, Jmin=40, Jmax=100
+  3. Jc=12, Jmin=60, Jmax=120
+- [RESULT] Profile 1: 0 B received; TX 670.21 KiB -> 670.50 KiB during 20 s.
+- [RESULT] Profile 2: 0 B received; TX 670.50 KiB -> 672.66 KiB during 20 s.
+- [RESULT] Profile 3: 0 B received; TX 672.66 KiB -> 677.39 KiB during 20 s.
+- [RESULT] No latest-handshake field was present in the captured output.
+- [INTERPRETATION] None of the three J-only profiles produced observed RX/handshake evidence. However, the harness changed parameters on an already-active interface and did not explicitly bounce/restart the isolated interface before each profile. Therefore these 20-second windows cannot by themselves prove that each profile generated a fresh handshake initiation. Treat all three as NOT VALIDATED, not as definitive parameter-specific failures.
+- [STATUS] STAGE 14 / Proton-AWG Gate 4 remains IN_PROGRESS. Proton-AWG tunnel remains NOT VALIDATED. No default route or full VPN routing was enabled.
+- [METHODOLOGY CORRECTION] Before any further J-only conclusion, a single controlled test must explicitly force a fresh handshake for the isolated interface and verify the resulting timestamp/RX. Do not perform another blind J sweep.
+- [NEXT HYPOTHESIS] Determine the safest reversible way to force one fresh handshake on `proton_awg_test` while preserving the endpoint host route and avoiding any default-route change; then test only one selected profile if warranted.
