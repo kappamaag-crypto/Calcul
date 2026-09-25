@@ -1719,3 +1719,11 @@ Type: AUTHORITATIVE STATE / POLICY
 - [STATUS] Gate 4.4 Profile 2 = IN_PROGRESS; handshake NOT_VALIDATED.
 - [SAFETY] No additional state-changing router action was performed after the empty readback.
 - [NEXT] Use one simpler read-only AWG status command to obtain the non-secret parameter readback, then decide whether the bounded observation is warranted.
+
+## STAGE 14 — Proton-AWG Gate 4.4 — Profile 2 handshake observation — 2026-09-25 22:28 GMT
+- [USER RESULT] After Profile 2 readback confirmed Jc=5, Jmin=60, Jmax=120, S1=50, S2=130, H1-H4=5/6/7/8, one bounded 20-second read-only observation was performed.
+- [RESULT] Before: transfer 0 B received, 632.53 KiB sent. After 20 s: transfer 0 B received, 634.42 KiB sent. No latest handshake line was reported.
+- [INTERPRETATION] Profile 2 produced continued outbound traffic but no inbound response/handshake. Profile 2 is NOT VALIDATED for Proton-AWG.
+- [STATUS] STAGE 14 / Gate 4 remains IN_PROGRESS; handshake remains NOT VALIDATED / FAILED for the tested acceptance condition. No default route, Zapret2 restart, persistent AWG configuration change, or other network-path change was made by this observation.
+- [DIAGNOSTIC RULE] Do not repeat equivalent bounded 20-second observations for additional arbitrary parameter combinations without a new hypothesis or source evidence. A blind mass enumeration of AWG values is not an evidence-based next step.
+- [NEXT DIRECTION] Research the documented semantics and version-specific behavior of Jc/Jmin/Jmax/S1-S4/H1-H4/I1-I5, and determine whether a controlled automated test harness can be built around a finite, source-justified profile set while preserving isolation and avoiding any default-route change.
