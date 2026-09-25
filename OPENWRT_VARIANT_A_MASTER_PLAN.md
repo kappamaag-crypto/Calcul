@@ -1775,3 +1775,10 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The reversible interface restart completed without a reported local error. This was intended to force a fresh initiation without changing the default route or endpoint host-route design.
 - [STATUS] Gate 4 remains IN_PROGRESS; handshake/RX is not yet established from this action alone.
 - [NEXT] Perform one read-only `awg show` check for endpoint, transfer and latest handshake. No configuration changes or parameter sweep.
+
+
+## STAGE 14 — Proton-AWG post-restart handshake readback — 2026-09-25
+- [USER RESULT] After isolated `proton_awg_test` down/up restart, read-only status showed endpoint `194.180.33.20:51820`, transfer `0 B received, 748.07 KiB sent`, persistent keepalive `1`, and no `latest handshake` field.
+- [INTERPRETATION] The restart did not produce observable inbound traffic or a handshake. The AWG interface can transmit, but the endpoint has not returned a response in the observed state.
+- [STATUS] Gate 4 remains IN_PROGRESS; Proton-AWG handshake NOT_VALIDATED. No default route or production traffic has been enabled.
+- [DECISION] Do not repeat equivalent AWG parameter sweeps. The next higher-value branch is a controlled A/B with a fresh official Proton WireGuard profile/different endpoint, while preserving the isolated/no-default-route architecture.
