@@ -1817,3 +1817,10 @@ Type: AUTHORITATIVE STATE / POLICY
 - [SAFETY] The private key value remains undisclosed and is not recorded in project documentation. Temporary key file remains until post-install verification.
 - [STATUS] New endpoint + new client key are configured on isolated `proton_awg_test`; handshake/RX still NOT_VALIDATED.
 - [NEXT] Read-only verification of public key, endpoint, transfer and handshake; do not expose the private key and do not enable default routing.
+
+
+## STAGE 14 — New Proton profile key readback — 2026-09-25
+- [USER RESULT] Isolated `proton_awg_test` now reports client public key `rtuz8pFtsG7V9E2h6PwMypdrMMAtz/jSqxafv5dmkVQ=`, peer `ehwHh3WXBDwFxqTs4Oa8aZZYjOnd3NwjbMArKRwTqzs=`, endpoint `146.70.246.98:51820`, transfer `0 B received, 146.27 KiB sent`, PersistentKeepalive=25, and no latest-handshake field.
+- [INTERPRETATION] The new client private key is active and corresponds to the displayed new client public key. The new endpoint is the sole peer. No inbound response/handshake has yet been observed.
+- [STATUS] Gate 4 IN_PROGRESS; new Proton Free endpoint/key A/B handshake NOT_VALIDATED.
+- [NEXT] Force one fresh interface initiation now that the correct client key is installed; then inspect handshake/RX. Temporary key file remains until successful verification.
