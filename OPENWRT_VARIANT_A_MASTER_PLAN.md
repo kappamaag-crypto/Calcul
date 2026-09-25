@@ -909,3 +909,13 @@
 - [STATUS] STAGE 14 = IN_PROGRESS. Handler inspection = DONE; AWG interface = NOT_STARTED; peer/handshake/traffic = NOT_STARTED.
 - [WEB VERIFICATION] Official OpenWrt documentation confirms UCI is the central network configuration mechanism and netifd protocol handlers define monitored protocol parameters. citeturn0search1turn0search8
 - [NEXT STEP] Locate any existing Proton/AWG/WireGuard profile on the router without displaying its contents.
+
+
+## STAGE 14 — Proton/AWG profile location scan — 2026-09-25
+- [USER RESULT] Read-only file search found candidate profiles/logs under /tmp: /tmp/warp-wg.conf, /tmp/proton-us-443.ovpn, /tmp/proton-native.conf, plus proton test logs and unrelated runtime hostapd/wpa-supplicant configs.
+- [RESULT] No file under /mnt/data or /root was returned by the search within the first 30 matches; the visible candidates are temporary files under /tmp.
+- [INTERPRETATION] `/tmp/proton-native.conf` is the most relevant candidate for the current AWG investigation, while `/tmp/proton-us-443.ovpn` is an OpenVPN profile and `/tmp/warp-wg.conf` is a WireGuard profile. We will not assume any of these are valid for AWG until their structure is checked.
+- [SAFETY] File contents, private keys, passwords, and endpoint values were not printed. No files were modified, no tunnel/interface was created, and no network/routing/firewall/DNS/Zapret2/watchdog state changed.
+- [WEB VERIFICATION] Official OpenWrt documentation confirms VPN interface configuration is represented by interface and peer sections and that private keys should remain on the local peer. citeturn0search0turn0search5
+- [STATUS] STAGE 14 = IN_PROGRESS. Profile location identified; exact profile structure = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Inspect only the option/section names of `/tmp/proton-native.conf`, with all values redacted, before deciding whether it is an AWG profile.
