@@ -1424,3 +1424,15 @@ Type: AUTHORITATIVE STATE / POLICY
 - [POLICY] TOOL/SYNTAX BLOCKED исправляется минимально и не должен превращаться в новый цикл десятков диагностик.
 - [POLICY] Закрытые A/B-гипотезы не повторяются без новой причины.
 - [STATUS] Политика workflow изменена. Стадия проекта и текущий AWG checkpoint НЕ изменены.
+
+
+## STAGE 14 — AWG isolated UCI scaffold created — 2026-09-25
+
+- [USER RESULT] Executed the planned UCI batch for `network.proton_awg_test`.
+- [RESULT] UCI transaction returned `cfg0c9ea6`; network configuration was committed successfully.
+- [CONFIG INTENT] Created isolated `amneziawg` interface `proton_awg_test`, address `10.2.0.2/32`, Proton peer public key, AllowedIPs `0.0.0.0/0` and `::/0`, endpoint `194.180.33.20:51820`, PersistentKeepalive `25`, and `route_allowed_ips='0'`.
+- [IMPORTANT] Interface was NOT brought up: no `ifup`, network reload/restart, `awg`, or handshake attempt was performed.
+- [ROUTING] No default route was created. Protected endpoint route `194.180.33.20/32 via 192.168.0.1 dev phy0-sta0` remains the upstream path.
+- [SECRET SAFETY] Proton private key was intentionally omitted and remains outside project documentation/chat.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages/kernel/userspace/netifd = DONE; isolated UCI scaffold = CONFIGURED / NOT_ACTIVE; private key = NOT_SET; interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Read-only verification of the exact UCI sections before entering the private key or bringing the interface up.
