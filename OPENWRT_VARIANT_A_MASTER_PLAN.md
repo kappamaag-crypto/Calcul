@@ -1100,3 +1100,13 @@ Purpose: фиксировать все рассмотренные в чате т
 - [USER CORRECTION] User states this is an old configuration and it is not the current Proton profile intended for the test.
 - [DECISION] Do not use this profile for the controlled AWG/Proton experiment. Do not print or copy its private key.
 - [STATUS] GATE 2 = BLOCKED pending the current Proton Free profile/file.
+
+
+### GATE 2 — current Proton Free profile supplied — 2026-09-25
+- [RESULT] User supplied the current Proton Free profile with `PrivateKey` left blank/redacted.
+- [FACT] Profile has `Address = 10.2.0.2/32`, `DNS = 10.2.0.1`.
+- [FACT] Peer is identified by comment `US-FREE#130`; its public key is present; `AllowedIPs = 0.0.0.0/0, ::/0`; endpoint is `194.180.33.20:51820`; `PersistentKeepalive = 25`.
+- [FACT] This is a standard WireGuard-format profile and contains no AmneziaWG-specific parameters in the supplied text.
+- [SECURITY] PrivateKey was not supplied in plaintext and must not be requested in chat. It must be entered locally on the router only if/when the controlled test is authorized.
+- [INTERPRETATION] The profile is structurally suitable as input to the AWG netifd handler because that handler supports standard WireGuard peer fields; however, actual AWG compatibility/handshake is unproven.
+- [STATUS] GATE 2 = DONE for profile structure. GATE 3 (isolated AWG interface) is ready for planning, but no interface/config/routes/firewall changes have been made.
