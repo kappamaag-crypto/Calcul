@@ -1447,3 +1447,12 @@ Type: AUTHORITATIVE STATE / POLICY
 - [RUNTIME] No ifup/reload/handshake was performed by this verification step; no AWG default route was created.
 - [STATUS] Isolated AWG scaffold = CONFIGURED / VERIFIED; private key = NOT_SET; interface/handshake/traffic = NOT_STARTED.
 - [NEXT EXACT STEP] Enter the Proton private key locally on the router without displaying or storing it in chat, while keeping the interface disabled (auto=0) and route_allowed_ips=0.
+
+
+## STAGE 14 — Proton PrivateKey entry — 2026-09-25
+
+- [USER RESULT] User reports that the local private-key entry command appears to have completed and the Proton PrivateKey was entered on the router.
+- [SECURITY] PrivateKey was not provided in chat and must not be reproduced or stored in project documentation.
+- [RUNTIME] No interface activation, handshake, traffic test, or default-route change has been performed by this step.
+- [STATUS] PrivateKey = ENTRY_REPORTED / verification pending; AWG interface remains intended to stay auto=0; route_allowed_ips=0.
+- [NEXT EXACT STEP] Read-only verification that a non-empty PrivateKey exists, without printing its value.
