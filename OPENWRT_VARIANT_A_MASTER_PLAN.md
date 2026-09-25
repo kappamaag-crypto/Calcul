@@ -886,3 +886,17 @@
 - [SAFETY] Read-only inspection only. No UCI/network/interface/route/firewall/DNS/Zapret2/watchdog changes.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG package/kernel/userspace = DONE; netifd handler inspection = IN_PROGRESS; AWG interface/peer/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Inspect the remainder of the installed handler, especially how it invokes `awg`, creates the device, handles routes, and registers the protocol. Do not edit `/etc/config/network` yet.
+
+
+## STAGE 14 — AWG netifd handler inspection (part 2) — 2026-09-25
+- [USER RESULT] Read-only inspection of /lib/netifd/proto/amneziawg.sh lines 241–520 completed successfully.
+- [RESULT] The setup function writes a temporary /tmp/amneziawg/<interface> config with [Interface], PrivateKey, optional ListenPort/FwMark, and all supported AWG-specific parameters: Jc/Jmin/Jmax, S1–S4, H1–H4, I1–I5, HeaderProtectionKey, ContentPaddingAddition, RekeyAfterTime, RekeyTimeout, RejectAfterTime, KeepaliveTimeout, MaxHandshakeAttempts, RandomTrailers, DisableCookies.
+- [RESULT] The handler iterates peer sections named amneziawg_<interface>, supports disabled, public_key, preshared_key, allowed_ips, route_allowed_ips, endpoint_host, endpoint_port, and persistent_keepalive, then applies the generated configuration with the AWG setconf command and deletes the temporary file.
+- [RESULT] On successful setup it adds configured IPv4/IPv6 addresses and IPv6 prefixes to netifd state, adds a host dependency for peer endpoints unless nohostroute=1, sends the protocol update, and on teardown deletes the kernel interface.
+- [RESULT] The handler creates the kernel device itself using ip link add dev <interface> type amneziawg when the amneziawg kernel module is loaded; it can fall back to amneziawg-go only when kernel mode is unavailable.
+- [RESULT] A failed AWG setconf causes a 5-second delay, proto_setup_failed, and setup exit; the temporary config is removed before this error check.
+- [INTERPRETATION] The full installed handler is sufficient to manage an AWG tunnel through native netifd/UCI; a hand-written ip link/awg setconf procedure is not required for the planned interface. route_allowed_ips can add routes, so routing behavior must be chosen deliberately before interface creation.
+- [WEB VERIFICATION] Official OpenWrt documentation confirms protocol handlers in /lib/netifd/proto/ declare/consume UCI parameters and are invoked by netifd for setup/teardown; netifd can apply interface-specific configuration changes via reload.
+- [SAFETY] Read-only inspection only. No /etc/config/network edit, AWG interface creation, peer/key import, route/firewall/DNS/Zapret2/watchdog change, or reboot.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG package/kernel/userspace/netifd handler = DONE; AWG interface = NOT_STARTED; peer/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Before creating the first UCI AWG interface, determine the exact Proton/AWG profile format and map only non-secret structural fields to the handler options. Do not paste or expose private credentials in chat or the Master Plan.
