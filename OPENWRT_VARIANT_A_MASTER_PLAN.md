@@ -1110,3 +1110,11 @@ Purpose: фиксировать все рассмотренные в чате т
 - [SECURITY] PrivateKey was not supplied in plaintext and must not be requested in chat. It must be entered locally on the router only if/when the controlled test is authorized.
 - [INTERPRETATION] The profile is structurally suitable as input to the AWG netifd handler because that handler supports standard WireGuard peer fields; however, actual AWG compatibility/handshake is unproven.
 - [STATUS] GATE 2 = DONE for profile structure. GATE 3 (isolated AWG interface) is ready for planning, but no interface/config/routes/firewall changes have been made.
+
+
+### GATE 3 — AWG interface pre-check — 2026-09-25
+- [RESULT] Read-only check returned no `amneziawg` interfaces and no UCI network sections using `proto='amneziawg'`.
+- [FACT] There is no existing AWG interface/configuration that would conflict with the planned isolated test.
+- [SAFETY] No configuration or runtime state was changed.
+- [STATUS] GATE 3 = NOT_STARTED for interface creation; pre-check = DONE.
+- [NEXT] Before creating the interface, protect the Proton endpoint with an explicit host route through the existing Archer-side gateway, then create the isolated AWG interface without installing a default route. This will be a reversible change and must be done one step at a time.
