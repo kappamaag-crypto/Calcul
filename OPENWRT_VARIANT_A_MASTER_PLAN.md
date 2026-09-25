@@ -1032,3 +1032,10 @@ Purpose: фиксировать все рассмотренные в чате т
 - [USER FEEDBACK] User correctly noted that the prior command produced excessive output. Future 'big tests' should still be one command but return a compact, high-signal digest rather than full file listings/full nft tables.
 - [SAFETY] No restart, edit, route/firewall/DNS/UCI change or interface creation was performed.
 - [STATUS] GATE 1 remains IN_PROGRESS. Next step: compact read-only capture of exact nfqws2 command lines plus the WG-related custom scripts, without dumping whole files.
+
+
+### GATE 1 — compact WG script command result — 2026-09-25
+- [RESULT] User attempted the compact NFQWS2/WG-script audit command, but the pasted terminal output is truncated/malformed at the script grep portion and does not contain reliable results for the requested script contents.
+- [FACT] No new reliable runtime/script facts are added from this attempt; previously established facts remain valid: 2 nfqws2 processes, active nft table with QNUM 300/65300, route to Proton endpoint via phy0-sta0, existing proton-test/warp-test interfaces, no AWG interface.
+- [USER FEEDBACK] User prefers large audits to produce a compact high-signal digest; future commands should avoid long loops and avoid output that can be mangled by terminal wrapping/pasting.
+- [STATUS] GATE 1 = IN_PROGRESS. No configuration or runtime change performed.
