@@ -1654,3 +1654,14 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The current evidence proves an active AmneziaWG-capable runtime and basic peer/endpoint configuration, but it does not establish that the complete Proton AWG 3.x profile parameters match the server. With RX still zero and no handshake, protocol/profile compatibility remains unresolved.
 - [STATUS] STAGE 14 / Gate 4 = IN_PROGRESS. No configuration, route, Zapret2 rule, or service was changed by this audit.
 - [NEXT] Perform one read-only awg show parameter inspection for AWG-specific fields, without printing any private/preshared/header-protection key material. Do not start/stop the interface, create a default route, or alter desync parameters.
+
+
+## 96. Proton-AWG Gate 4.1 — actual non-secret parameters — 2026-09-25
+- [RESULT] Runtime: Jc=0, Jmin=0, Jmax=0; S1=S2=S3=S4=0; H1=1, H2=2, H3=3, H4=4; I1-I5 empty; ContentPaddingAddition=0; RekeyAfterTime=0; RekeyTimeout=0; RejectAfterTime=0; KeepaliveTimeout=0; RandomTrailers=off; DisableCookies=off. MaxHandshakeAttempts returned no value.
+- [INTERPRETATION] The current proton_awg_test runtime is not configured with the Jc/Jmin/Jmax/S1/S2 obfuscation values from the user-supplied text. The current state is effectively the default/classic AWG parameter state.
+- [IMPORTANT] The earlier UCI grep result containing private_key was a regex false-positive: the pattern included i1, which matches the substring i1 inside private_key. The displayed value was the already-known peer public key, not the interface private key.
+- [TECHNICAL] Official Proton documentation says generated WireGuard configurations follow the official WireGuard specification and can be used by standard WireGuard clients; Proton does not document adding AmneziaWG obfuscation parameters to generated Free WireGuard profiles. See Proton WireGuard configuration documentation.
+- [TECHNICAL] Official amneziawg-tools exposes the AWG parameter set used in this audit, including Jc/Jmin/Jmax, S1-S4, H1-H4, I1-I5 and AWG 3.1 controls.
+- [CONCLUSION] The user-supplied Jc=4, Jmin=40, Jmax=70, S1=45, S2=112 values are an unverified external example, not evidence of a Proton-compatible server profile. Do not apply them blindly.
+- [STATUS] STAGE 14 / Gate 4 = IN_PROGRESS. No configuration, route, Zapret2 rule, or service was changed.
+- [NEXT] The useful source evidence is the actual Proton-generated configuration used to construct proton_awg_test, with secret fields removed. Without it, changing AWG parameters would be blind experimentation.
