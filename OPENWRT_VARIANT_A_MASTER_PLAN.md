@@ -1306,3 +1306,70 @@ The following capabilities are already implemented or materially established and
 - [POLICY] Repository/package records are historical evidence until the current router exposes the expected command/process/interface when that fact matters.
 - [POLICY] A command rejected because of local syntax/tool limitations is TOOL/SYNTAX BLOCKED or NON-DIAGNOSTIC, never a network/service FAIL.
 - [POLICY] Once a controlled diagnostic branch is exhausted by meaningful A/B tests, do not reopen it without a new hypothesis or evidence gap.
+
+
+---
+
+## PROJECT SYNC CHECKPOINT — 2026-09-25 — USB / FIRMWARE / FUTURE-AI PREFLIGHT
+
+### [FACTUAL STATE — verified in the current conversation]
+- Current USB is physically connected directly to the MikroTik hAP ac lite. The previous Windows/WSL/usbipd path is no longer the working path and must not be used as the basis for USB state.
+- Kernel detected the USB device as `General UDisk`, `/dev/sda`, 4.03 GB decimal / 3.75 GiB, writable.
+- `lsblk` is absent in the current firmware. This is not a blocker; `/proc/partitions`, `/sys/block/sda/*`, `fdisk`, `block` and other available tools are the authoritative runtime alternatives.
+- `/dev/sda` was deliberately repartitioned after verification:
+  - `/dev/sda1`: 64 MiB, MBR type 82, Linux swap.
+  - `/dev/sda2`: remaining ~3.7 GiB, MBR type 83, intended data/ext4 partition.
+- The partition table was written successfully with `fdisk` and re-read successfully by the kernel.
+- `mkswap /dev/sda1` succeeded and `swapon /dev/sda1` succeeded.
+- Current `/proc/swaps`: `/dev/sda1`, 65532 KiB, used 0 KiB, priority -2.
+- `/dev/sda2` has NOT been formatted yet. The attempted `mkfs.ext4 /dev/sda2` failed because `mkfs.ext4`/e2fsprogs is absent in the currently running firmware.
+- `apk info e2fsprogs` only produced cache-index warnings; package presence was not established and no package was installed.
+- Do NOT attempt alternative filesystem-formatting commands on `/dev/sda2` merely to bypass the missing package.
+- The current running firmware therefore does NOT equal the previously built ImageBuilder candidate manifest. The absence of `e2fsprogs` is an actual image-content discrepancy and must be reconciled in the firmware-build stage.
+- The USB is currently a staging device: swap is active; `/dev/sda2` is intentionally left unformatted until the correct `e2fsprogs` tooling is available.
+- No statement that ext4 mount, /mnt/data, extroot, or heavy-component storage is complete may be made yet.
+
+### [STATUS CORRECTION]
+- USB partition creation is complete.
+- USB ext4/mount stage is blocked only by the missing ext4 formatting utility in the current firmware; swap initialization is complete.
+- Firmware composition/build must reconcile the actual running image against the intended package manifest before destructive or persistent next steps.
+- Do not silently mark a capability as implemented because its package was only verified in ImageBuilder. A capability is implemented only after runtime verification on the router.
+
+### [MANDATORY FUTURE-AI CAPABILITY PREFLIGHT]
+Before any new technical action, every AI/session MUST:
+1. Read `OPENWRT_VARIANT_A_START_HERE.md`.
+2. Read `OPENWRT_VARIANT_A_MASTER_PROMPT.md`.
+3. Read the latest/current sections of `OPENWRT_VARIANT_A_MASTER_PLAN.md`, including the most recent sync checkpoint and current stage status.
+4. Read `OPENWRT_VARIANT_A_GLOSSARY.md`.
+5. Audit the documents for the router's **implemented vs planned vs tested vs blocked** capabilities before proposing a command.
+6. Treat runtime evidence on the router as authoritative for "implemented"; treat ImageBuilder/package verification as "available for build", not "installed".
+7. Check for already implemented functions and existing services/configuration before adding, replacing, or reinstalling anything.
+8. Reconcile any conflict between old historical notes and newer verified runtime evidence before acting.
+9. Use the smallest safe next step and preserve the one-command-at-a-time rule.
+10. After the user's result, update the master plan before proceeding to a new stage or capability.
+
+### [CAPABILITY LEDGER RULE]
+The project documentation must distinguish at least these states for every major feature:
+`PLANNED`, `AVAILABLE_FOR_BUILD`, `INSTALLED`, `CONFIGURED`, `RUNTIME_VERIFIED`, `BLOCKED`, `DISABLED`, `REMOVED`, `FAILED`.
+A package name in a build manifest alone is never evidence of `INSTALLED` or `RUNTIME_VERIFIED`.
+
+### [CURRENT CAPABILITY LEDGER — 2026-09-25]
+- OpenWrt 25.12.5 / ath79-mikrotik / RB952Ui-5ac2nD: runtime present and verified historically.
+- USB mass storage: runtime detected and verified.
+- USB partitioning: runtime completed and verified.
+- USB swap: installed/configured/runtime verified; active as `/dev/sda1`.
+- USB ext4 tooling: available-for-build, but NOT installed in the current running firmware.
+- `/dev/sda2` ext4 filesystem: planned, not created.
+- `/mnt/data`: planned, not mounted.
+- extroot: planned, not currently established by this checkpoint.
+- DoH/https-dns-proxy: package was available for build; current glossary records previous runtime instances stopped/disabled. Do not call DoH active without fresh runtime verification.
+- PBR: available-for-build; runtime status must be verified before treating it as implemented.
+- NFQUEUE/firewall4: available/previously verified as build components; current runtime status must be checked before treating them as active.
+- Zapret2/nfqws2: extensive build/runtime work exists in the historical plan; current active state must be verified from the latest router output before any change.
+- WARP/Proton/free-relay/AntiZapret alternatives: not to be treated as implemented merely because configuration/source files exist in the repository.
+
+### [REPOSITORY-SCOPE NOTE]
+The GitHub repository currently contains 20 tracked files (~5.28 MB total), including the four Variant-A control documents, Zapret2 watchdog scripts, AntiZapret/OpenVPN material, Proton OpenVPN profiles, and Blockcheck2/Youtube source logs. Repository artifacts are project evidence/reference and do not by themselves prove current router runtime state.
+
+### [SAFETY]
+No router configuration was changed by this documentation synchronization.
