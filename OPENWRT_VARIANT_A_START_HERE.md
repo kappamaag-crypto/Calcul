@@ -81,3 +81,21 @@ USB is directly connected to the MikroTik and is detected as `/dev/sda` (~3.75 G
 The current running firmware lacks `mkfs.ext4`/e2fsprogs, so ext4 creation is blocked until firmware/package reconciliation.
 
 **Do not assume old extroot, /mnt/data, DoH, PBR, Zapret2, WARP or Proton states are currently active without fresh runtime verification.**
+
+## CURRENT AUTHORITATIVE HANDOFF — 2026-09-25
+
+The active project branch is STAGE 14 / Proton-AWG GATE 3 IN_PROGRESS.
+
+Before every technical turn, a new AI must read this file, MASTER PROMPT, MASTER PLAN and GLOSSARY, inventory the repository root, audit the Capability Registry, and reconcile the latest router evidence. This is mandatory even when the request appears to concern only one feature.
+
+Current exact stopping point:
+- Zapret2 dedicated WireGuard path: runtime-confirmed active (QNUM 65300).
+- Current Proton Free profile: structurally checked, standard WireGuard format; private key remains local/secret.
+- Proton endpoint host route: verified via 192.168.0.1 on phy0-sta0.
+- AWG interface: not created.
+- UCI proto=amneziawg: absent.
+- Default route: not changed for the AWG experiment.
+
+**Next exact step:** create isolated UCI section proton-awg-test, do not start it, do not create a default route.
+
+Older parallel notes (including pending DoH validation and historical OpenVPN/USB branches) must not displace this checkpoint unless explicitly selected.
