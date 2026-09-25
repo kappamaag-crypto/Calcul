@@ -1626,3 +1626,20 @@ Type: AUTHORITATIVE STATE / POLICY
 - [STATUS] STAGE 14 / Proton-AWG Gate 3 remains IN_PROGRESS. This result does not justify creating a default route, enabling full VPN routing, or declaring Proton/AWG bypass success.
 - [NEXT GATE] Before any activation/routing change, localize the current 0-RX/no-handshake condition with the smallest read-only runtime check defined by the Gate 3 plan. Do not enumerate additional desync variants without a new hypothesis.
 - [SAFETY] No persistent routing/default-route change was made by this observation.
+## STAGE 14 — Proton-AWG Gate 3 — BIG READ-ONLY TEST RESULT — 2026-09-25 20:57–20:58 GMT
+
+- [TEST] One combined bounded read-only experiment covered AWG state/link, endpoint route, NFQUEUE, nfqws2 processes/cmdlines, Zapret2 WG selectors, bounded WAN capture (-s 96 -c 20), 4×5 s AWG observation, post-test state, route/process/kernel-error check, and memory control.
+- [RESULT] proton_awg_test remained UP/LOWER_UP, endpoint 194.180.33.20:51820, persistent keepalive 25; sent increased 257.41→258.57 KiB, received remained 0 B; no latest handshake appeared.
+- [RESULT] Endpoint route remained 194.180.33.20 via 192.168.0.1 dev phy0-sta0 src 192.168.0.100.
+- [RESULT] WAN capture on phy0-sta0 for host 194.180.33.20 and udp port 51820 captured 20 packets / 34 packets received by filter / 0 dropped by kernel. All 20 captured packets were outbound from 192.168.0.100:38231 to 194.180.33.20:51820; no inbound UDP/51820 response was observed.
+- [RESULT] Dedicated QNUM 65300/PID 3205 remained subscribed with queue depth 0 and drops 0; displayed packet-id advanced 1782→1789, matching the AWG TX packet counter increase 1782→1789.
+- [RESULT] Main QNUM 300/PID 3204 remained subscribed with queue depth 0 and drops 0; displayed packet-id increased 302998→304923.
+- [RESULT] proton_awg_test link counters increased TX 263736 B/1782 packets/89 drops → 264772 B/1789 packets/89 drops; RX remained 0/0/0/0. No new TX drops occurred during this test window.
+- [RESULT] Both nfqws2 processes remained alive. PID 3205 command line confirms --qnum=65300 with WireGuard initiation/response/cookie selectors and fake repeats=2.
+- [RESULT] Zapret2 nftables WG selectors for UDP lengths 72/100/156 → QNUM 65300 and normal TCP/UDP 80/443 → QNUM 300 remained present.
+- [RESULT] Kernel log excerpt showed WireGuard/AmneziaWG module-load messages plus unrelated historical ath9k/ath10k messages; no AWG/NFQUEUE runtime error was present in the supplied excerpt.
+- [INTERPRETATION] The local outbound AWG path is demonstrably active: packets leave the AWG interface, enter QNUM 65300, are handled by live nfqws2, and reach phy0-sta0 toward the configured endpoint. The decisive missing evidence is an inbound UDP/51820 response.
+- [LIMITATION] Absence of inbound packets does not identify the root cause. Remaining hypotheses include upstream filtering/path behavior, endpoint/profile acceptance, key/parameter mismatch, or incompatibility with the exact AmneziaWG transformation. No hypothesis is declared proven.
+- [GATE DECISION] Gate 3 remains IN_PROGRESS / handshake NOT_VALIDATED. Do not enable a default route, claim VPN/bypass success, or begin blind desync enumeration from this result.
+- [SAFETY] No router configuration, route, firewall, Zapret2 service, AWG service, swap, VM setting, or default route was changed by the test.
+- [NEXT] Use this as the authoritative Gate 3 evidence baseline. Any next diagnostic must target a new hypothesis; avoid repeating equivalent packet captures.
