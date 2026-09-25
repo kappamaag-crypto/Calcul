@@ -1583,3 +1583,12 @@ Type: AUTHORITATIVE STATE / POLICY
 - [CORRELATION] This is consistent with the earlier endpoint capture: outbound UDP/51820 was observed, but no inbound endpoint response was observed; handshake remains unverified and received traffic remains 0 B.
 - [STATUS] STAGE 14 = IN_PROGRESS; AWG interface = ACTIVE AT RUNTIME; dedicated Zapret2 WG path = RUNTIME_VERIFIED; AWG RX = NOT_OBSERVED; handshake = NOT_VERIFIED; usable tunnel traffic = NOT_VERIFIED.
 - [NEXT] Use one read-only peer-level status check to correlate the interface counters with AWG handshake/transfer state; do not change routing, Zapret2, firewall, or AWG configuration.
+
+
+## STAGE 14 — AWG peer transfer result — 2026-09-25
+
+- [USER RESULT] `awg show proton_awg_test` still shows endpoint `194.180.33.20:51820`, no `latest handshake` field, and `0 B received / 114.32 KiB sent`.
+- [INTERPRETATION] Repeated keepalives/initiations are leaving the AWG interface, but no authenticated peer response has been received. This confirms the failure is not merely an idle interface.
+- [CORRELATION] Together with RX=0 and the earlier WAN capture showing outbound UDP/51820 without inbound response, the current evidence is consistent with an absent/blocked/unaccepted server response, but does not identify whether the cause is upstream UDP filtering, Proton profile/key mismatch, or incompatibility introduced by the current WG-specific desync.
+- [STATUS] STAGE 14 = IN_PROGRESS; AWG active = YES; local WG Zapret2 path = RUNTIME_VERIFIED; handshake = NOT_VERIFIED; received traffic = 0 B; usable tunnel = NOT_VERIFIED.
+- [NEXT] Check the dedicated nftables QNUM 65300 rule counters read-only, to confirm that the growing outbound traffic is actually traversing the intended dedicated WG queue rules rather than only reaching the interface through another path.
