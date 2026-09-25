@@ -1544,3 +1544,12 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The AWG interface is generating outbound traffic and the WAN STA path is transmitting it without local capture loss. The missing handshake remains unresolved because no endpoint response is observed in this bounded sample.
 - [STATUS] AWG interface = ACTIVE AT RUNTIME; NFQUEUE 65300 = RUNTIME_VERIFIED; outbound endpoint path = OBSERVED; inbound endpoint response = NOT_OBSERVED; handshake = NOT_VERIFIED; received traffic = 0 B.
 - [NEXT EXACT STEP] Read-only verify that the dedicated QNUM 65300 userspace process (PID associated with the NFQUEUE) is still present and inspect its command line, without restarting or changing Zapret2.
+
+
+## STAGE 14 — Dedicated nfqws2 process verification — 2026-09-25
+
+- [USER RESULT] `ps w | grep '[n]fqws2'` shows exactly two running `nfqws2` processes: PID 3204 and PID 3205.
+- [CORRELATION] These PIDs correspond directly to the active NFQUEUE subscribers previously reported by `/proc/net/netfilter/nfnetlink_queue`: QNUM 300 → PID 3204 and QNUM 65300 → PID 3205.
+- [RESULT] Both dedicated/main userspace processes remain alive; no process crash or missing NFQUEUE consumer is indicated.
+- [STATUS] AWG interface = ACTIVE AT RUNTIME; QNUM 65300 consumer = RUNTIME_VERIFIED / alive; outbound endpoint packets = OBSERVED; inbound endpoint response = NOT_OBSERVED; handshake = NOT_VERIFIED; received traffic = 0 B.
+- [NEXT EXACT STEP] Read-only inspect the full command line of PID 3205 to confirm its QNUM 65300 and WireGuard-specific payload/desync parameters, without restarting or modifying Zapret2.
