@@ -1132,3 +1132,13 @@ Purpose: фиксировать все рассмотренные в чате т
 - [CONFIRMED] The Proton endpoint is explicitly routed through the Archer-side uplink and source address, so a future tunnel default route can be kept from looping the endpoint back into itself.
 - [SAFETY] No AWG interface or default route has been created.
 - [STATUS] GATE 3 pre-routing protection = DONE; isolated AWG interface creation is the next controlled change.
+
+
+### CHECKPOINT — paused before AWG interface creation — 2026-09-25
+- [CHECKPOINT] User asked to save the exact stopping point for continuation later.
+- [CURRENT] STAGE 14 = IN_PROGRESS. GATE 1 (Zapret2/WireGuard runtime audit) = DONE. GATE 2 (current Proton profile structure) = DONE. GATE 3 = IN_PROGRESS.
+- [CONFIRMED] Current Proton profile: standard WireGuard format, `Address=10.2.0.2/32`, `DNS=10.2.0.1`, peer `US-FREE#130`, `AllowedIPs=0.0.0.0/0, ::/0`, endpoint `194.180.33.20:51820`, keepalive 25; private key remains local/secret and was not stored in the plan.
+- [CONFIRMED] No AWG interface or UCI `proto=amneziawg` section existed before the test.
+- [CONFIRMED] Runtime endpoint host route is protected: `194.180.33.20 via 192.168.0.1 dev phy0-sta0 src 192.168.0.100`.
+- [NEXT EXACT STEP] Create the isolated UCI AWG test section `proton-awg-test`, without starting it and without installing/changing a default route. This is the next controlled change when work resumes.
+- [SAFETY] No AWG interface has been created yet; no default route, firewall, DNS, or Zapret2 configuration has been changed for the AWG test.
