@@ -1513,3 +1513,12 @@ Type: AUTHORITATIVE STATE / POLICY
 - [LIMITATION] The grep output does not prove that the actual Proton endpoint packets matched those rules, nor that the endpoint's replies reached the router.
 - [STATUS] AWG interface = ACTIVE AT RUNTIME; QNUM 65300 rule path = RUNTIME_VERIFIED; handshake = NOT_VERIFIED; received traffic = 0 B.
 - [NEXT EXACT STEP] Read-only inspect NFQUEUE 65300 packet counters/rule counters in the active zapret2 table to determine whether the AWG handshake packets are actually being captured.
+
+
+## STAGE 14 — PrivateKey/public-key correspondence clarification — 2026-09-25
+
+- [USER CONFIRMATION] User confirmed that the preceding explanation of PrivateKey verification corresponds to their situation.
+- [SECURITY] No private key value was requested, displayed, or stored in project documentation.
+- [INTERPRETATION] The router-side AWG public key `7xQkuYc/KSLaL/ZlIDLwMUs3xCoo9YBQ94F91RZZC2c=` is derived from the currently stored client PrivateKey. The Proton peer key `jyiQbTTHvl6eLhIQWi1zL7xzPppbV7z+hFJ6e7CEmAg=` is the server/peer public key and must not be used as the client-key comparison target.
+- [STATUS] PrivateKey = SET / VERIFIED as a syntactically accepted key; exact account/profile correspondence remains a separate identity check if Proton exposes the client public key.
+- [NEXT EXACT STEP] Read-only inspect the active NFQUEUE state for QNUM 65300 to determine whether the AWG handshake path is actually being queued to the dedicated Zapret2 userspace process.
