@@ -1848,3 +1848,10 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The new Proton endpoint is reachable from the local WAN interface at the packet-egress level, but no UDP response was observed during this capture. The 148-byte packets are consistent with standard WireGuard/AWG handshake-init packet size before any additional padding; AWG padding can alter handshake packet size when configured. 
 - [STATUS] Gate 4 remains IN_PROGRESS; handshake NOT_VALIDATED. Current evidence moves the primary hypothesis toward upstream/remote-side non-response rather than a local route/interface transmit failure.
 - [NEXT] Do not change AWG parameters or routing. Next investigation, if continued, should distinguish upstream-path filtering from remote endpoint rejection with one controlled external-path check; preserve isolated no-default-route design.
+
+
+## STAGE 14 — Proton endpoint ICMP path check — 2026-09-25
+- [USER RESULT] `ping -c 3 -I phy0-sta0 146.70.246.98`: 3 transmitted, 0 received, 100% packet loss.
+- [INTERPRETATION] This does not establish that the endpoint is unreachable: ICMP echo may be filtered by the remote host or an intermediate network. It is consistent with, but does not independently prove, the absence of a UDP/51820 response already observed by tcpdump.
+- [STATUS] Gate 4 remains IN_PROGRESS; handshake NOT_VALIDATED. No configuration, route, or production traffic was changed.
+- [NEXT] Do not tune AWG further. The remaining high-value discriminator is an external-client A/B: test the same freshly generated Proton WireGuard profile from a non-hAP client/network, if available, to determine whether the Proton endpoint/profile itself establishes a handshake. Preserve the isolated no-default-route design on hAP.
