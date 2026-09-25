@@ -1700,3 +1700,13 @@ Type: AUTHORITATIVE STATE / POLICY
 - [STATUS] Gate 4 remains IN_PROGRESS; handshake remains NOT VALIDATED / FAILED for the observed acceptance condition.
 - [SAFETY] No route, Zapret2 service/rules, persistent configuration, or default route was changed by this observation. The runtime AWG parameters remain experimental.
 - [NEXT] Do not repeat the same 20-second observation. The next diagnostic must target a new hypothesis/evidence gap; no blind enumeration of further AWG parameter values.
+
+
+## STAGE 14 — Proton-AWG Gate 4.4 — predefined experimental profiles — 2026-09-25
+- [USER INPUT] User proposed testing several external AWG parameter variants as isolated experiments.
+- [PROFILE 1] Jc=4, Jmin=40, Jmax=70, S1=45, S2=112, H1-H4=1/2/3/4 — already tested; RX remained 0 B and no handshake. NOT VALIDATED.
+- [PROFILE 2] Jc=5, Jmin=60, Jmax=120, S1=50, S2=130, H1-H4=5/6/7/8 — PENDING. Treat as unverified experimental values, not a Proton requirement.
+- [PROFILE 3] Jc=3, Jmin=20, Jmax=50, S1=15, S2=80, H1-H4=10/11/12/13 — PENDING. Treat as unverified experimental values, not a Proton requirement.
+- [EXCLUDED] I1-I5 numeric 1..5 are not applied; current amneziawg-tools expects tagged-junk strings. S3/S4 changes are deferred until a new evidence-based hypothesis exists.
+- [SAFETY] proton_awg_test remains isolated with no default route. Profile changes are runtime-only and reversible with a subsequent awg set command.
+- [NEXT] Apply Profile 2 only, then perform one bounded observation. Do not enumerate profiles blindly if there is no new evidence.
