@@ -1142,3 +1142,83 @@ Purpose: фиксировать все рассмотренные в чате т
 - [CONFIRMED] Runtime endpoint host route is protected: `194.180.33.20 via 192.168.0.1 dev phy0-sta0 src 192.168.0.100`.
 - [NEXT EXACT STEP] Create the isolated UCI AWG test section `proton-awg-test`, without starting it and without installing/changing a default route. This is the next controlled change when work resumes.
 - [SAFETY] No AWG interface has been created yet; no default route, firewall, DNS, or Zapret2 configuration has been changed for the AWG test.
+
+## MASTER HANDOFF / AI PREFLIGHT — 2026-09-25
+
+### Mandatory repository read before every technical turn
+- [USER REQUIREMENT] Every new AI/session working on this router project MUST first read the current versions of all three mandatory control documents from the `Calcul` repository:
+  1. `OPENWRT_VARIANT_A_MASTER_PROMPT.md`
+  2. `OPENWRT_VARIANT_A_MASTER_PLAN.md`
+  3. `OPENWRT_VARIANT_A_GLOSSARY.md`
+- [ORDER] Read MASTER PROMPT first for hard rules and safety constraints; MASTER PLAN second for current factual state, completed tests, current stage and exact stopping point; GLOSSARY third for the command/term registry and already implemented capabilities.
+- [CURRENT-STATE RULE] After reading the three documents, identify the latest dated checkpoint/change near the end of MASTER PLAN and use that as the primary project-state handoff point.
+- [CAPABILITY-AWARE RULE] Before proposing installation, configuration, package addition, replacement or a new diagnostic mechanism, inspect the three documents for already implemented functions/capabilities and, when a relevant repository implementation file exists, inspect that file too. Do not propose duplicate functionality.
+- [NO-FALSE-ABSENCE RULE] An AI must not state that a capability is “not implemented”, “missing” or “not available” until the current MASTER PLAN, MASTER PROMPT, GLOSSARY and relevant repository files have been checked.
+- [CONFLICT RULE] If a fresh user router result conflicts with an older repository fact, the fresh user result becomes the current fact; the repository must then be synchronized before any next router command.
+- [TECHNICAL-SOURCE RULE] The Calcul repository is the project's state/evidence/control repository, not the authoritative technical source for OpenWrt/Linux/package behavior. External technical claims must continue to use official or otherwise appropriate technical sources.
+- [NO-REPEAT RULE] Do not repeat a completed diagnostic merely because it appears in history. Repeat only when regression, changed state, validation, or a new decision requires it.
+- [ONE-STEP RULE] The one-router-command-at-a-time rule remains mandatory. Synchronization of the current user result/request happens before issuing a later router command.
+- [SYNC RULE] After each user result and assistant response, factual project state must be written to MASTER PLAN before the next router command. MASTER PROMPT changes only for workflow/safety-rule changes. GLOSSARY changes when a new stable command/term/capability or corrected interpretation is established.
+
+## FULL REPOSITORY INVENTORY / HANDOFF MAP — 2026-09-25
+
+The complete current `main` tree was read in this review. It contains the following project artifacts:
+
+- `OPENWRT_VARIANT_A_MASTER_PROMPT.md` — mandatory hard rules, workflow, safety gates, technical interpretation rules and AI handoff policy.
+- `OPENWRT_VARIANT_A_MASTER_PLAN.md` — factual project history, stage status, test results, current implementation state and exact stopping point.
+- `OPENWRT_VARIANT_A_GLOSSARY.md` — command/term registry, meanings, reusable diagnostic commands, status definitions and confirmed capabilities.
+- `OPENWRT_VARIANT_A_START_HERE.md` — root handoff index; tells a new AI the mandatory read order and where to find current state.
+- `OPENWRT_ZAPRET2_WATCHDOG.sh` — implemented lightweight Zapret2 health-check/auto-recovery script for the 64-MB hAP ac lite.
+- `OPENWRT_ZAPRET2_WATCHDOG_INITD.sh` — OpenWrt procd wrapper for the watchdog daemon.
+- `BLOCKCHECK2_YOUTUBE_FULL_INVENTORY.md` — compact pointer/status for the saved blockcheck2 YouTube source set.
+- `blockcheck2-youtube-TLS12-AVAILABLE.md`, `blockcheck2-youtube-TLS13-AVAILABLE.md`, `blockcheck2-youtube-QUIC-AVAILABLE.md` — saved blockcheck2 discovery logs for YouTube TLS 1.2, TLS 1.3 and QUIC.
+- `blockcheck2-youtube-COMMON-TLS12-TLS13-75.md` — saved combined/common discovery log.
+- `blockcheck2-youtube-strategy-log-part-05.md` through `part-08.md` — continuation logs from the Windows/Cygwin strategy-discovery run.
+- `blockcheck2-youtube-tls12-standard.log` — repository artifact currently present but zero bytes; it must not be treated as a source of test results.
+- `antizapret-tcp.ovpn` — imported AntiZapret OpenVPN profile; availability of the file does not imply that the profile is active on the router.
+- `nl-free-130.protonvpn.tcp.ovpn`, `nl-free-130.protonvpn.udp (1).ovpn`, `us-free-115.protonvpn.tcp.ovpn` — saved Proton OpenVPN profiles; these are reference artifacts, not proof of current tunnel state.
+
+### Repository-state interpretation
+- Files named as logs/profiles are evidence or reference artifacts and do not by themselves prove current router activation.
+- The two watchdog files are implementation artifacts; their runtime state is established separately by the MASTER PLAN's router results.
+- The latest confirmed watchdog runtime state is ACTIVE/DONE; the latest network/VPN work is paused later at the isolated AWG gate.
+- Historical file names and historical commands must never be treated as current configuration without a dated router result.
+
+## CONSOLIDATED CURRENT CAPABILITY REGISTRY — 2026-09-25
+
+The following capabilities are already implemented or materially established and MUST be considered before proposing further work:
+
+- OpenWrt 25.12.5 on MikroTik hAP ac lite / RB952Ui-5ac2nD, ath79/mikrotik, kernel 6.12.94, MIPS 24Kc, with TP-Link Archer C20 v4 remaining the main router.
+- USB extroot is active on `/dev/sda2` mounted at `/overlay`; `/dev/sda3` is `/mnt/data`; `/dev/sda1` is USB swap.
+- ZRAM is active with LZO-RLE; USB swap is the lower-priority fallback; no swap is intentionally placed in `/tmp`.
+- `vm.min_free_kbytes=2048` is persistent and has passed the bounded 60-second sustained network-load validation recorded in STAGE 11C.
+- The expanded diagnostic CLI package set is already installed; do not reinstall packages merely because a future AI sees their names in the glossary.
+- Both wireless APs are established on the hAP and the WAN uplink uses the Archer-side Wi-Fi STA. The unfinished historical item about Archer-side access without LAN remains separate.
+- DoH/https-dns-proxy is retired from the current Variant A workflow by explicit user decision and must not be reintroduced without instruction.
+- Zapret2 v1.0.3 is active with current `MODE_FILTER=autohostlist`, TCP 80/443, UDP 443, main QNUM 300 and WireGuard-pattern QNUM 65300, with `FLOWOFFLOAD=donttouch`, `INIT_APPLY_FW=1` and IPv6 disabled in the current Zapret2 configuration.
+- The current `inet zapret2` nftables structure has been verified structurally after restart; the previous YouTube outage recovered after a Zapret2 restart, but the exact original failure cause remains UNCONFIRMED.
+- Zapret2 watchdog is not merely a repository draft: the corrected script is installed at `/usr/bin/zapret2-watchdog`, the procd init script is installed at `/etc/init.d/zapret2-watchdog`, the service is enabled/autostarted and the daemon has produced periodic `HEALTH state=HEALTHY` records. Automatic recovery has not been triggered during validation.
+- Watchdog safety guards currently include two consecutive structural/functional failures, no restart for upstream/DNS failure alone, 4096 KiB MemAvailable floor, maximum 2 automatic restarts per 900 seconds, 300-second cooldown, bounded logs/events, and no continuous tcpdump/config mutation.
+- VLESS + REALITY / Xray-core remains the selected VPN transport candidate, but Xray is not installed.
+- Full sing-box is not preferred on package-size grounds; sing-box-tiny remains a separate compatibility/resource gate and has not been activated.
+- Proton Free current profile structure has been validated for the planned isolated AWG experiment; its private key remains secret and is not stored in the plan.
+- The Proton endpoint `194.180.33.20/32` is protected by a runtime route via `192.168.0.1` on `phy0-sta0`.
+- No AWG interface has been created yet. The exact next controlled change remains creation of the isolated UCI AWG test section without starting it and without installing a default route.
+- Existing OpenVPN profile files in the repository must not be interpreted as active tunnels.
+
+## CURRENT EXACT STOPPING POINT — 2026-09-25
+- STAGE 14 = IN_PROGRESS.
+- Zapret2 watchdog deployment/activation = DONE.
+- Zapret2 runtime audit = DONE for the current read-only structural state.
+- Proton Gate 1 (Zapret2/WireGuard-pattern runtime audit) = DONE.
+- Proton Gate 2 (current Proton Free profile structure) = DONE.
+- Proton Gate 3 = IN_PROGRESS.
+- Endpoint host route protection = DONE.
+- [NEXT EXACT ACTION WHEN WORK RESUMES] Create the isolated UCI AWG test section `proton-awg-test`, do not start it, do not create a default route, and preserve the endpoint route. One router command only.
+- Do not reopen ZRAM/LZ4 work, DoH, or indiscriminate Zapret2 tuning unless new evidence requires it.
+
+## CHAT HISTORY RESTORATION NOTE — 2026-09-25
+- This repository revision consolidates the available chat history into the stage records above rather than reproducing the chat verbatim.
+- The latest Zapret2 incident sequence is explicitly preserved: running-status observation → YouTube failure → manual restart → YouTube recovery → auto-hostlist inspection → nfqws2/nftables structural audit → root cause of the watchdog's own false nft predicate → regex correction → watchdog deployment → HEALTHY `--check` → healthy `--once` → procd enable/start → periodic HEALTHY record.
+- The watchdog was tested without intentionally reproducing the original YouTube outage.
+- The earlier system-wide OOM history remains background evidence only; it is not recorded as the proven cause of the specific YouTube outage.
