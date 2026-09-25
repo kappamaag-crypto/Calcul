@@ -1342,3 +1342,17 @@ The 2026-09-26 read-only Wi-Fi runtime audit confirms:
 This Wi-Fi evidence is ACTIVE AT RUNTIME / RUNTIME_VERIFIED for the components above. It does not by itself validate upstream-client reachability to the hAP management plane.
 
 Before changing firewall or management exposure, perform a read-only audit of the relevant network/firewall/listen configuration. Do not weaken WAN-side firewall policy until that audit establishes the exact required path.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — ARCHER-SIDE MANAGEMENT AUDIT
+
+The 2026-09-26 read-only audit establishes:
+- WAN/Archer-side interface phy0-sta0 is on 192.168.0.0/24 and the hAP has 192.168.0.100.
+- Firewall default input is REJECT, while the WAN zone is also input=REJECT.
+- A rule named Allow-SSH-from-TPLink already exists in the WAN zone.
+- Dropbear is enabled and listens on all IPv4/IPv6 local addresses at TCP/22.
+- uhttpd is not configured/present in UCI and no HTTP/HTTPS listener was observed.
+- This does not yet prove that an Archer Wi-Fi client can reach 192.168.0.100:22.
+
+The exact SSH firewall rule parameters must be audited before any change. Do not open additional WAN input, alter Dropbear binding, or install/configure LuCI merely from this evidence.
