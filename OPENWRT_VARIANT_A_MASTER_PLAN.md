@@ -1613,3 +1613,16 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] QNUM 65300 is receiving fresh packets while AWG TX grows, with no NFQUEUE backlog/drops. Inbound Proton response remains unobserved; handshake remains unverified.
 - [STATUS] STAGE 14 / Gate 3 = IN_PROGRESS. No default AWG route and no Zapret2/AWG restart from this evidence.
 - [NEXT] One bounded endpoint capture of both directions on UDP/51820 during active AWG traffic.
+
+
+## STAGE 14 — Proton-AWG Gate 3 — latest router evidence — 2026-09-25 19:34 GMT
+- [USER RESULT] On isolated interface `proton_awg_test`, the configured Proton endpoint is `194.180.33.20:51820`.
+- [RESULT] Before/after 12-second observation: `awg show proton_awg_test` remained at `transfer: 0 B received`; transmitted bytes increased from about 147.28 KiB to 147.42 KiB. No `latest handshake` line was reported by the filtered output.
+- [RESULT] Endpoint route is correct and protected from accidental VPN routing: `194.180.33.20 via 192.168.0.1 dev phy0-sta0 src 192.168.0.100`.
+- [RESULT] Dedicated Zapret2 NFQUEUE 65300 remains present with the expected UDP handshake/cookie payload selectors (length 72/100/156) and `queue flags bypass to 65300`.
+- [RESULT] NFQUEUE 65300 showed no increase in the displayed queue/id counters during the 12-second interval; the separate queue 300 counters continued increasing. Do not infer from this alone that the AWG packets were rejected; the decisive runtime fact is still 0 RX / no handshake.
+- [RESULT] `ip -s link show proton_awg_test`: interface UP/LOWER_UP; RX 0 bytes / 0 packets; TX 150960 bytes / 1020 packets; TX dropped 51. The TX drop counter is non-zero and must be treated as evidence requiring localization, not automatically as an AWG handshake failure cause.
+- [INTERPRETATION] The isolated AWG experiment has generated outbound traffic toward the protected endpoint, but there is currently no observed return traffic and no established WireGuard/AWG handshake. The endpoint route is not the immediate issue because the route resolves through the intended upstream `phy0-sta0`.
+- [STATUS] STAGE 14 / Proton-AWG Gate 3 remains IN_PROGRESS. This result does not justify creating a default route, enabling full VPN routing, or declaring Proton/AWG bypass success.
+- [NEXT GATE] Before any activation/routing change, localize the current 0-RX/no-handshake condition with the smallest read-only runtime check defined by the Gate 3 plan. Do not enumerate additional desync variants without a new hypothesis.
+- [SAFETY] No persistent routing/default-route change was made by this observation.
