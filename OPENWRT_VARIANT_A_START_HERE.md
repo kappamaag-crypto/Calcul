@@ -35,3 +35,16 @@
 ## История
 
 Подробная история находится в MASTER PLAN. Глоссарий содержит полный реестр команд и устойчивые определения. MASTER PROMPT содержит hard rules и workflow enforcement.
+## CURRENT HANDOFF ENFORCEMENT — 2026-09-25
+
+Перед любой новой командой/изменением AI обязан:
+1. прочитать OPENWRT_VARIANT_A_MASTER_PROMPT.md;
+2. прочитать OPENWRT_VARIANT_A_MASTER_PLAN.md;
+3. прочитать OPENWRT_VARIANT_A_GLOSSARY.md;
+4. сверить Capability Registry и evidence level (IMPLEMENTED IN REPOSITORY / DEPLOYED TO ROUTER / ACTIVE AT RUNTIME / VALIDATED);
+5. восстановить точку остановки и только после этого читать релевантные implementation/evidence-файлы.
+
+### Последнее подтвержденное изменение 2026-09-25
+Google DoH instance 127.0.0.1:5054 удалён из UCI по решению пользователя; Cloudflare 127.0.0.1:5053 оставлен. https-dns-proxy успешно перезапущен. Проверка фактического post-restart runtime ещё ожидается.
+
+Текущий проектный gate не меняется: STAGE 14 / Proton-AWG Gate 3 остаётся IN_PROGRESS. После завершения DoH post-restart validation следующий проектный шаг — изолированная UCI AWG-секция proton-awg-test без запуска и без default route.
