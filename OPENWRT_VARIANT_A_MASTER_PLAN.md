@@ -846,3 +846,11 @@
 - [SAFETY] Read-only check only; no interface/config/route/firewall/DNS/Zapret2/watchdog changes.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages = DONE; kernel module = DONE; userspace `wg` = DONE; AWG interface = NOT_STARTED; handshake = NOT_STARTED; traffic = NOT_STARTED.
 - [NEXT GATE] Inspect the available `wg` command set/help before creating an interface or importing any Proton profile. Do not expose or repeat private key material.
+
+
+## STAGE 14 — wg command capability confirmed — 2026-09-25
+- [USER RESULT] `wg help` returned the standard WireGuard tools subcommands: show, showconf, set, setconf, addconf, syncconf, genkey, genpsk, pubkey.
+- [RESULT] The installed `wg` utility supports the expected WireGuard-compatible control operations needed by an AmneziaWG interface.
+- [SAFETY] Read-only command; no interface, peer, key, route, firewall, DNS, Zapret2 or watchdog state changed.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages = DONE; kernel module = DONE; userspace `wg` = DONE; interface = NOT_STARTED; peer/handshake = NOT_STARTED; traffic = NOT_STARTED.
+- [NEXT GATE] Before creating any interface, verify whether an AWG-specific UAPI/config capability is exposed by the installed `amneziawg-tools` package. Do not generate/import private credentials yet.
