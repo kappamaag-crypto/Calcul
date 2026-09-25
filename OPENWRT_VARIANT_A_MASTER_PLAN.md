@@ -1665,3 +1665,13 @@ Type: AUTHORITATIVE STATE / POLICY
 - [CONCLUSION] The user-supplied Jc=4, Jmin=40, Jmax=70, S1=45, S2=112 values are an unverified external example, not evidence of a Proton-compatible server profile. Do not apply them blindly.
 - [STATUS] STAGE 14 / Gate 4 = IN_PROGRESS. No configuration, route, Zapret2 rule, or service was changed.
 - [NEXT] The useful source evidence is the actual Proton-generated configuration used to construct proton_awg_test, with secret fields removed. Without it, changing AWG parameters would be blind experimentation.
+
+
+## STAGE 14 — Proton-AWG Gate 4.2 — Jc/Jmin/Jmax/S1/S2 experiment — 2026-09-25 21:19 GMT
+- [CHANGE] Runtime-only AWG parameters applied to isolated `proton_awg_test`: Jc=4, Jmin=40, Jmax=70, S1=45, S2=112. S3/S4 remained 0; H1-H4 remained 1/2/3/4; RandomTrailers=off; DisableCookies=off.
+- [RESULT] `awg showconf` verified the exact five requested values after application.
+- [TEST] Bounded 20-second observation with no route, Zapret2, service, or other configuration changes.
+- [RESULT] Before wait: transfer 0 B received, 289.83 KiB sent. After 20 s: 0 B received, 291.47 KiB sent.
+- [INTERPRETATION] The tested Jc/Jmin/Jmax/S1/S2 group did not produce any received traffic or observed handshake during this 20-second window. The hypothesis is therefore NOT VALIDATED by this experiment.
+- [STATUS] Gate 4 remains IN_PROGRESS. Current functional condition remains FAILED/NOT VALIDATED: RX=0 B, no observed handshake.
+- [SAFETY] No default route was created; `proton_awg_test` remains isolated. Do not change Zapret2 or routing based solely on this result. The five parameters are currently runtime-modified and must be considered experimental until reverted or deliberately retained.
