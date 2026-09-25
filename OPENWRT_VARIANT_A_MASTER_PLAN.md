@@ -819,3 +819,12 @@
 - [WEB VERIFICATION] Official OpenWrt documentation confirms kernel modules are loadable at runtime; OpenWrt's package build system documents module autoloading separately from package installation. citeturn0search0turn0search1turn0search10
 - [SAFETY GATE] The next operation will modify only the running kernel state by loading `amneziawg`. It will not create an interface, configure a tunnel, alter routes/firewall/DNS/Zapret2/watchdog, or reboot. If loading fails, stop and capture the exact error; do not force-load.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages = DONE; module file/ABI/dependencies = DONE; module loaded = READY FOR FIRST LOAD; interface/handshake/traffic = NOT_STARTED.
+
+
+## STAGE 14 — First AmneziaWG kernel-module load — 2026-09-25
+- [USER RESULT] `modprobe amneziawg` completed with no output and no reported error.
+- [RESULT] The AWG kernel module was successfully requested for loading; no error was emitted by modprobe.
+- [STATUS] Immediate activation result = SUCCESS_PENDING_VERIFICATION. Module loaded state must be verified explicitly; no assumption of working tunnel is made.
+- [SAFETY] This operation changed only running kernel module state. No AWG interface/configuration, routes, firewall, DNS, Zapret2 or watchdog settings were changed; no reboot occurred.
+- [WEB VERIFICATION] OpenWrt documents loadable kernel modules and runtime loading; kernel-module compatibility is kernel-version sensitive, and this module had already passed exact kernel/ABI and dependency checks before this load. citeturn0search0turn0search10
+- [NEXT GATE] Read-only verification of the loaded module and its parameters; do not configure an AWG interface yet.
