@@ -1052,3 +1052,16 @@ Purpose: фиксировать все рассмотренные в чате т
 - [INTERPRETATION] This changes the diagnosis materially: previous Proton/WireGuard failures cannot be attributed simply to “we forgot to enable 50-wg4all”. The dedicated WG handshake path is very likely already present in the active firewall, pending one compact runtime confirmation.
 - [STATUS] GATE 1 remains IN_PROGRESS. No restart, edit, route/firewall/DNS/UCI change or AWG interface creation was performed.
 - [NEXT STEP] Read-only confirmation of the exact two nfqws2 command lines and their QNUMs; no configuration change.
+
+
+### GATE 1 — exact nfqws2 QNUM confirmation — 2026-09-25
+- [RESULT] User ran the compact read-only process inspection successfully.
+- [FACT] PID 16182 runs nfqws2 with --qnum=65300.
+- [FACT] PID 16181 runs nfqws2 with --qnum=300.
+- [CONFIRMED] The active Zapret2 runtime therefore has two distinct nfqws2 instances matching the expected main queue 300 and dedicated WireGuard/custom queue 65300.
+- [INTERPRETATION] Combined with the previously observed nftables rules that send WireGuard handshake-shaped UDP packets to QNUM 65300, this confirms that the dedicated WG nfqws2 daemon is not merely installed on disk: it is actively running.
+- [CORRECTION] The earlier theory that previous Proton attempts failed simply because the WG Zapret2 component was not enabled is rejected as an explanation for the current state. A dedicated WG processing path is active now. Whether it was active during each historical Proton test is not yet established.
+- [TECHNICAL CONTEXT] Upstream Zapret2 uses separate custom daemons/queues for custom scripts, while the standard NFQWS2 daemon uses the main QNUM; this matches the observed 300/65300 split. cite: turn0search10, turn0search5.
+- [SAFETY] No restart, edit, route/firewall/DNS/UCI change or AWG interface creation was performed.
+- [STATUS] GATE 1 = DONE for runtime activation of the WG custom daemon. GATE 1 overall audit = DONE.
+- [NEXT] Before any controlled AWG/Proton change, use one read-only step to inspect the effective QNUM=65300 command-line options, specifically whether the running daemon has the expected WireGuard payload/fake strategy. No restart/change.
