@@ -1768,3 +1768,10 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The keepalive value was successfully applied at runtime. PersistentKeepalive sends authenticated empty packets to maintain NAT/firewall state; it does not by itself prove a handshake. Official AWG tooling documents this behavior. 
 - [STATUS] Gate 4 remains IN_PROGRESS; Proton-AWG tunnel remains NOT VALIDATED.
 - [NEXT] Force one fresh interface initiation using a reversible isolated interface down/up cycle, preserving the endpoint host route and avoiding any default-route change. No parameter sweep.
+
+
+## STAGE 14 — Proton-AWG forced interface restart — 2026-09-25
+- [USER RESULT] The isolated `proton_awg_test` interface was brought down and immediately back up with `ip link set proton_awg_test down && ip link set proton_awg_test up`; command returned empty output.
+- [INTERPRETATION] The reversible interface restart completed without a reported local error. This was intended to force a fresh initiation without changing the default route or endpoint host-route design.
+- [STATUS] Gate 4 remains IN_PROGRESS; handshake/RX is not yet established from this action alone.
+- [NEXT] Perform one read-only `awg show` check for endpoint, transfer and latest handshake. No configuration changes or parameter sweep.
