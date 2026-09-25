@@ -227,3 +227,16 @@ Fresh read-only audit confirms:
 - No firewall, route, Dropbear, LuCI, Wi-Fi, or package state was changed by this audit.
 
 Older statements claiming that no Archer-side management path exists are superseded only to the extent that the configured SSH rule/binding is now proven present. Actual end-to-end reachability remains unvalidated.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — SSH FIREWALL RULE VERIFIED
+
+Read-only inspection of the existing `Allow-SSH-from-TPLink` rule confirms the intended narrow path:
+- source zone: wan;
+- source network: 192.168.0.0/24;
+- protocol: TCP;
+- destination port: 22;
+- target: ACCEPT.
+
+No additional firewall rule or policy change is required based on this evidence. End-to-end Archer Wi-Fi client access to 192.168.0.100:22 remains NOT VALIDATED until tested from an actual client on the Archer-side Wi-Fi.
