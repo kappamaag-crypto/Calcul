@@ -1005,3 +1005,14 @@ Purpose: фиксировать все рассмотренные в чате т
 - [WEB CONTEXT] Текущий upstream zapret2 config действительно предусматривает отдельные NFQWS2 UDP/TCP параметры и пример UDP/443 QUIC; upstream/community материалы также содержат WireGuard L7 UDP examples, но это не доказывает работоспособность на данном ISP/path. citeturn0search0turn0search6
 - [STATUS] STAGE 14 = IN_PROGRESS; GATE 1 = IN_PROGRESS; audit execution = NOT_STARTED.
 - [NEXT STEP] Первый тест — только чтение локального Zapret2 config: собрать строки, относящиеся к NFQWS2 UDP/TCP, MODE_FILTER, FLOWOFFLOAD, interface selection и WireGuard/L7/desync. Никакого restart/edit.
+
+
+### GATE 1 — local Zapret2 config read-only result — 2026-09-25
+- [RESULT] User ran the planned read-only grep over /opt/zapret2/config and /opt/zapret2/config.default.
+- [FACT] Active /opt/zapret2/config: SET_MAXELEM=522288; NFQWS2_ENABLE=1; NFQWS2_PORTS_TCP=80,443; NFQWS2_PORTS_UDP=443; NFQWS2_TCP_PKT_OUT=20; NFQWS2_TCP_PKT_IN=10; NFQWS2_UDP_PKT_OUT=5; NFQWS2_UDP_PKT_IN=3; MODE_FILTER=autohostlist; FLOWOFFLOAD=donttouch; INIT_APPLY_FW=1; DISABLE_IPV6=1.
+- [FACT] Active NFQWS2_OPT has three groups: TCP/80 HTTP with fake+multisplit; TCP/443 TLS with hostfakesplit; UDP/443 QUIC with <HOSTLIST_NOAUTO>, payload quic_initial and fake_default_quic repeats=1.
+- [FACT] No active filter-l7=wireguard, filter-udp for the Proton WireGuard port, or explicit WireGuard UDP strategy appears in the active config excerpt. The only WireGuard mention is a commented IFACE_WAN6 example.
+- [FACT] config.default has the same NFQWS2 UDP port/packet limits and UDP/443 QUIC group, but NFQWS2_ENABLE=0 and MODE_FILTER=none; its default QUIC fake uses repeats=6. It also contains only a commented IFACE_WAN6 example for wireguard0.
+- [INTERPRETATION] Current active Zapret2 configuration does not currently contain a dedicated WireGuard UDP filter/strategy. UDP capture is presently limited by config to port 443 and the active UDP L7 rule is QUIC.
+- [SAFETY] No service restart, config edit, nftables change, route/firewall/DNS/UCI change or AWG interface creation was performed.
+- [STATUS] GATE 1 remains IN_PROGRESS; this read-only config sub-check is DONE. Next audit step should inspect actual nfqws2 process command lines/runtime arguments, still read-only.
