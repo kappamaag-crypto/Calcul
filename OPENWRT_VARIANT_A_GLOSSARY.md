@@ -2020,3 +2020,12 @@ Type: CURRENT / DIAGNOSTIC / POLICY
 - Do not repeat equivalent 20-second observations without a new hypothesis; no blind AWG parameter enumeration.
 
 Type: CURRENT / DIAGNOSTIC / EXPERIMENTAL
+
+
+## 100. Proton-AWG predefined experimental profile matrix — 2026-09-25
+- Profile 2: Jc=5, Jmin=60, Jmax=120, S1=50, S2=130, H1-H4=5/6/7/8 is pending runtime-only testing.
+- Profile 3: Jc=3, Jmin=20, Jmax=50, S1=15, S2=80, H1-H4=10/11/12/13 is pending runtime-only testing.
+- These are user-supplied experimental values, not documented Proton requirements.
+- Numeric I1-I5 are excluded because the installed amneziawg-tools syntax uses tagged-junk strings.
+
+Type: EXPERIMENTAL / CURRENT
