@@ -1820,3 +1820,39 @@ STAGE 14 = IN_PROGRESS; Proton/AWG Gate 3 = IN_PROGRESS.
 - Исторический PASS не отменяет более новый FAIL/UNKNOWN.
 
 Тип: POLICY
+## 88. Latest Proton/OpenVPN diagnostic facts — 2026-09-25
+
+### Credential metadata
+- proton.auth: username length 16, password length 32; no colon and no +f1/+f2/+nr suffixes.
+- Do not print or store actual credential contents in project documentation.
+- /tmp/proton-us-443.ovpn has auth-user-pass without a filename; isolated CLI tests must explicitly use --auth-user-pass /etc/openvpn/proton.auth.
+
+### Proton TCP/443 A/B results
+- multisplit:pos=2 = FAILED for the tested OpenVPN control-channel case.
+- fakedsplit:pos=2 = FAILED: TCP connection established to 84.20.27.33:443, then Server poll timeout; temporary qnum 65301 processed packets with last_packet_id=8 and no queue drops.
+- These results do not prove Zapret2 is the root cause; a Zapret2-stopped A/B had already shown the same OpenVPN timeout.
+- Blind enumeration of further desync variants is NOT a valid next step without a new hypothesis.
+
+### Tool/syntax facts
+- BusyBox nc on this router supports nc [IPADDR PORT]; option-rich -v/-w syntax is not supported by this build.
+- Plain HTTP sent to 84.20.27.33:443 is NON-DIAGNOSTIC because TCP/443 expects TLS.
+- Current router result: command -v openssl => OPENSSL_NOT_INSTALLED. This conflicts with the historical package-install record that listed openssl-util; treat the runtime binary as unavailable until reconciled. Do not reinstall solely because of the historical entry.
+- Current BusyBox wget rejects -S; use only options shown by the router's own wget help when designing future probes.
+
+### Capability evidence rule
+For every important capability record:
+- IMPLEMENTED IN REPOSITORY
+- DEPLOYED TO ROUTER
+- ACTIVE AT RUNTIME
+- VALIDATED
+
+Never infer a higher evidence level from a lower one.
+
+### Diagnostic result classification
+- TOOL/SYNTAX BLOCKED = the test did not execute because local command/tool syntax or availability prevented it.
+- NON-DIAGNOSTIC = the test executed but its protocol cannot answer the intended question.
+- FAILED = the intended test executed correctly and its acceptance condition was not met.
+- Do not convert TOOL/SYNTAX BLOCKED or NON-DIAGNOSTIC into network/service failure.
+
+### Capability/state reconciliation
+If current router evidence conflicts with a repository record, the latest verified router result is current; the conflict must be recorded before the next router-changing command.
