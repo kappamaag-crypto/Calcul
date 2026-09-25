@@ -1222,3 +1222,12 @@ The following capabilities are already implemented or materially established and
 - The latest Zapret2 incident sequence is explicitly preserved: running-status observation → YouTube failure → manual restart → YouTube recovery → auto-hostlist inspection → nfqws2/nftables structural audit → root cause of the watchdog's own false nft predicate → regex correction → watchdog deployment → HEALTHY `--check` → healthy `--once` → procd enable/start → periodic HEALTHY record.
 - The watchdog was tested without intentionally reproducing the original YouTube outage.
 - The earlier system-wide OOM history remains background evidence only; it is not recorded as the proven cause of the specific YouTube outage.
+
+## HANDOFF DOCUMENT SYNC — 2026-09-25
+- [COMPLETED] Mandatory AI preflight policy added to MASTER PROMPT.
+- [COMPLETED] Consolidated AI handoff, full repository inventory, capability registry, current exact stopping point and chat-history restoration note added to MASTER PLAN.
+- [COMPLETED] Mandatory preflight, capability registry, watchdog definitions and repository-vs-runtime distinctions added to GLOSSARY.
+- [COMPLETED] New root `OPENWRT_VARIANT_A_START_HERE.md` created as the first-entry handoff index for future AIs.
+- [COMMIT MAP] MASTER PLAN: `4343cb2306c74e2bfdeadf840e95409f8774a4bf` before this sync; MASTER PROMPT: `90ffbf0a3aaea668bca341c3b42909d0873cdd7b`; GLOSSARY: `da29903efd2b6f522a8b17198c1ee809414fa7c8`; START_HERE: `df38f55464f5065a7cea6b4d694d4261c13168c5`.
+- [RULE] These documents form a linked handoff chain: START_HERE → MASTER PROMPT → MASTER PLAN → GLOSSARY → relevant implementation/evidence files.
+- [STATUS] Documentation/handoff synchronization = DONE.
