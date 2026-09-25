@@ -1856,3 +1856,43 @@ Never infer a higher evidence level from a lower one.
 
 ### Capability/state reconciliation
 If current router evidence conflicts with a repository record, the latest verified router result is current; the conflict must be recorded before the next router-changing command.
+
+
+---
+
+## PROJECT CONTROL / CAPABILITY-STATE ADDENDUM — 2026-09-25
+
+**Mandatory reading rule:** Future AI/session must read, in this order, `OPENWRT_VARIANT_A_START_HERE.md` → `OPENWRT_VARIANT_A_MASTER_PROMPT.md` → latest `OPENWRT_VARIANT_A_MASTER_PLAN.md` → this glossary, then audit the capability ledger before issuing commands.
+
+**AVAILABLE_FOR_BUILD** — the package/source/component has been verified as buildable/available in the ImageBuilder or build environment. This does **not** mean it is installed on the router.
+
+**INSTALLED** — the package/file is physically present on the currently running router.
+
+**CONFIGURED** — the installed feature has the intended configuration on the running router.
+
+**RUNTIME_VERIFIED** — the configured feature has been tested successfully on the running router.
+
+**PLANNED** — desired future feature; no claim of implementation.
+
+**BLOCKED** — cannot safely/properly proceed because a prerequisite is missing.
+
+**DISABLED** — present/configured but intentionally inactive.
+
+**FAILED** — an implementation or test was attempted and failed.
+
+**Capability audit** — mandatory pre-action comparison of the master plan, master prompt, glossary and current router evidence to determine whether a feature already exists and whether a new change would duplicate or conflict with it.
+
+**ImageBuilder/runtime distinction** — package presence in an ImageBuilder manifest is evidence of build availability only. Runtime installation must be proven on the router.
+
+**USB direct-runtime path** — the current authoritative USB workflow: physical USB connected directly to the MikroTik and observed by OpenWrt as `/dev/sda`. The previous Windows/WSL/usbipd troubleshooting path is historical, not the current implementation path.
+
+**USB partition layout — 2026-09-25** — `/dev/sda1` is 64 MiB Linux swap (MBR type 82) and is initialized/active; `/dev/sda2` is the remaining ~3.7 GiB Linux partition (MBR type 83) and is not yet formatted.
+
+**e2fsprogs / mkfs.ext4 state — 2026-09-25** — ext4 creation tooling is verified as available for the intended build but is absent from the current running firmware; therefore `/dev/sda2` cannot yet be declared ext4 or mounted.
+
+**lsblk absence** — `lsblk` is not present in the current minimal firmware. Use verified alternatives such as `/proc/partitions`, `/sys/block/*`, `fdisk`, and `block` as appropriate.
+
+**USB swap active** — `/proc/swaps` currently shows `/dev/sda1` as an active swap partition of approximately 64 MiB, priority -2.
+
+**Runtime truth rule** — when documentation, build manifests, source trees and runtime output disagree, current verified runtime evidence wins until the discrepancy is explicitly reconciled.
+
