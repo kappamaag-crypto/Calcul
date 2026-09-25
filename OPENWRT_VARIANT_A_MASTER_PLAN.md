@@ -1231,3 +1231,38 @@ The following capabilities are already implemented or materially established and
 - [COMMIT MAP] MASTER PLAN: `4343cb2306c74e2bfdeadf840e95409f8774a4bf` before this sync; MASTER PROMPT: `90ffbf0a3aaea668bca341c3b42909d0873cdd7b`; GLOSSARY: `da29903efd2b6f522a8b17198c1ee809414fa7c8`; START_HERE: `df38f55464f5065a7cea6b4d694d4261c13168c5`.
 - [RULE] These documents form a linked handoff chain: START_HERE → MASTER PROMPT → MASTER PLAN → GLOSSARY → relevant implementation/evidence files.
 - [STATUS] Documentation/handoff synchronization = DONE.
+
+## DOCUMENTATION SYNC ADDENDUM — 2026-09-25 — current chat / DoH + memory investigation
+
+### 1. Current verified router results from the latest chat
+- [RESULT] The router remains at STAGE 14 / Proton-AWG Gate 3 IN_PROGRESS.
+- [RESULT] Memory snapshot: MemTotal=54852 kB, MemFree=11840 kB, MemAvailable=4044 kB, Slab=10144 kB, SReclaimable=1284 kB, SUnreclaim=8860 kB, SwapTotal=557048 kB, SwapFree=551960 kB.
+- [INTERPRETATION] The approximately 4 MiB MemAvailable and approximately 8.6 MiB SUnreclaim confirm a narrow memory margin, while swap was largely free. This does not prove a specific leak or prove nfqws2 as the cause.
+- [RESULT] At that diagnostic point NFQUEUE output was empty and no nfqws2 process was present in ps w; therefore the low MemAvailable was not accompanied by an active nfqws2/NFQUEUE queue at that instant.
+- [RESULT] /proc/slabinfo is unavailable on this build. /sys/kernel/slab exists, but the exported objects/total_objects counters needed for cache accounting are unavailable; objects_partial is not sufficient to infer total live-object memory. No slab-cache root cause was declared.
+
+### 2. DoH consolidation decision and current state
+- [USER DECISION] Keep Cloudflare DoH; remove the Google DoH instance to reduce persistent memory overhead on the 64-MiB hAP ac lite.
+- [RESULT] Before the change, UCI contained two https-dns-proxy instances: Cloudflare on 127.0.0.1:5053 and Google on 127.0.0.1:5054; dnsmasq explicitly referenced both.
+- [RESULT] Measured process memory before consolidation: Cloudflare PID 5573 VmRSS=1716 kB; Google PID 6676 VmRSS=1672 kB; combined RSS approximately 3388 kB (~3.3 MiB).
+- [CHANGE] Removed https-dns-proxy.@https-dns-proxy[1] from UCI and committed the change. UCI then contained only the Cloudflare instance on port 5053.
+- [RESULT] /etc/init.d/https-dns-proxy restart completed successfully: Starting https-dns-proxy 2026.05.06-r1 instances ✓; Updating notrack rules ✓; Setting trigger for wan ✓.
+- [PENDING] Post-restart verification of the 5053 listener, absence of 5054 listener/process, and DNS resolution has not yet been executed. Do not mark the single-DoH runtime state as fully VALIDATED until that read-only check is completed.
+- [IMPORTANT] This current user-directed change supersedes the older repository statement that DoH was retired from the workflow. DoH is now a single-instance Cloudflare configuration pending post-restart validation.
+
+### 3. Interpretation / safety rule for memory investigation
+- [RULE] Do not attribute historical OOM events to nfqws2 solely because nfqws2 was selected as an OOM victim. Earlier OOM evidence included multiple victims and system-wide memory pressure.
+- [RULE] Do not increase swap, change ZRAM, lower vm.min_free_kbytes further, or perform broad Zapret2 tuning merely to react to the 4-MiB snapshot. Any such change requires new evidence and its own controlled gate.
+- [RULE] Avoid open-ended/heavy tcpdump or heavyweight monitoring daemons on this 64-MiB router; bounded diagnostics only.
+
+### 4. Current exact chat stopping point
+- [STATE] Documentation synchronization is being performed after the single-DoH consolidation and memory investigation.
+- [NEXT EXACT ROUTER ACTION] Verify post-restart DoH runtime: one https-dns-proxy process, port 5053 listening, port 5054 absent, then perform a bounded DNS/HTTPS validation before returning to Proton/AWG Gate 3.
+- [NEXT PROJECT GATE AFTER VALIDATION] Resume the existing Gate 3 plan: create the isolated UCI AWG test section proton-awg-test, do not start it, do not create a default route, and preserve the Proton endpoint host route via phy0-sta0.
+- [STATUS] STAGE 14 = IN_PROGRESS; Proton Gate 3 = IN_PROGRESS; DoH consolidation = CONFIGURED, post-restart runtime validation PENDING; memory investigation = IN_PROGRESS/UNRESOLVED ROOT CAUSE.
+
+### 5. Documentation protocol strengthening
+- [POLICY] Every future AI must treat the three documents as a mandatory capability/state gate, not merely a reading recommendation: MASTER PROMPT → MASTER PLAN → GLOSSARY, then START_HERE and only relevant evidence/implementation files.
+- [POLICY] Before proposing any new package, service, daemon, script, firewall rule, routing mechanism, DNS mechanism, VPN, monitoring system, or diagnostic tool, the AI must explicitly cross-check the Capability Registry and the IMPLEMENTED/DEPLOYED/ACTIVE/VALIDATED evidence levels.
+- [POLICY] If the chat contains a newer verified router result than the repository, the AI must synchronize the repository before issuing the next router-changing command.
+- [POLICY] If the repository and chat disagree, the AI must not silently choose a side: record the conflict, identify the latest verified evidence, and update the documents before continuing.
