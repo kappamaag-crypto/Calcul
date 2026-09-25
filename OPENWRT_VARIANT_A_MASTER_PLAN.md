@@ -786,3 +786,15 @@
 - [SAFETY] No state change from this failed command; no reboot, module load, network/routing/firewall/DNS/Zapret2/watchdog change.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE; module file present = DONE; module loaded = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Avoid guessing BusyBox modprobe semantics. Perform one read-only capability check for `modinfo`, which can expose module metadata without loading it.
+
+
+## STAGE 14 — AWG module metadata verified — 2026-09-25
+- [USER RESULT] `modinfo /lib/modules/6.12.94/amneziawg.ko` completed successfully.
+- [RESULT] Module name: `amneziawg`; filename: `/lib/modules/6.12.94/amneziawg.ko`.
+- [RESULT] `vermagic: 6.12.94 mod_unload MIPS32_R2 32BIT` exactly matches the running kernel version/architecture family.
+- [RESULT] Declared module dependencies: `libcurve25519-generic`, `udp_tunnel`, `ip6_udp_tunnel`, `libchacha20poly1305`, `chacha-mips`.
+- [RESULT] No module was loaded by `modinfo`.
+- [INTERPRETATION] The module binary is structurally identified for the current 6.12.94 MIPS32 target, and its dependency list is explicit. This is stronger evidence for safe activation than the previously missing modules.dep index.
+- [SAFETY] Read-only metadata inspection only. No reboot, module load, interface, routing, firewall, DNS, Zapret2 or watchdog change.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE; exact module file = DONE; module metadata/ABI = DONE; module loaded = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Before the first modifying module-load action, verify that all five declared kernel-module dependencies are currently loaded. This remains read-only.
