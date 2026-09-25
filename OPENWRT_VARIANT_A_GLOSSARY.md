@@ -2111,3 +2111,15 @@ Any older statement that says `/dev/sda2` is unformatted, that ext4 creation is 
 **Unknown event 37 (Wi-Fi)** — observed wpa_supplicant log message after successful upstream group rekeying. It is currently recorded as an observed compatibility/noise message, not as a confirmed Wi-Fi fault, because the STA remains associated and active.
 
 **Wi-Fi capability rule** — AP/STA runtime verification does not imply that cross-zone management access is enabled. Firewall policy and management listen bindings must be audited separately before any exposure change.
+
+
+---
+## 2026-09-26 — Archer-side management audit terms
+
+Archer-side SSH rule present — the current WAN firewall zone contains a rule named Allow-SSH-from-TPLink; presence of the rule is not equivalent to end-to-end client reachability.
+
+Dropbear all-address listener — current Dropbear runtime listens on 0.0.0.0:22 and :::22. This proves local socket binding, not firewall allowance from a particular source network.
+
+Archer-side management access — desired capability in which a client connected to the Archer Wi-Fi can reach hAP/OpenWrt management through 192.168.0.100 without a LAN cable. This remains NOT VALIDATED / INCOMPLETE until tested from an Archer-side client.
+
+WAN-side management safety rule — do not broaden WAN input or add a second SSH rule until the exact existing Allow-SSH-from-TPLink match conditions are inspected.
