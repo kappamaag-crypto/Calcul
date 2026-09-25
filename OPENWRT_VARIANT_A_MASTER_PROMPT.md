@@ -1034,3 +1034,48 @@ Use the user-verified 8 TCP + 2 QUIC candidate set from the Master Plan. Do not 
 - A future AI must not jump directly to a router command after opening the chat. The mandatory repository preflight is part of the project protocol.
 - The AI must preserve the exact current stage, already completed capabilities, blocked items, safety restrictions and next-step gate from the documents.
 - The AI must not repeat already completed diagnostics merely because it can run them; repeat only when the latest state or decision gate requires revalidation.
+
+## MANDATORY CAPABILITY/STATE RECONCILIATION GATE — 2026-09-25
+
+The repository preflight is a hard execution gate, not a documentation suggestion.
+
+### Required sequence before every technical turn
+1. Read current OPENWRT_VARIANT_A_MASTER_PROMPT.md.
+2. Read current OPENWRT_VARIANT_A_MASTER_PLAN.md.
+3. Read current OPENWRT_VARIANT_A_GLOSSARY.md.
+4. Read OPENWRT_VARIANT_A_START_HERE.md when present.
+5. Identify the latest dated checkpoint and exact stopping point.
+6. Cross-check the Capability Registry for every capability relevant to the proposed action.
+7. Read only the relevant implementation/evidence files needed to verify the capability.
+8. Only then decide whether a router command is necessary.
+
+### Capability evidence levels are mandatory
+For every capability that matters to the next action, classify it as exactly one or more of:
+- IMPLEMENTED IN REPOSITORY — code/config/profile exists in GitHub.
+- DEPLOYED TO ROUTER — installation/copy/deployment to the router is confirmed.
+- ACTIVE AT RUNTIME — process/service/interface/rule is confirmed active now.
+- VALIDATED — a functional test has confirmed the capability.
+
+Never promote a capability from one level to another by inference. A GitHub script is not a running service; a running service is not necessarily functionally validated; a historical router result is not current unless no later result supersedes it.
+
+### Mandatory conflict-resolution rule
+If the current chat contains a newer verified router result that differs from the repository:
+- the newer verified router result is the current working fact;
+- the conflict must be recorded in MASTER PLAN;
+- the affected capability entry in the GLOSSARY must be corrected;
+- MASTER PROMPT must be updated if the workflow/safety rule itself changed;
+- no further router-changing command should be issued until the repository state is synchronized.
+
+### Mandatory duplicate-prevention rule
+Before installing, creating, enabling, or configuring anything, search the Capability Registry and relevant plan/glossary entries for an existing implementation. This includes packages, DNS/DoH, dnsmasq, ZRAM/swap/extroot, nftables/NFQUEUE/Zapret2, watchdogs/procd, Wi-Fi AP/STA, WireGuard/AWG/VPN profiles, endpoint routes, PBR/selective routing, and diagnostic CLI tools.
+
+If the function already exists, validate/reuse it rather than creating a duplicate. A second implementation requires an explicit technical reason documented in MASTER PLAN.
+
+### Mandatory capability audit wording
+When preparing a next step, the AI must establish: existing capability → evidence level → current runtime status → proposed delta → reason no duplicate is being created. If any part is unknown, perform the smallest read-only check necessary before changing configuration.
+
+### Current project-specific memory rule
+The hAP ac lite has only 64 MiB RAM. Memory-pressure evidence must be treated as a system-wide resource issue unless a specific component is proven responsible. Do not label an OOM victim as the root cause without correlated evidence.
+
+### Current DoH rule
+As of the latest user-directed synchronization, the intended DoH configuration is a single Cloudflare https-dns-proxy instance on port 5053. The Google instance on port 5054 was removed from UCI and the service was restarted successfully; post-restart runtime validation remains pending. Future AIs must not recreate the second DoH instance unless explicitly required by a documented fault-tolerance decision.
