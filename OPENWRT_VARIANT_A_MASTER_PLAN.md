@@ -767,3 +767,12 @@
 - [SAFETY] No changes performed. Do not run `depmod`, `insmod`, or reboot until the availability of the module-management tooling and the package's intended activation path are established.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE; exact module file = DONE; module loaded = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Read-only check for `depmod`/module-loading tooling. This determines whether dependency metadata can be generated locally without introducing a network or service change.
+
+
+## STAGE 14 — AWG module-loader tooling check — 2026-09-25
+- [USER RESULT] `command -v depmod; command -v insmod; command -v modprobe` returned only `/sbin/insmod` and `/sbin/modprobe`; `depmod` is absent.
+- [RESULT] The router has both `insmod` and `modprobe`, but no `depmod` executable. This explains why no local dependency index can currently be generated with the standard `depmod` utility.
+- [WEB VERIFICATION] Official OpenWrt documentation states that kernel modules can be loaded as modules and specifically notes that `modprobe` is not available on at least some OpenWrt firmware, with `insmod` as the supported fallback. Current OpenWrt 25.12 uses apk. citeturn0search0turn0search6
+- [SAFETY] Read-only check only. No module load, reboot, depmod, network/routing/firewall/DNS/Zapret2/watchdog change.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE; exact module file = DONE; module loaded = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Use `modprobe` in dry-run mode only to see whether it can resolve/load the installed AWG module without actually changing kernel state. Do not run a real module load yet.
