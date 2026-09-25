@@ -1972,3 +1972,13 @@ Type: POLICY
 - Endpoint route remained via 192.168.0.1 dev phy0-sta0 src 192.168.0.100.
 - Capability evidence: AWG support = INSTALLED/DEPLOYED; dedicated Zapret2 WG path = ACTIVE AT RUNTIME; isolated AWG test interface = ACTIVE AT RUNTIME; Proton-AWG handshake/tunnel = NOT VALIDATED / FAILED for the observed handshake condition.
 - No default route and no VPN activation.
+
+## 95. Proton-AWG Gate 4 audit — 2026-09-25
+- proton_awg_test is an active isolated AmneziaWG experiment, not a validated VPN/bypass.
+- Gate 4 established: amneziawg-tools v3.1.20260812; AWG kernel module present for kernel 6.12.94; no local AWG profile file found by the bounded search; runtime reports RandomTrailers=off and DisableCookies=off.
+- AWG 3.1 exposes additional parameters beyond classic WireGuard/AWG 2.x, including Jc/Jmin/Jmax, S1-S4, H1-H4, I1-I5 and 3.1 fields. These must be audited before assuming profile compatibility.
+- Never record or display private key, preshared key, or HeaderProtectionKey. Read-only parameter audits must explicitly exclude secret material.
+- RX=0, 0 B received, and no latest handshake remain the functional acceptance failure; no root cause is assigned yet.
+- Gate 4 remains IN_PROGRESS; no route/default-route or configuration change is authorized merely from this audit.
+
+Type: CURRENT / DIAGNOSTIC / POLICY
