@@ -211,3 +211,19 @@ This section supersedes older Wi-Fi statements where they conflict. Older Wi-Fi 
 - Capability state: dual-band hAP AP service = RUNTIME_VERIFIED / DONE; Archer-side 5 GHz STA uplink = RUNTIME_VERIFIED / DONE; WPA2 on both APs = RUNTIME_VERIFIED / DONE.
 - Still incomplete: management/access to the hAP/OpenWrt from an Archer-side Wi-Fi client without LAN has not been validated and remains a separate capability.
 - Do not change wireless configuration merely from this audit.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — ARCHER-SIDE MANAGEMENT PATH AUDIT
+
+Fresh read-only audit confirms:
+- hAP has a route to the Archer-side network 192.168.0.0/24 via phy0-sta0, with 192.168.0.100 as the hAP address.
+- Default route is via 192.168.0.1 dev phy0-sta0.
+- Firewall default input policy is REJECT; LAN input is ACCEPT; WAN input is REJECT.
+- An existing firewall rule named Allow-SSH-from-TPLink is present in the WAN zone. Its exact match/target parameters must be inspected before treating it as sufficient.
+- Dropbear is enabled on TCP/22 and listens on 0.0.0.0:22 and :::22. Thus the management daemon is not bound only to the LAN address.
+- uhttpd/LuCI is absent from the current UCI namespace (uci show uhttpd returned Entry not found); no HTTP/HTTPS management listener was observed.
+- Therefore Archer-side SSH management is potentially preconfigured, but actual client reachability from an Archer Wi-Fi station remains NOT VALIDATED.
+- No firewall, route, Dropbear, LuCI, Wi-Fi, or package state was changed by this audit.
+
+Older statements claiming that no Archer-side management path exists are superseded only to the extent that the configured SSH rule/binding is now proven present. Actual end-to-end reachability remains unvalidated.
