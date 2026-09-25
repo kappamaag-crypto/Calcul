@@ -1675,3 +1675,11 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The tested Jc/Jmin/Jmax/S1/S2 group did not produce any received traffic or observed handshake during this 20-second window. The hypothesis is therefore NOT VALIDATED by this experiment.
 - [STATUS] Gate 4 remains IN_PROGRESS. Current functional condition remains FAILED/NOT VALIDATED: RX=0 B, no observed handshake.
 - [SAFETY] No default route was created; `proton_awg_test` remains isolated. Do not change Zapret2 or routing based solely on this result. The five parameters are currently runtime-modified and must be considered experimental until reverted or deliberately retained.
+
+
+## STAGE 14 — Proton-AWG Gate 4.3 — user-supplied Variant 2 reviewed — 2026-09-25
+- [USER INPUT] User supplied an expanded external example: Jc=5, Jmin=50, Jmax=100, S1=45, S2=112, S3=78, S4=93, I1=1, I2=2, I3=3, I4=4, I5=5.
+- [TECHNICAL CORRECTION] Official amneziawg-tools accepts I1-I5 as tagged-junk strings, not as documented numeric parameter fields. The official tool source describes them as tagged junk values; therefore the supplied numeric I1-I5 values are not treated as a valid AWG 3.x profile.
+- [DECISION] Do not apply I1-I5=1..5. Test only the numeric AWG parameters from Variant 2 in isolation: Jc=5, Jmin=50, Jmax=100, S1=45, S2=112, S3=78, S4=93. This remains an unverified compatibility experiment, not a Proton requirement.
+- [STATUS] Gate 4 remains IN_PROGRESS / handshake NOT_VALIDATED. No default route or full VPN routing.
+- [NEXT] Apply the seven numeric runtime-only parameters to isolated proton_awg_test, then perform one bounded handshake observation.
