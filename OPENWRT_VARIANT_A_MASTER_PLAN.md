@@ -1797,3 +1797,10 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The new peer configuration was added/applied while the old peer block remains present. Because the interface currently contains two peer entries, this is not yet a clean A/B result and no handshake has been observed.
 - [STATUS] Gate 4 IN_PROGRESS; new endpoint handshake NOT_VALIDATED.
 - [NEXT] Do not sweep parameters. First isolate the new endpoint by removing the old peer from the test interface, then force one fresh initiation and inspect handshake/RX. This remains isolated and must not create a default route.
+
+
+## STAGE 14 — Old Proton peer removed — 2026-09-25
+- [USER RESULT] Removed old peer public key from isolated `proton_awg_test`; command returned empty output.
+- [INTERPRETATION] The old endpoint peer removal command completed without a reported local error. New endpoint remains the intended sole peer for the next clean A/B observation.
+- [STATUS] Gate 4 IN_PROGRESS; new endpoint handshake/RX still NOT_VALIDATED.
+- [NEXT] Read-only verify that only the new peer remains and inspect its transfer/handshake state. No parameter or route changes.
