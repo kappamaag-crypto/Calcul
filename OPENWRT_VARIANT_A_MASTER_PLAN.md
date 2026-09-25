@@ -737,3 +737,13 @@
 - [SAFETY] Read-only check only. No module load, reboot, interface, routing, firewall, DNS, Zapret2 or watchdog change.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE. AWG module loaded = NOT_STARTED. AWG interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Inspect the installed package contents/metadata for the exact module filename and any post-install behavior before deciding between a controlled manual module load and reboot. Do not use a generic AWG installer.
+
+
+## STAGE 14 — AWG module file/dependency discovery — 2026-09-25
+- [USER RESULT] `apk info -L kmod-amneziawg | grep -E '(\\.ko$|modules.d|modules-boot.d)'` returned exactly `lib/modules/6.12.94/amneziawg.ko`.
+- [RESULT] The package contains the expected kernel module at `/lib/modules/6.12.94/amneziawg.ko`; no autoload file was shown.
+- [INTERPRETATION] The module is installed for the exact running kernel version, but it is not currently loaded and has no visible OpenWrt autoload entry.
+- [WEB VERIFICATION] Official OpenWrt documentation states that kernel modules are loadable after the kernel and may be loaded with `insmod`; OpenWrt also notes that some firmware versions do not provide `modprobe`. citeturn0search1turn0search2
+- [SAFETY] No module loading, reboot, network/routing/firewall/DNS/Zapret2/watchdog change was performed.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE; module file present = DONE; module loaded = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Before a modifying module-load action, inspect the generated kernel module dependency index for `amneziawg.ko`. This is read-only and will help avoid an unnecessary manual load or reboot.
