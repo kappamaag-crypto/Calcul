@@ -1834,3 +1834,10 @@ Type: AUTHORITATIVE STATE / POLICY
 - [STATUS] STAGE 14 / Gate 4 = IN_PROGRESS; Proton Free handshake NOT_VALIDATED. No default route, production routing, Zapret2 configuration, or persistent AWG change was made.
 - [METHODOLOGY] Do not perform another AWG parameter sweep. The purpose of this branch is to test the actual Proton-generated standard WireGuard profile semantics without invented obfuscation parameters. Current AmneziaWG documentation confirms the AWG-specific J/S/H fields are protocol extensions, while the standard baseline uses no such obfuscation. citeturn0search1turn0search8
 - [NEXT] Perform one read-only `awg show proton_awg_test` status check for the new endpoint, latest handshake and transfer counters. If RX remains 0 B and handshake is absent, shift the hypothesis toward endpoint/path/profile acceptance rather than continue blind AWG tuning.
+
+
+## STAGE 14 — Proton Free clean plain-WG handshake readback — 2026-09-25
+- [USER RESULT] After the clean isolated interface restart, `awg show proton_awg_test` reports endpoint `146.70.246.98:51820`, sole peer key `ehwHh3WXBDwFxqTs4Oa8aZZYjOnd3NwjbMArKRwTqzs=`, transfer `0 B received, 186.29 KiB sent`, PersistentKeepalive=25, AllowedIPs=(none), and no `latest handshake` line.
+- [INTERPRETATION] The actual Proton Free endpoint/client-key combination still sends but receives nothing after a fresh initiation, with AWG obfuscation reset to baseline. Official `awg show` prints `latest handshake` only when a nonzero handshake timestamp exists. citeturn0search6
+- [STATUS] Gate 4 remains IN_PROGRESS; handshake NOT_VALIDATED / FAILED for current acceptance condition.
+- [NEXT] Do not change AWG parameters. Perform one bounded WAN packet-path capture for UDP/51820 to the exact endpoint to determine whether any inbound response reaches `phy0-sta0`.
