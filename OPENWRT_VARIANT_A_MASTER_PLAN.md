@@ -1867,3 +1867,29 @@ Type: AUTHORITATIVE STATE / POLICY
 - [DEPENDENCY RULE] WARP/Proton work that requires WireGuard is also deferred with this branch unless a separate non-WireGuard implementation is explicitly selected later.
 - [NEXT EXECUTION POLICY] On continuation, select the highest-priority incomplete **non-WireGuard** stage from MASTER PLAN. Do not resume STAGE 14 merely because it is the historical checkpoint.
 - [RESUME CONDITION] WireGuard/AWG may be reopened only when the project reaches the final WireGuard stage or the user explicitly asks to resume it earlier.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-25 — USER DECISION / LATEST RECONCILIATION
+
+> This section is an explicit current-state override. Older sections are intentionally retained for history and evidence, but any older statement that conflicts with this section is **HISTORICAL / STALE** and must not be used as the next-action checkpoint.
+
+### Current project checkpoint
+- **WireGuard / AmneziaWG / Proton tunnel branch: PAUSED by user.** The existing Proton-AWG experiment remains unfinished and unvalidated; this is an execution pause, **not** a technical FAILED/BLOCKED conclusion.
+- The WireGuard branch is moved to the **FINAL MAJOR IMPLEMENTATION/VALIDATION STAGE**. Do not resume AWG/WireGuard tests, parameter sweeps, endpoint A/B tests, default-route activation, or full-VPN routing unless the user explicitly reopens it or the final stage is reached.
+- **Zapret2 Telegram/WhatsApp scope: BLOCKED** for the current Zapret2-only approach. Evidence indicates that at least part of the problem may be IP-level rather than ordinary DPI. Do not continue blind NFQWS/MODE_FILTER/desync tuning without a new hypothesis.
+- **Zapret2 remains active and useful for the validated DPI-oriented scope.** Current known configuration includes MODE_FILTER=autohostlist, TCP 80/443, UDP 443, main QNUM=300, dedicated WireGuard-pattern QNUM=65300, FLOWOFFLOAD=donttouch, INIT_APPLY_FW=1, DISABLE_IPV6=1, SET_MAXELEM=522288.
+- **Zapret2 watchdog: INSTALLED / ACTIVE AT RUNTIME / HEALTHY.** Do not create a second watchdog.
+- **DoH / https-dns-proxy: RETIRED from the current Variant A workflow by explicit user decision.** Historical DoH installation/configuration/evidence remains in this repository, but it must not be reintroduced unless the user explicitly requests it. Any older note describing DoH as the next active task is HISTORICAL / STALE.
+- **USB current runtime truth:** /dev/sda1 = 64 MiB Linux swap, initialized/active; /dev/sda2 = remaining ~3.7 GiB Linux partition, **not formatted**. Current firmware lacks mkfs.ext4/e2fsprogs, so ext4 creation is BLOCKED pending firmware/package reconciliation. Any older claim that /dev/sda2 is already ext4/extroot or that /dev/sda3 is active is HISTORICAL / STALE unless newer runtime evidence proves otherwise.
+- **Memory:** ZRAM + USB swap are retained as current project mechanisms; persisted vm.min_free_kbytes=2048 has passed load validation. Do not casually change memory tuning without a new hypothesis.
+- **Archer C20 v4 remains the main router.** The MikroTik hAP ac lite remains downstream and must not be promoted to the primary router without an explicit user decision.
+
+### Next-action rule after this reconciliation
+Because the tunnel branch is frozen and Telegram/WhatsApp Zapret2-only scope is blocked, the next project action must be selected from the highest-priority **incomplete non-tunnel capability** after a fresh capability audit. Do not follow stale numeric stage text merely because it appears earlier in this document.
+
+### Evidence ladder
+Use explicit states: IMPLEMENTED IN REPOSITORY → AVAILABLE_FOR_BUILD → INSTALLED / DEPLOYED TO ROUTER → CONFIGURED → ACTIVE AT RUNTIME / RUNTIME_VERIFIED → VALIDATED, with DISABLED, PLANNED, BLOCKED, FAILED recorded separately. A historical record never outranks newer verified runtime evidence.
+
+### Preservation rule
+No historical information is to be deleted merely because it is no longer current. Retain old test results, configurations, stage notes, commits and hypotheses, but label superseded material as **HISTORICAL / STALE / RETIRED / PAUSED** where applicable.
