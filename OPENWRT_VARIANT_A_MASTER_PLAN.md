@@ -1564,3 +1564,11 @@ Type: AUTHORITATIVE STATE / POLICY
 - [LIMITATION] This still does not prove Proton endpoint acceptance or a completed handshake. WAN capture showed outbound UDP/51820 only, with no inbound response in the sample.
 - [STATUS] AWG interface = ACTIVE AT RUNTIME; local Zapret2 WG path = RUNTIME_VERIFIED; outbound endpoint traffic = OBSERVED; inbound endpoint response = NOT_OBSERVED; handshake = NOT_VERIFIED; received traffic = 0 B.
 - [NEXT DIAGNOSTIC DIRECTION] Do not modify Zapret2 blindly. The evidence now points away from a missing local QNUM 65300 consumer. The next investigation should distinguish (a) Proton endpoint/key/profile acceptance, (b) endpoint/path reachability beyond the Archer upstream, and (c) whether standard WireGuard initiation is being transformed in a way the Proton endpoint does not accept.
+
+## STAGE 14 — QNUM 65300 command-line result confirmed — 2026-09-25
+- [USER RESULT] `/proc/3205/cmdline` exactly confirms PID 3205 is the dedicated Zapret2 `nfqws2` consumer for `--qnum=65300`.
+- [RESULT] Runtime arguments are `--payload=wireguard_initiation,wireguard_response,wireguard_cookie` with `--lua-desync=fake:blob=0x00000000000000000000000000000000:repeats=2`.
+- [CONCLUSION] The local WireGuard-specific Zapret2 userspace path is fully runtime-verified; there is no evidence that QNUM 65300 is missing, unconsumed, or using the wrong WG payload mode.
+- [LIMITATION] This does not establish Proton server acceptance or a completed AWG handshake. Earlier capture still showed outbound UDP/51820 only and 0 B received.
+- [STATUS] STAGE 14 = IN_PROGRESS; AWG interface = ACTIVE AT RUNTIME; Zapret2 WG path = RUNTIME_VERIFIED; handshake = NOT_VERIFIED; usable tunnel traffic = NOT_VERIFIED.
+- [NEXT] Move to a non-destructive control check that does not modify Zapret2/AWG configuration and distinguishes endpoint/path reachability from the already-verified local NFQUEUE path.
