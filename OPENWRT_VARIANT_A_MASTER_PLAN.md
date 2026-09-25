@@ -1893,3 +1893,12 @@ Use explicit states: IMPLEMENTED IN REPOSITORY → AVAILABLE_FOR_BUILD → INSTA
 
 ### Preservation rule
 No historical information is to be deleted merely because it is no longer current. Retain old test results, configurations, stage notes, commits and hypotheses, but label superseded material as **HISTORICAL / STALE / RETIRED / PAUSED** where applicable.
+
+
+## EXECUTION CHECKPOINT — 2026-09-25 23:43 LOCAL — NON-WIREGUARD BRANCH SELECTION
+- [DECISION] WireGuard/AmneziaWG/Proton remains PAUSED and is not the next branch.
+- [DECISION] Telegram/WhatsApp Zapret2-only remains BLOCKED; no blind desync tuning.
+- [AUDIT] The USB/extroot branch is an explicitly incomplete non-tunnel capability: /dev/sda1 swap is active, /dev/sda2 is unformatted, and the current firmware lacks mkfs.ext4/e2fsprogs. Older extroot/sda3 records are historical/stale unless newer runtime evidence proves otherwise.
+- [NEXT SAFE STEP] Before any package installation or filesystem operation, perform one read-only repository-package availability check for e2fsprogs. This does not change router state and addresses the current ext4-formatting blocker.
+- [SAFETY] No formatting, partitioning, mounting, extroot activation, package installation, or reboot is authorized by this checkpoint.
+- [STATUS] USB ext4/extroot preparation = BLOCKED pending tooling reconciliation; WireGuard = PAUSED.
