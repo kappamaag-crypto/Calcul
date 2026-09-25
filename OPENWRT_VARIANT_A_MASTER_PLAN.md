@@ -1810,3 +1810,10 @@ Type: AUTHORITATIVE STATE / POLICY
 - [USER RESULT] User confirmed the new Proton client PrivateKey was written locally to `/tmp/proton-new.key` with restrictive permissions; the key itself is not recorded in project documentation.
 - [STATUS] New endpoint A/B configuration is ready for the final peer-key replacement; handshake remains NOT_VALIDATED.
 - [NEXT] Install the staged private key into isolated `proton_awg_test`, then remove the temporary key file after successful installation/readback. No default route.
+
+
+## STAGE 14 — New Proton client private key installed — 2026-09-25
+- [USER RESULT] `awg set proton_awg_test private-key /tmp/proton-new.key` returned empty output, consistent with successful application.
+- [SAFETY] The private key value remains undisclosed and is not recorded in project documentation. Temporary key file remains until post-install verification.
+- [STATUS] New endpoint + new client key are configured on isolated `proton_awg_test`; handshake/RX still NOT_VALIDATED.
+- [NEXT] Read-only verification of public key, endpoint, transfer and handshake; do not expose the private key and do not enable default routing.
