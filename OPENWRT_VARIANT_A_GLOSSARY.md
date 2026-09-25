@@ -2012,3 +2012,11 @@ Type: CURRENT / DIAGNOSTIC / EXPERIMENTAL
 - This does not establish compatibility with Proton's standard generated WireGuard profile.
 
 Type: CURRENT / DIAGNOSTIC / POLICY
+
+
+## 99. Proton-AWG Gate 4.3 — Variant 2 runtime observation — 2026-09-25
+- After applying numeric Variant 2 parameters Jc=5, Jmin=50, Jmax=100, S1=45, S2=112, S3=78, S4=93, a bounded 20-second read-only observation showed RX=0 B and TX increasing 322.12→323.75 KiB; no latest handshake was reported.
+- Result: the Variant 2 numeric parameter group is NOT VALIDATED for the Proton-AWG tunnel.
+- Do not repeat equivalent 20-second observations without a new hypothesis; no blind AWG parameter enumeration.
+
+Type: CURRENT / DIAGNOSTIC / EXPERIMENTAL
