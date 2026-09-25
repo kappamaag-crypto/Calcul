@@ -805,3 +805,17 @@
 - [RESULT] `vermagic: 6.12.94 mod_unload MIPS32_R2 32BIT`; dependencies: `libcurve25519-generic, udp_tunnel, ip6_udp_tunnel, libchacha20poly1305, chacha-mips`.
 - [RESULT] `modinfo` did not load the module.
 - [STATUS] STAGE 14 = IN_PROGRESS; AWG package/module metadata gate = DONE; module loaded = NOT_STARTED; interface/handshake/traffic = NOT_STARTED.
+
+
+## STAGE 14 — AWG dependency-load gate — 2026-09-25
+- [USER RESULT] Read-only `lsmod` check confirmed all five declared AWG dependencies are already loaded:
+  - `chacha_mips`
+  - `libchacha20poly1305`
+  - `libcurve25519_generic`
+  - `udp_tunnel`
+  - `ip6_udp_tunnel`
+- [RESULT] Existing `wireguard`/OpenVPN modules already reference these dependencies; no additional dependency load is currently required.
+- [INTERPRETATION] Combined with exact kernel dependency, matching `vermagic`, exact target package, and successful installation, the AWG module now has a strong compatibility basis for a controlled first load.
+- [WEB VERIFICATION] Official OpenWrt documentation confirms kernel modules are loadable at runtime; OpenWrt's package build system documents module autoloading separately from package installation. citeturn0search0turn0search1turn0search10
+- [SAFETY GATE] The next operation will modify only the running kernel state by loading `amneziawg`. It will not create an interface, configure a tunnel, alter routes/firewall/DNS/Zapret2/watchdog, or reboot. If loading fails, stop and capture the exact error; do not force-load.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages = DONE; module file/ABI/dependencies = DONE; module loaded = READY FOR FIRST LOAD; interface/handshake/traffic = NOT_STARTED.
