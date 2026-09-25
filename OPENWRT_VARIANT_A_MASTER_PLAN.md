@@ -1091,3 +1091,12 @@ Purpose: фиксировать все рассмотренные в чате т
 - [FACT] No matching `/mnt/data/proton*.conf` file was found.
 - [SAFETY] The profile contents and private key were not printed; no router state was changed.
 - [STATUS] GATE 2 = IN_PROGRESS. Next step: inspect only non-secret profile structure with the private key value masked.
+
+
+### GATE 2 — `/tmp/proton-native.conf` identified as old Proton profile — 2026-09-25
+- [RESULT] User inspected `/tmp/proton-native.conf` with secrets masked.
+- [FACT] The file is a standard WireGuard-style Proton profile: `[Interface]` with `PrivateKey`; `[Peer]` with `PublicKey`, `AllowedIPs = 0.0.0.0/0, ::/0`, `Endpoint = ...:51820`, `PersistentKeepalive = 25`.
+- [FACT] The profile comment identifies `NL-FREE#128`.
+- [USER CORRECTION] User states this is an old configuration and it is not the current Proton profile intended for the test.
+- [DECISION] Do not use this profile for the controlled AWG/Proton experiment. Do not print or copy its private key.
+- [STATUS] GATE 2 = BLOCKED pending the current Proton Free profile/file.
