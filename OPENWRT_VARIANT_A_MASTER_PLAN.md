@@ -2019,3 +2019,28 @@ The firewall already contains the required narrow SSH allowance for Archer-side 
 
 ### Next controlled step
 Perform one end-to-end connectivity test from a device actually connected to the Archer Wi-Fi. Use the hAP Archer-side address 192.168.0.100 and TCP/22. Do not change hAP configuration before that test.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — ARCHER-SIDE SSH END-TO-END VALIDATION
+
+### User result
+- From a client device actually connected to the Archer-side Wi-Fi (SweetHomeU), the user executed:
+  `ssh root@192.168.0.100`
+- **SSH access succeeded.**
+
+### Capability decision
+- Archer-side Wi-Fi client → hAP Archer-side address `192.168.0.100` → TCP/22 = **VALIDATED**.
+- The existing narrow firewall rule `Allow-SSH-from-TPLink` is therefore sufficient for the tested path; no additional WAN firewall opening is required.
+- Archer-side management access to hAP over Wi-Fi without LAN is now **VALIDATED / DONE** for SSH.
+- This validation does not imply that HTTP/LuCI access exists: `uhttpd` remains absent/not configured from the prior audit.
+- Security observation remains unchanged: Dropbear has PasswordAuth/RootPasswordAuth enabled. No security-hardening change was made as part of this connectivity validation.
+
+### Safety / change record
+- No router configuration, firewall, routing, wireless, service, filesystem, swap, VM, or Zapret2 state was changed for this validation.
+- The test was read-only with respect to router configuration; it only established end-to-end reachability.
+
+### Current next-action rule
+- Do not add or broaden an SSH firewall rule.
+- Do not install/configure LuCI/uhttpd solely because SSH is validated.
+- Continue from the highest-priority incomplete **non-WireGuard** capability according to the current capability ledger; do not resume the paused Proton/AWG branch or the blocked Zapret2 Telegram/WhatsApp branch without explicit reopening/new evidence.
