@@ -1993,3 +1993,13 @@ Type: CURRENT / DIAGNOSTIC / POLICY
 - Gate 4 remains IN_PROGRESS; do not change AWG parameters without source-profile evidence.
 
 Type: CURRENT / DIAGNOSTIC / POLICY
+
+
+## 97. Proton-AWG Gate 4.2 — Jc/Jmin/Jmax/S1/S2 experiment — 2026-09-25
+- Runtime-only test values applied to isolated `proton_awg_test`: Jc=4, Jmin=40, Jmax=70, S1=45, S2=112.
+- S3/S4 stayed 0; H1-H4 stayed 1/2/3/4; RandomTrailers=off; DisableCookies=off.
+- 20-second observation: RX remained 0 B; TX increased from 289.83 KiB to 291.47 KiB.
+- Interpretation: this parameter group did not demonstrate Proton-AWG handshake/response in the tested interval. No root cause is assigned.
+- Gate 4 remains IN_PROGRESS. No default route or other network-path change was made.
+
+Type: CURRENT / DIAGNOSTIC / EXPERIMENTAL
