@@ -854,3 +854,15 @@
 - [SAFETY] Read-only command; no interface, peer, key, route, firewall, DNS, Zapret2 or watchdog state changed.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages = DONE; kernel module = DONE; userspace `wg` = DONE; interface = NOT_STARTED; peer/handshake = NOT_STARTED; traffic = NOT_STARTED.
 - [NEXT GATE] Before creating any interface, verify whether an AWG-specific UAPI/config capability is exposed by the installed `amneziawg-tools` package. Do not generate/import private credentials yet.
+
+
+## STAGE 14 — AWG 3.1 userspace files verified — 2026-09-25
+- [USER RESULT] `apk info -L amneziawg-tools | grep -E '/(bin|sbin)/|amneziawg'` returned:
+  - `lib/netifd/proto/amneziawg.sh`
+  - `usr/bin/amneziawg_watchdog`
+  - `usr/bin/awg`
+- [RESULT] The package includes the AWG-specific `awg` utility and an OpenWrt netifd protocol handler. This is the expected integration path for AWG on OpenWrt; the upstream OpenWrt integration uses `/usr/bin/awg` for configuration and creates `type amneziawg` kernel interfaces. citeturn0search0turn0search2
+- [RESULT] No LuCI package was installed.
+- [SAFETY] Read-only package-content inspection; no interface/config/route/firewall/DNS/Zapret2/watchdog changes.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages = DONE; kernel module = DONE; AWG userspace `awg` = DONE; netifd proto handler = DONE; interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Inspect `awg help` before creating an interface or importing any Proton configuration.
