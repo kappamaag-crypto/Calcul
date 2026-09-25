@@ -99,3 +99,22 @@ Current exact stopping point:
 **Next exact step:** create isolated UCI section proton-awg-test, do not start it, do not create a default route.
 
 Older parallel notes (including pending DoH validation and historical OpenVPN/USB branches) must not displace this checkpoint unless explicitly selected.
+
+## EXECUTION HANDOFF — 2026-09-25
+
+Проект работает в режиме **EXECUTION**, а не в режиме повторного пересказа.
+
+Стандартная команда пользователя **«Продолжай.»** означает:
+1. выполнить обязательный repository preflight;
+2. восстановить последний подтвержденный checkpoint;
+3. найти следующий однозначный шаг MASTER PLAN;
+4. сразу выполнить его, если он безопасен для выполнения без отдельного подтверждения;
+5. выдать только один router command/test;
+6. после результата синхронизировать MASTER PLAN до следующей изменяющей команды.
+
+Не спрашивать повторно то, что уже разрешено текущим этапом. Не пересказывать весь план. Не повторять закрытые диагностики без новой причины.
+
+Отдельное подтверждение сохраняется только для destructive/труднообратимых операций, риска потери доступа, flash/partition/format, массового изменения пакетов, включения нового default route/полной VPN-маршрутизации или передачи секретов.
+
+**Рекомендуемая команда пользователя:** «Продолжай.»
+**Максимально однозначная:** «Продолжай строго по MASTER PLAN с текущей точки. Один шаг.»
