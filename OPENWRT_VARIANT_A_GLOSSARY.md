@@ -1954,3 +1954,12 @@ Type: POLICY
 **Tool/Syntax Blocked — ошибка инструмента/синтаксиса** — команда не отвечает на сетевой вопрос, потому что локальная утилита/BusyBox не приняла синтаксис или отсутствует. Это не считается сетевым или сервисным FAILED.
 
 **No-test-for-test's-sake — правило** — не повторять десятки эквивалентных диагностик без новой гипотезы или нового gate.
+
+
+## 93. Latest Proton-AWG runtime evidence — 2026-09-25
+- `proton_awg_test` is UP/LOWER_UP and has transmitted traffic to endpoint `194.180.33.20:51820`, but current runtime evidence is `RX=0`, `transfer received=0 B`, and no observed latest handshake.
+- The Proton endpoint route is explicitly via `192.168.0.1 dev phy0-sta0 src 192.168.0.100`, so the protected direct upstream path is present.
+- The dedicated Zapret2 NFQUEUE 65300 selectors for WireGuard initiation/response/cookie payload lengths 72/100/156 are present. Queue 65300 did not visibly advance during the 12-second observation, while queue 300 did.
+- `proton_awg_test` currently reports TX 1020 packets / 150960 bytes and 51 TX drops. A non-zero TX drop counter is evidence to localize; it is not by itself proof of the root cause.
+- Current capability state: AWG kernel/userspace support = INSTALLED/DEPLOYED; dedicated Zapret2 WireGuard queue path = ACTIVE AT RUNTIME; isolated Proton-AWG test interface = ACTIVE AT RUNTIME for this experiment; Proton-AWG tunnel handshake = NOT VALIDATED / currently FAILED for the observed handshake condition.
+- Do not create a default route or claim bypass success from this result.
