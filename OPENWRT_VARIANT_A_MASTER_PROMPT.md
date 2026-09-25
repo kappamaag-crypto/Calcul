@@ -995,3 +995,42 @@ Use the user-verified 8 TCP + 2 QUIC candidate set from the Master Plan. Do not 
 - Current repository implementation: OPENWRT_ZAPRET2_WATCHDOG.sh. It is created but not yet deployed to the router.
 - OpenWrt procd is the preferred future supervisor for the watchdog process because procd is the native process/service manager and supports controlled service lifecycle/respawn. citeturn287253search0turn287253search3
 - One-router-command-at-a-time and user-result → plan-sync ordering remain mandatory during watchdog deployment/testing.
+
+## MANDATORY AI REPOSITORY PREFLIGHT — 2026-09-25
+
+### Non-negotiable rule
+- BEFORE providing any technical answer, diagnosis, recommendation, configuration change or router command for this project, the AI MUST read the current versions from the `Calcul` repository of:
+  1. `OPENWRT_VARIANT_A_MASTER_PROMPT.md`
+  2. `OPENWRT_VARIANT_A_MASTER_PLAN.md`
+  3. `OPENWRT_VARIANT_A_GLOSSARY.md`
+- This requirement applies even when the current user message appears simple or appears to concern only one component. The purpose is to prevent loss of already implemented router capabilities and to prevent duplicate or destructive work.
+- After those three documents, read `OPENWRT_VARIANT_A_START_HERE.md` when present, then read only the repository implementation/evidence files relevant to the current task.
+
+### Mandatory state reconstruction
+- From MASTER PLAN, find the latest dated checkpoint/change and the current exact stopping point before deciding what to do next.
+- Treat the latest verified router result as current state. Historical results are historical unless a later result confirms they remain current.
+- If a new user result conflicts with the repository, the new verified user result wins; synchronize MASTER PLAN before issuing the next router command.
+- Never infer current runtime state from the existence of a repository file, an old command, an old configuration, or a saved profile.
+
+### Mandatory capability check
+- Before proposing a new package, service, script, daemon, diagnostic tool, firewall rule, routing mechanism or monitoring system, search MASTER PLAN, MASTER PROMPT, GLOSSARY and relevant repository files for an already implemented equivalent.
+- If an implemented function already exists, use or validate it instead of creating a duplicate.
+- Do not say a feature is absent, unimplemented or unavailable until the three mandatory documents and relevant repository artifacts have been checked.
+- The project documents are the first project-state source to inspect; external technical documentation remains the authority for OpenWrt/Linux/package semantics.
+
+### Watchdog-specific current capability
+- A Zapret2 watchdog is already implemented and ACTIVE on the router. Do not propose creating a second watchdog or reinstalling the existing one unless the current implementation is proven broken.
+- Current watchdog files: `OPENWRT_ZAPRET2_WATCHDOG.sh` and `OPENWRT_ZAPRET2_WATCHDOG_INITD.sh`.
+- Current watchdog runtime is managed by OpenWrt procd. Its health checks, recovery guards and logging rules are documented in MASTER PLAN and GLOSSARY.
+- Before changing watchdog logic, read the repository script itself and the latest watchdog stage entries in MASTER PLAN.
+
+### Synchronization requirement
+- After each user router result and the assistant response, synchronize MASTER PLAN before the next router command.
+- Update MASTER PROMPT only when workflow/safety/AI-handoff rules change.
+- Update GLOSSARY when a stable command, term, capability, interpretation or corrected behavior is established.
+- Never claim repository synchronization unless the GitHub write actually succeeded.
+
+### No-skip rule for future AIs
+- A future AI must not jump directly to a router command after opening the chat. The mandatory repository preflight is part of the project protocol.
+- The AI must preserve the exact current stage, already completed capabilities, blocked items, safety restrictions and next-step gate from the documents.
+- The AI must not repeat already completed diagnostics merely because it can run them; repeat only when the latest state or decision gate requires revalidation.
