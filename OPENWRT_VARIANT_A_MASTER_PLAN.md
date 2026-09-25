@@ -1710,3 +1710,12 @@ Type: AUTHORITATIVE STATE / POLICY
 - [EXCLUDED] I1-I5 numeric 1..5 are not applied; current amneziawg-tools expects tagged-junk strings. S3/S4 changes are deferred until a new evidence-based hypothesis exists.
 - [SAFETY] proton_awg_test remains isolated with no default route. Profile changes are runtime-only and reversible with a subsequent awg set command.
 - [NEXT] Apply Profile 2 only, then perform one bounded observation. Do not enumerate profiles blindly if there is no new evidence.
+
+
+## STAGE 14 — Proton-AWG Gate 4.4 — Profile 2 readback attempt — 2026-09-25
+- [RESULT] User executed the planned read-only Profile 2 verification command after applying Jc=5, Jmin=60, Jmax=120, S1=50, S2=130, H1-H4=5/6/7/8.
+- [RESULT] Command returned empty output.
+- [INTERPRETATION] Profile 2 is not yet verified by readback. The empty output may be due to command/pattern formatting rather than parameter state; no conclusion about the AWG values is made.
+- [STATUS] Gate 4.4 Profile 2 = IN_PROGRESS; handshake NOT_VALIDATED.
+- [SAFETY] No additional state-changing router action was performed after the empty readback.
+- [NEXT] Use one simpler read-only AWG status command to obtain the non-secret parameter readback, then decide whether the bounded observation is warranted.
