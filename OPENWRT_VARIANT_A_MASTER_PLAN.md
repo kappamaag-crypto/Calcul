@@ -1643,3 +1643,14 @@ Type: AUTHORITATIVE STATE / POLICY
 - [GATE DECISION] Gate 3 remains IN_PROGRESS / handshake NOT_VALIDATED. Do not enable a default route, claim VPN/bypass success, or begin blind desync enumeration from this result.
 - [SAFETY] No router configuration, route, firewall, Zapret2 service, AWG service, swap, VM setting, or default route was changed by the test.
 - [NEXT] Use this as the authoritative Gate 3 evidence baseline. Any next diagnostic must target a new hypothesis; avoid repeating equivalent packet captures.
+
+## 95. Proton-AWG Gate 4 — profile/runtime audit — 2026-09-25
+- [RESULT] Isolated interface proton_awg_test is configured as proto='amneziawg', auto='0', address 10.2.0.2/32; its private key was correctly redacted in the primary audit output and is not recorded here.
+- [RESULT] Runtime awg show confirms AmneziaWG interface is active with random trailers: off and disable cookies: off; peer endpoint is configured, AllowedIPs are 0.0.0.0/0, ::/0, persistent keepalive is 25 s, and transfer remains 0 B received with approximately 265.94 KiB sent. No latest handshake was reported.
+- [RESULT] No AWG/AmneziaWG/WireGuard profile file was found under /etc, /opt, or /overlay by the bounded filename search.
+- [RESULT] Kernel module is present at /lib/modules/6.12.94/amneziawg.ko; vermagic matches the running 6.12.94 MIPS32_R2 32-bit kernel. modinfo did not expose a module version line in this output.
+- [RESULT] Userspace is amneziawg-tools v3.1.20260812. Official amneziawg-tools source for this release/tool family exposes AWG parameters including jc, jmin, jmax, s1-s4, h1-h4, i1-i5, and AWG 3.1 fields such as header-protection-key, content-padding-addition, rekey/timeout controls, max-handshake-attempts, random-trailers, and disable-cookies. citeturn0search0turn0search1turn0search2
+- [IMPORTANT] The Gate 4 UCI parameter grep unexpectedly returned a private_key line. Because the intended regex does not logically target the literal private_key name, this line is treated as a diagnostic-command artifact until a safer, non-secret inspection is performed. The displayed value is not copied into project documentation.
+- [INTERPRETATION] The current evidence proves an active AmneziaWG-capable runtime and basic peer/endpoint configuration, but it does not establish that the complete Proton AWG 3.x profile parameters match the server. With RX still zero and no handshake, protocol/profile compatibility remains unresolved.
+- [STATUS] STAGE 14 / Gate 4 = IN_PROGRESS. No configuration, route, Zapret2 rule, or service was changed by this audit.
+- [NEXT] Perform one read-only awg show parameter inspection for AWG-specific fields, without printing any private/preshared/header-protection key material. Do not start/stop the interface, create a default route, or alter desync parameters.
