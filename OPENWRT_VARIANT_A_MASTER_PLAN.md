@@ -1504,3 +1504,12 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] Local AWG interface setup is successful; the unresolved issue is still absence of a returned handshake/traffic from the Proton endpoint.
 - [STATUS] AWG interface = ACTIVE AT RUNTIME; local setup = VERIFIED; handshake = NOT_VERIFIED; received traffic = 0 B.
 - [NEXT EXACT STEP] Read-only inspect the current nftables/QNUM path for the AWG endpoint packet handling, without changing firewall or Zapret2 configuration.
+
+
+## STAGE 14 — AWG Zapret2 QNUM 65300 nftables verification — 2026-09-25
+
+- [USER RESULT] `nft list table inet zapret2 | grep -E '65300|wireguard|51820'` returned three IPv4 UDP rules matching lengths 72, 100, and 156 and queueing to NFQUEUE 65300 with bypass.
+- [RESULT] The dedicated QNUM 65300 packet path is present in the active `inet zapret2` table.
+- [LIMITATION] The grep output does not prove that the actual Proton endpoint packets matched those rules, nor that the endpoint's replies reached the router.
+- [STATUS] AWG interface = ACTIVE AT RUNTIME; QNUM 65300 rule path = RUNTIME_VERIFIED; handshake = NOT_VERIFIED; received traffic = 0 B.
+- [NEXT EXACT STEP] Read-only inspect NFQUEUE 65300 packet counters/rule counters in the active zapret2 table to determine whether the AWG handshake packets are actually being captured.
