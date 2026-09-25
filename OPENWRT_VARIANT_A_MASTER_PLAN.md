@@ -828,3 +828,12 @@
 - [SAFETY] This operation changed only running kernel module state. No AWG interface/configuration, routes, firewall, DNS, Zapret2 or watchdog settings were changed; no reboot occurred.
 - [WEB VERIFICATION] OpenWrt documents loadable kernel modules and runtime loading; kernel-module compatibility is kernel-version sensitive, and this module had already passed exact kernel/ABI and dependency checks before this load. citeturn0search0turn0search10
 - [NEXT GATE] Read-only verification of the loaded module and its parameters; do not configure an AWG interface yet.
+
+
+## STAGE 14 — AmneziaWG kernel module verified loaded — 2026-09-25
+- [USER RESULT] `lsmod | grep '^amneziawg'` returned `amneziawg 77824 0`.
+- [RESULT] The `amneziawg` kernel module is definitively loaded in the running kernel.
+- [STATUS] AWG package installation = DONE; exact module/ABI/dependencies = DONE; kernel module loaded = DONE; AWG interface = NOT_STARTED; handshake = NOT_STARTED; traffic = NOT_STARTED.
+- [SAFETY] No interface, tunnel, route, firewall, DNS, Zapret2 or watchdog configuration has been changed. No reboot.
+- [WEB VERIFICATION] OpenWrt documents that kernel modules are loadable runtime components and that `kmod-` packages provide such modules. citeturn0search1turn0search5
+- [NEXT GATE] Before importing/configuring any Proton profile, verify the AWG userspace tool is present and identify the supported interface-management command. No tunnel configuration yet.
