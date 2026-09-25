@@ -2097,3 +2097,17 @@ This section supersedes all older USB-storage statements that conflict with the 
 ```
 
 Any older statement that says `/dev/sda2` is unformatted, that ext4 creation is blocked, that `/mnt/data` is currently mounted from `/dev/sda3`, or that the current USB is only a staging device is historical/stale unless a newer verified runtime result explicitly changes it.
+
+
+---
+## 2026-09-26 — Wi-Fi runtime evidence terms
+
+**Wi-Fi runtime verified — 2026-09-26** — phy0-ap0 5 GHz AP and phy1-ap0 2.4 GHz AP are UP with SSID OpenWrt and WPA2; phy0-sta0 is UP and associated upstream to SweetHomeU on 5 GHz. This is RUNTIME_VERIFIED, not merely UCI configuration.
+
+**Dual-band AP capability** — current hAP state with both 2.4 GHz and 5 GHz AP interfaces active on the LAN network, using the same SSID and WPA2.
+
+**Archer-side management access without LAN** — separate capability: an Archer Wi-Fi client on the upstream 192.168.0.0/24 side can reach the hAP/OpenWrt management/services through the hAP's Archer-side address. This remains NOT VALIDATED / INCOMPLETE as of 2026-09-26.
+
+**Unknown event 37 (Wi-Fi)** — observed wpa_supplicant log message after successful upstream group rekeying. It is currently recorded as an observed compatibility/noise message, not as a confirmed Wi-Fi fault, because the STA remains associated and active.
+
+**Wi-Fi capability rule** — AP/STA runtime verification does not imply that cross-zone management access is enabled. Firewall policy and management listen bindings must be audited separately before any exposure change.

@@ -194,3 +194,20 @@ This section supersedes all older USB-storage statements that conflict with the 
 ```
 
 Any older statement that says `/dev/sda2` is unformatted, that ext4 creation is blocked, that `/mnt/data` is currently mounted from `/dev/sda3`, or that the current USB is only a staging device is historical/stale unless a newer verified runtime result explicitly changes it.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — WI-FI RUNTIME VERIFICATION
+
+This section supersedes older Wi-Fi statements where they conflict. Older Wi-Fi records remain history only.
+
+- phy0-ap0 is UP as 5 GHz AP, channel 36 / 5180 MHz, SSID OpenWrt, WPA2 (psk2), BSSID b8:69:f4:d6:e8:a5.
+- phy1-ap0 is UP as 2.4 GHz AP, channel 1 / 2412 MHz, SSID OpenWrt, WPA2 (psk2), BSSID b8:69:f4:d6:e8:a6.
+- phy0-sta0 is UP and actively associated to the Archer-side upstream SSID SweetHomeU on 5 GHz, 5180 MHz; observed signal -41 dBm, RX/TX bitrate 86.7 MBit/s.
+- Both APs are attached to lan; the STA interface is attached to wan in the current UCI.
+- Hostapd status for both APs is present and reports the expected BSSID/SSID/frequency/channel.
+- Recent logs contain successful WPA2 4-way handshakes and normal upstream group rekeying. No current fatal hostapd/wpa_supplicant/ath10k failure is evidenced by the supplied bounded log.
+- Repeated "wpa_supplicant: Unknown event 37" messages occur after successful upstream group rekeying; with the STA remaining associated and passing traffic, this is recorded as an observed compatibility/noise message, not as a confirmed Wi-Fi failure.
+- Capability state: dual-band hAP AP service = RUNTIME_VERIFIED / DONE; Archer-side 5 GHz STA uplink = RUNTIME_VERIFIED / DONE; WPA2 on both APs = RUNTIME_VERIFIED / DONE.
+- Still incomplete: management/access to the hAP/OpenWrt from an Archer-side Wi-Fi client without LAN has not been validated and remains a separate capability.
+- Do not change wireless configuration merely from this audit.

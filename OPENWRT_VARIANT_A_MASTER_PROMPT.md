@@ -1327,3 +1327,18 @@ This section supersedes all older USB-storage statements that conflict with the 
 ```
 
 Any older statement that says `/dev/sda2` is unformatted, that ext4 creation is blocked, that `/mnt/data` is currently mounted from `/dev/sda3`, or that the current USB is only a staging device is historical/stale unless a newer verified runtime result explicitly changes it.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — WI-FI CAPABILITY RECONCILIATION
+
+The 2026-09-26 read-only Wi-Fi runtime audit confirms:
+- phy0-ap0 5 GHz AP is UP, SSID OpenWrt, WPA2, channel 36.
+- phy1-ap0 2.4 GHz AP is UP, SSID OpenWrt, WPA2, channel 1.
+- phy0-sta0 is UP and connected upstream to SweetHomeU on 5 GHz with -41 dBm observed signal and 86.7 MBit/s RX/TX rates.
+- Hostapd exposes both APs and recent logs show successful WPA2 handshakes/rekeys without a current fatal Wi-Fi error.
+- The remaining Wi-Fi capability is specifically Archer-side client management/access to hAP/OpenWrt without LAN; do not infer this capability from AP/STA runtime alone.
+
+This Wi-Fi evidence is ACTIVE AT RUNTIME / RUNTIME_VERIFIED for the components above. It does not by itself validate upstream-client reachability to the hAP management plane.
+
+Before changing firewall or management exposure, perform a read-only audit of the relevant network/firewall/listen configuration. Do not weaken WAN-side firewall policy until that audit establishes the exact required path.

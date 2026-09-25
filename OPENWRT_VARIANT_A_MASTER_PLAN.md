@@ -1949,3 +1949,33 @@ This section supersedes all older USB-storage statements that conflict with the 
 ```
 
 Any older statement that says `/dev/sda2` is unformatted, that ext4 creation is blocked, that `/mnt/data` is currently mounted from `/dev/sda3`, or that the current USB is only a staging device is historical/stale unless a newer verified runtime result explicitly changes it.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — WI-FI RUNTIME VERIFICATION
+
+### Fresh read-only runtime evidence
+- phy0-ap0: UP, 5 GHz AP, channel 36 / 5180 MHz, SSID OpenWrt, WPA2 (psk2), BSSID b8:69:f4:d6:e8:a5.
+- phy1-ap0: UP, 2.4 GHz AP, channel 1 / 2412 MHz, SSID OpenWrt, WPA2 (psk2), BSSID b8:69:f4:d6:e8:a6.
+- phy0-sta0: UP/connected as managed STA to Archer-side SSID SweetHomeU, 5180 MHz, signal -41 dBm, RX/TX bitrate 86.7 MBit/s.
+- br-lan, phy0-ap0, phy1-ap0 and phy0-sta0 are UP.
+- UCI shows both APs on network lan and the upstream STA on network wan; all wireless secrets were excluded from the audit output.
+- Hostapd status is available for both APs and reports the expected BSSID/SSID/frequency/channel.
+- Recent logs show successful WPA2 4-way handshakes on the 5 GHz AP and repeated upstream group rekey completion on phy0-sta0. No current fatal Wi-Fi/hostapd/wpa_supplicant/ath10k error is present in the supplied bounded log.
+- wpa_supplicant "Unknown event 37" repeats after successful group rekeying while the STA remains associated; this is recorded as an observed compatibility/noise message, not as a confirmed fault.
+- The inactivity deauthentication entries in the historical log are associated with client disconnect behavior and do not invalidate the current AP runtime state.
+
+### Capability decision
+- Dual-band hAP AP service = RUNTIME_VERIFIED / DONE.
+- Archer-side 5 GHz STA uplink = RUNTIME_VERIFIED / DONE.
+- Same SSID OpenWrt with WPA2 on both 2.4/5 GHz APs = RUNTIME_VERIFIED / DONE.
+- Archer-side Wi-Fi client access to hAP/OpenWrt management/services without LAN = NOT VALIDATED / INCOMPLETE. AP/STA runtime alone does not prove that cross-zone access works.
+- No wireless configuration or routing/firewall state was changed by this audit.
+
+### Next controlled step
+The highest-priority incomplete non-tunnel capability identified by this audit is the separate Archer-side client access path to hAP/OpenWrt without LAN. Before any exposure change, run a read-only audit of:
+- firewall zones/forwarding/input policy affecting the wan/Archer-side network;
+- management service listen addresses/bindings;
+- current routes relevant to 192.168.0.0/24 and 192.168.1.0/24.
+
+No firewall opening, LuCI binding change, routing change, or other state-changing operation is authorized merely from this Wi-Fi audit.
