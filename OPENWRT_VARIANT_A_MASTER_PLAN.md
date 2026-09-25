@@ -1473,3 +1473,14 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] Empty output alone does not establish whether netifd created the AWG interface or whether the protocol handler completed successfully; no handshake/traffic success is inferred.
 - [RUNTIME] No default-route enablement was requested; scaffold remains configured with route_allowed_ips=0.
 - [STATUS] Interface/handshake/traffic = NOT_VERIFIED; next step is a single read-only runtime inspection of the AWG interface and peer state.
+
+
+## STAGE 14 — AWG interface runtime creation — 2026-09-25
+
+- [USER RESULT] `ip link show proton_awg_test` confirms interface `proton_awg_test` exists and is UP/LOWER_UP, MTU 1420.
+- [USER RESULT] `awg show proton_awg_test` confirms the configured peer and endpoint `194.180.33.20:51820`; private key is hidden by the tool output.
+- [RESULT] Local AWG public key is `7xQkuYc/KSLaL/ZlIDLwMUs3xCoo9YBQ94F91RZZC2c=`.
+- [TRAFFIC] 592 B sent, 0 B received; this proves outbound WireGuard/AWG packets were emitted but does not prove handshake completion or usable tunnel traffic.
+- [ROUTING] Peer AllowedIPs remain `0.0.0.0/0, ::/0`; scaffold uses `route_allowed_ips=0`, so no peer default route was intentionally installed.
+- [STATUS] AWG interface = ACTIVE AT RUNTIME; handshake = NOT_VERIFIED; usable tunnel traffic = NOT_VERIFIED.
+- [NEXT EXACT STEP] Read-only verification of handshake/route state, without changing configuration.
