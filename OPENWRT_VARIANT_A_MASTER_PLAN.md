@@ -995,3 +995,13 @@ Purpose: фиксировать все рассмотренные в чате т
 - zapret documentation: https://github.com/bol-van/zapret/blob/master/docs/readme.en.md
 - zapret2 default configuration: https://github.com/bol-van/zapret2/blob/master/config.default
 - zapret2 repository/issues/discussions с примерами `filter-l7=wireguard` рассматриваются как примеры/тестовые конфигурации, а не как гарантия результата на данном ISP/path.
+
+
+## STAGE 14 — GATE 1: Большой read-only аудит Zapret2 перед Proton/AWG экспериментом — 2026-09-25
+- [REQUEST] Пользователь дал команду «Продолжай. Большой аудит» для проверки зарегистрированных теорий Proton Free + AmneziaWG + Zapret2 UDP/WireGuard.
+- [AUDIT SCOPE] Аудит будет проводиться поэтапно и только read-only на первом проходе: текущий config, фактически запущенные процессы, nftables-структура, NFQUEUE/QNUM, WAN/LAN интерфейсы, UDP/TCP capture-path, доступные Zapret2 файлы/детекторы и связь с будущим WireGuard endpoint.
+- [SAFETY] На этапе аудита запрещены restart/stop/start Zapret2, редактирование /opt/zapret2/config, nftables, UCI/network, routes, firewall, DNS и AWG interface creation. Не менять рабочий Zapret2 ради гипотезы.
+- [METHOD] Несмотря на широкий объём аудита, соблюдаем правило проекта: одна команда за шаг, после результата фиксируем факт в Master Plan и выбираем следующий минимальный тест.
+- [WEB CONTEXT] Текущий upstream zapret2 config действительно предусматривает отдельные NFQWS2 UDP/TCP параметры и пример UDP/443 QUIC; upstream/community материалы также содержат WireGuard L7 UDP examples, но это не доказывает работоспособность на данном ISP/path. citeturn0search0turn0search6
+- [STATUS] STAGE 14 = IN_PROGRESS; GATE 1 = IN_PROGRESS; audit execution = NOT_STARTED.
+- [NEXT STEP] Первый тест — только чтение локального Zapret2 config: собрать строки, относящиеся к NFQWS2 UDP/TCP, MODE_FILTER, FLOWOFFLOAD, interface selection и WireGuard/L7/desync. Никакого restart/edit.
