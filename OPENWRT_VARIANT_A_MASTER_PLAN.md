@@ -1522,3 +1522,14 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The router-side AWG public key `7xQkuYc/KSLaL/ZlIDLwMUs3xCoo9YBQ94F91RZZC2c=` is derived from the currently stored client PrivateKey. The Proton peer key `jyiQbTTHvl6eLhIQWi1zL7xzPppbV7z+hFJ6e7CEmAg=` is the server/peer public key and must not be used as the client-key comparison target.
 - [STATUS] PrivateKey = SET / VERIFIED as a syntactically accepted key; exact account/profile correspondence remains a separate identity check if Proton exposes the client public key.
 - [NEXT EXACT STEP] Read-only inspect the active NFQUEUE state for QNUM 65300 to determine whether the AWG handshake path is actually being queued to the dedicated Zapret2 userspace process.
+
+
+## STAGE 14 — NFQUEUE 65300 runtime state — 2026-09-25
+
+- [USER RESULT] `cat /proc/net/netfilter/nfnetlink_queue` returned active queues `65300` and `300`.
+- [RESULT] QNUM 65300: peer netlink PID 3205, current queue depth 0, copy mode 2, copy range 65531, kernel queue drops 0, netlink user drops 0, packet-id sequence 160.
+- [RESULT] QNUM 300: peer netlink PID 3204, current queue depth 0, copy mode 2, copy range 65531, kernel queue drops 0, netlink user drops 0, packet-id sequence 64368.
+- [INTERPRETATION] QNUM 65300 is genuinely subscribed by userspace and is not stalled; its non-zero packet-id sequence is evidence that packets have entered that NFQUEUE path. Zero queue depth and zero drop counters show no current backlog/drop condition.
+- [LIMITATION] This does not prove that a valid Proton handshake was completed or that a reply packet was received from 194.180.33.20.
+- [STATUS] AWG interface = ACTIVE AT RUNTIME; dedicated NFQUEUE 65300 = RUNTIME_VERIFIED / packet-path activity evidenced; handshake = NOT_VERIFIED; received traffic = 0 B; endpoint route = VERIFIED.
+- [NEXT EXACT STEP] Use one tightly bounded WAN capture for UDP/51820 to the protected Proton endpoint, without configuration changes, to distinguish outbound-only traffic from returned endpoint traffic.
