@@ -1118,3 +1118,10 @@ Purpose: фиксировать все рассмотренные в чате т
 - [SAFETY] No configuration or runtime state was changed.
 - [STATUS] GATE 3 = NOT_STARTED for interface creation; pre-check = DONE.
 - [NEXT] Before creating the interface, protect the Proton endpoint with an explicit host route through the existing Archer-side gateway, then create the isolated AWG interface without installing a default route. This will be a reversible change and must be done one step at a time.
+
+
+### GATE 3 — Proton endpoint host-route runtime addition — 2026-09-25
+- [RESULT] `ip route replace 194.180.33.20/32 via 192.168.0.1 dev phy0-sta0` returned no output.
+- [FACT] This command normally reports no output on success; the route was intended as a runtime-only host route to keep the Proton endpoint outside any future tunnel routing. OpenWrt documents runtime `ip route` manipulation and persistent static-route equivalents. citeturn0search0
+- [SAFETY] No AWG interface, default route, firewall, DNS, or Zapret2 configuration was changed by this step.
+- [NEXT] Verify the exact endpoint route before creating the AWG interface.
