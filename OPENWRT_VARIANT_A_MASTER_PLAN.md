@@ -1436,3 +1436,14 @@ Type: AUTHORITATIVE STATE / POLICY
 - [SECRET SAFETY] Proton private key was intentionally omitted and remains outside project documentation/chat.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages/kernel/userspace/netifd = DONE; isolated UCI scaffold = CONFIGURED / NOT_ACTIVE; private key = NOT_SET; interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Read-only verification of the exact UCI sections before entering the private key or bringing the interface up.
+
+
+## STAGE 14 — AWG UCI scaffold verification — 2026-09-25
+
+- [USER RESULT] Read-only UCI verification completed successfully.
+- [RESULT] network.proton_awg_test exists as interface with proto='amneziawg', auto='0', address 10.2.0.2/32.
+- [RESULT] AWG peer section exists with the expected Proton public key, AllowedIPs=0.0.0.0/0 ::/0, route_allowed_ips='0', endpoint 194.180.33.20:51820, and PersistentKeepalive 25.
+- [SECURITY] PrivateKey is absent from UCI and was not exposed in chat.
+- [RUNTIME] No ifup/reload/handshake was performed by this verification step; no AWG default route was created.
+- [STATUS] Isolated AWG scaffold = CONFIGURED / VERIFIED; private key = NOT_SET; interface/handshake/traffic = NOT_STARTED.
+- [NEXT EXACT STEP] Enter the Proton private key locally on the router without displaying or storing it in chat, while keeping the interface disabled (auto=0) and route_allowed_ips=0.
