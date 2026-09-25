@@ -798,3 +798,10 @@
 - [SAFETY] Read-only metadata inspection only. No reboot, module load, interface, routing, firewall, DNS, Zapret2 or watchdog change.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE; exact module file = DONE; module metadata/ABI = DONE; module loaded = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Before the first modifying module-load action, verify that all five declared kernel-module dependencies are currently loaded. This remains read-only.
+
+
+## STAGE 14 — AWG module metadata result reconfirmed — 2026-09-25
+- [USER RESULT] User repeated the successful `modinfo /lib/modules/6.12.94/amneziawg.ko` output.
+- [RESULT] `vermagic: 6.12.94 mod_unload MIPS32_R2 32BIT`; dependencies: `libcurve25519-generic, udp_tunnel, ip6_udp_tunnel, libchacha20poly1305, chacha-mips`.
+- [RESULT] `modinfo` did not load the module.
+- [STATUS] STAGE 14 = IN_PROGRESS; AWG package/module metadata gate = DONE; module loaded = NOT_STARTED; interface/handshake/traffic = NOT_STARTED.
