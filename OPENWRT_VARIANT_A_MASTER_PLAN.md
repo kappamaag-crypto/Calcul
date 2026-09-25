@@ -1494,3 +1494,13 @@ Type: AUTHORITATIVE STATE / POLICY
 - [STATUS] AWG interface = ACTIVE AT RUNTIME; handshake = NOT_VERIFIED / no received traffic; endpoint protection route = VERIFIED.
 - [INTERPRETATION] Outbound packets are leaving the router, but Proton has not returned observable AWG traffic. Do not enable full/default VPN routing at this point.
 - [NEXT EXACT STEP] Read-only inspect kernel/network logs for the AWG interface/protocol handler, without changing configuration.
+
+
+## STAGE 14 — AWG/netifd/kernel log inspection — 2026-09-25
+
+- [USER RESULT] Logs show `Interface 'proton_awg_test' is setting up now`, AmneziaWG 3.1.20260906 kernel module loaded, netifd reports `Interface 'proton_awg_test' is now up` and device link is up.
+- [RESULT] No explicit AWG/netifd error is present in the returned tail.
+- [RESULT] Zapret2 dedicated QNUM 65300 process is confirmed in the same log history with WireGuard payload desync configuration.
+- [INTERPRETATION] Local AWG interface setup is successful; the unresolved issue is still absence of a returned handshake/traffic from the Proton endpoint.
+- [STATUS] AWG interface = ACTIVE AT RUNTIME; local setup = VERIFIED; handshake = NOT_VERIFIED; received traffic = 0 B.
+- [NEXT EXACT STEP] Read-only inspect the current nftables/QNUM path for the AWG endpoint packet handling, without changing firewall or Zapret2 configuration.
