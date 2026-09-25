@@ -1752,3 +1752,11 @@ Type: AUTHORITATIVE STATE / POLICY
 - [STATUS] STAGE 14 / Proton-AWG Gate 4 remains IN_PROGRESS. Proton-AWG tunnel remains NOT VALIDATED. No default route or full VPN routing was enabled.
 - [METHODOLOGY CORRECTION] Before any further J-only conclusion, a single controlled test must explicitly force a fresh handshake for the isolated interface and verify the resulting timestamp/RX. Do not perform another blind J sweep.
 - [NEXT HYPOTHESIS] Determine the safest reversible way to force one fresh handshake on `proton_awg_test` while preserving the endpoint host route and avoiding any default-route change; then test only one selected profile if warranted.
+
+
+## STAGE 14 — Proton-AWG fresh-handshake preparation — PersistentKeepalive=1 — 2026-09-25
+- [USER RESULT] The planned runtime-only PersistentKeepalive command returned empty output.
+- [INTERPRETATION] Empty output is normal for a successful `awg set` operation; by itself it does not prove that a fresh handshake occurred.
+- [CHANGE] PersistentKeepalive for the isolated `proton_awg_test` peer was requested to change from 25 s to 1 s. This is runtime-only and reversible; no default route or endpoint-route change was requested.
+- [STATUS] Gate 4 remains IN_PROGRESS; Proton-AWG handshake remains NOT VALIDATED until runtime evidence shows a latest handshake and/or received bytes.
+- [NEXT] Perform one read-only AWG status check to verify the keepalive value and current transfer/handshake state. Do not change parameters or routes in this step.
