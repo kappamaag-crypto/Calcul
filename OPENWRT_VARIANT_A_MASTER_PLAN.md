@@ -929,3 +929,69 @@
 - [SAFETY DECISION] Ordinary WireGuard remains excluded as a standalone solution because it was previously tested; however, a narrowly scoped experiment combining the existing AWG kernel interface (WireGuard-compatible parameters) with a separate, reversible Zapret2 WireGuard UDP rule may be evaluated. No network/config change made in this step.
 - [NEXT GATE] Read-only inspect the currently installed Zapret2 config for existing UDP/WireGuard-related options and the active service configuration. Do not print private keys or modify `/etc/config/network`, `/opt/zapret2/config`, nftables, routes, or DNS.
 - [STATUS] STAGE 14 = IN_PROGRESS; AWG interface = NOT_STARTED; Proton handshake = NOT_STARTED; Zapret2 WG-specific UDP strategy = NOT_STARTED.
+
+
+## STAGE 14 — THEORY REGISTER: Proton Free + AmneziaWG + Zapret2 UDP/WireGuard — 2026-09-25
+Purpose: фиксировать все рассмотренные в чате теории и отделять подтверждённые факты от рабочих гипотез и неподтверждённых утверждений. Никакая теория ниже не считается доказанной только потому, что она технически правдоподобна.
+
+### A. ПОДТВЕРЖДЁННЫЕ ФАКТЫ / НАБЛЮДЕНИЯ
+- [CONFIRMED] Установлен AmneziaWG kernel module для текущего ядра OpenWrt 6.12.94/MIPS32; модуль успешно загружен.
+- [CONFIRMED] Установлен userspace `amneziawg-tools`, включая `/usr/bin/awg` и netifd handler `/lib/netifd/proto/amneziawg.sh`.
+- [CONFIRMED] AWG netifd handler поддерживает стандартные WireGuard-поля peer/interface и отдельные AWG-параметры (Jc/Jmin/Jmax, S1–S4, H1–H4, I1–I5 и др.).
+- [CONFIRMED] Структурно полученный от пользователя Proton Free client profile является стандартным WireGuard-профилем: Interface с Address/DNS/private key и Peer с PublicKey/AllowedIPs/Endpoint/PersistentKeepalive. В профиле не обнаружены AWG-specific параметры.
+- [CONFIRMED] Поэтому сам Proton-профиль, имеющийся у пользователя, не является доказанным «нативным AWG-профилем».
+- [CONFIRMED] Текущий Zapret2 upstream поддерживает UDP-фильтры и L7-детектор `wireguard`; документация также показывает `filter-udp` и `filter-l7=wireguard` как допустимые механизмы.
+- [CONFIRMED] Текущий установленный Zapret2 использует UDP/443 для QUIC и не содержит в доказанном текущем состоянии отдельной активной стратегии именно для WireGuard UDP-порта Proton.
+- [CONFIRMED] Текущий Zapret2 рабочий режим — `MODE_FILTER=autohostlist`; менять его только ради проверки теории пока запрещено, чтобы не ломать рабочую конфигурацию.
+- [CONFIRMED] `badsum` в документации zapret описан как потенциальная техника, но отдельно отмечено, что NAT может отбросить пакеты с некорректной контрольной суммой.
+- [CONFIRMED] Обычный WireGuard как самостоятельный вариант пользователь считает уже испытанным и просит не возвращаться к нему без отдельного указания.
+- [CONFIRMED] Telegram API ранее выдавал `Operation not permitted` при текущем Zapret2-only пути; YouTube после ручного рестарта Zapret2 снова заработал.
+- [CONFIRMED] После ручного рестарта Zapret2 были восстановлены оба процесса `nfqws2` и ожидаемая nftables-структура; позже watchdog стабильно видел состояние 2/2 и HEALTHY.
+
+### B. РАБОЧИЕ ТЕХНИЧЕСКИЕ ГИПОТЕЗЫ — БУДЕМ ПРОВЕРЯТЬ
+- [HYPOTHESIS] AWG-интерфейс с обычным Proton WireGuard-профилем и AWG-specific параметрами, выставленными в нулевые/неактивные значения, может установить совместимость с обычным WireGuard-сервером Proton. Это должно быть проверено реальным handshake; заранее считать совместимость доказанной нельзя.
+- [HYPOTHESIS] «AWG с нулевыми параметрами» в таком сценарии не добавляет серверно-совместимой AWG-обфускации, а фактически используется как WireGuard-совместимый интерфейс/transport. Поэтому ожидаемый возможный эффект должен идти не от AWG-обфускации, а от сочетания с локальным Zapret2.
+- [HYPOTHESIS] Если ISP/DPI режет именно UDP WireGuard-трафик, то локальный Zapret2/nfqws2 с UDP-фильтром, нацеленным на WireGuard, может изменить вид первых пакетов enough для обхода конкретного DPI. Это не гарантировано и зависит от конкретного DPI/маршрута.
+- [HYPOTHESIS] Специальная Zapret2-стратегия с `--filter-udp=<WireGuard-port>` + `--filter-l7=wireguard` и одной из UDP-desync/fake/Lua-техник потенциально может воздействовать именно на WireGuard handshake, не затрагивая весь UDP.
+- [HYPOTHESIS] `badsum` может сработать для некоторых сетей/типов DPI, если путь пропускает такие пакеты до цели/ответа; однако из-за NAT это особенно ненадёжно и требует отдельной проверки.
+- [HYPOTHESIS] Если Proton endpoint IP/маршрут заблокирован на IP/маршрутном уровне, никакая локальная DPI-desync-обработка WireGuard не обязана помочь; в таком случае нужен другой reachable endpoint/transport.
+- [HYPOTHESIS] Основной текущий Zapret2 `UDP/443` не должен автоматически «лечить» Proton WireGuard, если Proton работает на другом UDP-порту: отдельный фильтр/стратегия по реальному WG-порту потребуется, если теория с Zapret2 будет проверяться.
+- [HYPOTHESIS] `MODE_FILTER=autohostlist` сам по себе плохо подходит как главный механизм для WireGuard endpoint, заданного IP, потому что autohostlist ориентирован прежде всего на host/domain resolution и уже наблюдаемый DPI-blocking. Для WireGuard может потребоваться явный IP/port/L7 filter.
+- [HYPOTHESIS] Если AWG/WireGuard интерфейс сделать full-tunnel (`AllowedIPs=0.0.0.0/0`), существует риск ошибочной маршрутизации/петли через сам VPN endpoint, если host route/route policy не будут установлены корректно. Поэтому маршрут до endpoint должен быть специально защищён до включения туннеля.
+- [HYPOTHESIS] Для первого испытания разумнее сделать isolated/reversible AWG test interface с контролируемым endpoint route и без изменения основной LAN/default routing, чтобы сначала получить только handshake.
+- [HYPOTHESIS] Успешный handshake `wg/awg show` и рост `received_bytes`/keepalive будут подтверждать достижимость Proton WireGuard endpoint, но сами по себе не доказывают, что пользовательский трафик проходит через туннель без утечек/ошибочной маршрутизации.
+- [HYPOTHESIS] Если handshake есть, но трафик через туннель не идёт, проблема может быть уже не в DPI handshake, а в маршрутах, policy routing, firewall или DNS.
+- [HYPOTHESIS] Если handshake отсутствует, а обычный HTTPS через hAP работает, наиболее вероятные ветки проверки — блокировка/фильтрация UDP endpoint, неправильная маршрутизация endpoint, несовместимость профиля, либо воздействие локального firewall/Zapret2; точную причину заранее не утверждаем.
+
+### C. НЕПОДТВЕРЖДЁННЫЕ / ПЕРЕДАННЫЕ ПОЛЬЗОВАТЕЛЕМ УТВЕРЖДЕНИЯ
+- [UNVERIFIED USER CLAIM] «В 2026 году в России классический WireGuard массово/повсеместно блокируется». Это широкое утверждение не принимается как установленный факт в рамках проекта; будем проверять конкретно наблюдаемое поведение данного ISP/path.
+- [UNVERIFIED USER CLAIM] «Zapret2/nfqws гарантированно может оживить любой заблокированный WireGuard локальным UDP-desync». Не принимается как гарантия; результат зависит от типа блокировки, DPI, NAT и конкретной стратегии.
+- [UNVERIFIED USER CLAIM] «badsum» должен работать как универсальное средство против WG-DPI. Не принимается; официальная документация zapret прямо содержит caveat по NAT.
+- [UNVERIFIED USER CLAIM] «Proton Free обычный WireGuard можно безоговорочно перенести в AWG и он будет работать как AWG». Структурно это ещё не проверено на реальном handshake; сам профиль не содержит AWG-параметров.
+- [UNVERIFIED USER CLAIM] «Если включить AWG с нулевыми параметрами, Proton server обязательно примет handshake». Требует реального теста.
+- [UNVERIFIED USER CLAIM] «Telegram/WhatsApp не работают исключительно из-за IP-блокировки». Это рабочая версия по симптомам, но точный механизм не установлен.
+- [UNVERIFIED USER CLAIM] «Автоматический Zapret2 watchdog устранит все будущие проблемы доступа». Watchdog решает только обнаружение/восстановление известных локальных failure modes, а не внешнюю блокировку транспорта.
+
+### D. ЧТО НЕ СЛЕДУЕТ СЧИТАТЬ ДОКАЗАТЕЛЬСТВОМ
+- Наличие `amneziawg.ko`, успешный `modprobe` или наличие `awg` CLI не доказывает совместимость Proton.
+- Наличие UDP/443 в Zapret2 не доказывает обработку Proton WireGuard UDP-порта.
+- Успешный `wget https://example.com` не доказывает работоспособность WireGuard.
+- Работоспособность YouTube не доказывает работоспособность Telegram/WhatsApp или VPN handshake.
+- Успешный handshake не доказывает корректный full-tunnel routing.
+- Успешный единичный тест после рестарта не доказывает причину предыдущего сбоя.
+
+### E. ПЛАН ПРОВЕРКИ ГИПОТЕЗ
+- [GATE 1 / READ-ONLY] Проверить текущий Zapret2 config на наличие уже реализованных UDP/WireGuard фильтров/параметров. Никаких restart/edit.
+- [GATE 2 / READ-ONLY] Сверить точный формат Proton profile без вывода private key и секретов.
+- [GATE 3 / CONTROLLED CHANGE] Создать отдельный AWG interface через native netifd/UCI с безопасным host route до Proton endpoint; основной LAN/default route пока не менять.
+- [GATE 4] Проверить handshake/last-handshake/received bytes.
+- [GATE 5] Только если базовый AWG handshake не проходит и обычный WAN HTTPS работает, подготовить отдельную минимальную Zapret2 UDP/WireGuard test-strategy.
+- [GATE 6] Проверять только одну стратегию за раз; после каждого изменения возвращаться к исходной рабочей конфигурации.
+- [GATE 7] После доказательства handshake отдельно проверять routed traffic, DNS и отсутствие loop/route leak.
+- [SAFETY] Никаких одновременных изменений AWG + Zapret2 + routing + firewall. Каждая гипотеза должна иметь отдельный, обратимый эксперимент и чёткий критерий PASS/FAIL.
+- [STATUS] STAGE 14 = IN_PROGRESS. Theory Register = RECORDED. Проверка гипотез начнётся с GATE 1. Следующая команда должна оставаться read-only.
+
+### F. ОФИЦИАЛЬНЫЕ ТЕХНИЧЕСКИЕ ИСТОЧНИКИ ДЛЯ ЭТОГО РЕЕСТРА
+- zapret documentation: https://github.com/bol-van/zapret/blob/master/docs/readme.en.md
+- zapret2 default configuration: https://github.com/bol-van/zapret2/blob/master/config.default
+- zapret2 repository/issues/discussions с примерами `filter-l7=wireguard` рассматриваются как примеры/тестовые конфигурации, а не как гарантия результата на данном ISP/path.
