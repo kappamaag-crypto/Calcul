@@ -1016,3 +1016,19 @@ Purpose: фиксировать все рассмотренные в чате т
 - [INTERPRETATION] Current active Zapret2 configuration does not currently contain a dedicated WireGuard UDP filter/strategy. UDP capture is presently limited by config to port 443 and the active UDP L7 rule is QUIC.
 - [SAFETY] No service restart, config edit, nftables change, route/firewall/DNS/UCI change or AWG interface creation was performed.
 - [STATUS] GATE 1 remains IN_PROGRESS; this read-only config sub-check is DONE. Next audit step should inspect actual nfqws2 process command lines/runtime arguments, still read-only.
+
+
+### GATE 1 — compact runtime/Zapret2 audit snapshot — 2026-09-25
+- [RESULT] User executed the requested combined read-only runtime snapshot. Output was large because it included the full nftables table and a recursive file listing.
+- [FACT] Exactly two nfqws2 processes are running (PIDs 16181 and 16182), both as user daemon. The displayed command lines were truncated by `ps w`, so exact runtime arguments are not yet captured.
+- [FACT] Active nft table is `inet zapret2`; WAN set contains `phy0-sta0`; LAN set contains `br-lan`; `wanif6` is empty.
+- [FACT] Active postnat path queues IPv4 UDP/443 original packets 1–5 to NFQUEUE 300, TCP 80/443 original packets 1–20 to NFQUEUE 300, and three specific UDP packet-length/magic patterns to NFQUEUE 65300. Reply-direction UDP/443 packets 1–3 and TCP 80/443 packets 1–10 are queued to NFQUEUE 300.
+- [FACT] Route to Proton endpoint 194.180.33.20 is via 192.168.0.1 on `phy0-sta0`, source 192.168.0.100.
+- [FACT] `phy0-sta0` is UP with 192.168.0.100/24; `br-lan` is UP with 192.168.1.1/24.
+- [FACT] No AWG/amneziawg interface was present in `ip link show type amneziawg`. Two existing WireGuard-type interfaces were visible: `proton-test` and `warp-test`. No change was made to either interface.
+- [FACT] The selected socket grep produced no matching UDP sockets for the requested endpoint/names/ports at that instant.
+- [FACT] Zapret2 installation tree contains WG-related material including `init.d/custom.d.examples.linux/50-wg4all`, `init.d/openwrt/custom.d/50-wg4all`, `init.d/openwrt/50-wg4all.badsum`, and fake payloads `wireguard_initiation.bin` and `wireguard_response.bin`.
+- [INTERPRETATION] The local Zapret2 tree has a ready-made WG-related custom integration, even though the active `NFQWS2_OPT` does not currently enable a dedicated WireGuard UDP strategy. The existing `proton-test`/`warp-test` interfaces are pre-existing state and must be treated as separate from the current AWG test until identified.
+- [USER FEEDBACK] User correctly noted that the prior command produced excessive output. Future 'big tests' should still be one command but return a compact, high-signal digest rather than full file listings/full nft tables.
+- [SAFETY] No restart, edit, route/firewall/DNS/UCI change or interface creation was performed.
+- [STATUS] GATE 1 remains IN_PROGRESS. Next step: compact read-only capture of exact nfqws2 command lines plus the WG-related custom scripts, without dumping whole files.
