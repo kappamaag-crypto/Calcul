@@ -1084,3 +1084,10 @@ Purpose: фиксировать все рассмотренные в чате т
 - [LIMIT] This does not prove that Proton's WireGuard endpoint will handshake, nor prove that external UDP/IP blocking is the cause of any previous Proton failure.
 - [SAFETY] No configuration, firewall, routing, DNS, AWG interface, restart, or package change was made.
 - [STATUS] GATE 1 read-only Zapret2/WG runtime audit = DONE.
+
+
+### GATE 2 — Proton profile location — 2026-09-25
+- [RESULT] Read-only search found exactly one matching saved Proton config: `/tmp/proton-native.conf`, mode `0600`, size 308 bytes, timestamp Sep 23 16:30.
+- [FACT] No matching `/mnt/data/proton*.conf` file was found.
+- [SAFETY] The profile contents and private key were not printed; no router state was changed.
+- [STATUS] GATE 2 = IN_PROGRESS. Next step: inspect only non-secret profile structure with the private key value masked.
