@@ -2036,6 +2036,7 @@ The VPN tunnel branch is frozen by user decision and deferred to the final major
 
 
 ---
+<!-- 2026-09-26 supersession: USB/extroot/swap/zram runtime correction is recorded in the authoritative 2026-09-26 section at the end of this file. Older conflicting USB statements are historical/stale. -->
 ## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-25 — USER DECISION / LATEST RECONCILIATION
 
 > This section is an explicit current-state override. Older sections are intentionally retained for history and evidence, but any older statement that conflicts with this section is **HISTORICAL / STALE** and must not be used as the next-action checkpoint.
@@ -2059,3 +2060,40 @@ Use explicit states: IMPLEMENTED IN REPOSITORY → AVAILABLE_FOR_BUILD → INSTA
 
 ### Preservation rule
 No historical information is to be deleted merely because it is no longer current. Retain old test results, configurations, stage notes, commits and hypotheses, but label superseded material as **HISTORICAL / STALE / RETIRED / PAUSED** where applicable.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — USB / EXTROOT / SWAP / ZRAM RUNTIME VERIFICATION
+
+This section supersedes all older USB-storage statements that conflict with the runtime evidence below. Older USB/extroot preparation records are retained as HISTORY only and must not be used as the current next-action checkpoint.
+
+### Fresh read-only runtime evidence
+- `/dev/sda` is present and detected by OpenWrt as a ~7.28 GiB USB disk.
+- `/dev/sda1` = 512 MiB swap partition; initialized and ACTIVE at runtime with priority **-2**.
+- `/dev/sda2` = ext4 filesystem, LABEL **extroot**, UUID **e1c68a3a-0e55-4af9-afd8-961160b3afa2**; mounted read-write at **/overlay**.
+- `/` is `overlayfs:/overlay`, therefore the active writable root is backed by the USB extroot.
+- `/dev/sda3` is NOT part of the current partition table.
+- `fstab` has an enabled ext4 mount for the extroot UUID at `/overlay` and an enabled `/dev/sda1` swap entry.
+- `/proc/swaps` shows both `/dev/sda1` (~512 MiB, priority -2) and `/dev/zram0` (~26 MiB, priority 100) ACTIVE.
+- `zram0` current disk size is 27,262,976 bytes (~26 MiB); current swap use is non-zero, so zram is not merely configured but active in runtime.
+- `vm.min_free_kbytes = 2048` is currently loaded.
+- `df -h` reports `/overlay` and `/` with about 6.6 GiB total and about 6.2 GiB available.
+- Current filtered `dmesg` shows successful ext4 recovery/mount and swap/zram activation; no current `I/O error`, ext4 filesystem error, journal error, or swap/zram error was present in the supplied audit.
+
+### Capability decision
+- **USB extroot = RUNTIME_VERIFIED / DONE for the current planned capability.**
+- **USB swap = RUNTIME_VERIFIED / DONE.**
+- **ZRAM = RUNTIME_VERIFIED / DONE.**
+- The previously documented branch claiming `/dev/sda2` was unformatted and waiting for `mkfs.ext4/e2fsprogs` is **HISTORICAL / STALE**.
+- The previously documented proposed action `apk search -e e2fsprogs` / formatting `/dev/sda2` is superseded and MUST NOT be used as the next project action.
+- No filesystem formatting, repartitioning, package installation, or reboot was performed as part of this verification.
+- This evidence is read-only runtime verification; boot-persistence beyond the current boot is not additionally claimed unless separately tested.
+
+### Current storage layout
+```
+/dev/sda
+├─ /dev/sda1  512 MiB  swap     ACTIVE, priority -2
+└─ /dev/sda2  ~6.6 GiB ext4    LABEL=extroot, mounted /overlay, RW
+```
+
+Any older statement that says `/dev/sda2` is unformatted, that ext4 creation is blocked, that `/mnt/data` is currently mounted from `/dev/sda3`, or that the current USB is only a staging device is historical/stale unless a newer verified runtime result explicitly changes it.
