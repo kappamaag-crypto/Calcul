@@ -1125,3 +1125,10 @@ Purpose: фиксировать все рассмотренные в чате т
 - [FACT] This command normally reports no output on success; the route was intended as a runtime-only host route to keep the Proton endpoint outside any future tunnel routing. OpenWrt documents runtime `ip route` manipulation and persistent static-route equivalents. citeturn0search0
 - [SAFETY] No AWG interface, default route, firewall, DNS, or Zapret2 configuration was changed by this step.
 - [NEXT] Verify the exact endpoint route before creating the AWG interface.
+
+
+### GATE 3 — Proton endpoint route verified — 2026-09-25
+- [RESULT] `ip route get 194.180.33.20` returned `194.180.33.20 via 192.168.0.1 dev phy0-sta0 src 192.168.0.100`.
+- [CONFIRMED] The Proton endpoint is explicitly routed through the Archer-side uplink and source address, so a future tunnel default route can be kept from looping the endpoint back into itself.
+- [SAFETY] No AWG interface or default route has been created.
+- [STATUS] GATE 3 pre-routing protection = DONE; isolated AWG interface creation is the next controlled change.
