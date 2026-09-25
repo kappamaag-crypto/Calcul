@@ -1982,3 +1982,14 @@ Type: POLICY
 - Gate 4 remains IN_PROGRESS; no route/default-route or configuration change is authorized merely from this audit.
 
 Type: CURRENT / DIAGNOSTIC / POLICY
+
+
+## 96. Proton-AWG Gate 4.1 — actual runtime parameter state — 2026-09-25
+- Current runtime: Jc=0, Jmin=0, Jmax=0; S1-S4=0; H1-H4=1,2,3,4; I1-I5 empty; ContentPaddingAddition=0; RandomTrailers=off; DisableCookies=off.
+- These values do not establish an obfuscated Proton-compatible AWG profile.
+- User-supplied Jc/Jmin/Jmax/S1/S2 values are treated as an unverified external example, not a Proton requirement.
+- Official Proton documentation describes generated configs as standard WireGuard configs.
+- The earlier private_key-looking grep result was a false-positive caused by i1 matching inside private_key; it contained the peer public key already known to the project.
+- Gate 4 remains IN_PROGRESS; do not change AWG parameters without source-profile evidence.
+
+Type: CURRENT / DIAGNOSTIC / POLICY
