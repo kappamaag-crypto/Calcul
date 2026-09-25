@@ -2029,3 +2029,7 @@ Type: CURRENT / DIAGNOSTIC / EXPERIMENTAL
 - Numeric I1-I5 are excluded because the installed amneziawg-tools syntax uses tagged-junk strings.
 
 Type: EXPERIMENTAL / CURRENT
+
+
+## 2026-09-25 — Final-stage tunnel rule
+The VPN tunnel branch is frozen by user decision and deferred to the final major implementation/validation stage. Its existing experiment remains unfinished and unvalidated; this is an execution pause, not a technical failure. Continuation must prioritize incomplete non-tunnel stages until the final stage or explicit user reopening.
