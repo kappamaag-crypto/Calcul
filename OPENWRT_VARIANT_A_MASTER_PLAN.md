@@ -1841,3 +1841,10 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The actual Proton Free endpoint/client-key combination still sends but receives nothing after a fresh initiation, with AWG obfuscation reset to baseline. Official `awg show` prints `latest handshake` only when a nonzero handshake timestamp exists. citeturn0search6
 - [STATUS] Gate 4 remains IN_PROGRESS; handshake NOT_VALIDATED / FAILED for current acceptance condition.
 - [NEXT] Do not change AWG parameters. Perform one bounded WAN packet-path capture for UDP/51820 to the exact endpoint to determine whether any inbound response reaches `phy0-sta0`.
+
+
+## STAGE 14 — Proton Free WAN packet-path capture — 2026-09-25
+- [USER RESULT] Bounded tcpdump on `phy0-sta0` for UDP/51820 to `146.70.246.98`: 6 packets captured, all outbound from `192.168.0.100:38231` to `146.70.246.98:51820`; packet lengths 16,16,148 repeated; 0 inbound packets observed; 0 kernel drops.
+- [INTERPRETATION] The new Proton endpoint is reachable from the local WAN interface at the packet-egress level, but no UDP response was observed during this capture. The 148-byte packets are consistent with standard WireGuard/AWG handshake-init packet size before any additional padding; AWG padding can alter handshake packet size when configured. 
+- [STATUS] Gate 4 remains IN_PROGRESS; handshake NOT_VALIDATED. Current evidence moves the primary hypothesis toward upstream/remote-side non-response rather than a local route/interface transmit failure.
+- [NEXT] Do not change AWG parameters or routing. Next investigation, if continued, should distinguish upstream-path filtering from remote endpoint rejection with one controlled external-path check; preserve isolated no-default-route design.
