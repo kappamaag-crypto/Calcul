@@ -1601,3 +1601,15 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] Dedicated QNUM 65300 path is structurally present and active at runtime; Proton handshake remains NOT_VERIFIED and usable tunnel traffic remains NOT_VERIFIED.
 - [NEXT] Do not change Zapret2/AWG configuration yet. Use a bounded runtime correlation test to determine whether a fresh AWG transmission increments the dedicated nft rule counters, if counters are available in the installed nft output.
 - [SAFETY] No configuration, routing, firewall, service, package, DNS, Wi-Fi, or reboot state changed.
+
+
+## STAGE 14 — Proton/AWG Gate 3 — latest QNUM 65300 counter/traffic correlation — 2026-09-25
+- [RESULT] Read-only 12-second A/B snapshot performed while `proton_awg_test` remained active and no default route was introduced.
+- [RESULT] `awg show proton_awg_test`: sent 147.28→147.42 KiB; received remained 0 B; no latest-handshake line.
+- [RESULT] NFQUEUE 65300 sequence advanced 1019→1020; depth and drops remained 0. QNUM 300 advanced 183827→184068; depth/drops remained 0.
+- [RESULT] Dedicated nftables rules remain at handles 74/75/76. The displayed rules have no exposed packet-counter values, so per-rule counter increment is not proven by this test.
+- [RESULT] Endpoint route remains via 192.168.0.1/dev phy0-sta0/src 192.168.0.100.
+- [RESULT] AWG interface: RX 0 B/0 packets; TX 150960 B/1020 packets/0 errors/51 drops.
+- [INTERPRETATION] QNUM 65300 is receiving fresh packets while AWG TX grows, with no NFQUEUE backlog/drops. Inbound Proton response remains unobserved; handshake remains unverified.
+- [STATUS] STAGE 14 / Gate 3 = IN_PROGRESS. No default AWG route and no Zapret2/AWG restart from this evidence.
+- [NEXT] One bounded endpoint capture of both directions on UDP/51820 during active AWG traffic.
