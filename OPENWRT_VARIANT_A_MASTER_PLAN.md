@@ -866,3 +866,12 @@
 - [SAFETY] Read-only package-content inspection; no interface/config/route/firewall/DNS/Zapret2/watchdog changes.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages = DONE; kernel module = DONE; AWG userspace `awg` = DONE; netifd proto handler = DONE; interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Inspect `awg help` before creating an interface or importing any Proton configuration.
+
+
+## STAGE 14 — AWG-specific CLI verified — 2026-09-25
+- [USER RESULT] `awg help` returned the standard WireGuard-compatible subcommands: show, showconf, set, setconf, addconf, syncconf, genkey, genpsk, pubkey.
+- [RESULT] The AWG-specific `awg` binary is functional, but exposes the standard WireGuard command surface rather than additional visibly documented AWG-specific subcommands.
+- [RESULT] The package also provides `lib/netifd/proto/amneziawg.sh`, so OpenWrt netifd can manage an AWG protocol interface. OpenWrt documents that protocol handlers under `lib/netifd/proto/` are used by netifd and that network configuration can be reloaded without restarting all interfaces. citeturn0search2turn0search6
+- [SAFETY] Read-only check only. No AWG interface/config/peer/key/route/firewall/DNS/Zapret2/watchdog changes.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages = DONE; kernel module = DONE; AWG userspace/netifd handler = DONE; interface/peer/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Inspect the installed AWG netifd protocol handler to determine its supported UCI options before writing the network configuration. Do not import a Proton config yet.
