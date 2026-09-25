@@ -1039,3 +1039,16 @@ Purpose: фиксировать все рассмотренные в чате т
 - [FACT] No new reliable runtime/script facts are added from this attempt; previously established facts remain valid: 2 nfqws2 processes, active nft table with QNUM 300/65300, route to Proton endpoint via phy0-sta0, existing proton-test/warp-test interfaces, no AWG interface.
 - [USER FEEDBACK] User prefers large audits to produce a compact high-signal digest; future commands should avoid long loops and avoid output that can be mangled by terminal wrapping/pasting.
 - [STATUS] GATE 1 = IN_PROGRESS. No configuration or runtime change performed.
+
+
+### GATE 1 — WG custom-script result and corrected interpretation — 2026-09-25
+- [RESULT] User provided the exact read-only output for both local OpenWrt WG custom scripts.
+- [FACT] /opt/zapret2/init.d/openwrt/custom.d/50-wg4all defines NFQWS_OPT_DESYNC_WG with payloads wireguard_initiation, wireguard_response, wireguard_cookie and fake desync with repeats=2.
+- [FACT] /opt/zapret2/init.d/openwrt/50-wg4all.badsum defines the same WireGuard payloads with fake desync repeats=1 and badsum.
+- [FACT] The installed script comments explicitly state that the mechanism targets original WireGuard and may not work for third-party implementations.
+- [IMPORTANT CORRECTION] The earlier interpretation “WG components are present but not activated because they are absent from NFQWS2_OPT” was too strong and is NOT accepted as current fact. The active nft snapshot already contained a separate NFQUEUE path QNUM=65300 with three UDP packet-length/magic matches. Those three matches correspond directly to the 50-wg4all WireGuard handshake initiation/response/cookie lengths and magic values (156/0x01000000, 100/0x02000000, 72/0x03000000) shown by the upstream custom script. Therefore the local 50-wg4all custom integration appears to be active independently of the main NFQWS2_OPT string.
+- [FACT] The two currently running nfqws2 processes are consistent with the main QNUM=300 instance plus a separate custom WG instance on QNUM=65300, but exact command-line arguments are still not captured because the earlier ps output was truncated.
+- [TECHNICAL CONTEXT] Upstream Zapret2 documents 50-wg4all as a custom solution that detects WireGuard handshake packets on any UDP port and redirects them to a dedicated nfqws instance; the default strategy is fake desync and the script allocates its own queue number. Therefore absence of WireGuard flags inside the main NFQWS2_OPT does not by itself mean the custom WG strategy is disabled. citeturn202035search0turn476730search5
+- [INTERPRETATION] This changes the diagnosis materially: previous Proton/WireGuard failures cannot be attributed simply to “we forgot to enable 50-wg4all”. The dedicated WG handshake path is very likely already present in the active firewall, pending one compact runtime confirmation.
+- [STATUS] GATE 1 remains IN_PROGRESS. No restart, edit, route/firewall/DNS/UCI change or AWG interface creation was performed.
+- [NEXT STEP] Read-only confirmation of the exact two nfqws2 command lines and their QNUMs; no configuration change.
