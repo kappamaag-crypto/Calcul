@@ -1760,3 +1760,11 @@ Type: AUTHORITATIVE STATE / POLICY
 - [CHANGE] PersistentKeepalive for the isolated `proton_awg_test` peer was requested to change from 25 s to 1 s. This is runtime-only and reversible; no default route or endpoint-route change was requested.
 - [STATUS] Gate 4 remains IN_PROGRESS; Proton-AWG handshake remains NOT VALIDATED until runtime evidence shows a latest handshake and/or received bytes.
 - [NEXT] Perform one read-only AWG status check to verify the keepalive value and current transfer/handshake state. Do not change parameters or routes in this step.
+
+
+## STAGE 14 — Proton-AWG PersistentKeepalive readback — 2026-09-25
+- [USER RESULT] Read-only status shows endpoint 194.180.33.20:51820, transfer 0 B received / 729.27 KiB sent, PersistentKeepalive=1.
+- [RESULT] No latest-handshake line was present, so no handshake/RX evidence was observed.
+- [INTERPRETATION] The keepalive value was successfully applied at runtime. PersistentKeepalive sends authenticated empty packets to maintain NAT/firewall state; it does not by itself prove a handshake. Official AWG tooling documents this behavior. 
+- [STATUS] Gate 4 remains IN_PROGRESS; Proton-AWG tunnel remains NOT VALIDATED.
+- [NEXT] Force one fresh interface initiation using a reversible isolated interface down/up cycle, preserving the endpoint host route and avoiding any default-route change. No parameter sweep.
