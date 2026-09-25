@@ -757,3 +757,13 @@
 - [SAFETY] Read-only check only. No module load, reboot, depmod, network/routing/firewall/DNS/Zapret2/watchdog change.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE; module file present = DONE; module loaded = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Verify whether `modules.dep`/binary dependency indexes exist for the running kernel before any action that could modify module metadata.
+
+
+## STAGE 14 — AWG kernel module dependency index absent — 2026-09-25
+- [USER RESULT] `ls -l /lib/modules/6.12.94/modules.dep*` returned `No such file or directory`.
+- [RESULT] No `modules.dep` or related dependency-index file is present for the running kernel under `/lib/modules/6.12.94`.
+- [INTERPRETATION] The earlier empty lookup is explained by absent dependency metadata. The AWG module itself remains present at `/lib/modules/6.12.94/amneziawg.ko`.
+- [WEB VERIFICATION] Official OpenWrt documentation confirms 25.12 uses apk and 25.12.5 uses Linux 6.12.94; OpenWrt also warns that kernel-module compatibility is kernel-version/ABI sensitive and incompatible kmods can cause crashes or reboot failures. citeturn0search0turn0search5turn0search9
+- [SAFETY] No changes performed. Do not run `depmod`, `insmod`, or reboot until the availability of the module-management tooling and the package's intended activation path are established.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE; exact module file = DONE; module loaded = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Read-only check for `depmod`/module-loading tooling. This determines whether dependency metadata can be generated locally without introducing a network or service change.
