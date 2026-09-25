@@ -1456,3 +1456,12 @@ Type: AUTHORITATIVE STATE / POLICY
 - [RUNTIME] No interface activation, handshake, traffic test, or default-route change has been performed by this step.
 - [STATUS] PrivateKey = ENTRY_REPORTED / verification pending; AWG interface remains intended to stay auto=0; route_allowed_ips=0.
 - [NEXT EXACT STEP] Read-only verification that a non-empty PrivateKey exists, without printing its value.
+
+
+## STAGE 14 — Proton PrivateKey verification — 2026-09-25
+
+- [USER RESULT] Read-only UCI verification returned `PRIVATEKEY_SET len=44`.
+- [SECURITY] PrivateKey value was not displayed or transmitted in chat; only its presence and length were verified.
+- [RUNTIME] AWG interface has not been brought up; no handshake/traffic test and no default-route change have occurred.
+- [STATUS] PrivateKey = SET / VERIFIED; isolated AWG scaffold remains auto=0 and route_allowed_ips=0; interface/handshake/traffic = NOT_STARTED.
+- [NEXT EXACT STEP] Run `ifup proton_awg_test` to create the isolated AWG interface and attempt handshake, while route_allowed_ips=0 prevents installation of peer AllowedIPs as routes.
