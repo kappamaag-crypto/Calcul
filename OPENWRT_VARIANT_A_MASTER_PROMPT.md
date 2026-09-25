@@ -1165,3 +1165,25 @@ After each user result and before the next substantive technical action:
 - update the glossary when a new term, command, capability state, or correction is introduced;
 - keep START_HERE aligned with the mandatory reading order.
 
+
+## MANDATORY PROJECT PREFLIGHT — REPOSITORY-WIDE ENFORCEMENT — 2026-09-25
+
+The following is a hard execution invariant for every future AI/session working on this project:
+
+1. Read OPENWRT_VARIANT_A_START_HERE.md first.
+2. Read the current OPENWRT_VARIANT_A_MASTER_PROMPT.md.
+3. Read the current OPENWRT_VARIANT_A_MASTER_PLAN.md and locate the latest authoritative checkpoint.
+4. Read the current OPENWRT_VARIANT_A_GLOSSARY.md, including the Capability Registry and evidence-level definitions.
+5. Inventory the full Calcul repository root before technical work. The repository contains large historical logs and profiles; do not blindly dump them, but identify all relevant artifacts and inspect the complete relevant artifact before acting.
+6. Search the repository for an already implemented capability before proposing a new package, daemon, script, route, firewall rule, DNS service, VPN interface, watchdog, diagnostic utility or workaround.
+7. Treat repository content as evidence/reference, never as proof of current runtime state. Current verified router evidence and the latest authoritative chat checkpoint determine the active state.
+8. If any chat result is newer than the repository, synchronize it before issuing the next router-changing command.
+9. Do not let a stale parallel-chat branch replace the current branch. The latest explicit project checkpoint in MASTER PLAN is authoritative unless a newer verified router result supersedes it.
+10. Maintain the evidence levels: IMPLEMENTED IN REPOSITORY / DEPLOYED TO ROUTER / CONFIGURED / ACTIVE AT RUNTIME / VALIDATED / PLANNED / BLOCKED / FAILED.
+11. Before a state-changing command, state exactly what it changes, why it is needed, and how it will be reverted. One router command per step remains mandatory.
+12. After each user router result, synchronize MASTER PLAN before giving the next router command. Update MASTER PROMPT only when workflow/safety rules change; update GLOSSARY when a stable capability, term, command, correction or capability-state rule is established.
+
+### Current authoritative branch
+As of 2026-09-25 the active branch is STAGE 14 / Proton-AWG GATE 3. The next exact step is creation of an isolated UCI section proton-awg-test, not activation, with no default route and with the Proton endpoint route protected through phy0-sta0.
+
+Type: HARD POLICY
