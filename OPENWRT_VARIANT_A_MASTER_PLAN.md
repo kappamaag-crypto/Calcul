@@ -1572,3 +1572,14 @@ Type: AUTHORITATIVE STATE / POLICY
 - [LIMITATION] This does not establish Proton server acceptance or a completed AWG handshake. Earlier capture still showed outbound UDP/51820 only and 0 B received.
 - [STATUS] STAGE 14 = IN_PROGRESS; AWG interface = ACTIVE AT RUNTIME; Zapret2 WG path = RUNTIME_VERIFIED; handshake = NOT_VERIFIED; usable tunnel traffic = NOT_VERIFIED.
 - [NEXT] Move to a non-destructive control check that does not modify Zapret2/AWG configuration and distinguishes endpoint/path reachability from the already-verified local NFQUEUE path.
+
+
+## STAGE 14 — AWG interface counters result — 2026-09-25
+
+- [USER RESULT] `ip -s link show proton_awg_test` reports **RX 0 B / 0 packets / 0 drops**.
+- [USER RESULT] TX counters report **34,780 B / 235 packets / 0 errors / 11 drops**.
+- [INTERPRETATION] The AWG interface is actively producing outbound encrypted traffic, while no decrypted inbound traffic has reached the interface.
+- [NEW EVIDENCE] The 11 TX drops are a kernel interface-counter observation and require attribution; they must not be interpreted automatically as proof of Proton rejection or a faulty AWG implementation.
+- [CORRELATION] This is consistent with the earlier endpoint capture: outbound UDP/51820 was observed, but no inbound endpoint response was observed; handshake remains unverified and received traffic remains 0 B.
+- [STATUS] STAGE 14 = IN_PROGRESS; AWG interface = ACTIVE AT RUNTIME; dedicated Zapret2 WG path = RUNTIME_VERIFIED; AWG RX = NOT_OBSERVED; handshake = NOT_VERIFIED; usable tunnel traffic = NOT_VERIFIED.
+- [NEXT] Use one read-only peer-level status check to correlate the interface counters with AWG handshake/transfer state; do not change routing, Zapret2, firewall, or AWG configuration.
