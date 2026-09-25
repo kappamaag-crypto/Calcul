@@ -1790,3 +1790,10 @@ Type: AUTHORITATIVE STATE / POLICY
 - [SAFETY] No private key was entered into chat. No default route was enabled and production routing was not changed.
 - [STATUS] New endpoint A/B test is configured but handshake/RX is not yet validated.
 - [NEXT] Read-only verification of endpoint, transfer and handshake state; no further configuration change yet.
+
+
+## STAGE 14 — New Proton Free endpoint readback — 2026-09-25
+- [USER RESULT] `awg show proton_awg_test` shows two peer blocks: old endpoint 194.180.33.20:51820 with 0 B RX / 826.56 KiB TX / keepalive 1, and new endpoint 146.70.246.98:51820 with 0 B RX / 15.93 KiB TX / keepalive 25.
+- [INTERPRETATION] The new peer configuration was added/applied while the old peer block remains present. Because the interface currently contains two peer entries, this is not yet a clean A/B result and no handshake has been observed.
+- [STATUS] Gate 4 IN_PROGRESS; new endpoint handshake NOT_VALIDATED.
+- [NEXT] Do not sweep parameters. First isolate the new endpoint by removing the old peer from the test interface, then force one fresh initiation and inspect handshake/RX. This remains isolated and must not create a default route.
