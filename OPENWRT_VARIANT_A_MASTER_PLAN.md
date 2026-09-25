@@ -1073,3 +1073,14 @@ Purpose: фиксировать все рассмотренные в чате т
 - [CONFIRMED REMAINS] PID 16182 = QNUM 65300 and PID 16181 = QNUM 300 from the immediately preceding successful read-only test.
 - [SAFETY] No restart, edit, route/firewall/DNS/UCI change or AWG interface creation was performed.
 - [NEXT] Retry with a shell loop that first selects each PID separately, still read-only and compact.
+
+
+### GATE 1 — Active QNUM=65300 arguments confirmed — 2026-09-25
+- [DONE] Read-only `/proc` inspection confirmed PID 16182 is `nfqws2` with `--qnum=65300`.
+- [CONFIRMED] QNUM 65300 active arguments include `--payload=wireguard_initiation,wireguard_response,wireguard_cookie`.
+- [CONFIRMED] QNUM 65300 active desync is `--lua-desync=fake:blob=0x00000000000000000000000000000000:repeats=2`.
+- [CONFIRMED] PID 16181 remains the main QNUM 300 daemon with HTTP/TLS/QUIC payload strategies.
+- [CONCLUSION] The dedicated WireGuard Zapret2 desync daemon is not merely installed/configured: its expected WireGuard payload/fake strategy is active at runtime.
+- [LIMIT] This does not prove that Proton's WireGuard endpoint will handshake, nor prove that external UDP/IP blocking is the cause of any previous Proton failure.
+- [SAFETY] No configuration, firewall, routing, DNS, AWG interface, restart, or package change was made.
+- [STATUS] GATE 1 read-only Zapret2/WG runtime audit = DONE.
