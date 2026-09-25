@@ -1373,3 +1373,41 @@ The GitHub repository currently contains 20 tracked files (~5.28 MB total), incl
 
 ### [SAFETY]
 No router configuration was changed by this documentation synchronization.
+
+## 89. AUTHORITATIVE HANDOFF — AWG/Proton checkpoint supersedes older branch notes — 2026-09-25
+
+This section is the authoritative continuation point for the current project conversation and must take precedence over older next-step notes from parallel chat branches when they conflict.
+
+### Current exact state
+- STAGE 14 = IN_PROGRESS.
+- GATE 1 Zapret2/WireGuard runtime audit = DONE.
+- GATE 2 current Proton Free profile structure = DONE.
+- GATE 3 = IN_PROGRESS.
+- Endpoint route protection = DONE and verified: 194.180.33.20 via 192.168.0.1 dev phy0-sta0 src 192.168.0.100.
+- No AWG interface exists; no UCI proto=amneziawg section exists.
+- AWG kernel module/userspace are installed and the kernel module is loaded; netifd AWG handler has been inspected.
+- Current Proton profile supplied by user is standard WireGuard format: Address 10.2.0.2/32, DNS 10.2.0.1, AllowedIPs 0.0.0.0/0, ::/0, endpoint 194.180.33.20:51820, PersistentKeepalive 25. PrivateKey is intentionally not stored in project documentation.
+- Active Zapret2 has two nfqws2 processes: QNUM 300 and dedicated QNUM 65300. QNUM 65300 is runtime-confirmed with WireGuard payload selectors wireguard_initiation,wireguard_response,wireguard_cookie and fake desync repeats=2.
+
+### Exact next step
+Create the isolated UCI section proton-awg-test WITHOUT starting it and WITHOUT creating a default route. The protected endpoint route must remain via phy0-sta0.
+
+### Mandatory interpretation
+The project is testing the concrete chain: standard Proton Free WireGuard profile → AmneziaWG-compatible interface → active local Zapret2 50-wg4all/QNUM 65300 path. Do not state that this chain is guaranteed to work; handshake and traffic must be experimentally validated.
+
+### Parallel-branch rule
+Older notes about pending DoH validation, OpenVPN experiments, historical USB layouts, or other branches remain historical unless they are explicitly selected as the current branch. They must not displace this AWG checkpoint.
+
+### Repository-wide preflight invariant
+Before every future technical response for this project, AI must:
+1. read OPENWRT_VARIANT_A_START_HERE.md;
+2. read current OPENWRT_VARIANT_A_MASTER_PROMPT.md;
+3. read current OPENWRT_VARIANT_A_MASTER_PLAN.md;
+4. read current OPENWRT_VARIANT_A_GLOSSARY.md;
+5. inventory the repository root and identify implementation/evidence artifacts relevant to the requested action;
+6. audit the Capability Registry before proposing any installation, configuration, restart, routing, firewall, DNS or monitoring change;
+7. reconcile any newer verified router/chat result against the documents before issuing a new router command.
+
+The preflight is mandatory even if the requested action appears to concern only one component.
+
+Type: AUTHORITATIVE STATE / POLICY
