@@ -1996,3 +1996,26 @@ No firewall opening, LuCI binding change, routing change, or other state-changin
 
 ### Next controlled step
 Inspect the exact UCI parameters of the existing Allow-SSH-from-TPLink rule. This is read-only and is required before deciding whether any firewall change is needed. Do not create another SSH rule or weaken WAN input policy until this rule is understood.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — SSH FIREWALL RULE VERIFIED
+
+### Evidence
+`Allow-SSH-from-TPLink` is exactly:
+- src=wan
+- src_ip=192.168.0.0/24
+- proto=tcp
+- dest_port=22
+- target=ACCEPT
+
+### Decision
+The firewall already contains the required narrow SSH allowance for Archer-side clients. No firewall modification is justified by the current evidence.
+
+### Capability state
+- SSH listener on hAP TCP/22 = RUNTIME_VERIFIED.
+- Archer-side SSH firewall allowance for 192.168.0.0/24 = RUNTIME_VERIFIED.
+- Actual Archer Wi-Fi client -> 192.168.0.100:22 connectivity = NOT VALIDATED / INCOMPLETE.
+
+### Next controlled step
+Perform one end-to-end connectivity test from a device actually connected to the Archer Wi-Fi. Use the hAP Archer-side address 192.168.0.100 and TCP/22. Do not change hAP configuration before that test.
