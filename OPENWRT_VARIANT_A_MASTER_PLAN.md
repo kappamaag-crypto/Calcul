@@ -1804,3 +1804,9 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The old endpoint peer removal command completed without a reported local error. New endpoint remains the intended sole peer for the next clean A/B observation.
 - [STATUS] Gate 4 IN_PROGRESS; new endpoint handshake/RX still NOT_VALIDATED.
 - [NEXT] Read-only verify that only the new peer remains and inspect its transfer/handshake state. No parameter or route changes.
+
+
+## STAGE 14 — New Proton client private-key staged locally — 2026-09-25
+- [USER RESULT] User confirmed the new Proton client PrivateKey was written locally to `/tmp/proton-new.key` with restrictive permissions; the key itself is not recorded in project documentation.
+- [STATUS] New endpoint A/B configuration is ready for the final peer-key replacement; handshake remains NOT_VALIDATED.
+- [NEXT] Install the staged private key into isolated `proton_awg_test`, then remove the temporary key file after successful installation/readback. No default route.
