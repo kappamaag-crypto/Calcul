@@ -1411,3 +1411,16 @@ Before every future technical response for this project, AI must:
 The preflight is mandatory even if the requested action appears to concern only one component.
 
 Type: AUTHORITATIVE STATE / POLICY
+
+## PROJECT EXECUTION POLICY — 2026-09-25
+
+- [USER REQUIREMENT] Пользователь запросил более смелый режим работы: после восстановления состояния AI должен переходить к следующему шагу, а не повторно пересказывать документы десятками строк.
+- [POLICY] Стандартная команда пользователя «Продолжай.» означает продолжение строго с текущего checkpoint MASTER PLAN.
+- [POLICY] Если следующий шаг однозначен и является read-only, bounded, обратимым или уже разрешённым текущим этапом, AI должен выполнять его без повторного запроса подтверждения.
+- [POLICY] За один пользовательский ответ выполняется только один следующий router command/test, если пользователь не попросил batch.
+- [POLICY] Отдельное подтверждение сохраняется для destructive/труднообратимых операций, flash/partition/format, операций с риском потери доступа, массового изменения пакетов, включения нового default route/полной VPN-маршрутизации и передачи секретов.
+- [POLICY] В EXECUTION-режиме перед командой не нужен повтор MASTER PLAN/истории; показываются только STATUS, текущая capability, текущий delta и команда.
+- [POLICY] После результата команда классифицируется; затем MASTER PLAN синхронизируется до следующей изменяющей команды.
+- [POLICY] TOOL/SYNTAX BLOCKED исправляется минимально и не должен превращаться в новый цикл десятков диагностик.
+- [POLICY] Закрытые A/B-гипотезы не повторяются без новой причины.
+- [STATUS] Политика workflow изменена. Стадия проекта и текущий AWG checkpoint НЕ изменены.
