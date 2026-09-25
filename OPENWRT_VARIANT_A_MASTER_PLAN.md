@@ -1824,3 +1824,13 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The new client private key is active and corresponds to the displayed new client public key. The new endpoint is the sole peer. No inbound response/handshake has yet been observed.
 - [STATUS] Gate 4 IN_PROGRESS; new Proton Free endpoint/key A/B handshake NOT_VALIDATED.
 - [NEXT] Force one fresh interface initiation now that the correct client key is installed; then inspect handshake/RX. Temporary key file remains until successful verification.
+
+
+## STAGE 14 — Proton Free plain-WireGuard compatibility reset and fresh interface restart — 2026-09-25
+- [USER RESULT] Runtime-only AWG parameters were reset on isolated `proton_awg_test`: Jc/Jmin/Jmax=0, S1-S4=0, H1-H4=1/2/3/4. Command returned empty output.
+- [VERIFICATION] Follow-up grep displayed the non-default peer/runtime fields: random trailers=off, disable cookies=off, endpoint=146.70.246.98:51820, transfer=0 B received / 183.40 KiB sent, PersistentKeepalive=25. The zero/default J/S/H fields were not printed by that grep expression; this is not evidence that the reset failed. Current official AWG tooling treats unspecified/zero AWG parameters as baseline values, while `awg show` only prints fields represented in its device state. citeturn0search8turn0search1
+- [CHANGE] User then performed the planned reversible isolated interface cycle: `ip link set proton_awg_test down && ip link set proton_awg_test up`; command returned empty output.
+- [INTERPRETATION] The fresh initiation cycle completed without a local error. At this point there is still no evidence of inbound traffic or a latest handshake; the next read-only status check is required before any further change.
+- [STATUS] STAGE 14 / Gate 4 = IN_PROGRESS; Proton Free handshake NOT_VALIDATED. No default route, production routing, Zapret2 configuration, or persistent AWG change was made.
+- [METHODOLOGY] Do not perform another AWG parameter sweep. The purpose of this branch is to test the actual Proton-generated standard WireGuard profile semantics without invented obfuscation parameters. Current AmneziaWG documentation confirms the AWG-specific J/S/H fields are protocol extensions, while the standard baseline uses no such obfuscation. citeturn0search1turn0search8
+- [NEXT] Perform one read-only `awg show proton_awg_test` status check for the new endpoint, latest handshake and transfer counters. If RX remains 0 B and handshake is absent, shift the hypothesis toward endpoint/path/profile acceptance rather than continue blind AWG tuning.
