@@ -1484,3 +1484,13 @@ Type: AUTHORITATIVE STATE / POLICY
 - [ROUTING] Peer AllowedIPs remain `0.0.0.0/0, ::/0`; scaffold uses `route_allowed_ips=0`, so no peer default route was intentionally installed.
 - [STATUS] AWG interface = ACTIVE AT RUNTIME; handshake = NOT_VERIFIED; usable tunnel traffic = NOT_VERIFIED.
 - [NEXT EXACT STEP] Read-only verification of handshake/route state, without changing configuration.
+
+
+## STAGE 14 — AWG handshake check — 2026-09-25
+
+- [USER RESULT] `awg show proton_awg_test` shows endpoint `194.180.33.20:51820` and transfer `0 B received, 2.46 KiB sent`.
+- [RESULT] No `latest handshake` field was returned, so a successful handshake is NOT verified.
+- [ROUTING] `ip route get 194.180.33.20` confirms the protected endpoint still uses `192.168.0.1 dev phy0-sta0 src 192.168.0.100`; AWG is not being used to reach its own endpoint.
+- [STATUS] AWG interface = ACTIVE AT RUNTIME; handshake = NOT_VERIFIED / no received traffic; endpoint protection route = VERIFIED.
+- [INTERPRETATION] Outbound packets are leaving the router, but Proton has not returned observable AWG traffic. Do not enable full/default VPN routing at this point.
+- [NEXT EXACT STEP] Read-only inspect kernel/network logs for the AWG interface/protocol handler, without changing configuration.
