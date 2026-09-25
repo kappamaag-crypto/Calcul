@@ -1942,3 +1942,15 @@ Type: POLICY
 The project may contain information collected from several chats. Historical branches remain useful evidence, but they do not automatically define the next action. The latest authoritative checkpoint in MASTER PLAN plus newer verified router output controls the current branch. Conflicting branch notes must be marked historical/stale and must not silently replace the active checkpoint.
 
 Type: POLICY
+
+## EXECUTION / HANDOFF
+
+**«Продолжай» — стандартная команда продолжения проекта** — означает: восстановить текущий checkpoint по обязательному preflight и выполнить следующий однозначный шаг MASTER PLAN без повторного пересказа проекта и без лишнего запроса подтверждения. Ограничение — только один следующий router command/test.
+
+**EXECUTION mode — режим выполнения** — режим работы, в котором AI после state/capability preflight должен предпочитать следующий предусмотренный планом безопасный шаг дополнительным объяснениям и эквивалентным тестам.
+
+**Safety confirmation gate — отдельное подтверждение безопасности** — обязательно только перед destructive/труднообратимыми действиями, flash/partition/format, потенциальной потерей доступа, массовыми изменениями пакетов, включением нового default route/полной VPN-маршрутизации или передачей секретов.
+
+**Tool/Syntax Blocked — ошибка инструмента/синтаксиса** — команда не отвечает на сетевой вопрос, потому что локальная утилита/BusyBox не приняла синтаксис или отсутствует. Это не считается сетевым или сервисным FAILED.
+
+**No-test-for-test's-sake — правило** — не повторять десятки эквивалентных диагностик без новой гипотезы или нового gate.
