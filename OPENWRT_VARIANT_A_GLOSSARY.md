@@ -1748,3 +1748,75 @@ Program destination: `/usr/bin/zapret2-watchdog`.
 AI не должен заменять один уровень другим. Например, наличие `OPENWRT_ZAPRET2_WATCHDOG.sh` в GitHub само по себе не означает его запуск; в текущем проекте это отдельно подтверждено router result.
 
 Тип: POLICY
+## 82. Capability/state preflight gate
+
+Перед каждой технической итерацией AI обязан проверить три обязательных документа: OPENWRT_VARIANT_A_MASTER_PROMPT.md, OPENWRT_VARIANT_A_MASTER_PLAN.md, OPENWRT_VARIANT_A_GLOSSARY.md; затем OPENWRT_VARIANT_A_START_HERE.md, если он существует. Это обязательный execution gate.
+
+Перед новой установкой/настройкой AI обязан найти существующую capability в Capability Registry и определить её уровень доказательства: IMPLEMENTED IN REPOSITORY, DEPLOYED TO ROUTER, ACTIVE AT RUNTIME, VALIDATED.
+
+Если чат содержит более свежий подтвержденный router result, чем GitHub, он должен быть синхронизирован в MASTER PLAN до следующей изменяющей команды.
+
+Тип: POLICY
+
+## 83. Current DoH capability — single Cloudflare instance
+
+Текущая пользовательская архитектура DoH после синхронизации 2026-09-25:
+- Cloudflare https-dns-proxy остаётся на 127.0.0.1:5053.
+- Google https-dns-proxy instance на 127.0.0.1:5054 удалён из UCI по решению пользователя.
+- До удаления были измерены VmRSS: Cloudflare 1716 kB, Google 1672 kB; суммарно около 3.3 MiB RSS.
+- UCI после удаления содержит только Cloudflare instance; /etc/init.d/https-dns-proxy restart завершился успешно.
+- Post-restart listener/process verification для 5053/5054 и DNS functional validation ещё PENDING; поэтому уровень пока CONFIGURED, а не VALIDATED.
+- Не создавать второй DoH instance без отдельного обоснования и записи в MASTER PLAN.
+
+Официальная схема OpenWrt использует dnsmasq как локальный resolver, который передаёт запросы https-dns-proxy; один DoH instance является допустимой конфигурацией.
+
+Тип: CURRENT / CONFIGURED / PENDING VALIDATION
+
+## 84. Memory-pressure diagnostic evidence — 2026-09-25
+
+Последний подтвержденный snapshot перед DoH consolidation:
+- MemTotal=54852 kB
+- MemFree=11840 kB
+- MemAvailable=4044 kB
+- Slab=10144 kB
+- SReclaimable=1284 kB
+- SUnreclaim=8860 kB
+- SwapTotal=557048 kB
+- SwapFree=551960 kB
+
+В этот момент nfqws2 отсутствовал в ps, а /proc/net/netfilter/nfnetlink_queue не показал активной строки. Это не доказывает причину OOM; root cause memory pressure остаётся UNCONFIRMED.
+
+/proc/slabinfo отсутствует. /sys/kernel/slab существует, но доступных total_objects/free_objects counters для требуемой оценки нет; objects_partial не используется как оценка полного live-object count.
+
+Тип: EVIDENCE / UNRESOLVED
+
+## 85. DoH process memory evidence
+
+До удаления Google instance:
+- Cloudflare PID 5573: VmRSS=1716 kB.
+- Google PID 6676: VmRSS=1672 kB.
+- Combined RSS approximately 3388 kB (~3.3 MiB).
+
+Эти значения показывают стоимость двух отдельных процессов на 64-MiB hAP ac lite, но не доказывают, что DoH был причиной OOM. После перехода на один instance требуется повторный memory snapshot для оценки эффекта.
+
+Тип: EVIDENCE
+
+## 86. Current chat stopping point — 2026-09-25
+
+STAGE 14 = IN_PROGRESS; Proton/AWG Gate 3 = IN_PROGRESS.
+
+Непосредственный следующий read-only шаг: проверить после restart наличие одного https-dns-proxy, listener 127.0.0.1:5053 и отсутствие 127.0.0.1:5054, затем bounded DNS/HTTPS validation.
+
+После успешной валидации вернуть workflow к существующему Gate 3: создать изолированную UCI AWG-секцию proton-awg-test, не запускать её, не создавать default route и сохранить endpoint route через phy0-sta0.
+
+Тип: STATE
+
+## 87. Repository evidence versus router runtime — mandatory interpretation
+
+- IMPLEMENTED IN REPOSITORY ≠ DEPLOYED TO ROUTER ≠ ACTIVE AT RUNTIME ≠ VALIDATED.
+- Наличие profile/script/log в GitHub никогда само по себе не доказывает текущую runtime capability.
+- Наличие процесса/service не доказывает functional success.
+- Functional success одного базового теста не доказывает application-specific success.
+- Исторический PASS не отменяет более новый FAIL/UNKNOWN.
+
+Тип: POLICY
