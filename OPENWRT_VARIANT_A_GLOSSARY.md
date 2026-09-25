@@ -1963,3 +1963,12 @@ Type: POLICY
 - `proton_awg_test` currently reports TX 1020 packets / 150960 bytes and 51 TX drops. A non-zero TX drop counter is evidence to localize; it is not by itself proof of the root cause.
 - Current capability state: AWG kernel/userspace support = INSTALLED/DEPLOYED; dedicated Zapret2 WireGuard queue path = ACTIVE AT RUNTIME; isolated Proton-AWG test interface = ACTIVE AT RUNTIME for this experiment; Proton-AWG tunnel handshake = NOT VALIDATED / currently FAILED for the observed handshake condition.
 - Do not create a default route or claim bypass success from this result.
+## 94. Authoritative Proton-AWG Gate 3 BIG TEST — 2026-09-25 20:57–20:58 GMT
+
+- proton_awg_test: UP/LOWER_UP; endpoint 194.180.33.20:51820; 0 B received; sent 257.41→258.57 KiB; no observed latest handshake.
+- WAN phy0-sta0 bounded capture: 20 captured, 34 received by filter, 0 dropped; all 20 captured packets outbound, none inbound.
+- QNUM 65300/PID 3205: depth 0, drops 0; packet-id 1782→1789, matching AWG TX packet increase. Dedicated nfqws2 command line is active with WireGuard initiation/response/cookie selectors.
+- AWG interface counters: TX 263736/1782/89 drops → 264772/1789/89 drops; RX stayed zero; no new TX drops during the test.
+- Endpoint route remained via 192.168.0.1 dev phy0-sta0 src 192.168.0.100.
+- Capability evidence: AWG support = INSTALLED/DEPLOYED; dedicated Zapret2 WG path = ACTIVE AT RUNTIME; isolated AWG test interface = ACTIVE AT RUNTIME; Proton-AWG handshake/tunnel = NOT VALIDATED / FAILED for the observed handshake condition.
+- No default route and no VPN activation.
