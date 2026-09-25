@@ -1079,3 +1079,28 @@ The hAP ac lite has only 64 MiB RAM. Memory-pressure evidence must be treated as
 
 ### Current DoH rule
 As of the latest user-directed synchronization, the intended DoH configuration is a single Cloudflare https-dns-proxy instance on port 5053. The Google instance on port 5054 was removed from UCI and the service was restarted successfully; post-restart runtime validation remains pending. Future AIs must not recreate the second DoH instance unless explicitly required by a documented fault-tolerance decision.
+## MANDATORY AI HANDOFF — 2026-09-25 — capability ledger enforcement
+
+Before every technical response for this router project, the AI MUST:
+1. Read the current MASTER PROMPT.
+2. Read the current MASTER PLAN.
+3. Read the current GLOSSARY.
+4. Read START_HERE when present.
+5. Reconcile the latest router evidence against the Capability Registry.
+6. Check relevant implementation/evidence files before proposing a duplicate function.
+7. Establish the evidence level of each capability relevant to the next action: IMPLEMENTED IN REPOSITORY / DEPLOYED TO ROUTER / ACTIVE AT RUNTIME / VALIDATED.
+
+### Runtime-vs-repository rule
+A repository/package record is historical/project evidence. It is not proof that a binary, process, service, interface or capability is currently available on the router. When current router evidence conflicts with the repository, record the conflict in MASTER PLAN and use the latest verified router result as the working fact.
+
+### Diagnostic classification rule
+A command rejected because of BusyBox/tool syntax, missing utility, or an invalid probe protocol must be classified as TOOL/SYNTAX BLOCKED or NON-DIAGNOSTIC. It must not be recorded as a network/service failure.
+
+### Exhausted-branch rule
+When a controlled diagnostic branch has already produced the same failure under a meaningful A/B comparison, do not continue enumerating equivalent variants merely to generate more tests. Require a new hypothesis, a new evidence gap, or a different transport/architecture gate.
+
+### Synchronization order
+User result → classify result → update MASTER PLAN → update GLOSSARY when a stable command/term/capability interpretation changed → only then issue the next router command.
+
+### Duplicate-prevention scope
+The capability check applies to packages, services, DNS instances, VPN interfaces, nftables/NFQUEUE paths, watchdogs, routing rules, monitoring systems, diagnostic utilities, and temporary test infrastructure.
