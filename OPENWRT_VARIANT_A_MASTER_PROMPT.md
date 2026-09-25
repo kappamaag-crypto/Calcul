@@ -1104,3 +1104,64 @@ User result → classify result → update MASTER PLAN → update GLOSSARY when 
 
 ### Duplicate-prevention scope
 The capability check applies to packages, services, DNS instances, VPN interfaces, nftables/NFQUEUE paths, watchdogs, routing rules, monitoring systems, diagnostic utilities, and temporary test infrastructure.
+
+
+---
+
+## MANDATORY PROJECT PREFLIGHT — 2026-09-25 AMENDMENT
+
+This section is a hard rule and takes precedence over convenience or assumptions.
+
+### Before ANY technical action
+Every new AI/session MUST:
+1. Open/read `OPENWRT_VARIANT_A_START_HERE.md`.
+2. Open/read `OPENWRT_VARIANT_A_MASTER_PROMPT.md`.
+3. Open/read the latest `OPENWRT_VARIANT_A_MASTER_PLAN.md`, especially the newest synchronization checkpoint.
+4. Open/read `OPENWRT_VARIANT_A_GLOSSARY.md`.
+5. Determine the current stage and the current capability state before giving a command.
+6. Explicitly audit whether the requested function is already **planned, available for build, installed, configured, runtime-verified, blocked, disabled, removed, or failed**.
+7. Never infer runtime implementation from a package manifest, source file, GitHub artifact, or old chat result.
+8. Prefer the newest verified runtime evidence over older historical notes when they conflict.
+9. If the documents and runtime disagree, stop and reconcile the discrepancy before making a configuration change.
+10. After the user's command result, synchronize the master plan before moving to a new technical action.
+
+### Definition of implementation
+For this project:
+- **AVAILABLE_FOR_BUILD** = verified in ImageBuilder/feed/build environment only.
+- **INSTALLED** = package/file is actually present on the running router.
+- **CONFIGURED** = intended configuration exists on the running router.
+- **RUNTIME_VERIFIED** = configuration/function was tested successfully on the running router.
+- **PLANNED** = desired but not yet implemented.
+- **BLOCKED** = intentionally waiting for a prerequisite.
+- **DISABLED** = installed/configured but intentionally inactive.
+- **FAILED** = attempted and failed, with failure recorded.
+- Repository files are evidence/reference, not runtime state.
+
+### Mandatory capability audit
+Before proposing installation, replacement, reconfiguration, or testing of a feature, inspect the plan/glossary for:
+- current implementation state;
+- previous successful tests;
+- existing files/services;
+- known failures;
+- memory/storage impact;
+- whether the feature was deliberately disabled;
+- whether an equivalent function already exists.
+
+### USB-specific correction
+The current project state is NOT the old extroot layout described in historical sections. The currently verified USB is:
+- `/dev/sda1`: 64 MiB Linux swap, initialized and active.
+- `/dev/sda2`: remaining ~3.7 GiB, partitioned but NOT formatted.
+The current firmware lacks `mkfs.ext4`/e2fsprogs, so ext4 creation is blocked until the firmware/package situation is reconciled.
+
+Do not use Windows/WSL/usbipd as the primary USB workflow unless a future test specifically requires it. The authoritative device is the USB disk directly observed by OpenWrt.
+
+### ImageBuilder/runtime distinction
+A package verified in the ImageBuilder candidate is not equivalent to a package installed in the running router. Every future status update must preserve this distinction.
+
+### Documentation synchronization invariant
+After each user result and before the next substantive technical action:
+- update the master plan with the factual result;
+- update the prompt only when a rule/architecture/workflow has changed;
+- update the glossary when a new term, command, capability state, or correction is introduced;
+- keep START_HERE aligned with the mandatory reading order.
+
