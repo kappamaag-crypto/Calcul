@@ -2003,3 +2003,12 @@ Type: CURRENT / DIAGNOSTIC / POLICY
 - Gate 4 remains IN_PROGRESS. No default route or other network-path change was made.
 
 Type: CURRENT / DIAGNOSTIC / EXPERIMENTAL
+
+
+## 98. Proton-AWG Variant 2 input correction — 2026-09-25
+- User-supplied Variant 2 contains numeric I1-I5 values (1..5).
+- Official amneziawg-tools represents I1-I5 as tagged-junk strings; numeric values are therefore not accepted as a meaningful documented I1-I5 profile. Do not apply them as-is.
+- Variant 2 numeric fields Jc/Jmin/Jmax/S1-S4 are valid parameter types and may be tested as an explicitly unverified experiment.
+- This does not establish compatibility with Proton's standard generated WireGuard profile.
+
+Type: CURRENT / DIAGNOSTIC / POLICY
