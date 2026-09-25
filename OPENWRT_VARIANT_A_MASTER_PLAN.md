@@ -875,3 +875,14 @@
 - [SAFETY] Read-only check only. No AWG interface/config/peer/key/route/firewall/DNS/Zapret2/watchdog changes.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages = DONE; kernel module = DONE; AWG userspace/netifd handler = DONE; interface/peer/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Inspect the installed AWG netifd protocol handler to determine its supported UCI options before writing the network configuration. Do not import a Proton config yet.
+
+
+## STAGE 14 — AWG netifd handler inspection (part 1) — 2026-09-25
+- [USER RESULT] Read-only inspection of `/lib/netifd/proto/amneziawg.sh` showed `AWG=/usr/bin/awg` and a dedicated `proto_amneziawg` handler.
+- [RESULT] The handler explicitly registers AWG UCI options including `private_key`, `listen_port`, `mtu`, `fwmark`, `awg_jc`, `awg_jmin`, `awg_jmax`, `awg_s1..s4`, `awg_h1..h4`, `awg_i1..i5`, `awg_header_protection_key`, `awg_content_padding_addition`, `awg_rekey_after_time`, `awg_rekey_timeout`, `awg_reject_after_time`, `awg_keepalive_timeout`, `awg_max_handshake_attempts`, `awg_random_trailers`, and `awg_disable_cookies`.
+- [RESULT] The handler also checks for `/sys/module/amneziawg` and can invoke `modprobe amneziawg` if the module is not loaded.
+- [INTERPRETATION] This confirms the installed AWG 3.1 netifd integration is designed for the loaded kernel module and exposes the expected AWG-specific UCI parameters. The supplied output stopped inside `proto_amneziawg_setup`, so the remainder of the setup logic still needs inspection before writing `/etc/config/network`.
+- [WEB VERIFICATION] Official OpenWrt netifd documentation states that protocol handlers in `/lib/netifd/proto/` define accepted UCI parameters and setup behavior; the current netifd source exposes `proto_config_add_*` for those parameters. citeturn0search0turn0search2
+- [SAFETY] Read-only inspection only. No UCI/network/interface/route/firewall/DNS/Zapret2/watchdog changes.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG package/kernel/userspace = DONE; netifd handler inspection = IN_PROGRESS; AWG interface/peer/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Inspect the remainder of the installed handler, especially how it invokes `awg`, creates the device, handles routes, and registers the protocol. Do not edit `/etc/config/network` yet.
