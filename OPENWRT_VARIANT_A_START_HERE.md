@@ -48,3 +48,14 @@
 Google DoH instance 127.0.0.1:5054 удалён из UCI по решению пользователя; Cloudflare 127.0.0.1:5053 оставлен. https-dns-proxy успешно перезапущен. Проверка фактического post-restart runtime ещё ожидается.
 
 Текущий проектный gate не меняется: STAGE 14 / Proton-AWG Gate 3 остаётся IN_PROGRESS. После завершения DoH post-restart validation следующий проектный шаг — изолированная UCI AWG-секция proton-awg-test без запуска и без default route.
+## HANDOFF UPDATE — 2026-09-25 — latest diagnostic branch
+
+The latest chat evidence is synchronized into MASTER PLAN and GLOSSARY:
+- Proton OpenVPN TCP/443 direct and isolated multisplit/fakedsplit tests did not establish a control channel; do not treat either desync variant as a fix.
+- proton.auth metadata is structurally ordinary; secrets are not stored in project docs.
+- A plaintext HTTP probe to TCP/443 was non-diagnostic.
+- The router's current BusyBox wget does not support -S.
+- The router currently reports no openssl executable, which conflicts with an older package-install record; reconcile only if the tool is actually needed.
+- No temporary qnum 65301 process or nft rule remains.
+
+Future AI must classify tool/syntax failures separately from network/service failures and must not reopen exhausted desync testing without a new hypothesis.
