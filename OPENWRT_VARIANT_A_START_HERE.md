@@ -118,3 +118,16 @@ Older parallel notes (including pending DoH validation and historical OpenVPN/US
 
 **Рекомендуемая команда пользователя:** «Продолжай.»
 **Максимально однозначная:** «Продолжай строго по MASTER PLAN с текущей точки. Один шаг.»
+
+## AUTHORITATIVE HANDOFF CORRECTION — STAGE 14 / PROTON-AWG GATE 3 — 2026-09-25 20:58 GMT
+
+The older handoff text saying that proton_awg_test had not yet been created is stale. Fresh router evidence proves that the isolated proton_awg_test interface exists and is active for the Gate 3 experiment.
+
+Current authoritative state:
+- proton_awg_test = UP/LOWER_UP, endpoint 194.180.33.20:51820, no received bytes, no observed handshake.
+- Endpoint route = via 192.168.0.1 dev phy0-sta0 src 192.168.0.100.
+- Dedicated Zapret2 QNUM 65300 = active under PID 3205; packet-id advanced with AWG TX during the big test; queue depth/drops remained 0.
+- Bounded WAN capture saw outbound UDP/51820 only and no inbound endpoint response.
+- STAGE 14 / Proton-AWG Gate 3 = IN_PROGRESS.
+- Default route remains unchanged; no VPN activation or bypass claim.
+- The next action must be selected from a new hypothesis; do not repeat equivalent Gate 3 captures.
