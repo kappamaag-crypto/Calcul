@@ -1896,3 +1896,49 @@ If current router evidence conflicts with a repository record, the latest verifi
 
 **Runtime truth rule** — when documentation, build manifests, source trees and runtime output disagree, current verified runtime evidence wins until the discrepancy is explicitly reconciled.
 
+
+## 89. Repository-wide AI capability preflight — mandatory — 2026-09-25
+
+Before every technical project turn, future AI must read, in order: OPENWRT_VARIANT_A_START_HERE.md → OPENWRT_VARIANT_A_MASTER_PROMPT.md → OPENWRT_VARIANT_A_MASTER_PLAN.md → OPENWRT_VARIANT_A_GLOSSARY.md. It must then inventory the full repository root and inspect the complete relevant implementation/evidence files before proposing a change.
+
+The purpose is specifically to prevent loss of already implemented router functions and duplicate installation/configuration. A new AI must not assume that a feature is absent merely because it is not visible in the current chat.
+
+Type: POLICY
+
+## 90. Authoritative current AWG/Proton checkpoint — 2026-09-25
+
+- STAGE 14 = IN_PROGRESS.
+- Zapret2 WireGuard runtime audit = DONE.
+- Current Proton profile structure audit = DONE.
+- Endpoint host-route protection = DONE.
+- No AWG interface or proto=amneziawg UCI section exists yet.
+- AWG kernel module/userspace are installed; kernel module is loaded; netifd handler is present/inspected.
+- Active dedicated Zapret2 WireGuard daemon: QNUM 65300 with WireGuard initiation/response/cookie payload selectors and fake repeats=2.
+- Next exact action: create isolated UCI section proton-awg-test, do not start it, do not create a default route, and keep the endpoint route through phy0-sta0.
+- The current experiment is hypothesis-testing, not a guaranteed bypass claim.
+
+Type: CURRENT STATE / CAPABILITY REGISTRY
+
+## 91. Capability evidence ladder — expanded
+
+Use these states explicitly when auditing existing functionality:
+- IMPLEMENTED IN REPOSITORY
+- AVAILABLE_FOR_BUILD
+- INSTALLED / DEPLOYED TO ROUTER
+- CONFIGURED
+- ACTIVE AT RUNTIME / RUNTIME_VERIFIED
+- VALIDATED
+- DISABLED
+- PLANNED
+- BLOCKED
+- FAILED
+
+Never promote a lower evidence level to a higher one by inference.
+
+Type: POLICY
+
+## 92. Parallel-chat reconciliation rule
+
+The project may contain information collected from several chats. Historical branches remain useful evidence, but they do not automatically define the next action. The latest authoritative checkpoint in MASTER PLAN plus newer verified router output controls the current branch. Conflicting branch notes must be marked historical/stale and must not silently replace the active checkpoint.
+
+Type: POLICY
