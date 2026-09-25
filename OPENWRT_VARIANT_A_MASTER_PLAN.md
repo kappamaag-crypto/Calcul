@@ -1691,3 +1691,12 @@ Type: AUTHORITATIVE STATE / POLICY
 - [TECHNICAL] Official amneziawg-tools documents I1-I5 as tagged-junk strings, so the supplied numeric I1-I5=1..5 are not applied. Official source confirms the syntax. 
 - [STATUS] Gate 4.3 parameter application = DONE; handshake remains NOT_VALIDATED.
 - [NEXT] Perform one bounded 20-second read-only handshake observation; no route, service, Zapret2, or persistent configuration changes.
+
+
+## STAGE 14 — Proton-AWG Gate 4.3 — Variant 2 handshake observation — 2026-09-25
+- [TEST] Bounded 20-second read-only observation after applying Variant 2 numeric parameters: Jc=5, Jmin=50, Jmax=100, S1=45, S2=112, S3=78, S4=93.
+- [RESULT] Before: RX=0 B; TX=322.12 KiB. After 20 s: RX=0 B; TX=323.75 KiB. No latest handshake was reported.
+- [INTERPRETATION] No inbound traffic or handshake appeared during this observation. Variant 2 numeric parameter group is NOT VALIDATED for the Proton-AWG tunnel.
+- [STATUS] Gate 4 remains IN_PROGRESS; handshake remains NOT VALIDATED / FAILED for the observed acceptance condition.
+- [SAFETY] No route, Zapret2 service/rules, persistent configuration, or default route was changed by this observation. The runtime AWG parameters remain experimental.
+- [NEXT] Do not repeat the same 20-second observation. The next diagnostic must target a new hypothesis/evidence gap; no blind enumeration of further AWG parameter values.
