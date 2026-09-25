@@ -2123,3 +2123,11 @@ Dropbear all-address listener — current Dropbear runtime listens on 0.0.0.0:22
 Archer-side management access — desired capability in which a client connected to the Archer Wi-Fi can reach hAP/OpenWrt management through 192.168.0.100 without a LAN cable. This remains NOT VALIDATED / INCOMPLETE until tested from an Archer-side client.
 
 WAN-side management safety rule — do not broaden WAN input or add a second SSH rule until the exact existing Allow-SSH-from-TPLink match conditions are inspected.
+
+
+---
+## 2026-09-26 — SSH firewall rule verification
+
+**Allow-SSH-from-TPLink verified** — existing firewall rule permits TCP/22 to the hAP from source network 192.168.0.0/24 only. This is a narrow explicit WAN-zone exception and is not equivalent to broad WAN management access.
+
+**End-to-end Archer-side SSH access** — remains NOT VALIDATED until a client connected to Archer Wi-Fi successfully reaches 192.168.0.100:22.
