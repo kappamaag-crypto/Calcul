@@ -919,3 +919,13 @@
 - [WEB VERIFICATION] Official OpenWrt documentation confirms VPN interface configuration is represented by interface and peer sections and that private keys should remain on the local peer. citeturn0search0turn0search5
 - [STATUS] STAGE 14 = IN_PROGRESS. Profile location identified; exact profile structure = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Inspect only the option/section names of `/tmp/proton-native.conf`, with all values redacted, before deciding whether it is an AWG profile.
+
+
+## STAGE 14 — Reassessment: Proton Free WG + Zapret2 UDP/WireGuard path — 2026-09-25
+- [USER INPUT] Proposed path is to use the valid Proton Free standard WireGuard profile through the already-installed AmneziaWG interface with AWG-specific parameters set to zero, then test Zapret2 UDP desync against the Proton WireGuard endpoint.
+- [TECHNICAL VERIFICATION] Current zapret2 upstream documentation/code confirms nfqws/nfqws2 supports UDP filtering and WireGuard payload classification in current development/community configurations. This makes a controlled WireGuard-over-Zapret2 experiment technically plausible, but does not establish that the specific Proton endpoint or ISP path will work.
+- [IMPORTANT CORRECTION] The upstream zapret documentation explicitly warns that `badsum` can fail across NAT when invalid checksums are dropped; it notes OpenWrt normally sets conntrack checksum verification to 0, while an additional ISP NAT may still discard invalid packets. Therefore `badsum` is not a guaranteed method.
+- [CURRENT CONFIG CONSTRAINT] Our deployed Zapret2 configuration is a custom, already-working `MODE_FILTER=autohostlist` setup with UDP 443 capture for QUIC. It does not yet establish a dedicated WireGuard UDP filter/strategy. We must not overwrite the working configuration or restart Zapret2 merely to test a speculative strategy.
+- [SAFETY DECISION] Ordinary WireGuard remains excluded as a standalone solution because it was previously tested; however, a narrowly scoped experiment combining the existing AWG kernel interface (WireGuard-compatible parameters) with a separate, reversible Zapret2 WireGuard UDP rule may be evaluated. No network/config change made in this step.
+- [NEXT GATE] Read-only inspect the currently installed Zapret2 config for existing UDP/WireGuard-related options and the active service configuration. Do not print private keys or modify `/etc/config/network`, `/opt/zapret2/config`, nftables, routes, or DNS.
+- [STATUS] STAGE 14 = IN_PROGRESS; AWG interface = NOT_STARTED; Proton handshake = NOT_STARTED; Zapret2 WG-specific UDP strategy = NOT_STARTED.
