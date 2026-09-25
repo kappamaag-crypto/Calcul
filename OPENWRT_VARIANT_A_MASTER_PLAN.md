@@ -1266,3 +1266,43 @@ The following capabilities are already implemented or materially established and
 - [POLICY] Before proposing any new package, service, daemon, script, firewall rule, routing mechanism, DNS mechanism, VPN, monitoring system, or diagnostic tool, the AI must explicitly cross-check the Capability Registry and the IMPLEMENTED/DEPLOYED/ACTIVE/VALIDATED evidence levels.
 - [POLICY] If the chat contains a newer verified router result than the repository, the AI must synchronize the repository before issuing the next router-changing command.
 - [POLICY] If the repository and chat disagree, the AI must not silently choose a side: record the conflict, identify the latest verified evidence, and update the documents before continuing.
+## DOCUMENTATION SYNC — 2026-09-25 — latest Proton/OpenVPN diagnostic branch
+
+### 1. Latest verified user results incorporated
+- [RESULT] proton.auth read-only metadata: username length=16; password length=32; no colon; no +f1, +f2 or +nr suffix. Secret contents were not exposed.
+- [RESULT] /tmp/proton-us-443.ovpn contains proto tcp, auth-user-pass without a credential filename, and a single remote 84.20.27.33 443. Isolated CLI tests therefore require an explicit --auth-user-pass /etc/openvpn/proton.auth override; the credential file was not modified.
+- [RESULT] Live fakedsplit:pos=2 isolated A/B test on temporary NFQUEUE 65301: TCP connection to 84.20.27.33:443 established, then Server poll timeout; NFQUEUE showed last_packet_id=8 with no queue drops. fakedsplit is FAILED as an OpenVPN control-channel fix.
+- [RESULT] Earlier isolated multisplit:pos=2 test was FAILED and is not to be repeated without a new hypothesis.
+- [RESULT] Plaintext HTTP sent with nc to TCP/443 returned 0 bytes. This is NON-DIAGNOSTIC because TCP/443 expects TLS; no endpoint conclusion was drawn.
+- [RESULT] BusyBox nc on this router supports only nc [IPADDR PORT]; the first option-rich syntax was rejected. A compatible nc test later executed.
+- [RESULT] command -v openssl returned OPENSSL_NOT_INSTALLED, despite an older repository/glossary entry recording openssl-util as installed. This is a repository-vs-runtime discrepancy; do not reinstall solely from the old entry.
+- [RESULT] BusyBox wget on this router does not support -S; the attempted TLS probe did not execute. Do not interpret it as a network/TLS result.
+- [RESULT] No active temporary NFQUEUE 65301 process remained after the failed test; temporary nft rule handle 475 was explicitly deleted.
+- [SAFETY] TP-Link Archer C20 v4 was not modified or restarted during this diagnostic branch.
+
+### 2. Proton/OpenVPN interpretation
+- [INTERPRETATION] Across the direct OpenVPN tests and isolated multisplit/fakedsplit tests, TCP to 84.20.27.33:443 establishes successfully but the OpenVPN control channel receives no response before Server poll timeout.
+- [INTERPRETATION] This branch does not establish Zapret2 as the sole cause; the Zapret2-stopped A/B had already shown the same control-channel timeout.
+- [DECISION] Do not continue blind desync-variant enumeration as a presumed fix. The separately gated AWG experiment remains the Proton Gate 3 path.
+- [STATUS] Proton OpenVPN TCP fallback diagnosis = FAILED for the tested profiles/variants; Proton/AWG Gate 3 = IN_PROGRESS.
+
+### 3. Capability/state reconciliation correction
+- [CORRECTION] Distinguish "diagnostic package recorded as installed" from "binary currently callable on the router". Current evidence for openssl is NOT AVAILABLE AT RUNTIME even though the historical package-install record exists.
+- [RULE] For any capability whose current runtime evidence conflicts with the repository record, use the latest verified router result, record the discrepancy, and do not perform installation/reinstallation until a need is established.
+
+### 4. Current exact stopping point
+- STAGE 14 = IN_PROGRESS.
+- Proton Gate 3 = IN_PROGRESS.
+- Zapret2 watchdog deployment/activation = DONE.
+- Proton Gate 1 = DONE.
+- Proton Gate 2 = DONE.
+- Endpoint host-route protection = DONE.
+- This user turn is documentation/handoff synchronization; it does not authorize a new router-changing command.
+- Existing DoH post-restart validation remains PENDING; after that validation, the controlled Gate 3 AWG section remains the planned next state-changing step.
+
+### 5. Handoff enforcement strengthening
+- [POLICY] Before every technical turn, future AIs must reconcile MASTER PROMPT → MASTER PLAN → GLOSSARY → START_HERE → relevant implementation/evidence files.
+- [POLICY] Maintain a capability ledger: existing capability, evidence level, current runtime status, proposed delta, and reason no duplicate is being created.
+- [POLICY] Repository/package records are historical evidence until the current router exposes the expected command/process/interface when that fact matters.
+- [POLICY] A command rejected because of local syntax/tool limitations is TOOL/SYNTAX BLOCKED or NON-DIAGNOSTIC, never a network/service FAIL.
+- [POLICY] Once a controlled diagnostic branch is exhausted by meaningful A/B tests, do not reopen it without a new hypothesis or evidence gap.
