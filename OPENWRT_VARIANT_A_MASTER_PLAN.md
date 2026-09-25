@@ -1533,3 +1533,14 @@ Type: AUTHORITATIVE STATE / POLICY
 - [LIMITATION] This does not prove that a valid Proton handshake was completed or that a reply packet was received from 194.180.33.20.
 - [STATUS] AWG interface = ACTIVE AT RUNTIME; dedicated NFQUEUE 65300 = RUNTIME_VERIFIED / packet-path activity evidenced; handshake = NOT_VERIFIED; received traffic = 0 B; endpoint route = VERIFIED.
 - [NEXT EXACT STEP] Use one tightly bounded WAN capture for UDP/51820 to the protected Proton endpoint, without configuration changes, to distinguish outbound-only traffic from returned endpoint traffic.
+
+
+## STAGE 14 — Proton endpoint UDP capture — 2026-09-25
+
+- [USER RESULT] Bounded capture on `phy0-sta0`: `tcpdump -ni phy0-sta0 -nn -s 96 -c 10 'host 194.180.33.20 and udp port 51820'`.
+- [RESULT] 10 packets captured, 12 received by filter, 0 dropped by kernel.
+- [RESULT] All displayed packets were outbound from `192.168.0.100:38231` to `194.180.33.20:51820`; no inbound packet from the Proton endpoint was observed in the captured sample.
+- [RESULT] Captured UDP payload lengths included repeated 16-byte packets and 148-byte packets, consistent with repeated outbound tunnel-control/keepalive-or-retry traffic, but packet decoding was intentionally not inferred beyond direction/size.
+- [INTERPRETATION] The AWG interface is generating outbound traffic and the WAN STA path is transmitting it without local capture loss. The missing handshake remains unresolved because no endpoint response is observed in this bounded sample.
+- [STATUS] AWG interface = ACTIVE AT RUNTIME; NFQUEUE 65300 = RUNTIME_VERIFIED; outbound endpoint path = OBSERVED; inbound endpoint response = NOT_OBSERVED; handshake = NOT_VERIFIED; received traffic = 0 B.
+- [NEXT EXACT STEP] Read-only verify that the dedicated QNUM 65300 userspace process (PID associated with the NFQUEUE) is still present and inspect its command line, without restarting or changing Zapret2.
