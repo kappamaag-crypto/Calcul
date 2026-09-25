@@ -1356,3 +1356,9 @@ The 2026-09-26 read-only audit establishes:
 - This does not yet prove that an Archer Wi-Fi client can reach 192.168.0.100:22.
 
 The exact SSH firewall rule parameters must be audited before any change. Do not open additional WAN input, alter Dropbear binding, or install/configure LuCI merely from this evidence.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — SSH RULE PARAMETERS VERIFIED
+
+The existing WAN rule `Allow-SSH-from-TPLink` is confirmed as source `192.168.0.0/24`, TCP destination port 22, target ACCEPT. Treat this as the existing intended Archer-side SSH access path. Do not add a duplicate rule or broaden WAN input. Validate end-to-end reachability from an actual Archer Wi-Fi client before changing anything.
