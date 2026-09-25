@@ -1553,3 +1553,14 @@ Type: AUTHORITATIVE STATE / POLICY
 - [RESULT] Both dedicated/main userspace processes remain alive; no process crash or missing NFQUEUE consumer is indicated.
 - [STATUS] AWG interface = ACTIVE AT RUNTIME; QNUM 65300 consumer = RUNTIME_VERIFIED / alive; outbound endpoint packets = OBSERVED; inbound endpoint response = NOT_OBSERVED; handshake = NOT_VERIFIED; received traffic = 0 B.
 - [NEXT EXACT STEP] Read-only inspect the full command line of PID 3205 to confirm its QNUM 65300 and WireGuard-specific payload/desync parameters, without restarting or modifying Zapret2.
+
+
+## STAGE 14 — QNUM 65300 full command-line verification — 2026-09-25
+
+- [USER RESULT] PID 3205 command line confirms `nfqws2 --qnum=65300`.
+- [RESULT] The dedicated process uses `--payload=wireguard_initiation,wireguard_response,wireguard_cookie` and `--lua-desync=fake:blob=0x00000000000000000000000000000000:repeats=2`.
+- [RESULT] The dedicated WG desync process is therefore not merely present by queue number; its active runtime arguments match the intended `50-wg4all` WireGuard payload path.
+- [INTERPRETATION] Local Zapret2 WG handling is now strongly verified through configuration-independent runtime evidence: nftables rules → NFQUEUE 65300 subscription → live PID 3205 → WG-specific payload/desync arguments.
+- [LIMITATION] This still does not prove Proton endpoint acceptance or a completed handshake. WAN capture showed outbound UDP/51820 only, with no inbound response in the sample.
+- [STATUS] AWG interface = ACTIVE AT RUNTIME; local Zapret2 WG path = RUNTIME_VERIFIED; outbound endpoint traffic = OBSERVED; inbound endpoint response = NOT_OBSERVED; handshake = NOT_VERIFIED; received traffic = 0 B.
+- [NEXT DIAGNOSTIC DIRECTION] Do not modify Zapret2 blindly. The evidence now points away from a missing local QNUM 65300 consumer. The next investigation should distinguish (a) Proton endpoint/key/profile acceptance, (b) endpoint/path reachability beyond the Archer upstream, and (c) whether standard WireGuard initiation is being transformed in a way the Proton endpoint does not accept.
