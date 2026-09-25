@@ -900,3 +900,12 @@
 - [SAFETY] Read-only inspection only. No /etc/config/network edit, AWG interface creation, peer/key import, route/firewall/DNS/Zapret2/watchdog change, or reboot.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG package/kernel/userspace/netifd handler = DONE; AWG interface = NOT_STARTED; peer/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Before creating the first UCI AWG interface, determine the exact Proton/AWG profile format and map only non-secret structural fields to the handler options. Do not paste or expose private credentials in chat or the Master Plan.
+
+
+## STAGE 14 — Next gate: Proton/AWG profile structure — 2026-09-25
+- [DECISION] Continue with native netifd/UCI AWG path; do not create an interface or change routing yet.
+- [REASON] The installed handler is now fully understood, including peer options and route_allowed_ips behavior. The next unknown is the exact structural format of the Proton profile available to the user/router.
+- [SAFETY] We will inspect only filenames/locations first; no credentials, private keys, or endpoint secrets will be printed. No network configuration or service state will change.
+- [STATUS] STAGE 14 = IN_PROGRESS. Handler inspection = DONE; AWG interface = NOT_STARTED; peer/handshake/traffic = NOT_STARTED.
+- [WEB VERIFICATION] Official OpenWrt documentation confirms UCI is the central network configuration mechanism and netifd protocol handlers define monitored protocol parameters. citeturn0search1turn0search8
+- [NEXT STEP] Locate any existing Proton/AWG/WireGuard profile on the router without displaying its contents.
