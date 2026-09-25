@@ -1855,3 +1855,15 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] This does not establish that the endpoint is unreachable: ICMP echo may be filtered by the remote host or an intermediate network. It is consistent with, but does not independently prove, the absence of a UDP/51820 response already observed by tcpdump.
 - [STATUS] Gate 4 remains IN_PROGRESS; handshake NOT_VALIDATED. No configuration, route, or production traffic was changed.
 - [NEXT] Do not tune AWG further. The remaining high-value discriminator is an external-client A/B: test the same freshly generated Proton WireGuard profile from a non-hAP client/network, if available, to determine whether the Proton endpoint/profile itself establishes a handshake. Preserve the isolated no-default-route design on hAP.
+
+
+## STAGE 14 — PROTON/WIREGUARD BRANCH PAUSED BY USER — 2026-09-25
+- [USER DECISION] User explicitly requested to put WireGuard on pause and move the WireGuard branch to the **final project stage**.
+- [DECISION] Stop all further Proton/AWG/WireGuard experimentation, parameter sweeps, handshake tests, endpoint A/B tests, routing changes and activation work until the final stage is reached.
+- [STATUS] Historical STAGE 14 / Proton-AWG Gate 4 remains **IN_PROGRESS** as an unfinished branch; it is **not** promoted to DONE and the tunnel remains NOT VALIDATED.
+- [EXECUTION STATE] The WireGuard/Proton branch is frozen by user decision. This is an execution pause, not a technical FAILED/BLOCKED verdict.
+- [ROUTING SAFETY] Do not create a WireGuard/AWG default route, enable full VPN routing, or alter the production default route because of this branch.
+- [PROJECT ORDER CHANGE] WireGuard is removed from the active execution queue and moved to the **last major implementation/validation stage** after all other planned non-WireGuard work is completed.
+- [DEPENDENCY RULE] WARP/Proton work that requires WireGuard is also deferred with this branch unless a separate non-WireGuard implementation is explicitly selected later.
+- [NEXT EXECUTION POLICY] On continuation, select the highest-priority incomplete **non-WireGuard** stage from MASTER PLAN. Do not resume STAGE 14 merely because it is the historical checkpoint.
+- [RESUME CONDITION] WireGuard/AWG may be reopened only when the project reaches the final WireGuard stage or the user explicitly asks to resume it earlier.
