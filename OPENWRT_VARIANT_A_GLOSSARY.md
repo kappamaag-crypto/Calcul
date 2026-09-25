@@ -1663,3 +1663,88 @@ The qnum=65300 WireGuard-related rules are runtime rules observed during this st
 ## 74. Zapret2 functional baseline — 2026-09-24
 - With Zapret2 active, an HTTPS request to example.com completed within the 5-second timeout and returned HTML from Example Domain.
 - This confirms basic HTTPS connectivity with the current runtime rules; it is not proof of application-specific bypass behavior.
+
+## 75. Mandatory AI repository preflight
+
+Перед любой технической работой по проекту AI обязан прочитать актуальные версии:
+- `OPENWRT_VARIANT_A_MASTER_PROMPT.md` — hard rules, workflow and safety;
+- `OPENWRT_VARIANT_A_MASTER_PLAN.md` — фактическое состояние, история, текущий stage и точка остановки;
+- `OPENWRT_VARIANT_A_GLOSSARY.md` — реестр команд, терминов и уже реализованных возможностей.
+
+После этого, если файл существует, читается `OPENWRT_VARIANT_A_START_HERE.md`, затем только относящиеся к задаче implementation/evidence-файлы из репозитория.
+
+Это обязательный project handoff protocol. Нельзя начинать с router command, не восстановив состояние по этим документам.
+
+Тип: POLICY
+
+## 76. Capability registry
+
+Capability registry — перечень уже реализованных функций роутера, которые AI обязан проверить перед предложением новой установки/настройки.
+
+На 2026-09-25 подтверждены: OpenWrt 25.12.5; Wi-Fi STA uplink через Archer; AP 2.4/5 GHz; USB extroot; USB swap; ZRAM LZO-RLE; persistent `vm.min_free_kbytes=2048`; расширенный CLI diagnostic set; активный Zapret2 v1.0.3; действующий nftables/NFQUEUE runtime; Zapret2 watchdog под procd; подготовленный runtime host-route к Proton endpoint. Xray/sing-box и AWG interface не активированы.
+
+Наличие profile/log/script в GitHub не является доказательством текущей активации на роутере. Для runtime-capability требуется подтвержденный router result.
+
+Тип: POLICY
+
+## 77. Zapret2 watchdog
+
+`OPENWRT_ZAPRET2_WATCHDOG.sh` — легковесный watchdog для hAP ac lite 64 MiB. Он проверяет не только PID `nfqws2`, но и service status, структуру `inet zapret2`, NFQUEUE, baseline HTTPS и целевой функциональный HTTPS probe.
+
+Текущая реализация:
+- `--check` — read-only health check без recovery;
+- `--once` — один цикл проверки с возможной recovery-логикой;
+- `--daemon` — периодический цикл с интервалом 90 секунд;
+- две последовательные structural/functional ошибки перед restart;
+- upstream/DNS failure не запускает Zapret2 restart;
+- minimum `MemAvailable=4096 KiB` для automatic restart;
+- максимум 2 automatic restarts за 900 секунд;
+- cooldown 300 секунд между restart;
+- логирование на `/mnt/data/zapret2-watchdog`;
+- основной лог ограничен 128 KiB;
+- сохраняются до 20 event snapshots;
+- перед restart сохраняются service/process/nftables/memory/swap/sockstat/OOM/log evidence;
+- после restart выполняется post-check PASS/FAIL;
+- watchdog не меняет Zapret2 config и не выполняет continuous tcpdump.
+
+Тип: IMPLEMENTED
+
+## 78. Zapret2 watchdog procd wrapper
+
+`OPENWRT_ZAPRET2_WATCHDOG_INITD.sh` — OpenWrt init/procd wrapper, который запускает watchdog в foreground `--daemon` режиме и предоставляет supervised lifecycle/respawn.
+
+Runtime destination: `/etc/init.d/zapret2-watchdog`.
+Program destination: `/usr/bin/zapret2-watchdog`.
+По состоянию 2026-09-25 watchdog включён в автозапуск, активен под procd и уже записал периодический `HEALTH state=HEALTHY`.
+
+Тип: IMPLEMENTED
+
+## 79. Watchdog false-negative lesson
+
+Первая версия `nft_ok()` слишком строго ожидала строку `tcp dport { 80,443 }`, тогда как установленный nft выводил `tcp dport { 80, 443 }`.
+
+Это вызвало ложный `nft=0` при реально корректном nftables state. Предикат был исправлен на spacing-tolerant regex. Этот случай является проектным правилом: text parsing runtime output должен быть устойчивым к несущественному форматированию.
+
+Тип: HISTORICAL / IMPLEMENTED-FIX
+
+## 80. Current exact stopping point
+
+Текущая точка проекта: STAGE 14, Proton/AWG Gate 3 IN_PROGRESS.
+
+Уже выполнено: Zapret2 watchdog DONE; Zapret2 runtime audit DONE; Proton Gate 1 DONE; Proton Gate 2 DONE; endpoint host route protection DONE.
+
+Следующий точный шаг: создать изолированную UCI AWG-секцию `proton-awg-test`, не запускать её и не создавать default route; сохранить endpoint route через `phy0-sta0`.
+
+Тип: STATE
+
+## 81. Repository evidence versus router runtime
+
+Различать четыре сущности:
+- **IMPLEMENTED IN REPOSITORY** — файл/скрипт уже существует в GitHub;
+- **DEPLOYED TO ROUTER** — подтверждено копированием/установкой на роутер;
+- **ACTIVE AT RUNTIME** — подтверждено процессом/service/runtime check;
+- **VALIDATED** — подтвержден функциональной проверкой.
+
+AI не должен заменять один уровень другим. Например, наличие `OPENWRT_ZAPRET2_WATCHDOG.sh` в GitHub само по себе не означает его запуск; в текущем проекте это отдельно подтверждено router result.
+
+Тип: POLICY
