@@ -1782,3 +1782,11 @@ Type: AUTHORITATIVE STATE / POLICY
 - [INTERPRETATION] The restart did not produce observable inbound traffic or a handshake. The AWG interface can transmit, but the endpoint has not returned a response in the observed state.
 - [STATUS] Gate 4 remains IN_PROGRESS; Proton-AWG handshake NOT_VALIDATED. No default route or production traffic has been enabled.
 - [DECISION] Do not repeat equivalent AWG parameter sweeps. The next higher-value branch is a controlled A/B with a fresh official Proton WireGuard profile/different endpoint, while preserving the isolated/no-default-route architecture.
+
+
+## STAGE 14 — New Proton Free endpoint applied — 2026-09-25
+- [USER RESULT] `awg set proton_awg_test peer ... endpoint 146.70.246.98:51820 persistent-keepalive 25` returned empty output, consistent with successful `awg set` behavior.
+- [CHANGE] Isolated AWG peer endpoint changed from 194.180.33.20:51820 to 146.70.246.98:51820; peer public key changed to the new Proton Free server key; PersistentKeepalive reset to 25.
+- [SAFETY] No private key was entered into chat. No default route was enabled and production routing was not changed.
+- [STATUS] New endpoint A/B test is configured but handshake/RX is not yet validated.
+- [NEXT] Read-only verification of endpoint, transfer and handshake state; no further configuration change yet.
