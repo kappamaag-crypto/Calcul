@@ -59,3 +59,25 @@ The latest chat evidence is synchronized into MASTER PLAN and GLOSSARY:
 - No temporary qnum 65301 process or nft rule remains.
 
 Future AI must classify tool/syntax failures separately from network/service failures and must not reopen exhausted desync testing without a new hypothesis.
+
+
+---
+
+## MANDATORY CAPABILITY PREFLIGHT — 2026-09-25
+
+Before any technical action on Variant A, the AI MUST:
+1. Read `OPENWRT_VARIANT_A_MASTER_PROMPT.md`.
+2. Read the latest/current `OPENWRT_VARIANT_A_MASTER_PLAN.md`.
+3. Read `OPENWRT_VARIANT_A_GLOSSARY.md`.
+4. Audit the latest capability state for already implemented, configured, verified, disabled, failed and blocked functions.
+5. Verify the current router state before relying on historical results.
+6. Treat ImageBuilder/package availability as **AVAILABLE_FOR_BUILD**, not as proof of runtime installation.
+7. After each user result, synchronize the master plan before the next substantive command.
+
+### Current handoff checkpoint — 2026-09-25
+USB is directly connected to the MikroTik and is detected as `/dev/sda` (~3.75 GiB). The new MBR layout is:
+- `/dev/sda1`: 64 MiB Linux swap, initialized and active.
+- `/dev/sda2`: ~3.7 GiB Linux partition, not yet formatted.
+The current running firmware lacks `mkfs.ext4`/e2fsprogs, so ext4 creation is blocked until firmware/package reconciliation.
+
+**Do not assume old extroot, /mnt/data, DoH, PBR, Zapret2, WARP or Proton states are currently active without fresh runtime verification.**
