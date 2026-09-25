@@ -776,3 +776,13 @@
 - [SAFETY] Read-only check only. No module load, reboot, depmod, network/routing/firewall/DNS/Zapret2/watchdog change.
 - [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE; exact module file = DONE; module loaded = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Use `modprobe` in dry-run mode only to see whether it can resolve/load the installed AWG module without actually changing kernel state. Do not run a real module load yet.
+
+
+## STAGE 14 — AWG modprobe dry-run attempt failed — 2026-09-25
+- [USER RESULT] Attempted read-only `modprobe -n -v amneziawg`; BusyBox/OpenWrt `modprobe` rejected `-n` as an unrecognized option and printed supported usage: `modprobe [-q] [-v] filename` and `modprobe -a [-q] [-v] filename [filename...]`.
+- [RESULT] No module was loaded by this failed command.
+- [CORRECTION] The previous proposed dry-run syntax was incompatible with this router's modprobe implementation. Do not repeat it.
+- [WEB VERIFICATION] OpenWrt documentation confirms BusyBox utilities can have reduced option sets and that kernel modules are normally loaded with `insmod`/modprobe rather than through a universal dry-run interface. citeturn0search3turn0search5
+- [SAFETY] No state change from this failed command; no reboot, module load, network/routing/firewall/DNS/Zapret2/watchdog change.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages installed = DONE; module file present = DONE; module loaded = NOT_STARTED; AWG interface/handshake/traffic = NOT_STARTED.
+- [NEXT GATE] Avoid guessing BusyBox modprobe semantics. Perform one read-only capability check for `modinfo`, which can expose module metadata without loading it.
