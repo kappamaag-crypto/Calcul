@@ -1592,3 +1592,12 @@ Type: AUTHORITATIVE STATE / POLICY
 - [CORRELATION] Together with RX=0 and the earlier WAN capture showing outbound UDP/51820 without inbound response, the current evidence is consistent with an absent/blocked/unaccepted server response, but does not identify whether the cause is upstream UDP filtering, Proton profile/key mismatch, or incompatibility introduced by the current WG-specific desync.
 - [STATUS] STAGE 14 = IN_PROGRESS; AWG active = YES; local WG Zapret2 path = RUNTIME_VERIFIED; handshake = NOT_VERIFIED; received traffic = 0 B; usable tunnel = NOT_VERIFIED.
 - [NEXT] Check the dedicated nftables QNUM 65300 rule counters read-only, to confirm that the growing outbound traffic is actually traversing the intended dedicated WG queue rules rather than only reaching the interface through another path.
+
+
+## STAGE 14 — Proton/AWG Gate 3 — nftables QNUM 65300 rule verification — 2026-09-25
+- [RESULT] Read-only `nft -a list table inet zapret2 | grep -E 'queue.*65300|counter packets'` confirmed the three dedicated WireGuard classification rules remain installed at handles 76/75/74 and queue matching is directed to QNUM 65300.
+- [RESULT] Rules match IPv4 UDP lengths 72/100/156 with the expected WireGuard handshake-related magic values and `queue flags bypass to 65300`.
+- [LIMITATION] The command output did not expose packet counters for these rules, so it does not by itself prove that current AWG packets increment those specific rules. Earlier `/proc/net/netfilter/nfnetlink_queue` evidence already showed QNUM 65300 receiving packet IDs, while endpoint capture showed outbound UDP/51820 and no inbound response.
+- [INTERPRETATION] Dedicated QNUM 65300 path is structurally present and active at runtime; Proton handshake remains NOT_VERIFIED and usable tunnel traffic remains NOT_VERIFIED.
+- [NEXT] Do not change Zapret2/AWG configuration yet. Use a bounded runtime correlation test to determine whether a fresh AWG transmission increments the dedicated nft rule counters, if counters are available in the installed nft output.
+- [SAFETY] No configuration, routing, firewall, service, package, DNS, Wi-Fi, or reboot state changed.
