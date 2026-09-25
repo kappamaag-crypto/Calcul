@@ -837,3 +837,12 @@
 - [SAFETY] No interface, tunnel, route, firewall, DNS, Zapret2 or watchdog configuration has been changed. No reboot.
 - [WEB VERIFICATION] OpenWrt documents that kernel modules are loadable runtime components and that `kmod-` packages provide such modules. citeturn0search1turn0search5
 - [NEXT GATE] Before importing/configuring any Proton profile, verify the AWG userspace tool is present and identify the supported interface-management command. No tunnel configuration yet.
+
+
+## STAGE 14 — AmneziaWG userspace tool verification — 2026-09-25
+- [USER RESULT] `command -v wg; wg --version` returned `/usr/bin/wg` and `wireguard-tools v1.0.20260223`.
+- [RESULT] The standard WireGuard userspace tool `wg` is installed and executable. This is also the control utility used to inspect/configure WireGuard-compatible kernel interfaces; the AWG kernel module is already loaded.
+- [INTERPRETATION] The AWG kernel/userspace prerequisites are now present. This does not mean an AWG interface or tunnel exists yet.
+- [SAFETY] Read-only check only; no interface/config/route/firewall/DNS/Zapret2/watchdog changes.
+- [STATUS] STAGE 14 = IN_PROGRESS. AWG packages = DONE; kernel module = DONE; userspace `wg` = DONE; AWG interface = NOT_STARTED; handshake = NOT_STARTED; traffic = NOT_STARTED.
+- [NEXT GATE] Inspect the available `wg` command set/help before creating an interface or importing any Proton profile. Do not expose or repeat private key material.
