@@ -1065,3 +1065,11 @@ Purpose: фиксировать все рассмотренные в чате т
 - [SAFETY] No restart, edit, route/firewall/DNS/UCI change or AWG interface creation was performed.
 - [STATUS] GATE 1 = DONE for runtime activation of the WG custom daemon. GATE 1 overall audit = DONE.
 - [NEXT] Before any controlled AWG/Proton change, use one read-only step to inspect the effective QNUM=65300 command-line options, specifically whether the running daemon has the expected WireGuard payload/fake strategy. No restart/change.
+
+
+### GATE 1 — QNUM=65300 command-line inspection attempt failed — 2026-09-25
+- [RESULT] The proposed shell command failed because `pidof nfqws2` returned both PIDs as a space-separated list, which was assigned to a single variable; the resulting path `/proc/16182 16181/cmdline` is invalid.
+- [FACT] This is only a command-construction error; it provides no new runtime information and caused no state change.
+- [CONFIRMED REMAINS] PID 16182 = QNUM 65300 and PID 16181 = QNUM 300 from the immediately preceding successful read-only test.
+- [SAFETY] No restart, edit, route/firewall/DNS/UCI change or AWG interface creation was performed.
+- [NEXT] Retry with a shell loop that first selects each PID separately, still read-only and compact.
