@@ -1259,3 +1259,7 @@ Preflight выполняется AI внутренне. Пользователю
 **«Продолжай с последнего CHECKPOINT.»**
 
 Эти формулировки не требуют от пользователя повторно описывать состояние роутера, этап или предыдущие команды.
+
+
+## EXECUTION ORDER — 2026-09-25
+User decision: defer the VPN tunnel branch to the final project stage. Until that stage, continuation must skip the frozen tunnel branch and proceed with the highest-priority incomplete non-tunnel stage. Do not perform further tunnel handshake tests, parameter sweeps, endpoint A/B tests, default-route changes, or full VPN routing unless the user explicitly reopens the branch.
