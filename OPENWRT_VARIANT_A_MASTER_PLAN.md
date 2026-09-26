@@ -2272,3 +2272,38 @@ The frozen tunnel branch and this newly paused Xray/sing-box branch must be skip
 - **Do not activate full VPN routing yet:** WARP/VPN remains an architecture investigation stage. No default route, policy routing, full-router VPN, or PBR configuration is created by this checkpoint.
 - **NEXT ACTION:** inspect the exact splify/splify2 implementation and package architecture for the hAP target (MIPS 24Kc / ath79 / mikrotik) before any router-changing command. Prefer a read-only compatibility audit of the relevant upstream source/releases.
 - **STATUS:** WARP candidate = PLANNED / UNDER COMPATIBILITY AUDIT; Zapret-Manager = RESEARCHED / NOT INSTALLED; splify = CANDIDATE / NOT INSTALLED; splify2 = CANDIDATE / NOT INSTALLED; PBR = PLANNED / DEFERRED.
+
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — Proton Free / alternate tunnel architecture options
+
+### New user inputs
+- User reports two separate configuration artifacts associated with the Proton/alternate-VPN work. The first supplied artifact is an Xray-style routing fragment (domain rules/inbound SOCKS), not a native WireGuard peer configuration. The second supplied artifact is a VLESS + REALITY + gRPC Xray profile (server 13.143.66.151:443, REALITY serverName kinopoisk.ru); user states the private key shown elsewhere is not real.
+- User also states that actual Proton VPN configurations are stored in the Calcul repository. Repository search for the literal endpoint supplied in the earlier Proton-AWG experiment did not return a matching file; do not infer a Proton config's contents from snippets or memory. If exact repository files are needed, fetch them by their actual paths before use.
+
+### Decision / planning
+- Proton Free standard WireGuard path — PLANNED / PRIMARY TEST CANDIDATE. Proton officially supports standard WireGuard configurations on OpenWrt and states that Proton Free supports router connections. This path should be tested as ordinary WireGuard first, without AmneziaWG obfuscation, because it is the provider-issued standard profile and is the least-assumption baseline.
+- Proton Free multiple-WireGuard profiles — PLANNED / FALLBACK. If one Proton Free server/profile is unusable from the current upstream path, compare a second provider-issued profile using the same isolated test method. Proton documents that multiple WireGuard tunnels can be deployed when the client/router supports them, with distinct tunnel addresses/DNS values. Do not activate multiple tunnels simultaneously on this 64-MB router until one tunnel is validated.
+- Proton WireGuard + Zapret2 — PLANNED / COMPATIBILITY TEST. Keep the existing Zapret2 stack unchanged and first test whether a standard Proton WireGuard handshake/traffic path works alongside it. No new NFQUEUE rules or desync tuning is authorized merely because the tunnel is tested.
+- Proton WireGuard + AmneziaWG — PLANNED / SECONDARY. Only consider converting/duplicating the Proton profile to AmneziaWG if the standard WireGuard path is demonstrably blocked or unusable and there is concrete provider/profile evidence that obfuscation is appropriate. Do not assume Proton's standard WireGuard profile is an AmneziaWG profile.
+- VLESS + REALITY + gRPC — PAUSED / SECONDARY ALTERNATIVE. The supplied VLESS profile is a proxy architecture, not WireGuard. The existing project already records the Xray/sing-box branch as paused after reproducible transport tests. Do not resume it merely because this profile exists. Reopen only with a new discriminating hypothesis.
+- Xray routing/domain-list artifact — REFERENCE ONLY. The large domain list is useful as evidence of selective-routing intent, but it is not itself a VPN tunnel configuration and must not be installed as a routing policy. PBR remains deferred until a tunnel is validated.
+- WARP — PLANNED / SEPARATE OPTION. WARP remains a separate final-stage candidate. Do not combine WARP, Proton WireGuard and VLESS into one experiment.
+
+### Proposed option matrix
+1. A — Proton standard WireGuard isolated test: create a non-default-route proton_wg_test; verify handshake and RX; test endpoint reachability; then bounded external-IP/application test. No PBR/default route.
+2. B — Second Proton standard WireGuard profile: same isolated gate if A fails, changing only the provider-issued server/profile.
+3. C — Proton standard WireGuard + existing Zapret2: after A/B establishes a working tunnel, evaluate coexistence with current Zapret2 without changing Zapret2 rules first.
+4. D — Proton profile via AmneziaWG: only after standard WireGuard failure is attributed to path/DPI and a concrete obfuscation hypothesis exists.
+5. E — VLESS + REALITY: keep paused; reopen only as a separate proxy branch with a new hypothesis.
+6. F — Cloudflare WARP via WireGuard: separate candidate, not mixed with Proton tests; evaluate after the Proton baseline or if explicitly selected.
+
+### Safety / sequencing gates
+- No default route, full-router VPN, PBR, firewall broadening, DNS replacement, or policy-routing changes during the first tunnel gate.
+- Preserve proton_awg_test as historical/paused unless explicitly reopened; do not reuse it for the standard-WireGuard experiment without an explicit state transition.
+- Never paste private keys, preshared keys, access tokens or other secrets into chat or documentation. Provider configs should be referenced by path/name and inspected locally with secrets redacted.
+- The router has ~55 MiB RAM; avoid running multiple proxy/VPN stacks simultaneously. The recently removed splify component is DONE/REMOVED and must not be reintroduced merely to obtain WARP.
+
+### Status
+- VPN tunnel branch remains PAUSED by default. This section records candidate architectures and gates; it does not authorize execution.
+- Next execution, if user explicitly reopens the branch: start with Option A, Proton standard WireGuard isolated test, using the exact provider-issued config from Calcul or the user's local Proton config, with secrets redacted.
+
+Type: CURRENT / PLANNED / POLICY
