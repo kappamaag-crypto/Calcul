@@ -1410,3 +1410,42 @@ At the final stage, use current official OpenWrt PBR documentation as the techni
 - **USER-SUPPLIED PROFILES:** Two standard Proton WireGuard profiles are available for later A/B testing (US-FREE#130 and RO-FREE#23). Private keys are secret material and must never be recorded or repeated.
 - **STAGE STATUS:** Native Proton standard WireGuard preparation = **IN_PROGRESS**; actual tunnel creation/handshake test has not been performed in this step.
 
+
+---
+## 2026-09-26 — PROTON / AMNEZIAWG 3.1 CONTINUITY RECORD — MANDATORY
+
+User clarified that ordinary WireGuard is considered blocked/unusable in the intended Russia path. Therefore native Proton WireGuard is only a baseline/control, while the main experimental tunnel hypothesis is AmneziaWG 3.1 client on OpenWrt to a Proton standard WireGuard endpoint.
+
+The user's supplied Habr/NTC/Amnezia/GL.iNet material is an external community hypothesis. It may justify investigation but must not be presented as official Proton support.
+
+Do not conflate standard WireGuard, old AWG 1.x/2.x recipes, AWG 3.1, VLESS/REALITY and WARP.
+
+Router capability confirmed by read-only audits on 2026-09-26:
+- amneziawg-tools 3.1.20260812-r1 installed.
+- kmod-amneziawg 6.12.94.3.1.20260906-r1 installed and loaded.
+- wireguard-tools and kmod-wireguard installed.
+- netifd amneziawg protocol supports Jc/Jmin/Jmax, S1-S4, H1-H4, I1-I5, HeaderProtectionKey, ContentPaddingAddition, rekey controls, RandomTrailers and DisableCookies.
+- awg CLI help exposes the same modern option families.
+- proton_awg_test remains auto=0 and PAUSED.
+
+Historical proton_awg_test experiments against US-FREE#130 produced no handshake/RX with two J/S parameter variants. Earlier numeric I1-I5 material was not validated because its syntax did not match documented tagged-junk form. These are negative historical observations, not proof that every Proton+AWG architecture fails.
+
+Two user-supplied standard Proton profiles remain candidates:
+- US-FREE#130 / 194.180.33.20:51820 / 10.2.0.2/32 / DNS 10.2.0.1.
+- RO-FREE#23 / 146.70.246.98:51820 / 10.2.0.2/32 / DNS 10.2.0.1.
+Never reproduce their private keys.
+
+If the user explicitly reopens the tunnel branch:
+1. Determine the exact AWG 3.1 mechanism intended for a standard WG endpoint.
+2. Create a separate isolated test interface; preserve proton_awg_test.
+3. Keep auto=0 until validation.
+4. No default route.
+5. No full-router routing or PBR.
+6. No broad firewall or DNS changes.
+7. No simultaneous WARP/Xray/sing-box/VPN stack.
+8. Verify handshake/RX before application traffic.
+9. Change one meaningful variable at a time.
+10. Stop when tests cease to discriminate the hypothesis.
+11. Never expose secrets.
+
+Future AIs MUST read the latest authoritative MASTER PLAN and GLOSSARY before acting. Historical records are retained to prevent repeating failed experiments.
