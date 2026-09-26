@@ -2169,3 +2169,12 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [SECURITY] The supplied profile contains a live VLESS credential/identifier. Do not reproduce it in chat or repository. If this profile is shared publicly or with untrusted parties, the credential should be rotated/revoked at the provider.
 - [STATUS] VLESS+REALITY endpoint parameters = **SUPPLIED / NOT YET RUNTIME VERIFIED**.
 - [NEXT GATE] Build a minimal temporary sing-box 1.13.21 client configuration from the supplied parameters, validate it with `sing-box check`, and test the proxy before adding router-wide TUN/auto-redirect or the large routing list.
+
+---
+## 2026-09-26 — Minimal sing-box VLESS + REALITY test configuration preparation
+
+- [WEB CHECK] Current sing-box documentation confirms VLESS outbound fields and V2Ray gRPC transport support; TLS REALITY client requires public_key and short_id.
+- [DESIGN] Use a minimal localhost SOCKS inbound and one VLESS+REALITY+gRPC outbound only. Do not import the large Xray routing list, DNS-over-HTTPS configuration, TUN/auto-redirect, or router-wide interception yet.
+- [SECURITY] The VLESS UUID is treated as a credential and will be entered interactively on the router rather than embedded in the command shown to the user or committed to GitHub.
+- [STATUS] Minimal test config preparation = IN_PROGRESS.
+- [NEXT ACTION] Create /tmp/sing-box-vless-test.json and run sing-box check; no service start or routing changes.
