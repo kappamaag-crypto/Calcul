@@ -2157,3 +2157,15 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [STATUS] Package installation did not consume significant persistent storage relative to available extroot capacity; RAM headroom remains limited.
 - [STATUS] sing-box runtime is **NOT STARTED / NOT CONFIGURED**. No tunnel, routing, DNS, firewall, or Zapret2 changes have been made.
 - [NEXT GATE] Before creating any VLESS/REALITY configuration, select/verify a server-side VLESS+REALITY endpoint and define the minimum client parameters required. Do not invent endpoint credentials or private keys.
+
+
+---
+## 2026-09-26 — VLESS + REALITY endpoint supplied for sing-box evaluation
+
+- [USER INPUT] User supplied an Xray-style client profile from `cloud.chocolatewaffle.net`.
+- The profile describes a VLESS outbound over **gRPC + REALITY** to a server at `13.143.66.151:443`, with a VLESS UUID, REALITY public key, short ID, server name `kinopoisk.ru`, and Firefox uTLS fingerprint. Sensitive credential values are intentionally not copied into project documentation.
+- The profile also contains a large direct-routing list for Russian/related domains and IPs, plus localhost SOCKS/HTTP inbounds. It is treated as **user-supplied configuration**, not as independently verified server availability.
+- [COMPATIBILITY NOTE] This is an Xray-style JSON schema, not a drop-in sing-box 1.13.21 configuration. sing-box uses its own VLESS outbound fields and V2Ray gRPC transport structure; the profile must be translated and validated before runtime use. Official sing-box documentation confirms VLESS outbound support and gRPC V2Ray transport. 
+- [SECURITY] The supplied profile contains a live VLESS credential/identifier. Do not reproduce it in chat or repository. If this profile is shared publicly or with untrusted parties, the credential should be rotated/revoked at the provider.
+- [STATUS] VLESS+REALITY endpoint parameters = **SUPPLIED / NOT YET RUNTIME VERIFIED**.
+- [NEXT GATE] Build a minimal temporary sing-box 1.13.21 client configuration from the supplied parameters, validate it with `sing-box check`, and test the proxy before adding router-wide TUN/auto-redirect or the large routing list.
