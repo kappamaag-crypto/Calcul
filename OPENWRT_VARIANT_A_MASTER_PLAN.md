@@ -2071,3 +2071,16 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [STATUS] No sing-box package was installed; no router configuration/runtime state changed.
 - [NEXT GATE] Before installation, perform a minimal read-only resource baseline on the router (RAM + overlay free space) and confirm current package installation state if needed. Installation must remain a deliberate state-changing step because the package consumes ~33 MiB of overlay storage and adds `kmod-tun`/other dependencies.
 - [OVERRIDE] Do not resume Proton/AWG branch; it remains PAUSED by user.
+
+
+---
+## 2026-09-26 — sing-box-tiny resource baseline
+
+- [USER RESULT] Read-only resource check:
+  - RAM total 54852 KiB (~53.6 MiB), used 36440 KiB, free 8680 KiB, available 11908 KiB (~11.6 MiB).
+  - Swap total 550904 KiB (~538 MiB), used 6040 KiB (~5.9 MiB), free 544864 KiB.
+  - Root overlay: 6.6G total, 31.9M used, 6.2G available, 1% used.
+  - `apk info -e sing-box sing-box-tiny` returned no output: neither package is installed.
+- [INTERPRETATION] Storage capacity is ample for the 33 MiB installed-size sing-box-tiny package. RAM headroom is limited on this 64 MiB router, so installation/runtime resource impact remains a first-class acceptance criterion.
+- [STATUS] Resource baseline = **DONE**; sing-box installation = **NOT_STARTED**.
+- [NEXT GATE] Read-only package download-size/metadata check before any installation. No package state or router configuration was changed by this audit.
