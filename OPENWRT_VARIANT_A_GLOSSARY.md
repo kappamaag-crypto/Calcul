@@ -2167,3 +2167,19 @@ WAN-side management safety rule — do not broaden WAN input or add a second SSH
 **WARP integration side-effect rule** — any tool that generates WARP and creates interfaces, UCI peer/network sections, firewall rules, policy-routing rules, cron jobs or service state must be treated as a routing/firewall change and audited before execution.
 
 **Manager isolation rule** — the project must not run a second independent Zapret/Zapret2 controller or blindly allow a manager to overwrite the active Zapret2/watchdog configuration.
+
+## 2026-09-26 — VPN architecture glossary updates
+
+Native WireGuard profile — provider-issued configuration using the standard WireGuard protocol ([Interface] / [Peer] style). This is the baseline for Proton Free testing.
+
+AmneziaWG profile — WireGuard-compatible/extended tunnel using AmneziaWG-specific obfuscation parameters. It must not be assumed equivalent to a standard Proton WireGuard profile.
+
+VLESS + REALITY + gRPC — proxy architecture used by Xray/sing-box; it is not WireGuard and requires a proxy client/configuration rather than a WireGuard interface.
+
+WARP — Cloudflare's VPN/tunnel service; separate from Proton VPN and from VLESS. Treat as an independent candidate architecture.
+
+Isolated VPN test interface — temporary tunnel interface with no default route and no broad LAN policy routing, used only to establish handshake/traffic capability before production routing.
+
+VPN architecture gate — rule that each tunnel family is tested independently. A working handshake is required before PBR/default-route/firewall/DNS integration is considered.
+
+Provider profile A/B test — comparison of two provider-issued VPN profiles while holding the router-side configuration constant, changing only the provider profile/server variable.
