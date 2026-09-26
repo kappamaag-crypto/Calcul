@@ -2307,3 +2307,16 @@ The frozen tunnel branch and this newly paused Xray/sing-box branch must be skip
 - Next execution, if user explicitly reopens the branch: start with Option A, Proton standard WireGuard isolated test, using the exact provider-issued config from Calcul or the user's local Proton config, with secrets redacted.
 
 Type: CURRENT / PLANNED / POLICY
+
+
+## 2026-09-26 — Proton standard WireGuard package/protocol audit
+
+- **TEST RESULT / READ-ONLY:** On the hAP ac lite, `kmod-wireguard` = installed, `wireguard-tools` = installed.
+- **TEST RESULT / READ-ONLY:** `luci-proto-wireguard` is absent/not installed.
+- **UCI RESULT / READ-ONLY:** the only currently declared VPN protocol matching the audit is `network.proton_awg_test.proto='amneziawg'`.
+- **INTERPRETATION:** The kernel/userspace foundation for native WireGuard is present; LuCI's WireGuard protocol helper is not installed. This does **not** prevent a native WireGuard UCI configuration from being created manually.
+- **SAFETY:** No package, UCI, route, firewall, DNS, Zapret2, or interface state was changed by this audit.
+- **CURRENT DECISION:** Do not touch the frozen `proton_awg_test`. The next native Proton WireGuard work remains an isolated test-interface experiment with no default route.
+- **USER-SUPPLIED PROFILES:** Two standard Proton WireGuard profiles are available for later A/B testing (US-FREE#130 and RO-FREE#23). Private keys are secret material and must never be recorded or repeated.
+- **STAGE STATUS:** Native Proton standard WireGuard preparation = **IN_PROGRESS**; actual tunnel creation/handshake test has not been performed in this step.
+
