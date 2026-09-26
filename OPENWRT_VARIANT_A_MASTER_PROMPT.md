@@ -1449,3 +1449,33 @@ If the user explicitly reopens the tunnel branch:
 11. Never expose secrets.
 
 Future AIs MUST read the latest authoritative MASTER PLAN and GLOSSARY before acting. Historical records are retained to prevent repeating failed experiments.
+
+
+---
+
+## MANDATORY ZAPRET2 STRATEGY BRANCH HANDOFF — 2026-09-27
+
+When the task concerns Zapret2 strategy selection, migration or validation, the AI MUST additionally read:
+
+1. ZAPRET2_STRATEGY_MASTER_PLAN.md
+2. ZAPRET2_STRATEGY_MASTER_PROMPT.md
+3. ZAPRET2_WORKING_UNIVERSAL_STRATEGIES_2609.md
+
+Hard rules for this branch:
+- Calcul is project state/evidence storage, not the technical authority for zapret2/OpenWrt semantics.
+- Use official bol-van/zapret2 and OpenWrt/Linux documentation for technical interpretation.
+- Treat blockcheck AVAILABLE results as WORKING_IN_BLOCKCHECK only.
+- Never copy Windows/WinDivert --wf-* interception parameters to OpenWrt.
+- Do not call a profile UNIVERSAL until the complete service/domain matrix and hAP runtime validation support that claim.
+- Preserve the existing Zapret2 + watchdog stack.
+- Before the first runtime strategy change, create and verify a rollback backup.
+- Change one meaningful variable at a time.
+- After every user result, synchronize the relevant master plan before the next router command.
+- Do not resume blind Telegram/WhatsApp desync tuning when evidence indicates a possible IP-level/path-level limitation.
+- Do not change DNS, PBR, VPN, routing or broad firewall policy as a side effect of strategy testing.
+
+Current strategy handoff:
+- ZAPRET2_STRATEGY_MASTER_PLAN.md STAGE S0 = DONE.
+- STAGE S1 four-service/domain matrix = NOT_STARTED.
+- No router configuration change is authorized by the strategy branch before S1.
+
