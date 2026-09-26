@@ -2132,3 +2132,13 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [STATUS] Required dependency `kmod-inet-diag` = **INSTALLED / DEPLOYED TO ROUTER**.
 - [SCOPE] No sing-box configuration, service enablement, tunnel, routing, DNS, firewall, or Zapret2 changes were intentionally made.
 - [NEXT GATE] Perform one read-only post-install verification of package state, binary version, RAM, and overlay storage before any runtime configuration/start.
+
+
+---
+## 2026-09-26 — sing-box package presence verified, version output incomplete
+
+- [USER RESULT] `apk info -e sing-box-tiny` returned `sing-box-tiny`, confirming package database installation.
+- `sing-box version` was invoked but the supplied transcript contains no version output.
+- [STATUS] Package installation remains **INSTALLED / DEPLOYED TO ROUTER** based on the successful `apk add` result and current `apk info -e` evidence.
+- [STATUS] Runtime/binary version verification = **INCOMPLETE**; do not infer the version from the missing output.
+- [NEXT GATE] Continue the same read-only post-install audit with memory/storage only; do not start or configure sing-box.
