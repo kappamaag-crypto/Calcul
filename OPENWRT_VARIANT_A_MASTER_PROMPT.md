@@ -1397,3 +1397,16 @@ At the final stage, use current official OpenWrt PBR documentation as the techni
 - Do not expose or record private keys/PSKs/tokens. Redact secrets in all diagnostics and documentation.
 - If a provider-issued standard WireGuard profile fails, change one variable at a time (for example server/profile), and do not immediately convert it to AmneziaWG or add PBR.
 - Maintain one active VPN architecture experiment at a time on the 64-MB hAP; do not stack splify, WARP, Proton, Xray/sing-box together.
+
+
+## 2026-09-26 — Proton standard WireGuard package/protocol audit
+
+- **TEST RESULT / READ-ONLY:** On the hAP ac lite, `kmod-wireguard` = installed, `wireguard-tools` = installed.
+- **TEST RESULT / READ-ONLY:** `luci-proto-wireguard` is absent/not installed.
+- **UCI RESULT / READ-ONLY:** the only currently declared VPN protocol matching the audit is `network.proton_awg_test.proto='amneziawg'`.
+- **INTERPRETATION:** The kernel/userspace foundation for native WireGuard is present; LuCI's WireGuard protocol helper is not installed. This does **not** prevent a native WireGuard UCI configuration from being created manually.
+- **SAFETY:** No package, UCI, route, firewall, DNS, Zapret2, or interface state was changed by this audit.
+- **CURRENT DECISION:** Do not touch the frozen `proton_awg_test`. The next native Proton WireGuard work remains an isolated test-interface experiment with no default route.
+- **USER-SUPPLIED PROFILES:** Two standard Proton WireGuard profiles are available for later A/B testing (US-FREE#130 and RO-FREE#23). Private keys are secret material and must never be recorded or repeated.
+- **STAGE STATUS:** Native Proton standard WireGuard preparation = **IN_PROGRESS**; actual tunnel creation/handshake test has not been performed in this step.
+
