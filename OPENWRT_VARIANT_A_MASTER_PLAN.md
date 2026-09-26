@@ -2118,3 +2118,17 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [STATUS] Installation = **FAILED / NOT VERIFIED**; no sing-box runtime exists. Do not mark it INSTALLED based on the earlier statement.
 - [PRESERVED] User-reported installation attempt is retained as historical context; newer runtime evidence overrides it.
 - [NEXT GATE] Retry the package installation with the full terminal output captured. No sing-box configuration, service enablement, tunnel, routing, DNS, firewall, or Zapret2 changes.
+
+
+---
+## 2026-09-26 — sing-box-tiny installation completed
+
+- [USER RESULT] `apk add sing-box-tiny` completed successfully:
+  - `kmod-inet-diag 6.12.94-r1` installed.
+  - `sing-box-tiny 1.13.21-r1` installed.
+  - post-install completed `OK`.
+  - APK reports `66.1 MiB in 237 packages`.
+- [STATUS] sing-box-tiny = **INSTALLED / DEPLOYED TO ROUTER**.
+- [STATUS] Required dependency `kmod-inet-diag` = **INSTALLED / DEPLOYED TO ROUTER**.
+- [SCOPE] No sing-box configuration, service enablement, tunnel, routing, DNS, firewall, or Zapret2 changes were intentionally made.
+- [NEXT GATE] Perform one read-only post-install verification of package state, binary version, RAM, and overlay storage before any runtime configuration/start.
