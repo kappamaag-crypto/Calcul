@@ -2095,3 +2095,12 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [STATUS] Package metadata/resource gate = **DONE**. Installation remains **NOT_STARTED**.
 - [SAFETY] With only ~11.9 MiB RAM available at baseline, installing the 33 MiB package should not be treated as automatically safe; the key remaining question is runtime RAM impact and coexistence with active Zapret2.
 - [NEXT GATE] If proceeding, first perform a controlled package installation only after the user explicitly chooses to proceed; installation changes package state and adds the `kmod-tun` dependency. No AWG/Proton resume.
+
+
+---
+## 2026-09-26 — sing-box-tiny installation authorized
+
+- User explicitly requested `Продолжай` after the package/resource gate.
+- Preconditions verified: official package `sing-box-tiny-1.13.21-r1`, installed size 33 MiB, required dependencies known; extroot has ~6.2 GiB free; baseline available RAM ~11.9 MiB; package not installed.
+- [NEXT ACTION] Install `sing-box-tiny` from the configured APK repositories.
+- [SCOPE] This changes package state and installs dependencies, including `kmod-tun`; it does not intentionally modify Zapret2, firewall rules, routing policy, DNS configuration, or tunnel configuration.
