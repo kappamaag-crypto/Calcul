@@ -1,3 +1,13 @@
+# CONTROL DOCUMENTS — 2026-09-27
+
+Для переноса стратегий на OpenWrt использовать:
+- ZAPRET2_STRATEGY_MASTER_PLAN.md — план, stages, evidence rules и exact stopping point.
+- ZAPRET2_STRATEGY_MASTER_PROMPT.md — обязательные правила для AI при Strategy Work.
+
+Этот файл является evidence-сводкой blockcheck2609_FULL.log. Он НЕ заменяет два мастер-документа и НЕ является доказательством runtime-валидации на hAP.
+
+---
+
 # ZAPRET2 — WORKING / UNIVERSAL STRATEGIES 2609
 
 Источник: `blockcheck2609_FULL.log` из репозитория Calcul.
