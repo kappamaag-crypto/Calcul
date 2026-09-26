@@ -2149,3 +2149,21 @@ WAN-side management safety rule — do not broaden WAN input or add a second SSH
 **Foreign VLESS profile — NOT USED** — an unrelated internet profile with different server, transport, flow and REALITY parameters was deliberately not imported because it would create a different test rather than discriminate the current failure.
 
 **No-test-for-test's-sake — Xray/sing-box application** — after equivalent Xray mode A/B testing and independent endpoint reachability control, further Xray/sing-box diagnostics require explicit user reopening and a new hypothesis.
+
+
+---
+## 2026-09-26 — WARP / Zapret-Manager / splify terms
+
+**Zapret-Manager** — third-party OpenWrt management/orchestration script that can install/manage multiple anti-DPI, proxy and VPN-related components. It is NOT itself a VPN provider. Current source includes splify/WARP integration. It must not replace the project's existing Zapret2 stack without an explicit compatibility/side-effect decision.
+
+**Zapret-Manager Zapret2 architecture restriction** — current manager script's dedicated Zapret2 installer checks for `aarch64_cortex-a53`. This is not compatible evidence for the project's MIPS/ath79 hAP ac lite target and must not be used as the installation path for current Zapret2.
+
+**splify** — third-party WARP/WireGuard-oriented management component referenced by Zapret-Manager. Candidate only; not installed on the project router as of 2026-09-26.
+
+**splify2** — separate third-party component with its own installer, exposed by Zapret-Manager. Candidate only; exact MIPS/ath79 compatibility and side effects must be audited before installation.
+
+**WARP candidate** — Cloudflare WARP is a planned tunnel candidate for the final VPN/WARP stage. Current status: compatibility audit only; no WARP interface/default route/full-router VPN is authorized by this checkpoint.
+
+**WARP integration side-effect rule** — any tool that generates WARP and creates interfaces, UCI peer/network sections, firewall rules, policy-routing rules, cron jobs or service state must be treated as a routing/firewall change and audited before execution.
+
+**Manager isolation rule** — the project must not run a second independent Zapret/Zapret2 controller or blindly allow a manager to overwrite the active Zapret2/watchdog configuration.
