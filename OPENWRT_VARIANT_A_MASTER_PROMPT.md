@@ -1377,3 +1377,14 @@ The existing WAN rule `Allow-SSH-from-TPLink` is confirmed as source `192.168.0.
 Until that final stage, future AIs must NOT select PBR as the next task, even if the `pbr` package is installed/enabled. Do not create PBR policies, routing rules, marks, alternate tables, default-route overrides, or selective-routing configuration before the WARP/VPN stage. Package presence is preparation only, not active PBR capability.
 
 At the final stage, use current official OpenWrt PBR documentation as the technical authority and design PBR around the already-validated WARP/VPN interfaces.
+
+
+---
+## 2026-09-26 — WARP / Zapret-Manager / splify execution guard
+
+- Zapret-Manager is a management/orchestration layer, not a VPN provider. Its current script includes splify/WARP integration, but its Zapret2 installer explicitly targets `aarch64_cortex-a53`; this must never be treated as a compatible installation path for the project's MIPS/ath79 hAP ac lite.
+- splify/splify2 are **candidates only** until their exact binaries, architecture assumptions, dependencies, and routing/firewall side effects are audited for `mips_24kc` / `ath79/mikrotik`.
+- Never install the full Zapret-Manager merely to obtain WARP. First audit the relevant splify/splify2 implementation and isolate any WARP path from the existing Zapret2/watchdog stack.
+- Do not let manager functions reintroduce retired DoH/https-dns-proxy, duplicate Zapret/Zapret2, enable PBR, or install a new default route without an explicit project-stage decision.
+- No WARP/VPN default route or full-router VPN is allowed during compatibility reconnaissance.
+- The next step is a read-only compatibility audit; after the audit, use one router-changing command at a time.
