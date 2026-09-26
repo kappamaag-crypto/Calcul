@@ -2210,3 +2210,26 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [STATUS] Xray control test = FAILED / reproducible. VLESS+REALITY endpoint = NOT VALIDATED. sing-box minimal test remains FAILED.
 - [SAFETY] Xray was stopped with Ctrl+C after the diagnostic. No persistent Xray/sing-box service, TUN, default route, DNS, firewall, routing policy, or Zapret2 change was made.
 - [NEXT GATE] Do not sweep parameters. The next diagnostic must use a single discriminating test against the supplied profile/transport to separate REALITY/TLS handshake incompatibility from gRPC-specific incompatibility. Keep all testing temporary and isolated.
+
+
+---
+## 2026-09-26 — Xray/sing-box diagnostic branch PAUSED by user
+
+### Final diagnostic result
+- [USER RESULT] Temporary Xray 26.3.27 VLESS + REALITY + gRPC control profile was tested with `grpcSettings.mode=true` and then with only `mode=false`. Both configurations passed `xray run -test` with `Configuration OK`.
+- [USER RESULT] Xray started successfully in both cases and accepted SOCKS connections on 127.0.0.1:10808.
+- [USER RESULT] Fresh proxy requests through Xray timed out in both modes. The `mode=false` test returned approximately 10.23 s timeout, HTTP=000, CURL_EXIT=28.
+- [RESULT] Xray logs for the failing request showed repeated attempts to dial `tcp:13.143.66.151:443` and a final `dial tcp 13.143.66.151:443: i/o timeout`.
+- [CONTROL RESULT] Independent direct `curl -4 -k -I --connect-timeout 7 --max-time 10 https://13.143.66.151:443` from the same hAP succeeded with `HTTP/2 403`, proving that ordinary TCP/TLS reachability to the endpoint exists outside the Xray VLESS path.
+- [INTERPRETATION] The endpoint is not established as generally unreachable. The remaining failure is specific to the Xray VLESS/REALITY/gRPC path or its interaction with the endpoint; the exact root cause is not established.
+- [INTERPRETATION] Changing gRPC `mode` true→false did not change the outcome. The hypothesis that `mode:true` was the cause is therefore NOT VALIDATED and should not be pursued as the next blind tuning axis.
+- [SCOPE] The unrelated internet VLESS profile with a different server/transport/flow/REALITY parameters was NOT imported or tested as a replacement. Doing so would not be a discriminating continuation of the current profile diagnosis.
+- [STATUS] Xray control test = FAILED / reproducible.
+- [STATUS] sing-box minimal VLESS + REALITY test = FAILED / no successful proxy request.
+- [STATUS] VLESS + REALITY endpoint using the supplied gRPC profile = NOT VALIDATED.
+- [DECISION] **Xray/sing-box branch = PAUSED by explicit user decision.** Do not resume Xray/sing-box testing, parameter sweeps, foreign-profile replacement, TUN setup, default-route changes, router-wide interception, or persistent service configuration unless the user explicitly reopens this branch.
+- [SAFETY] Xray and sing-box were temporary diagnostic components only. No persistent Xray/sing-box service, TUN, default route, DNS, firewall, routing-policy, or Zapret2 change was made by these tests.
+- [SECURITY] The user-supplied VLESS profile contained a live credential/identifier. Sensitive values remain excluded from project documentation; credential rotation/revocation should be considered if the profile was exposed beyond trusted handling.
+
+### Current project rule
+The frozen tunnel branch and this newly paused Xray/sing-box branch must be skipped when selecting the next action. Continue from the highest-priority incomplete **non-tunnel, non-paused** capability after capability audit. Do not generate further diagnostic tests for Xray/sing-box unless the user explicitly says to reopen them.
