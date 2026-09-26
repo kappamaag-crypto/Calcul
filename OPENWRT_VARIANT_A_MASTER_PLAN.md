@@ -2104,3 +2104,17 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - Preconditions verified: official package `sing-box-tiny-1.13.21-r1`, installed size 33 MiB, required dependencies known; extroot has ~6.2 GiB free; baseline available RAM ~11.9 MiB; package not installed.
 - [NEXT ACTION] Install `sing-box-tiny` from the configured APK repositories.
 - [SCOPE] This changes package state and installs dependencies, including `kmod-tun`; it does not intentionally modify Zapret2, firewall rules, routing policy, DNS configuration, or tunnel configuration.
+
+
+---
+## 2026-09-26 — sing-box-tiny post-install verification contradicts reported installation
+
+- [USER RESULT] Post-install read-only audit showed:
+  - `apk info -e sing-box-tiny` returned **no output**.
+  - `sing-box version` returned `-ash: sing-box: not found`.
+  - Root overlay usage is 46.8M used / 6.2G available.
+  - Earlier RAM result immediately before this audit: available ~12.96 MiB.
+- [INTERPRETATION] Despite the user's statement that installation completed, the authoritative router runtime/package evidence shows `sing-box-tiny` is **NOT INSTALLED / NOT DEPLOYED** at present.
+- [STATUS] Installation = **FAILED / NOT VERIFIED**; no sing-box runtime exists. Do not mark it INSTALLED based on the earlier statement.
+- [PRESERVED] User-reported installation attempt is retained as historical context; newer runtime evidence overrides it.
+- [NEXT GATE] Retry the package installation with the full terminal output captured. No sing-box configuration, service enablement, tunnel, routing, DNS, firewall, or Zapret2 changes.
