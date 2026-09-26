@@ -1362,3 +1362,13 @@ The exact SSH firewall rule parameters must be audited before any change. Do not
 ## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — SSH RULE PARAMETERS VERIFIED
 
 The existing WAN rule `Allow-SSH-from-TPLink` is confirmed as source `192.168.0.0/24`, TCP destination port 22, target ACCEPT. Treat this as the existing intended Archer-side SSH access path. Do not add a duplicate rule or broaden WAN input. Validate end-to-end reachability from an actual Archer Wi-Fi client before changing anything.
+
+
+---
+## 2026-09-26 — Xray/sing-box diagnostic branch PAUSE rule
+
+- The Xray 26.3.27 temporary VLESS + REALITY + gRPC control test is **FAILED / reproducible**; `grpcSettings.mode=true` and `mode=false` both timed out.
+- Direct TCP/TLS access to the supplied endpoint from the same hAP succeeded independently, so the endpoint is not classified as generally unreachable.
+- sing-box minimal VLESS + REALITY test is also **FAILED** with no successful proxy request.
+- **User decision:** pause the Xray/sing-box diagnostic branch. Do not resume parameter sweeps, foreign-profile replacement, TUN setup, default-route changes, router-wide interception, or persistent service configuration unless the user explicitly reopens this branch.
+- When selecting the next project action, skip both the paused tunnel branch and the paused Xray/sing-box branch and choose the highest-priority incomplete non-paused capability after capability audit.
