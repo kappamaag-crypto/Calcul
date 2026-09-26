@@ -2142,3 +2142,18 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [STATUS] Package installation remains **INSTALLED / DEPLOYED TO ROUTER** based on the successful `apk add` result and current `apk info -e` evidence.
 - [STATUS] Runtime/binary version verification = **INCOMPLETE**; do not infer the version from the missing output.
 - [NEXT GATE] Continue the same read-only post-install audit with memory/storage only; do not start or configure sing-box.
+
+
+---
+## 2026-09-26 — sing-box-tiny post-install runtime/resource verification completed
+
+- [USER RESULT] Read-only audit confirms:
+  - `apk info -e sing-box-tiny` = **installed**.
+  - `sing-box version` = **1.13.21**, Environment `go1.26.8 linux/mips`; tags include `with_gvisor,with_quic,with_utls,with_clash_api`; CGO enabled.
+  - RAM: total 54852 KiB, used 36516 KiB, free 5440 KiB, buff/cache 12896 KiB, available 11872 KiB (~11.6 MiB).
+  - Swap: total 550904 KiB, used 7804 KiB, free 543100 KiB.
+  - Overlay: 6.6G total, 65.7M used, 6.2G available, 1% used.
+- [STATUS] sing-box-tiny = **INSTALLED / DEPLOYED TO ROUTER** and binary version = **RUNTIME VERIFIED**.
+- [STATUS] Package installation did not consume significant persistent storage relative to available extroot capacity; RAM headroom remains limited.
+- [STATUS] sing-box runtime is **NOT STARTED / NOT CONFIGURED**. No tunnel, routing, DNS, firewall, or Zapret2 changes have been made.
+- [NEXT GATE] Before creating any VLESS/REALITY configuration, select/verify a server-side VLESS+REALITY endpoint and define the minimum client parameters required. Do not invent endpoint credentials or private keys.
