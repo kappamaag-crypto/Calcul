@@ -2197,3 +2197,16 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [SAFETY] No persistent Xray/sing-box service, router-wide interception, TUN, default-route, DNS, firewall, or routing-policy change was made. Xray and sing-box are temporary diagnostic components only.
 - [NEXT GATE] Do not perform blind parameter sweeps. First inspect the exact Xray request-path behavior/logging needed to distinguish a client-side transport/REALITY failure from an unreachable/non-responsive server-side profile. Keep the tunnel branch non-persistent and isolated.
 - [SECURITY] The VLESS credential was exposed during the chat/profile handling. Do not copy it into repository documentation; rotation/revocation should be considered after diagnostics.
+
+
+## 2026-09-26 — Xray clean foreground control test: gRPC dial failure isolated
+
+- [USER RESULT] Xray 26.3.27 was started in the foreground from the temporary /tmp/xray-vless-test.json; startup completed successfully and TCP 127.0.0.1:10808 listened normally.
+- [USER RESULT] Two fresh SOCKS control requests to https://example.com both timed out: first about 10.97 s, second about 15.70 s; both returned HTTP=000 and CURL_EXIT=28.
+- [RESULT] Xray logs for the fresh request show the SOCKS request reaches Xray, the proxy outbound is selected, and Xray attempts gRPC transport to the VLESS server. The decisive error is: failed to process outbound traffic > proxy/vless/outbound: failed to find an available destination > ... grpc: failed to dial gRPC ... rpc error: code = Unavailable ... transport: Error while dialing: context deadline exceeded.
+- [RESULT] The log also shows repeated creation/dial attempts to the configured TCP endpoint. Earlier socket inspection had shown an ESTAB TCP connection with substantial bidirectional traffic, but that connection predated the clean foreground test and therefore is not treated as proof of a successful VLESS/REALITY session.
+- [INTERPRETATION] The failure is now localized beyond the local SOCKS inbound: Xray accepts the request but cannot complete the gRPC transport dial within its deadline. This still does not prove whether the cause is REALITY/TLS parameters, gRPC server-side expectations, the supplied profile itself, or another transport-layer incompatibility.
+- [CORRECTION] The earlier hypothesis that gRPC mode:true is the cause remains UNPROVEN. The current Xray error is a generic gRPC dial timeout and does not by itself identify mode:true as the cause.
+- [STATUS] Xray control test = FAILED / reproducible. VLESS+REALITY endpoint = NOT VALIDATED. sing-box minimal test remains FAILED.
+- [SAFETY] Xray was stopped with Ctrl+C after the diagnostic. No persistent Xray/sing-box service, TUN, default route, DNS, firewall, routing policy, or Zapret2 change was made.
+- [NEXT GATE] Do not sweep parameters. The next diagnostic must use a single discriminating test against the supplied profile/transport to separate REALITY/TLS handshake incompatibility from gRPC-specific incompatibility. Keep all testing temporary and isolated.
