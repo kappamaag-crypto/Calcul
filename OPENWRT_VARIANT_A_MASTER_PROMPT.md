@@ -1388,3 +1388,12 @@ At the final stage, use current official OpenWrt PBR documentation as the techni
 - Do not let manager functions reintroduce retired DoH/https-dns-proxy, duplicate Zapret/Zapret2, enable PBR, or install a new default route without an explicit project-stage decision.
 - No WARP/VPN default route or full-router VPN is allowed during compatibility reconnaissance.
 - The next step is a read-only compatibility audit; after the audit, use one router-changing command at a time.
+
+## 2026-09-26 — Proton/VPN architecture decision gate
+- Before any VPN tunnel action, distinguish configuration types: native WireGuard, AmneziaWG, VLESS/REALITY, and WARP are different protocols/architectures and must not be mixed by assumption.
+- Proton Free provider-issued WireGuard configs are the first baseline candidate. Test one isolated non-default-route tunnel before PBR, full-router routing, firewall broadening or DNS replacement.
+- The user's Xray/VLESS snippets are not native WireGuard configs. Treat the domain list as routing intent/reference only; treat VLESS + REALITY as a separate paused proxy branch.
+- Do not resume the existing Proton-AWG experiment merely because a Proton WireGuard config is available. A standard-WireGuard experiment must use a separate interface/name and preserve the historical AWG experiment state.
+- Do not expose or record private keys/PSKs/tokens. Redact secrets in all diagnostics and documentation.
+- If a provider-issued standard WireGuard profile fails, change one variable at a time (for example server/profile), and do not immediately convert it to AmneziaWG or add PBR.
+- Maintain one active VPN architecture experiment at a time on the 64-MB hAP; do not stack splify, WARP, Proton, Xray/sing-box together.
