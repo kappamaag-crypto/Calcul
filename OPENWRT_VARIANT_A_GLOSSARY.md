@@ -2196,3 +2196,46 @@ Provider profile A/B test — comparison of two provider-issued VPN profiles whi
 - **USER-SUPPLIED PROFILES:** Two standard Proton WireGuard profiles are available for later A/B testing (US-FREE#130 and RO-FREE#23). Private keys are secret material and must never be recorded or repeated.
 - **STAGE STATUS:** Native Proton standard WireGuard preparation = **IN_PROGRESS**; actual tunnel creation/handshake test has not been performed in this step.
 
+
+---
+## 2026-09-26 — PROTON / AMNEZIAWG 3.1 GLOSSARY AND HISTORY
+
+Ordinary WireGuard baseline — Provider-issued standard WireGuard configuration. For this project it is a control/baseline, not the final anti-DPI architecture for the intended Russia path.
+
+AWG 3.1 client to standard WG endpoint hypothesis — Experimental architecture in which the hAP runs AmneziaWG 3.1 and connects to a provider endpoint provisioned as standard WireGuard. Community hypothesis; not equivalent to official Proton support.
+
+AWG interface-level parameters — Parameters configured on the AmneziaWG interface in this OpenWrt implementation: Jc/Jmin/Jmax, S1-S4, H1-H4, I1-I5, HeaderProtectionKey, ContentPaddingAddition, rekey controls, RandomTrailers and DisableCookies.
+
+Jc/Jmin/Jmax — Classic AWG junk controls. A numeric recipe is not automatically valid for Proton or modern AWG 3.1 interoperability.
+
+S1-S4 — Classic AWG size/padding parameters. Interpretation and interoperability depend on AWG version/mode; do not blindly copy old recipes.
+
+H1-H4 — AWG header-related interface parameters. H1=1,H2=2,H3=3,H4=4 alone is not proof of successful obfuscation or Proton compatibility.
+
+I1-I5 — AWG tagged-junk/concealment fields exposed by the project's AWG 3.1 stack. Exact syntax must come from the matching implementation/documentation; arbitrary numeric substitutions are not valid.
+
+HeaderProtectionKey — Modern AWG 3.1 interface option exposed by the installed netifd integration; local configurability is not server interoperability proof.
+
+ContentPaddingAddition — Modern AWG 3.1 interface option exposed by the installed netifd integration.
+
+RandomTrailers — Modern AWG 3.1 interface option exposed by the installed netifd integration.
+
+DisableCookies — Modern AWG 3.1 interface option exposed by the installed netifd integration.
+
+bogus_endpoints family — Global AWG kernel-module parameters. Current observed values are 0, 127.0.0.0/8 and ff80::/16. They are separate from per-interface obfuscation settings.
+
+proton_awg_test — Existing historical Proton/AWG interface. Current state: auto=0, PAUSED. Do not repurpose silently.
+
+AWG interoperability proof — Requires runtime evidence such as successful handshake and received tunnel traffic against the target endpoint. Local acceptance of configuration options is not interoperability proof.
+
+Community workaround hypothesis — A technique reported by community sources rather than guaranteed provider support. Must remain experimental until reproduced on this exact router/software/path.
+
+One-variable tunnel experiment — Change one discriminating variable at a time rather than sweeping many AWG parameters simultaneously.
+
+Tunnel safety gate — First tunnel gate is isolated handshake/RX validation. No default route, PBR, broad firewall, DNS replacement or simultaneous second VPN architecture.
+
+Historical Proton-AWG failure — Earlier proton_awg_test variants produced no handshake/RX. Retain as negative evidence but not as universal failure proof.
+
+2026-09-26 AWG implementation audit — Read-only evidence that the hAP's AWG netifd script and awg CLI expose both classic and modern AWG 3.1 option families.
+
+Secret-material rule — Private keys, preshared keys, tokens and credentials must never be repeated in plan, prompt, glossary or diagnostic output.
