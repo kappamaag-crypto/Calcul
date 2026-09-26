@@ -2320,3 +2320,104 @@ Type: CURRENT / PLANNED / POLICY
 - **USER-SUPPLIED PROFILES:** Two standard Proton WireGuard profiles are available for later A/B testing (US-FREE#130 and RO-FREE#23). Private keys are secret material and must never be recorded or repeated.
 - **STAGE STATUS:** Native Proton standard WireGuard preparation = **IN_PROGRESS**; actual tunnel creation/handshake test has not been performed in this step.
 
+
+---
+## AUTHORITATIVE HISTORY / CHECKPOINT — 2026-09-26 — PROTON WG / AMNEZIAWG 3.1 INVESTIGATION
+
+### User objective
+- User clarified the practical objective: ordinary WireGuard is considered unusable for the intended Russia path because WireGuard traffic is blocked/identified by DPI/TSPU; therefore the project must not treat a plain Proton WireGuard tunnel as the final solution.
+- Native Proton WireGuard remains useful only as a control/baseline for determining endpoint/account/profile reachability.
+- The intended final tunnel hypothesis is AmneziaWG 3.1 client on the OpenWrt hAP connecting to a Proton provider-issued WireGuard endpoint, if AWG client-side obfuscation/concealment proves compatible with a standard Proton endpoint.
+- This is an experimental/community architecture, not a statement that Proton officially supports AmneziaWG obfuscation on its WireGuard servers.
+
+### External hypothesis supplied by user
+User supplied community references/claims involving Amnezia documentation, Habr, NTC and GL.iNet. The claim is that AWG preserves WireGuard tunnel cryptography while changing observable packet characteristics and that community deployments report AWG-client use against commercial WireGuard endpoints, including Proton and WARP. This is recorded as an EXTERNAL COMMUNITY HYPOTHESIS, not provider documentation.
+
+### Technical correction
+- The supplied old recipe Jc=4, Jmin=40, Jmax=70, S1=15, S2=24, H1=1, H2=2, H3=3, H4=4 is a historical/experimental parameter set, not a validated Proton-compatible configuration.
+- H1-H4=1,2,3,4 alone is not proof of obfuscation.
+- AWG parameters J/S/H/I are interface-level parameters in this OpenWrt implementation; they must not be placed under Peer merely because a community recipe says so.
+- Do not mix old AWG 1.x/2.x recipes with modern AWG 3.1 without version-specific verification.
+- Proton official documentation establishes standard WireGuard/OpenWrt support, not official support for arbitrary AWG obfuscation against Proton endpoints.
+
+### Historical Proton/AWG experiment
+- Existing interface proton_awg_test: proto=amneziawg, auto=0, address 10.2.0.2/32.
+- Historical endpoint: Proton US-FREE#130, 194.180.33.20:51820.
+- Earlier runtime-only variants produced no handshake/RX:
+  1) Jc/Jmin/Jmax 4/40/70, S1/S2 45/112.
+  2) Jc/Jmin/Jmax 5/50/100, S1/S2/S3/S4 45/112/78/93.
+- Earlier user-supplied numeric I1-I5 material did not match documented tagged-junk syntax and was not validated.
+- This negative history does not prove all Proton+AWG approaches fail. Do not resume the old interface silently or perform blind parameter sweeps.
+
+### Proton profiles supplied by user
+- Profile A: US-FREE#130, endpoint 194.180.33.20:51820, tunnel address 10.2.0.2/32, DNS 10.2.0.1.
+- Profile B: RO-FREE#23, endpoint 146.70.246.98:51820, tunnel address 10.2.0.2/32, DNS 10.2.0.1.
+- Both are standard WireGuard profiles and use full AllowedIPs in their provider configuration.
+- Private keys were supplied by the user but are secret material and are deliberately not reproduced in project documentation.
+- Do not run both simultaneously on the 64-MB hAP.
+
+### 2026-09-26 package/protocol audit
+- amneziawg-tools installed.
+- kmod-amneziawg installed.
+- wireguard-tools installed.
+- kmod-wireguard installed.
+- luci-proto-wireguard absent/not installed.
+- UCI audit found only network.proton_awg_test.proto=amneziawg among current VPN protocol declarations.
+- Interpretation: standard WireGuard kernel/userspace support is installed; LuCI helper is absent; manual UCI/netifd configuration remains possible.
+- No package, route, firewall, DNS, Zapret2 or interface state was changed by this audit.
+
+### 2026-09-26 AWG kernel/module audit
+- /lib/modules/6.12.94/amneziawg.ko is loaded.
+- Module version package: kmod-amneziawg 6.12.94.3.1.20260906-r1.
+- Global module parameters observed:
+  bogus_endpoints=0
+  bogus_endpoints_prefix=127.0.0.0/8
+  bogus_endpoints_prefix6=ff80::/16
+- awg show interfaces reports proton_awg_test.
+- Absence of J/S/H/I in sysfs module parameters is not evidence of missing features; they are per-interface AWG configuration fields.
+
+### 2026-09-26 decisive netifd audit
+The installed /lib/netifd/proto/amneziawg.sh explicitly declares and forwards:
+- awg_jc, awg_jmin, awg_jmax
+- awg_s1, awg_s2, awg_s3, awg_s4
+- awg_h1, awg_h2, awg_h3, awg_h4
+- awg_i1, awg_i2, awg_i3, awg_i4, awg_i5
+- awg_header_protection_key
+- awg_content_padding_addition
+- awg_rekey_after_time
+- awg_rekey_timeout
+- awg_reject_after_time
+- awg_keepalive_timeout
+- awg_max_handshake_attempts
+- awg_random_trailers
+- awg_disable_cookies
+The script writes these fields to an AWG config and applies it with awg setconf.
+Conclusion: the installed OpenWrt integration exposes modern AWG 3.1 options, not only legacy J/S/H options.
+
+### 2026-09-26 decisive awg CLI audit
+awg set --help and awg show --help explicitly expose:
+jc, jmin, jmax; s1-s4; h1-h4; i1-i5; header-protection-key; content-padding-addition; rekey controls; random-trailers; disable-cookies.
+awg setconf accepts an interface plus configuration filename.
+Package versions:
+- amneziawg-tools 3.1.20260812-r1
+- kmod-amneziawg 6.12.94.3.1.20260906-r1
+- OpenWrt kernel 6.12.94.
+
+### Current conclusion
+- The hAP AWG stack is technically capable of representing modern AWG 3.1 configuration options.
+- This does not prove a Proton standard WireGuard endpoint will accept an AWG-obfuscated client handshake.
+- The earlier no-handshake result is nondiscriminating: it may reflect parameters, endpoint/path filtering, server compatibility, routing/firewall interaction, or another cause.
+- The next valid research gate is to identify the exact AWG 3.1 client-side mechanism intended for a standard WireGuard endpoint, then perform one isolated experiment. No blind fuzzing.
+
+### Current status
+- Ordinary Proton WireGuard: BASELINE / NOT FINAL SOLUTION.
+- Proton standard WG package support: INSTALLED / READY FOR MANUAL TEST.
+- AWG 3.1 kernel/tools: INSTALLED / RUNTIME_VERIFIED.
+- AWG 3.1 UCI/netifd option support: RUNTIME_VERIFIED.
+- Proton endpoint via AWG 3.1: EXPERIMENTAL / NOT_VALIDATED.
+- Existing proton_awg_test: PAUSED; preserve it.
+- WARP: separate candidate.
+- PBR: deferred to final WARP/VPN stage.
+- Xray/sing-box: paused.
+- Zapret2: unchanged.
+- First reopened AWG/Proton test must use a separate interface, no default route, no broad DNS/firewall changes and no simultaneous second VPN stack.
