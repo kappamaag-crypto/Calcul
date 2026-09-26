@@ -2131,3 +2131,21 @@ WAN-side management safety rule — do not broaden WAN input or add a second SSH
 **Allow-SSH-from-TPLink verified** — existing firewall rule permits TCP/22 to the hAP from source network 192.168.0.0/24 only. This is a narrow explicit WAN-zone exception and is not equivalent to broad WAN management access.
 
 **End-to-end Archer-side SSH access** — remains NOT VALIDATED until a client connected to Archer Wi-Fi successfully reaches 192.168.0.100:22.
+
+
+---
+## 2026-09-26 — Xray / sing-box capability terms
+
+**Xray/sing-box diagnostic branch — PAUSED** — temporary evaluation branch for VLESS + REALITY clients. User explicitly paused further testing after reproducible Xray and sing-box failures. Do not resume without explicit reopening.
+
+**Xray VLESS + REALITY + gRPC control test — FAILED / reproducible** — temporary Xray 26.3.27 SOCKS test accepted local requests but failed to complete the VLESS transport path. Both gRPC `mode=true` and `mode=false` produced timeouts.
+
+**gRPC mode — discriminating axis tested** — Xray `grpcSettings.mode` was tested true and false. No behavioral improvement was observed; `mode=true` is therefore not established as the cause.
+
+**VLESS endpoint direct TCP/TLS baseline — RUNTIME_VERIFIED for basic reachability** — direct `curl -4 -k -I` from the hAP to the supplied endpoint returned HTTP/2 403, demonstrating that ordinary TCP/TLS connectivity to the endpoint exists independently of the Xray VLESS path. This does not validate VLESS/REALITY.
+
+**sing-box minimal VLESS + REALITY test — FAILED** — temporary localhost SOCKS configuration produced no successful proxy request.
+
+**Foreign VLESS profile — NOT USED** — an unrelated internet profile with different server, transport, flow and REALITY parameters was deliberately not imported because it would create a different test rather than discriminate the current failure.
+
+**No-test-for-test's-sake — Xray/sing-box application** — after equivalent Xray mode A/B testing and independent endpoint reachability control, further Xray/sing-box diagnostics require explicit user reopening and a new hypothesis.
