@@ -2233,3 +2233,23 @@ Perform one end-to-end connectivity test from a device actually connected to the
 
 ### Current project rule
 The frozen tunnel branch and this newly paused Xray/sing-box branch must be skipped when selecting the next action. Continue from the highest-priority incomplete **non-tunnel, non-paused** capability after capability audit. Do not generate further diagnostic tests for Xray/sing-box unless the user explicitly says to reopen them.
+
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — Xray/sing-box PACKAGE RETENTION + FULL RUNTIME AUDIT
+
+- Packages `xray-core` and `sing-box-tiny` are intentionally **RETAINED** by user.
+- Xray and sing-box are **INACTIVE / DISABLED**: no processes, no 10808/10809 listeners, no TUN, no policy-routing rules, and no nftables table/firewall hook attributable to them.
+- Xray/sing-box diagnostic branch remains **PAUSED**; do not resume without explicit user reopening.
+- Runtime audit found no additional obviously rogue persistent daemon. Active expected services include dnsmasq, dropbear, network, odhcpd, wpad, sysntpd, log, Zapret2 and zapret2-watchdog.
+- `https-dns-proxy` remains RETIRED/inactive.
+- `openvpn` and `socat` report **active with no instances** and were not found running as daemon processes; they are cleanup candidates, not confirmed faults.
+- `pbr` is active with no policies; retain because selective routing remains part of the project architecture.
+- Frozen `proton_awg_test` remains; do not remove blindly.
+- Runtime memory snapshot: 54852 kB RAM total, ~13384 kB MemAvailable, 550904 kB swap total with ~6428 kB used, zram ~6.28 MiB used, `vm.min_free_kbytes=2048`. Xray/sing-box consume zero runtime process RAM at this audit.
+- UDP `0.0.0.0:39628` / `[::]:39628` remains unexplained; do not change it solely from the port number. Investigate separately only if cleanup is requested.
+- Generic init-script `status/enabled` output containing `Syntax:` for infrastructure scripts is not evidence of service failure; `active with no instances` means no running service instance.
+
+### Zapret2 — two nfqws2 processes
+- Runtime showed **PID 3204 nfqws2** and **PID 3205 nfqws2**, plus **PID 3548 zapret2-watchdog**.
+- The two `nfqws2` processes are **expected**, not a duplicate/rogue daemon. Upstream zapret2's OpenWrt init script manages standard nfqws2 daemons as separate procd instances; the active standard configuration covers both TCP 80/443 and UDP 443. citeturn0search0turn0search3
+- Do not kill either nfqws2 process and do not create another watchdog.
+- Zapret2 remains **ACTIVE AT RUNTIME / VALIDATED** for the current intended DPI-oriented scope.
