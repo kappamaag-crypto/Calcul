@@ -298,7 +298,6 @@ H) combination.
 - 2026-09-19: `libfstools.so` confirms built-in extroot flow (`mount_extroot`, `/tmp/extroot`, `/tmp/extroot/overlay`, `switched to extroot`). `fstab` init/hotplug only delegate to `/sbin/block` and are not the preinit extroot selector. Next: identify exact discovery condition read-only.
 
 - 2026-09-19: router has `fstools-2026.05.23~16718b6e-r1`; ELF symbol lookup returned no relevant symbols. Official fstools source confirms `mount_root` calls `mount_extroot()` before normal rootfs_data handling, matching the router binary. Next: identify exact extroot discovery condition for this revision from official source.
-
 - 2026-09-19: official fstools source confirms disabled fstab mount entries are skipped during extroot config loading, while mount_root invokes mount_extroot before normal rootfs_data handling. Runtime still has /dev/sda2 as /overlay, creating a historical-state discrepancy. Per user request, no more diagnostic probing is planned; next is the already planned destructive USB reset/repartition, pending explicit confirmation immediately before execution.
 
 - 2026-09-19: user explicitly authorized complete repartitioning and formatting of `/dev/sda`; old USB data are not needed. Destructive stage may proceed, but first command remains a final read-only identity/partition check.
@@ -598,7 +597,6 @@ SYNC 2026-09-19: `wifi status radio0` confirms radio0 is logically up, not disab
 SYNC 2026-09-19: Corrected runtime interpretation: `ubus call hostapd.phy0-ap0 get_status` now returns `status: ENABLED`, SSID `OpenWrt`, BSSID `ba:69:f4:d6:e8:a5`, freq 5180 MHz, channel 36, DFS inactive. Thus the 5 GHz AP is currently active and configured at the same channel as the STA. The previously supplied claim that -122 occurs in 100% of cases on 64 MB devices and that `wpad-mesh-openssl` is required is not established and must not be treated as project fact. No package changes made.
 
 SYNC 2026-09-19: `iw dev` read-only verification after hostapd ENABLED check: 2.4 GHz `phy1-ap0` is active as AP with SSID `OpenWrt`, channel 1 / 2412 MHz, HT20. 5 GHz `phy0-ap0` is type AP with BSSID ba:69:f4:d6:e8:a5 and txpower 23 dBm, but `iw dev` still does not expose SSID/channel/width for `phy0-ap0`; concurrently `phy0-sta0` is connected/operational on channel 36 / 5180 MHz, VHT40, center 5190 MHz. Thus hostapd reports the 5 GHz AP ENABLED, but kernel `iw dev` still does not show the AP operating channel/SSID. No configuration change was made. STAGE 6 remains IN_PROGRESS. Next step: one read-only runtime check only; do not reload Wi-Fi or change configuration yet.
-
 SYNC 2026-09-19: `iw dev phy0-ap0 info` PASS for interface existence only: phy0-ap0 exists, type AP, wiphy 0, BSSID ba:69:f4:d6:e8:a5, txpower 23 dBm, but kernel still exposes no SSID, channel, width, or center frequency. This confirms the previously observed hostapd-vs-kernel discrepancy more directly. No configuration or Wi-Fi runtime change was made. STAGE 6 remains IN_PROGRESS. Next step: one read-only check of `ip link show phy0-ap0` to determine kernel carrier/operational state; no reload or configuration change.
 
 SYNC 2026-09-19: `ip link show phy0-ap0` confirms `phy0-ap0` is administratively UP but `NO-CARRIER` and `state DOWN`, bridged to `br-lan`; permanent MAC b8:69:f4:d6:e8:a5 and runtime BSSID ba:69:f4:d6:e8:a5. This confirms the 5 GHz AP interface is not operational at kernel link level despite prior hostapd `ENABLED`. User proposed `uci set wireless.default_radio0.network='lan'` and `wifi down && wifi up`; these are not applied because `network='lan'` is already the current configuration and the proposed commands would not correct the identified kernel NO-CARRIER state. The claim that STA must necessarily be started before AP, or that lack of `ssid`/`channel` proves a hardware/mac80211 block, is not established by current evidence. No runtime/configuration change made. STAGE 6 remains IN_PROGRESS.
@@ -897,8 +895,7 @@ After each user message: first record the user's factual router result in the Ma
 
 
 ## WORKFLOW RULE — 2026-09-21 — blockcheck2 strategy discovery
-- Strategy discovery is performed on Windows 11 x64 using the official `blockcheck2` tooling from the same `bol-van/zapret2` project; this does not install a second Zapret implementation on the router.
-- Router-side Zapret2 remains pinned at v1.0.3 with `/opt/zapret2/nfq2/nfqws2`; do not alter its current strategy during PC discovery.
+- Strategy discovery is performed on Windows 11 x64 using the official `blockcheck2` tooling from the same `bol-van/zapret2` project; this does not install a second Zapret implementation on the router.- Router-side Zapret2 remains pinned at v1.0.3 with `/opt/zapret2/nfq2/nfqws2`; do not alter its current strategy during PC discovery.
 - Use the official Windows bundle/minimal Cygwin environment. Do not install Cygwin separately if the bundle is used.
 - Start with controlled, non-parallel tests. For multi-domain COMMON/COVERAGE conclusions, use `SCANLEVEL=force` so skipped strategies do not make the comparison incomplete.
 - Capture exact successful parameters and test evidence before transferring anything to the router.
@@ -1198,7 +1195,6 @@ Type: HARD POLICY
 - «продолжай по плану»;
 - «идём дальше»;
 - «делай следующий шаг»
-
 означают одно и то же: **восстановить текущую точку по обязательному preflight и сразу выполнить следующий разрешённый шаг MASTER PLAN**.
 
 Если следующий шаг однозначно определён, AI:
@@ -1372,3 +1368,12 @@ The existing WAN rule `Allow-SSH-from-TPLink` is confirmed as source `192.168.0.
 - sing-box minimal VLESS + REALITY test is also **FAILED** with no successful proxy request.
 - **User decision:** pause the Xray/sing-box diagnostic branch. Do not resume parameter sweeps, foreign-profile replacement, TUN setup, default-route changes, router-wide interception, or persistent service configuration unless the user explicitly reopens this branch.
 - When selecting the next project action, skip both the paused tunnel branch and the paused Xray/sing-box branch and choose the highest-priority incomplete non-paused capability after capability audit.
+
+---
+## EXECUTION ORDER UPDATE — 2026-09-26 — PBR DEFERRED
+
+**User decision:** PBR / selective routing is explicitly deferred to the end of the project, after WARP and VPN/tunnel setup and validation.
+
+Until that final stage, future AIs must NOT select PBR as the next task, even if the `pbr` package is installed/enabled. Do not create PBR policies, routing rules, marks, alternate tables, default-route overrides, or selective-routing configuration before the WARP/VPN stage. Package presence is preparation only, not active PBR capability.
+
+At the final stage, use current official OpenWrt PBR documentation as the technical authority and design PBR around the already-validated WARP/VPN interfaces.
