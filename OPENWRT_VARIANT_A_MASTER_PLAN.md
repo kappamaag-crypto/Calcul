@@ -2178,3 +2178,22 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [SECURITY] The VLESS UUID is treated as a credential and will be entered interactively on the router rather than embedded in the command shown to the user or committed to GitHub.
 - [STATUS] Minimal test config preparation = IN_PROGRESS.
 - [NEXT ACTION] Create /tmp/sing-box-vless-test.json and run sing-box check; no service start or routing changes.
+
+
+
+---
+## 2026-09-26 — VLESS/Xray control-test checkpoint
+
+### Current diagnostic result
+- [USER RESULT] The full user-supplied HAPP file was confirmed as the complete profile relevant to this test. Its VLESS outbound uses gRPC + REALITY and explicitly contains `grpcSettings.mode: true`, with the HTTP inbound on 127.0.0.1:10809, direct and block outbounds, and the supplied REALITY parameters. Sensitive credential values are not copied into this project record.
+- [CORRECTION] Earlier temporary `/tmp/xray-vless-test.json` was intentionally minimized for a SOCKS-only control test; it was not a byte-for-byte import of the HAPP profile. This is recorded as a test-design simplification, not as the original profile.
+- [RESULT] Xray-core 26.3.27 passed `xray run -test -config /tmp/xray-vless-test.json` with `Configuration OK`.
+- [RESULT] Actual Xray startup on the hAP required a long initialization period (roughly 80+ seconds in the observed run). During initialization the process temporarily entered `D (disk sleep)`; later it returned to `S (sleeping)`, opened TCP 127.0.0.1:10808, and logged `Xray 26.3.27 started`.
+- [RESULT] At the time of the successful startup, Xray process RSS was only about 2 MiB and the router had about 10 MiB available RAM with swap mostly free. Therefore the observed startup delay is not established as a RAM-exhaustion event.
+- [RESULT] Control request through Xray SOCKS: `curl -4 --socks5-hostname 127.0.0.1:10808 https://example.com` timed out after 11.5 s with `HTTP=000`, `CURL_EXIT=28`.
+- [RESULT] Xray log after the request contained only startup messages and no inbound/outbound request or handshake error. Therefore the Xray control path is **NOT VALIDATED**; the result does not yet establish whether the VLESS/REALITY endpoint, gRPC mode, or another transport detail is incompatible.
+- [COMPARISON] The earlier sing-box 1.13.21 minimal SOCKS test also timed out while reaching its VLESS outbound. The two failures are therefore currently non-discriminating; the hypothesis that Xray gRPC Multi Mode (`mode: true`) is the sing-box incompatibility remains **UNPROVEN**.
+- [STATUS] VLESS/REALITY endpoint = **NOT VALIDATED**. sing-box minimal test = **FAILED / no successful proxy request**. Xray control test = **FAILED / no successful proxy request**, with server-side/transport cause still unresolved.
+- [SAFETY] No persistent Xray/sing-box service, router-wide interception, TUN, default-route, DNS, firewall, or routing-policy change was made. Xray and sing-box are temporary diagnostic components only.
+- [NEXT GATE] Do not perform blind parameter sweeps. First inspect the exact Xray request-path behavior/logging needed to distinguish a client-side transport/REALITY failure from an unreachable/non-responsive server-side profile. Keep the tunnel branch non-persistent and isolated.
+- [SECURITY] The VLESS credential was exposed during the chat/profile handling. Do not copy it into repository documentation; rotation/revocation should be considered after diagnostics.
