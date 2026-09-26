@@ -2084,3 +2084,14 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [INTERPRETATION] Storage capacity is ample for the 33 MiB installed-size sing-box-tiny package. RAM headroom is limited on this 64 MiB router, so installation/runtime resource impact remains a first-class acceptance criterion.
 - [STATUS] Resource baseline = **DONE**; sing-box installation = **NOT_STARTED**.
 - [NEXT GATE] Read-only package download-size/metadata check before any installation. No package state or router configuration was changed by this audit.
+
+
+---
+## 2026-09-26 — sing-box-tiny package-size check completed
+
+- [USER RESULT] `apk info -s sing-box-tiny` reports installed size **33 MiB** for `sing-box-tiny-1.13.21-r1`.
+- [INTERPRETATION] This duplicates the already verified installed-size metadata; APK CLI did not expose a separate compressed/download size in this query.
+- [EXTERNAL CHECK] Official OpenWrt 25.12.5 package repository is current and confirms the 25.12.5 mips_24kc package tree exists. No package installation or configuration change was performed.
+- [STATUS] Package metadata/resource gate = **DONE**. Installation remains **NOT_STARTED**.
+- [SAFETY] With only ~11.9 MiB RAM available at baseline, installing the 33 MiB package should not be treated as automatically safe; the key remaining question is runtime RAM impact and coexistence with active Zapret2.
+- [NEXT GATE] If proceeding, first perform a controlled package installation only after the user explicitly chooses to proceed; installation changes package state and adds the `kmod-tun` dependency. No AWG/Proton resume.
