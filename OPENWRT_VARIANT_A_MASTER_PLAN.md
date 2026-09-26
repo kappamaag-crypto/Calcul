@@ -297,8 +297,7 @@
 - DNS-инцидент: изменение DNS приводило к остановке dnsmasq и невозможности получения IP телефоном; затем dnsmasq был восстановлен. В истории присутствует ошибка Cannot resolve server name at line 21.
 - DoH/https-dns-proxy позднее явно выведен из текущего Variant A workflow и не должен возвращаться без отдельной команды пользователя.
 
-## D. Диагностика памяти и OOM
-- На hAP установлены необходимые CLI-диагностические пакеты, включая tcpdump, curl, conntrack, iperf3, bind-dig, strace, lsof, procps-ng и др.
+## D. Диагностика памяти и OOM- На hAP установлены необходимые CLI-диагностические пакеты, включая tcpdump, curl, conntrack, iperf3, bind-dig, strace, lsof, procps-ng и др.
 - История содержит несколько системных OOM-событий с разными процессами-жертвами, включая nfqws2, hostapd и apk.
 - Особо важное событие: более тяжёлая работа tcpdump совпала с OOM, после чего были убиты hostapd и nfqws2 и временно пропал Wi-Fi.
 - Поэтому open-ended tcpdump и тяжёлые monitoring daemons на 64-MB hAP запрещены как штатный механизм контроля.
@@ -597,8 +596,7 @@
 ## STAGE 14 — AmneziaWG configured-feed package check — 2026-09-25
 - [RESULT] Router command `apk policy kmod-amneziawg amneziawg-tools luci-proto-amneziawg; apk info -e kmod-amneziawg amneziawg-tools luci-proto-amneziawg 2>/dev/null` returned no output.
 - [INTERPRETATION] None of the three AmneziaWG packages is installed, and none is visible through the router's currently configured APK repositories. This is expected because AmneziaWG is supplied through a separate third-party feed rather than the standard OpenWrt package feed.
-- [WEB VERIFICATION] Current 2Grey documentation states that OpenWrt 25.12 uses signed APK repositories from the project's custom feed and that the supported 25.12.5 release provides AWG 3.1 packages. The same documentation identifies the three required components: `amneziawg-tools`, `kmod-amneziawg`, and `luci-proto-amneziawg`. citeturn0search1turn0search0
-- [SAFETY] No package installation, third-party feed addition, kernel-module loading, reboot, network/routing/firewall/DNS/Zapret2/watchdog change occurred.
+- [WEB VERIFICATION] Current 2Grey documentation states that OpenWrt 25.12 uses signed APK repositories from the project's custom feed and that the supported 25.12.5 release provides AWG 3.1 packages. The same documentation identifies the three required components: `amneziawg-tools`, `kmod-amneziawg`, and `luci-proto-amneziawg`. citeturn0search1turn0search0- [SAFETY] No package installation, third-party feed addition, kernel-module loading, reboot, network/routing/firewall/DNS/Zapret2/watchdog change occurred.
 - [STATUS] STAGE 14 remains IN_PROGRESS. Official-feed visibility gate = DONE (AWG absent). Third-party feed compatibility gate = NOT_STARTED. Next step must be a read-only compatibility/source verification before adding any feed or installing a kernel module.
 
 
@@ -897,8 +895,7 @@
 - [RESULT] A failed AWG setconf causes a 5-second delay, proto_setup_failed, and setup exit; the temporary config is removed before this error check.
 - [INTERPRETATION] The full installed handler is sufficient to manage an AWG tunnel through native netifd/UCI; a hand-written ip link/awg setconf procedure is not required for the planned interface. route_allowed_ips can add routes, so routing behavior must be chosen deliberately before interface creation.
 - [WEB VERIFICATION] Official OpenWrt documentation confirms protocol handlers in /lib/netifd/proto/ declare/consume UCI parameters and are invoked by netifd for setup/teardown; netifd can apply interface-specific configuration changes via reload.
-- [SAFETY] Read-only inspection only. No /etc/config/network edit, AWG interface creation, peer/key import, route/firewall/DNS/Zapret2/watchdog change, or reboot.
-- [STATUS] STAGE 14 = IN_PROGRESS. AWG package/kernel/userspace/netifd handler = DONE; AWG interface = NOT_STARTED; peer/handshake/traffic = NOT_STARTED.
+- [SAFETY] Read-only inspection only. No /etc/config/network edit, AWG interface creation, peer/key import, route/firewall/DNS/Zapret2/watchdog change, or reboot.- [STATUS] STAGE 14 = IN_PROGRESS. AWG package/kernel/userspace/netifd handler = DONE; AWG interface = NOT_STARTED; peer/handshake/traffic = NOT_STARTED.
 - [NEXT GATE] Before creating the first UCI AWG interface, determine the exact Proton/AWG profile format and map only non-secret structural fields to the handler options. Do not paste or expose private credentials in chat or the Master Plan.
 
 
@@ -1197,8 +1194,7 @@ The following capabilities are already implemented or materially established and
 - DoH/https-dns-proxy is retired from the current Variant A workflow by explicit user decision and must not be reintroduced without instruction.
 - Zapret2 v1.0.3 is active with current `MODE_FILTER=autohostlist`, TCP 80/443, UDP 443, main QNUM 300 and WireGuard-pattern QNUM 65300, with `FLOWOFFLOAD=donttouch`, `INIT_APPLY_FW=1` and IPv6 disabled in the current Zapret2 configuration.
 - The current `inet zapret2` nftables structure has been verified structurally after restart; the previous YouTube outage recovered after a Zapret2 restart, but the exact original failure cause remains UNCONFIRMED.
-- Zapret2 watchdog is not merely a repository draft: the corrected script is installed at `/usr/bin/zapret2-watchdog`, the procd init script is installed at `/etc/init.d/zapret2-watchdog`, the service is enabled/autostarted and the daemon has produced periodic `HEALTH state=HEALTHY` records. Automatic recovery has not been triggered during validation.
-- Watchdog safety guards currently include two consecutive structural/functional failures, no restart for upstream/DNS failure alone, 4096 KiB MemAvailable floor, maximum 2 automatic restarts per 900 seconds, 300-second cooldown, bounded logs/events, and no continuous tcpdump/config mutation.
+- Zapret2 watchdog is not merely a repository draft: the corrected script is installed at `/usr/bin/zapret2-watchdog`, the procd init script is installed at `/etc/init.d/zapret2-watchdog`, the service is enabled/autostarted and the daemon has produced periodic `HEALTH state=HEALTHY` records. Automatic recovery has not been triggered during validation.- Watchdog safety guards currently include two consecutive structural/functional failures, no restart for upstream/DNS failure alone, 4096 KiB MemAvailable floor, maximum 2 automatic restarts per 900 seconds, 300-second cooldown, bounded logs/events, and no continuous tcpdump/config mutation.
 - VLESS + REALITY / Xray-core remains the selected VPN transport candidate, but Xray is not installed.
 - Full sing-box is not preferred on package-size grounds; sing-box-tiny remains a separate compatibility/resource gate and has not been activated.
 - Proton Free current profile structure has been validated for the planned isolated AWG experiment; its private key remains secret and is not stored in the plan.
@@ -1497,7 +1493,6 @@ Type: AUTHORITATIVE STATE / POLICY
 
 
 ## STAGE 14 — AWG/netifd/kernel log inspection — 2026-09-25
-
 - [USER RESULT] Logs show `Interface 'proton_awg_test' is setting up now`, AmneziaWG 3.1.20260906 kernel module loaded, netifd reports `Interface 'proton_awg_test' is now up` and device link is up.
 - [RESULT] No explicit AWG/netifd error is present in the returned tail.
 - [RESULT] Zapret2 dedicated QNUM 65300 process is confirmed in the same log history with WireGuard payload desync configuration.
@@ -1798,7 +1793,6 @@ Type: AUTHORITATIVE STATE / POLICY
 - [STATUS] Gate 4 IN_PROGRESS; new endpoint handshake NOT_VALIDATED.
 - [NEXT] Do not sweep parameters. First isolate the new endpoint by removing the old peer from the test interface, then force one fresh initiation and inspect handshake/RX. This remains isolated and must not create a default route.
 
-
 ## STAGE 14 — Old Proton peer removed — 2026-09-25
 - [USER RESULT] Removed old peer public key from isolated `proton_awg_test`; command returned empty output.
 - [INTERPRETATION] The old endpoint peer removal command completed without a reported local error. New endpoint remains the intended sole peer for the next clean A/B observation.
@@ -2097,8 +2091,7 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [NEXT GATE] If proceeding, first perform a controlled package installation only after the user explicitly chooses to proceed; installation changes package state and adds the `kmod-tun` dependency. No AWG/Proton resume.
 
 
----
-## 2026-09-26 — sing-box-tiny installation authorized
+---## 2026-09-26 — sing-box-tiny installation authorized
 
 - User explicitly requested `Продолжай` after the package/resource gate.
 - Preconditions verified: official package `sing-box-tiny-1.13.21-r1`, installed size 33 MiB, required dependencies known; extroot has ~6.2 GiB free; baseline available RAM ~11.9 MiB; package not installed.
@@ -2253,3 +2246,14 @@ The frozen tunnel branch and this newly paused Xray/sing-box branch must be skip
 - The two `nfqws2` processes are **expected**, not a duplicate/rogue daemon. Upstream zapret2's OpenWrt init script manages standard nfqws2 daemons as separate procd instances; the active standard configuration covers both TCP 80/443 and UDP 443. citeturn0search0turn0search3
 - Do not kill either nfqws2 process and do not create another watchdog.
 - Zapret2 remains **ACTIVE AT RUNTIME / VALIDATED** for the current intended DPI-oriented scope.
+
+---
+## AUTHORITATIVE ORDER CHANGE — 2026-09-26 — PBR DEFERRED TO FINAL VPN/WARP STAGE
+
+- **User decision:** PBR / selective routing is moved to the **end of the project sequence**, after WARP and VPN/tunnel setup and their validation.
+- PBR must remain **PLANNED / DEFERRED** and must not be selected as the next incomplete non-tunnel capability merely because the `pbr` package is installed/enabled.
+- Until the WARP/VPN stage is reached and the relevant tunnel interfaces are validated, do not create PBR policies, routing tables, marks, default-route overrides, or selective-routing rules.
+- The existing `pbr` package may remain installed/enabled as preparation; its presence is not evidence that PBR is configured or active.
+- This supersedes earlier wording that treats PBR/selective routing as the next action after current Zapret2/management work.
+- **STATUS:** PBR/selective routing = PLANNED / DEFERRED TO FINAL WARP+VPN STAGE.
+- Technical planning will use current official OpenWrt PBR documentation when the stage is reached.
