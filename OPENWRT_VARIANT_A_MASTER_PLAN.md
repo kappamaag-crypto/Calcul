@@ -2054,3 +2054,20 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - [CURRENT STATE] No package was installed and no router configuration, routing, firewall, DNS, Zapret2, watchdog, filesystem, swap, or VM state was changed.
 - [NEXT GATE] The package-index cache must be refreshed before retrying the metadata query. Refreshing repository indexes is a limited package-manager operation; it does not install or upgrade packages and does not change network/routing/firewall configuration.
 - [STATUS] STAGE 14 VLESS/sing-box candidate = IN_PROGRESS. sing-box-tiny resource gate = **BLOCKED by missing local APK indexes** pending index refresh. AWG/Proton remains PAUSED.
+
+
+---
+## 2026-09-26 — sing-box-tiny metadata gate completed
+
+- [USER RESULT] After `apk update`, repository indexes became available (reported: **11088 distinct packages available**).
+- `apk info -a sing-box-tiny` verified official OpenWrt package metadata:
+  - package: `sing-box-tiny-1.13.21-r1`
+  - installed size: **33 MiB**
+  - dependencies: `ca-bundle`, `kmod-inet-diag`, `kmod-tun`, `libc`
+  - provides: `sing-box=1.13.21-r1`, `sing-box-tiny-any`
+  - license: GPL-3.0-or-later
+  - upstream webpage: sing-box.sagernet.org
+- [STATUS] sing-box-tiny package metadata/resource gate = **DONE**.
+- [STATUS] No sing-box package was installed; no router configuration/runtime state changed.
+- [NEXT GATE] Before installation, perform a minimal read-only resource baseline on the router (RAM + overlay free space) and confirm current package installation state if needed. Installation must remain a deliberate state-changing step because the package consumes ~33 MiB of overlay storage and adds `kmod-tun`/other dependencies.
+- [OVERRIDE] Do not resume Proton/AWG branch; it remains PAUSED by user.
