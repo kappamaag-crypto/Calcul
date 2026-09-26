@@ -2257,3 +2257,18 @@ The frozen tunnel branch and this newly paused Xray/sing-box branch must be skip
 - This supersedes earlier wording that treats PBR/selective routing as the next action after current Zapret2/management work.
 - **STATUS:** PBR/selective routing = PLANNED / DEFERRED TO FINAL WARP+VPN STAGE.
 - Technical planning will use current official OpenWrt PBR documentation when the stage is reached.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-26 — ZAPRET-MANAGER / SPLIFY / WARP RECONNAISSANCE
+
+- **User decision:** investigate WARP/VPN capability before final PBR stage. No router installation/change has been authorized by this note.
+- **Zapret-Manager:** reviewed as a management/orchestration layer, not as a VPN provider. Its current public README advertises management of Zapret/Zapret2, splify, Mixomo, NetShift, WARP generation/integration and other bypass components. citeturn0search0turn0search1
+- **Important architecture finding:** the current Zapret-Manager script has a dedicated Zapret2 installer restricted to `aarch64_cortex-a53`; therefore that Zapret2 installer is **NOT compatible evidence for this hAP ac lite MIPS/ath79 target**. Do not use it to replace the already-working project Zapret2.
+- **splify path:** the manager explicitly downloads splify packages from the xyzmean/splify release and can generate/register Cloudflare WARP, create a WARP interface, and integrate it into splify. It also exposes a separate splify2 installer. citeturn0search1
+- **splify2 path:** the manager invokes the upstream splify2 installer rather than proving target compatibility itself. Therefore splify2 is a **candidate for read-only source/architecture audit only**, not an approved installation path.
+- **Risk/control:** the manager's WARP integration can create an interface, UCI network/peer sections, firewall/routing state and service/cron behavior. Because the router already has a customized active Zapret2 + watchdog and deferred PBR, the full manager must not be installed blindly and must not become a second routing/firewall controller without a compatibility and side-effect audit.
+- **Do not reintroduce retired DoH:** the manager offers DoH/NetShift-related functions, but the project's https-dns-proxy/DoH branch is RETIRED. No DoH installation is implied by this reconnaissance.
+- **Do not activate full VPN routing yet:** WARP/VPN remains an architecture investigation stage. No default route, policy routing, full-router VPN, or PBR configuration is created by this checkpoint.
+- **NEXT ACTION:** inspect the exact splify/splify2 implementation and package architecture for the hAP target (MIPS 24Kc / ath79 / mikrotik) before any router-changing command. Prefer a read-only compatibility audit of the relevant upstream source/releases.
+- **STATUS:** WARP candidate = PLANNED / UNDER COMPATIBILITY AUDIT; Zapret-Manager = RESEARCHED / NOT INSTALLED; splify = CANDIDATE / NOT INSTALLED; splify2 = CANDIDATE / NOT INSTALLED; PBR = PLANNED / DEFERRED.
