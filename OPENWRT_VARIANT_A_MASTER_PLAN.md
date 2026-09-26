@@ -2421,3 +2421,37 @@ Package versions:
 - Xray/sing-box: paused.
 - Zapret2: unchanged.
 - First reopened AWG/Proton test must use a separate interface, no default route, no broad DNS/firewall changes and no simultaneous second VPN stack.
+
+
+---
+
+## AUTHORITATIVE STRATEGY BRANCH — 2026-09-27
+
+A dedicated controlled strategy branch has been created for migration of blockcheck2 evidence to the existing OpenWrt/nfqws2 stack:
+
+- ZAPRET2_STRATEGY_MASTER_PLAN.md = AUTHORITATIVE FOR ZAPRET2 STRATEGY WORK.
+- ZAPRET2_STRATEGY_MASTER_PROMPT.md = MANDATORY AI PROMPT FOR ZAPRET2 STRATEGY WORK.
+- ZAPRET2_WORKING_UNIVERSAL_STRATEGIES_2609.md = evidence summary of blockcheck2609_FULL.log.
+
+Current strategy evidence source:
+- blockcheck2609_FULL.log, blob SHA d42227bdc262c4437e4d1f78e28369c41075b3d6.
+- Seven unique WORKING_IN_BLOCKCHECK candidates are recorded in the evidence summary.
+- The Windows --wf-* interception parameters from the log are not to be copied to OpenWrt; only applicable payload/desync logic is translated to nfqws2.
+
+Strategy branch status:
+- Strategy master control documents = CREATED / READY.
+- STAGE S0 = DONE.
+- STAGE S1 full YouTube × Instagram × WhatsApp × Telegram domain matrix = NOT_STARTED.
+- No router configuration was changed by creation of these documents.
+
+Execution rule:
+- Do not call any candidate strategy UNIVERSAL before the full service/domain matrix and hAP validation.
+- Before the first runtime strategy change, back up the current Zapret2 configuration.
+- The existing Zapret2 watchdog, current routing/DNS/PBR/VPN state and existing working datapath are preserved.
+- Strategy changes remain one-variable-at-a-time and must use rollback.
+- Current Telegram/WhatsApp Zapret2-only limitations recorded elsewhere in this MASTER PLAN remain in force; blockcheck PASS is not proof of hAP recovery.
+
+NEXT EXACT STRATEGY ACTION:
+- Analyze blockcheck2609_FULL.log and build the four-service/domain matrix.
+- No NFQWS2_OPT, MODE_FILTER, QNUM or firewall change is authorized by this branch before S1 is completed.
+
