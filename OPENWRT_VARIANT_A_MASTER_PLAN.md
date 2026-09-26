@@ -2044,3 +2044,13 @@ Perform one end-to-end connectivity test from a device actually connected to the
 - Do not add or broaden an SSH firewall rule.
 - Do not install/configure LuCI/uhttpd solely because SSH is validated.
 - Continue from the highest-priority incomplete **non-WireGuard** capability according to the current capability ledger; do not resume the paused Proton/AWG branch or the blocked Zapret2 Telegram/WhatsApp branch without explicit reopening/new evidence.
+
+
+---
+## 2026-09-26 — VLESS/sing-box-tiny package metadata check: local APK cache unavailable
+
+- [USER RESULT] Read-only command `apk info -a sing-box-tiny | sed -n '1,35p'` returned only APK warnings that cached `packages.adb` indexes were missing for the configured 2Grey and official OpenWrt repositories.
+- [INTERPRETATION] This result is **NON-DIAGNOSTIC for sing-box-tiny metadata**. It does not establish package absence, size, dependency set, or incompatibility.
+- [CURRENT STATE] No package was installed and no router configuration, routing, firewall, DNS, Zapret2, watchdog, filesystem, swap, or VM state was changed.
+- [NEXT GATE] The package-index cache must be refreshed before retrying the metadata query. Refreshing repository indexes is a limited package-manager operation; it does not install or upgrade packages and does not change network/routing/firewall configuration.
+- [STATUS] STAGE 14 VLESS/sing-box candidate = IN_PROGRESS. sing-box-tiny resource gate = **BLOCKED by missing local APK indexes** pending index refresh. AWG/Proton remains PAUSED.
