@@ -2938,3 +2938,32 @@ For future Zapret2 work, AI must read in this order:
 6. `ZAPRET2_STRATEGY_MASTER_PROMPT.md`
 
 The main Master Plan is authoritative for router-wide state; the Strategy Master Plan and `strategy27.md` are authoritative for the current strategy evidence and strategy-work procedure.
+
+
+## AUTHORITATIVE OVERRIDE — 2026-09-27 — TWO-LEVEL ZAPRET2 STRATEGY ARCHITECTURE
+
+The runtime strategy architecture is now fixed as a two-level model. This supersedes wording that treats the 4-class set-cover as the final runtime profile.
+
+### Fixed order
+1. Exact strategy hostlists first — domains with explicit FOUND evidence in strategy27.md use their evidence-backed specialized strategy/profile.
+2. Autohostlist second — domains not present in exact strategy hostlists fall through to the existing MODE_FILTER=autohostlist mechanism.
+3. Specialized strategies remain hostlist- and protocol-scoped; do not make them global.
+4. TF, QI and TC remain retained fallback/special evidence; HF remains a candidate, not explicit FOUND.
+5. No universal claim is made until runtime verification on hAP.
+
+### Interpretation of the 4-class set-cover
+The mathematical minimum HC + ME + TS + QF (or HC + ME + TS + TF) remains an evidence-domain minimum only. It does not authorize discarding other confirmed strategies. The practical architecture preserves explicit FOUND evidence and uses deterministic domain-to-strategy mapping where evidence exists, with autohostlist for unknown domains.
+
+### Logical hierarchy
+exact hostlist -> specialized nfqws2 strategy -> no exact match -> existing autohostlist fallback
+
+The current MODE_FILTER=autohostlist baseline remains unchanged until controlled runtime activation.
+
+### Validation implication
+S4-S7 must validate this two-level hierarchy rather than blanket-enable all strategies. Profiles are introduced in controlled groups, with rollback before each meaningful change. The 64 MB hAP resource limit remains a hard constraint.
+
+### Verified S3 baseline
+S3 rollback backup was verified on 2026-09-27. LIVE /opt/zapret2/config and /opt/zapret2/config.s3-backup-20260927 have identical SHA-256 at backup time: bc2bbe687543e3bbda87f96d793f917e404fa5d1e19ced0ffdfd9e804f18c4b6. No runtime strategy configuration was changed by the backup.
+
+### Next task
+Before activation, inspect the installed zapret2 renderer/init behavior for interaction between explicit custom --hostlist profiles and MODE_FILTER=autohostlist. Then prepare exact hostlists/profile ordering without restarting the service.
