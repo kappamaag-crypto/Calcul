@@ -3021,3 +3021,31 @@ The recent Zapret2 strategy work is synchronized and must supersede older S-stag
 
 ### Current next action
 Perform the composite read-only nfqws2 --dry-run with the four exact profiles first and the current rendered HTTP/TLS/QUIC fallback profiles second. No live strategy activation or unrelated subsystem changes are allowed in this action.
+
+
+## 2026-09-27 — S5/S6 COMPOSITE DRY-RUN PASTE/EXECUTION RESULT
+
+The requested read-only composite exact -> fallback dry-run was attempted from the hAP shell, but the long multiline shell command was broken at a continuation boundary during paste.
+
+Observed result:
+- nfqws2 v1.0.3 started and reported command line parameters verified.
+- It reported only 1 user defined desync profile(s), which proves the full intended composite was NOT passed to nfqws2.
+- The subsequent lines beginning with --filter-tcp=... / --filter-udp=... were executed by ash as standalone commands and returned -ash: ...: not found.
+- Final shell RC=127 belongs to those standalone shell command failures, not to the intended nfqws2 composite.
+- Therefore the nfqws2 RC=0 seen earlier is NOT evidence that the composite exact/fallback configuration was validated; it only covers the truncated invocation that actually reached nfqws2.
+- No live Zapret2 configuration change was requested or performed by this attempted dry-run.
+- No service restart was performed.
+- No /opt/zapret2/config modification was performed.
+
+### Corrective execution rule
+
+For long nfqws2 --dry-run composites, avoid paste-fragile multiline continuation blocks. The next retry must be one complete shell command/construct so every intended argument reaches the same nfqws2 process. The test remains read-only and must not stop/restart Zapret2 or modify /opt/zapret2/config.
+
+### Status
+
+- S5 composite exact -> fallback validation = IN_PROGRESS
+- This attempt = FAILED AS A COMPOSITE EXECUTION / INVALID TEST
+- nfqws2 binary/option parser = RUNTIME_VERIFIED only for the truncated invocation
+- exact profiles = not validated by this attempt
+- fallback profiles = not validated by this attempt
+- live Zapret2 configuration = preserved
