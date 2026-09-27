@@ -2994,3 +2994,12 @@ Current Zapret2 stage state:
 - Final universal profile: NOT_ESTABLISHED
 
 Next action is read-only inspection of the installed path that constructs `NFQWS2_OPT` and invokes `filter_apply_hostlist_target()`. Do not change MODE_FILTER, QNUM, DNS, routing, firewall, VPN, or restart Zapret2.
+## 2026-09-27 — ZAPRET2 S5 RENDER-PATH AUDIT
+
+Read-only inspection located the installed renderer call sites:
+- `/opt/zapret2/common/linux_daemons.sh:7`
+- `/opt/zapret2/common/installer.sh:798`
+
+Both invoke `filter_apply_hostlist_target opt`. No router configuration or service state was changed.
+
+Zapret2 strategy work remains in controlled read-only inspection. The next action is limited to reading the surrounding renderer/config-source lines; no MODE_FILTER, QNUM, DNS, firewall, routing, VPN or service changes are authorized.
