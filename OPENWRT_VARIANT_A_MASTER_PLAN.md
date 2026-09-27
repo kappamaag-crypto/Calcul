@@ -3049,3 +3049,20 @@ For long nfqws2 --dry-run composites, avoid paste-fragile multiline continuation
 - exact profiles = not validated by this attempt
 - fallback profiles = not validated by this attempt
 - live Zapret2 configuration = preserved
+
+## 2026-09-27 — AUTHORITATIVE OVERRIDE — S5 COMPOSITE DRY-RUN PASS
+
+The corrected read-only composite exact → fallback dry-run has now completed successfully using a temporary /tmp/s5-composite.sh wrapper, eliminating the earlier shell-paste corruption.
+
+Result from installed nfqws2 v1.0.3:
+- 7 user-defined desync profiles + default low-priority profile;
+- exact hostlists loaded: ME=44, HC=159, TS=194, QF=111;
+- current autohostlist fallback loaded=120 hosts;
+- command line parameters verified;
+- final shell RC=0.
+
+Status: S5 composite exact → fallback = PASS / RUNTIME_VERIFIED for parser/config acceptance.
+
+This is a dry-run only. It does not establish runtime traffic effectiveness and does not authorize live strategy27 activation. /opt/zapret2/config, MODE_FILTER, QNUM, DNS, routing, firewall, VPN and Zapret2 service state remain unchanged.
+
+The formal next stage is S6 QUIC validation. Future work must preserve the fixed architecture: exact hostlist → specialized strategy → no exact match → existing autohostlist fallback.
