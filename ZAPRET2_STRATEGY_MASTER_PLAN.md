@@ -914,3 +914,27 @@ No router configuration was changed.
 
 ### Next single router action
 Before writing the composite profile, validate the installed `nfqws2` binary's support for the exact profile syntax with `--dry-run` only. This avoids changing service state and confirms the persistent hostlist path plus the selected Lua desync verbs are accepted by the binary actually running on this hAP.
+
+
+## 2026-09-27 — S5 EXACT PROFILE DRY-RUN RESULT
+
+The installed `nfqws2` v1.0.3 (commit `b78b52c4cd7f843da3ff0848a3430afbd401bdf2`) accepted the command-line structure far enough to attempt hostlist registration, but the dry-run returned:
+
+`cannot access hostlist file '/etc/zapret2/strategy27/strategy27-ts.txt'`
+`failed to register hostlist '/etc/zapret2/strategy27/strategy27-ts.txt'`
+`RC=1`
+
+Interpretation: the test is **BLOCKED by the missing persistent hostlist file**. This result does not establish that `tcpseg:pos=0,-1:seqovl=1` and `drop` are invalid; the parser reached hostlist registration first. No service restart or configuration change occurred.
+
+### Stage state
+- S5 render-path inspection: **DONE**
+- S5 exact/fallback profile design: **DONE (engine semantics confirmed)**
+- S5 exact-profile binary dry-run: **BLOCKED — required hostlist file absent**
+- S4 exact-hostlist runtime validation: **NOT_STARTED**
+- S5 composite exact-strategy validation: **NOT_STARTED**
+- S6 QUIC validation: **NOT_STARTED**
+- S7 two-level validation: **NOT_STARTED**
+- Universal: **NOT_ESTABLISHED**
+
+### Next single action
+Read-only inventory of `/etc/zapret2` is required to determine whether the strategy27 hostlists already exist under another path before creating anything. Do not create directories/files yet.
