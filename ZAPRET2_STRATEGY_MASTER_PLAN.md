@@ -1376,3 +1376,144 @@ Status:
 - HF = **CANDIDATE ONLY / NOT ACTIVATED**.
 - No router configuration change made.
 - Exact HF promotion remains blocked until raw per-domain extraction is available and followed by targeted hAP runtime validation.
+
+
+## 2026-09-27 — HISTORY RECONCILIATION / AUTHORITATIVE ADDENDUM
+
+This section is added after a review of the recent Strategy Work chat history. It preserves details that were previously shortened, moved between stages, or could otherwise be lost by a future AI. Where an older section conflicts with this addendum, this addendum is authoritative.
+
+### A. Project method — explicit user constraints
+
+1. The objective is not to find one magic/universal desync. The working model is:
+   domain + traffic class -> exact evidence-derived strategy -> existing autohostlist fallback.
+2. A single domain may require different strategies for HTTP, TLS and QUIC. Do not assign one strategy to a domain merely because another L7 path worked.
+3. Blockcheck evidence supplies the domain-level evidence. Runtime work validates representative strategy classes and the architecture on the hAP; it must not become a 297-domain or 4xN runtime exercise.
+4. Use one controlled change at a time. Do not simultaneously alter strategy, MODE_FILTER, QNUM, DNS, routing, VPN/PBR or unrelated firewall.
+5. Keep diagnostics short and purposeful. For a stage, prefer the minimum evidence needed to classify the result.
+6. Preserve explicit distinctions between NOT_PROVEN, INCONCLUSIVE, BLOCKED, FAILED and SKIPPED. A baseline failure means a strategy test failure is not established.
+7. Do not install packages solely to manufacture a missing runtime test capability. In particular, the current QF live gate remains BLOCKED because the installed curl/libcurl lacks HTTP/3 support.
+8. Do not runtime-test all 297 domains. The full domain matrix is an evidence/activation map, not a runtime verification matrix.
+9. Do not activate a FOUND special strategy merely because it is FOUND. It needs a concrete coverage gap, targeted domain requirement, or discriminating runtime hypothesis.
+10. The existing watchdog is already present and healthy; do not create a second watchdog.
+
+### B. strategy27 is the full evidence catalog, not just four strategies
+
+The strategy27 artifact must remain the complete domain-to-strategy evidence map derived from 2609+2709. The currently active four-class layer is only the first minimal deployment layer.
+
+Current evidence classes:
+
+- ME — HTTP http_methodeol: 44 unique domains; ACTIVE.
+- HC — HTTP http_hostcase: 159 unique domains; ACTIVE.
+- TS — TLS tcpseg:pos=0,-1:seqovl=1 + drop: 194 unique domains; ACTIVE.
+- QF — QUIC fake_default_quic:repeats=11: 111 unique domains; ACTIVE.
+- TF — TLS fake_default_tls:tcp_ts=-1000: 15 domains; FOUND but DEFERRED, not a mere candidate.
+- TC — TLS1.2 special: 2 domains; FOUND but DEFERRED/SKIPPED.
+- QI — QUIC send:ipfrag + drop: 2 domains; FOUND but DEFERRED/SKIPPED.
+- HF — HTTP fake_default_http:tcp_ts=-1000: high aggregate coverage but CANDIDATE ONLY because no explicit working strategy found records were established.
+
+Do not collapse TF/TC/QI into unproven and do not promote HF to FOUND.
+
+### C. Runtime evidence already obtained
+
+The following results are authoritative and must not be repeated merely to fill an old stage label:
+
+- TS representative TLS gate: PASS / RUNTIME_VERIFIED.
+- HC representative HTTP gate: PASS / RUNTIME_VERIFIED in the later composite test (YouTube, RC=0, 892572 bytes). The earlier standalone HC attempt was inconclusive; the later controlled composite result supersedes it for representative HTTP validation.
+- ME representative HTTP: NOT_PROVEN. The endpoint also failed at baseline, so ME is not classified as FAILED.
+- QF: parser/hostlist/dry-run PASS; live traffic effectiveness BLOCKED because installed curl/libcurl has no HTTP/3 support.
+- Composite exact profiles + existing autohostlist fallback applied successfully and restored the baseline.
+- TC test was deliberately skipped after a baseline https://hdrzk.org/ result of RC=8, size=0; this did not establish TC as failed.
+- QI follow-up was explicitly skipped by the user.
+- TF was tested temporarily against claude.ai; RC=5 SSL EOF while the baseline had also failed (RC=4), therefore TF was classified NOT_PROVEN for that endpoint, not FAILED, and was restored/deferred.
+- No additional broad S7 runtime matrix is required at this stage.
+
+### D. Permanent activation is now DONE
+
+The rollback-protected script strategy27/activate-strategy27-me-hc-ts-qf.sh was executed successfully.
+
+Recorded result:
+- ACTIVATION=SUCCESS
+- exact active layer: ME 44 + HC 159 + TS 194 + QF 111
+- the pre-existing autohostlist fallback remains after the exact profiles
+- service restart/status passed
+- https://example.com HTTPS health passed
+- rollback was not triggered
+- rollback point: /opt/zapret2/config.strategy27-pre-20260927-212254
+- script SHA256: 509c4c3f...e60c487 (full SHA is recorded in the project conversation/evidence)
+
+Therefore permanent strategy27 activation is DONE / RUNTIME_VERIFIED for configuration/service activation and ordinary HTTPS health. It is not UNIVERSAL_VALIDATED and is not proof of live QUIC effectiveness or ME effectiveness.
+
+### E. Current live architecture must be preserved
+
+The current permanent configuration is:
+
+exact ME/HC/TS/QF
+        ↓
+no exact match
+        ↓
+existing autohostlist fallback
+
+Do not replace this fallback, rewrite MODE_FILTER, or change QNUM merely to evaluate HF/TF/TC/QI.
+
+Current relevant settings remain:
+- MODE_FILTER=autohostlist
+- QNUM=300
+- QNUM=65300 for the existing WireGuard-pattern handling
+- FLOWOFFLOAD=donttouch
+- INIT_APPLY_FW=1
+- IPv6 disabled in current Zapret2 configuration
+- SET_MAXELEM=522288
+
+### F. Latest post-activation application observation
+
+After permanent activation, the user reported that YouTube appears to work, while wget https://api.telegram.org returned:
+Failed to send request: Operation not permitted.
+
+This Telegram result must be retained as an application/runtime observation, not automatically classified as a strategy failure. It does not by itself prove whether the cause is DPI, IP-level blocking, route/path, firewall/NFQUEUE interaction, or application-layer behavior. Telegram has no explicit FOUND strategy in the supplied blockcheck runs, and the project already records the need to distinguish IP-level/path issues from desync coverage. Do not respond to this observation with blind strategy stacking.
+
+### G. HF raw-log gate is intentionally pending
+
+The existing ZAPRET2_HF_DOMAIN_DELTA_AUDIT.md correctly records that the exact per-domain HF sets are UNKNOWN, not empty.
+
+Known:
+- 2609 aggregate HF coverage: 74/140.
+- 2709 aggregate HF coverage: 149/301.
+- ME: 44 unique domains.
+- HC: 159 unique domains.
+- ME∩HC currently 0; ME∪HC = 203 unique exact HTTP domains in the 297-domain unified catalog.
+
+Still UNKNOWN until the original raw logs are available for direct extraction:
+- HF∩ME
+- HF∩HC
+- HF∩(ME∪HC)
+- HF-only
+- 2609-only HF
+- 2709-only HF
+- shared HF domains
+
+Do not infer these sets from aggregate coverage counters.
+
+When the user supplies the original logs, the next evidence task is exact per-domain extraction and set comparison. Only after that should any HF promotion/runtime experiment be considered.
+
+### H. Evidence/source rule
+
+The raw blockcheck2609_FULL.log and blockcheck2709.log remain primary evidence for domain/strategy findings. Derived GitHub documents are state/evidence records, not substitutes for unavailable raw per-domain lines. Do not silently reconstruct missing raw domain sets from aggregate counters, memory, or AI inference.
+
+### I. Future-AI handoff correction
+
+A future AI must not start from the old S1/S3 not started wording without reading the later authoritative sections of this plan. The actual current state is:
+
+- raw evidence reconciliation: DONE for currently recoverable evidence;
+- strategy27 full catalog: recorded;
+- representative runtime gates: completed to the extent possible;
+- S7 broad-matrix decision: DONE / EVIDENCE_RECONCILED;
+- permanent ME/HC/TS/QF activation: DONE;
+- current live fallback architecture: preserved;
+- TF/TC/QI: FOUND but deferred/skipped;
+- HF: candidate-only, exact domain delta pending raw logs;
+- QF live effectiveness: BLOCKED by missing HTTP/3 client;
+- ME live effectiveness: NOT_PROVEN;
+- Telegram application observation: api.telegram.org returned Operation not permitted after activation;
+- no reason to perform a 297-domain runtime matrix.
+
+The next action after receipt of the original raw logs is HF exact domain-delta extraction, not another broad router test.
