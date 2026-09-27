@@ -1499,3 +1499,14 @@ Future AIs must treat this section as the latest remote-management checkpoint.
 - Tailscale rule: do not retry the full package, tune swap/RAM for it, or install an untrusted third-party binary. Reopen only if an external build resource, trusted official small package, or explicitly approved alternative becomes available.
 - `kappakappa.ddns.net` is DDNS only and does not bypass the current CGNAT path.
 - WG/AWG remains FROZEN by explicit user decision. Zapret2 remains unchanged. Xray/sing-box remains PAUSED. PBR remains deferred to final WARP/VPN stage.
+
+
+## 2026-09-27 — COMMAND-TRANSFER SAFETY RULE FOR LONG READ-ONLY TESTS
+
+When a read-only router command is intentionally long and uses many arguments, prefer a single complete shell construct rather than fragile backslash-continuation pasted blocks. A continuation break can cause nfqws2 to validate only a prefix while the remaining options are executed by ash as standalone commands.
+
+For such tests:
+- treat nfqws2 RC=0 as meaningful only when the intended full argument set is visibly part of the same invocation;
+- distinguish nfqws2 parser result from shell 127 errors;
+- never classify a composite strategy test as PASS/DONE when the command was split;
+- keep the router/service/config safety rules unchanged.
