@@ -1090,3 +1090,27 @@ Corrective rule:
 
 Current status remains:
 S5 composite exact -> fallback = IN_PROGRESS.
+
+## 2026-09-27 — S5 COMPOSITE EXACT → FALLBACK DRY-RUN — PASS
+
+The corrected composite dry-run was executed from a temporary shell script /tmp/s5-composite.sh, avoiding paste-fragile line continuations. The test remained read-only and did not modify /opt/zapret2/config or restart the Zapret2 service.
+
+Observed nfqws2 v1.0.3 result:
+- 7 user defined desync profiles + default low priority profile;
+- autohostlist fallback loaded 120 hosts;
+- exact ME hostlist loaded 44 hosts;
+- exact HC hostlist loaded 159 hosts;
+- exact TS hostlist loaded 194 hosts;
+- exact QF hostlist loaded 111 hosts;
+- Running as UID=1 GID=1;
+- command line parameters verified;
+- shell result RC=0.
+
+Classification: S5 composite exact → fallback dry-run = PASS / RUNTIME_VERIFIED (parser/config acceptance only).
+
+This proves that the complete intended exact-profile → fallback composite is accepted by the installed nfqws2 v1.0.3 parser with all required hostlists loaded. It does not prove traffic-level effectiveness, universal service coverage, or that any strategy should be activated in the live service.
+
+The previous paste-corrupted attempts remain classified as INVALID TEST and do not affect this PASS result.
+
+### Next gate
+Proceed to the formal S6 QUIC validation stage. Keep live Zapret2 unchanged and do not activate strategy27 until the required runtime/service matrix gates are satisfied.
