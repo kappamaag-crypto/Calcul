@@ -3100,3 +3100,17 @@ Rules:
 Current checkpoint: Gate A/ME = IN_PROGRESS/NOT PROVEN; Gate B/TS = PASS; Gate C/QF = BLOCKED because installed curl/libcurl has no HTTP/3 support. Live strategy27 remains inactive.
 
 This override supersedes older wording requesting a full four-service/domain matrix.
+
+## 2026-09-27 — ZAPRET2 RUNTIME VALIDATION CHECKPOINT
+
+Для Strategy Work зафиксировано:
+
+- Полная domain/evidence matrix по `blockcheck2609_FULL.log` + `blockcheck2709.log` уже существует в `strategy27.md` (297 уникальных тестовых целей); её не следует превращать в 297 live runtime tests.
+- Методология runtime переопределена на representative class gates.
+- Gate B / TLS-TS: **PASS** — exact TS profile успешно обслужил `https://instagram.com/` на hAP.
+- Gate A / HTTP-ME: **NOT_PROVEN** — baseline и exact ME HTTP test завершились одинаково без ответа.
+- Следующая попытка Gate A / HC не дала `HC_RC`; результат **INCONCLUSIVE**, после чего baseline был восстановлен с `RESTORE_RC=0`.
+- Gate C / QUIC-QF: **BLOCKED** — установленный curl/libcurl не поддерживает HTTP/3; запрос фактически не выполнялся.
+- Живой Zapret2 baseline восстановлен; strategy27 exact profiles не активированы.
+
+Не возвращаться к exhaustive per-domain runtime matrix. Blockcheck evidence используется для domain coverage; live hAP testing — только для проверки representative traffic classes и exact→fallback architecture.
