@@ -3206,3 +3206,13 @@ Blockcheck **FOUND** proves that the strategy worked in the source test environm
 TC follow-up was stopped without changing the permanent router configuration. A local two-domain TC hostlist was created, but the baseline test of `hdrzk.org` returned `RC=8` with zero output, which did not provide differential evidence for TC. The user then explicitly chose to skip TC and QI.
 
 Current live strategy architecture remains **ME + HC + TS + QF + existing autohostlist fallback**. TF remains FOUND/NOT_PROVEN; TC and QI remain deferred FOUND classes; HF remains candidate-only. No unrelated router subsystem was changed.
+## 2026-09-27 — HF DOMAIN DELTA AUDIT CHECKPOINT
+
+A dedicated artifact `ZAPRET2_HF_DOMAIN_DELTA_AUDIT.md` was created.
+
+HF remains **CANDIDATE ONLY / NOT ACTIVATED**. Aggregate blockcheck coverage is 74/140 (2609) and 149/301 (2709), but the current repository-derived documents do not expose the exact per-domain HF candidate set. Therefore no HF-new-domain count is asserted.
+
+Current production architecture remains unchanged:
+ME exact → HC exact → TS exact → QF exact → existing autohostlist fallback.
+
+No DNS, routing, PBR, QNUM, firewall, VPN or Zapret2 production configuration changes were made for this audit.
