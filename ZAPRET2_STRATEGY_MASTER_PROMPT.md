@@ -507,3 +507,10 @@ Required method:
 Current checkpoint: Gate A/ME = IN_PROGRESS/NOT PROVEN; Gate B/TS = PASS; Gate C/QF = BLOCKED due to missing HTTP/3 support in installed curl/libcurl. strategy27 remains inactive in live config.
 
 This override supersedes older instructions that requested a full four-service/domain matrix.
+
+
+## 2026-09-27 — S5 COMPOSITE RUNTIME CHECKPOINT
+
+A controlled live composite test completed and rolled back automatically. HC HTTP YouTube: RC=0, 892572 bytes — RUNTIME_VERIFIED. ME HTTP Instagram: RC=4 — NOT_PROVEN because the same endpoint had already failed at baseline. TS TLS Instagram: RC=0, 416466 bytes — RUNTIME_VERIFIED. Restore: RC=0. QF was loaded in the composite but live QUIC remains BLOCKED because installed curl/libcurl has no HTTP/3 support.
+
+Exact selection model remains domain + traffic class -> evidence-derived exact profile -> existing autohostlist fallback when no exact match. Runtime must not become a per-domain matrix. Permanent strategy27 activation remains NOT_AUTHORIZED.
