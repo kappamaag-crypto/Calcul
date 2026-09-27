@@ -426,3 +426,21 @@ MEASURE
 -> COMPOSE ONLY AFTER EVIDENCE
 
 Главный критерий — доказанное покрытие при минимальном вмешательстве и сохранении стабильности hAP.
+
+
+## CURRENT HANDOFF OVERRIDE — 2026-09-27 — S4 RENDERER AUDIT
+
+The installed renderer behavior is verified read-only:
+- `<HOSTLIST>` under `MODE_FILTER=autohostlist` includes auto-hostlist handling.
+- `<HOSTLIST_NOAUTO>` under the same mode still includes `--hostlist=$HOSTLIST_AUTO`.
+- The init wrapper passes rendered NFQWS2 arguments to the daemon; `--new` separates profiles.
+- No router configuration was changed and no restart occurred.
+
+Never describe `<HOSTLIST_NOAUTO>` as an exact-only mechanism in this installation.
+
+Required runtime hierarchy remains:
+`exact hostlist -> specialized strategy -> no exact match -> autohostlist fallback`.
+
+Before activation, explicitly separate exact domains from the fallback auto profile. Do not change MODE_FILTER or unrelated router subsystems merely to achieve this.
+
+After every user result, synchronize the relevant master plan before the next router action.
