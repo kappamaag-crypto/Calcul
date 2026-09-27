@@ -514,3 +514,24 @@ This override supersedes older instructions that requested a full four-service/d
 A controlled live composite test completed and rolled back automatically. HC HTTP YouTube: RC=0, 892572 bytes — RUNTIME_VERIFIED. ME HTTP Instagram: RC=4 — NOT_PROVEN because the same endpoint had already failed at baseline. TS TLS Instagram: RC=0, 416466 bytes — RUNTIME_VERIFIED. Restore: RC=0. QF was loaded in the composite but live QUIC remains BLOCKED because installed curl/libcurl has no HTTP/3 support.
 
 Exact selection model remains domain + traffic class -> evidence-derived exact profile -> existing autohostlist fallback when no exact match. Runtime must not become a per-domain matrix. Permanent strategy27 activation remains NOT_AUTHORIZED.
+## 2026-09-27 — AUTHORITATIVE S7 WORKFLOW OVERRIDE
+
+The runtime workflow is now evidence-reconciled.
+
+Formal S7 may be closed without additional live tests when:
+- representative HTTP/TLS gates have demonstrated the exact→fallback architecture;
+- blocked tooling limitations are explicitly classified as BLOCKED;
+- unresolved individual strategies are NOT_PROVEN rather than silently promoted;
+- the existing domain/service evidence already answers whether a broad service matrix would change the architecture decision.
+
+Never turn S7 into a 297-domain or 4×N live test matrix.
+
+Current S7 disposition: **DONE / EVIDENCE_RECONCILED — no additional router runtime matrix required**.
+
+This does not authorize permanent strategy27 activation. A later activation stage must remain a separate controlled change with rollback and baseline health verification.
+
+After every user result:
+1. interpret the result;
+2. synchronize the Strategy Master Plan;
+3. update this prompt only if workflow/safety changed;
+4. only then issue one next action.
