@@ -723,3 +723,35 @@ No S2 design change authorizes activation, restart, firewall edits, DNS changes,
 **S3: read-only capture of live Zapret2 configuration + create and verify rollback backup.**
 
 Until S3 is complete, do not create or activate strategy27 hostlists and do not change `NFQWS2_OPT`.
+
+
+## 2026-09-27 — AUTHORITATIVE TWO-LEVEL RUNTIME ARCHITECTURE
+
+The project now fixes the runtime order:
+
+### LEVEL 1 — EXACT EVIDENCE-BACKED HOSTLISTS
+If a destination has an explicit FOUND strategy in strategy27.md, route it to the corresponding specialized nfqws2 profile first. Preserve all seven explicit FOUND classes: HC, ME, TS, TF, TC, QF and QI. The previous 4-class set-cover is a mathematical minimum only and must not be interpreted as permission to discard confirmed fallback/special strategies.
+
+### LEVEL 2 — EXISTING AUTOHOSTLIST FALLBACK
+If a destination is not covered by an exact strategy hostlist, it falls through to the existing MODE_FILTER=autohostlist behavior, preserving automatic handling for unknown domains.
+
+### Fixed logical order
+exact hostlist -> specialized strategy -> no exact match -> autohostlist fallback
+
+The architecture is not all strategies globally enabled, not all seven stacked indiscriminately, not a replacement of autohostlist, and not a universal-strategy claim.
+
+### Validation update
+S4 onward must test this hierarchy. Before activation, verify how the installed zapret2 init/config renderer combines explicit --hostlist rules with MODE_FILTER=autohostlist. Then introduce profiles in controlled groups with rollback and one meaningful change at a time.
+
+### Current S-stage status
+S1 evidence matrix: DONE
+S2 translation design: DONE / DESIGN ONLY
+S3 live backup: DONE
+S4 exact-hostlist runtime validation: NOT_STARTED
+S5 composite exact-strategy validation: NOT_STARTED
+S6 QUIC exact-strategy validation: NOT_STARTED
+S7 two-level four-service validation: NOT_STARTED
+Final universal profile: NOT_ESTABLISHED
+
+### Verified S3 rollback point
+/opt/zapret2/config.s3-backup-20260927 matches /opt/zapret2/config with SHA-256 bc2bbe687543e3bbda87f96d793f917e404fa5d1e19ced0ffdfd9e804f18c4b6.
