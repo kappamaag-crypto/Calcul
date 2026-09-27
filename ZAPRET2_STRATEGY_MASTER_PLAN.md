@@ -1254,3 +1254,33 @@ Scope:
 This is a permanent-activation mechanism with failure rollback, not a temporary strategy swap. The script has been prepared in GitHub but has NOT been executed on the router in this checkpoint.
 
 Current activation state: **PREPARED / NOT_EXECUTED**.
+
+
+## 2026-09-27 — AUTHORITATIVE — PERMANENT ME/HC/TS/QF ACTIVATION SUCCESS
+
+The rollback-protected permanent activation prepared in `strategy27/activate-strategy27-me-hc-ts-qf.sh` was executed on the hAP.
+
+### Activation result
+- `ACTIVATION=SUCCESS`
+- `/opt/zapret2/config` updated successfully.
+- Exact profiles active: ME=44 hosts, HC=159 hosts, TS=194 hosts, QF=111 hosts.
+- The previous `NFQWS2_OPT` body remains after the exact profiles and therefore preserves the existing autohostlist fallback.
+- Zapret2 restart and service-status gates passed.
+- HTTPS health gate `https://example.com` passed.
+- Automatic rollback was not triggered.
+- Permanent rollback point: `/opt/zapret2/config.strategy27-pre-20260927-212254`.
+
+### Evidence classification
+This is **RUNTIME_VERIFIED for configuration/service activation and health**, not universal traffic-effectiveness proof.
+- HC representative HTTP: RUNTIME_VERIFIED from prior controlled gate.
+- TS representative TLS: RUNTIME_VERIFIED from prior controlled gate.
+- ME representative HTTP: NOT_PROVEN; prior baseline failed identically.
+- QF live QUIC: BLOCKED by missing HTTP/3 support in the installed curl/libcurl; parser/hostlist dry-run is PASS.
+
+### Architecture status
+The live architecture is now:
+**domain + traffic class → exact evidence-derived specialized profile → no exact match → existing autohostlist fallback**.
+
+Do not run a 297-domain or 4×N runtime matrix. Do not describe strategy27 as universal. TF/TC/QI remain deferred explicit FOUND classes and HF remains candidate-only. Any future strategy modification requires a separate controlled change and rollback.
+
+Permanent activation status: **DONE / RUNTIME_VERIFIED (activation + health)**.
