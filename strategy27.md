@@ -1545,3 +1545,40 @@ Interpretation:
 Status:
 - S4 renderer audit: **DONE**
 - S4 exact-hostlist runtime validation: **NOT_STARTED**
+
+## 20. AUTHORITATIVE RUNTIME CHECKPOINT — 2026-09-27
+
+This section supersedes older runtime-status wording in sections 15–19 where those sections still describe runtime validation as NOT_STARTED.
+
+### Current formal stage state
+- S1 evidence/domain matrix: DONE
+- S2 OpenWrt/nfqws2 translation design: DONE / DESIGN ONLY
+- S3 rollback backup: DONE / VERIFIED
+- S4 renderer audit + minimal runtime-gate work: DONE for the completed checks; no exhaustive per-domain runtime testing
+- S5 composite exact-strategy validation: PASS / RUNTIME_VERIFIED for demonstrated HTTP/TLS paths
+- S6 QUIC exact-strategy validation: BLOCKED for live traffic effectiveness because installed curl/libcurl has no HTTP/3 support; dry-run/parser validation is PASS
+- S7 two-level four-service validation: NOT_STARTED / deferred pending only a justified architecture-level smoke need
+- Permanent strategy27 activation: NOT_AUTHORIZED
+- Universal profile: NOT_ESTABLISHED
+
+### Runtime evidence actually established
+- Exact HC HTTP profile + www.youtube.com: RUNTIME_VERIFIED, RC=0, 892572 bytes.
+- Exact TS TLS profile + instagram.com: RUNTIME_VERIFIED, RC=0, 416466 bytes.
+- Exact ME HTTP profile + instagram.com: NOT_PROVEN, RC=4; the same endpoint also failed in the baseline test, so this is not a ME failure classification.
+- Exact QF profile: parser/hostlist dry-run PASS, live QUIC effectiveness BLOCKED by missing HTTP/3 client support.
+- Controlled composite test restored the baseline successfully: RESTORE_RC=0.
+
+### Architecture decision
+The target remains deterministic and two-level:
+
+domain + traffic class → exact evidence-derived specialized profile → no exact match → existing autohostlist fallback
+
+This is not an automatic strategy search and does not require runtime-testing all 297 domains. The 2609→2709 blockcheck matrix remains the source of domain-level evidence; hAP runtime tests validate representative traffic classes and the exact→fallback mechanism.
+
+### Deferred classes
+TF, TC and QI remain preserved as explicit FOUND evidence but are not activated in the first four-profile set. HF remains a candidate only because it has coverage evidence but no explicit FOUND record. They should be revisited only if a concrete coverage gap appears.
+
+### S7 decision rule
+Do not start a 4×N service/domain matrix. Before any new router command, first determine from the existing evidence whether S7 requires any additional smoke request at all. If no concrete architecture question remains, S7 may be closed as an evidence-reconciliation stage without additional runtime testing.
+
+Router baseline remains restored and unchanged by the runtime experiments.
