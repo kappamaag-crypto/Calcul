@@ -1339,3 +1339,14 @@ Do **not** activate TF, TC or QI merely because they are FOUND. They require a c
 
 Blockcheck **FOUND** proves that the strategy worked in the source test environment. It does not by itself prove runtime effectiveness on this hAP. Conversely, a deferred strategy is not considered failed merely because it is not in the current permanent layer.
 
+
+
+## 2026-09-27 — S9 TC / QI FOLLOW-UP DISPOSITION
+
+- **TC:** local hostlist was created with the two explicit FOUND domains `hdrzk.org` and `media.licdn.com`, but permanent configuration remained unchanged. A controlled baseline against `https://hdrzk.org/` returned `BASE_RC=8`, `BASE_SIZE=0`. The result does not establish a TC differential benefit, so TC is **DEFERRED / SKIPPED**, not FAILED.
+- **QI:** user explicitly chose to skip further QI evaluation. QI remains **DEFERRED / FOUND** and is not activated.
+- Permanent live layer remains **ME + HC + TS + QF + existing autohostlist fallback**.
+- **HF remains CANDIDATE ONLY.**
+- No DNS/routing/VPN/PBR/QNUM/firewall changes were made by this follow-up.
+
+Operational rule: do not activate TC or QI merely because blockcheck marked them FOUND. Revisit only when a concrete coverage gap or targeted domain requirement justifies a controlled runtime test.
