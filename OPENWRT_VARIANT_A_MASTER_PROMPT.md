@@ -1510,3 +1510,15 @@ For such tests:
 - distinguish nfqws2 parser result from shell 127 errors;
 - never classify a composite strategy test as PASS/DONE when the command was split;
 - keep the router/service/config safety rules unchanged.
+
+## 2026-09-27 — MANDATORY CURRENT CHECKPOINT — S5 COMPOSITE DRY-RUN PASS
+
+The full exact → fallback nfqws2 composite was successfully executed as one temporary shell script /tmp/s5-composite.sh after earlier paste-corruption attempts.
+
+Verified output: nfqws2 v1.0.3 accepted 7 user-defined desync profiles; loaded ME=44, HC=159, TS=194 and QF=111 exact hosts plus 120 autohostlist fallback hosts; reported command line parameters verified; final shell RC=0.
+
+Interpretation: the complete composite is PASS / RUNTIME_VERIFIED for parser/config acceptance only. Do not interpret this as proof of live DPI bypass or universal service coverage.
+
+Safety: this was read-only. Do not alter /opt/zapret2/config, restart Zapret2, change MODE_FILTER/QNUM/DNS/routing/firewall/VPN, or activate strategy27 as a consequence of this dry-run alone.
+
+Next formal stage: S6 QUIC validation. Preserve the exact-hostlist → specialized strategy → existing autohostlist fallback architecture.
