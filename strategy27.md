@@ -1379,7 +1379,7 @@ S2 переводит proven blockcheck2 payload/desync logic в синтакс�
 
 ```
 --filter-tcp=80 --filter-l7=http
---hostlist=/opt/zapret2/ipset/strategy27-me.txt
+--hostlist=/etc/zapret2/strategy27/strategy27-me.txt
 --payload=http_req
 --lua-desync=http_methodeol
 --new
@@ -1389,7 +1389,7 @@ S2 переводит proven blockcheck2 payload/desync logic в синтакс�
 
 ```
 --filter-tcp=80 --filter-l7=http
---hostlist=/opt/zapret2/ipset/strategy27-hc.txt
+--hostlist=/etc/zapret2/strategy27/strategy27-hc.txt
 --payload=http_req
 --lua-desync=http_hostcase
 --new
@@ -1399,7 +1399,7 @@ S2 переводит proven blockcheck2 payload/desync logic в синтакс�
 
 ```
 --filter-tcp=443 --filter-l7=tls
---hostlist=/opt/zapret2/ipset/strategy27-ts.txt
+--hostlist=/etc/zapret2/strategy27/strategy27-ts.txt
 --payload=tls_client_hello
 --lua-desync=tcpseg:pos=0,-1:seqovl=1
 --lua-desync=drop
@@ -1410,7 +1410,7 @@ S2 переводит proven blockcheck2 payload/desync logic в синтакс�
 
 ```
 --filter-udp=443 --filter-l7=quic
---hostlist=/opt/zapret2/ipset/strategy27-qf.txt
+--hostlist=/etc/zapret2/strategy27/strategy27-qf.txt
 --payload=quic_initial
 --lua-desync=fake:blob=fake_default_quic:repeats=11
 ```
@@ -1487,3 +1487,39 @@ S2 is considered **DONE (design)** when:
 - runtime activation is still separated from design.
 
 S2: **DONE / DESIGN ONLY**. Router configuration changed: **NO**.
+
+
+## 19. Synchronization with OPENWRT_VARIANT_A_MASTER_PLAN.md — 2026-09-27
+
+This Strategy Master Plan is subordinate to the main project plan for router-wide state. The main plan remains authoritative for hardware, network, DNS, storage, VPN/PBR branches, memory policy, watchdog state, and all router-changing safety gates.
+
+### Current synchronized status
+
+- Manual blockcheck strategy discovery from `blockcheck2609_FULL.log` + `blockcheck2709.log`: **DONE FOR CURRENT EVIDENCE**.
+- S1 merged evidence/domain matrix: **DONE** in `strategy27.md`.
+- S2 OpenWrt/nfqws2 translation design: **DONE / DESIGN ONLY**.
+- S3 live Zapret2 backup: **NOT_STARTED**.
+- S4 single-strategy hAP runtime validation: **NOT_STARTED**.
+- S5 TCP composite validation: **NOT_STARTED**.
+- S6 QUIC validation: **NOT_STARTED**.
+- S7 four-service hAP validation: **NOT_STARTED**.
+- Final universal profile: **NOT_ESTABLISHED**.
+- Telegram Zapret2-only: **NOT_FOUND_IN_SUPPLIED_RUNS / existing main-plan scope remains BLOCKED**.
+
+### Main-plan invariants inherited by Strategy Work
+
+- Archer C20 v4 remains the main router; hAP ac lite remains downstream.
+- Current working Zapret2 configuration must be preserved until a controlled runtime experiment proves a change.
+- `MODE_FILTER=autohostlist` is not changed by the S2 design.
+- DNS, PBR, VPN, routing and broad firewall policy are outside S2.
+- No strategy is promoted to universal from blockcheck evidence alone.
+- One meaningful runtime variable/change at a time; rollback before experiments.
+- Memory/watchdog safety gates from the main plan remain mandatory.
+
+### Persistent custom-list location
+
+Strategy27 hostlists are designed for `/etc/zapret2/strategy27/`, not generated `/opt/zapret2/ipset/` content. The directory must be created only during S3/S4 preparation after the live configuration and rollback path are verified.
+
+### Handoff
+
+The next action is S3: read-only capture of the current live Zapret2 configuration and creation/verification of a rollback backup. No strategy27 hostlists or NFQWS2 profile changes are to be activated before that gate.
