@@ -1119,3 +1119,9 @@ Proceed to the formal S6 QUIC validation stage. Keep live Zapret2 unchanged and 
 The dedicated QUIC exact-profile dry-run completed successfully on hAP using the persistent strategy27 QF hostlist. nfqws2 v1.0.3 reported 1 user-defined desync profile, loaded 111 hosts from /etc/zapret2/strategy27/strategy27-qf.txt, reported command line parameters verified, and returned RC=0.
 
 Classification: S6 QUIC exact profile = PASS / RUNTIME_VERIFIED for parser/config acceptance only. This does not establish traffic-level QUIC bypass effectiveness and does not authorize live strategy27 activation. Live Zapret2 configuration and service state remain unchanged.
+
+## 2026-09-27 — S6 QUIC EXACT PROFILE DRY-RUN — PASS
+
+The dedicated QUIC exact-profile dry-run completed successfully on hAP using the persistent strategy27 QF hostlist. nfqws2 v1.0.3 reported 1 user-defined desync profile, loaded 111 hosts from /etc/zapret2/strategy27/strategy27-qf.txt, reported command line parameters verified, and returned RC=0.
+
+Classification: S6 QUIC exact profile = PASS / RUNTIME_VERIFIED for parser/config acceptance only. This does not establish traffic-level QUIC bypass effectiveness and does not authorize live strategy27 activation. Live Zapret2 configuration and service state remain unchanged.
