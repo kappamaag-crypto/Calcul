@@ -1154,3 +1154,24 @@ Use the following minimal hierarchy:
 Current runtime checkpoint: Gate A/ME = IN_PROGRESS/NOT PROVEN; Gate B/TS = PASS; Gate C/QF = BLOCKED by lack of installed HTTP/3 client. Live Zapret2 configuration remains unchanged.
 
 This override supersedes older wording that called for a full four-service/domain matrix. The project goal is representative runtime validation, not exhaustive per-domain runtime testing.
+
+## 2026-09-27 — RUNTIME GATE CHECKPOINT / HC RESULT INCONCLUSIVE
+
+Последний пользовательский результат по минимальному HTTP Gate A:
+
+- временный HC-профиль был применён успешно, Zapret2 дошёл до стадии применения nftables;
+- после строки `=== HC HTTP TEST ===` команда не вернула `HC_RC`, размер файла или `RESTORE_RC`;
+- отдельно выполненное восстановление вернуло `RESTORE_RC=0`;
+- поэтому HC runtime effectiveness = **NOT_PROVEN / INCONCLUSIVE**;
+- live `/opt/zapret2/config` восстановлен к baseline;
+- дополнительных HC-тестов этим результатом не назначать автоматически.
+
+Актуальная методология остаётся:
+**не делать runtime 297-доменную матрицу**. Полная domain/evidence matrix уже сохранена в `strategy27.md` и использует raw evidence 2609→2709. Runtime должен проверять только representative traffic classes и, при необходимости, единичные smoke endpoints.
+
+Текущий runtime checkpoint:
+- Gate A HTTP (ME/HC): **IN_PROGRESS / NOT_PROVEN**
+- Gate B TLS (TS): **PASS**
+- Gate C QUIC (QF): **BLOCKED — installed curl/libcurl has no HTTP/3 support**
+- strategy27 live activation: **NOT_AUTHORIZED yet**
+- baseline config: **RESTORED / HEALTHY**
