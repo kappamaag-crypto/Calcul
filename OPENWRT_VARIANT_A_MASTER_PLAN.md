@@ -3114,3 +3114,10 @@ This override supersedes older wording requesting a full four-service/domain mat
 - Живой Zapret2 baseline восстановлен; strategy27 exact profiles не активированы.
 
 Не возвращаться к exhaustive per-domain runtime matrix. Blockcheck evidence используется для domain coverage; live hAP testing — только для проверки representative traffic classes и exact→fallback architecture.
+
+
+## 2026-09-27 — ZAPRET2 STRATEGY RUNTIME CHECKPOINT
+
+Strategy runtime checkpoint synchronized: composite exact profiles ME/HC/TS/QF were temporarily loaded with the existing autohostlist fallback and nftables applied successfully. HC HTTP YouTube passed (892572 bytes); ME HTTP Instagram is NOT_PROVEN (RC=4 matching baseline); TS TLS Instagram passed (416466 bytes); automatic rollback returned RC=0. QF live runtime remains BLOCKED by lack of HTTP/3 support. The live baseline is restored and strategy27 is not permanently activated.
+
+Architecture remains exact hostlist -> specialized strategy -> no exact match -> existing autohostlist fallback. Domain-level selection comes from analyzed blockcheck evidence, not per-domain live retesting.
