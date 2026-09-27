@@ -1521,3 +1521,7 @@ The next action after receipt of the original raw logs is HF exact domain-delta 
 
 ### S5 autohostlist inspection — 2026-09-27
 Read-only inspection of `/opt/zapret2/ipset/zapret-hosts-auto.txt` showed a large accumulated fallback list containing ordinary domains, service endpoints, and dynamic CDN/host-specific names. It must not be treated as a universal blocked-domain list or automatically promoted into exact strategy lists. Before S6 live configuration changes, compare the current autohostlist against the four evidence-derived exact lists (ME/HC/TS/QF) to identify overlap, exact-only domains, and fallback-only domains.
+
+
+### S6 preparation — autohostlist reset authorized — 2026-09-27
+User explicitly authorized clearing the current `/opt/zapret2/ipset/zapret-hosts-auto.txt` because it may contain historical entries from earlier testing. Goal: start the autohostlist fallback layer clean and let it repopulate from the new exact-first architecture. This is a deliberate state reset. Before deletion, preserve a backup copy for rollback/audit; then clear the live auto-hostlist, restart/reload only as required by the existing service behavior, and verify the fallback file is empty before constructing S6. Do not alter exact hostlists or `/opt/zapret2/config` in this reset step.
