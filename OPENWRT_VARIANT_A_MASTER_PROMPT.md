@@ -1495,6 +1495,7 @@ Future AIs must treat this section as the latest remote-management checkpoint.
 - OpenWrt documents Tailscale as a remote-administration mechanism that can work without port forwarding. citeturn0search1
 - Initial Tailscale scope is management-only. Do NOT configure exit node, subnet router, full-router VPN, PBR, DNS replacement, LAN-wide routing, or default-route changes.
 - Preserve existing dnsmasq/DNS during initial Tailscale work; do not enable `--accept-dns` automatically because OpenWrt documents possible dnsmasq interaction. citeturn0search7
-- Status: CGNAT identification DONE; Tailscale package audit DONE; Tailscale install NOT_STARTED; Tailscale authorization NOT_STARTED; remote hAP access NOT_VALIDATED; Archer-side SSH NOT_VALIDATED.
-- If the user explicitly continues Tailscale, execute only `apk add tailscale` first. Never combine installation and `tailscale up`. Then verify package/version, daemon/init integration, RAM impact and config before authorization.
+- Status: CGNAT identification DONE; Tailscale package audit DONE; Tailscale installation FAILED/OOM and CLOSED; Tailscale authorization NOT_STARTED/CLOSED; remote hAP access NOT_VALIDATED/CLOSED; Archer-side SSH NOT_VALIDATED/INCOMPLETE.
+- Tailscale rule: do not retry the full package, tune swap/RAM for it, or install an untrusted third-party binary. Reopen only if an external build resource, trusted official small package, or explicitly approved alternative becomes available.
+- `kappakappa.ddns.net` is DDNS only and does not bypass the current CGNAT path.
 - WG/AWG remains FROZEN by explicit user decision. Zapret2 remains unchanged. Xray/sing-box remains PAUSED. PBR remains deferred to final WARP/VPN stage.
