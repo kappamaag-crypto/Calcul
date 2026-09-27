@@ -535,3 +535,22 @@ After every user result:
 2. synchronize the Strategy Master Plan;
 3. update this prompt only if workflow/safety changed;
 4. only then issue one next action.
+
+
+## 2026-09-27 — MANDATORY CURRENT HANDOFF — PERMANENT ME/HC/TS/QF ACTIVATION
+
+The prepared rollback-protected activation was executed and returned `ACTIVATION=SUCCESS`.
+
+Current live architecture:
+**exact ME/HC/TS/QF hostlist profile → existing autohostlist fallback**.
+
+Activation safeguards that passed:
+- exact pre-change backup created at `/opt/zapret2/config.strategy27-pre-20260927-212254`;
+- Zapret2 restart succeeded;
+- service status succeeded;
+- ordinary HTTPS health to `https://example.com` succeeded;
+- automatic rollback was not needed.
+
+Do not infer universal traffic effectiveness from this checkpoint. ME remains NOT_PROVEN, QF live traffic remains BLOCKED by missing HTTP/3 tooling, while HC and TS have representative runtime verification. The permanent configuration is nevertheless the current live baseline and must not be reverted merely to repeat prior gates.
+
+After every subsequent user result, synchronize the relevant master plan before issuing the next router action. Any new runtime strategy change must remain controlled, rollback-protected and isolated from DNS/routing/VPN/PBR/QNUM changes.
