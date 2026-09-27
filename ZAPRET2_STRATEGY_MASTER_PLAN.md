@@ -989,3 +989,23 @@ These files are **not active on the hAP yet**. The live `/opt/zapret2/config` an
 
 ### Next single router action
 Create the persistent directory and copy the four already-verified hostlists from the conversation's GitHub artifacts to the hAP. This deployment must not modify `/opt/zapret2/config`, nftables, DNS, routing, or restart Zapret2.
+
+
+## 2026-09-27 — S5 HOSTLIST DEPLOYMENT BLOCKED BY LIVE NFQWS2
+
+The attempted read-only deployment command used `wget` to fetch the four already-verified strategy27 hostlists into `/etc/zapret2/strategy27/`. The first `wget` failed with `Failed to send request: Operation not permitted`, so the chained command stopped immediately.
+
+Important: this is consistent with the currently active NFQWS2 firewall interception/policy and does **not** prove GitHub or the files are unavailable. No strategy27 files were successfully deployed by this command, and the live Zapret2 configuration/service was not intentionally changed.
+
+### Stage state
+- S5 persistent hostlist artifacts in GitHub: **DONE**
+- S5 hostlist deployment to hAP: **BLOCKED — outbound wget intercepted/denied**
+- S5 exact-profile dry-run: **BLOCKED until local hostlist exists**
+- S4 exact-hostlist runtime validation: **NOT_STARTED**
+- S5 composite validation: **NOT_STARTED**
+- S6 QUIC validation: **NOT_STARTED**
+- S7 two-level validation: **NOT_STARTED**
+- Universal: **NOT_ESTABLISHED**
+
+### Safety note
+Do not disable Zapret2, change firewall policy, or alter DNS merely to download these files. The next step should use an already-available transfer path that does not require changing the live interception configuration.
