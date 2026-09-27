@@ -1041,3 +1041,30 @@ TS exact profile validation PASSED. `nfqws2 --dry-run` successfully loaded `/etc
 
 ### S5 all four exact-profile dry-runs — 2026-09-27
 All four persistent strategy27 exact profiles passed `nfqws2 --dry-run`: ME loaded 44 hosts, HC loaded 159, TS loaded 194, QF loaded 111; each returned RC=0 and `command line parameters verified`. This establishes technical acceptance of all four exact profile definitions and hostlists by the installed nfqws2 v1.0.3. It does not yet establish live runtime effectiveness.
+
+
+## 2026-09-27 — HISTORY AUDIT / CURRENT S5→S6 CHECKPOINT
+
+A full continuity audit of the recent Strategy Work history and the mandatory project documents found no missing strategy-evidence class, deployment step, rollback point, or unresolved blocker relevant to the current exact→fallback design.
+
+### Reconciled current state
+- Seven explicit FOUND classes remain preserved in strategy27.md: HC, ME, TS, TF, TC, QF, QI.
+- HF remains a high-coverage candidate only and is not promoted to explicit FOUND.
+- The four persistent exact hostlists are deployed on hAP: ME=44, HC=159, TS=194, QF=111.
+- All four exact profile definitions passed installed nfqws2 v1.0.3 --dry-run with RC=0 and complete hostlist loading.
+- Zapret2 was temporarily stopped only for transfer, then restarted successfully with the pre-existing live configuration unchanged.
+- Rollback backup /opt/zapret2/config.s3-backup-20260927 remains the verified S3 rollback point.
+- Current live MODE_FILTER=autohostlist, QNUM, DNS, routing, VPN, PBR and firewall behavior remain unchanged.
+- No live strategy27 profile has been activated yet.
+
+### Stage naming reconciliation
+The formal Strategy Master Plan numbering remains:
+- S4 = renderer/exact-hostlist validation work;
+- S5 = composite exact-strategy validation;
+- S6 = QUIC exact-strategy validation;
+- S7 = two-level four-service validation.
+
+The current chat calls the requested composite dry-run "S6". To avoid renumbering the formal plan and confusing future AIs, this action is recorded as S5 composite exact-strategy pre-activation dry-run (chat S6). Formal S6 remains the subsequent QUIC validation stage.
+
+### Next action
+Build and execute one nfqws2 --dry-run command containing, in order, the four marker-free exact profiles (ME, HC, TS, QF) followed by the currently rendered HTTP/TLS/QUIC autohostlist fallback profiles exactly as the live baseline presently renders them. This remains read-only and must not modify /opt/zapret2/config or service state.
