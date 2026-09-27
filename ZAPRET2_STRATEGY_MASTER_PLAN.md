@@ -605,3 +605,24 @@ Before any router-changing command:
 4. Test one meaningful strategy change at a time.
 
 The first runtime candidate should be selected from the highest-coverage evidence-backed TCP classes, while preserving the current working baseline and avoiding unnecessary QUIC/TLS1.2 stacking.
+
+
+## 2026-09-27 — strategy27 DOMAIN MATRIX
+
+Полная объединённая матрица raw `blockcheck2609_FULL.log` + `blockcheck2709.log` сохранена отдельно:
+
+- `strategy27.md`
+- GitHub commit: `096bf52c11c46b40a71cb28285c19972a451e3ba`
+- 297 уникальных тестовых целей в объединении двух логов.
+- 225 уникальных целей имеют ≥1 explicit FOUND strategy.
+- 72 цели не имеют explicit FOUND.
+- Полный mapping: каждый домен → все explicit FOUND strategy classes + источник 2609/2709.
+- Математический минимум set-cover для всех 225 FOUND-доменов: **4 strategy classes**.
+- Два эквивалентных минимальных набора: **HC + ME + TS + TF** и **HC + ME + TS + QF**.
+- Это только evidence-domain cover; это **не** означает, что 4 runtime-профиля автоматически решат все приложения/протоколы на hAP.
+
+Для controlled runtime baseline как отдельная гипотеза сохранён каркас **HC + ME + TS + QF**: два HTTP-профиля + TLS1.3 + QUIC. TF/QI/TC и HF остаются fallback/special/candidate evidence и не удаляются.
+
+S1 evidence matrix: **DONE / strategy27.md**.
+S2 OpenWrt translation map: **NOT_STARTED**.
+Router configuration changed by strategy27: **NO**.
