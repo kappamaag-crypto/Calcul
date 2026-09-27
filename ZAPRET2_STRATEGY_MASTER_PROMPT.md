@@ -451,3 +451,29 @@ The installed-tree search located the two relevant `filter_apply_hostlist_target
 - `common/installer.sh:798`
 
 No runtime change occurred. Before any strategy activation, inspect only the surrounding code to determine the source of the `opt` variable and how profiles are assembled. Then design the exact/fallback separation. Synchronize before the next router action.
+
+
+## CURRENT HANDOFF OVERRIDE — 2026-09-27 — EXACT HOSTLIST DEPLOYMENT AND DRY-RUNS COMPLETE
+
+The following work is already complete and must not be repeated:
+- S3 rollback backup exists and was verified: /opt/zapret2/config.s3-backup-20260927.
+- Zapret2 was temporarily stopped only for hostlist transfer and then successfully restarted with the unchanged live configuration.
+- Persistent hostlists exist on the hAP:
+  - /etc/zapret2/strategy27/strategy27-me.txt — 44 hosts
+  - /etc/zapret2/strategy27/strategy27-hc.txt — 159 hosts
+  - /etc/zapret2/strategy27/strategy27-ts.txt — 194 hosts
+  - /etc/zapret2/strategy27/strategy27-qf.txt — 111 hosts
+- All four exact profile definitions were accepted by the installed nfqws2 v1.0.3 in --dry-run with RC=0.
+- No strategy27 profile is active in /opt/zapret2/config yet.
+- The live fallback remains the existing HTTP/TLS/QUIC autohostlist configuration.
+- TF, TC and QI remain preserved explicit FOUND classes for later controlled fallback evaluation; HF remains a candidate only.
+
+The current requested architecture is:
+exact hostlist -> specialized ME/HC/TS/QF profile -> no exact match -> existing autohostlist fallback.
+
+Important formal stage naming:
+- Formal S5 = composite exact-strategy validation.
+- Formal S6 = QUIC exact-strategy validation.
+The current chat may call the composite pre-activation dry-run "S6"; do not renumber the formal stages in the documents.
+
+Next action: run one read-only nfqws2 --dry-run containing the four exact profiles followed by the current rendered fallback profiles. Do not alter MODE_FILTER, QNUM, DNS, routing, firewall, VPN, PBR or /opt/zapret2/config during this dry-run.
