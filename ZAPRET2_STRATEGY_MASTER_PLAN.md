@@ -938,3 +938,23 @@ Interpretation: the test is **BLOCKED by the missing persistent hostlist file**.
 
 ### Next single action
 Read-only inventory of `/etc/zapret2` is required to determine whether the strategy27 hostlists already exist under another path before creating anything. Do not create directories/files yet.
+
+
+## 2026-09-27 — S5 HOSTLIST PATH INVENTORY
+
+Read-only inventory confirms `/etc/zapret2` does not exist on the router, and therefore no `/etc/zapret2/strategy27/` directory exists. The previous dry-run blocker is consequently confirmed as a missing persistent strategy27 hostlist path, not a malformed nfqws2 option.
+
+No directories, files, configuration, or services were changed.
+
+### Stage state
+- S5 render-path inspection: **DONE**
+- S5 exact/fallback profile design: **DONE**
+- S5 exact-profile binary dry-run: **BLOCKED — persistent strategy27 hostlists not yet deployed**
+- S4 exact-hostlist runtime validation: **NOT_STARTED**
+- S5 composite exact-strategy validation: **NOT_STARTED**
+- S6 QUIC validation: **NOT_STARTED**
+- S7 two-level validation: **NOT_STARTED**
+- Universal: **NOT_ESTABLISHED**
+
+### Next decision point
+The hostlist contents must come from the already researched `strategy27.md` domain→strategy matrix. Before deploying them, verify the exact files/content intended for P1–P4 and ensure they are represented in the project documentation. Then deploy only the required persistent lists; do not alter the live Zapret2 configuration yet.
