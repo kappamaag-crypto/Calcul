@@ -3003,3 +3003,21 @@ Read-only inspection located the installed renderer call sites:
 Both invoke `filter_apply_hostlist_target opt`. No router configuration or service state was changed.
 
 Zapret2 strategy work remains in controlled read-only inspection. The next action is limited to reading the surrounding renderer/config-source lines; no MODE_FILTER, QNUM, DNS, firewall, routing, VPN or service changes are authorized.
+
+
+## AUTHORITATIVE CURRENT OVERRIDE — 2026-09-27 — ZAPRET2 STRATEGY RUNTIME CHECKPOINT
+
+The recent Zapret2 strategy work is synchronized and must supersede older S-stage notes.
+
+- Seven explicit FOUND strategy classes remain preserved in strategy27.md: HC, ME, TS, TF, TC, QF, QI.
+- HF is still a high-coverage candidate only.
+- S3 rollback backup is complete and verified.
+- strategy27 persistent hostlists are deployed on hAP: ME 44, HC 159, TS 194, QF 111.
+- All four exact profile definitions pass installed nfqws2 v1.0.3 --dry-run.
+- Zapret2 service was restored after the temporary transfer stop; the live /opt/zapret2/config remains the pre-existing baseline.
+- The required architecture is fixed: exact hostlist -> specialized strategy -> no exact match -> existing autohostlist fallback.
+- The current live service has NOT yet activated strategy27.
+- Current chat refers to the upcoming composite pre-activation dry-run as S6, while the formal Strategy Master Plan numbering keeps S5 for composite validation and S6 for subsequent QUIC validation.
+
+### Current next action
+Perform the composite read-only nfqws2 --dry-run with the four exact profiles first and the current rendered HTTP/TLS/QUIC fallback profiles second. No live strategy activation or unrelated subsystem changes are allowed in this action.
