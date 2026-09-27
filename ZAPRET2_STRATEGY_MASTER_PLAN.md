@@ -1350,3 +1350,29 @@ Blockcheck **FOUND** proves that the strategy worked in the source test environm
 - No DNS/routing/VPN/PBR/QNUM/firewall changes were made by this follow-up.
 
 Operational rule: do not activate TC or QI merely because blockcheck marked them FOUND. Revisit only when a concrete coverage gap or targeted domain requirement justifies a controlled runtime test.
+## 2026-09-27 — HF DOMAIN DELTA EXTRACTION GATE
+
+Created: `ZAPRET2_HF_DOMAIN_DELTA_AUDIT.md`.
+
+Purpose: exact extraction of the HF candidate domain sets from `blockcheck2609_FULL.log` + `blockcheck2709.log`, followed by set-difference against the already active exact HTTP classes ME and HC.
+
+Current evidence:
+- HF = `fake_default_http + tcp_ts=-1000`.
+- 2609 aggregate HF coverage = 74/140.
+- 2709 aggregate HF coverage = 149/301.
+- HF has 0 explicit FOUND domains in the current classification.
+- ME = 44 unique domains; HC = 159 unique domains; their current merged intersection is 0, giving 203 unique exact HTTP domains in the 297-domain unified strategy27 catalog.
+- 2709 explicit HTTP classes: ME 42, HC 160; aggregate HF coverage cannot by itself establish any new HF domain beyond ME/HC.
+
+The exact HF per-domain sets could not be recovered from the current derived artifacts. The oversized raw .log blobs are present in GitHub and have known blob SHAs, but the available file fetch path returns an empty body even when line ranges are requested.
+
+Therefore these are UNKNOWN, not empty:
+- HF ∩ ME
+- HF ∩ HC
+- HF \ (ME ∪ HC)
+- 2609-only / 2709-only HF domains
+
+Status:
+- HF = **CANDIDATE ONLY / NOT ACTIVATED**.
+- No router configuration change made.
+- Exact HF promotion remains blocked until raw per-domain extraction is available and followed by targeted hAP runtime validation.
