@@ -800,3 +800,23 @@ The read-only search of the installed tree found the renderer call sites:
 Interpretation: the next read-only step should inspect the small surrounding sections of `linux_daemons.sh` and `installer.sh` to identify how the base `opt` variable is sourced and rendered. This is the final structural inspection before designing the exact/fallback profile layout.
 
 S5 render-path inspection: **IN_PROGRESS**.
+
+
+## 2026-09-27 — S5 RENDER-PATH CONTEXT CONFIRMED
+
+Read-only context inspection confirms that `standard_mode_nfqws()` builds `opt="--qnum=$QNUM $NFQWS2_OPT"`, then calls `filter_apply_hostlist_target opt`, then passes the rendered options to `do_nfqws`. The installer dry-run follows the same pattern: copy `NFQWS2_OPT` to `opt`, render hostlist markers, then run `nfqws2 --dry-run`.
+
+This confirms that `filter_apply_hostlist_target()` is directly in the live NFQWS2 option-rendering path. Under `MODE_FILTER=autohostlist`, `<HOSTLIST_NOAUTO>` still expands to normal hostlists plus `--hostlist=$HOSTLIST_AUTO`; therefore it cannot by itself mean exact-only.
+
+No router configuration or service state was changed.
+
+Stage state:
+- S5 render-path inspection: **DONE**
+- S5 exact/fallback profile design: **NEXT**
+- S4 exact-hostlist runtime validation: **NOT_STARTED**
+- S5 composite validation: **NOT_STARTED**
+- S6 QUIC validation: **NOT_STARTED**
+- S7 two-level validation: **NOT_STARTED**
+- Universal: **NOT_ESTABLISHED**
+
+Next: inspect only the remaining source/assembly of `NFQWS2_OPT` and marker-bearing profile definitions needed to design the safe `EXACT -> specialized -> UNKNOWN -> autohostlist fallback` layout. No restart/change yet.
