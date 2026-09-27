@@ -1439,7 +1439,7 @@ Recorded result:
 - https://example.com HTTPS health passed
 - rollback was not triggered
 - rollback point: /opt/zapret2/config.strategy27-pre-20260927-212254
-- script SHA256: 509c4c3f...e60c487 (full SHA is recorded in the project conversation/evidence)
+- script SHA256: 509c4c3fcb33818ee8118ac892ac98d070f47301d93424602f767f0eede60c487 (full SHA is recorded in the project conversation/evidence)
 
 Therefore permanent strategy27 activation is DONE / RUNTIME_VERIFIED for configuration/service activation and ordinary HTTPS health. It is not UNIVERSAL_VALIDATED and is not proof of live QUIC effectiveness or ME effectiveness.
 
