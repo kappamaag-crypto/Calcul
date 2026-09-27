@@ -3121,3 +3121,26 @@ This override supersedes older wording requesting a full four-service/domain mat
 Strategy runtime checkpoint synchronized: composite exact profiles ME/HC/TS/QF were temporarily loaded with the existing autohostlist fallback and nftables applied successfully. HC HTTP YouTube passed (892572 bytes); ME HTTP Instagram is NOT_PROVEN (RC=4 matching baseline); TS TLS Instagram passed (416466 bytes); automatic rollback returned RC=0. QF live runtime remains BLOCKED by lack of HTTP/3 support. The live baseline is restored and strategy27 is not permanently activated.
 
 Architecture remains exact hostlist -> specialized strategy -> no exact match -> existing autohostlist fallback. Domain-level selection comes from analyzed blockcheck evidence, not per-domain live retesting.
+
+
+## 2026-09-27 — AUTHORITATIVE CHECKPOINT — STRATEGY27 ME/HC/TS/QF PERMANENT ACTIVATION
+
+The previously prepared rollback-protected activation was executed on the hAP and completed successfully.
+
+- Activation script: `strategy27/activate-strategy27-me-hc-ts-qf.sh`
+- Scope actually applied: only `NFQWS2_OPT` was replaced.
+- Exact profiles activated: ME, HC, TS, QF using the deployed strategy27 hostlists.
+- Existing `NFQWS2_OPT` body was retained after the exact profiles as the existing autohostlist fallback.
+- `MODE_FILTER`, QNUM, DNS, routing, VPN, PBR and unrelated firewall settings were not changed by the activation script.
+- Zapret2 restart: SUCCESS.
+- Zapret2 service status gate: SUCCESS.
+- Ordinary HTTPS regression gate: `https://example.com` SUCCESS.
+- Automatic rollback was not required.
+- Exact rollback point created: `/opt/zapret2/config.strategy27-pre-20260927-212254`.
+
+Important evidence boundary: successful activation and ordinary HTTPS health establish configuration/service acceptance, not universal DPI-bypass effectiveness. ME remains live-effectiveness NOT_PROVEN from prior representative testing, and QF live effectiveness remains BLOCKED because the installed curl/libcurl lacks HTTP/3 support. HC and TS have representative runtime verification. Do not convert activation success into a universal-strategy claim.
+
+Current architecture:
+**domain + traffic class → exact evidence-derived specialized profile → no exact match → existing autohostlist fallback**.
+
+The permanent activation is now the live baseline. Any further strategy change must be a new controlled change with rollback; do not revert merely to repeat already completed gates.
