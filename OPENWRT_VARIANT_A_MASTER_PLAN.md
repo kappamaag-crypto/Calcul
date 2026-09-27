@@ -2842,3 +2842,99 @@ For the runtime phase, treat:
 - the other confirmed classes as fallback candidates only after the first runtime results.
 
 Do not imply that a Windows/Cygwin blockcheck success automatically equals OpenWrt/nfqws2 success.
+
+
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-27 — ZAPRET2 STRATEGY WORK SYNCHRONIZED WITH strategy27
+
+This section supersedes older Zapret2 strategy-work status notes where they conflict. Historical evidence remains preserved.
+
+### Strategy evidence sources
+
+- `blockcheck2609_FULL.log` — blob SHA `d42227bdc262c4437e4d1f78e28369c41075b3d6`, 140 domain sections.
+- `blockcheck2709.log` — blob SHA `f1413839059d5f86b2856aa6ddc62b2e7ed38bb3`, 301 domain sections.
+- `strategy27.md` — complete merged domain → explicit FOUND strategy matrix and S2 nfqws2 translation design.
+- `ZAPRET2_STRATEGY_MASTER_PLAN.md` — subordinate strategy-work control document.
+
+### Correct evidence classification
+
+The merged raw logs contain **7 unique explicit FOUND strategy classes** after exact payload/desync deduplication:
+
+1. HTTP `http_hostcase` (HC)
+2. HTTP `http_methodeol` (ME)
+3. TLS1.3 `tcpseg:pos=0,-1:seqovl=1 + drop` (TS)
+4. TLS `fake_default_tls + tcp_ts=-1000` (TF)
+5. TLS1.2 special `tcp_md5 + tls_mod + multisplit` (TC; appears only in 2709, 2 explicit FOUND)
+6. QUIC `fake_default_quic:repeats=11` (QF)
+7. QUIC `send:ipfrag + drop` (QI)
+
+The HTTP `fake_default_http + tcp_ts=-1000` variant remains a **HIGH-COVERAGE CANDIDATE**, not explicit FOUND, despite coverage 74/140 in 2609 and 149/301 in 2709.
+
+### Merged evidence matrix
+
+- 297 unique test targets across the union of the two raw runs.
+- 225 unique targets have at least one explicit FOUND strategy.
+- 72 unique targets have no explicit FOUND strategy.
+- Full per-domain mapping is preserved in `strategy27.md`.
+
+A mathematical set-cover over the 225 explicit-FOUND domains has a minimum of **4 strategy classes**. Two equivalent covers are:
+
+- HC + ME + TS + TF
+- HC + ME + TS + QF
+
+For the subsequent hAP runtime design, the chosen starting hypothesis is **HC + ME + TS + QF** because it gives HTTP + TLS1.3 + QUIC coverage while retaining TF as a fallback candidate. This is not a universal-runtime claim.
+
+### Current S-stage synchronization
+
+| Stage | Status | Meaning |
+|---|---|---|
+| Manual blockcheck discovery | DONE | Current 2609 + 2709 evidence captured |
+| S1 merged evidence/domain matrix | DONE | `strategy27.md` |
+| S2 OpenWrt/nfqws2 translation | DONE / DESIGN ONLY | Four-profile evidence-cover and hostlist assignment documented |
+| S3 live Zapret2 backup | NOT_STARTED | Must precede any runtime strategy change |
+| S4 single-strategy hAP validation | NOT_STARTED | One meaningful change at a time |
+| S5 TCP composite validation | NOT_STARTED | Only after S4 evidence |
+| S6 QUIC validation | NOT_STARTED | Only after S4/S5 evidence |
+| S7 four-service hAP validation | NOT_STARTED | YouTube / Instagram / WhatsApp / Telegram |
+| Final universal profile | NOT_ESTABLISHED | No blockcheck-only universal claim |
+
+### S2 design inherited from strategy27
+
+First runtime hypothesis, not yet activated:
+
+- **P1 HTTP-ME** → `http_methodeol` with its explicit-FOUND ME hostlist.
+- **P2 HTTP-HC** → `http_hostcase` for HC-without-ME domains.
+- **P3 TLS-TS** → `tcpseg:pos=0,-1:seqovl=1 + drop` with its explicit-FOUND TS hostlist.
+- **P4 QUIC-QF** → `fake_default_quic:repeats=11` with its explicit-FOUND QF hostlist.
+
+The strategy27 custom hostlists are designed under **`/etc/zapret2/strategy27/`**, not directly under generated `/opt/zapret2/ipset/` content.
+
+### Safety and project-wide invariants
+
+- Current live Zapret2 configuration remains the baseline until S3 backup is verified.
+- `MODE_FILTER=autohostlist` is unchanged by this synchronization and must not be changed as part of S2.
+- Archer C20 v4 remains the main router; MikroTik hAP ac lite remains downstream.
+- DNS, VPN, PBR, routing and broad firewall policy are outside S2.
+- Do not activate all discovered strategies simultaneously.
+- Do not copy Windows `--wf-l3`, `--wf-tcp-out`, `--wf-udp-out` selectors into OpenWrt.
+- Blockcheck success means `WORKING_IN_BLOCKCHECK`, not `RUNTIME_VERIFIED` or `VALIDATED_ON_HAP`.
+- Telegram remains outside the proven Zapret2-only success set; the supplied runs contain no explicit FOUND Telegram strategy.
+- Main-plan memory and watchdog gates remain mandatory before runtime changes.
+
+### Current exact next action
+
+**S3 — read-only capture of the live Zapret2 configuration and creation/verification of a rollback backup.**
+
+Do not activate `strategy27` hostlists or change `NFQWS2_OPT` before S3 is complete.
+
+### Cross-document rule
+
+For future Zapret2 work, AI must read in this order:
+
+1. `OPENWRT_VARIANT_A_MASTER_PROMPT.md`
+2. `OPENWRT_VARIANT_A_MASTER_PLAN.md`
+3. `OPENWRT_VARIANT_A_GLOSSARY.md`
+4. `ZAPRET2_STRATEGY_MASTER_PLAN.md`
+5. `strategy27.md`
+6. `ZAPRET2_STRATEGY_MASTER_PROMPT.md`
+
+The main Master Plan is authoritative for router-wide state; the Strategy Master Plan and `strategy27.md` are authoritative for the current strategy evidence and strategy-work procedure.
