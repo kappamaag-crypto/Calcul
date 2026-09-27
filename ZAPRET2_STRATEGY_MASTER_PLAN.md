@@ -1033,3 +1033,7 @@ All four persistent strategy27 hostlists were successfully transferred to `/etc/
 
 ### S5 service restored — 2026-09-27
 Zapret2 restarted successfully after hostlist transfer, RC=0. The daemon command lines and nftables queues shown in startup output match the pre-transfer baseline: main nfqws2 qnum=300 with the existing HTTP/TLS/QUIC autohostlist profiles, separate WireGuard-related qnum=65300 daemon, and the same packet ranges. No strategy27 hostlist has been inserted into the live configuration yet. Current state: service restored, exact-profile validation is next.
+
+
+### S5 TS exact-profile dry-run — 2026-09-27
+TS exact profile validation PASSED. `nfqws2 --dry-run` successfully loaded `/etc/zapret2/strategy27/strategy27-ts.txt`, loaded all 194 hosts, verified command-line parameters, and returned RC=0. This validates parser/hostlist registration for the TS exact profile; it does not yet establish runtime blocking bypass or live traffic effectiveness.
