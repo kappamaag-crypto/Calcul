@@ -879,3 +879,38 @@ No router configuration was changed and no service was restarted.
 - S6 QUIC validation: **NOT_STARTED**
 - S7 two-level validation: **NOT_STARTED**
 - Universal: **NOT_ESTABLISHED**
+
+
+## 2026-09-27 — OFFICIAL PROFILE ORDER / EXACT→FALLBACK SEMANTICS CONFIRMED
+
+Official zapret documentation and current upstream `zapret2/nfq2/desync.c` were checked before any router change.
+
+### Confirmed engine semantics
+- Profiles are separated by `--new` and evaluated from first to last; the first profile whose filter matches is selected. Upstream `dp_find()` iterates the profile list in order and returns immediately on the first `dp_match()` success. citeturn425928search0turn565749view1
+- A normal `--hostlist` is a genuine profile filter. When hostname is known, `HostlistCheck()` decides whether that profile matches; otherwise the engine can continue to later profiles. citeturn565749view1
+- An autohostlist profile (`--hostlist-auto`) has special matching semantics: once the hostname is known and the hard/L7 filters match, that profile wins regardless of whether the hostname is already in the autohostlist. citeturn565749view2
+- Official documentation explicitly says highly specialized profiles should not use the standard `<HOSTLIST>` marker; specialized profiles should use their own filter/hostlist, while standard `<HOSTLIST>` is intended for final/fallback strategies. citeturn425928search1
+- Official zapret2 discussion #76 confirms that separate strategies can be assigned to separate hostlists and that an exclude of the same list is unnecessary because the include profile already claims that hostname. citeturn425928view0
+
+### Architectural consequence for this project
+The desired two-level architecture is technically supported:
+
+`exact hostlist -> specialized strategy -> later fallback profile`
+
+For a strict exact-first design, the exact profile must be **before** the fallback profile, use a full persistent path such as `/etc/zapret2/strategy27/...`, and remain marker-free. The fallback profile may retain the existing `<HOSTLIST>`/autohostlist mechanism.
+
+However, an important limitation is now explicit: if the later fallback profile contains `--hostlist-auto` and its TCP/L7 filter matches, it can become the selected profile after the exact profile fails. That is desirable for the intended fallback. It also means exact-domain ownership must be validated using debug/profile-selection evidence, not inferred solely from hostlist contents.
+
+No router configuration was changed.
+
+### Stage state update
+- S5 render-path inspection: **DONE**
+- S5 exact/fallback profile design: **DONE (engine semantics confirmed)**
+- S4 exact-hostlist runtime validation: **NOT_STARTED**
+- S5 composite exact-strategy validation: **NOT_STARTED**
+- S6 QUIC validation: **NOT_STARTED**
+- S7 two-level validation: **NOT_STARTED**
+- Universal: **NOT_ESTABLISHED**
+
+### Next single router action
+Before writing the composite profile, validate the installed `nfqws2` binary's support for the exact profile syntax with `--dry-run` only. This avoids changing service state and confirms the persistent hostlist path plus the selected Lua desync verbs are accepted by the binary actually running on this hAP.
