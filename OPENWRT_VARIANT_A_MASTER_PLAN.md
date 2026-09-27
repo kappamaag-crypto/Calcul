@@ -2501,7 +2501,28 @@ NEXT EXACT STRATEGY ACTION:
 - **Remote hAP management through Tailscale: NOT_VALIDATED**
 - **Archer-side SSH from Archer Wi-Fi client: NOT_VALIDATED / INCOMPLETE**
 
-### Exact next gate
-If the user explicitly continues this branch, the next router-changing command is only:
-`apk add tailscale`
-Do not run `tailscale up` in the same step. After installation, verify package/version, daemon/init integration, RAM impact and configuration before authorization.
+### Tailscale installation result and branch closure — 2026-09-27
+- The authorized first install attempt was executed: `apk add tailscale`.
+- Result: **FAILED / OOM** during the package post-install stage. Kernel log explicitly recorded `Out of memory: Killed process ... (apk)`.
+- Partial package remnants were removed manually. Final verification showed no installed Tailscale package, no `tailscaled`, no `tailscale` binary, no Tailscale init script, and no Tailscale entry in `/etc/apk/world`.
+- The failure is therefore classified as a **RAM/installation-footprint limitation**, not a disk-space limitation. The hAP has ample overlay storage but only ~54 MiB physical RAM.
+- A reduced Tailscale build is documented by OpenWrt, but producing it requires an external Linux build host or equivalent CI/build resource. The user does not have an available GitHub Actions budget and does not want to use a separate build machine.
+- Third-party prebuilt small-Tailscale repositories exist, but they are not an official OpenWrt source and are not accepted as the basis for a privileged remote-management channel without independent validation.
+- **Decision:** Tailscale remote-management branch = **CLOSED / DEFERRED** until a suitable external build resource, trusted official small package, or explicitly approved alternative becomes available.
+- No further Tailscale installation attempts, RAM tuning, swap changes, or third-party binary installation are authorized by this branch.
+- CGNAT/DDNS findings remain unchanged: `kappakappa.ddns.net` does not bypass provider CGNAT.
+- Zapret2, WG/AWG, Xray/sing-box, PBR and DNS state remain unchanged by this branch.
+
+### Current remote-management status
+- CGNAT identification: **DONE**
+- Dynamic public-IP + DDNS observation: **DONE**
+- Direct Internet inbound management: **BLOCKED / UNSUITABLE AS PRIMARY PATH**
+- Tailscale package availability audit: **DONE**
+- Tailscale installation: **FAILED / CLOSED**
+- Tailscale authorization: **NOT_STARTED / CLOSED**
+- Remote hAP management via Tailscale: **NOT_VALIDATED / CLOSED**
+- Archer-side SSH: **NOT_VALIDATED / INCOMPLETE**
+- Remote-management branch: **DEFERRED**
+
+### NEXT EXACT PROJECT ACTION
+Return to the previously authorized project branch selected by the user. For Zapret2 strategy work, read the three dedicated strategy documents first and continue at **STAGE S1: four-service/domain matrix**, with **no router configuration change before S1 is completed**.
