@@ -1600,3 +1600,10 @@ Do **not** activate TF, TC or QI merely because they are FOUND. They require a c
 
 Blockcheck **FOUND** proves that the strategy worked in the source test environment. It does not by itself prove runtime effectiveness on this hAP. Conversely, a deferred strategy is not considered failed merely because it is not in the current permanent layer.
 
+
+
+## 2026-09-27 — CURRENT HANDOFF: TC/QI SKIPPED
+
+The permanent Zapret2 baseline remains **ME + HC + TS + QF + existing autohostlist fallback**. TC was evaluated only to the baseline stage and then skipped by user choice; QI was also explicitly skipped. No permanent TC/QI activation is authorized by this checkpoint. TF remains deferred after NOT_PROVEN runtime evidence; HF remains candidate-only.
+
+Future AIs must not restart TC/QI testing unless a concrete coverage gap or targeted user requirement justifies it.
