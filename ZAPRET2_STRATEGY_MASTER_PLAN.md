@@ -1232,3 +1232,8 @@ Do NOT issue another broad S7 runtime test.
 The next meaningful work is a separate controlled activation decision: if strategy27 is to be activated, first preserve rollback and then activate only the minimal evidence-backed profiles under a single controlled change, with ordinary HTTPS and baseline health checks. Permanent activation is still **NOT_AUTHORIZED** until that decision is explicitly made.
 
 No DNS, routing, VPN, PBR, QNUM, MODE_FILTER or unrelated firewall changes are part of this decision.
+
+
+## 2026-09-27 — FULL WORKING ACTIVATION MATRIX DEFINED
+
+A complete 297-target activation matrix is now defined separately from runtime testing. ME is explicitly excluded as NOT_PROVEN; QF is explicitly excluded as BLOCKED for live QUIC. The active exact classes are HC for HTTP and TS for TLS, with the existing autohostlist fallback for all unmatched traffic. The full row-level matrix is stored in `strategy27/strategy27-working-matrix.md`. This matrix is an activation design/evidence map, not a claim of 297-domain live verification. No router configuration was changed by creating the matrix.
