@@ -1136,3 +1136,21 @@ New minimal runtime gate: validate representative traffic behavior by strategy c
 The current live Zapret2 configuration remains unchanged. MODE_FILTER=autohostlist, QNUM=300, QNUM=65300 and existing fallback profiles are preserved. The S4 backup /opt/zapret2/config.s4-pre-me-20260927 was created and verified byte-for-byte by SHA256; it is a rollback point, not a reason to perform repeated per-strategy swaps.
 
 Execution rule: one controlled runtime gate at a time, minimal changes, no simultaneous changes to strategy + MODE_FILTER + QNUM + DNS + routing. Do not activate all strategy27 profiles globally. Exact-hostlist → specialized strategy → existing autohostlist fallback remains the target architecture.
+
+
+## 2026-09-27 — RUNTIME VALIDATION EFFICIENCY OVERRIDE
+
+The runtime phase must NOT become a per-domain or full domain-matrix exercise. Existing blockcheck2609_FULL.log and blockcheck2709.log already provide the per-domain strategy evidence and coverage counts; runtime testing is for validating representative traffic classes and the exact→fallback mechanism on the hAP.
+
+Use the following minimal hierarchy:
+1. Representative class gates only: HTTP (ME/HC), TLS (TS), QUIC (QF).
+2. Do not runtime-test every host in the 44/159/194/111 exact lists.
+3. After the class gates, use at most one smoke endpoint per priority service (YouTube, Instagram, WhatsApp, Telegram) only where the result answers a specific architecture question. Do not build a 4×N or per-domain matrix.
+4. Reuse existing blockcheck evidence for domain-level coverage. A runtime smoke test does not override a blockcheck result and a blockcheck result does not prove live hAP effectiveness.
+5. If a class gate is blocked by tooling (for example no HTTP/3 client for QF), mark it BLOCKED and do not install packages merely to manufacture a gate unless separately justified.
+6. Activate strategy27 only after the minimal gates establish that exact profiles can operate without ordinary-HTTPS regression and the fallback remains intact.
+7. Any new runtime experiment remains one controlled change at a time with automatic rollback to the verified live configuration.
+
+Current runtime checkpoint: Gate A/ME = IN_PROGRESS/NOT PROVEN; Gate B/TS = PASS; Gate C/QF = BLOCKED by lack of installed HTTP/3 client. Live Zapret2 configuration remains unchanged.
+
+This override supersedes older wording that called for a full four-service/domain matrix. The project goal is representative runtime validation, not exhaustive per-domain runtime testing.
