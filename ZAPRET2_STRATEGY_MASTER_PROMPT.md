@@ -621,3 +621,14 @@ Latest follow-up disposition:
 - HF remains candidate-only.
 
 Future AIs MUST preserve the live baseline as **ME + HC + TS + QF + existing autohostlist fallback**. Do not activate TC/QI without a concrete coverage gap and controlled evidence. Do not alter unrelated DNS/routing/VPN/PBR/QNUM settings.
+## 2026-09-27 — HF PER-DOMAIN EVIDENCE RULE
+
+HF = HTTP `fake:blob=fake_default_http:tcp_ts=-1000` remains **CANDIDATE ONLY**.
+
+Do not infer an HF hostlist from aggregate coverage counters such as 74/140 or 149/301. These counters are not an exact per-domain set.
+
+When HF domain delta analysis is requested, require direct per-domain evidence from `blockcheck2609_FULL.log` and `blockcheck2709.log`, then calculate HF ∩ ME, HF ∩ HC, and HF \ (ME ∪ HC) before any activation decision.
+
+If the raw logs are not readable through the current source path, record the result as **BLOCKED / SOURCE EXTRACTION REQUIRED** and do not fabricate or approximate the HF domain list.
+
+Reference artifact: `ZAPRET2_HF_DOMAIN_DELTA_AUDIT.md`.
