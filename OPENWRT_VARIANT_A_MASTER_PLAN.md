@@ -2755,3 +2755,90 @@ Do not simultaneously change DNS, PBR, VPN, routing or broad firewall policy.
 - **Remote management = DEFERRED**
 - **Archer OpenVPN = BLOCKED BY CURRENT CGNAT**
 - **PBR = DEFERRED TO FINAL WARP/VPN STAGE**
+
+
+---
+
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-27 — MERGED BLOCKCHECK2609 + 2709 EVIDENCE
+
+The previous Zapret2 evidence must be interpreted as a merged two-run evidence set, not 2709 in isolation.
+
+### Sources
+
+- `blockcheck2609_FULL.log` — blob SHA `d42227bdc262c4437e4d1f78e28369c41075b3d6`; final coverage population 140 domains.
+- `blockcheck2709.log` — blob SHA `f1413839059d5f86b2856aa6ddc62b2e7ed38bb3`; final coverage population 301 domains.
+- Combined analysis: `ZAPRET2_BLOCKCHECK2709_EVIDENCE.md`.
+
+### Cross-run confirmed candidate classes
+
+Both runs independently contain the same principal candidate classes:
+
+- HTTP `http_methodeol`
+- HTTP `http_hostcase`
+- HTTP `fake_default_http + tcp_ts=-1000`
+- TLS 1.3 `tcpseg:pos=0,-1:seqovl=1 + drop`
+- QUIC `fake_default_quic:repeats=11`
+- QUIC `send:ipfrag + drop`
+- TLS 1.2 `fake_default_tls + tcp_ts=-1000`
+
+2609 coverage:
+- `http_methodeol` 95/140
+- TLS1.3 `tcpseg + drop` 92/140
+- `http_hostcase` 84/140
+- `fake_default_http + tcp_ts=-1000` 74/140
+- QUIC `fake_default_quic:repeats=11` 42/140
+- QUIC `send:ipfrag + drop` 26/140
+- TLS1.2 `fake_default_tls + tcp_ts=-1000` 9/140
+
+2709 coverage:
+- `http_methodeol` 198/301
+- TLS1.3 `tcpseg + drop` 193/301
+- `http_hostcase` 160/301
+- `fake_default_http + tcp_ts=-1000` 149/301
+- QUIC `fake_default_quic:repeats=11` 108/301
+- QUIC `send:ipfrag + drop` 70/301
+- TLS1.2 `fake_default_tls + tcp_ts=-1000` 10/301
+
+Do **not** add 140 and 301 as if they were independent domain populations; overlap is expected.
+
+### Corrected four-service conclusion
+
+The merged logs' explicit successful `!!!!!` evidence establishes:
+
+- YouTube: `http_hostcase`; QUIC `fake_default_quic:repeats=11`
+- Instagram: `http_methodeol`; TLS1.3 `tcpseg + drop`; 2709 also has QUIC `fake_default_quic:repeats=11`
+- WhatsApp: `http_hostcase`; TLS1.3 `tcpseg + drop`; 2609 also has QUIC `fake_default_quic:repeats=11`
+- Telegram: **no explicit WORKING_IN_BLOCKCHECK strategy in either supplied run**
+
+For Telegram, 2609 additionally contains direct IP-block evidence: Telegram host IPs time out while the IANA control test remains available. This is evidence of IP-level blocking for those tested addresses, not merely a missing strategy result.
+
+Therefore:
+- no single exact WORKING_IN_BLOCKCHECK strategy is common to all four services;
+- Telegram is not solved by the supplied Zapret2 blockcheck evidence;
+- no strategy is to be called UNIVERSAL yet.
+
+### Strategy-stage status
+
+- Manual blockcheck discovery = **DONE**
+- 2609 + 2709 evidence merge = **DONE**
+- Four-service matrix = **DONE FOR MERGED EVIDENCE**
+- Cross-run candidate classes = **CONFIRMED**
+- OpenWrt/nfqws2 translation = **IN_PROGRESS / NEXT**
+- hAP runtime validation = **NOT_STARTED**
+- Universal strategy = **NOT_ESTABLISHED**
+- Telegram Zapret2-only = **NOT_FOUND IN SUPPLIED RUNS**
+
+### Required next action
+
+Do not run another broad blind blockcheck merely because Telegram is unresolved.
+
+The next stage is controlled hAP runtime validation of the smallest evidence-backed candidate set, preserving the current working Zapret2 baseline and using rollback before each meaningful configuration change.
+
+For the runtime phase, treat:
+- `http_hostcase` as a YouTube/WhatsApp candidate;
+- `http_methodeol` as an Instagram candidate;
+- TLS1.3 `tcpseg + drop` as Instagram/WhatsApp candidate;
+- QUIC `fake_default_quic:repeats=11` as YouTube/Instagram/WhatsApp candidate;
+- the other confirmed classes as fallback candidates only after the first runtime results.
+
+Do not imply that a Windows/Cygwin blockcheck success automatically equals OpenWrt/nfqws2 success.
