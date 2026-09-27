@@ -626,3 +626,25 @@ The first runtime candidate should be selected from the highest-coverage evidenc
 S1 evidence matrix: **DONE / strategy27.md**.
 S2 OpenWrt translation map: **NOT_STARTED**.
 Router configuration changed by strategy27: **NO**.
+
+
+## 2026-09-27 — S2 NFQWS2 TRANSLATION COMPLETED
+
+S2 документальный этап завершён: `strategy27.md` содержит exact OpenWrt/nfqws2 translation map для 7 explicit FOUND classes, 4-profile minimal evidence-cover и deterministic hostlist assignment.
+
+### Fixed design
+- P1 HTTP-ME: `http_methodeol`
+- P2 HTTP-HC: `http_hostcase` для HC-only доменов
+- P3 TLS-TS: `tcpseg:pos=0,-1:seqovl=1 + drop`
+- P4 QUIC-QF: `fake_default_quic:repeats=11`
+
+Hostlist files (design paths only):
+`strategy27-me.txt`, `strategy27-hc.txt`, `strategy27-ts.txt`, `strategy27-qf.txt` under `/opt/zapret2/ipset/`.
+
+Counts from raw explicit FOUND matrix: ME=44, HC-only=159, TS=194, QF=111.
+
+Fallback/special evidence remains: TF, QI, TC; HF remains HIGH-COVERAGE candidate only.
+
+**S2 = DONE (DESIGN ONLY).** No router configuration was changed.
+
+**S3 = NOT_STARTED.** Next action: read/backup the current live Zapret2 config before any runtime change.
