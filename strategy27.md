@@ -1605,3 +1605,29 @@ Permanent activation proves configuration acceptance and service health. It does
 - QF live QUIC: BLOCKED by missing HTTP/3 client support; parser/hostlist dry-run PASS.
 
 The working architecture remains exact hostlist + traffic class -> specialized strategy -> existing autohostlist fallback. No exhaustive live matrix is authorized or required.
+
+
+## 2026-09-27 — AUTHORITATIVE STRATEGY27 CLASS STATUS RECONCILIATION
+
+This section supersedes conflicting older wording while retaining historical evidence.
+
+### Current disposition
+- **ME** — EXPLICIT FOUND; **ACTIVE**; 44 domains.
+- **HC** — EXPLICIT FOUND; **ACTIVE**; 159 domains; representative HTTP runtime verified.
+- **TS** — EXPLICIT FOUND; **ACTIVE**; 194 domains; representative TLS runtime verified.
+- **QF** — EXPLICIT FOUND; **ACTIVE**; 111 domains; live HTTP/3 effectiveness remains unverified because the installed curl lacks HTTP/3 support.
+- **TF** — EXPLICIT FOUND; **DEFERRED / FOUND**; 15 domains. This is a real FOUND strategy, intentionally not part of the first permanent layer.
+- **TC** — EXPLICIT FOUND; **DEFERRED / FOUND**; 2 domains. Narrow TLS1.2 special case.
+- **QI** — EXPLICIT FOUND; **DEFERRED / FOUND**; 2 domains. Narrow QUIC special case.
+- **HF** — CANDIDATE / HIGH-COVERAGE; **CANDIDATE ONLY / NOT ACTIVATED**. It has no explicit `working strategy found` evidence.
+
+### Rule
+TF/TC/QI are **not forgotten and not failed**. They are deferred FOUND classes and may be activated only when a concrete coverage gap or targeted runtime hypothesis justifies them. HF must not be promoted to FOUND without new evidence.
+
+### Current permanent architecture
+`domain + traffic class -> exact evidence-derived specialized profile -> no exact match -> existing autohostlist fallback`
+
+Permanent exact layer: ME 44 + HC 159 + TS 194 + QF 111. Deferred FOUND layer: TF 15 + TC 2 + QI 2. Candidate-only: HF.
+
+### Evidence boundary
+FOUND in blockcheck is source-environment evidence, not automatic hAP runtime proof. Deferred does not mean failed.
