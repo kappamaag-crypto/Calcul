@@ -789,3 +789,14 @@ However, `<HOSTLIST_NOAUTO>` cannot by itself implement an exact-only profile wh
 
 ### Next single action
 Read-only inspection of the installed config-rendering path that builds `NFQWS2_OPT` and calls `filter_apply_hostlist_target()`. Then design the exact/fallback profile layout. No restart and no configuration change yet.
+## 2026-09-27 — S5 RENDER-PATH AUDIT RESULT
+
+The read-only search of the installed tree found the renderer call sites:
+- `/opt/zapret2/common/linux_daemons.sh:7` calls `filter_apply_hostlist_target opt`.
+- `/opt/zapret2/common/installer.sh:798` calls `filter_apply_hostlist_target opt` from the NFQWS2 dry-run path.
+- No direct `NFQWS2_OPT=` assignment was found in the searched `common`/OpenWrt init paths by this command.
+- No runtime configuration or service state was changed.
+
+Interpretation: the next read-only step should inspect the small surrounding sections of `linux_daemons.sh` and `installer.sh` to identify how the base `opt` variable is sourced and rendered. This is the final structural inspection before designing the exact/fallback profile layout.
+
+S5 render-path inspection: **IN_PROGRESS**.
