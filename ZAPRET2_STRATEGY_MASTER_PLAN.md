@@ -1068,3 +1068,25 @@ The current chat calls the requested composite dry-run "S6". To avoid renumberin
 
 ### Next action
 Build and execute one nfqws2 --dry-run command containing, in order, the four marker-free exact profiles (ME, HC, TS, QF) followed by the currently rendered HTTP/TLS/QUIC autohostlist fallback profiles exactly as the live baseline presently renders them. This remains read-only and must not modify /opt/zapret2/config or service state.
+
+
+## 2026-09-27 — S5 COMPOSITE DRY-RUN EXECUTION CORRECTION
+
+The first attempted S5 composite exact -> fallback dry-run was not a valid composite test.
+
+Reason: the multiline shell paste terminated the original nfqws2 command before the --filter-* arguments. The shell subsequently attempted to execute those option strings as separate commands, producing ash ... not found and final RC=127.
+
+Evidence classification:
+- nfqws2 itself returned parameter verification successfully for the truncated invocation.
+- 1 user defined desync profile(s) proves the complete intended set of profiles was not passed.
+- The final RC=127 is a shell-level command-not-found result, not an nfqws2 result for the intended composite.
+- Do not mark S5 PASS/DONE or infer any strategy behavior from this run.
+
+Corrective rule:
+- Retry the same read-only composite as one complete shell command/construct that cannot be split by line-continuation paste.
+- Do not restart Zapret2.
+- Do not change /opt/zapret2/config.
+- Do not modify MODE_FILTER, QNUM, DNS, routing, firewall or VPN.
+
+Current status remains:
+S5 composite exact -> fallback = IN_PROGRESS.
