@@ -334,3 +334,23 @@ Current live exact profile state:
 - Fallback: existing **autohostlist ACTIVE** for unmatched traffic.
 
 This matrix remains an evidence/activation map, not a claim that every row has been live-tested. Prior runtime classifications remain unchanged: HC/TS representative paths RUNTIME_VERIFIED; ME NOT_PROVEN; QF live effectiveness BLOCKED by missing HTTP/3 client support. Do not infer universal effectiveness from activation success.
+
+
+## 2026-09-27 — AUTHORITATIVE CLASS DISPOSITION RECONCILIATION
+
+The matrix is an evidence/activation map, not a claim that every row was live-tested.
+
+| Class | Status | Current role |
+|---|---|---|
+| ME | EXPLICIT FOUND / ACTIVE | 44 domains, permanent exact HTTP layer |
+| HC | EXPLICIT FOUND / ACTIVE | 159 domains, permanent exact HTTP layer; representative runtime verified |
+| TS | EXPLICIT FOUND / ACTIVE | 194 domains, permanent exact TLS layer; representative runtime verified |
+| QF | EXPLICIT FOUND / ACTIVE | 111 domains, permanent exact QUIC layer; live HTTP/3 effectiveness unverified due client limitation |
+| TF | EXPLICIT FOUND / DEFERRED | 15 domains; intentionally deferred, not failed |
+| TC | EXPLICIT FOUND / DEFERRED | 2 domains; narrow TLS1.2 special case |
+| QI | EXPLICIT FOUND / DEFERRED | 2 domains; narrow QUIC special case |
+| HF | CANDIDATE / HIGH-COVERAGE | candidate only; no explicit FOUND evidence |
+
+**Important:** TF, TC and QI must not be described as forgotten, failed or unproven. They are FOUND but deferred. HF remains candidate-only. Deferred classes require a concrete coverage gap or targeted hypothesis before activation.
+
+Current architecture remains: exact evidence-derived profile by domain/traffic class -> existing autohostlist fallback.
