@@ -444,3 +444,10 @@ Required runtime hierarchy remains:
 Before activation, explicitly separate exact domains from the fallback auto profile. Do not change MODE_FILTER or unrelated router subsystems merely to achieve this.
 
 After every user result, synchronize the relevant master plan before the next router action.
+## 2026-09-27 — S5 RENDER-PATH HANDOFF
+
+The installed-tree search located the two relevant `filter_apply_hostlist_target` call sites:
+- `common/linux_daemons.sh:7`
+- `common/installer.sh:798`
+
+No runtime change occurred. Before any strategy activation, inspect only the surrounding code to determine the source of the `opt` variable and how profiles are assembled. Then design the exact/fallback separation. Synchronize before the next router action.
