@@ -2662,3 +2662,96 @@ Preservation rule:
 - Current runtime evidence outranks older planning text.
 - Do not restart a paused/frozen branch merely because an older section still contains an unfinished experiment.
 - After each meaningful user result, synchronize the relevant master plan before issuing the next router-changing command.
+
+
+---
+
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-27 — BLOCKCHECK2709 COMPLETE / ZAPRET2 S1 COMPLETE
+
+The user reported that the manual strategy search is complete and uploaded `blockcheck2709.log` to Calcul.
+
+### Evidence
+
+- Source: `blockcheck2709.log`
+- Blob SHA: `f1413839059d5f86b2856aa6ddc62b2e7ed38bb3`
+- Dedicated analysis: `ZAPRET2_BLOCKCHECK2709_EVIDENCE.md`
+- Strategy control plan updated: `ZAPRET2_STRATEGY_MASTER_PLAN.md`
+- New log final coverage set: **301 domains**.
+
+### Blockcheck2709 common coverage
+
+The strongest repeated strategy classes in the 301-domain run are:
+
+- HTTP `http_methodeol`: **198/301**
+- TLS 1.3 `tcpseg:pos=0,-1:seqovl=1 + drop`: **193/301**
+- HTTP `http_hostcase`: **160/301**
+- HTTP `fake_default_http + tcp_ts=-1000`: **149/301**
+- QUIC `fake_default_quic:repeats=11`: **108/301**
+- QUIC `send:ipfrag + drop`: **70/301**
+- TLS 1.2 `fake_default_tls + tcp_ts=-1000`: **10/301**
+
+These counts mean WORKING_IN_BLOCKCHECK coverage in the Windows/Cygwin test environment. They are not hAP runtime validation.
+
+### Four-service result
+
+Keyword-matched evidence in the new run produced:
+
+- **YouTube:** 6 domains with working strategies; HTTP `http_hostcase` and QUIC `fake_default_quic:repeats=11`.
+- **Instagram:** 4 domains with working strategies; HTTP `http_methodeol`, TLS1.3 `tcpseg + drop`, QUIC `fake_default_quic:repeats=11`.
+- **WhatsApp:** 2 domains with working strategies; HTTP `http_hostcase`, TLS1.3 `tcpseg + drop`.
+- **Telegram:** no WORKING_IN_BLOCKCHECK strategy found in this run for the tested Telegram domains. The log reports `winws2 not working` for HTTP, TLS1.2, TLS1.3 and QUIC for domains including `telegram.org`, `www.telegram.org`, `t.me`, `api.telegram.org`, `core.telegram.org`, `web.telegram.org` and `desktop.telegram.org`.
+
+The exact intersections are:
+
+- YouTube ∩ Instagram = QUIC `fake_default_quic:repeats=11`.
+- YouTube ∩ WhatsApp = HTTP `http_hostcase`.
+- Instagram ∩ WhatsApp = TLS1.3 `tcpseg:pos=0,-1:seqovl=1 + drop`.
+- YouTube ∩ Instagram ∩ WhatsApp = no single exact common strategy.
+- Telegram ∩ others = no common working strategy in this run.
+
+### Decision
+
+The manual blockcheck strategy-discovery phase is now **DONE for the current evidence**.
+
+It is **not** valid to call any strategy UNIVERSAL yet. In particular:
+- blockcheck2709 does not solve Telegram;
+- a blockcheck PASS does not prove hAP/OpenWrt runtime success;
+- Windows `--wf-*` interception parameters must not be copied to OpenWrt;
+- no strategy stacking or wholesale replacement of the current Zapret2 configuration is authorized.
+
+### Zapret2 stage transition
+
+- Strategy discovery / manual blockcheck search = **DONE**
+- Four-service/domain evidence matrix = **DONE FOR CURRENT BLOCKCHECK2709 EVIDENCE**
+- OpenWrt/nfqws2 translation map = **IN_PROGRESS / NEXT**
+- Current Zapret2 runtime baseline = **PRESERVE**
+- First runtime strategy change = **NOT_STARTED**
+- hAP validation = **NOT_STARTED**
+- Final universal profile = **NOT_ESTABLISHED**
+- Telegram Zapret2-only coverage = **BLOCKED / NOT_FOUND_IN_THIS_BLOCKCHECK_RUN**
+
+### Next exact action
+
+The next action is no longer to search blindly for more blockcheck strategies.
+
+It is:
+1. read the current hAP Zapret2 configuration;
+2. map the minimal 2709 evidence-backed candidates to nfqws2;
+3. create and verify a rollback backup;
+4. test one meaningful runtime strategy change at a time;
+5. validate ordinary HTTPS plus the target services;
+6. only then decide whether fallbacks/autohostlist require changes.
+
+Do not simultaneously change DNS, PBR, VPN, routing or broad firewall policy.
+
+### Current branch status
+
+- **Zapret2 strategy work = IN_PROGRESS**
+- **S1 evidence matrix = DONE**
+- **S2 OpenWrt translation = IN_PROGRESS / NEXT**
+- **WG/AWG = FROZEN BY USER**
+- **Xray/sing-box = PAUSED**
+- **Tailscale = FAILED / CLOSED**
+- **Remote management = DEFERRED**
+- **Archer OpenVPN = BLOCKED BY CURRENT CGNAT**
+- **PBR = DEFERRED TO FINAL WARP/VPN STAGE**
