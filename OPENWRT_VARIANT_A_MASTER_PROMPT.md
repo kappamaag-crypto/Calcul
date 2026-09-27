@@ -1528,3 +1528,20 @@ Next formal stage: S6 QUIC validation. Preserve the exact-hostlist → specializ
 The dedicated QUIC exact-profile dry-run completed successfully on hAP using the persistent strategy27 QF hostlist. nfqws2 v1.0.3 reported 1 user-defined desync profile, loaded 111 hosts from /etc/zapret2/strategy27/strategy27-qf.txt, reported command line parameters verified, and returned RC=0.
 
 Classification: S6 QUIC exact profile = PASS / RUNTIME_VERIFIED for parser/config acceptance only. This does not establish traffic-level QUIC bypass effectiveness and does not authorize live strategy27 activation. Live Zapret2 configuration and service state remain unchanged.
+
+
+## 2026-09-27 — MANDATORY CURRENT CHECKPOINT — STRATEGY27 PERMANENT ACTIVATION
+
+The rollback-protected permanent ME/HC/TS/QF activation has now been executed successfully on the hAP.
+
+Verified result:
+- activation script returned `ACTIVATION=SUCCESS`;
+- Zapret2 restarted successfully and service status passed;
+- `https://example.com` HTTPS health passed;
+- exact rollback point: `/opt/zapret2/config.strategy27-pre-20260927-212254`;
+- existing autohostlist fallback was preserved after the four exact profiles;
+- no DNS, routing, VPN, PBR, QNUM or unrelated firewall change was part of the activation.
+
+Evidence boundary is mandatory: activation/service health is not universal bypass proof. Preserve the existing classifications: HC/TS representative runtime VERIFIED, ME NOT_PROVEN, QF live BLOCKED by absent HTTP/3 client support; QF parser/hostlist dry-run PASS.
+
+Future AIs MUST treat the permanent activation as the current live baseline. Do not revert it or repeat the old runtime gates without a concrete architecture question. Do not create a 297-domain or 4×N live matrix. Any new strategy experiment requires a new rollback point and one meaningful change at a time.
