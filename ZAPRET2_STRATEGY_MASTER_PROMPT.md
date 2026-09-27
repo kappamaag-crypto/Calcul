@@ -477,3 +477,14 @@ Important formal stage naming:
 The current chat may call the composite pre-activation dry-run "S6"; do not renumber the formal stages in the documents.
 
 Next action: run one read-only nfqws2 --dry-run containing the four exact profiles followed by the current rendered fallback profiles. Do not alter MODE_FILTER, QNUM, DNS, routing, firewall, VPN, PBR or /opt/zapret2/config during this dry-run.
+
+
+## 2026-09-27 — S4 RUNTIME-GATE REFRAME
+
+The previous one-strategy-at-a-time S4 procedure is stopped and superseded by a minimal runtime gate. The purpose is not to runtime-test every discovered strategy individually. Dry-run/parser validation is already complete for the four deployed exact profiles ME/HC/TS/QF, including the composite exact→fallback dry-run and dedicated QF dry-run.
+
+New minimal runtime gate: validate representative traffic behavior by strategy class, not every strategy. Gate A = HTTP class using the already discovered ME/HC candidates; Gate B = TLS class using TS; Gate C = QUIC class using QF. Only after these representative gates pass is the four-service matrix evaluated. TF/TC/QI and other secondary/special classes remain deferred unless the representative gate exposes a concrete coverage gap requiring them. Telegram/WhatsApp are not to be declared solved by Zapret2-only evidence; the existing IP-level/blocking limitation remains.
+
+The current live Zapret2 configuration remains unchanged. MODE_FILTER=autohostlist, QNUM=300, QNUM=65300 and existing fallback profiles are preserved. The S4 backup /opt/zapret2/config.s4-pre-me-20260927 was created and verified byte-for-byte by SHA256; it is a rollback point, not a reason to perform repeated per-strategy swaps.
+
+Execution rule: one controlled runtime gate at a time, minimal changes, no simultaneous changes to strategy + MODE_FILTER + QNUM + DNS + routing. Do not activate all strategy27 profiles globally. Exact-hostlist → specialized strategy → existing autohostlist fallback remains the target architecture.
