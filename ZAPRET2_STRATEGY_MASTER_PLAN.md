@@ -1009,3 +1009,15 @@ Important: this is consistent with the currently active NFQWS2 firewall intercep
 
 ### Safety note
 Do not disable Zapret2, change firewall policy, or alter DNS merely to download these files. The next step should use an already-available transfer path that does not require changing the live interception configuration.
+
+
+## 2026-09-27 — TEMPORARY STOP AUTHORIZED FOR HOSTLIST DEPLOYMENT
+
+User explicitly authorized temporarily stopping Zapret2 because no other file-transfer path is available. Scope is limited to downloading the already-verified strategy27 hostlists; no strategy tuning or configuration redesign is permitted during this interruption.
+
+Safety constraints for this action:
+- Stop Zapret2 only long enough to transfer files.
+- Do not modify `/opt/zapret2/config`, DNS, routing, PBR, VPN, or nftables manually.
+- Verify all four hostlists after transfer against the previously recorded counts/hashes where practical.
+- Restart Zapret2 with the existing configuration immediately after successful transfer.
+- If transfer fails, do not make additional unrelated changes.
