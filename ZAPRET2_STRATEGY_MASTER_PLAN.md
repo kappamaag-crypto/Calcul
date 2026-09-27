@@ -1025,3 +1025,7 @@ Safety constraints for this action:
 
 ### S5 transfer checkpoint — 2026-09-27
 Zapret2 was temporarily stopped by explicit user authorization solely to permit transfer of the four persistent strategy27 hostlists. Stop completed successfully with RC=0 and nftables cleared by the service. No Zapret2 config, DNS, routing, PBR, VPN, or manual firewall changes were made. Next step: transfer hostlists, verify them, then restart the unchanged Zapret2 configuration.
+
+
+### S5 hostlist deployment completed — 2026-09-27
+All four persistent strategy27 hostlists were successfully transferred to `/etc/zapret2/strategy27/` while Zapret2 was stopped. Verified line counts: ME=44, HC=159, QF=111, TS=194; total=508. Transfer completed without modifying `/opt/zapret2/config`. Router-local SHA256 values were recorded from the deployment output. Next: restart unchanged Zapret2 service, then validate exact-profile dry-run(s) against the deployed hostlists before any live strategy configuration change.
