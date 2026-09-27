@@ -1582,3 +1582,26 @@ TF, TC and QI remain preserved as explicit FOUND evidence but are not activated 
 Do not start a 4×N service/domain matrix. Before any new router command, first determine from the existing evidence whether S7 requires any additional smoke request at all. If no concrete architecture question remains, S7 may be closed as an evidence-reconciliation stage without additional runtime testing.
 
 Router baseline remains restored and unchanged by the runtime experiments.
+
+
+## 2026-09-27 — AUTHORITATIVE LIVE ACTIVATION RECONCILIATION
+
+The strategy27 permanent activation is now complete. This section supersedes older statements in this file that say ME/QF are not activated or that permanent activation is unauthorized.
+
+### Live state
+- ME exact hostlist: 44 hosts — active.
+- HC exact hostlist: 159 hosts — active.
+- TS exact hostlist: 194 hosts — active.
+- QF exact hostlist: 111 hosts — active.
+- Existing autohostlist fallback: preserved and active after the exact profiles.
+- Activation backup: `/opt/zapret2/config.strategy27-pre-20260927-212254`.
+- Activation result: SUCCESS; Zapret2 restart/status/ordinary HTTPS health all passed.
+
+### Evidence boundary
+Permanent activation proves configuration acceptance and service health. It does not prove universal traffic bypass.
+- HC representative HTTP: RUNTIME_VERIFIED.
+- TS representative TLS: RUNTIME_VERIFIED.
+- ME representative HTTP: NOT_PROVEN.
+- QF live QUIC: BLOCKED by missing HTTP/3 client support; parser/hostlist dry-run PASS.
+
+The working architecture remains exact hostlist + traffic class -> specialized strategy -> existing autohostlist fallback. No exhaustive live matrix is authorized or required.
