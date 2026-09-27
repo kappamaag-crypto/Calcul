@@ -609,3 +609,15 @@ Do **not** activate TF, TC or QI merely because they are FOUND. They require a c
 
 Blockcheck **FOUND** proves that the strategy worked in the source test environment. It does not by itself prove runtime effectiveness on this hAP. Conversely, a deferred strategy is not considered failed merely because it is not in the current permanent layer.
 
+
+
+## 2026-09-27 — MANDATORY HANDOFF — TC SKIPPED / QI SKIPPED
+
+Latest follow-up disposition:
+- TC hostlist exists locally with 2 domains, but TC was not added to permanent NFQWS2_OPT.
+- TC baseline for `hdrzk.org` returned `BASE_RC=8`, `BASE_SIZE=0`; no differential TC benefit was established.
+- User explicitly skipped TC and then explicitly skipped QI.
+- QI remains FOUND/DEFERRED, not active.
+- HF remains candidate-only.
+
+Future AIs MUST preserve the live baseline as **ME + HC + TS + QF + existing autohostlist fallback**. Do not activate TC/QI without a concrete coverage gap and controlled evidence. Do not alter unrelated DNS/routing/VPN/PBR/QNUM settings.
