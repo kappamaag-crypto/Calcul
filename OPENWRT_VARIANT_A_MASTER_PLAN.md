@@ -3199,3 +3199,10 @@ Do **not** activate TF, TC or QI merely because they are FOUND. They require a c
 
 Blockcheck **FOUND** proves that the strategy worked in the source test environment. It does not by itself prove runtime effectiveness on this hAP. Conversely, a deferred strategy is not considered failed merely because it is not in the current permanent layer.
 
+
+
+## 2026-09-27 — STRATEGY27 FOLLOW-UP: TC/QI SKIPPED
+
+TC follow-up was stopped without changing the permanent router configuration. A local two-domain TC hostlist was created, but the baseline test of `hdrzk.org` returned `RC=8` with zero output, which did not provide differential evidence for TC. The user then explicitly chose to skip TC and QI.
+
+Current live strategy architecture remains **ME + HC + TS + QF + existing autohostlist fallback**. TF remains FOUND/NOT_PROVEN; TC and QI remain deferred FOUND classes; HF remains candidate-only. No unrelated router subsystem was changed.
