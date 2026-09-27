@@ -3144,3 +3144,58 @@ Current architecture:
 **domain + traffic class → exact evidence-derived specialized profile → no exact match → existing autohostlist fallback**.
 
 The permanent activation is now the live baseline. Any further strategy change must be a new controlled change with rollback; do not revert merely to repeat already completed gates.
+
+
+## 2026-09-27 — AUTHORITATIVE STRATEGY27 CLASS STATUS RECONCILIATION
+
+This section is authoritative over any older wording in this file that conflicts with it. Historical evidence and prior stage notes are retained for traceability.
+
+### Current strategy-class disposition
+
+| Class | Exact strategy | Evidence status | Current disposition | Reason |
+|---|---|---|---|---|
+| **ME** | HTTP `http_methodeol` | **EXPLICIT FOUND** | **ACTIVE** | 44 domains; included in permanent exact HTTP layer |
+| **HC** | HTTP `http_hostcase` | **EXPLICIT FOUND** | **ACTIVE** | 159 domains; included in permanent exact HTTP layer; representative HTTP runtime verified |
+| **TS** | TLS `tcpseg:pos=0,-1:seqovl=1 + drop` | **EXPLICIT FOUND** | **ACTIVE** | 194 domains; included in permanent exact TLS layer; representative TLS runtime verified |
+| **QF** | QUIC `fake_default_quic:repeats=11` | **EXPLICIT FOUND** | **ACTIVE** | 111 domains; included in permanent exact QUIC layer; parser/config accepted; live HTTP/3 effectiveness remains unverified because installed curl lacks HTTP/3 |
+| **TF** | TLS `fake_default_tls:tcp_ts=-1000` | **EXPLICIT FOUND** | **DEFERRED / FOUND** | 15 domains; valid FOUND evidence, intentionally excluded from first permanent layer to avoid unnecessary TLS stacking; eligible for targeted follow-up |
+| **TC** | TLS1.2 special | **EXPLICIT FOUND** | **DEFERRED / FOUND** | 2 domains; narrow special-case profile; no current demonstrated coverage gap requiring permanent activation |
+| **QI** | QUIC `send:ipfrag + drop` | **EXPLICIT FOUND** | **DEFERRED / FOUND** | 2 domains; narrow special-case profile; no current demonstrated coverage gap requiring permanent activation |
+| **HF** | HTTP high-coverage `fake_default_http + tcp_ts=-1000` | **CANDIDATE / HIGH-COVERAGE** | **CANDIDATE ONLY / NOT ACTIVATED** | substantial coverage but no explicit `working strategy found` evidence; must not be promoted to FOUND without new evidence |
+
+### Critical distinction
+
+**TF is NOT an unproven candidate.** TF has explicit FOUND evidence. Its status is **DEFERRED / FOUND**, not FAILED, BLOCKED, or candidate-only.
+
+Likewise **TC** and **QI** are explicit FOUND strategies, but each is a narrow special-case class with only two currently evidenced domains. They were intentionally deferred from the first permanent activation.
+
+**HF is different:** it has high coverage/candidate evidence but no explicit FOUND records. It remains candidate-only.
+
+### Permanent architecture
+
+The live architecture is:
+
+`domain + traffic class -> exact evidence-derived specialized profile -> no exact match -> existing autohostlist fallback`
+
+Current exact permanent layer:
+- ME: 44 hosts
+- HC: 159 hosts
+- TS: 194 hosts
+- QF: 111 hosts
+
+Deferred FOUND layer:
+- TF: 15 hosts
+- TC: 2 hosts
+- QI: 2 hosts
+
+Candidate-only:
+- HF: not activated
+
+### Activation policy for deferred FOUND classes
+
+Do **not** activate TF, TC or QI merely because they are FOUND. They require a concrete coverage gap, targeted domain need, or other discriminating runtime hypothesis. Do not activate HF without new evidence upgrading it beyond candidate status.
+
+### Evidence boundary
+
+Blockcheck **FOUND** proves that the strategy worked in the source test environment. It does not by itself prove runtime effectiveness on this hAP. Conversely, a deferred strategy is not considered failed merely because it is not in the current permanent layer.
+
