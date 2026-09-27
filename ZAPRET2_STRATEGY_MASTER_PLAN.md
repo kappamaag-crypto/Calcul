@@ -1037,3 +1037,7 @@ Zapret2 restarted successfully after hostlist transfer, RC=0. The daemon command
 
 ### S5 TS exact-profile dry-run — 2026-09-27
 TS exact profile validation PASSED. `nfqws2 --dry-run` successfully loaded `/etc/zapret2/strategy27/strategy27-ts.txt`, loaded all 194 hosts, verified command-line parameters, and returned RC=0. This validates parser/hostlist registration for the TS exact profile; it does not yet establish runtime blocking bypass or live traffic effectiveness.
+
+
+### S5 all four exact-profile dry-runs — 2026-09-27
+All four persistent strategy27 exact profiles passed `nfqws2 --dry-run`: ME loaded 44 hosts, HC loaded 159, TS loaded 194, QF loaded 111; each returned RC=0 and `command line parameters verified`. This establishes technical acceptance of all four exact profile definitions and hostlists by the installed nfqws2 v1.0.3. It does not yet establish live runtime effectiveness.
