@@ -1517,3 +1517,7 @@ A future AI must not start from the old S1/S3 not started wording without readin
 - no reason to perform a 297-domain runtime matrix.
 
 The next action after receipt of the original raw logs is HF exact domain-delta extraction, not another broad router test.
+
+
+### S5 autohostlist inspection — 2026-09-27
+Read-only inspection of `/opt/zapret2/ipset/zapret-hosts-auto.txt` showed a large accumulated fallback list containing ordinary domains, service endpoints, and dynamic CDN/host-specific names. It must not be treated as a universal blocked-domain list or automatically promoted into exact strategy lists. Before S6 live configuration changes, compare the current autohostlist against the four evidence-derived exact lists (ME/HC/TS/QF) to identify overlap, exact-only domains, and fallback-only domains.
