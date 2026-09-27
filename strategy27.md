@@ -1352,3 +1352,138 @@ https://github.com/bol-van/zapret2/blob/master/docs/readme.md
 
 Официальный zapret2 описывает multi-profile model с `--new`, hostlists и L7-фильтрацией:
 https://github.com/bol-van/zapret2/blob/master/docs/readme.md
+
+
+## 18. S2 — OpenWrt/nfqws2 translation map (DESIGN ONLY)
+
+Дата: 2026-09-27
+
+S2 переводит proven blockcheck2 payload/desync logic в синтаксис текущего zapret2/nfqws2. Windows-only interception selectors из raw log не переносится.
+
+Официальный `zapret2/config.default` использует `NFQWS2_OPT` с отдельными профилями через `--new`, L7 filters и hostlists; такой же принцип применяем здесь. citeturn474984search0turn474984search5
+
+### 18.1. Четыре профиля минимального evidence-cover
+
+Математически минимальный set-cover для 225 explicit-FOUND доменов допускает 4 класса. Для hAP в качестве стартового профиля принимается:
+
+1. **P1 / HTTP-ME** — `http_methodeol`
+2. **P2 / HTTP-HC** — `http_hostcase`
+3. **P3 / TLS-TS** — `tcpseg:pos=0,-1:seqovl=1 + drop`
+4. **P4 / QUIC-QF** — `fake_default_quic:repeats=11`
+
+Это evidence-cover, а не runtime-гарантия.
+
+### 18.2. Exact nfqws2 profile templates
+
+**P1 — HTTP ME**
+
+```
+--filter-tcp=80 --filter-l7=http
+--hostlist=/opt/zapret2/ipset/strategy27-me.txt
+--payload=http_req
+--lua-desync=http_methodeol
+--new
+```
+
+**P2 — HTTP HC**
+
+```
+--filter-tcp=80 --filter-l7=http
+--hostlist=/opt/zapret2/ipset/strategy27-hc.txt
+--payload=http_req
+--lua-desync=http_hostcase
+--new
+```
+
+**P3 — TLS TS**
+
+```
+--filter-tcp=443 --filter-l7=tls
+--hostlist=/opt/zapret2/ipset/strategy27-ts.txt
+--payload=tls_client_hello
+--lua-desync=tcpseg:pos=0,-1:seqovl=1
+--lua-desync=drop
+--new
+```
+
+**P4 — QUIC QF**
+
+```
+--filter-udp=443 --filter-l7=quic
+--hostlist=/opt/zapret2/ipset/strategy27-qf.txt
+--payload=quic_initial
+--lua-desync=fake:blob=fake_default_quic:repeats=11
+```
+
+Синтаксис сохраняет L7/payload/desync из raw evidence и меняет только механизм interception/hostlist под nfqws2.
+
+### 18.3. Deterministic hostlist assignment
+
+Чтобы не дублировать два HTTP-профиля для одного и того же домена:
+
+- `strategy27-me.txt`: **44** домена с explicit FOUND ME.
+- `strategy27-hc.txt`: **159** доменов с explicit FOUND HC и **без** ME.
+- `strategy27-ts.txt`: **194** домена с explicit FOUND TS.
+- `strategy27-qf.txt`: **111** домена с explicit FOUND QF.
+
+Такое распределение оставляет все исходные multi-strategy результаты в полной matrix, но для HTTP выбирает deterministic primary: ME имеет приоритет над HC.
+
+### 18.4. Exact hostlist membership source
+
+Доменные списки должны быть сгенерированы только из explicit FOUND matrix `strategy27.md`, без добавления доменов «по памяти» или по похожему имени.
+
+P1 ME:
+```
+abs.twimg.com\napi.linkedin.com\napi.twitter.com\ncdn-images-1.medium.com\ncdn-images-2.medium.com\nfacebook.com\nfbcdn.net\nfbsbx.com\ngoogleadservices.com\ngraph.facebook.com\nhdrezka.co\nhdrezka.info\nhdrezka.ink\nhdrezka.me\nhdrezka.one\nhdrezka.run\nhdrezka.sh\nhdrezka.tv\nhdrezka.website\nhdrezka.zone\nhq.hdrezka.info\ni.instagram.com\ninstagram.com\nlinkedin.com\nm.facebook.com\nmedium.com\nnnmclub.to\npbs.twimg.com\nrezka-ua.tv\nrezka.ag\nrezka.io\nrustorka.com\nrutor.info\nrutracker.org\nscontent.cdninstagram.com\nscontent.xx.fbcdn.net\nstreamable.com\nt.co\ntwitter.com\nvideo.twimg.com\nwww.dailymotion.com\nwww.instagram.com\nwww.linkedin.com\nwww.medium.com
+```
+
+P2 HC-only:
+```
+a-v2.sndcdn.com\naccount.microsoft.com\naccounts.google.com\nai.google.dev\nai21.com\nanthropic.com\napi.deepseek.com\napi.devices.cloudflare.com\napi.github.com\napi.mistral.ai\napi.openai.com\napi.perplexity.ai\napi.spotify.com\napi.steampowered.com\napi.vimeo.com\napi.whatsapp.com\napi.x.ai\nassets.web.soundcloud.cloud\navatars.githubusercontent.com\nbing.com\nblizzard.com\ncamo.githubusercontent.com\ncdn.discordapp.com\ncdn.steamstatic.com\ncharacter.ai\nchat.deepseek.com\nchat.mistral.ai\nchatgpt.com\ncloud.microsoft\ncloudflare-dns.com\ncloudflare.com\ncloudflareclient.com\ncloudflarecp.com\ncloudflareok.com\ncloudflareportal.com\ncohere.com\nconnect.facebook.net\nconnectivity.cloudflareclient.com\ncopilot.com\ncopilot.microsoft.com\ndeepseek.com\ndev.azure.com\ndiscord-attachments-uploads-prd.storage.googleapis.com\ndiscord.com\ndiscord.gg\ndiscord.media\ndiscordactivities.com\ndiscordapp.com\ndiscordcdn.com\ndiscordstatus.com\ndmcdn.net\nea.com\nf.vimeocdn.com\nfonts.googleapis.com\nfonts.gstatic.com\ngateway.reddit.com\ngemini.google.com\ngenerativelanguage.googleapis.com\ngist.github.com\ngithub.com\ngoogle.com\ngoogleapis.com\ngoogleusercontent.com\ngrok.com\ngstatic.com\nhdrzk.org\nhuggingface.co\ni.vimeocdn.com\ni.ytimg.com\nkick.com\nkimi.com\nlive.com\nm.youtube.com\nmedia.discordapp.net\nmedia.licdn.com\nmeta.ai\nmicrosoft.com\nmistral.ai\nmoonshot.ai\nnetflix.com\nnintendo.com\nnotifications.cloudflareclient.com\noaistatic.com\noauth.reddit.com\nobjects.githubusercontent.com\noffice.com\noffice365.com\nold.reddit.com\nonedrive.com\nopen.spotify.com\nopenai.com\noutlook.com\noutlook.office.com\nperplexity.ai\nplay.google.com\nplayback.media-streaming.soundcloud.cloud\npoe.com\nportal.azure.com\nqwenchat.ai\nraw.githubusercontent.com\nredd.it\nreddit.com\nreplicate.com\nrumble.com\ns.ytimg.com\nskype.com\nsndcdn.com\nsoundcloud.com\nspotify.com\nstability.ai\nsteamcommunity.com\nsteampowered.com\nstore.steampowered.com\nstyle.sndcdn.com\ntapochek.net\nteams.live.com\nteams.microsoft.com\ntiktok.com\ntiktokv.com\ntogether.ai\ntorrents.ru\ntwitch.tv\nv.whatsapp.net\nvimeo.com\nvimeocdn.com\nvisualstudio.com\nwarp.plus\nwhatsapp.net\nws.chatgpt.com\nwww.cloudflare.com\nwww.ea.com\nwww.epicgames.com\nwww.github.com\nwww.google.com\nwww.kick.com\nwww.microsoft.com\nwww.microsoft365.com\nwww.netflix.com\nwww.nintendo.com\nwww.office365.com\nwww.onedrive.com\nwww.playstation.com\nwww.reddit.com\nwww.rumble.com\nwww.soundcloud.com\nwww.tiktok.com\nwww.twitch.tv\nwww.whatsapp.com\nwww.x.com\nwww.xbox.com\nwww.youtube.com\nx.ai\nx.com\nxbox.com\nyoutu.be\nyoutube.com\nyoutube.googleapis.com\nyoutube.ru\nyoutubei.googleapis.com
+```
+
+P3 TS:
+```
+a-v2.sndcdn.com\nabs.twimg.com\naccount.microsoft.com\naccounts.google.com\nai.google.dev\nai21.com\nanthropic.com\napi.anthropic.com\napi.cloudflare.com\napi.deepseek.com\napi.devices.cloudflare.com\napi.github.com\napi.linkedin.com\napi.mistral.ai\napi.openai.com\napi.perplexity.ai\napi.spotify.com\napi.twitter.com\napi.vimeo.com\napi.whatsapp.com\napi.x.ai\nassets.web.soundcloud.cloud\navatars.githubusercontent.com\nazure.com\nbing.com\ncamo.githubusercontent.com\ncdn-images-1.medium.com\ncdn-images-2.medium.com\ncdn.discordapp.com\ncdn.steamstatic.com\ncharacter.ai\nchat.mistral.ai\nchat.openai.com\nchatgpt.com\nclaudeusercontent.com\ncloud.microsoft\ncloudflare-dns.com\ncloudflare.com\ncloudflareclient.com\ncloudflarecp.com\ncloudflareok.com\ncloudflareportal.com\ncohere.com\nconnect.facebook.net\nconnectivity.cloudflareclient.com\ncopilot.com\ncopilot.microsoft.com\ndailymotion.com\ndeepseek.com\ndev.azure.com\ndiscord-attachments-uploads-prd.storage.googleapis.com\ndiscord.com\ndiscord.gg\ndiscord.media\ndiscordactivities.com\ndiscordapp.com\ndiscordcdn.com\ndiscordstatus.com\nea.com\nengage.cloudflareclient.com\nepicgames.com\nepicgames.dev\nfacebook.com\nfbcdn.net\nfbsbx.com\nfonts.googleapis.com\nfonts.gstatic.com\ngateway.reddit.com\ngemini.google.com\ngenerativelanguage.googleapis.com\ngist.github.com\ngithub.com\ngoogle-analytics.com\ngoogle.com\ngoogleadservices.com\ngoogleapis.com\ngoogleusercontent.com\ngraph.facebook.com\ngrok.com\ngstatic.com\nhdrezka.ag\nhdrezka.co\nhdrezka.me\nhdrezka.run\nhdrezka.sh\nhdrezka.tv\nhdrezka.website\nhdrezka.zone\nhdrzk.org\nhuggingface.co\ni.instagram.com\ni.ytimg.com\ninstagram.com\nlinkedin.com\nlive.com\nlogin.microsoftonline.com\nm.facebook.com\nmedia.discordapp.net\nmedia.licdn.com\nmedium.com\nmeta.ai\nmicrosoft.com\nmicrosoft365.com\nmistral.ai\nmoonshot.ai\nnetflix.ca\nnetflix.net\nnnmclub.to\nnotifications.cloudflareclient.com\noaistatic.com\noauth.reddit.com\nobjects.githubusercontent.com\noffice.com\noffice365.com\nold.reddit.com\nonedrive.com\nopen.spotify.com\nopenai.com\noutlook.com\noutlook.office.com\npbs.twimg.com\nperplexity.ai\nplay.google.com\nplayback.media-streaming.soundcloud.cloud\npoe.com\nportal.azure.com\nqwen.ai\nraw.githubusercontent.com\nreddit.com\nredditmedia.com\nreplicate.com\nrezka-ua.tv\nrezka.ag\nrezka.io\nrumble.com\nrustorka.com\nrutracker.org\ns.ytimg.com\nscontent.cdninstagram.com\nscontent.xx.fbcdn.net\nsharepoint.com\nskype.com\nsndcdn.com\nsoundcloud.com\nspotify.com\nstability.ai\nsteamcommunity.com\nsteampowered.com\nstore.steampowered.com\nstyle.sndcdn.com\nt.co\ntapochek.net\nteams.live.com\nteams.microsoft.com\ntogether.ai\ntwitch.tv\ntwitter.com\nv.whatsapp.net\nvideo.twimg.com\nvimeo.com\nvisualstudio.com\nwarp.plus\nwhatsapp.net\nwindows.com\nws.chatgpt.com\nwww.cloudflare.com\nwww.dailymotion.com\nwww.ea.com\nwww.epicgames.com\nwww.github.com\nwww.google.com\nwww.instagram.com\nwww.kick.com\nwww.linkedin.com\nwww.medium.com\nwww.microsoft.com\nwww.microsoft365.com\nwww.netflix.com\nwww.nintendo.com\nwww.office.com\nwww.office365.com\nwww.onedrive.com\nwww.reddit.com\nwww.rumble.com\nwww.soundcloud.com\nwww.twitch.tv\nwww.vimeo.com\nwww.whatsapp.com\nwww.x.com\nwww.xbox.com\nx.ai\nx.com\nxbox.com\nyoutu.be
+```
+
+P4 QF:
+```
+accounts.google.com\nai.google.dev\nai21.com\nanthropic.com\napi.linkedin.com\napi.mistral.ai\napi.openai.com\napi.perplexity.ai\napi.spotify.com\napi.vimeo.com\napi.whatsapp.com\ncdn-images-1.medium.com\ncdn-images-2.medium.com\ncdn.discordapp.com\ncdn.steamstatic.com\ncharacter.ai\nclaude.ai\nclaudeusercontent.com\ncloudflare-dns.com\ncloudflare.com\ncopilot.microsoft.com\ndiscord-attachments-uploads-prd.storage.googleapis.com\ndiscord.com\ndiscordapp.com\ndiscordstatus.com\nea.com\nfacebook.com\nfbcdn.net\nfbsbx.com\nfonts.googleapis.com\nfonts.gstatic.com\ngateway.reddit.com\ngemini.google.com\ngenerativelanguage.googleapis.com\ngoogle-analytics.com\ngoogle.com\ngoogleadservices.com\ngoogleapis.com\ngoogleusercontent.com\ngraph.facebook.com\ngrok.com\ngstatic.com\nhdrezka.co\nhdrezka.ink\nhdrezka.run\nhdrezka.tv\nhdrezka.zone\nhuggingface.co\ni.instagram.com\ni.ytimg.com\ninstagram.com\nkick.com\nlinkedin.com\nm.facebook.com\nm.youtube.com\nmedia.discordapp.net\nmedia.licdn.com\nmedium.com\nmistral.ai\nnnmclub.to\noaistatic.com\noauth.reddit.com\nold.reddit.com\nopen.spotify.com\nopenai.com\noutlook.office.com\nperplexity.ai\nplay.google.com\npoe.com\nredd.it\nreddit.com\nredditmedia.com\nreplicate.com\nrezka.io\nrumble.com\nrustorka.com\nrutracker.org\ns.ytimg.com\nscontent.cdninstagram.com\nscontent.xx.fbcdn.net\nspotify.com\nteams.live.com\ntiktokv.com\ntogether.ai\ntwitch.tv\nvimeo.com\nwarp.plus\nwhatsapp.net\nws.chatgpt.com\nwww.cloudflare.com\nwww.dailymotion.com\nwww.ea.com\nwww.epicgames.com\nwww.google.com\nwww.kick.com\nwww.linkedin.com\nwww.medium.com\nwww.microsoft365.com\nwww.nintendo.com\nwww.reddit.com\nwww.rumble.com\nwww.twitch.tv\nwww.vimeo.com\nwww.whatsapp.com\nwww.xbox.com\nwww.youtube.com\nyoutu.be\nyoutube.com\nyoutube.googleapis.com\nyoutube.ru\nyoutubei.googleapis.com
+```
+
+### 18.5. Why TF/QI/TC/HF are not in the first four profiles
+
+- **TF**: explicit FOUND, but low coverage; remains TLS fallback candidate.
+- **QI**: explicit FOUND, very small domain set; remains QUIC special fallback.
+- **TC**: explicit FOUND only twice in 2709; remains TLS1.2 special case.
+- **HF**: high COVERAGE, but no explicit FOUND; remains candidate only.
+
+Они не удаляются из evidence-base.
+
+### 18.6. MODE_FILTER interaction
+
+S2 does not authorize changing the currently working `MODE_FILTER=autohostlist`. The translation map is deliberately independent of that setting.
+
+Before activation, determine whether the current init script will combine explicit `--hostlist=...` with the selected `MODE_FILTER`; this must be checked against the installed zapret2 version/config renderer before runtime change.
+
+The upstream config notes that `<HOSTLIST>` and `<HOSTLIST_NOAUTO>` are mode-dependent placeholders, while explicit hostlist paths can also be used. citeturn474984search0turn474984search1
+
+### 18.7. Resource/safety policy for hAP
+
+Do not activate all seven strategies together. The first controlled experiment should modify one profile at a time and preserve rollback.
+
+P4 QF is restricted to the explicit QF hostlist because QUIC fake repeats=11 affects UDP/443 and should not become a global UDP rule on the 64 MB hAP.
+
+P3 TS is similarly restricted to the explicit TS hostlist; do not convert it into a global TCP/443 rule without runtime evidence.
+
+### 18.8. S2 completion criteria
+
+S2 is considered **DONE (design)** when:
+- all seven explicit FOUND strategy classes are mapped to nfqws2 syntax;
+- the four-profile evidence-cover is defined;
+- hostlist scope is deterministic;
+- no Windows-only `--wf-*` selectors remain in the templates;
+- runtime activation is still separated from design.
+
+S2: **DONE / DESIGN ONLY**. Router configuration changed: **NO**.
