@@ -2455,3 +2455,53 @@ NEXT EXACT STRATEGY ACTION:
 - Analyze blockcheck2609_FULL.log and build the four-service/domain matrix.
 - No NFQWS2_OPT, MODE_FILTER, QNUM or firewall change is authorized by this branch before S1 is completed.
 
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-27 — REMOTE MANAGEMENT / CGNAT / TAILSCALE AUDIT
+
+### Remote-access objective
+- User objective: manage and diagnose the downstream MikroTik hAP ac lite while away from home.
+- Archer C20 v4 remains the main router; hAP remains downstream.
+- No direct Internet exposure of hAP management is authorized.
+
+### Current WAN / CGNAT evidence
+- Archer WAN: **100.96.21.23**, gateway **100.96.0.1**.
+- hAP Archer-side: **192.168.0.100/24** on `phy0-sta0`.
+- Externally observed public IPv4: **46.191.178.66**.
+- `kappakappa.ddns.net` resolves to **46.191.178.66**.
+- The Archer WAN address is carrier/shared address space, treated as CGNAT evidence for the current path.
+- Dynamic public IPv4 and CGNAT are separate: DDNS can track address changes, but DDNS does not bypass provider CGNAT.
+- Therefore ordinary inbound port-forward/remote-management assumptions are not reliable for reaching the hAP from the Internet.
+
+### Archer / hAP management safety
+- Archer Remote Management is enabled in the observed UI, but CGNAT prevents treating external reachability as established.
+- Do not broaden remote-management sources to “All”, disable SPI/DoS protection, add DMZ exposure, or create unrelated port forwards merely to solve hAP access.
+- Existing hAP WAN rule `Allow-SSH-from-TPLink` is narrow: source **192.168.0.0/24**, TCP/22, ACCEPT.
+- Dropbear listens locally on TCP/22, but end-to-end SSH from an actual Archer Wi-Fi client remains **NOT VALIDATED / INCOMPLETE**.
+- Do not add a duplicate SSH rule or broaden WAN input without an explicit new decision.
+
+### Tailscale read-only audit — 2026-09-27
+- OpenWrt **25.12.5 r33051-f5dae5ece4**, target **ath79/mikrotik**, MIPS 24Kc hAP ac lite.
+- `/overlay`: **6.1 GiB available** of 6.6 GiB.
+- Tailscale: **NOT INSTALLED**; `apk info -e tailscale` returned no installed-package result.
+- Official OpenWrt 25.12.5 `mips_24kc` feed exposes **tailscale 1.98.3-r1**.
+- No separate Tailscale feed was added.
+- Audit was **READ-ONLY**: no package/service/UCI/route/firewall/DNS/Zapret2/WG-AWG/watchdog state changed.
+- OpenWrt documents Tailscale as suitable for remote administration without port forwarding. citeturn0search1
+- Initial Tailscale scope is **management-only**. No exit node, subnet router, full-router VPN, PBR, DNS replacement or LAN-wide routing is authorized.
+- Do not enable Tailscale DNS integration automatically; preserve existing dnsmasq/DNS behavior during initial setup. citeturn0search7
+
+### Remote-management stage
+- **CGNAT identification: RUNTIME_VERIFIED / DONE**
+- **Dynamic public-IP + DDNS observation: RUNTIME_VERIFIED / DONE**
+- **Direct Internet inbound management: BLOCKED / UNSUITABLE AS PRIMARY PATH under current CGNAT**
+- **Tailscale package availability audit: DONE**
+- **Tailscale installation: NOT_STARTED**
+- **Tailscale authorization: NOT_STARTED**
+- **Remote hAP management through Tailscale: NOT_VALIDATED**
+- **Archer-side SSH from Archer Wi-Fi client: NOT_VALIDATED / INCOMPLETE**
+
+### Exact next gate
+If the user explicitly continues this branch, the next router-changing command is only:
+`apk add tailscale`
+Do not run `tailscale up` in the same step. After installation, verify package/version, daemon/init integration, RAM impact and configuration before authorization.
