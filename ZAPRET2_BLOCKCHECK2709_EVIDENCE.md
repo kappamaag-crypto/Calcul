@@ -163,3 +163,84 @@ blockcheck2709.log не показал ни одной строки `working str
 - не объявлять Telegram решённым;
 - не заменять текущий рабочий Zapret2 конфиг целиком.
 
+
+
+---
+
+## 9. CROSS-LOG CORRECTION / MERGED EVIDENCE WITH BLOCKCHECK2609_FULL
+
+The earlier 2709 analysis must be read together with the previous `blockcheck2609_FULL.log`.
+
+### 2609 source
+
+- Blob SHA: `d42227bdc262c4437e4d1f78e28369c41075b3d6`
+- 2609 final coverage summary tested **140 domains**.
+- 2609 and 2709 use the same general blockcheck/winws2 evidence model, so strategy classes can be compared, but raw coverage counts must not be added as if they were independent samples because the domain populations overlap.
+
+### 2609 coverage
+
+The 2609 summary recorded:
+
+- HTTP `http_methodeol`: 95/140
+- TLS1.3 `tcpseg:pos=0,-1:seqovl=1 + drop`: 92/140
+- HTTP `http_hostcase`: 84/140
+- HTTP `fake_default_http + tcp_ts=-1000`: 74/140
+- QUIC `fake_default_quic:repeats=11`: 42/140
+- QUIC `send:ipfrag + drop`: 26/140
+- TLS1.2 `fake_default_tls + tcp_ts=-1000`: 9/140
+- TLS1.3 same fake-default-TLS variant: 2/140
+
+### What 2609 adds
+
+The same principal strategy classes that appear in 2709 were already independently present in 2609. Therefore the following are now **cross-run confirmed strategy classes**, not one-off 2709 observations:
+
+- HTTP `http_methodeol`
+- HTTP `http_hostcase`
+- HTTP `fake_default_http + tcp_ts=-1000`
+- TLS1.3 `tcpseg:pos=0,-1:seqovl=1 + drop`
+- QUIC `fake_default_quic:repeats=11`
+- QUIC `send:ipfrag + drop`
+- TLS1.2 `fake_default_tls + tcp_ts=-1000`
+
+2709 expands coverage substantially (301-domain run) but does not change the core candidate classes.
+
+### Telegram clarification after reading both logs
+
+Both logs must be interpreted carefully.
+
+For Telegram in 2609, domains such as `telegram.org`, `api.telegram.org` and `t.me` show normal connection timeout and IP-block evidence. The tested Telegram IPs are unavailable while an IANA control test is available. The subsequent blockcheck output does not establish a `!!!!!` WORKING_IN_BLOCKCHECK bypass for Telegram.
+
+In 2709, the tested Telegram domains again produce no `!!!!!` WORKING_IN_BLOCKCHECK strategy.
+
+Therefore the merged conclusion is:
+
+**Telegram Zapret2-only working strategy = NOT FOUND in either 2609 or 2709.**
+
+This does not prove that no future strategy can work. It means the two supplied blockcheck runs do not provide evidence for one.
+
+### Four-service intersection after merging both logs
+
+The exact `!!!!!` WORKING_IN_BLOCKCHECK strategy classes are:
+
+- YouTube: `http_hostcase`, QUIC `fake_default_quic:repeats=11`
+- Instagram: `http_methodeol`, TLS1.3 `tcpseg + drop` (and QUIC `fake_default_quic:repeats=11` in 2709)
+- WhatsApp: `http_hostcase`, TLS1.3 `tcpseg + drop` (and QUIC `fake_default_quic:repeats=11` in 2609)
+- Telegram: none
+
+Thus there is **no single exact WORKING_IN_BLOCKCHECK strategy common to all four services** across the merged evidence.
+
+### Important interpretation rule
+
+Do not use the raw number of matching strategy-output lines as a success count. A blockcheck line showing a candidate `winws2 ...` command is not by itself a successful result. The decisive `WORKING_IN_BLOCKCHECK` evidence is the explicit successful marker/record used by the strategy documents (the `!!!!!` lines in these logs).
+
+This correction prevents treating Telegram's failed/IP-block test as if its generic candidate commands were successful.
+
+### Merged status
+
+- 2609 evidence = **ANALYZED**
+- 2709 evidence = **ANALYZED**
+- Cross-run candidate classes = **CONFIRMED**
+- Four-service matrix = **DONE FOR MERGED EVIDENCE**
+- Single universal strategy for YouTube + Instagram + WhatsApp + Telegram = **NOT ESTABLISHED**
+- Telegram Zapret2-only strategy = **NOT FOUND IN SUPPLIED BLOCKCHECK RUNS**
+- OpenWrt runtime validation = **NEXT**
