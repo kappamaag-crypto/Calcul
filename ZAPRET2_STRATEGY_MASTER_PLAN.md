@@ -1175,3 +1175,17 @@ This override supersedes older wording that called for a full four-service/domai
 - Gate C QUIC (QF): **BLOCKED — installed curl/libcurl has no HTTP/3 support**
 - strategy27 live activation: **NOT_AUTHORIZED yet**
 - baseline config: **RESTORED / HEALTHY**
+
+
+## 2026-09-27 — S5 COMPOSITE RUNTIME CHECKPOINT
+
+Controlled live composite gate completed and baseline restored.
+- HC HTTP YouTube: RC=0, 892572 bytes — RUNTIME_VERIFIED for the representative HTTP path.
+- ME HTTP Instagram: RC=4 — NOT_PROVEN; the same endpoint had already failed at baseline.
+- TS TLS Instagram: RC=0, 416466 bytes — RUNTIME_VERIFIED.
+- Automatic rollback: RESTORE_RC=0.
+- QF was loaded in the composite but live QUIC remains BLOCKED because installed curl/libcurl has no HTTP/3 support.
+
+The live strategy27 configuration was not retained. Target architecture remains: domain + traffic class -> evidence-derived exact profile -> existing autohostlist fallback when no exact match. Do not create a per-domain runtime matrix; blockcheck evidence already supplies domain-level coverage.
+
+Current status: S5 composite live runtime = PASS / RUNTIME_VERIFIED for demonstrated HC and TS paths; ME = NOT_PROVEN; QF = BLOCKED; permanent strategy27 activation = NOT_AUTHORIZED.
