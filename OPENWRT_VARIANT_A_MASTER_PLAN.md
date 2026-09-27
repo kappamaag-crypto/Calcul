@@ -2967,3 +2967,30 @@ S3 rollback backup was verified on 2026-09-27. LIVE /opt/zapret2/config and /opt
 
 ### Next task
 Before activation, inspect the installed zapret2 renderer/init behavior for interaction between explicit custom --hostlist profiles and MODE_FILTER=autohostlist. Then prepare exact hostlists/profile ordering without restarting the service.
+
+
+## AUTHORITATIVE CURRENT OVERRIDE — 2026-09-27 — S4 RENDERER AUDIT COMPLETE
+
+The installed Zapret2 renderer/init behavior was inspected read-only.
+
+Verified:
+- `/opt/zapret2/common/list.sh` defines `<HOSTLIST>` and `<HOSTLIST_NOAUTO>`.
+- Under `MODE_FILTER=autohostlist`, `<HOSTLIST>` adds normal hostlists plus auto-hostlist parameters.
+- Under the same mode, `<HOSTLIST_NOAUTO>` still adds `--hostlist=$HOSTLIST_AUTO`; it is not an exact-only selector.
+- `/opt/zapret2/init.d/openwrt/zapret2` passes the rendered argument string to `nfqws2`; `--new` separates profiles.
+- No router configuration was changed and no service restart occurred.
+
+Therefore the fixed two-level architecture remains, but exact domains must be explicitly separated from the autohostlist fallback; merely using `<HOSTLIST_NOAUTO>` is insufficient.
+
+Current Zapret2 stage state:
+- S1 evidence/domain matrix: DONE
+- S2 translation design: DONE / DESIGN ONLY
+- S3 rollback backup: DONE
+- S4 renderer compatibility audit: DONE
+- S4 exact-hostlist runtime validation: NOT_STARTED
+- S5 composite exact-strategy validation: NOT_STARTED
+- S6 QUIC exact-strategy validation: NOT_STARTED
+- S7 two-level four-service validation: NOT_STARTED
+- Final universal profile: NOT_ESTABLISHED
+
+Next action is read-only inspection of the installed path that constructs `NFQWS2_OPT` and invokes `filter_apply_hostlist_target()`. Do not change MODE_FILTER, QNUM, DNS, routing, firewall, VPN, or restart Zapret2.
