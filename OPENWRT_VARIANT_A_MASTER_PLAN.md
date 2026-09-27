@@ -3083,3 +3083,20 @@ New minimal runtime gate: validate representative traffic behavior by strategy c
 The current live Zapret2 configuration remains unchanged. MODE_FILTER=autohostlist, QNUM=300, QNUM=65300 and existing fallback profiles are preserved. The S4 backup /opt/zapret2/config.s4-pre-me-20260927 was created and verified byte-for-byte by SHA256; it is a rollback point, not a reason to perform repeated per-strategy swaps.
 
 Execution rule: one controlled runtime gate at a time, minimal changes, no simultaneous changes to strategy + MODE_FILTER + QNUM + DNS + routing. Do not activate all strategy27 profiles globally. Exact-hostlist → specialized strategy → existing autohostlist fallback remains the target architecture.
+
+
+## 2026-09-27 — RUNTIME VALIDATION EFFICIENCY OVERRIDE
+
+Runtime validation must NOT become a per-domain or exhaustive service/domain matrix. The project already contains per-domain evidence in blockcheck2609_FULL.log and blockcheck2709.log. Use runtime only to validate representative traffic classes and the exact→fallback behavior on the hAP.
+
+Rules:
+- Validate representative classes only: HTTP (ME/HC), TLS (TS), QUIC (QF).
+- Do not runtime-test every host from the deployed exact hostlists.
+- After class gates, use at most one smoke endpoint per priority service only when it answers a specific architecture question; do not build a 4×N matrix.
+- Reuse blockcheck evidence for domain-level coverage; distinguish it from live hAP effectiveness.
+- A tooling limitation such as missing HTTP/3 support is a BLOCKED gate, not a reason to install packages automatically.
+- Keep one controlled live change at a time and restore the verified baseline after each experiment.
+
+Current checkpoint: Gate A/ME = IN_PROGRESS/NOT PROVEN; Gate B/TS = PASS; Gate C/QF = BLOCKED because installed curl/libcurl has no HTTP/3 support. Live strategy27 remains inactive.
+
+This override supersedes older wording requesting a full four-service/domain matrix.
