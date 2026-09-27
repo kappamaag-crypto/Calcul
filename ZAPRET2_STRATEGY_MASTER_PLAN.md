@@ -414,3 +414,86 @@ NEXT EXACT ACTION:
 - https://github.com/bol-van/zapret/blob/master/docs/readme.md
 - официальные zapret2 discussions по nfqws2 profiles/fallback/circular.
 
+
+
+---
+
+## 2026-09-27 — BLOCKCHECK2709 MATRIX COMPLETION
+
+### New evidence source
+
+- `blockcheck2709.log`
+- Blob SHA: `f1413839059d5f86b2856aa6ddc62b2e7ed38bb3`
+- New evidence summary: `ZAPRET2_BLOCKCHECK2709_EVIDENCE.md`
+- The new run contains **301 domains** in its final coverage summary.
+
+### Four-service matrix result
+
+The current blockcheck evidence was analyzed for YouTube / Instagram / WhatsApp / Telegram.
+
+| Service | Evidence-matched domains with working strategies | Working strategy classes found |
+|---|---:|---|
+| YouTube | 6 | HTTP `http_hostcase`; QUIC `fake_default_quic:repeats=11` |
+| Instagram | 4 | HTTP `http_methodeol`; TLS1.3 `tcpseg + drop`; QUIC `fake_default_quic:repeats=11` |
+| WhatsApp | 2 | HTTP `http_hostcase`; TLS1.3 `tcpseg + drop` |
+| Telegram | 0 | none in this run |
+
+Telegram tested domains represented in the log include:
+`telegram.org`, `www.telegram.org`, `t.me`, `telegram.me`, `api.telegram.org`, `core.telegram.org`, `web.telegram.org`, `desktop.telegram.org`.
+For these, blockcheck2709 records `winws2 not working` for HTTP, TLS1.2, TLS1.3 and QUIC.
+
+### Intersection result
+
+- YouTube ∩ Instagram = QUIC `fake_default_quic:repeats=11`
+- YouTube ∩ WhatsApp = HTTP `http_hostcase`
+- Instagram ∩ WhatsApp = TLS1.3 `tcpseg:pos=0,-1:seqovl=1 + drop`
+- YouTube ∩ Instagram ∩ WhatsApp = empty intersection of one exact strategy.
+- Telegram intersection = empty because no WORKING_IN_BLOCKCHECK strategy was found for the tested Telegram domains.
+
+Therefore **no universal single strategy for all four services is established**.
+
+### Coverage summary from 2709
+
+- HTTP `http_methodeol`: 198/301
+- TLS1.3 `tcpseg:pos=0,-1:seqovl=1 + drop`: 193/301
+- HTTP `http_hostcase`: 160/301
+- HTTP `fake_default_http + tcp_ts=-1000`: 149/301
+- QUIC `fake_default_quic:repeats=11`: 108/301
+- QUIC `send:ipfrag + drop`: 70/301
+- TLS1.2 `fake_default_tls + tcp_ts=-1000`: 10/301
+
+These are blockcheck evidence counts, not hAP runtime validation.
+
+### Status transition
+
+- STAGE S0 — document control: **DONE**
+- STAGE S1 — four-service/domain evidence matrix: **DONE FOR CURRENT BLOCKCHECK2709 EVIDENCE**
+- STAGE S2 — OpenWrt translation map: **IN_PROGRESS / NEXT**
+- STAGE S3 — current Zapret2 backup: **NOT_STARTED**
+- STAGE S4 — single-strategy runtime validation: **NOT_STARTED**
+- STAGE S5 — TCP composite validation: **NOT_STARTED**
+- STAGE S6 — QUIC validation: **NOT_STARTED**
+- STAGE S7 — hAP four-service validation: **NOT_STARTED**
+- STAGE S9 — autohostlist evaluation: **DEFERRED UNTIL CORE RUNTIME VALIDATION**
+- STAGE S10 — final profile: **NOT_STARTED**
+- STAGE S11 — final validation: **NOT_STARTED**
+
+### Important conclusion
+
+The new evidence is sufficient to move from blind blockcheck strategy discovery to controlled OpenWrt translation/runtime validation.
+
+It is **not** sufficient to:
+- call any strategy UNIVERSAL;
+- declare Telegram solved;
+- replace the current working Zapret2 configuration;
+- enable all candidates simultaneously.
+
+### Next exact strategy action
+
+Before any router-changing command:
+1. Read the current hAP Zapret2 configuration.
+2. Build the OpenWrt/nfqws2 translation map for the minimal candidate set.
+3. Create and verify a rollback backup.
+4. Test one meaningful strategy change at a time.
+
+The first runtime candidate should be selected from the highest-coverage evidence-backed TCP classes, while preserving the current working baseline and avoiding unnecessary QUIC/TLS1.2 stacking.
