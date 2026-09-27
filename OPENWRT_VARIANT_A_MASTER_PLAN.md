@@ -2526,3 +2526,139 @@ NEXT EXACT STRATEGY ACTION:
 
 ### NEXT EXACT PROJECT ACTION
 Return to the previously authorized project branch selected by the user. For Zapret2 strategy work, read the three dedicated strategy documents first and continue at **STAGE S1: four-service/domain matrix**, with **no router configuration change before S1 is completed**.
+
+
+---
+
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-27 — ZAPRET2 AUTOHOSTLIST / STRATEGY DISCOVERY / 100+ DOMAINS
+
+This section records the latest user-observed Zapret2 autohostlist state and clarifies the distinction between automatic host detection and automatic strategy discovery. It supersedes no historical test result; it is the current planning checkpoint for the strategy branch.
+
+### Current runtime evidence
+
+- Zapret2 is currently operating with `MODE_FILTER=autohostlist`.
+- The user read the current automatic host list at:
+  `/opt/zapret2/ipset/zapret-hosts-auto.txt`.
+- Current file contains **116 lines/entries** according to `wc -l`.
+- The list includes dynamically generated CDN/edge hosts as well as ordinary service domains. Observed examples include Google/YouTube, Instagram/Facebook, WhatsApp, Discord, VK/Mail.ru, Yandex, Wildberries, ProtonVPN, Rutracker/Rustorka and several advertising/tracking or unrelated encountered hosts.
+- Dynamic examples include multiple `rr*-*.googlevideo.com` and `msvkhostnews-*.ms.vk.r.com`-style hosts. This confirms why relying only on a static hand-maintained list is insufficient for services with dynamic infrastructure.
+- The 116-entry autohostlist is **runtime-generated evidence**, not a curated permanent user domain list. Do not automatically copy all entries into the permanent hand-maintained hostlist.
+- Do not clear or rewrite the current autohostlist while the user is still manually testing strategies unless explicitly requested.
+
+### Automatic mechanisms — important distinction
+
+- **autohostlist = automatic host detection / accumulation.** It can identify hosts exhibiting behavior consistent with blocking/failure and place them into the automatic host list so that the configured autohostlist processing can be applied subsequently.
+- **autohostlist is NOT an automatic blockcheck2 strategy search.** It does not mean that every newly encountered site causes zapret2 to test strategy A, then B, then C and remember the first strategy that succeeds.
+- **blockcheck2 remains the strategy-discovery/test tool.** Its PASS/WORKING evidence must be migrated and validated separately on the OpenWrt hAP.
+- Therefore the project must not describe autohostlist as an AI-like or universal automatic strategy selector.
+
+### Strategy architecture for 100+ domains
+
+The intended final architecture is layered rather than one strategy per domain:
+
+1. **Permanent user/service hostlist** — curated list of the user's 100+ explicitly required domains and known service infrastructure.
+2. **Universal/fallback strategy set** — only strategies that survive the complete service/domain matrix and hAP runtime validation may be called universal.
+3. **Service-specific profiles** — separate hostlists/profiles only where evidence shows a service requires a materially different strategy.
+4. **Autohostlist** — automatic discovery/fallback layer for newly encountered problematic hosts, especially dynamic CDN/edge hosts.
+5. **No blind per-domain strategy explosion** — do not create 100+ individual strategy profiles merely because there are 100+ domains.
+
+### Current strategy discovery status
+
+- The user's manual `blockcheck2` strategy search remains **IN_PROGRESS**.
+- Existing dedicated strategy documents remain authoritative for strategy work:
+  - `ZAPRET2_STRATEGY_MASTER_PLAN.md`
+  - `ZAPRET2_STRATEGY_MASTER_PROMPT.md`
+  - `ZAPRET2_WORKING_UNIVERSAL_STRATEGIES_2609.md`
+- `blockcheck2609_FULL.log` remains the evidence source with blob SHA `d42227bdc262c4437e4d1f78e28369c41075b3d6`.
+- Seven unique `WORKING_IN_BLOCKCHECK` candidates are already recorded, but they are **not yet UNIVERSAL**.
+- **STAGE S1 — YouTube × Instagram × WhatsApp × Telegram domain/service matrix = NOT_STARTED**.
+- No Zapret2 runtime strategy change is authorized before S1 is completed.
+- When the user finishes the current manual strategy search, the next exact action is to build the four-service/domain matrix, then derive:
+  - common/intersection strategies;
+  - service-specific strategies;
+  - minimal common strategy set;
+  - candidates for the universal/fallback profile;
+  - candidates that should remain excluded.
+- The matrix must use actual blockcheck evidence and, before final deployment, hAP runtime validation. A blockcheck PASS alone is never sufficient to label a strategy UNIVERSAL.
+
+### Resource/safety rule for the 64-MB hAP
+
+- The router has only ~54 MiB total physical RAM.
+- Existing Zapret2, watchdog, extroot, swap/zram and current VM tuning are part of the working baseline.
+- Do not add multiple speculative NFQWS2 profiles merely to obtain theoretical coverage.
+- Prefer the smallest evidence-backed strategy set that covers the required services.
+- Do not simultaneously change Zapret2 strategy, DNS, PBR, VPN, routing or broad firewall policy during strategy validation.
+- Preserve the existing Zapret2 watchdog; do not create a second watchdog.
+
+---
+
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-27 — ARCHER OPENVPN / CGNAT FEASIBILITY
+
+### Archer WAN evidence
+
+The user supplied the current Archer C20 v4 Ethernet/WAN settings:
+
+- Internet connection type: Dynamic IP.
+- IPv4: enabled.
+- Archer WAN IPv4: **100.96.21.23**.
+- Netmask: **255.255.0.0**.
+- Gateway: **100.96.0.1**.
+- NAT: enabled.
+- Full-cone NAT: enabled.
+- MTU: 1500.
+- IPv6 is enabled.
+- The provider-facing address is therefore in shared/carrier address space and remains consistent with the already documented CGNAT path.
+
+### Consequence for built-in Archer VPN
+
+- Archer C20 v4 exposes a built-in OpenVPN server with UDP/TCP service port 1194 and a Home Network Only / Internet and Home Network access choice.
+- Under the current provider-side CGNAT evidence, an inbound OpenVPN server on Archer cannot be treated as Internet-reachable merely because Archer has Remote Management/DDNS.
+- `kappakappa.ddns.net` tracks the externally observed public IPv4 but **does not bypass provider CGNAT**.
+- Full-cone NAT on the Archer does not remove provider-side CGNAT.
+- Therefore **do not enable/configure Archer OpenVPN yet as a remote-management solution**. First require evidence that the ISP can provide a real public IPv4 (dynamic or static) or another explicitly approved externally reachable mechanism.
+- PPTP is not part of the project's secure remote-management architecture and must not be selected as the replacement.
+- Do not broaden Archer remote-management source restrictions, disable SPI/DoS protection, add DMZ, or create unrelated port forwards to compensate for CGNAT.
+
+### Remote-management status after this audit
+
+- CGNAT identification = **DONE / RUNTIME_VERIFIED**.
+- DDNS observation = **DONE / RUNTIME_VERIFIED**.
+- Direct inbound management through the current provider path = **BLOCKED / UNSUITABLE AS PRIMARY PATH**.
+- Archer built-in OpenVPN feasibility = **BLOCKED BY CURRENT CGNAT**, pending public-IPv4 availability.
+- Archer-side hAP SSH from an actual Archer Wi-Fi client = **NOT VALIDATED / INCOMPLETE**.
+- Tailscale branch = **FAILED / CLOSED** due package-install OOM; do not retry without a new approved resource/alternative.
+- WG/AWG branch = **FROZEN BY USER**; do not resume.
+- Xray/sing-box branch = **PAUSED**; do not resume without explicit reopening.
+- PBR = **DEFERRED TO FINAL WARP/VPN STAGE**.
+
+### Next-action priority rule
+
+The active user-authorized branch remains **Zapret2 strategy discovery**. Remote-management work remains deferred. No Archer OpenVPN configuration change is authorized by this section.
+
+---
+
+## 2026-09-27 — MANDATORY CURRENT PROJECT CHECKPOINT
+
+Before any new router-changing command, future AIs must read the latest authoritative sections of this MASTER PLAN and, for Zapret2 strategy work, also read the three dedicated Zapret2 strategy documents.
+
+Current active work:
+- **Zapret2 strategy discovery = IN_PROGRESS**.
+- User is manually testing additional blockcheck2 strategies.
+- Autohostlist is active and currently contains **116 entries**.
+- No strategy should be declared universal until the four-service matrix and hAP validation are complete.
+
+Current paused/frozen/deferred branches:
+- **WG/AWG = FROZEN BY USER**.
+- **Xray/sing-box = PAUSED**.
+- **Tailscale = FAILED / CLOSED**.
+- **Remote management = DEFERRED**.
+- **PBR = DEFERRED TO FINAL WARP/VPN STAGE**.
+- **Archer OpenVPN = BLOCKED BY CURRENT CGNAT**.
+- **PPTP = EXCLUDED**.
+- **DoH/https-dns-proxy = RETIRED**.
+
+Preservation rule:
+- Do not delete historical evidence merely because it is superseded.
+- Current runtime evidence outranks older planning text.
+- Do not restart a paused/frozen branch merely because an older section still contains an unfinished experiment.
+- After each meaningful user result, synchronize the relevant master plan before issuing the next router-changing command.
