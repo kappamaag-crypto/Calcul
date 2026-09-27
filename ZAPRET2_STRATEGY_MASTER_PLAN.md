@@ -1237,3 +1237,20 @@ No DNS, routing, VPN, PBR, QNUM, MODE_FILTER or unrelated firewall changes are p
 ## 2026-09-27 — FULL WORKING ACTIVATION MATRIX DEFINED
 
 A complete 297-target activation matrix is now defined separately from runtime testing. ME is explicitly excluded as NOT_PROVEN; QF is explicitly excluded as BLOCKED for live QUIC. The active exact classes are HC for HTTP and TS for TLS, with the existing autohostlist fallback for all unmatched traffic. The full row-level matrix is stored in `strategy27/strategy27-working-matrix.md`. This matrix is an activation design/evidence map, not a claim of 297-domain live verification. No router configuration was changed by creating the matrix.
+
+## 2026-09-27 — PERMANENT ME/HC/TS/QF ACTIVATION SCRIPT PREPARED
+
+A persistent activation script was added at `strategy27/activate-strategy27-me-hc-ts-qf.sh` (commit `b0b6abab5abecc28c131510dd2694cb82a475813`).
+
+Scope:
+- replace only `NFQWS2_OPT`;
+- prepend exact ME, HC, TS and QF profiles using the deployed strategy27 hostlists;
+- preserve the current `NFQWS2_OPT` body verbatim after those profiles as the existing autohostlist fallback;
+- do not change `MODE_FILTER`, QNUM, DNS, routing, VPN, PBR or unrelated firewall settings;
+- create an exact pre-change config backup;
+- restart Zapret2 and require service status plus ordinary HTTPS health (`https://example.com`);
+- automatically restore the exact backup and restart the previous configuration on restart/status/HTTPS failure.
+
+This is a permanent-activation mechanism with failure rollback, not a temporary strategy swap. The script has been prepared in GitHub but has NOT been executed on the router in this checkpoint.
+
+Current activation state: **PREPARED / NOT_EXECUTED**.
