@@ -958,3 +958,34 @@ No directories, files, configuration, or services were changed.
 
 ### Next decision point
 The hostlist contents must come from the already researched `strategy27.md` domain→strategy matrix. Before deploying them, verify the exact files/content intended for P1–P4 and ensure they are represented in the project documentation. Then deploy only the required persistent lists; do not alter the live Zapret2 configuration yet.
+
+
+## 2026-09-27 — PERSISTENT STRATEGY27 HOSTLISTS CREATED
+
+Derived directly from the complete domain→strategy matrix in `strategy27.md` (source blob SHA `14204103e753f8b0f0ede1da9fa41e2158a8e388`). Only domains marked **EXPLICIT FOUND** for the corresponding class were included; COVERAGE/UNKNOWN/NONE were excluded.
+
+Created four inactive persistent hostlist artifacts in GitHub:
+
+| File | Explicit-FOUND domains | Blob SHA |
+|---|---:|---|
+| `strategy27/strategy27-me.txt` | 44 | `a41ebb146cf73e5bee013d0ce11cd3f66a18a811` |
+| `strategy27/strategy27-hc.txt` | 159 | `38c1d0346c5ccb943dc4d586aab2d368b9ef43aa` |
+| `strategy27/strategy27-ts.txt` | 194 | `23378283883377b07e2469e400aacc0e8d47bdf9` |
+| `strategy27/strategy27-qf.txt` | 111 | `23f4344246dbea25a9115af5a541e94042871de9` |
+
+Verification after creation: all four fetched files matched the generated content byte-for-byte and had the expected domain counts.
+
+These files are **not active on the hAP yet**. The live `/opt/zapret2/config` and running Zapret2 service remain unchanged.
+
+### Stage state
+- S5 exact/fallback profile design: **DONE**
+- Strategy27 persistent hostlist artifacts: **DONE / NOT DEPLOYED TO ROUTER**
+- S5 exact-profile binary dry-run: **BLOCKED → ready to retry after deployment**
+- S4 exact-hostlist runtime validation: **NOT_STARTED**
+- S5 composite exact-strategy validation: **NOT_STARTED**
+- S6 QUIC validation: **NOT_STARTED**
+- S7 two-level validation: **NOT_STARTED**
+- Universal: **NOT_ESTABLISHED**
+
+### Next single router action
+Create the persistent directory and copy the four already-verified hostlists from the conversation's GitHub artifacts to the hAP. This deployment must not modify `/opt/zapret2/config`, nftables, DNS, routing, or restart Zapret2.
