@@ -851,3 +851,31 @@ No configuration was changed and no service was restarted.
 
 ### Next single action
 Inspect the complete small `NFQWS2_OPT` block plus the nearby config variables around it, and the `init.d` option-source section, to determine whether the safest exact-profile implementation can be expressed within the existing renderer without modifying the renderer itself.
+
+
+## 2026-09-27 — S5 COMPLETE OPT SOURCE CONTEXT
+
+The requested read-only inspection confirms the full option assembly context.
+
+### Confirmed assembly
+- `/opt/zapret2/config` contains the complete `NFQWS2_OPT` string with exactly three profiles separated by `--new`.
+- `NFQWS2_OPT` itself contains no `USEROPT`/`LUAOPT` placeholders; those are prepended by init as `NFQWS2_OPT_BASE="$USEROPT --fwmark=$DESYNC_MARK $LUAOPT"`.
+- `USEROPT=--user=$WS_USER`.
+- `LUAOPT` loads `zapret-lib.lua`, `zapret-antidpi.lua`, and `zapret-auto.lua`.
+- `run_daemon` receives the rendered profile arguments through the existing init path; no second independent option source was found in this inspection.
+- The three live config profiles remain HTTP/80, TLS/443, and QUIC/443, with `<HOSTLIST>` on the first two and `<HOSTLIST_NOAUTO>` on QUIC.
+- `MODE_FILTER=autohostlist` is global.
+
+### Design implication
+The existing renderer can only inject its global hostlist expansion into a marker-bearing option string. It does not provide per-profile marker state. Therefore, a strict architecture of `exact hostlist -> specialized strategy -> no exact match -> existing autohostlist fallback` cannot be obtained merely by assigning different files to the existing `<HOSTLIST>` and `<HOSTLIST_NOAUTO>` markers. A safe next design step is to determine whether exact profiles should be added as explicit marker-free `--hostlist=/etc/zapret2/strategy27/...` profiles before the existing fallback profiles, while leaving the current autohostlist profiles intact.
+
+No router configuration was changed and no service was restarted.
+
+### Stage state
+- S5 render-path inspection: **DONE**
+- S5 exact/fallback profile design: **IN_PROGRESS**
+- S4 exact-hostlist runtime validation: **NOT_STARTED**
+- S5 composite validation: **NOT_STARTED**
+- S6 QUIC validation: **NOT_STARTED**
+- S7 two-level validation: **NOT_STARTED**
+- Universal: **NOT_ESTABLISHED**
