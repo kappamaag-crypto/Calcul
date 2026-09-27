@@ -755,3 +755,37 @@ Final universal profile: NOT_ESTABLISHED
 
 ### Verified S3 rollback point
 /opt/zapret2/config.s3-backup-20260927 matches /opt/zapret2/config with SHA-256 bc2bbe687543e3bbda87f96d793f917e404fa5d1e19ced0ffdfd9e804f18c4b6.
+
+
+## AUTHORITATIVE CURRENT OVERRIDE — 2026-09-27 — S4 RENDERER AUDIT COMPLETE
+
+The installed renderer/init behavior has now been verified read-only.
+
+### Verified facts
+1. `/opt/zapret2/common/list.sh` uses `<HOSTLIST>` and `<HOSTLIST_NOAUTO>`.
+2. With `MODE_FILTER=autohostlist`, `<HOSTLIST>` receives normal hostlists plus `--hostlist-auto=$HOSTLIST_AUTO` and auto thresholds.
+3. With `MODE_FILTER=autohostlist`, `<HOSTLIST_NOAUTO>` receives normal hostlists plus `--hostlist=$HOSTLIST_AUTO`.
+4. The OpenWrt init wrapper passes the rendered argument string to `nfqws2`; `--new` separates strategy profiles.
+5. No runtime configuration was changed and no restart/stop/start was performed.
+
+### Consequence for two-level architecture
+
+The required hierarchy remains:
+
+`EXACT -> specialized profile -> UNKNOWN -> existing autohostlist fallback`
+
+However, `<HOSTLIST_NOAUTO>` cannot by itself implement an exact-only profile while the current `MODE_FILTER=autohostlist` is active. The fallback auto list must be explicitly separated from exact domains, or the profile construction must otherwise ensure that exact domains do not enter the fallback profile.
+
+### Stage state
+- S1: **DONE**
+- S2: **DONE / DESIGN ONLY**
+- S3: **DONE**
+- S4 renderer audit: **DONE**
+- S4 exact-hostlist runtime validation: **NOT_STARTED**
+- S5 composite validation: **NOT_STARTED**
+- S6 QUIC validation: **NOT_STARTED**
+- S7 two-level four-service validation: **NOT_STARTED**
+- Universal: **NOT_ESTABLISHED**
+
+### Next single action
+Read-only inspection of the installed config-rendering path that builds `NFQWS2_OPT` and calls `filter_apply_hostlist_target()`. Then design the exact/fallback profile layout. No restart and no configuration change yet.
