@@ -1422,7 +1422,7 @@ S2 переводит proven blockcheck2 payload/desync logic в синтакс�
 Чтобы не дублировать два HTTP-профиля для одного и того же домена:
 
 - `strategy27-me.txt`: **44** домена с explicit FOUND ME.
-- `strategy27-hc.txt`: **159** доменов с explicit FOUND HC и **без** ME.
+- `strategy27-hc.txt`: **159** доменов с explicit FOUND HC и **без** explicit FOUND ME (то есть HC-without-ME, а не «только HC»).
 - `strategy27-ts.txt`: **194** домена с explicit FOUND TS.
 - `strategy27-qf.txt`: **111** домена с explicit FOUND QF.
 
