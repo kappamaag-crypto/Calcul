@@ -638,8 +638,7 @@ S2 документальный этап завершён: `strategy27.md` со�
 - P3 TLS-TS: `tcpseg:pos=0,-1:seqovl=1 + drop`
 - P4 QUIC-QF: `fake_default_quic:repeats=11`
 
-Hostlist files (design paths only):
-`strategy27-me.txt`, `strategy27-hc.txt`, `strategy27-ts.txt`, `strategy27-qf.txt` under `/opt/zapret2/ipset/`.
+Hostlist files (design paths only): `strategy27-me.txt`, `strategy27-hc.txt`, `strategy27-ts.txt`, `strategy27-qf.txt` under `/etc/zapret2/strategy27/`.
 
 Counts from raw explicit FOUND matrix: ME=44, HC-only=159, TS=194, QF=111.
 
@@ -648,3 +647,79 @@ Fallback/special evidence remains: TF, QI, TC; HF remains HIGH-COVERAGE candidat
 **S2 = DONE (DESIGN ONLY).** No router configuration was changed.
 
 **S3 = NOT_STARTED.** Next action: read/backup the current live Zapret2 config before any runtime change.
+
+
+## AUTHORITATIVE OVERRIDE — 2026-09-27 — SYNCHRONIZED WITH OPENWRT_VARIANT_A_MASTER_PLAN
+
+This section supersedes older strategy-work status notes in this document where they conflict. The main `OPENWRT_VARIANT_A_MASTER_PLAN.md` remains authoritative for router-wide state; this document governs only the Zapret2 strategy-work branch.
+
+### Current synchronized state
+
+- Manual blockcheck discovery from `blockcheck2609_FULL.log` + `blockcheck2709.log`: **DONE FOR CURRENT EVIDENCE**.
+- Merged evidence/domain matrix S1: **DONE** in `strategy27.md`.
+- S2 OpenWrt/nfqws2 translation: **DONE / DESIGN ONLY**.
+- S3 live Zapret2 backup: **NOT_STARTED**.
+- S4 single-strategy hAP runtime validation: **NOT_STARTED**.
+- S5 TCP composite validation: **NOT_STARTED**.
+- S6 QUIC validation: **NOT_STARTED**.
+- S7 four-service hAP validation: **NOT_STARTED**.
+- Final universal profile: **NOT_ESTABLISHED**.
+- Telegram Zapret2-only: **NOT_FOUND_IN_SUPPLIED_RUNS / main-plan scope remains BLOCKED**.
+
+### strategy27 evidence
+
+`strategy27.md` contains the complete merged mapping for **297 unique test targets**, of which **225 have at least one explicit FOUND strategy** and **72 have none**.
+
+The explicit FOUND catalogue is:
+
+- HC — HTTP `http_hostcase`
+- ME — HTTP `http_methodeol`
+- TS — TLS1.3 `tcpseg:pos=0,-1:seqovl=1 + drop`
+- TF — TLS `fake_default_tls + tcp_ts=-1000`
+- TC — special TLS1.2 `tcp_md5 + tls_mod + multisplit` (2709 only, 2 FOUND)
+- QF — QUIC `fake_default_quic:repeats=11`
+- QI — QUIC `send:ipfrag + drop`
+
+HF — HTTP `fake_default_http + tcp_ts=-1000` remains **HIGH-COVERAGE CANDIDATE**, not explicit FOUND.
+
+The mathematical minimum evidence-domain set-cover is **4 strategy classes**. The two exact minima are:
+
+- HC + ME + TS + TF
+- HC + ME + TS + QF
+
+The selected runtime-design hypothesis remains **HC + ME + TS + QF**, pending hAP validation.
+
+### S2 design synchronized with the main plan
+
+The four-profile design is:
+
+- P1 HTTP-ME → `http_methodeol`
+- P2 HTTP-HC → `http_hostcase` for HC-without-ME domains
+- P3 TLS-TS → `tcpseg:pos=0,-1:seqovl=1 + drop`
+- P4 QUIC-QF → `fake_default_quic:repeats=11`
+
+Custom strategy hostlists are designed under **`/etc/zapret2/strategy27/`**. They are not to be placed directly in the generated `/opt/zapret2/ipset/` directory; upstream zapret2 discussion explicitly warns that custom files there may be removed on update and that custom list paths should be full paths.
+
+No S2 design change authorizes activation, restart, firewall edits, DNS changes, routing/PBR changes, or VPN changes.
+
+### Inherited main-plan invariants
+
+- Archer C20 v4 remains the main router; hAP ac lite remains downstream.
+- Current live Zapret2 configuration is preserved until S3 rollback backup is verified.
+- Current `MODE_FILTER=autohostlist` is preserved; S2 does not change it.
+- Current QNUM/memory/watchdog policy from the main plan is preserved.
+- Do not activate all discovered strategies simultaneously.
+- Do not copy Windows `--wf-*` interception selectors to OpenWrt.
+- `WORKING_IN_BLOCKCHECK` never implies `RUNTIME_VERIFIED`, `VALIDATED_ON_HAP`, or `UNIVERSAL`.
+
+### Cross-document authority
+
+1. `OPENWRT_VARIANT_A_MASTER_PLAN.md` — authoritative router-wide state and safety gates.
+2. `ZAPRET2_STRATEGY_MASTER_PLAN.md` — strategy-work workflow and current stage state.
+3. `strategy27.md` — complete raw-evidence domain/strategy matrix and S2 design.
+
+### Exact next action
+
+**S3: read-only capture of live Zapret2 configuration + create and verify rollback backup.**
+
+Until S3 is complete, do not create or activate strategy27 hostlists and do not change `NFQWS2_OPT`.
