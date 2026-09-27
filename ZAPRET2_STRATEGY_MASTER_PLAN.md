@@ -1029,3 +1029,7 @@ Zapret2 was temporarily stopped by explicit user authorization solely to permit 
 
 ### S5 hostlist deployment completed — 2026-09-27
 All four persistent strategy27 hostlists were successfully transferred to `/etc/zapret2/strategy27/` while Zapret2 was stopped. Verified line counts: ME=44, HC=159, QF=111, TS=194; total=508. Transfer completed without modifying `/opt/zapret2/config`. Router-local SHA256 values were recorded from the deployment output. Next: restart unchanged Zapret2 service, then validate exact-profile dry-run(s) against the deployed hostlists before any live strategy configuration change.
+
+
+### S5 service restored — 2026-09-27
+Zapret2 restarted successfully after hostlist transfer, RC=0. The daemon command lines and nftables queues shown in startup output match the pre-transfer baseline: main nfqws2 qnum=300 with the existing HTTP/TLS/QUIC autohostlist profiles, separate WireGuard-related qnum=65300 daemon, and the same packet ranges. No strategy27 hostlist has been inserted into the live configuration yet. Current state: service restored, exact-profile validation is next.
