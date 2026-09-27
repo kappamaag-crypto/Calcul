@@ -321,3 +321,16 @@
 
 ## Runtime boundary
 HC and TS are runtime-verified at representative traffic-class level, not individually for all 297 rows. This matrix is the complete activation/evidence map, not a 297-domain live test. No DNS, routing, VPN, PBR, QNUM or MODE_FILTER changes are implied.
+
+## 2026-09-27 — LIVE ACTIVATION RECONCILIATION
+
+The earlier matrix marked ME and QF as excluded because they had not yet been permanently activated. That status is now superseded by the rollback-protected permanent activation.
+
+Current live exact profile state:
+- ME: **ACTIVE** — 44 hosts.
+- HC: **ACTIVE** — 159 hosts.
+- TS: **ACTIVE** — 194 hosts.
+- QF: **ACTIVE** — 111 hosts.
+- Fallback: existing **autohostlist ACTIVE** for unmatched traffic.
+
+This matrix remains an evidence/activation map, not a claim that every row has been live-tested. Prior runtime classifications remain unchanged: HC/TS representative paths RUNTIME_VERIFIED; ME NOT_PROVEN; QF live effectiveness BLOCKED by missing HTTP/3 client support. Do not infer universal effectiveness from activation success.
