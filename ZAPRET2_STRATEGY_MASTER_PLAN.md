@@ -1189,3 +1189,46 @@ Controlled live composite gate completed and baseline restored.
 The live strategy27 configuration was not retained. Target architecture remains: domain + traffic class -> evidence-derived exact profile -> existing autohostlist fallback when no exact match. Do not create a per-domain runtime matrix; blockcheck evidence already supplies domain-level coverage.
 
 Current status: S5 composite live runtime = PASS / RUNTIME_VERIFIED for demonstrated HC and TS paths; ME = NOT_PROVEN; QF = BLOCKED; permanent strategy27 activation = NOT_AUTHORIZED.
+## 2026-09-27 — AUTHORITATIVE S7 DECISION / NO ADDITIONAL LIVE MATRIX REQUIRED
+
+The S5 composite runtime checkpoint and the merged 2609→2709 evidence are sufficient to answer the remaining architecture question at the current stage.
+
+### S7 disposition
+
+Formal S7 = **DONE / EVIDENCE_RECONCILED — no additional router runtime matrix required at this stage**.
+
+This does NOT mean:
+- all 297 targets were runtime-tested;
+- ME is proven on hAP;
+- QF live effectiveness is proven;
+- strategy27 is universally validated;
+- strategy27 is authorized for permanent activation.
+
+It means the planned purpose of S7 — determining whether the four-service architecture requires another broad live matrix — can be answered from the existing evidence plus representative runtime gates.
+
+### Evidence supporting closure
+
+- YouTube representative HTTP/HC: **RUNTIME_VERIFIED**, RC=0, 892572 bytes.
+- Instagram representative TLS/TS: **RUNTIME_VERIFIED**, RC=0, 416466 bytes.
+- Instagram HTTP/ME: **NOT_PROVEN**, because the same endpoint also failed in baseline; therefore no ME failure is established.
+- QUIC/QF parser and hostlist loading: **PASS**; live QUIC effectiveness remains **BLOCKED** because the installed curl/libcurl has no HTTP/3 support.
+- Composite exact profiles + existing autohostlist fallback applied successfully and automatically restored the verified baseline.
+- The domain-level 2609→2709 evidence matrix already contains 297 unique tested targets and 225 targets with explicit FOUND evidence.
+- The service evidence already shows distinct strategy roles and does not support a single universal desync strategy.
+- Telegram has no explicit FOUND strategy in the supplied runs; existing evidence includes IP-level/blocking indications. This is not a reason for blind Zapret2 strategy stacking.
+
+### Resulting architecture status
+
+The architecture remains:
+
+**domain + traffic class → exact evidence-derived specialized profile → no exact match → existing autohostlist fallback**
+
+The four-profile set ME/HC/TS/QF remains the initial evidence-cover, not a universal guarantee. TF/TC/QI remain deferred fallback/special evidence; HF remains candidate-only.
+
+### Next stage
+
+Do NOT issue another broad S7 runtime test.
+
+The next meaningful work is a separate controlled activation decision: if strategy27 is to be activated, first preserve rollback and then activate only the minimal evidence-backed profiles under a single controlled change, with ordinary HTTPS and baseline health checks. Permanent activation is still **NOT_AUTHORIZED** until that decision is explicitly made.
+
+No DNS, routing, VPN, PBR, QNUM, MODE_FILTER or unrelated firewall changes are part of this decision.
