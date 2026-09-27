@@ -1021,3 +1021,7 @@ Safety constraints for this action:
 - Verify all four hostlists after transfer against the previously recorded counts/hashes where practical.
 - Restart Zapret2 with the existing configuration immediately after successful transfer.
 - If transfer fails, do not make additional unrelated changes.
+
+
+### S5 transfer checkpoint — 2026-09-27
+Zapret2 was temporarily stopped by explicit user authorization solely to permit transfer of the four persistent strategy27 hostlists. Stop completed successfully with RC=0 and nftables cleared by the service. No Zapret2 config, DNS, routing, PBR, VPN, or manual firewall changes were made. Next step: transfer hostlists, verify them, then restart the unchanged Zapret2 configuration.
