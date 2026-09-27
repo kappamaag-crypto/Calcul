@@ -820,3 +820,34 @@ Stage state:
 - Universal: **NOT_ESTABLISHED**
 
 Next: inspect only the remaining source/assembly of `NFQWS2_OPT` and marker-bearing profile definitions needed to design the safe `EXACT -> specialized -> UNKNOWN -> autohostlist fallback` layout. No restart/change yet.
+
+
+## 2026-09-27 — S5 NFQWS2_OPT SOURCE CONFIRMED
+
+Read-only inspection of the installed configuration confirms the live base option source and current marker-bearing profiles.
+
+### `/opt/zapret2/config`
+- `NFQWS2_OPT` is explicitly defined at line 87.
+- Current profiles are:
+  - TCP/80 HTTP: `<HOSTLIST>` + `http_req` + `fake_default_http:tcp_md5` + `multisplit:pos=method+2`, then `--new`.
+  - TCP/443 TLS: `<HOSTLIST>` + `tls_client_hello` + `hostfakesplit:ip_ttl=3:repeats=1`, then `--new`.
+  - UDP/443 QUIC: `<HOSTLIST_NOAUTO>` + `quic_initial` + `fake_default_quic:repeats=1`.
+- `MODE_FILTER=autohostlist` remains the live mode.
+- The config comments explicitly state that `<HOSTLIST_NOAUTO>` appends `ipset/zapret-hosts-auto.txt` as a normal list, confirming the earlier renderer finding.
+
+### Consequence
+The live baseline is already a three-profile NFQWS2 configuration, but all three marker-bearing profiles are tied to the current global hostlist renderer. The QUIC profile using `<HOSTLIST_NOAUTO>` is therefore not an exact-only fallback boundary.
+
+No configuration was changed and no service was restarted.
+
+### Stage state
+- S5 render-path inspection: **DONE**
+- S5 exact/fallback profile design: **IN_PROGRESS**
+- S4 exact-hostlist runtime validation: **NOT_STARTED**
+- S5 composite validation: **NOT_STARTED**
+- S6 QUIC validation: **NOT_STARTED**
+- S7 two-level validation: **NOT_STARTED**
+- Universal: **NOT_ESTABLISHED**
+
+### Next single action
+Inspect the complete small `NFQWS2_OPT` block plus the nearby config variables around it, and the `init.d` option-source section, to determine whether the safest exact-profile implementation can be expressed within the existing renderer without modifying the renderer itself.
