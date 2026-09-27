@@ -1523,3 +1523,25 @@ Strategy27 hostlists are designed for `/etc/zapret2/strategy27/`, not generated 
 ### Handoff
 
 The next action is S3: read-only capture of the current live Zapret2 configuration and creation/verification of a rollback backup. No strategy27 hostlists or NFQWS2 profile changes are to be activated before that gate.
+
+
+## 2026-09-27 — S4 INSTALLED RENDERER AUDIT
+
+Read-only audit of the installed hAP renderer completed.
+
+Observed:
+- `/opt/zapret2/common/list.sh` contains `<HOSTLIST>` and `<HOSTLIST_NOAUTO>`.
+- In `MODE_FILTER=autohostlist`, `<HOSTLIST>` expands to normal hostlists plus auto-learning parameters and `--hostlist-auto`.
+- In the same mode, `<HOSTLIST_NOAUTO>` expands to normal hostlists plus `--hostlist=$HOSTLIST_AUTO`.
+- `/opt/zapret2/init.d/openwrt/zapret2` passes the rendered argument string into `nfqws2`; `--new` remains the profile separator.
+- No runtime change, restart, stop, or start was performed.
+
+Interpretation:
+- `<HOSTLIST_NOAUTO>` is not an exact-only selector under the current autohostlist mode.
+- The two-level architecture therefore requires explicit separation of exact domains from the fallback auto profile.
+- Exact specialized profiles remain hostlist/protocol scoped.
+- Unknown domains retain the current autohostlist fallback.
+
+Status:
+- S4 renderer audit: **DONE**
+- S4 exact-hostlist runtime validation: **NOT_STARTED**
