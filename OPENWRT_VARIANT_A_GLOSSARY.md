@@ -2239,3 +2239,14 @@ Historical Proton-AWG failure — Earlier proton_awg_test variants produced no h
 2026-09-26 AWG implementation audit — Read-only evidence that the hAP's AWG netifd script and awg CLI expose both classic and modern AWG 3.1 option families.
 
 Secret-material rule — Private keys, preshared keys, tokens and credentials must never be repeated in plan, prompt, glossary or diagnostic output.
+
+
+## 2026-09-27 — Strategy27 status terminology
+
+**DEFERRED / FOUND** — a strategy with explicit `working strategy found` evidence in blockcheck, intentionally not included in the first permanent exact layer. It is not FAILED, BLOCKED or merely a candidate. Current deferred FOUND classes: **TF (15 domains), TC (2 domains), QI (2 domains)**.
+
+**CANDIDATE ONLY / HIGH-COVERAGE** — substantial coverage evidence without explicit `working strategy found` evidence. Current example: **HF**. It must not be promoted to FOUND without new evidence.
+
+**ACTIVE exact Strategy27 layer** — current permanent specialized profiles: **ME 44, HC 159, TS 194, QF 111**. They precede the existing autohostlist fallback.
+
+**Strategy27 disposition rule** — FOUND does not automatically mean permanent activation. Activation requires a concrete coverage role and controlled runtime/architecture justification. Deferred does not mean failed.
