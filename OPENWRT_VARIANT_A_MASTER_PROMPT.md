@@ -1479,3 +1479,22 @@ Current strategy handoff:
 - STAGE S1 four-service/domain matrix = NOT_STARTED.
 - No router configuration change is authorized by the strategy branch before S1.
 
+
+---
+## MANDATORY CURRENT-STATE OVERRIDE — 2026-09-27 — REMOTE MANAGEMENT / CGNAT / TAILSCALE
+
+Future AIs must treat this section as the latest remote-management checkpoint.
+
+- Objective: remotely manage the downstream hAP ac lite from outside the home network.
+- Archer C20 v4 remains the main router. Do not promote hAP to primary router.
+- Current Archer WAN is **100.96.21.23** with gateway **100.96.0.1**; hAP Archer-side address is **192.168.0.100**; externally observed public IPv4 is **46.191.178.66**; `kappakappa.ddns.net` resolves to that public IPv4.
+- Treat the Archer WAN/shared-address situation as current CGNAT evidence. Dynamic public IP does not equal absence of CGNAT, and DDNS does not bypass CGNAT.
+- Do not solve remote hAP management by broadening Archer remote management, exposing SSH to all WAN sources, disabling SPI/DoS protection, adding DMZ, or making unrelated port forwards.
+- Existing hAP SSH rule `Allow-SSH-from-TPLink` is narrow: source 192.168.0.0/24, TCP/22, ACCEPT. Do not duplicate or broaden it without explicit authorization.
+- Tailscale read-only audit on 2026-09-27: OpenWrt 25.12.5 r33051-f5dae5ece4, ath79/mikrotik, 6.1 GiB free on /overlay, Tailscale not installed, official OpenWrt feed offers tailscale 1.98.3-r1 for mips_24kc. No system configuration was changed.
+- OpenWrt documents Tailscale as a remote-administration mechanism that can work without port forwarding. citeturn0search1
+- Initial Tailscale scope is management-only. Do NOT configure exit node, subnet router, full-router VPN, PBR, DNS replacement, LAN-wide routing, or default-route changes.
+- Preserve existing dnsmasq/DNS during initial Tailscale work; do not enable `--accept-dns` automatically because OpenWrt documents possible dnsmasq interaction. citeturn0search7
+- Status: CGNAT identification DONE; Tailscale package audit DONE; Tailscale install NOT_STARTED; Tailscale authorization NOT_STARTED; remote hAP access NOT_VALIDATED; Archer-side SSH NOT_VALIDATED.
+- If the user explicitly continues Tailscale, execute only `apk add tailscale` first. Never combine installation and `tailscale up`. Then verify package/version, daemon/init integration, RAM impact and config before authorization.
+- WG/AWG remains FROZEN by explicit user decision. Zapret2 remains unchanged. Xray/sing-box remains PAUSED. PBR remains deferred to final WARP/VPN stage.
