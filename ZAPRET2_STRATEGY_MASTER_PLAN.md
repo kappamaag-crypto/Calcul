@@ -1735,3 +1735,87 @@ The next user action is only to upload the prepared package to hAP and execute t
 
 This deployment decision is based on source-environment EXPLICIT FOUND evidence from the two raw blockcheck runs. It does not upgrade TF/TC from FOUND to VALIDATED_ON_HAP. It also does not establish the whole 297-domain strategy27 layer as universal.
 
+
+
+## 2026-09-28 — AUTHORITATIVE CORRECTION — USER REQUESTED FULL CIRCULAR LADDER
+
+The user clarified that the intended deployment is not limited to the 16 same-class FOUND pairs. The requested deployment artifact must expose the full strategy catalog as L7-specific circular ladders:
+
+```
+HTTP:  ME → HC → HF
+TLS:   TS → TF → TC
+QUIC:  QF → QI
+```
+
+### Important distinction
+
+This **FULL CIRCULAR** mode deliberately goes beyond per-domain EXPLICIT FOUND overlap. It uses the union of the evidence-derived domain sets for each L7 class so that an observed failure can rotate through additional strategies.
+
+Therefore:
+- ME, HC, TS, TF, TC, QF, QI retain **EXPLICIT FOUND** status from the raw logs.
+- HF retains **CANDIDATE / HIGH-COVERAGE** status because it has no explicit `working strategy found` records.
+- A strategy being in this circular ladder does **not** mean it was individually FOUND for every domain in the union.
+- The FULL CIRCULAR package is therefore an **EXPERIMENTAL DEPLOYMENT ARTIFACT**, not a universal-validation claim.
+
+### FULL CIRCULAR hostlist unions
+
+Derived directly from the supplied raw 2609 + 2709 logs:
+
+- HTTP union ME ∪ HC ∪ HF: **203 domains**
+- TLS union TS ∪ TF ∪ TC: **195 domains**
+- QUIC union QF ∪ QI: **113 domains**
+
+### Exact ladders
+
+HTTP:
+1. ME — `http_methodeol`
+2. HC — `http_hostcase`
+3. HF — `fake:blob=fake_default_http:tcp_ts=-1000` — candidate-only evidence; final
+
+TLS:
+1. TS — `tcpseg:pos=0,-1:seqovl=1` + `drop`
+2. TF — `fake:blob=fake_default_tls:tcp_ts=-1000`
+3. TC — exact S8 TLS1.2 special sequence; final
+
+QUIC:
+1. QF — `fake:blob=fake_default_quic:repeats=11`
+2. QI — `send:ipfrag` + `drop`; final
+
+Circular parameters in the prepared artifact:
+`circular:fails=1:retrans=1:reset`.
+
+Official zapret2 source states that circular strategy numbers must start at 1 and increment without gaps; a `:final` strategy stops rotation. Official project discussion also documents `fails=1:retrans=1` as a practical trigger for rotating from strategy 1 to strategy 2. See official bol-van/zapret2 source/discussion.
+
+### Deployment artifact
+
+Local package:
+`/mnt/data/ZAPRET2_FULL_CIRCULAR_READY_2609_2709.tar.gz`
+
+SHA256:
+`7db33ba26976b3c5a7102fdf2edc9c9f9a5687a952ac7fb123facddd9bb73b2d`
+
+The package contains:
+- 3 unified L7 circular hostlists;
+- installer;
+- README;
+- per-strategy evidence hostlists.
+
+The installer is intentionally narrow:
+- it backs up `/opt/zapret2/config`;
+- installs the 3 circular union hostlists;
+- replaces only the Strategy27 ME/HC/TS/QF profile block in `NFQWS2_OPT`;
+- preserves the pre-existing fallback body;
+- does not change DNS, routing, VPN, PBR, QNUM or MODE_FILTER;
+- does not perform runtime tests.
+
+### Status
+
+- **S8A — primary/backup evidence extraction: DONE**
+- **S8B — evidence-safe 16-pair circular artifact: DONE**
+- **S8C — FULL CIRCULAR deployment artifact requested by user: DONE**
+- **S8 — runtime circular activation on hAP: NOT_STARTED**
+- **HAP runtime validation: NOT_PERFORMED BY USER REQUEST**
+
+The previously prepared 16-domain TS→TF/TC package remains evidence-safe but is superseded as the intended deployment package by the new FULL CIRCULAR package for this user-requested deployment mode.
+
+The current live router configuration remains unchanged until the user installs the package.
