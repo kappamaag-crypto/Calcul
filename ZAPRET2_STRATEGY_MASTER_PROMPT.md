@@ -632,3 +632,91 @@ When HF domain delta analysis is requested, require direct per-domain evidence f
 If the raw logs are not readable through the current source path, record the result as **BLOCKED / SOURCE EXTRACTION REQUIRED** and do not fabricate or approximate the HF domain list.
 
 Reference artifact: `ZAPRET2_HF_DOMAIN_DELTA_AUDIT.md`.
+
+
+## 2026-09-28 — AUTHORITATIVE — DEEP MAX CIRCULAR INSTALLATION WORKFLOW
+
+The next router action is a deployment of the user-requested:
+`strategy27/ZAPRET2_DEEP_MAX_CIRCULAR_READY_2609_2709.tar.gz`
+
+Before any router command, read:
+1. OPENWRT_VARIANT_A_MASTER_PROMPT.md
+2. OPENWRT_VARIANT_A_MASTER_PLAN.md
+3. OPENWRT_VARIANT_A_GLOSSARY.md
+4. ZAPRET2_STRATEGY_MASTER_PLAN.md
+5. this prompt
+6. strategy27/ZAPRET2_DEEP_MAX_CIRCULAR_INSTALL_PLAN.md
+
+Target is only the MikroTik hAP ac lite. Do not modify/replace the Archer C20.
+
+Frozen hAP baseline:
+- OpenWrt 25.12.5 r33051-f5dae5ece4
+- ath79/mikrotik
+- mips_24kc
+- kernel 6.12.94
+- 64 MB RAM
+- extroot /overlay
+- /mnt/data
+- upstream phy0-sta0 192.168.0.100 via 192.168.0.1
+- LAN 192.168.1.1/24
+- zapret2 v1.0.3
+- permanent ME/HC/TS/QF + autohostlist
+- MODE_FILTER=autohostlist
+- QNUM=300
+- WG-pattern QNUM=65300
+- FLOWOFFLOAD=donttouch
+- INIT_APPLY_FW=1
+- IPv6 disabled
+- SET_MAXELEM=522288
+- existing watchdog
+
+Do not mix this deployment with zapret2 upgrade, DNS changes, routing, PBR, VPN/AWG, QNUM or MODE_FILTER changes.
+
+Deep Max deployment ladders:
+- HTTP: HC -> ME -> HF
+- TLS: TS -> TF -> TC -> LX(last-resort tested-not-found)
+- QUIC: QF -> QI
+
+HF remains CANDIDATE ONLY.
+LX remains TESTED_NOT_FOUND.
+Their presence in the ladder is an explicit user-requested experimental fallback decision and must not be reported as hAP-validated.
+
+Installer safety:
+- staged hostlist validation before live modification;
+- config backup;
+- previous deep-circular backup;
+- automatic rollback after failures following filesystem modification;
+- failed state preserved;
+- installer does not restart zapret2;
+- installer does not run application tests.
+
+Installation sequence is fixed:
+I0 identity
+I1 read-only baseline
+I2 independent /mnt/data backup
+I3 archive transfer
+I4 SHA256 check
+I5 archive inspection
+I6 installer structural precheck
+I7 installer
+I8 structural verification before restart
+I9 zapret2 restart
+I10 service/watchdog/NFQUEUE/memory structural health
+I11 application validation only as a later separate stage
+
+No 297-domain runtime matrix.
+
+Rollback:
+- installer handles installation-time failures automatically;
+- if restart/structural health fails after INSTALL=SUCCESS, restore the exact printed BACKUP_CONFIG/BACKUP_BASE and restart;
+- preserve failed state for audit;
+- do not add new strategies before rollback/classification.
+
+The expected archive SHA256 is:
+`63029e3a6821f079dc7544f1166713e65475fec2164d0cf16e9b88d47abc6dcc`
+
+Current handoff status:
+- package READY
+- installation plan READY
+- router installation NOT_STARTED
+- post-install structural health NOT_STARTED
