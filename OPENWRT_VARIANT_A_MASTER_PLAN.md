@@ -3255,3 +3255,52 @@ Current installation stages:
 - application validation: **NOT_STARTED**
 
 Future AIs must read the full installation plan before issuing any command.
+
+
+---
+
+## 2026-09-28 — ROUTER STATE UPDATE — DEEP MAX CIRCULAR ACTIVE
+
+A controlled Strategy27 Deep Max Circular deployment was completed on the MikroTik hAP ac lite.
+
+### Current live state
+
+- OpenWrt baseline unchanged
+- zapret2 v1.0.3 unchanged
+- `MODE_FILTER=autohostlist` unchanged
+- `QNUM=300` unchanged
+- WireGuard-pattern `QNUM=65300` unchanged
+- `FLOWOFFLOAD=donttouch` unchanged
+- IPv6 policy unchanged
+- DNS/routing/PBR/VPN/AWG unchanged
+- existing watchdog remains the only watchdog
+
+### Strategy27 change
+
+The active NFQWS2 profile layer is now Deep Max Circular:
+- HTTP: HC -> ME -> HF
+- TLS: TS -> TF -> TC -> LX(last resort)
+- QUIC: QF -> QI
+
+The change is confined to the Zapret2 strategy/config layer. No unrelated router subsystem was modified.
+
+### Runtime verification
+
+Post-install representative controls succeeded:
+- Instagram HTTPS: HTTP 200 / 416044 bytes
+- YouTube HTTP: HTTP 200 / 895082 bytes
+
+Structural checks confirmed running NFQWS2 and both NFQUEUE 300/65300.
+
+### Rollback
+
+Exact installer rollback point:
+`/opt/zapret2/config.deep-max-circular-pre-20260928-211153`
+
+Do not delete old Strategy27 hostlist files without a separate cleanup decision. They are retained but not active.
+
+### Status
+
+Deep Max Circular deployment: **DONE**
+
+This is a deployment/health result, not a universal effectiveness claim.
