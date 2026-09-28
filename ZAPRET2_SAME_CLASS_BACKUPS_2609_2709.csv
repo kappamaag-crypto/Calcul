@@ -1,0 +1,17 @@
+domain,traffic_class,primary,backup_1,evidence_runs
+api.perplexity.ai,TLS,TS,TF,TS:2709;TF:2709
+azure.com,TLS,TS,TF,TS:2609+2709;TF:2609
+cloudflare-dns.com,TLS,TS,TF,TS:2709;TF:2609
+cloudflare.com,TLS,TS,TF,TS:2609+2709;TF:2709
+epicgames.com,TLS,TS,TF,TS:2609;TF:2709
+hdrzk.org,TLS,TS,TC,TS:2709;TC:2709
+media.licdn.com,TLS,TS,TC,TS:2709;TC:2709
+office365.com,TLS,TS,TF,TS:2609+2709;TF:2609+2709
+onedrive.com,TLS,TS,TF,TS:2609+2709;TF:2609+2709
+outlook.com,TLS,TS,TF,TS:2609+2709;TF:2609+2709
+outlook.office.com,TLS,TS,TF,TS:2609+2709;TF:2609+2709
+teams.live.com,TLS,TS,TF,TS:2609+2709;TF:2709
+www.microsoft365.com,TLS,TS,TF,TS:2609+2709;TF:2609+2709
+www.office365.com,TLS,TS,TF,TS:2609+2709;TF:2609+2709
+www.onedrive.com,TLS,TS,TF,TS:2709;TF:2609+2709
+www.twitch.tv,TLS,TS,TF,TS:2609+2709;TF:2609
