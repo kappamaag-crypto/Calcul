@@ -2198,3 +2198,51 @@ Final read-only snapshot at Mon Sep 28 21:42:59 GMT 2026:
 - AUTOHOSTLIST: 18 entries
 
 I14 was read-only and made no configuration change.
+
+## 2026-09-28 — NEW FOLLOW-UP REQUIREMENT: CDN/IP/ROUTE ANALYSIS IN BLOCKCHECK2
+
+The current hAP runtime investigation of WhatsApp exposed a new evidence gap: one hostname can resolve to multiple Meta/CDN IPv4 addresses with different TCP/443 reachability. Therefore domain-only blockcheck2 results are not sufficient for services whose delivery depends on rotating CDN/IP pools.
+
+This requirement applies to WhatsApp, Telegram, Instagram and similar services with distributed CDN/API/media infrastructure.
+
+### Mandatory blockcheck2 follow-up dimensions
+
+For each priority service, future blockcheck2 analysis should distinguish:
+- canonical/service hostname;
+- API/web/media/static/CDN hostname;
+- resolved IPv4 address or tested CDN endpoint;
+- TCP/443 reachability to the individual IPv4;
+- route/path characteristics to that IPv4;
+- protocol class (HTTP/TLS/QUIC);
+- strategy result for the hostname/traffic class;
+- whether the same strategy result holds across multiple resolved CDN/IP targets.
+
+### Evidence rule
+
+Do not collapse multiple CDN/IP targets into a single PASS/FAIL for the hostname when the individual addresses behave differently.
+
+Record separately:
+- DOMAIN PASS / DOMAIN FAIL / DOMAIN UNKNOWN;
+- IP/CDN PASS / IP/CDN FAIL / IP/CDN UNKNOWN;
+- ROUTE/PATH PASS / ROUTE/PATH FAIL / ROUTE/PATH UNKNOWN.
+
+If blockcheck2 can only establish hostname-level evidence, retain that limitation explicitly and add a separate IP/CDN/path diagnostic stage rather than inferring universal coverage.
+
+### Priority services
+
+Initial mandatory scope:
+- Telegram;
+- WhatsApp;
+- Instagram.
+
+Extend the same method to YouTube, Discord, Twitch, and other services where blockcheck evidence or runtime behavior indicates CDN/IP variability.
+
+### Current observation prompting this requirement
+
+On 2026-09-28, WhatsApp produced different DNS answers during consecutive tests, including whatsapp.com and www.whatsapp.com resolving to different Meta/CDN IPv4 addresses. One previously resolved 57.144.223.32:443 accepted TCP while other observed addresses timed out. This is diagnostic evidence only and does not by itself prove an IP-level block.
+
+### Status
+
+CDN/IP/route dimension in blockcheck2 workflow: NOT_STARTED
+
+No router configuration change is implied by this requirement.
