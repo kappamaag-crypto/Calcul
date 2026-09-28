@@ -1525,3 +1525,108 @@ Read-only inspection of `/opt/zapret2/ipset/zapret-hosts-auto.txt` showed a larg
 
 ### S6 preparation — autohostlist reset authorized — 2026-09-27
 User explicitly authorized clearing the current `/opt/zapret2/ipset/zapret-hosts-auto.txt` because it may contain historical entries from earlier testing. Goal: start the autohostlist fallback layer clean and let it repopulate from the new exact-first architecture. This is a deliberate state reset. Before deletion, preserve a backup copy for rollback/audit; then clear the live auto-hostlist, restart/reload only as required by the existing service behavior, and verify the fallback file is empty before constructing S6. Do not alter exact hostlists or `/opt/zapret2/config` in this reset step.
+
+
+## 2026-09-28 — AUTHORITATIVE — PRIMARY / BACKUP EVIDENCE MATRIX FROM 2609 + 2709
+
+### Purpose
+
+The user explicitly authorized the next evidence step:
+
+```
+2609 + 2709
+      ↓
+для каждого домена
+      ↓
+все explicit FOUND
+      ↓
+ME / HC / TS / QF / TF / TC / QI / HF
+      ↓
+найти домены с 2+ FOUND
+      ↓
+построить primary/backup matrix
+```
+
+This step is now **DONE**. No router configuration was changed while generating the matrix.
+
+### Exact evidence result
+
+Raw sources:
+- `blockcheck2609_FULL.log` — 34,568 lines.
+- `blockcheck2709.log` — 70,257 lines.
+
+Exact FOUND criterion:
+- literal raw-log record containing `working strategy found`.
+
+Results:
+- 2609: 239 explicit FOUND records.
+- 2709: 518 explicit FOUND records.
+- 225 unique domains have at least one explicit FOUND.
+- 191 unique domains have 2 or more different FOUND profile IDs when profile IDs are counted across all L7 classes.
+- **16 unique domains have 2 different explicit FOUND strategies within the same L7 traffic class.**
+- All 16 same-class backup cases are **TLS**.
+- HTTP same-class backups: **0**.
+- QUIC same-class backups: **0**.
+- Maximum same-class FOUND depth: **2** strategies.
+
+### Critical grouping rule
+
+The backup check must group strategy IDs by traffic class:
+
+- HTTP: **ME / HC / HF**
+- TLS: **TS / TF / TC**
+- QUIC: **QF / QI**
+
+HF remains excluded from primary/backup because it has **0 explicit FOUND records** and remains **CANDIDATE ONLY**.
+
+Therefore the presence of, for example, `HC + TS + QF` on one domain means three separate L7 profiles, not three circular backup strategies for one profile.
+
+### Proven same-class backup candidates
+
+| Domain | L7 | Primary | Backup | Evidence |
+|---|---|---|---|---|
+| `api.perplexity.ai` | TLS | TS | TF | TS:2709; TF:2709 |
+| `azure.com` | TLS | TS | TF | TS:2609+2709; TF:2609 |
+| `cloudflare-dns.com` | TLS | TS | TF | TS:2709; TF:2609 |
+| `cloudflare.com` | TLS | TS | TF | TS:2609+2709; TF:2709 |
+| `epicgames.com` | TLS | TS | TF | TS:2609; TF:2709 |
+| `hdrzk.org` | TLS | TS | TC | TS:2709; TC:2709 |
+| `media.licdn.com` | TLS | TS | TC | TS:2709; TC:2709 |
+| `office365.com` | TLS | TS | TF | TS:2609+2709; TF:2609+2709 |
+| `onedrive.com` | TLS | TS | TF | TS:2609+2709; TF:2609+2709 |
+| `outlook.com` | TLS | TS | TF | TS:2609+2709; TF:2609+2709 |
+| `outlook.office.com` | TLS | TS | TF | TS:2609+2709; TF:2609+2709 |
+| `teams.live.com` | TLS | TS | TF | TS:2609+2709; TF:2709 |
+| `www.microsoft365.com` | TLS | TS | TF | TS:2609+2709; TF:2609+2709 |
+| `www.office365.com` | TLS | TS | TF | TS:2609+2709; TF:2609+2709 |
+| `www.onedrive.com` | TLS | TS | TF | TS:2709; TF:2609+2709 |
+| `www.twitch.tv` | TLS | TS | TF | TS:2609+2709; TF:2609 |
+
+### Primary / backup policy
+
+For the current evidence set, use the following interpretation:
+
+- `TS + TF` on the same domain = **TS primary, TF backup candidate**.
+- `TS + TC` on the same domain = **TS primary, TC special TLS1.2 backup candidate**.
+- `ME + HC` on the same domain does not currently occur in the unified evidence; ME and HC remain mutually disjoint in the current catalog.
+- `QF + QI` on the same domain does not currently occur.
+- Cross-L7 FOUND combinations remain separate traffic profiles.
+
+The matrix is therefore an **installation design/evidence map**, not runtime proof. Neither TF nor TC becomes `VALIDATED_ON_HAP` merely because blockcheck found it.
+
+### Artifacts
+
+- Full matrix: `ZAPRET2_PRIMARY_BACKUP_MATRIX_2609_2709.md`
+- Same-class backup CSV: `ZAPRET2_SAME_CLASS_BACKUPS_2609_2709.csv`
+
+### Stage disposition
+
+- **S8A — primary/backup evidence extraction: DONE**
+- **S8 — fallback/circular deployment: NOT_STARTED**
+
+The next action is **not** blanket circular activation. The next controlled stage is targeted runtime validation of the 16 same-class TLS backup pairs, prioritizing the TS→TF set and the two TS→TC special cases, without changing DNS, routing, VPN/PBR, QNUM, MODE_FILTER or the existing autohostlist fallback.
+
+Until that targeted validation is complete:
+- do not describe TF/TC backups as hAP-validated;
+- do not add global TLS circular stacking;
+- do not modify the current permanent ME/HC/TS/QF layer.
