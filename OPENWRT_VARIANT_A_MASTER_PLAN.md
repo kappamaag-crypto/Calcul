@@ -3216,3 +3216,42 @@ Current production architecture remains unchanged:
 ME exact → HC exact → TS exact → QF exact → existing autohostlist fallback.
 
 No DNS, routing, PBR, QNUM, firewall, VPN or Zapret2 production configuration changes were made for this audit.
+
+
+## 2026-09-28 — AUTHORITATIVE — STRATEGY27 DEEP MAX INSTALLATION HANDOFF
+
+The final user-requested deployment artifact is:
+`strategy27/ZAPRET2_DEEP_MAX_CIRCULAR_READY_2609_2709.tar.gz`
+
+Target is the existing MikroTik hAP ac lite only. Archer C20 remains the upstream/main router.
+
+The exact hAP installation procedure is recorded in:
+`strategy27/ZAPRET2_DEEP_MAX_CIRCULAR_INSTALL_PLAN.md`
+
+Target baseline:
+- OpenWrt 25.12.5 r33051-f5dae5ece4
+- ath79/mikrotik
+- mips_24kc
+- kernel 6.12.94
+- 64 MB RAM
+- extroot /overlay
+- /mnt/data
+- upstream phy0-sta0 192.168.0.100 via 192.168.0.1
+- LAN 192.168.1.1/24
+- current Zapret2 v1.0.3
+- current permanent ME/HC/TS/QF exact layer plus autohostlist fallback
+- MODE_FILTER=autohostlist
+- QNUM=300
+- WG-pattern QNUM=65300
+- existing watchdog
+
+Installation uses the prepared rollback-capable deep circular installer and does not mix the operation with any Zapret2 version upgrade, DNS, routing, VPN/PBR, MODE_FILTER or QNUM change.
+
+Current installation stages:
+- archive ready: **DONE**
+- installation plan: **DONE**
+- router installation: **NOT_STARTED**
+- post-install structural health: **NOT_STARTED**
+- application validation: **NOT_STARTED**
+
+Future AIs must read the full installation plan before issuing any command.
