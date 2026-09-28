@@ -1819,3 +1819,103 @@ The installer is intentionally narrow:
 The previously prepared 16-domain TS→TF/TC package remains evidence-safe but is superseded as the intended deployment package by the new FULL CIRCULAR package for this user-requested deployment mode.
 
 The current live router configuration remains unchanged until the user installs the package.
+
+
+## 2026-09-28 — AUTHORITATIVE — DEEP PER-DOMAIN STRATEGY MATRIX
+
+The user requested the deepest possible fallback matrix from the two raw blockcheck runs, so that when one strategy fails for a specific domain the next evidence-backed strategy can be tried.
+
+### Raw candidate universe
+
+Across 2609 + 2709 there are **9 distinct tested strategy signatures**:
+
+- ME — HTTP `http_methodeol`
+- HC — HTTP `http_hostcase`
+- HF — HTTP `fake_default_http:tcp_ts=-1000`
+- TS — TLS `tcpseg:pos=0,-1:seqovl=1 + drop`
+- TF — TLS `fake_default_tls:tcp_ts=-1000`
+- TC — TLS1.2 special S8 composite
+- QF — QUIC `fake_default_quic:repeats=11`
+- QI — QUIC `send:ipfrag + drop`
+- LX — TLS `luaexec` TLS13 candidate
+
+No additional distinct tested signature variants were found in either raw log.
+
+LX had **0 AVAILABLE and 0 EXPLICIT FOUND** and is therefore excluded from operational fallback ladders.
+
+### Deep evidence-conditioned ladders
+
+A strategy is included for a domain only if its candidate was AVAILABLE or EXPLICIT FOUND in at least one of the two raw runs.
+
+Deterministic order:
+- HTTP: **HC → ME → HF**
+- TLS: **TS → TF → TC**
+- QUIC: **QF → QI**
+
+Resulting exact domain groups:
+
+HTTP:
+- HC → ME → HF = **142**
+- HC → ME = **13**
+- HC → HF = **4**
+- ME → HF = **2**
+- ME only = **42**
+- no successful HTTP candidate in supplied evidence = **94**
+
+TLS:
+- TS → TF = **15**
+- TS → TC = **2**
+- TS only = **178**
+- no successful TLS candidate in supplied evidence = **102**
+
+QUIC:
+- QF → QI = **68**
+- QF only = **43**
+- QI only = **2**
+- no successful QUIC candidate in supplied evidence = **184**
+
+### Maximum usable depth
+
+- HTTP: **3** strategies for 142 domains.
+- TLS: **2** strategies for 17 domains total (15 TS→TF, 2 TS→TC).
+- QUIC: **2** strategies for 68 domains.
+
+Thus the maximum evidence-backed per-domain circular depth in this raw dataset is **3**, and only for HTTP.
+
+### Important correction to previous FULL CIRCULAR package
+
+The earlier union-based FULL CIRCULAR package put all domains of an L7 union behind the same ladder. That can cause a domain to try a strategy which was not successful for that specific domain.
+
+The new deep package is more precise: domains are partitioned into exact ladder groups, so a host only rotates through strategies that were individually AVAILABLE or FOUND for that host in 2609 or 2709.
+
+The earlier package remains historical. The new deep package is the intended future deployment design.
+
+### New artifacts
+
+Local:
+- `ZAPRET2_DEEP_STRATEGY_MATRIX_2609_2709.md`
+- `ZAPRET2_DEEP_STRATEGY_MATRIX_2609_2709.csv`
+- `ZAPRET2_DEEP_CIRCULAR_GROUPS_2609_2709.csv`
+- `ZAPRET2_DEEP_CIRCULAR_READY_2609_2709.tar.gz`
+
+Archive SHA256:
+`b8d0e8b2260d795c8dded42f9d61ae6d53330b623ad06b75b51dd7dd64f4577d`
+
+Package validation completed locally:
+- installer shell syntax: PASS
+- hostlist counts/duplicates: PASS
+- HTTP grouped total: 203
+- TLS grouped total: 195
+- QUIC grouped total: 113
+
+No hAP runtime test was performed.
+
+### Status
+
+- **S8A — primary/backup evidence extraction: DONE**
+- **S8C — FULL CIRCULAR union artifact: SUPERSEDED**
+- **S8D — deep per-domain circular matrix: DONE**
+- **S8E — deep circular deployment package: DONE / NOT_RUNTIME_VALIDATED**
+- **S8 — hAP runtime circular activation: NOT_STARTED**
+
+The router remains unchanged by this evidence extraction/package preparation.
