@@ -3321,3 +3321,21 @@ Final read-only snapshot at Mon Sep 28 21:42:59 GMT 2026:
 - AUTOHOSTLIST: 18 entries
 
 I14 was read-only and made no configuration change.
+
+## 2026-09-28 — STRATEGY WORK FOLLOW-UP: CDN/IP/ROUTE DIMENSION
+
+For services with distributed CDN/API/media infrastructure, future Zapret2/blockcheck2 work must include a separate CDN/IP/path dimension.
+
+Initial mandatory services:
+- Telegram;
+- WhatsApp;
+- Instagram.
+
+The working assumption is not that a service hostname has one stable network endpoint. Consecutive DNS resolutions may return different CDN IPv4 addresses with different TCP/443 reachability. Therefore service validation must not infer universal behavior from one hostname-to-IP observation.
+
+The planned evidence chain is:
+DNS hostname -> resolved CDN/IP set -> per-IP TCP reachability -> route/path characteristics -> TLS/application behavior -> Zapret2/NFQUEUE handling -> strategy result.
+
+Keep hostname-level and IP/path-level evidence separate. This is a future diagnostic/validation stage and must not trigger unrelated DNS/routing changes automatically.
+
+Status: NOT_STARTED
