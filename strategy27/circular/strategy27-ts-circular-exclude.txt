@@ -1,0 +1,16 @@
+api.perplexity.ai
+azure.com
+cloudflare-dns.com
+cloudflare.com
+epicgames.com
+hdrzk.org
+media.licdn.com
+office365.com
+onedrive.com
+outlook.com
+outlook.office.com
+teams.live.com
+www.microsoft365.com
+www.office365.com
+www.onedrive.com
+www.twitch.tv
