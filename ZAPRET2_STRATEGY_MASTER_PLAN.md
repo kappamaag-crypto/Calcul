@@ -2133,3 +2133,49 @@ The independent /mnt/data backup is an additional recovery copy and must be reta
 
 The archive and installation plan are READY.
 The hAP configuration has **NOT** been changed by package preparation.
+
+
+---
+
+## 2026-09-28 — AUTHORITATIVE — DEEP MAX CIRCULAR DEPLOYMENT COMPLETE
+
+The user-requested Deep Max Circular package has been installed on the MikroTik hAP ac lite.
+
+### Live deployment result
+
+- Installer: **INSTALL=SUCCESS**
+- Rollback config: `/opt/zapret2/config.deep-max-circular-pre-20260928-211153`
+- `BACKUP_BASE=NONE_PREVIOUSLY_ABSENT`
+- HTTP operational depth: 3
+- TLS operational depth: 3
+- QUIC operational depth: 2
+- LX: `TESTED_NOT_FOUND_LAST_RESORT`
+
+After restart:
+- Zapret2 service: running
+- `nfqws2` QNUM 300: running with Deep Max Circular profiles
+- WireGuard-pattern QNUM 65300: still running
+- NFQUEUE 300 and 65300 both present
+
+### Minimal post-deployment runtime evidence
+
+- Instagram HTTPS / TS: HTTP 200, 416044 bytes
+- YouTube HTTP / HC: HTTP 200, 895082 bytes
+
+These tests confirm no regression of the previously runtime-verified representative TS/HC paths. They do not establish universal effectiveness of the full ladder.
+
+### AUTOHOSTLIST control
+
+Post-test AUTOHOSTLIST remained 18 lines / 304 bytes. No new entries were observed after the two control requests. Existing YouTube/googlevideo entries remain.
+
+### Important file-state distinction
+
+The old exact Strategy27 hostlist files still exist under `/etc/zapret2/strategy27/`, but their paths are absent from the active Deep Max `NFQWS2_OPT`. Therefore they are retained files, not active old profiles.
+
+### Current authoritative architecture
+
+`domain + traffic class -> Deep Max evidence-conditioned ladder -> existing autohostlist fallback`
+
+Deep Max Circular installation is **DONE**.
+
+Do not treat HF or LX as proven working strategies. Do not convert the install result into a UNIVERSAL claim.
