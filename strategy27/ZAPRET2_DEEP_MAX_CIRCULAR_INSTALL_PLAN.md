@@ -1,8 +1,8 @@
 # ZAPRET2 DEEP MAX CIRCULAR — FULL INSTALLATION PLAN FOR hAP ac lite
 
 Дата: 2026-09-28
-Статус: **NOT_STARTED**
-Назначение: пошаговая установка подготовленного Strategy27 Deep Max Circular на MikroTik hAP ac lite без предварительного runtime-теста стратегий на hAP.
+Статус: **DONE**
+Назначение: фактически выполненная и зафиксированная установка подготовленного Strategy27 Deep Max Circular на MikroTik hAP ac lite с минимальным runtime-контролем без массовой domain/service matrix.
 
 ---
 
@@ -592,11 +592,18 @@ free -h
 
 ## 21. ЭТАП I11 — SITE / APPLICATION TESTS
 
-Статус: **NOT_STARTED**
+Статус: **DONE**
 
-По текущему решению **не является частью обязательной установки**.
+Выполнен минимальный контроль без массовой domain/service matrix.
 
-Не делать автоматически:
+Результаты:
+
+- Instagram HTTPS / TS: `HTTP 200`, `416044` bytes, `1.467131 s` — runtime success.
+- YouTube HTTP / HC: `HTTP 200`, `895082` bytes, `1.307359 s` — runtime success.
+
+Эти тесты подтверждают сохранение ранее работающих representative TS/HC paths после установки Deep Max Circular. Они **не доказывают** эффективность всех fallback-ступеней ME/HF/TF/TC/LX/QI.
+
+Не выполнять автоматически:
 
 - 297 domain matrix;
 - YouTube × Instagram × WhatsApp × Telegram exhaustive matrix;
@@ -837,21 +844,24 @@ hAP structural health
 
 ## 31. СТАТУСЫ УСТАНОВОЧНОГО КОНТУРА
 
-- I0 connection/identity: **NOT_STARTED**
-- I1 read-only baseline: **NOT_STARTED**
-- I2 independent backup: **NOT_STARTED**
-- I3 archive transfer: **NOT_STARTED**
-- I4 SHA256 verification: **NOT_STARTED**
-- I5 archive inspection: **NOT_STARTED**
-- I6 installer structural precheck: **NOT_STARTED**
-- I7 installer execution: **NOT_STARTED**
-- I8 pre-restart structural check: **NOT_STARTED**
-- I9 Zapret2 restart: **NOT_STARTED**
-- I10 post-restart structural health: **NOT_STARTED**
-- I11 application validation: **NOT_STARTED**
-- Rollback procedure: **READY**
-- Package: **READY**
-- Router state changed by this plan: **NO**
+- I0 connection/identity: **DONE**
+- I1 read-only baseline: **DONE**
+- I2 independent backup: **DONE**
+- I3 archive transfer/extraction: **DONE**
+- I4 SHA256/archive identity: **DONE**
+- I5 archive inspection and hostlist validation: **DONE**
+- I6 installer structural precheck: **DONE**
+- I7 installer execution: **DONE**
+- I8 pre-restart structural check: **DONE**
+- I9 Zapret2 restart: **DONE**
+- I10 post-restart structural health: **DONE**
+- I11 application validation: **DONE**
+- I12 AUTOHOSTLIST post-test control: **DONE**
+- I13 final structural control: **DONE**
+- Rollback procedure: **READY / BACKUP PRESENT**
+- Package: **DEPLOYED**
+- Router state changed by this plan: **YES — Deep Max Circular active**
+- Overall installation status: **DONE**
 
 ---
 
@@ -885,3 +895,81 @@ After every user result:
 3. update OpenWrt Master Plan if router state changed;
 4. update Strategy Master Prompt if workflow/safety changed;
 5. only then issue the next router action.
+
+
+---
+
+## 34. ФАКТИЧЕСКИЙ РЕЗУЛЬТАТ — 2026-09-28
+
+### Deployment
+
+Installer завершён:
+
+```
+INSTALL=SUCCESS
+BACKUP_CONFIG=/opt/zapret2/config.deep-max-circular-pre-20260928-211153
+BACKUP_BASE=NONE_PREVIOUSLY_ABSENT
+HTTP_MAX_DEPTH=3
+TLS_MAX_DEPTH=3
+QUIC_MAX_DEPTH=2
+LUAEXEC_LX_STATUS=TESTED_NOT_FOUND_LAST_RESORT
+NOTE=NO_HAP_RUNTIME_TEST_PERFORMED
+```
+
+После установки выполнен restart Zapret2. Сервис поднялся.
+
+### Active datapath
+
+Рабочий `nfqws2` использует Deep Max Circular при `QNUM=300`.
+
+Отдельный WireGuard-pattern `nfqws2` продолжает работать при `QNUM=65300`.
+
+`/proc/net/netfilter/nfnetlink_queue` подтвердил обе очереди:
+- `300 -> PID 2077`
+- `65300 -> PID 2078`
+
+### Active profiles
+
+В `/opt/zapret2/config` присутствуют 11 Deep Max Circular profile definitions:
+- HTTP: 5
+- TLS: 3
+- QUIC: 3
+
+Hostlist directory содержит 14 Deep Max Circular hostlists.
+
+### Old Strategy27 files
+
+Файлы:
+```
+/etc/zapret2/strategy27/strategy27-me.txt
+/etc/zapret2/strategy27/strategy27-hc.txt
+/etc/zapret2/strategy27/strategy27-ts.txt
+/etc/zapret2/strategy27/strategy27-qf.txt
+```
+физически сохранились.
+
+Они **не активны**: их пути отсутствуют в активном Deep Max `NFQWS2_OPT`. Не удалять без отдельной причины — они могут служить историческим/rollback evidence.
+
+### AUTOHOSTLIST
+
+После runtime-контроля:
+- файл: 304 bytes
+- entries: 18
+- timestamp не изменился после I11
+- Instagram в AUTOHOSTLIST не добавился
+- существующие YouTube/googlevideo entries сохранились
+
+### Evidence boundary
+
+Подтверждено:
+- Deep Max Circular установлен и реально загружен running `nfqws2`.
+- Ранее рабочие representative TS и HC пути сохранили работоспособность после установки.
+
+Не подтверждено:
+- универсальная эффективность Deep Max Circular;
+- эффективность каждого fallback;
+- live QF/QI effectiveness при отсутствии HTTP/3-capable curl;
+- hAP runtime effectiveness LX;
+- необходимость постоянного включения каждого fallback profile для всех доменов.
+
+Следующий дальнейший workstream, если потребуется, — отдельная targeted validation конкретного coverage gap. Установочный контур не расширять бессистемным stacking.
