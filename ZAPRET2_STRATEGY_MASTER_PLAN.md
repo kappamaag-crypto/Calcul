@@ -1630,3 +1630,108 @@ Until that targeted validation is complete:
 - do not describe TF/TC backups as hAP-validated;
 - do not add global TLS circular stacking;
 - do not modify the current permanent ME/HC/TS/QF layer.
+
+
+## 2026-09-28 — AUTHORITATIVE — CIRCULAR BACKUP PACKAGE PREPARED FOR DEPLOYMENT
+
+The user explicitly chose to deploy the evidence-backed same-class circular backups without a pre-deployment hAP runtime validation.
+
+### Scope
+
+Only the 16 domains with two EXPLICIT FOUND strategies inside the same L7 class are converted to circular backup profiles:
+
+- 14 TLS domains: **TS → TF**
+- 2 TLS domains: **TS → TC**
+
+No HTTP circular backup exists in the current 2609+2709 evidence.
+No QUIC circular backup exists in the current 2609+2709 evidence.
+HF is excluded because HF has no explicit FOUND records.
+
+### Exact domain groups
+
+TS → TF:
+- api.perplexity.ai
+- azure.com
+- cloudflare-dns.com
+- cloudflare.com
+- epicgames.com
+- office365.com
+- onedrive.com
+- outlook.com
+- outlook.office.com
+- teams.live.com
+- www.microsoft365.com
+- www.office365.com
+- www.onedrive.com
+- www.twitch.tv
+
+TS → TC:
+- hdrzk.org
+- media.licdn.com
+
+### Circular policy
+
+For each selected TLS hostlist:
+
+- strategy 1 = existing evidence-backed TS:
+  `tcpseg:pos=0,-1:seqovl=1` + `drop`
+- strategy 2 = the second explicit FOUND strategy for that same host:
+  - TF: `fake_default_tls:tcp_ts=-1000`
+  - TC: the exact S8 TLS1.2 special sequence
+- `circular:fails=1:retrans=1:reset`
+- strategy 2 is marked `:final` so rotation stops after the backup is reached.
+
+The official zapret2 circular implementation requires strategy numbers to start from 1 and be continuous; `final` stops further rotation. The official project discussion documents `fails=1:retrans=1` as a working trigger setting for moving from strategy 1 to strategy 2. Technical references are the official bol-van/zapret2 source and discussion, not Calcul.
+
+### Hostlist separation
+
+The 16 backup domains are removed from the ordinary `strategy27-ts.txt` hostlist during installation. This prevents a selected host from simultaneously matching the ordinary TS profile and its circular profile.
+
+All other TS domains remain in the existing ordinary TS profile.
+ME, HC and QF lists are untouched.
+The existing autohostlist fallback is untouched.
+
+### Deployment artifact
+
+Ready-to-upload directory:
+
+`strategy27/circular/`
+
+Files:
+- `strategy27-ts-circular-tf.txt`
+- `strategy27-ts-circular-tc.txt`
+- `strategy27-ts-circular-exclude.txt`
+- `install-strategy27-circular-backups.sh`
+- `README.md`
+
+Local package:
+`ZAPRET2_CIRCULAR_READY_2609_2709.tar.gz`
+
+Archive SHA256:
+`f3ef897d8ea1aa0e0f67c6abf0a9d89f221552dc7f0cedcb0673743fbeb94cfb`
+
+The installer:
+1. backs up `/opt/zapret2/config`;
+2. backs up the current TS hostlist;
+3. installs the two circular hostlists;
+4. removes exactly the 16 backup domains from the ordinary TS hostlist;
+5. inserts the two circular TLS profiles into `NFQWS2_OPT`;
+6. does NOT change DNS, routing, VPN, PBR, QNUM or MODE_FILTER;
+7. does NOT run runtime HTTPS/service validation;
+8. prints exact rollback paths.
+
+The installer is intentionally a deployment artifact, not a claim of hAP validation.
+
+### Current stage status
+
+- **S8A — primary/backup evidence extraction: DONE**
+- **S8B — circular deployment artifact: DONE**
+- **S8 — fallback/circular runtime activation: NOT_STARTED**
+- **Runtime validation on hAP: NOT_PERFORMED BY USER REQUEST**
+
+The next user action is only to upload the prepared package to hAP and execute the included installer/restart commands. No additional pre-deployment strategy search is required for this stage.
+
+### Evidence boundary
+
+This deployment decision is based on source-environment EXPLICIT FOUND evidence from the two raw blockcheck runs. It does not upgrade TF/TC from FOUND to VALIDATED_ON_HAP. It also does not establish the whole 297-domain strategy27 layer as universal.
+
