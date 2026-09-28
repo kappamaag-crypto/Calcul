@@ -1,0 +1,11 @@
+Evidence-backed:
+HTTP 3 = HC -> ME -> HF (142)
+TLS 2 = TS -> TF (15), TS -> TC (2)
+QUIC 2 = QF -> QI (68)
+
+Max-tested package:
+HTTP 3
+TLS 3 = TS -> TF -> LX OR TS -> TC -> LX OR TS -> LX
+QUIC 2
+
+LX = tested-not-found; 0 AVAILABLE / 0 FOUND.
