@@ -2105,18 +2105,21 @@ The final installer:
 
 ### Installation stage sequence
 
-I0 — connect/identity: **NOT_STARTED**
-I1 — read-only baseline: **NOT_STARTED**
-I2 — independent /mnt/data backup: **NOT_STARTED**
-I3 — transfer archive: **NOT_STARTED**
-I4 — SHA256 verification: **NOT_STARTED**
-I5 — extract/inspect archive: **NOT_STARTED**
-I6 — shell/hostlist structural precheck: **NOT_STARTED**
-I7 — run installer: **NOT_STARTED**
-I8 — pre-restart structural verification: **NOT_STARTED**
-I9 — restart Zapret2: **NOT_STARTED**
-I10 — post-restart structural health + watchdog/memory: **NOT_STARTED**
-I11 — application validation: **NOT_STARTED**
+I0 — connect/identity: **DONE**
+I1 — read-only baseline: **DONE**
+I2 — independent /mnt/data backup: **DONE**
+I3 — transfer/extract archive: **DONE**
+I4 — SHA256 verification: **DONE**
+I5 — extract/inspect archive: **DONE**
+I6 — shell/hostlist structural precheck: **DONE**
+I7 — run installer: **DONE**
+I8 — pre-restart structural verification: **DONE**
+I9 — restart Zapret2: **DONE**
+I10 — post-restart structural health + watchdog/memory: **DONE**
+I11 — minimal application validation: **DONE**
+I12 — AUTOHOSTLIST post-test control: **DONE**
+I13 — final structural control: **DONE**
+I14 — final read-only snapshot: **DONE**
 
 Application validation is intentionally not part of the installation itself. No 297-domain runtime matrix and no exhaustive service matrix should be started automatically.
 
@@ -2179,3 +2182,19 @@ The old exact Strategy27 hostlist files still exist under `/etc/zapret2/strategy
 Deep Max Circular installation is **DONE**.
 
 Do not treat HF or LX as proven working strategies. Do not convert the install result into a UNIVERSAL claim.
+### I14 — FINAL SNAPSHOT — 2026-09-28
+
+Status: **DONE**
+
+Final read-only snapshot at Mon Sep 28 21:42:59 GMT 2026:
+- Zapret2 service: running
+- RAM: 54852 KiB total; 36168 used; 9544 free; 12176 available
+- Swap: 550904 KiB total; 10312 used; 540592 free
+- /opt/zapret2/config SHA256: fc7967250b195e4b0f4b259775542f04a7329fde72f5f3b3a33fea7690baee98
+- active nfqws2: PID 2077, QNUM 300, Deep Max Circular
+- WireGuard nfqws2: PID 2078, QNUM 65300
+- NFQUEUE: 300 and 65300 both present
+- Deep Max config references: 11
+- AUTOHOSTLIST: 18 entries
+
+I14 was read-only and made no configuration change.
