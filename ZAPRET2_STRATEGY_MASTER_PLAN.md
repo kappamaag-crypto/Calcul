@@ -2025,3 +2025,111 @@ The router configuration remains unchanged by this package preparation.
 
 Official zapret2 documents the circular mechanism as a sequential strategy orchestrator with no fixed three-strategy ceiling; strategy numbering must start at 1 and have no gaps. Official project examples demonstrate circular sequences longer than three strategies. citeturn746766search0turn746766search2
 
+
+
+## 2026-09-28 — AUTHORITATIVE — DEEP MAX CIRCULAR INSTALLATION PLAN
+
+The user uploaded the final archive to the Calcul repository:
+`strategy27/ZAPRET2_DEEP_MAX_CIRCULAR_READY_2609_2709.tar.gz`
+
+GitHub blob SHA:
+`54a9e7aef6c2552f756b0475af0bef37291868cd`
+
+Verified local archive SHA256:
+`63029e3a6821f079dc7544f1166713e65475fec2164d0cf16e9b88d47abc6dcc`
+
+The exact installation procedure is now frozen in:
+`strategy27/ZAPRET2_DEEP_MAX_CIRCULAR_INSTALL_PLAN.md`
+
+### Target router baseline
+
+- MikroTik hAP ac lite / RB952Ui-5ac2nD
+- OpenWrt 25.12.5 r33051-f5dae5ece4
+- ath79/mikrotik, mips_24kc
+- kernel 6.12.94
+- 64 MB RAM
+- extroot /overlay on sda2
+- /mnt/data on sda3
+- swap sda1 512 MB + zram0 32 MB
+- upstream via phy0-sta0, 192.168.0.100 -> 192.168.0.1
+- LAN br-lan 192.168.1.1/24
+- main Archer C20 remains the upstream/main router and must not be modified or replaced.
+
+Current live Zapret2 baseline before installation:
+- v1.0.3 (b78b52c4)
+- ME=44, HC=159, TS=194, QF=111 exact profiles
+- existing autohostlist fallback
+- MODE_FILTER=autohostlist
+- QNUM=300
+- existing QNUM=65300 WireGuard-pattern handling
+- FLOWOFFLOAD=donttouch
+- INIT_APPLY_FW=1
+- IPv6 disabled in current Zapret2
+- SET_MAXELEM=522288
+- existing watchdog healthy/active
+
+### No version upgrade
+
+The official zapret2 project now has releases newer than v1.0.3, but upgrading zapret2 is explicitly outside this installation. The current package is applied to the existing v1.0.3 baseline so that version change and strategy change are not mixed.
+
+### Frozen deployment architecture
+
+HTTP:
+- HC -> ME -> HF
+- per-domain ladder groups already separated in package
+- HF is candidate-only
+
+TLS:
+- TS -> TF -> TC -> LX where applicable
+- LX is tested-not-found and last-resort only
+
+QUIC:
+- QF -> QI where applicable
+
+The circular engine supports sequential strategy numbers starting at 1 with no gaps; `final` stops further rotation. `fails`, retransmission threshold and reset are detector controls, not browser-level application success/failure signals.
+
+### Installation safety
+
+The final installer:
+- validates staged hostlists before live modification;
+- backs up /opt/zapret2/config;
+- backs up any existing deep-circular directory;
+- refuses accidental double installation when a deep-circular profile is already present;
+- removes old Strategy27 exact profile lines from the preserved NFQWS2_OPT fallback body to prevent duplicate exact profiles;
+- commits staged hostlists/config only after structural checks;
+- automatically rolls back config and prior deep-circular directory after any installation failure following filesystem modification;
+- preserves failed new state for audit;
+- does not restart Zapret2 itself;
+- does not test applications;
+- does not change MODE_FILTER, QNUM, DNS, routing, VPN, PBR or unrelated firewall state.
+
+### Installation stage sequence
+
+I0 — connect/identity: **NOT_STARTED**
+I1 — read-only baseline: **NOT_STARTED**
+I2 — independent /mnt/data backup: **NOT_STARTED**
+I3 — transfer archive: **NOT_STARTED**
+I4 — SHA256 verification: **NOT_STARTED**
+I5 — extract/inspect archive: **NOT_STARTED**
+I6 — shell/hostlist structural precheck: **NOT_STARTED**
+I7 — run installer: **NOT_STARTED**
+I8 — pre-restart structural verification: **NOT_STARTED**
+I9 — restart Zapret2: **NOT_STARTED**
+I10 — post-restart structural health + watchdog/memory: **NOT_STARTED**
+I11 — application validation: **NOT_STARTED**
+
+Application validation is intentionally not part of the installation itself. No 297-domain runtime matrix and no exhaustive service matrix should be started automatically.
+
+### Rollback boundary
+
+There are two rollback layers:
+
+1. Installer automatic rollback for failures during installation.
+2. Manual rollback using the exact printed `BACKUP_CONFIG` and `BACKUP_BASE` paths if the later service restart/structural health gate fails.
+
+The independent /mnt/data backup is an additional recovery copy and must be retained until the new baseline has been accepted.
+
+### Current status
+
+The archive and installation plan are READY.
+The hAP configuration has **NOT** been changed by package preparation.
