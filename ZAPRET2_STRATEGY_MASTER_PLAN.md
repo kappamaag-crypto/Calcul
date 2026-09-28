@@ -1919,3 +1919,109 @@ No hAP runtime test was performed.
 - **S8 — hAP runtime circular activation: NOT_STARTED**
 
 The router remains unchanged by this evidence extraction/package preparation.
+
+
+## 2026-09-28 — AUTHORITATIVE — DEEP MAX CIRCULAR + AUTOMATIC ROLLBACK
+
+### User clarification
+
+The user asked whether the 3/2/2 depth is a technical limit and requested the package be expanded as far as the supplied evidence/tested candidate universe allows, plus automatic rollback on any installation error.
+
+### Circular depth clarification
+
+The official zapret2 circular implementation does **not** impose a maximum of 3 strategies. It accepts sequential strategy numbers `1..N`; gaps are forbidden. Therefore deeper ladders are technically possible.
+
+The supplied raw logs contain these distinct tested signatures:
+
+HTTP:
+- ME = `http_methodeol`
+- HC = `http_hostcase`
+- HF = `fake_default_http + tcp_ts=-1000`
+
+TLS:
+- TS = `tcpseg + drop`
+- TF = `fake_default_tls + tcp_ts=-1000`
+- TC = TLS1.2 special S8 composite
+- LX = `luaexec + tls_mod(...) + generated tcpseg + drop`
+
+QUIC:
+- QF = `fake_default_quic:repeats=11`
+- QI = `send:ipfrag + drop`
+
+No additional distinct tested strategy signature exists in the two raw logs.
+
+### Current maximum
+
+Evidence-backed successful maximum:
+- HTTP = 3
+- TLS = 2
+- QUIC = 2
+
+The only additional distinct tested TLS candidate is LX. It had 0 AVAILABLE and 0 EXPLICIT FOUND in both source logs.
+
+Because the user requested the deepest possible fallback from the existing tested universe, the new deployment artifact appends LX only as a final last-resort TLS step:
+
+- TS → TF → LX
+- TS → TC → LX
+- TS → LX
+
+Therefore the package now has:
+- HTTP maximum operational depth = **3**
+- TLS maximum operational depth = **3**
+- QUIC maximum operational depth = **2**
+
+LX remains **TESTED_NOT_FOUND / EXPERIMENTAL LAST RESORT**. This does not promote LX to FOUND or hAP-validated.
+
+To go beyond HTTP 3 / TLS 3 / QUIC 2, the candidate universe must be expanded with a new blockcheck2 run. Importing additional strategies from unrelated configurations would be new external evidence and must not be silently treated as results of 2609+2709.
+
+### Installation safety correction
+
+The earlier deep installer was replaced by a hardened installer:
+`install-strategy27-deep-max-circular.sh`.
+
+The new installer:
+1. stages hostlists before live changes;
+2. validates each hostlist as one-domain-per-line and sorted/unique;
+3. extracts the current `NFQWS2_OPT`;
+4. removes the previously deployed exact Strategy27 ME/HC/TS/QF profile lines from the preserved fallback body, preventing duplicate exact profiles;
+5. refuses double-installation when a deep-circular profile is already present in `NFQWS2_OPT`;
+6. backs up `/opt/zapret2/config` before the live commit;
+7. backs up any existing deep-circular directory before replacement;
+8. commits staged hostlists and config;
+9. has an EXIT/INT/TERM rollback handler that restores the pre-install config and previous deep-circular directory after any failure following a filesystem modification;
+10. preserves a failed newly-created directory instead of silently deleting it;
+11. does **not** restart Zapret2;
+12. does **not** perform HAP runtime validation;
+13. does **not** alter MODE_FILTER, QNUM, DNS, routing, VPN, PBR or unrelated firewall settings.
+
+Local validation:
+- shell syntax: **PASS**
+- normal isolated installation simulation: **PASS**
+- forced post-commit failure/rollback simulation: **PASS**
+- hostlist structural validation: **PASS**
+
+### Current deployment artifact
+
+Local package:
+`ZAPRET2_DEEP_MAX_CIRCULAR_READY_2609_2709.tar.gz`
+
+Current archive SHA256:
+`63029e3a6821f079dc7544f1166713e65475fec2164d0cf16e9b88d47abc6dcc`
+
+Installer SHA256:
+`837a660ba4d8e713f84c2e3a3e3299f042b77b35500e44807e07117912d5b8c0`
+
+### Current stage status
+
+- **S8A — primary/backup evidence extraction: DONE**
+- **S8D — deep per-domain circular matrix: DONE**
+- **S8E — deep circular package: SUPERSEDED**
+- **S8F — deep MAX circular package + automatic rollback: DONE / NOT_RUNTIME_VALIDATED**
+- **S8 — hAP circular runtime activation: NOT_STARTED**
+
+The router configuration remains unchanged by this package preparation.
+
+### Source note
+
+Official zapret2 documents the circular mechanism as a sequential strategy orchestrator with no fixed three-strategy ceiling; strategy numbering must start at 1 and have no gaps. Official project examples demonstrate circular sequences longer than three strategies. citeturn746766search0turn746766search2
+
