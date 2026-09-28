@@ -858,6 +858,7 @@ hAP structural health
 - I11 application validation: **DONE**
 - I12 AUTOHOSTLIST post-test control: **DONE**
 - I13 final structural control: **DONE**
+- I14 final read-only snapshot: **DONE**
 - Rollback procedure: **READY / BACKUP PRESENT**
 - Package: **DEPLOYED**
 - Router state changed by this plan: **YES — Deep Max Circular active**
@@ -973,3 +974,20 @@ Hostlist directory содержит 14 Deep Max Circular hostlists.
 - необходимость постоянного включения каждого fallback profile для всех доменов.
 
 Следующий дальнейший workstream, если потребуется, — отдельная targeted validation конкретного coverage gap. Установочный контур не расширять бессистемным stacking.
+
+### I14 — FINAL SNAPSHOT — 2026-09-28
+
+Status: **DONE**
+
+Final read-only snapshot at Mon Sep 28 21:42:59 GMT 2026:
+- Zapret2 service: running
+- RAM: 54852 KiB total; 36168 used; 9544 free; 12176 available
+- Swap: 550904 KiB total; 10312 used; 540592 free
+- /opt/zapret2/config SHA256: fc7967250b195e4b0f4b259775542f04a7329fde72f5f3b3a33fea7690baee98
+- active nfqws2: PID 2077, QNUM 300, Deep Max Circular
+- WireGuard nfqws2: PID 2078, QNUM 65300
+- NFQUEUE: 300 and 65300 both present
+- Deep Max config references: 11
+- AUTOHOSTLIST: 18 entries
+
+I14 was read-only and made no configuration change.
