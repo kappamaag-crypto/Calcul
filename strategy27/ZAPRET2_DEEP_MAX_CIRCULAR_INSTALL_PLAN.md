@@ -991,3 +991,25 @@ Final read-only snapshot at Mon Sep 28 21:42:59 GMT 2026:
 - AUTOHOSTLIST: 18 entries
 
 I14 was read-only and made no configuration change.
+
+## 2026-09-28 — FOLLOW-UP REQUIREMENT: CDN/IP/ROUTE VALIDATION
+
+Deep Max Circular deployment is complete. The next investigation must account for services where one hostname maps to multiple CDN/IP endpoints.
+
+Required targeted scope:
+- Telegram;
+- WhatsApp;
+- Instagram;
+- then similar distributed services as evidence requires.
+
+For these services, do not interpret hostname-level blockcheck2 results as automatically applying to every CDN/IP target. Record individual IPv4/CDN endpoint behavior and distinguish:
+- DNS answer;
+- TCP/443 reachability;
+- TLS/application result;
+- route/path differences;
+- Zapret2/NFQUEUE involvement;
+- strategy success/failure.
+
+This is an evidence/diagnostic requirement only. It does not authorize changing Deep Max Circular, DNS, routing, PBR, QNUM or firewall configuration.
+
+Status: NOT_STARTED
