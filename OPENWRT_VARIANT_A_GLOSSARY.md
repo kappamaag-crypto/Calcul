@@ -2250,3 +2250,26 @@ Secret-material rule — Private keys, preshared keys, tokens and credentials mu
 **ACTIVE exact Strategy27 layer** — current permanent specialized profiles: **ME 44, HC 159, TS 194, QF 111**. They precede the existing autohostlist fallback.
 
 **Strategy27 disposition rule** — FOUND does not automatically mean permanent activation. Activation requires a concrete coverage role and controlled runtime/architecture justification. Deferred does not mean failed.
+
+
+---
+## 2026-09-29 — WanHap terminology
+
+**WanHap** — project branch for migrating the MikroTik hAP ac lite from downstream-router operation to the primary/only home Internet gateway.
+
+**Current temporary uplink** — the existing Archer C20 Wi-Fi path to hAP `phy0-sta0`. It exists to preserve working Internet/access during preparation; it is not part of the target topology.
+
+**Direct ISP WAN** — provider Internet handoff connected directly by Ethernet to hAP `eth1`, with no Archer C20 in the data path.
+
+**Archer exclusion rule** — in the target WanHap architecture, Archer C20 is not an upstream router, NAT gateway, DHCP gateway, DNS gateway, or required transit device. It is intended to be powered off after successful migration.
+
+**ISP handoff identification** — read-only determination of the provider-side WAN mechanism required on hAP (for example DHCP, PPPoE, static addressing, VLAN, or another documented method). Never assume DHCP merely because an unrelated LAN connection uses DHCP.
+
+**WanHap W0** — current runtime baseline stage; DONE on 2026-09-29.
+
+**WanHap W1** — physical WAN-port readiness stage; DONE on 2026-09-29. Evidence: hAP `eth1` exists and is administrative UP but currently `NO-CARRIER` because no Ethernet cable is connected.
+
+**WanHap W2** — ISP handoff identification and migration preparation; NOT_STARTED as of 2026-09-29.
+
+**WanHap safety rule** — direct ISP WAN must be validated before disabling the only working Internet path; do not combine WAN migration with DNS, Zapret2, AWG, or unrelated Wi-Fi changes.
+
