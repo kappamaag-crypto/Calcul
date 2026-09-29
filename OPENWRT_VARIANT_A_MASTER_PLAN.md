@@ -3339,3 +3339,36 @@ DNS hostname -> resolved CDN/IP set -> per-IP TCP reachability -> route/path cha
 Keep hostname-level and IP/path-level evidence separate. This is a future diagnostic/validation stage and must not trigger unrelated DNS/routing changes automatically.
 
 Status: NOT_STARTED
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-29 — AWG BRANCH REOPENED / NEW PROFILES
+
+User explicitly reopened the Proton/AmneziaWG experiment branch on 2026-09-29 and supplied a new AWG profile family for controlled testing.
+
+### New AWG evidence
+- Four user-supplied files represent the same profile US-FREE#90 with the same Interface/Peer parameters and the same endpoint IP 149.22.84.154, while changing only the endpoint port:
+  - 51820
+  - 5060
+  - 4569
+  - 443
+- All four files use the same new private key and the same peer public key. Secret material is intentionally not recorded here.
+- Common AWG parameters include MTU 1420, S1/S2=0, Jc=41, Jmin=38, Jmax=109, H1-H4=1/2/3/4, I1, ContentPaddingAddition=19-83, randomized rekey/reject/keepalive/handshake limits, and DisableCookies=on.
+- This creates a clean new discriminating axis: endpoint port, with the rest of the supplied profile held constant.
+
+### Interpretation / test discipline
+- These profiles are materially different from the previously tested Proton US-FREE#130 and RO-FREE#23 profiles because the supplied peer identity/profile is new.
+- Do not reuse the old negative conclusion as proof against US-FREE#90.
+- Do not sweep AWG J/S/H/I parameters while port testing is underway. First isolate the endpoint-port variable.
+- Each port is an independent isolated handshake test. No default route, PBR, broad firewall, DNS replacement, or full-router VPN integration is authorized.
+- Existing frozen interface proton_awg_test remains untouched. Use a separate isolated test interface as in the prior AWG branch.
+- Previous Zapret2 UDP/51820 experiment remains historical negative evidence; do not add UDP/51820 or other WireGuard ports to Zapret2 again merely because the new profiles use those ports.
+
+### New external config availability
+- WARPv3_72.conf is present in Calcul and was read successfully. It is a separate WARP/AWG-oriented profile and remains a later VPN candidate; it is not part of the current AWG port experiment.
+- ProtonVPN_Countries.zip is present in Calcul as a binary archive (~29.9 KiB), but its internal files were not decoded in this synchronization step. Do not infer country/profile contents until the archive is separately materialized/read.
+
+### Current status
+- PROTON / AMNEZIAWG EXPERIMENT BRANCH = IN_PROGRESS / EXPLICITLY REOPENED
+- New US-FREE#90 endpoint-port matrix = NOT_STARTED
+- Existing old AWG tests = historical evidence; do not repeat without a new hypothesis.
