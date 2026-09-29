@@ -3372,3 +3372,44 @@ User explicitly reopened the Proton/AmneziaWG experiment branch on 2026-09-29 an
 - PROTON / AMNEZIAWG EXPERIMENT BRANCH = IN_PROGRESS / EXPLICITLY REOPENED
 - New US-FREE#90 endpoint-port matrix = NOT_STARTED
 - Existing old AWG tests = historical evidence; do not repeat without a new hypothesis.
+
+---
+## AWG US-FREE#90 PORT MATRIX RESULT — 2026-09-29 21:00
+
+A single isolated automated test was run against all four supplied US-FREE#90 profiles.
+
+### Test conditions
+- AWG kernel module loaded.
+- amneziawg-tools v3.1.20260812.
+- Separate temporary interfaces: awg90-51820, awg90-5060, awg90-4569, awg90-443.
+- Temporary policy-routing table 51899.
+- Existing proton_awg_test was not modified.
+- Each profile was loaded with awg setconf successfully.
+- No DNS replacement or permanent/default VPN integration was performed.
+- Each temporary interface was removed after its test.
+
+### Results
+
+| Endpoint | CREATE | SETCONF | Handshake | RX delta | TX delta | Result |
+|---|---|---|---|---:|---:|---|
+| 149.22.84.154:51820 | OK | OK | NO | 0 | 6540 | TX_ONLY_NO_RX |
+| 149.22.84.154:5060 | OK | OK | NO | 0 | 6359 | TX_ONLY_NO_RX |
+| 149.22.84.154:4569 | OK | OK | NO | 0 | 6371 | TX_ONLY_NO_RX |
+| 149.22.84.154:443 | OK | OK | NO | 0 | 9667 | TX_ONLY_NO_RX |
+
+The new profiles are syntactically accepted by the local AWG 3.1 stack on all four ports, but this run produced no authenticated handshake / incoming tunnel traffic on any port.
+
+### Important interpretation
+- This is stronger evidence than the previous profiles for the specific US-FREE#90 endpoint/peer/profile, because all four endpoint ports were tested while the supplied AWG parameters remained constant.
+- It does NOT establish that the remote Proton endpoint is rejecting AWG specifically: the current test still leaves endpoint-path/routing behavior as a possible confounder.
+- The observed HTTP 301 response is NOT counted as AWG success because RX on the AWG interface remained exactly zero. It may represent traffic that did not traverse the intended encrypted tunnel path.
+- The 10.2.0.1 ping failed 3/3 for every profile and is not evidence of a remote Proton handshake failure by itself.
+
+### Memory / OOM observation
+The test output showed historical kernel OOM records, including prior kills of apk, hostapd-triggered OOM events, and nfqws2. These timestamps predate the current test output. The current run ended with approximately 12.8 MB MemAvailable and ~537 MB swap free. No new OOM event was demonstrated during this four-port run; therefore the old OOM records are recorded as a separate system-health concern, not assigned as the cause of the AWG failure.
+
+### Status
+- US-FREE#90 endpoint-port matrix: DONE
+- US-FREE#90 port result: NO HANDSHAKE / NO RX on 51820, 5060, 4569, 443
+- Proton/AmneziaWG branch: IN_PROGRESS
+- Next experiment must address the remaining routing/path confounder before another AWG parameter sweep.
