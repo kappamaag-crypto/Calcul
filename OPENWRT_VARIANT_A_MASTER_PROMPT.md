@@ -1623,3 +1623,28 @@ Rules for the reopened branch:
 - Do not modify existing proton_awg_test.
 - Do not add WireGuard/AWG ports to Zapret2 as a generic workaround; the prior UDP/51820 experiment is already recorded as negative evidence.
 - Private keys and other secret material must never be written into the master prompt or master plan.
+
+
+---
+## 2026-09-29 — WANHAP EXECUTION RULES / TOPOLOGY CORRECTION
+
+When working on **WanHap**, read `WanHap.md` before any router command.
+
+Authoritative topology:
+- Current temporary Internet/access path: **Archer C20 → Wi-Fi → hAP `phy0-sta0`**.
+- Target path: **ISP → Ethernet → hAP `eth1`/WAN → hAP LAN/Wi-Fi**.
+- Archer C20 is **not** the target Internet upstream and must be **powered off after successful migration**.
+
+Superseded approach:
+- Do NOT treat `TP-Link LAN → hAP WAN` as the intended WanHap path.
+- Do NOT add Archer NAT/DHCP/routing to make hAP primary.
+
+Execution gates:
+- W0 and W1 were read-only and are **DONE** as of 2026-09-29.
+- W2 is the next stage and is **NOT_STARTED**.
+- W2 must determine the real ISP handoff (DHCP/PPPoE/static/VLAN/other) before modifying WAN configuration.
+- No router WAN switch should be performed until the user has a known physical ISP cable path to hAP `eth1`.
+- Keep `phy0-sta0` intact until direct ISP WAN is validated.
+- WanHap changes are separate from Zapret2, DNS, and AWG work.
+- Never use AWG/WireGuard or Zapret2 to mask a failure of the direct ISP WAN.
+
