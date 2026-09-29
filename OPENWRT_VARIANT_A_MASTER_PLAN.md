@@ -3413,3 +3413,45 @@ The test output showed historical kernel OOM records, including prior kills of a
 - US-FREE#90 port result: NO HANDSHAKE / NO RX on 51820, 5060, 4569, 443
 - Proton/AmneziaWG branch: IN_PROGRESS
 - Next experiment must address the remaining routing/path confounder before another AWG parameter sweep.
+
+
+---
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-29 — WANHAP TOPOLOGY
+
+### User decision
+User explicitly decided to begin **WanHap**: MikroTik hAP ac lite is being prepared to become the primary and ultimately the only home Internet gateway.
+
+### Topology correction
+The previous WanHap formulation that described **TP-Link LAN → hAP WAN** as an intermediate Internet path is superseded and must not be used.
+
+Correct interpretation:
+
+**Current temporary access path only:**
+```
+Archer C20 → Wi-Fi → hAP phy0-sta0
+```
+
+**Target production path:**
+```
+ISP → Ethernet → hAP eth1/WAN → hAP LAN/Wi-Fi → clients
+```
+
+The Archer C20 is **not** an Internet upstream in the target architecture and is intended to be **powered off after successful migration**.
+
+### WanHap stage checkpoint
+- **W0 = DONE** — current WAN/LAN/Wi-Fi runtime baseline established.
+- **W1 = DONE** — `eth1` exists and is ready for physical WAN testing; current read-only evidence shows `NO-CARRIER` because no cable is connected.
+- **W2 = NOT_STARTED** — determine actual ISP handoff type and required parameters before changing WAN.
+- **W3+ = NOT_STARTED**.
+
+### Dependency/safety rule
+Do not repurpose the Archer as a temporary production upstream just to test hAP WAN. The test must ultimately validate **direct ISP → hAP**. The current Wi-Fi uplink is retained only as a temporary working/rollback configuration until the direct WAN transition is validated.
+
+### Isolation
+WanHap work must not alter:
+- Zapret2 / Deep Max Circular;
+- watchdog;
+- AWG/WireGuard;
+- DNS strategy, except in the separate DNS-gate;
+- unrelated LAN/Wi-Fi settings.
+
