@@ -2292,3 +2292,11 @@ Secret-material rule — Private keys, preshared keys, tokens and credentials mu
 **DHCP Client ID root-cause evidence boundary** — the controlled A/B test establishes the discriminating effect on this exact hAP/OpenWrt/Ufanet path; it is not a universal claim about Ufanet or Option 61.
 
 Detailed evidence: `WANHAP_W3_DIRECT_WAN_DHCP_CLIENT_ID.md`.
+
+## 2026-10-02 — AUTHORITATIVE WANHAP W4 CHECKPOINT / CLIENT VALIDATION PENDING
+
+WanHap W4 is **IN_PROGRESS**, not DONE. Direct ISP → hAP eth1 is runtime-verified at the router: DHCP/IPoE, 100.96.79.207/16, gateway 100.96.0.1, default route via eth1, and 1.1.1.1 ping 3/3. Temporary phy0-sta0 is disabled. Both hAP APs are active as SweethomeU on 2.4/5 GHz with WPA2/PSK2. Archer C20 is already physically OFF and excluded from the target topology.
+
+Client-side validation is still incomplete: the previously tested 192.168.1.227 is currently ARP/neighbor FAILED, and the user reports that a TV has no Internet. This is not yet evidence of a WAN failure because router-originated Internet works. The next diagnostic gate is the affected TV's DHCP address, default gateway, DNS, and separate reachability tests to the hAP, 1.1.1.1, and DNS. Do not modify DNS, Zapret2, AWG/WireGuard, firewall or WAN configuration to mask the symptom before that evidence is collected.
+
+The Wi-Fi password is secret material and is intentionally not recorded in repository documentation. Backup from the W4 Wi-Fi change: /mnt/data/wanhap-w4-20260928-224206.
