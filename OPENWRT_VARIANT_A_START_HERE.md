@@ -240,3 +240,36 @@ Read-only inspection of the existing `Allow-SSH-from-TPLink` rule confirms the i
 - target: ACCEPT.
 
 No additional firewall rule or policy change is required based on this evidence. End-to-end Archer Wi-Fi client access to 192.168.0.100:22 remains NOT VALIDATED until tested from an actual client on the Archer-side Wi-Fi.
+
+## CURRENT AUTHORITATIVE HANDOFF — 2026-10-02 — AWG FULL-TUNNEL
+
+The AWG Full-Tunnel branch is explicitly reopened by the user.
+
+### Important reconciliation
+- The previous temporary Full-Tunnel is **FAILED / NOT VALIDATED** for LAN clients. During the real phone test, `192.168.1.209` generated Telegram/Instagram/WhatsApp traffic on `br-lan`, but `mega-awg` captured 0 packets and its interface counters did not advance.
+- A later source-subnet rule `pref 10000 from 192.168.1.0/24 lookup 51821` caused loss of LAN/SSH access and was recovered by reboot. That exact design must not be reused.
+- The client acceptance test must use actual packet path/counters, not `ip route get ... from 192.168.1.x`.
+
+### Authoritative AWG design
+- Forwarded LAN IPv4 Internet traffic is marked in fw4/nftables.
+- Marked traffic uses an `fwmark` policy rule to table 51821.
+- Local LAN destinations remain unmarked.
+- The main WAN/default route remains intact for router management, router-generated traffic and the AWG outer endpoint.
+- The AWG endpoint is protected by a WAN/main host route.
+- NAT and forwarding for LAN → AWG are persistent fw4/UCI configuration.
+- IPv6 is out of scope for this Full-Tunnel phase.
+- Production fail-open target: primary AWG → real documented backup endpoint(s) → ordinary WAN.
+- No invented backup IPs/ports.
+- Watchdog must verify fresh handshake/real connectivity and log PRIMARY/BACKUP/FAIL-OPEN/RECOVERED.
+
+### Current status
+- AWG Full-Tunnel branch: **IN_PROGRESS**
+- Persistent Full-Tunnel: **NOT_STARTED**
+- Fail-open watchdog: **NOT_STARTED**
+- Real backup endpoint inventory: **NOT_STARTED**
+- Telegram/Instagram/WhatsApp E2E over AWG: **NOT_STARTED**
+- Selective routing: **NOT_STARTED**
+
+### Next exact step
+After reboot, perform a fresh read-only persistent-AWG preflight before any router-changing command. Then run only one controlled/reversible routing test.
+
