@@ -2392,3 +2392,17 @@ Forbidden source-subnet design — the earlier LAN source policy rule that cause
 **Temporary versus persistent** — fwmark rule, table 51821, NAT and AWG `AllowedIPs=0.0.0.0/0` are currently runtime test state. Persistence follows cleanup and retest through OpenWrt fw4/UCI/netifd.
 
 **AWG production Full-Tunnel = IN_PROGRESS** — persistent integration, fail-open watchdog, backup endpoints and broader client scope remain incomplete.
+## 2026-10-03 — AWG FWMARK POST-CLEANUP TERMS
+
+**Early fw4 allow for AWG Full-Tunnel** — an explicit forwarding ACCEPT rule for `br-lan → mega-awg` must be evaluated before the normal `forward_lan` / reject path on this router. A late rule at the end of `inet fw4 forward` did not receive the client packets.
+
+**AWG .170 controlled firewall rule** — the proven test rule is: `iifname "br-lan" oifname "mega-awg" ip saddr 192.168.1.170 ip daddr != 192.168.1.0/24 counter accept`, inserted at position 0 of `inet fw4 forward`.
+
+**Redundant AWG TEST forward chains** — `awg_client170_forward` and `awg_client170_fw4_allow` were temporary duplicates and were removed. They must not be restored as the persistent design.
+
+**AWG test NAT** — `awg_client170_nat` remains as the currently required controlled-test masquerade path. Persistence must later express equivalent NAT through the normal OpenWrt firewall configuration.
+
+**Post-cleanup Full-Tunnel verification** — real laptop Internet access plus increasing fwmark counter, AWG handshake/RX/TX, firewall allow counter and NAT counter together establish the client packet path. Route lookup alone is insufficient.
+
+**Current .170 runtime state = DONE / RUNTIME-VERIFIED** — fwmark policy rule 10040, table 51821, explicit early forward allow and test NAT are working for the single controlled client. This is not yet LAN-wide production validation.
+
