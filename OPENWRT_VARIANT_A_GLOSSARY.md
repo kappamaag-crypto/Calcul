@@ -2341,3 +2341,29 @@ The Wi-Fi password is secret material and is intentionally not recorded in repos
 **Watchdog correction 2026-10-02 = DONE** — `WAN_IF='eth1'`; one complete watchdog cycle reported `HEALTH state=HEALTHY nfqws2=2/2 service=1 nft=1 baseline=1 youtube=1`.
 
 **YouTube watchdog probe = PASS** — the `generate_204` probe passed during the healthy cycle. This is a successful health probe, not exhaustive testing of every YouTube endpoint.
+
+
+## AWG FULL-TUNNEL — AUTHORITATIVE UPDATE 2026-10-02
+
+**AWG Full-Tunnel** — в текущем проекте означает маршрутизацию всего IPv4 Internet-трафика клиентов LAN через AmneziaWG-интерфейс `mega-awg`, при сохранении обычного WAN/main route для управления роутером, локальной LAN-связности и внешнего endpoint-трафика самого AWG.
+
+**Forwarded-client-only marking** — безопасный способ включения Full-Tunnel: mark применяется только к пакетам, реально пришедшим с LAN и предназначенным во внешний IPv4 Internet. Трафик к `192.168.1.0/24` и трафик самого роутера не должен попадать под этот mark.
+
+**FWMark policy routing** — policy routing по firewall mark. OpenWrt netifd поддерживает IPv4 `rule` с `option mark`, что позволяет направить только отмеченный трафик в отдельную таблицу маршрутизации.
+
+**AWG table 51821** — отдельная IPv4 routing table для Full-Tunnel. Она предназначена для marked client traffic и не заменяет обычную `main` table.
+
+**Endpoint protection** — отдельный маршрут к AWG outer endpoint через обычный WAN/main path, чтобы внешний UDP-трафик AWG не зацикливался обратно в tunnel.
+
+**Failed source-rule design** — `ip rule add pref 10000 from 192.168.1.0/24 lookup 51821`. На hAP эта runtime-схема вызвала потерю LAN/SSH-доступа и после этого восстановлена reboot. Не использовать как проектный шаблон.
+
+**Client route acceptance** — реальным критерием Full-Tunnel является фактический трафик LAN-клиента на `mega-awg`, рост RX/TX counters/пакетов и успешный end-to-end Internet с клиента. `ip route get ... from 192.168.1.x` не считать достаточным доказательством.
+
+**Temporary Full-Tunnel status correction — 2026-10-02** — прежний temporary Full-Tunnel был подтверждён только для router-side traffic, но не для forwarded LAN clients; после phone application test `mega-awg` captured 0 packets and counters did not advance. Status = **FAILED / NOT VALIDATED**.
+
+**Fail-open** — при отказе AWG удаляется/отключается только LAN Full-Tunnel policy path; обычный WAN default route остаётся, поэтому LAN автоматически возвращается на прямой WAN. Recovery должен восстанавливать policy path после реального подтверждения AWG connectivity.
+
+**AWG production state** — PRIMARY / BACKUP / FAIL-OPEN / RECOVERED.
+
+**Backup endpoint rule** — резервные AWG endpoint IP/ports must come from real provider/config evidence. Arbitrary IP/port invention is forbidden.
+
