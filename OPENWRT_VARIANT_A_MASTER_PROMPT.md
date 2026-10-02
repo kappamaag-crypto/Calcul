@@ -1803,3 +1803,32 @@ Fwmark is preferred because it separates firewall classification from source-sub
 ### Execution gate
 Runtime fwmark test = **DONE**. Production Full-Tunnel = **IN_PROGRESS**.
 Before persistence: clean temporary AWG TEST firewall state, retest .170, then integrate with OpenWrt fw4/UCI/netifd. Keep IPv6 out of scope and Zapret2 unchanged unless directly implicated.
+## 2026-10-03 — AUTHORITATIVE AWG FWMARK POST-CLEANUP RESULT
+
+The controlled Full-Tunnel test for client `192.168.1.170` is now **RUNTIME-VERIFIED** after removal of redundant temporary forward chains.
+
+Authoritative facts:
+- old source rule `10050 from 192.168.1.170 lookup 51821` is absent;
+- `10040 from all fwmark 0x1/0x1 lookup 51821` is active;
+- prerouting marks only .170 traffic entering via `br-lan` and destined outside `192.168.1.0/24`;
+- table 51821 contains `192.168.1.0/24 dev br-lan` and `default dev mega-awg`;
+- old direct forward rule and both redundant `awg_client170_forward` / `awg_client170_fw4_allow` chains were removed;
+- the required test NAT chain `awg_client170_nat` remains;
+- after removal, Internet failed until a single explicit `br-lan → mega-awg` allow rule was inserted at position 0 of `inet fw4 forward`;
+- that rule immediately received packets and the laptop Internet returned;
+- final supplied AWG evidence: handshake 7 seconds ago, 60.42 MiB RX, 52.63 MiB TX, `AllowedIPs=0.0.0.0/0`, endpoint `188.114.96.8:939`;
+- fwmark counter reached 7,760 packets / 2,000,461 bytes.
+
+### Mandatory architectural rule
+
+The persistent Full-Tunnel implementation MUST reproduce the proven order:
+`LAN Internet classification → fwmark → policy table 51821 → explicit early fw4 allow for br-lan → mega-awg → masquerade`.
+
+Do not return to the failed broad source-subnet policy rule `from 192.168.1.0/24 lookup 51821`.
+
+### Execution gate
+
+Controlled .170 fwmark Full-Tunnel = **DONE / RUNTIME-VERIFIED**.
+
+Do not widen to the complete LAN or add fail-open behavior until the persistent fw4/UCI/netifd configuration is prepared and verified separately. Keep IPv6 out of scope and Zapret2 unchanged unless new evidence directly implicates it.
+
