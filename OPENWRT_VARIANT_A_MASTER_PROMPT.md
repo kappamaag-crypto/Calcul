@@ -1713,3 +1713,30 @@ Generated configuration and local DNS resolution were verified, and a Wi-Fi clie
 **W4 = DONE. W5 = NOT_STARTED.**
 
 Do not reopen W4 or modify WAN/Zapret2/AWG solely because a new client has stale DNS cache; first distinguish client cache/lease state from router-side DNS failure.
+
+
+## 2026-10-02 — WanHap authoritative execution checkpoint
+
+Before any new WanHap command, treat `WanHap.md` and this checkpoint as authoritative for stage control.
+
+**Current staged status:** W0 **DONE**, W1 **DONE**, W2 **DONE**, W3 **DONE**, W4 **DONE**, W5 **DONE**, W5-DNS **DONE**, W6 **NOT_STARTED**, W7 **NOT_STARTED**.
+
+The hAP ac lite is now operating as the independent home gateway on direct ISP Ethernet. Do not reconnect Archer C20. The active target path is:
+
+```
+ISP → Ethernet → hAP eth1/WAN → hAP LAN/Wi-Fi → clients
+```
+
+Verified invariants:
+- `phy0-sta0` is disabled;
+- WAN default route is via `100.96.0.1 dev eth1`;
+- LAN is `192.168.1.1/24`;
+- dnsmasq DHCP/DNS is persistent and its upstreams are separate UCI list items;
+- fw4 LAN→WAN + masquerade is present;
+- both APs are active;
+- router Internet and DNS through `192.168.1.1` work;
+- no checked active Archer/`192.168.0.x` dependency remains.
+
+The installed `jsonfilter` rejected one combined summary expression during W5. Treat that as a non-blocking diagnostic syntax issue only. Do not change working network configuration to eliminate that cosmetic error.
+
+**Execution gate:** do not begin W7 until W6 is DONE. Do not use WanHap to alter Zapret2/Deep Max Circular or AWG/WireGuard.
