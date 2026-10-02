@@ -3595,3 +3595,19 @@ The grouped W5 command had one non-blocking `jsonfilter` syntax error in its fir
 Zapret2/Deep Max Circular and AWG/WireGuard were not modified during the WanHap W5/W5-DNS completion work. Do not change them as part of W6.
 
 **Next formal stage: W6 = NOT_STARTED.** W6 is a documentation/topology gate because Archer is already OFF; do not reconnect or reintroduce Archer.
+
+
+---
+## 2026-10-02 — US-FREE#90 AmneziaWG documentation-based rerun
+
+**TEST NAME:** `Результат большого теста US-FREE#90`.
+
+**Status:** **IN_PROGRESS** — test prepared; execution result is pending user router output.
+
+**Basis:** Official AmneziaWG 3.1 documentation reviewed on 2026-10-02. The rerun must distinguish: (1) effective local AWG 3.1 configuration, (2) actual outbound CPS/Junk/transport packet behavior, (3) endpoint routing outside the temporary tunnel route, and (4) interoperability control with AmneziaWG obfuscation disabled.
+
+**Important configuration interpretation from the documentation:** H1=1,H2=2,H3=3,H4=4 are compatibility values that disable user-defined H headers; Header Protection is not active without `HeaderProtectionKey`, and the documented Header Protection requirements include S1-S4 >= 12 and a key. The supplied US-FREE#90 profile has S1=0,S2=0, no HeaderProtectionKey, I1, Jc/Jmin/Jmax, ContentPaddingAddition and randomized timing parameters. Therefore the test must not describe H1-H4=1..4 as active custom header obfuscation.
+
+**Routing correction:** the test must derive the live WAN device/source/gateway from the current default IPv4 route rather than hardcode the historical `phy0-sta0` / `192.168.0.1` path.
+
+**Safety:** temporary interfaces/rules/routes only; do not touch `proton_awg_test`, production VPN, Zapret2, DNS or firewall; store packet captures/results under `/mnt/data/awg90-result`, not `/tmp`.
