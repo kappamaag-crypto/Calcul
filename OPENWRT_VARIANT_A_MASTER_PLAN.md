@@ -3751,3 +3751,34 @@ No production default route was changed by this documentation update. No AWG, Wi
 - Then perform one controlled, reversible LAN-forwarding mark/routing test that preserves LAN management access.
 - Only after client traffic is demonstrably visible on `mega-awg` and end-to-end Internet works will the persistent UCI/fw4 implementation be finalized.
 
+
+## AUTHORITATIVE CHECKPOINT — 2026-10-02 — AWG ROUTER-ONLY RESTORATION
+
+Status: DONE
+
+Following the unsuccessful forwarded-LAN Full-Tunnel experiments, the router was deliberately returned to the last proven AWG router-only configuration.
+
+Fresh evidence:
+- mega-awg native AmneziaWG interface successfully created and configured.
+- Interface address 172.16.0.2/32, MTU 1280.
+- Latest handshake was fresh at validation time.
+- Endpoint route: 188.114.96.8 via 100.96.0.1 dev eth1.
+- No ip rule for br-lan, no source-subnet Full-Tunnel rule, and no active table 51821 policy route.
+- Router-side HTTPS through mega-awg succeeded and returned ip=104.28.246.230 and warp=on.
+- zapret2 remained running throughout the restoration.
+
+### Current AWG evidence boundary
+
+AWG router-only = DONE / RUNTIME-VERIFIED.
+
+AWG forwarded LAN/Wi-Fi Full-Tunnel = FAILED / NOT VALIDATED. Increased AWG interface counters observed during later captures are not sufficient by themselves to prove that a Wi-Fi client's Internet traffic traverses the tunnel. The actual LAN-client path must be re-designed and validated separately.
+
+### Forbidden design retained
+
+Do not reuse: ip rule add pref 10000 from 192.168.1.0/24 lookup 51821
+
+That design previously caused loss of LAN/SSH access and required a reboot.
+
+### Safe baseline for subsequent work
+
+The router-only mega-awg state is now the protected rollback baseline. Any future Full-Tunnel/PBR work must be introduced separately and must not compromise this baseline or the main WAN route. No Full-Tunnel status may be promoted to DONE without real LAN/Wi-Fi client end-to-end validation.
