@@ -472,3 +472,29 @@ No configuration was changed by the W5 verification. Zapret2/Deep Max Circular a
 **W5 = DONE.**
 
 Next formal stage: **W6 = NOT_STARTED**. Archer C20 is already physically OFF and must not be reintroduced; W6 is only the formal final-topology gate.
+
+
+## 2026-10-02 — Zapret2 watchdog WAN interface correction / runtime verification
+
+**Zapret2 watchdog = DONE.**
+
+Root cause was identified after the WanHap migration: the watchdog implementation still contained `WAN_IF='phy0-sta0'`, while the authoritative WAN interface is now `eth1`. The active nftables table already contained `eth1`, so the watchdog's `nft_ok()` returned `nft=0` and repeatedly classified the otherwise valid Zapret2 state as `STRUCTURAL_FAIL`.
+
+Controlled correction on the router:
+- backup created: `/usr/bin/zapret2-watchdog.bak-20261002`;
+- `WAN_IF` changed from `phy0-sta0` to `eth1`;
+- shell syntax check passed;
+- stale watchdog lock was removed only after the watchdog process was confirmed absent;
+- watchdog was started again through the existing procd init wrapper.
+
+Runtime verification after one full 90-second watchdog cycle:
+
+```
+2026-10-02 19:24:06 HEALTH state=HEALTHY nfqws2=2/2 service=1 nft=1 baseline=1 youtube=1 avail_kb=15760
+```
+
+This confirms that the watchdog now recognizes the live `eth1` WAN and the active Zapret2 nftables state. The YouTube probe also passed in the same health cycle.
+
+No Zapret2 strategy, qnum, nftables rule, AWG/WireGuard, DNS or WAN configuration was changed by this correction. The watchdog only corrected its own WAN-interface expectation.
+
+Next formal WanHap stage remains **W6 = NOT_STARTED**.
