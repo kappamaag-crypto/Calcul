@@ -3894,3 +3894,63 @@ The older broad source-subnet rule `from 192.168.1.0/24 lookup 51821` remains fo
 
 Preserve this working runtime. Do not widen from `.170` to the full LAN yet. Build the persistent OpenWrt representation of the proven fwmark + forward-allow + NAT + policy-routing architecture, then perform controlled persistence/recovery validation.
 
+
+## 2026-10-03 — AUTHORITATIVE PERSISTENT AWG SCOPE DECISION
+
+### User decision / scope
+The user explicitly confirmed the intended final architecture is persistent AmneziaWG Full-Tunnel for all LAN clients, but it must be deployed in controlled stages.
+
+The immediate stage is NOT to widen traffic to the entire LAN yet.
+
+Required sequence:
+1. Preserve the currently working `.170` fwmark Full-Tunnel runtime as the rollback/control baseline.
+2. Build the persistent OpenWrt UCI/netifd/fw4 representation of the proven architecture while keeping the test scope limited to `192.168.1.170`.
+3. Validate persistence/reload/recovery without losing LAN management or the ordinary `eth1` WAN route.
+4. Only after persistent `.170` operation is verified, widen the nftables classification from `.170` to `192.168.1.0/24`.
+5. Then validate LAN-wide Full-Tunnel.
+6. Fail-open watchdog, real backup endpoints and later selective routing remain separate subsequent stages.
+
+### Current authoritative runtime baseline
+At the checkpoint supplied immediately before this decision:
+- `mega-awg` endpoint: `188.114.96.8:939`
+- peer AllowedIPs: `0.0.0.0/0`
+- PersistentKeepalive: `25`
+- latest handshake: fresh (`26 seconds ago` at the reported check)
+- transfer: `61.74 MiB received / 54.46 MiB sent`
+- policy rule: `10040 fwmark 0x1/0x1 lookup 51821`
+- table 51821:
+  - `192.168.1.0/24 dev br-lan`
+  - `default dev mega-awg`
+- protected outer endpoint route: `188.114.96.8 via 100.96.0.1 dev eth1`
+- ordinary WAN default remains: `default via 100.96.0.1 dev eth1`
+- UCI currently contains no persistent `mega_awg`, rule 10040 or table-51821 route declarations.
+
+### fw4 persistence finding
+The running OpenWrt build explicitly includes `/etc/nftables.d/*.nft` inside the `inet fw4` table context. This was verified from the local fw4 template and generated ruleset. OpenWrt documentation also defines `/etc/nftables.d/*.nft` as the default fw4 drop-in location. Therefore persistent custom chains/rules can be represented there, subject to syntax validation before reload.
+
+### Important implementation boundary
+Do not repeat the failed broad source rule:
+`ip rule add pref 10000 from 192.168.1.0/24 lookup 51821`
+
+The persistent design must continue to use:
+- nftables classification of forwarded LAN Internet traffic;
+- fwmark `0x1`;
+- netifd policy rule priority `10040` matching that mark;
+- table `51821`;
+- explicit local-LAN route in table 51821;
+- AWG default in table 51821;
+- protected AWG endpoint route through ordinary WAN;
+- early forwarding acceptance for `br-lan → mega-awg`;
+- IPv4 masquerade for LAN traffic leaving `mega-awg`;
+- untouched normal main/WAN route for management and fail-open.
+
+### Status
+- Router-only AWG: **DONE / RUNTIME-VERIFIED**
+- Controlled `.170` fwmark Full-Tunnel: **DONE / RUNTIME-VERIFIED**
+- Persistent `.170` implementation: **IN_PROGRESS**
+- LAN-wide persistent Full-Tunnel: **NOT_STARTED**
+- Fail-open watchdog: **NOT_STARTED**
+- Real backup endpoint inventory: **NOT_STARTED**
+- Selective routing: **NOT_STARTED / DEFERRED**
+
+No private key or other secret material is recorded.
