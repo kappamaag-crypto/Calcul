@@ -366,3 +366,72 @@ Wi-Fi credential is intentionally NOT recorded in repository documentation.
 Backup created before Wi-Fi change: /mnt/data/wanhap-w4-20260928-224206.
 
 Next gate: identify whether the TV has a valid DHCP lease/default gateway/DNS and whether it can reach 192.168.1.1, 1.1.1.1, and DNS separately. Only after a client is confirmed working should W4 become DONE.
+
+
+## 2026-10-02 — AUTHORITATIVE W4 DNS/client validation result
+
+**W4 = DONE**
+
+The client-side Internet failure was isolated to the hAP dnsmasq upstream configuration, not to WAN routing, NAT, Wi-Fi association, or the ISP handoff.
+
+### DNS failure and fix
+
+Before the fix, dnsmasq had:
+
+```
+noresolv=1
+server='81.30.199.94 81.30.199.5'
+```
+
+The space-separated value was not emitted into the generated dnsmasq configuration. Runtime evidence showed:
+
+```
+warning: no upstream servers configured
+```
+
+The fix was to store `server` as a UCI list:
+
+```
+uci add_list dhcp.@dnsmasq[0].server='81.30.199.94'
+uci add_list dhcp.@dnsmasq[0].server='81.30.199.5'
+uci commit dhcp
+/etc/init.d/dnsmasq reload
+```
+
+Generated configuration then contained:
+
+```
+server=81.30.199.94
+server=81.30.199.5
+```
+
+Local DNS validation succeeded:
+
+```
+nslookup example.com 127.0.0.1
+```
+
+returned IPv4 and IPv6 answers. dnsmasq logs also confirmed both upstream servers were active.
+
+### Client result
+
+After reconnecting Wi-Fi, Internet access appeared on the client. This confirms end-to-end LAN/Wi-Fi → hAP DNS → direct eth1 WAN operation.
+
+### New-client behavior
+
+The corrected dnsmasq configuration is persistent in UCI and is therefore used for future dnsmasq-generated configuration and DHCP service operation. New DHCP clients will receive the hAP as their normal LAN DNS gateway and dnsmasq will forward queries to the configured upstream servers.
+
+Existing clients that cached previous DNS information may require a DHCP renewal or Wi-Fi reconnect; this is a client-side cache/lease issue, not a requirement to repeat the router configuration change.
+
+### W4 exit criteria
+
+- direct ISP Internet through `eth1`: verified;
+- temporary `phy0-sta0`: disabled;
+- LAN/Wi-Fi APs: operational;
+- client Internet: verified after DNS correction;
+- Archer C20: OFF and excluded from target path;
+- Zapret2/AWG/WireGuard: not changed by the DNS correction.
+
+**W4 = DONE.**
+
+Next stage: **W5 = NOT_STARTED**.
