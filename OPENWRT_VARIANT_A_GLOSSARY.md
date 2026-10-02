@@ -2330,3 +2330,14 @@ The Wi-Fi password is secret material and is intentionally not recorded in repos
 **WanHap W7 = NOT_STARTED** — final minimal end-to-end and reboot-persistence verification after W6 is DONE.
 
 **Non-blocking jsonfilter syntax error** — a failed one-line summary expression in the W5 grouped diagnostic; independent runtime evidence verified WAN, so stage status remains DONE.
+
+
+## 2026-10-02 — Zapret2 watchdog WAN synchronization
+
+**Watchdog WAN interface** — the watchdog WAN value must match the active Zapret2 nftables WAN interface. For the current WanHap topology the correct value is `eth1`; historical `phy0-sta0` is stale.
+
+**Stale-WAN false structural failure** — when Zapret2 service/processes and queues are present but watchdog reports `nft=0`, compare the watchdog WAN interface with the nftables WAN set before changing Zapret2.
+
+**Watchdog correction 2026-10-02 = DONE** — `WAN_IF='eth1'`; one complete watchdog cycle reported `HEALTH state=HEALTHY nfqws2=2/2 service=1 nft=1 baseline=1 youtube=1`.
+
+**YouTube watchdog probe = PASS** — the `generate_204` probe passed during the healthy cycle. This is a successful health probe, not exhaustive testing of every YouTube endpoint.
