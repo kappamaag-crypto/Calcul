@@ -3684,3 +3684,70 @@ After Full-Tunnel is validated, return to the selective-routing design for domai
 
 ### Safety
 No production default route was changed by this documentation update. No AWG, WireGuard, Zapret2, DNS, firewall or WAN runtime configuration was changed by this checkpoint.
+
+
+## AUTHORITATIVE CURRENT-STATE UPDATE — 2026-10-02 — AWG FULL-TUNNEL RECONCILIATION
+
+### Explicit user decision
+- User reopened the AmneziaWG Full-Tunnel branch and explicitly requested that the working Full-Tunnel architecture be completed without repeating the previous routing mistake.
+- This supersedes the older pause of the VPN branch for this specific AWG Full-Tunnel task.
+
+### Critical correction of previous status
+- The earlier temporary Full-Tunnel experiment must **NOT** be treated as validated for LAN clients.
+- During the real phone test, client `192.168.1.209` generated Telegram/Instagram/WhatsApp traffic on `br-lan`, while a simultaneous `tcpdump` on `mega-awg` captured **0 packets** and the `mega-awg` interface counters did not increase.
+- Therefore the earlier label "temporary Full-Tunnel functional/DONE" is superseded: **Temporary LAN Full-Tunnel = FAILED / NOT VALIDATED**.
+- The successful router-side `curl --interface mega-awg` test proves only that the router itself could send traffic through the AWG interface; it did not prove that forwarded LAN clients used AWG.
+- The Cloudflare trace from the phone also did not prove AWG traversal; `warp=off` means Cloudflare WARP was not in use.
+
+### Failed routing experiment — do not repeat
+- A source-subnet policy rule was changed from priority 51821 to priority 10000:
+  `ip rule add pref 10000 from 192.168.1.0/24 lookup 51821`.
+- This caused loss of LAN access and SSH to `192.168.1.1` from both Wi-Fi and wired LAN. Ping also failed.
+- The router was recovered by reboot. The rule was runtime-only and was not persisted.
+- This exact source-subnet rule design is now classified **FAILED** for this project and must not be reused.
+- The related test `ip route get <internet-ip> from 192.168.1.209` is **NON-DIAGNOSTIC** for client forwarding on this router because `192.168.1.209` is a forwarded client's source address rather than a local router address. Do not use it as the Full-Tunnel acceptance test.
+
+### Correct Full-Tunnel architecture for this project
+- Use **forwarded IPv4 traffic classification/marking**, not a broad source-based `ip rule`.
+- Mark only traffic that is actually entering from LAN and is intended for the Internet, using fw4/nftables in the packet-classification/prerouting path.
+- Explicitly leave local LAN destinations unmarked so access to `192.168.1.1`, other LAN devices and required local services remains on the normal `main` routing path.
+- Route the marked traffic with an IPv4 `fwmark` rule to table 51821. OpenWrt netifd officially supports IPv4 routing rules matching `mark` and `in`.
+- Table 51821 may contain the Full-Tunnel default route via `mega-awg`; the normal `main` table and WAN default route must remain intact for router management, router-generated traffic, and the AWG outer endpoint.
+- Keep an explicit protected WAN route for the current AWG endpoint so the outer UDP connection cannot be routed into the tunnel itself.
+- NAT/masquerade for LAN IPv4 traffic leaving `mega-awg` must remain part of the persistent firewall design.
+- Persistent rules must be integrated with OpenWrt fw4/UCI/netifd rather than being left as ad-hoc runtime state. OpenWrt fw4 supports custom nftables drop-ins under `/etc/nftables.d/` and netifd supports mark-based policy-routing rules. [Official OpenWrt documentation reviewed 2026-10-02.]
+- Existing Zapret2 configuration must remain untouched by the AWG implementation.
+
+### Safety / management invariants
+- LAN access to `192.168.1.1` must remain available while Full-Tunnel is active.
+- Router management traffic must continue to use the ordinary WAN/main routing path.
+- The normal WAN default route must never be deleted merely because AWG is active.
+- Full-Tunnel must apply to forwarded LAN IPv4 Internet traffic, not blanket all-router traffic.
+- IPv6 remains outside this AWG Full-Tunnel phase; no IPv6 routing change is authorized here.
+- No arbitrary or invented AWG backup endpoint may be added.
+
+### Fail-open architecture — authoritative
+- Target production sequence: **AWG primary → real documented AWG backup endpoint(s) → ordinary WAN fail-open**.
+- Backup endpoint inventory is **NOT_STARTED** until real endpoints are obtained from the provider/config/source; IP/port guessing is prohibited.
+- Watchdog must test fresh handshake/real connectivity, not merely interface UP.
+- On primary/backup failure, the watchdog must remove/disable only the LAN Full-Tunnel policy path so LAN traffic falls back to the untouched ordinary WAN route.
+- The watchdog must periodically re-test recovery and restore the Full-Tunnel policy when AWG is healthy again.
+- Required state logging: `PRIMARY`, `BACKUP`, `FAIL-OPEN`, `RECOVERED`.
+- Router management must remain available through the ordinary WAN path during AWG failure.
+
+### Current AWG branch status
+- Temporary LAN Full-Tunnel: **FAILED** (previous routing design); replacement design not yet runtime-tested.
+- Persistent Full-Tunnel implementation: **NOT_STARTED**.
+- Fail-open watchdog: **NOT_STARTED**.
+- Real backup endpoint inventory: **NOT_STARTED**.
+- Telegram E2E through AWG: **NOT_STARTED**.
+- Instagram E2E through AWG: **NOT_STARTED**.
+- WhatsApp E2E through AWG: **NOT_STARTED**.
+- Selective routing/PBR by service/domain: **NOT_STARTED** and deferred until Full-Tunnel is correctly validated.
+- Current AWG working endpoint `188.114.96.8:939` remains a working test reference from prior runtime evidence, not a guaranteed permanent endpoint.
+
+### Next controlled action
+- After reboot, before any new router-changing AWG command, perform a fresh **read-only persistent-AWG preflight**.
+- Then perform one controlled, reversible LAN-forwarding mark/routing test that preserves LAN management access.
+- Only after client traffic is demonstrably visible on `mega-awg` and end-to-end Internet works will the persistent UCI/fw4 implementation be finalized.
+
