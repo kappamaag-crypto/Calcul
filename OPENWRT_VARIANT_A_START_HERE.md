@@ -273,3 +273,19 @@ The AWG Full-Tunnel branch is explicitly reopened by the user.
 ### Next exact step
 After reboot, perform a fresh read-only persistent-AWG preflight before any router-changing command. Then run only one controlled/reversible routing test.
 
+
+## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-10-02 — AWG ROUTER-ONLY RESTORED
+
+Fresh runtime evidence from the hAP after rollback:
+- AWG Router-only = DONE.
+- mega-awg is a native amneziawg interface, UP/LOWER_UP, with 172.16.0.2/32.
+- MegaConfig runtime loading succeeds after removing only Address, DNS and MTU for the awg setconf runtime file.
+- AWG endpoint 188.114.96.8 is protected by the ordinary WAN route via 100.96.0.1 dev eth1.
+- ip -4 rule show contains only the standard local/main/default rules; no Full-Tunnel policy rule remains.
+- routing table 51821 is empty/not in use.
+- Router-originated curl through mega-awg succeeds with ip=104.28.246.230 and warp=on.
+- zapret2 remains running.
+- AWG Full-Tunnel for forwarded LAN/Wi-Fi clients = FAILED / NOT VALIDATED.
+- The previously failed source-subnet rule design from 192.168.1.0/24 lookup 51821 remains forbidden.
+
+This runtime checkpoint supersedes older conflicting AWG runtime text. Preserve the historical Full-Tunnel experiments as evidence, but do not let them displace this router-only DONE state as the current AWG baseline.
