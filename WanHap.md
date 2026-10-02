@@ -1,7 +1,7 @@
 # WanHap — переход hAP ac lite на основной WAN-шлюз
 
 Дата создания: 2026-09-28  
-Последнее уточнение: 2026-09-29 — исправлена топология миграции  
+Последнее уточнение: 2026-10-02 — W2/W3 прямого WAN завершены  
 Статус: **IN_PROGRESS**
 
 ## Цель
@@ -113,7 +113,7 @@ https://dns.geohide.ru:8443/
 ## Этапы
 
 ### W2 — Определить фактический ISP handoff и подготовить прямой WAN
-**STATUS: NOT_STARTED**
+**STATUS: DONE**
 
 Цель — установить, что именно требуется hAP для прямого подключения к ISP.
 
@@ -133,7 +133,7 @@ https://dns.geohide.ru:8443/
 - Zapret2/DNS/AWG не изменены.
 
 ### W3 — Физически подключить ISP напрямую к hAP
-**STATUS: NOT_STARTED**
+**STATUS: DONE**
 
 Схема:
 
@@ -264,6 +264,79 @@ Zapret2
 
 **W0 = DONE**  
 **W1 = DONE**  
-**W2 = NOT_STARTED**
+**W2 = DONE**  
+**W3 = DONE**  
+**W4 = NOT_STARTED**
 
-Следующее действие — не менять hAP вслепую, а сначала определить фактический тип и параметры прямого ISP WAN, после чего переходить к физическому подключению кабеля к `eth1`.
+Следующее действие — отдельный контролируемый этап W4: сделать прямой `eth1` постоянным основным WAN и только после этого отключить временный `phy0-sta0`.
+
+---
+
+## 2026-10-02 — AUTHORITATIVE W2/W3 DIRECT-WAN RESULT
+
+### W2 — ISP handoff: DONE
+
+Прямое подключение Ufanet к hAP показало фактический handoff:
+- IPv4 DHCP/IPoE;
+- DHCP client: BusyBox `udhcpc 1.37.0`;
+- DHCP server: `10.1.48.57`;
+- default gateway: `100.96.0.1`;
+- address space observed: `100.96.0.0/16` (CGNAT);
+- MTU 1500;
+- VLAN/PPPoE не требуются для этой handoff-схемы.
+
+### W3 — Direct ISP WAN: DONE
+
+hAP `eth1` was connected directly to the ISP Ethernet cable. The actual TP-Link WAN MAC `E2:0D:17:E0:73:A7` was cloned, but MAC cloning alone did not restore Internet access.
+
+The discriminating variable was DHCP Client ID / Option 61 generated automatically by OpenWrt 25.12.5.
+
+Before the fix, `udhcpc` contained:
+
+```
+-x 0x3d:ff6f1799c8000466caeaee30844603a5937a1625ca68ba
+```
+
+The global DUID was:
+
+```
+000466caeaee30844603a5937a1625ca68ba
+```
+
+DHCP lease acquisition succeeded, but external traffic failed.
+
+The штатный setting:
+
+```
+network.wan.sendclientid='none'
+```
+
+caused `udhcpc` to use `-C` and omit Option 61.
+
+After DHCP reacquisition:
+- WAN IP: `100.96.79.207/16`;
+- gateway: `100.96.0.1`;
+- `ping -c 3 1.1.1.1`: 3/3 replies, 0% loss;
+- average RTT: ~58.4 ms;
+- HTTPS request to `https://1.1.1.1`: RC=0.
+
+Therefore direct ISP → hAP `eth1` is runtime-verified.
+
+### Root-cause boundary
+
+The A/B experiment establishes the DHCP Client ID as the discriminating variable on this exact hAP/OpenWrt 25.12.5/Ufanet path. It is not a universal claim that Ufanet or other ISPs reject DHCP Option 61.
+
+### Final relevant WAN configuration
+
+```
+network.wan.proto='dhcp'
+network.wan.device='eth1'
+network.wan.macaddr='e2:0d:17:e0:73:a7'
+network.wan.sendclientid='none'
+```
+
+No Zapret2, Deep Max Circular, AWG/WireGuard, DNS strategy, PBR, or unrelated LAN/Wi-Fi subsystem was changed for this W3 validation.
+
+Detailed evidence: `WANHAP_W3_DIRECT_WAN_DHCP_CLIENT_ID.md`.
+
+**W4 remains NOT_STARTED.** It is the separate controlled step that will make direct `eth1` the permanent primary WAN and disable the temporary `phy0-sta0` uplink.
