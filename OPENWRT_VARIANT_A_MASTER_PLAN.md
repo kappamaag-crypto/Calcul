@@ -3570,3 +3570,28 @@ All required W4 criteria are now met:
 **W4 = DONE.**
 
 **W5 = NOT_STARTED.** Next work is the separately controlled hAP self-sufficiency/DNS stage; do not retroactively reopen W4 unless new evidence appears.
+
+
+## 2026-10-02 — WanHap authoritative state after W5
+
+**Current staged status:** W0 **DONE**, W1 **DONE**, W2 **DONE**, W3 **DONE**, W4 **DONE**, W5 **DONE**, W5-DNS **DONE**, W6 **NOT_STARTED**, W7 **NOT_STARTED**.
+
+### Verified runtime state
+- Direct ISP WAN: DHCP/IPoE on `eth1`; default route via `100.96.0.1`.
+- WAN lease observed: `100.96.79.207/16`.
+- `network.wan.sendclientid='none'` is required on this exact OpenWrt 25.12.5/Ufanet path because the tested automatic DHCP Client ID/Option 61 path acquired a lease but did not pass external traffic; with Option 61 omitted, Internet was verified.
+- Temporary `phy0-sta0` is disabled and no active `192.168.0.x` route/dependency remains in the checked active network/DHCP configuration.
+- LAN: `br-lan = 192.168.1.1/24`; dnsmasq DHCP is operational.
+- DNS: `noresolv=1` with separate UCI `server` list entries `81.30.199.94` and `81.30.199.5`; generated dnsmasq runtime contains both servers; `nslookup example.com 192.168.1.1` succeeds.
+- fw4 provides LAN→WAN forwarding and IPv4 masquerade on `eth1`.
+- 2.4 GHz and 5 GHz APs are active as `SweethomeU`.
+- Router Internet verified with `ping -c 3 -W 2 1.1.1.1`: 3/3, 0% loss, about 58.2 ms average.
+- Archer C20 is physically OFF and excluded from the target topology.
+
+### W5 verification note
+The grouped W5 command had one non-blocking `jsonfilter` syntax error in its first one-line WAN summary. Independent route and remaining runtime checks verified the WAN, so W5 is **DONE**, not FAILED.
+
+### Protected subsystems
+Zapret2/Deep Max Circular and AWG/WireGuard were not modified during the WanHap W5/W5-DNS completion work. Do not change them as part of W6.
+
+**Next formal stage: W6 = NOT_STARTED.** W6 is a documentation/topology gate because Archer is already OFF; do not reconnect or reintroduce Archer.
