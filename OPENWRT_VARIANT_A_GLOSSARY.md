@@ -2273,3 +2273,22 @@ Secret-material rule — Private keys, preshared keys, tokens and credentials mu
 
 **WanHap safety rule** — direct ISP WAN must be validated before disabling the only working Internet path; do not combine WAN migration with DNS, Zapret2, AWG, or unrelated Wi-Fi changes.
 
+---
+
+## 2026-10-02 — WanHap direct-WAN / DHCP Client ID terms
+
+**DHCP Client ID / Option 61** — DHCPv4 option used to identify a DHCP client. On this hAP/OpenWrt 25.12.5 build, leaving `sendclientid` at its automatic default caused netifd to generate a Client ID from the global DUID.
+
+**sendclientid='none'** — штатная OpenWrt/netifd WAN setting that causes `udhcpc` to use `-C` and omit DHCP Client ID / Option 61. It is the verified working setting for this project's direct Ufanet WAN.
+
+**Ufanet direct DHCP/IPoE** — the verified ISP handoff for the current WanHap migration: direct Ethernet to hAP `eth1`, DHCP/IPv4, gateway `100.96.0.1), with CGNAT addressing in `100.96.0.0/16`.
+
+**WanHap W2 = DONE (2026-10-02)** — ISP handoff identified as DHCP/IPoE and required direct-WAN parameters established.
+
+**WanHap W3 = DONE (2026-10-02)** — direct ISP → hAP `eth1` has been runtime-verified after disabling DHCP Client ID; ICMP to `1.1.1.1` and HTTPS both succeeded.
+
+**WanHap W4 = NOT_STARTED (2026-10-02)** — permanent primary-WAN transition and disabling temporary `phy0-sta0` remain separate work.
+
+**DHCP Client ID root-cause evidence boundary** — the controlled A/B test establishes the discriminating effect on this exact hAP/OpenWrt/Ufanet path; it is not a universal claim about Ufanet or Option 61.
+
+Detailed evidence: `WANHAP_W3_DIRECT_WAN_DHCP_CLIENT_ID.md`.
