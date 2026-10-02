@@ -1740,3 +1740,14 @@ Verified invariants:
 The installed `jsonfilter` rejected one combined summary expression during W5. Treat that as a non-blocking diagnostic syntax issue only. Do not change working network configuration to eliminate that cosmetic error.
 
 **Execution gate:** do not begin W7 until W6 is DONE. Do not use WanHap to alter Zapret2/Deep Max Circular or AWG/WireGuard.
+
+
+## 2026-10-02 — Zapret2 watchdog WAN-interface synchronization rule
+
+The authoritative WanHap WAN interface is now `eth1`. Any deployed Zapret2 watchdog configuration that validates nftables against `phy0-sta0` is stale and must be corrected before diagnosing a structural Zapret2 failure.
+
+Verified correction: `WAN_IF='eth1'`, followed by shell syntax validation and one complete watchdog cycle. Runtime result: `HEALTH state=HEALTHY nfqws2=2/2 service=1 nft=1 baseline=1 youtube=1`.
+
+Operational rule: when the project's primary WAN interface changes, synchronize watchdog interface expectations with the actual nftables WAN set before treating watchdog `nft=0` as a Zapret2 dataplane failure. Do not alter Zapret2 strategies or qnums merely to resolve this class of false negative.
+
+The router-side backup is `/usr/bin/zapret2-watchdog.bak-20261002`. No secrets are recorded.
