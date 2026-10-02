@@ -3611,3 +3611,16 @@ Zapret2/Deep Max Circular and AWG/WireGuard were not modified during the WanHap 
 **Routing correction:** the test must derive the live WAN device/source/gateway from the current default IPv4 route rather than hardcode the historical `phy0-sta0` / `192.168.0.1` path.
 
 **Safety:** temporary interfaces/rules/routes only; do not touch `proton_awg_test`, production VPN, Zapret2, DNS or firewall; store packet captures/results under `/mnt/data/awg90-result`, not `/tmp`.
+
+
+## 2026-10-02 — Zapret2 watchdog WAN interface correction
+
+- [RESULT] After WanHap migrated the authoritative WAN to `eth1`, the deployed watchdog still had `WAN_IF='phy0-sta0'`. This caused `nft_ok()` to report `nft=0` even though the active Zapret2 nftables table contained `elements = { "eth1" }` and all expected queue rules.
+- [RESULT] Router-side backup created before modification: `/usr/bin/zapret2-watchdog.bak-20261002`.
+- [RESULT] Watchdog changed to `WAN_IF='eth1'`; `sh -n /usr/bin/zapret2-watchdog` passed.
+- [RESULT] Existing watchdog process had exited while the stale lock directory remained. The lock was removed only after confirming no watchdog process existed, then the service was started through procd.
+- [RESULT] After one 90-second health cycle: `HEALTH state=HEALTHY nfqws2=2/2 service=1 nft=1 baseline=1 youtube=1 avail_kb=15760`.
+- [RESULT] YouTube probe passed in the same authoritative health cycle.
+- [SAFETY] No Zapret2 strategy, qnum, nftables rules, AWG/WireGuard, DNS, WAN or firewall configuration was changed by this correction.
+- [STATUS] Zapret2 watchdog WAN-interface correction and runtime verification = **DONE**.
+- [NEXT] WanHap W6 remains **NOT_STARTED**; do not reopen Archer C20.
