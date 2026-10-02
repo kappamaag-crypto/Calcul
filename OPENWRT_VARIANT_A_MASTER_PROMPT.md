@@ -1768,3 +1768,15 @@ The router-side backup is `/usr/bin/zapret2-watchdog.bak-20261002`. No secrets a
 - The previous `ip route get <internet-ip> from 192.168.1.209` test is classified NON-DIAGNOSTIC for client forwarding; use actual packet capture/counters and real client traffic for acceptance.
 - Current substage: AWG Full-Tunnel implementation = **IN_PROGRESS**. Persistent implementation, watchdog, backup endpoint inventory and app E2E validation remain **NOT_STARTED**.
 
+
+## AUTHORITATIVE EXECUTION OVERRIDE — 2026-10-02 — AWG BASELINE
+
+Current protected baseline:
+- AWG Router-only = DONE.
+- AWG LAN/Wi-Fi Full-Tunnel = FAILED / NOT VALIDATED.
+- Keep the ordinary WAN/main route intact.
+- Do not introduce LAN policy routing into the protected router-only baseline without a separate controlled stage.
+- Do not treat router-side tunnel traffic alone as proof of forwarded client Full-Tunnel.
+- Keep zapret2 unchanged during AWG restoration unless a new hypothesis explicitly requires otherwise.
+
+The fresh 2026-10-02 router evidence is authoritative over older conflicting AWG runtime notes.
