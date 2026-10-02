@@ -2379,3 +2379,16 @@ AWG Full-Tunnel = FAILED / NOT VALIDATED — prior experiments did not establish
 Protected AWG baseline — the known-good router-only state that must be preserved while future LAN Full-Tunnel work is developed independently.
 
 Forbidden source-subnet design — the earlier LAN source policy rule that caused loss of LAN/SSH access on the hAP. It is not a valid project pattern.
+
+
+## 2026-10-03 — AWG FWMARK RUNTIME CHECKPOINT
+
+**FWMark Full-Tunnel runtime verification** — For controlled client `192.168.1.170`, the old source rule was replaced by `10040: from all fwmark 0x1/0x1 lookup 51821`. An nftables prerouting rule marked only forwarded .170 traffic outside `192.168.1.0/24`; its counter reached **306 packets / 80,680 bytes** during live traffic.
+
+**Why fwmark is preferred here** — fwmark separates packet classification from source-subnet policy. The firewall can mark only the forwarded Internet traffic intended for AWG, leaving local LAN destinations and router-originated traffic on the normal main routing path. This avoids the project's failed broad source-subnet design.
+
+**Runtime fwmark Full-Tunnel = DONE** — verified for controlled client `192.168.1.170`. This does not mean LAN-wide production Full-Tunnel is complete.
+
+**Temporary versus persistent** — fwmark rule, table 51821, NAT and AWG `AllowedIPs=0.0.0.0/0` are currently runtime test state. Persistence follows cleanup and retest through OpenWrt fw4/UCI/netifd.
+
+**AWG production Full-Tunnel = IN_PROGRESS** — persistent integration, fail-open watchdog, backup endpoints and broader client scope remain incomplete.
