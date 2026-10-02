@@ -3624,3 +3624,63 @@ Zapret2/Deep Max Circular and AWG/WireGuard were not modified during the WanHap 
 - [SAFETY] No Zapret2 strategy, qnum, nftables rules, AWG/WireGuard, DNS, WAN or firewall configuration was changed by this correction.
 - [STATUS] Zapret2 watchdog WAN-interface correction and runtime verification = **DONE**.
 - [NEXT] WanHap W6 remains **NOT_STARTED**; do not reopen Archer C20.
+
+
+## 2026-10-02 — AUTHORITATIVE AWG FULL-TUNNEL DECISION / BASELINE
+
+### User decision
+The user explicitly decided to proceed with **Full-Tunnel AmneziaWG using the working MegaConfig** as the next AWG implementation stage.
+
+Target initial mode:
+```
+LAN clients → hAP → MegaConfig AWG → Internet
+```
+
+The purpose of this stage is to route the Internet of the selected test scope through the verified MegaConfig tunnel before returning later to selective routing.
+
+### Verified MegaConfig prerequisite
+The 2026-10-02 large AWG test established that `MegaConfig.conf` works on this exact hAP/OpenWrt environment in all three tested forms:
+- Exact AWG with I1/I2 and AWG parameters: **RX_OBSERVED**, RX=92, handshake present, HTTPS curl HTTP 301.
+- Plain AWG with AWG-specific parameters stripped: **RX_OBSERVED**, RX=92, handshake present, HTTPS curl HTTP 301.
+- Native WireGuard using the same plain WG configuration: **RX_OBSERVED**, RX=92, handshake present, HTTPS curl HTTP 301.
+
+MegaConfig test parameters observed:
+- endpoint: `188.114.96.8:939`
+- MTU: `1280`
+- Jc: `4`
+- Jmin/Jmax: `40/70`
+- I1: 348 bytes
+- I2: 245 bytes
+
+US-FREE#90 four-port profiles remain deferred after the tested ports produced no RX/handshake.
+
+### Internet speed baseline before Full-Tunnel
+User-reported current speed, recorded as the pre-Full-Tunnel baseline:
+- **Download: 55.32 Mbit/s**
+- **Upload: 69.49 Mbit/s**
+
+This is a baseline measurement for later comparison. It is not attributed to AWG and was not measured through the new Full-Tunnel profile.
+
+### Implementation rule
+Full-Tunnel must be introduced in a controlled/reversible way first, preferably with one LAN test client or otherwise isolated policy routing, while preserving the existing direct `eth1` WAN as rollback path until the tunnel path is verified.
+
+The implementation must:
+- protect the MegaConfig endpoint route so it stays outside the tunnel;
+- account for LAN→AWG forwarding and required IPv4 masquerade/NAT;
+- avoid unnecessary changes to Zapret2, watchdog, DNS and unrelated firewall/Wi-Fi configuration;
+- avoid putting swap or large working data in `/tmp`;
+- measure connectivity, DNS, tunnel RX/TX, CPU/memory and throughput before widening scope.
+
+### Explicit deferral
+**Selective routing is DEFERRED, not cancelled.**
+
+After Full-Tunnel is validated, return to the selective-routing design for domain/service-based routing. The intended selective-routing scope includes Telegram, AI services, WhatsApp and torrent traffic, with torrent handling recognized as requiring more than simple domain lists.
+
+### Status
+- AWG Full-Tunnel MegaConfig stage: **NOT_STARTED**
+- Selective AWG routing: **NOT_STARTED / DEFERRED**
+- US-FREE#90 port matrix: **DONE**
+- MegaConfig functional prerequisite: **DONE**
+
+### Safety
+No production default route was changed by this documentation update. No AWG, WireGuard, Zapret2, DNS, firewall or WAN runtime configuration was changed by this checkpoint.
