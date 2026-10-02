@@ -319,3 +319,61 @@ Current status:
 - Selective routing = **NOT_STARTED / DEFERRED**
 
 No private keys or other secret material are included.
+## 2026-10-03 — CURRENT AUTHORITATIVE HANDOFF — AWG FWMARK POST-CLEANUP
+
+This is the latest AWG Full-Tunnel checkpoint. Older conflicting AWG notes remain historical evidence.
+
+### Proven controlled state
+
+Client `192.168.1.170` successfully uses the AmneziaWG Full-Tunnel through firewall marking and policy routing.
+
+Current runtime architecture:
+```
+192.168.1.170
+   ↓
+fw4 prerouting mark 0x1
+   ↓
+ip rule 10040 → table 51821
+   ↓
+mega-awg
+   ↓
+early fw4 forward ACCEPT
+   ↓
+masquerade
+   ↓
+Internet
+```
+
+Verified:
+- `10050 from 192.168.1.170` removed;
+- `10040 fwmark 0x1/0x1 lookup 51821` active;
+- table 51821 contains LAN route + AWG default;
+- .170 Internet marking counter reached **7,760 packets / 2,000,461 bytes**;
+- redundant temporary forward/return chains were removed;
+- required temporary NAT remains;
+- the working forward ACCEPT rule is first in `inet fw4 forward`;
+- user confirmed laptop Internet returned;
+- AWG handshake was **7 seconds ago** at final check;
+- AWG transfer was **60.42 MiB RX / 52.63 MiB TX**;
+- peer `AllowedIPs=0.0.0.0/0`;
+- endpoint `188.114.96.8:939`;
+- no secret material is recorded.
+
+### Important firewall discovery
+
+A forwarding ACCEPT appended at the end of `inet fw4 forward` did not work because the existing `forward_lan` processing/reject path was reached first. The working rule had to be inserted at position 0. This ordering requirement must be preserved in the persistent nftables/fw4 implementation.
+
+### Status
+
+- AWG router-only = **DONE**
+- Controlled .170 fwmark Full-Tunnel = **DONE / RUNTIME-VERIFIED**
+- Production LAN-wide Full-Tunnel = **IN_PROGRESS**
+- Persistent fw4/UCI/netifd integration = **NOT_STARTED**
+- Fail-open watchdog = **NOT_STARTED**
+- Real backup endpoint inventory = **NOT_STARTED**
+- Selective routing = **NOT_STARTED / DEFERRED**
+
+### Next exact step
+
+Do not change the currently working runtime. Convert the proven fwmark + early forward allow + NAT + policy-routing design into persistent OpenWrt fw4/UCI/netifd configuration, then validate persistence and rollback before widening to the full LAN.
+
