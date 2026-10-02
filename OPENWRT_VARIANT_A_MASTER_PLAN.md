@@ -3455,3 +3455,67 @@ WanHap work must not alter:
 - DNS strategy, except in the separate DNS-gate;
 - unrelated LAN/Wi-Fi settings.
 
+---
+
+## 2026-10-02 — AUTHORITATIVE WANHAP W2/W3 DIRECT-WAN CHECKPOINT
+
+This section supersedes older WanHap stage text that still says W2/W3 are NOT_STARTED.
+
+### W2 — ISP handoff identification
+**STATUS: DONE**
+
+Direct connection to the Ufanet Ethernet handoff established that the ISP handoff is IPv4 DHCP/IPoE:
+- DHCP client: BusyBox `udhcpc 1.37.0`;
+- no PPPoE;
+- no VLAN requirement was observed;
+- MTU 1500;
+- DHCP server: `10.1.48.57`;
+- default gateway: `100.96.0.1`;
+- CGNAT address space: `100.96.0.0/16`.
+
+### W3 — Direct ISP WAN validation
+**STATUS: DONE**
+
+The hAP was connected directly to the ISP Ethernet cable on `eth1`. The actual TP-Link WAN MAC `E2:0D:17:E0:73:A7` was cloned to hAP `eth1`; MAC cloning alone did not restore external connectivity.
+
+The discriminating failure was OpenWrt 25.12.5 automatic DHCP Client ID / Option 61. The default `udhcpc` command line included:
+
+```
+-x 0x3d:ff6f1799c8000466caeaee30844603a5937a1625ca68ba
+```
+
+with global DUID:
+
+```
+000466caeaee30844603a5937a1625ca68ba
+```
+
+With the штатный netifd setting:
+
+```
+network.wan.sendclientid='none'
+```
+
+`udhcpc` runs with `-C`, no DHCP Client ID is sent, and the hAP receives a new lease `100.96.79.207/16` via gateway `100.96.0.1`.
+
+Runtime validation:
+- `ping 1.1.1.1`: 3/3 replies, 0% loss, ~58.4 ms average;
+- HTTPS request to `https://1.1.1.1`: RC=0.
+
+Therefore direct ISP → hAP `eth1` is **RUNTIME_VERIFIED**.
+
+### Root-cause evidence boundary
+
+The controlled A/B result establishes that, on this exact hAP/OpenWrt 25.12.5/Ufanet path, automatic DHCP Client ID was the discriminating variable associated with the failure. It does not claim universal incompatibility of Option 61 with Ufanet or other ISPs.
+
+### Current WanHap checkpoint
+
+- W0 = **DONE**
+- W1 = **DONE**
+- W2 = **DONE**
+- W3 = **DONE**
+- W4 = **NOT_STARTED**
+
+W4 remains a separate change: make direct `eth1` the permanent primary WAN and then disable the temporary `phy0-sta0` uplink. Do not mark W4 DONE from W3 evidence alone.
+
+Detailed evidence: `WANHAP_W3_DIRECT_WAN_DHCP_CLIENT_ID.md`.
