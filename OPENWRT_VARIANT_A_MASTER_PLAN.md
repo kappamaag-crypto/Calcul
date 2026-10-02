@@ -3829,3 +3829,68 @@ The temporary AWG TEST forward/return rules, .170 masquerade rule, nft table `in
 - Selective routing = **NOT_STARTED / DEFERRED**
 
 No private key or other secret material is recorded here.
+## 2026-10-03 — AUTHORITATIVE AWG FWMARK CHECKPOINT — POST-CLEANUP
+
+This section supersedes the immediately preceding 2026-10-03 execution checkpoint where it conflicts.
+
+### Controlled .170 Full-Tunnel result
+
+Test client: `192.168.1.170`.
+
+The temporary forward/return mechanisms were cleaned up. Specifically:
+- direct unnamed rule in `inet fw4 forward` (old handle 761) removed;
+- `awg_client170_forward` chain removed;
+- `awg_client170_fw4_allow` chain removed;
+- temporary NAT chain `awg_client170_nat` retained intentionally for the controlled test;
+- fwmark table `inet awg_pbr_test` retained;
+- policy rule `10040 fwmark 0x1/0x1 lookup 51821` retained;
+- table 51821 retained with LAN route plus AWG default;
+- AWG peer `AllowedIPs=0.0.0.0/0` retained.
+
+### Firewall finding and final controlled rule
+
+After removing the old temporary forward rules, client Internet failed even though the fwmark counter continued increasing and AWG had a fresh handshake. A first minimal allow rule placed at the end of `inet fw4 forward` did not receive packets because `forward_lan` and the final reject path were evaluated first.
+
+The working minimal rule was therefore inserted at position 0 of `inet fw4 forward`:
+
+`iifname "br-lan" oifname "mega-awg" ip saddr 192.168.1.170 ip daddr != 192.168.1.0/24 counter accept`
+
+It received traffic immediately (33 packets / 11,485 bytes at first verification), and the user's laptop Internet access returned.
+
+### Final runtime evidence after restoration
+
+- firewall allow rule is first in `fw4 forward`;
+- laptop Internet = WORKING;
+- fwmark counter had reached **7,760 packets / 2,000,461 bytes**;
+- AWG latest handshake = **7 seconds** at the supplied verification;
+- AWG transfer = **60.42 MiB received / 52.63 MiB sent**;
+- peer `AllowedIPs=0.0.0.0/0`;
+- endpoint `188.114.96.8:939`;
+- required NAT masquerade chain remains present;
+- ordinary main/WAN routing remains intact.
+
+### Architectural conclusion
+
+For this hAP, working forwarded Full-Tunnel requires all of:
+1. LAN Internet traffic classification with fwmark;
+2. policy rule `10040` to table 51821;
+3. table 51821 with local-LAN route plus AWG default;
+4. explicit firewall allow for `br-lan → mega-awg` placed before the standard LAN/reject path;
+5. masquerade for LAN IPv4 traffic leaving `mega-awg`;
+6. protected AWG endpoint route via the ordinary WAN.
+
+The older broad source-subnet rule `from 192.168.1.0/24 lookup 51821` remains forbidden.
+
+### Status
+
+- Controlled `.170` fwmark Full-Tunnel = **DONE / RUNTIME-VERIFIED**
+- Production LAN-wide Full-Tunnel = **IN_PROGRESS**
+- Persistent fw4/UCI/netifd integration = **NOT_STARTED**
+- Fail-open watchdog = **NOT_STARTED**
+- Real backup endpoint inventory = **NOT_STARTED**
+- Selective routing = **NOT_STARTED / DEFERRED**
+
+### Next controlled stage
+
+Preserve this working runtime. Do not widen from `.170` to the full LAN yet. Build the persistent OpenWrt representation of the proven fwmark + forward-allow + NAT + policy-routing architecture, then perform controlled persistence/recovery validation.
+
