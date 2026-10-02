@@ -2367,3 +2367,15 @@ The Wi-Fi password is secret material and is intentionally not recorded in repos
 
 **Backup endpoint rule** — резервные AWG endpoint IP/ports must come from real provider/config evidence. Arbitrary IP/port invention is forbidden.
 
+
+## 2026-10-02 — AWG router-only restored
+
+AWG Router-only baseline — mega-awg is active as a native AmneziaWG interface for router-originated traffic only. It does not install a broad LAN policy route or replace the main WAN default route.
+
+AWG Router-only = DONE — verified by fresh handshake, successful router-side HTTPS through mega-awg, endpoint route protection through eth1, standard routing rules only, and zapret2 still running.
+
+AWG Full-Tunnel = FAILED / NOT VALIDATED — prior experiments did not establish working Internet for forwarded Wi-Fi/LAN clients. Router-side AWG success must not be conflated with client-side Full-Tunnel success.
+
+Protected AWG baseline — the known-good router-only state that must be preserved while future LAN Full-Tunnel work is developed independently.
+
+Forbidden source-subnet design — the earlier LAN source policy rule that caused loss of LAN/SSH access on the hAP. It is not a valid project pattern.
