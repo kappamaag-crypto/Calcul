@@ -2281,7 +2281,7 @@ Secret-material rule — Private keys, preshared keys, tokens and credentials mu
 
 **sendclientid='none'** — штатная OpenWrt/netifd WAN setting that causes `udhcpc` to use `-C` and omit DHCP Client ID / Option 61. It is the verified working setting for this project's direct Ufanet WAN.
 
-**Ufanet direct DHCP/IPoE** — the verified ISP handoff for the current WanHap migration: direct Ethernet to hAP `eth1`, DHCP/IPv4, gateway `100.96.0.1), with CGNAT addressing in `100.96.0.0/16`.
+**Ufanet direct DHCP/IPoE** — the verified ISP handoff for the current WanHap migration: direct Ethernet to hAP `eth1`, DHCP/IPv4, gateway `100.96.0.1`, with CGNAT addressing in `100.96.0.0/16`.
 
 **WanHap W2 = DONE (2026-10-02)** — ISP handoff identified as DHCP/IPoE and required direct-WAN parameters established.
 
