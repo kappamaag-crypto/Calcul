@@ -289,3 +289,33 @@ Fresh runtime evidence from the hAP after rollback:
 - The previously failed source-subnet rule design from 192.168.1.0/24 lookup 51821 remains forbidden.
 
 This runtime checkpoint supersedes older conflicting AWG runtime text. Preserve the historical Full-Tunnel experiments as evidence, but do not let them displace this router-only DONE state as the current AWG baseline.
+
+
+## 2026-10-03 — CURRENT AUTHORITATIVE HANDOFF — AWG FWMARK CHECKPOINT
+
+Current controlled test client: `192.168.1.170`.
+
+Verified:
+- old `10050 from 192.168.1.170 lookup 51821` removed;
+- new `10040 from all fwmark 0x1/0x1 lookup 51821` active;
+- nft prerouting marks only .170 traffic destined outside `192.168.1.0/24`;
+- mark counter reached **306 packets / 80,680 bytes** during real client traffic;
+- table 51821 routes marked traffic to `mega-awg` and local LAN to `br-lan`;
+- AWG peer AllowedIPs = `0.0.0.0/0`, with fresh handshake and bidirectional transfer;
+- client Internet/application traffic worked through the fwmark path;
+- the ordinary main/WAN route remains separate.
+
+**Why fwmark:** it marks the forwarded Internet traffic that should be tunneled instead of applying policy routing to the entire LAN source. Local management, local-LAN traffic and normal WAN routing therefore remain outside the Full-Tunnel policy path.
+
+### Next exact execution step
+Do not persist or widen scope yet. Clean the temporary `AWG TEST` firewall rules while retaining the intended fwmark path and required NAT, then perform one .170 end-to-end retest. After that implement persistence with fw4/UCI/netifd.
+
+Current status:
+- Controlled .170 fwmark Full-Tunnel runtime = **DONE**
+- Production LAN-wide Full-Tunnel = **IN_PROGRESS**
+- Persistent integration = **NOT_STARTED**
+- Fail-open watchdog = **NOT_STARTED**
+- Backup endpoint inventory = **NOT_STARTED**
+- Selective routing = **NOT_STARTED / DEFERRED**
+
+No private keys or other secret material are included.
