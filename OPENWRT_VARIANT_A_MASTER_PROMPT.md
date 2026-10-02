@@ -1751,3 +1751,20 @@ Verified correction: `WAN_IF='eth1'`, followed by shell syntax validation and on
 Operational rule: when the project's primary WAN interface changes, synchronize watchdog interface expectations with the actual nftables WAN set before treating watchdog `nft=0` as a Zapret2 dataplane failure. Do not alter Zapret2 strategies or qnums merely to resolve this class of false negative.
 
 The router-side backup is `/usr/bin/zapret2-watchdog.bak-20261002`. No secrets are recorded.
+
+
+## LATEST AUTHORITATIVE OVERRIDE — 2026-10-02 — AWG FULL-TUNNEL
+
+- The AmneziaWG Full-Tunnel branch is explicitly reopened by user decision for implementation.
+- The previous temporary Full-Tunnel result is **not validated** for forwarded LAN clients and is superseded by newer packet-path evidence: phone `192.168.1.209` produced application traffic on `br-lan`, while `mega-awg` captured 0 packets and its counters did not advance during the same app test.
+- The previous source-subnet policy rule experiment `from 192.168.1.0/24 lookup 51821` with priority 10000 caused loss of LAN/SSH access and was recovered by reboot. This exact design is forbidden for future Full-Tunnel implementation.
+- For Full-Tunnel, classify/mark **forwarded LAN IPv4 Internet traffic** and use an `fwmark` policy-routing rule to table 51821. Preserve the normal `main` routing table, the LAN management path and the WAN default route.
+- Explicitly exclude local LAN destinations from the mark so `192.168.1.1` and local LAN peers remain reachable.
+- Protect the AWG outer endpoint with a normal WAN/main-table host route.
+- Persistent implementation must use OpenWrt fw4/UCI/netifd mechanisms; do not rely on ad-hoc rc.local runtime state.
+- Full-Tunnel must be IPv4-only in this phase. Do not change IPv6.
+- Production resilience target: AWG primary → real documented backup endpoint(s) → ordinary WAN fail-open. Do not invent endpoint IPs/ports.
+- Watchdog acceptance requires fresh handshake/real connectivity and must preserve router management. Required states: PRIMARY/BACKUP/FAIL-OPEN/RECOVERED.
+- The previous `ip route get <internet-ip> from 192.168.1.209` test is classified NON-DIAGNOSTIC for client forwarding; use actual packet capture/counters and real client traffic for acceptance.
+- Current substage: AWG Full-Tunnel implementation = **IN_PROGRESS**. Persistent implementation, watchdog, backup endpoint inventory and app E2E validation remain **NOT_STARTED**.
+
