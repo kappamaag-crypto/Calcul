@@ -2300,3 +2300,18 @@ WanHap W4 is **IN_PROGRESS**, not DONE. Direct ISP → hAP eth1 is runtime-verif
 Client-side validation is still incomplete: the previously tested 192.168.1.227 is currently ARP/neighbor FAILED, and the user reports that a TV has no Internet. This is not yet evidence of a WAN failure because router-originated Internet works. The next diagnostic gate is the affected TV's DHCP address, default gateway, DNS, and separate reachability tests to the hAP, 1.1.1.1, and DNS. Do not modify DNS, Zapret2, AWG/WireGuard, firewall or WAN configuration to mask the symptom before that evidence is collected.
 
 The Wi-Fi password is secret material and is intentionally not recorded in repository documentation. Backup from the W4 Wi-Fi change: /mnt/data/wanhap-w4-20260928-224206.
+
+
+## 2026-10-02 — WanHap W4 completion / dnsmasq terms
+
+**WanHap W4 = DONE** — direct ISP `eth1` WAN is primary, temporary `phy0-sta0` is disabled, LAN/Wi-Fi operate, and a Wi-Fi client has confirmed Internet access.
+
+**dnsmasq `server` UCI list** — when multiple upstream DNS servers are configured, store each address as a separate UCI list element (for example with `uci add_list ...server=...`). A single space-separated scalar is not equivalent for the generator used by this OpenWrt configuration.
+
+**dnsmasq `noresolv=1`** — tells dnsmasq not to use the resolver file as its upstream source. Explicit `server` list entries are therefore required when this option is enabled.
+
+**Generated dnsmasq `server=` verification** — checking `/var/etc/dnsmasq.conf.*` for `^server=` confirms that the configured upstream DNS list reached the generated runtime configuration.
+
+**Client DNS cache/lease distinction** — after a router-side DNS correction, existing clients may retain stale DNS state until DHCP renewal, reconnect, or cache expiry. New DHCP clients use the current hAP DHCP/DNS configuration.
+
+**W4 DNS root-cause boundary** — the observed client outage was caused by missing dnsmasq upstream servers after direct-WAN migration; the direct WAN, LAN association, and NAT path were already independently verified.
