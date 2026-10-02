@@ -1,7 +1,7 @@
 # WanHap — переход hAP ac lite на основной WAN-шлюз
 
 Дата создания: 2026-09-28  
-Последнее уточнение: 2026-10-02 — W4 в проверке client-side Internet  
+Последнее уточнение: 2026-10-02 — W5 DONE, router self-sufficiency verified  
 Статус: **IN_PROGRESS**
 
 ## Цель
@@ -155,7 +155,7 @@ Archer при этом не должен становиться upstream для 
 - DNS не изменялся как побочный эффект.
 
 ### W4 — Сделать прямой ISP WAN основным
-**STATUS: IN_PROGRESS**
+**STATUS: DONE**
 
 После подтверждения W3:
 - прямой ISP WAN на `eth1` становится основным;
@@ -171,7 +171,7 @@ Archer при этом не должен становиться upstream для 
 - rollback описан и проверяем.
 
 ### W5 — Сделать hAP самостоятельным домашним шлюзом
-**STATUS: NOT_STARTED**
+**STATUS: DONE**
 
 Целевая локальная архитектура:
 - DHCP на hAP;
@@ -184,7 +184,7 @@ Archer при этом не должен становиться upstream для 
 Archer не должен требоваться для работы клиентов.
 
 ### W5-DNS — Отдельно определить и проверить DNS hAP
-**STATUS: NOT_STARTED**
+**STATUS: DONE**
 
 Не совмещать с WAN-переключением.
 
@@ -266,7 +266,7 @@ Zapret2
 **W1 = DONE**  
 **W2 = DONE**  
 **W3 = DONE**  
-**W4 = IN_PROGRESS**
+**W4 = DONE**
 
 Следующее действие — отдельный контролируемый этап W4: сделать прямой `eth1` постоянным основным WAN и только после этого отключить временный `phy0-sta0`.
 
@@ -434,4 +434,41 @@ Existing clients that cached previous DNS information may require a DHCP renewal
 
 **W4 = DONE.**
 
-Next stage: **W5 = NOT_STARTED**.
+Next stage: **W5 = DONE**.
+
+
+## 2026-10-02 — WanHap W5 router self-sufficiency verification
+
+**W5 = DONE**
+
+Read-only verification confirms hAP can operate as the independent home gateway without Archer C20:
+- direct ISP WAN is on `eth1`; default route is via `100.96.0.1 dev eth1`;
+- temporary `phy0-sta0` uplink remains disabled; both 2.4 GHz and 5 GHz APs are active as `SweethomeU`;
+- LAN is `br-lan = 192.168.1.1/24`;
+- dnsmasq provides DHCP and has persistent upstreams as separate list entries;
+- generated dnsmasq runtime contains `server=81.30.199.94` and `server=81.30.199.5`;
+- `nslookup example.com 192.168.1.1` succeeds;
+- fw4 contains LAN→WAN forwarding and IPv4 masquerade on `eth1`;
+- router Internet: `ping -c 3 1.1.1.1` = 3/3, 0% loss, ~58.2 ms average;
+- checked active network/DHCP UCI configuration contains no remaining Archer/`192.168.0.x` dependency.
+
+The first one-line `jsonfilter` WAN summary in the grouped check returned a non-blocking syntax error on the installed jsonfilter. Independent route/runtime evidence verified the WAN state, so this does not invalidate W5.
+
+No configuration was changed by the W5 verification. Zapret2/Deep Max Circular and AWG/WireGuard were not modified.
+
+### W5-DNS disposition
+
+**W5-DNS = DONE** through the DNS correction completed during W4. With `noresolv=1`, multiple dnsmasq upstreams are stored as separate UCI `server` list elements. The DNS path is persistent and independent of Archer C20.
+
+### W5 exit criteria
+
+- hAP provides LAN addressing: **verified**;
+- hAP provides working DNS forwarding: **verified**;
+- hAP performs WAN NAT/firewall forwarding: **verified**;
+- hAP provides both APs: **verified**;
+- direct ISP WAN works without Archer: **verified**;
+- no Archer dependency remains in the checked active configuration: **verified**.
+
+**W5 = DONE.**
+
+Next formal stage: **W6 = NOT_STARTED**. Archer C20 is already physically OFF and must not be reintroduced; W6 is only the formal final-topology gate.
