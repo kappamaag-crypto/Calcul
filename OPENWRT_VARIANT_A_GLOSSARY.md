@@ -2315,3 +2315,18 @@ The Wi-Fi password is secret material and is intentionally not recorded in repos
 **Client DNS cache/lease distinction** — after a router-side DNS correction, existing clients may retain stale DNS state until DHCP renewal, reconnect, or cache expiry. New DHCP clients use the current hAP DHCP/DNS configuration.
 
 **W4 DNS root-cause boundary** — the observed client outage was caused by missing dnsmasq upstream servers after direct-WAN migration; the direct WAN, LAN association, and NAT path were already independently verified.
+
+
+## 2026-10-02 — WanHap W5/W6 glossary sync
+
+**WanHap W5 = DONE** — read-only verification that hAP ac lite independently provides WAN, LAN, DHCP/DNS, firewall/NAT and both APs without Archer C20.
+
+**W5-DNS = DONE** — dnsmasq uses `noresolv=1` and stores multiple upstream servers as separate UCI `server` list elements. Current verified upstreams are `81.30.199.94` and `81.30.199.5`.
+
+**Archer-free target path** — `ISP → hAP eth1/WAN → hAP LAN/Wi-Fi → clients`. Archer C20 is physically OFF and must not be reintroduced as upstream, NAT, DHCP, DNS or transit.
+
+**WanHap W6 = NOT_STARTED** — formal final-topology gate confirming that the already-off Archer remains excluded. W6 does not require reconnecting Archer.
+
+**WanHap W7 = NOT_STARTED** — final minimal end-to-end and reboot-persistence verification after W6 is DONE.
+
+**Non-blocking jsonfilter syntax error** — a failed one-line summary expression in the W5 grouped diagnostic; independent runtime evidence verified WAN, so stage status remains DONE.
