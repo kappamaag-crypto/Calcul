@@ -1831,4 +1831,44 @@ Do not return to the failed broad source-subnet policy rule `from 192.168.1.0/24
 Controlled .170 fwmark Full-Tunnel = **DONE / RUNTIME-VERIFIED**.
 
 Do not widen to the complete LAN or add fail-open behavior until the persistent fw4/UCI/netifd configuration is prepared and verified separately. Keep IPv6 out of scope and Zapret2 unchanged unless new evidence directly implicates it.
+## LATEST AUTHORITATIVE CHECKPOINT — 2026-10-03 — PERSISTENT AWG .170 RUNTIME VERIFIED
 
+The persistence-first Full-Tunnel stage for the single test client 192.168.1.170 is now DONE / RUNTIME-VERIFIED.
+
+Post-reload evidence:
+- mega-awg endpoint: 188.114.96.8:939
+- peer AllowedIPs: 0.0.0.0/0
+- PersistentKeepalive: 25
+- latest handshake: 27 seconds ago
+- transfer remained 67.23 MiB received / 62.11 MiB sent across the supplied router-side traffic check
+- router curl --interface mega-awg to Cloudflare trace succeeded
+- returned ip=104.28.246.230
+- returned warp=on
+
+This proves the UCI/netifd-managed AWG interface survived /etc/init.d/network reload and remains usable for router-originated Internet traffic.
+
+The .170 forwarded Full-Tunnel architecture is therefore accepted as the persistent control baseline, but the fw4/nftables persistence step is not yet complete.
+
+### Mandatory stage boundary
+
+Do not widen traffic classification to 192.168.1.0/24 yet.
+
+Next stage:
+1. preserve the working .170 runtime;
+2. persist the proven .170 forward-allow and masquerade behavior in the fw4 /etc/nftables.d/*.nft representation;
+3. validate syntax, reload and .170 end-to-end operation;
+4. only then consider LAN-wide classification.
+
+Current status:
+- persistent .170 AWG/UCI/netifd: DONE
+- persistent .170 fw4/nftables: IN_PROGRESS
+- LAN-wide persistent Full-Tunnel: NOT_STARTED
+- fail-open watchdog: NOT_STARTED
+- real backup endpoint inventory: NOT_STARTED
+- selective routing: NOT_STARTED / DEFERRED
+
+The forbidden broad source-subnet rule remains:
+
+ip rule add pref 10000 from 192.168.1.0/24 lookup 51821
+
+No secrets are recorded.
