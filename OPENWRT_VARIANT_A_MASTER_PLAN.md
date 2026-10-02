@@ -3794,3 +3794,38 @@ The router-only mega-awg state is now the protected rollback baseline. Any futur
 - [STATUS] **AWG Full-Tunnel .170 E2E test = DONE for the temporary test scope.**
 - [BOUNDARY] This does **not** yet validate the permanent fwmark/UCI/fw4 architecture, fail-open watchdog, backup endpoint inventory, or full-LAN scope.
 - [NEXT] Before persistent deployment, preserve the proven router-only rollback baseline, then replace the temporary .170 source-rule test with the authoritative **fwmark-based forwarded-traffic design**, while keeping LAN management and the ordinary `eth1` WAN path intact. Do not repeat the failed broad source-subnet rule `from 192.168.1.0/24 lookup 51821`.
+
+
+## 2026-10-03 — AUTHORITATIVE AWG FWMARK RUNTIME CHECKPOINT — CLIENT 192.168.1.170
+
+The controlled .170 Full-Tunnel test was migrated from the temporary source-based policy rule to forwarded-traffic fwmark policy routing.
+
+Verified runtime state:
+- old `10050: from 192.168.1.170 lookup 51821` = removed;
+- active `10040: from all fwmark 0x1/0x1 lookup 51821`;
+- table 51821 = `192.168.1.0/24 dev br-lan` + `default dev mega-awg`;
+- nft prerouting marks only .170 traffic entering from `br-lan` when destination is outside `192.168.1.0/24`;
+- fwmark counter reached **306 packets / 80,680 bytes** during real client traffic;
+- peer AllowedIPs = `0.0.0.0/0`;
+- AWG endpoint = `188.114.96.8:939`;
+- latest handshake was fresh and transfer was approximately **58.73 MiB RX / 50.57 MiB TX**;
+- client Internet/application traffic worked through the fwmark path.
+
+**Result: controlled .170 fwmark Full-Tunnel = DONE / RUNTIME-VERIFIED.**
+
+### Why fwmark is the project architecture
+The previously failed broad source-subnet rule redirected packets based on their source LAN subnet and caused loss of LAN/SSH access. Fwmark is preferred here because the firewall classifies the forwarded Internet traffic that should use AWG, while local LAN destinations, router-generated traffic and the ordinary main/WAN routing path remain separate. This is an architectural choice for this project, not a universal claim that fwmark is always superior.
+
+### Temporary state
+The temporary AWG TEST forward/return rules, .170 masquerade rule, nft table `inet awg_pbr_test`, runtime rule 10040/table 51821, and runtime AWG AllowedIPs change are not yet persistent. Cleanup and a final .170 retest must precede persistence through OpenWrt fw4/UCI/netifd.
+
+### Status
+- AWG router-only = **DONE**
+- Controlled .170 fwmark Full-Tunnel runtime = **DONE**
+- Production LAN-wide Full-Tunnel = **IN_PROGRESS**
+- Persistent fw4/UCI/netifd integration = **NOT_STARTED**
+- Fail-open watchdog = **NOT_STARTED**
+- Real backup endpoint inventory = **NOT_STARTED**
+- Selective routing = **NOT_STARTED / DEFERRED**
+
+No private key or other secret material is recorded here.
