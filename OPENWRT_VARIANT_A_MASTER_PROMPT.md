@@ -1780,3 +1780,26 @@ Current protected baseline:
 - Keep zapret2 unchanged during AWG restoration unless a new hypothesis explicitly requires otherwise.
 
 The fresh 2026-10-02 router evidence is authoritative over older conflicting AWG runtime notes.
+
+## 2026-10-03 — AUTHORITATIVE AWG FWMARK CHECKPOINT
+
+The controlled Full-Tunnel implementation for client `192.168.1.170` is now proven with forwarded-packet fwmark classification.
+
+Authoritative facts:
+- `10050: from 192.168.1.170 lookup 51821` = removed.
+- `10040: from all fwmark 0x1/0x1 lookup 51821` = active.
+- table 51821 contains the LAN route plus default via `mega-awg`.
+- nft prerouting marks .170 Internet traffic outside `192.168.1.0/24`.
+- the mark counter reached 306 packets / 80,680 bytes during real client traffic.
+- AWG had fresh handshake and substantial bidirectional transfer.
+- peer AllowedIPs = `0.0.0.0/0`.
+- client Internet/application traffic worked through the new fwmark path.
+
+### Architectural rule
+Use fwmark-based policy routing for Full-Tunnel. Do not return to the broad source-subnet rule `from 192.168.1.0/24 lookup 51821`, which previously broke LAN/SSH access.
+
+Fwmark is preferred because it separates firewall classification from source-subnet routing: only forwarded Internet traffic is marked for AWG, while local LAN and router-originated traffic continue on the normal main/WAN path.
+
+### Execution gate
+Runtime fwmark test = **DONE**. Production Full-Tunnel = **IN_PROGRESS**.
+Before persistence: clean temporary AWG TEST firewall state, retest .170, then integrate with OpenWrt fw4/UCI/netifd. Keep IPv6 out of scope and Zapret2 unchanged unless directly implicated.
