@@ -3782,3 +3782,15 @@ That design previously caused loss of LAN/SSH access and required a reboot.
 ### Safe baseline for subsequent work
 
 The router-only mega-awg state is now the protected rollback baseline. Any future Full-Tunnel/PBR work must be introduced separately and must not compromise this baseline or the main WAN route. No Full-Tunnel status may be promoted to DONE without real LAN/Wi-Fi client end-to-end validation.
+
+
+## 2026-10-02 — AWG CLIENT 192.168.1.170 FULL-TUNNEL E2E TEST RESULT
+
+- [RESULT] The temporary controlled Full-Tunnel test scope was the single LAN client **192.168.1.170**.
+- [RESULT] Router-side AWG state showed a fresh handshake and bidirectional transfer: **748.91 KiB received / 765.68 KiB sent** at the reported check.
+- [RESULT] From client **192.168.1.170**, the Cloudflare trace request succeeded and returned **IP 104.28.246.230, warp=on, Loc=ru** (user-reported output; the X25519 key field was not stored).
+- [RESULT] A separate simple client test `curl.exe -4 https://www.google.com` also completed successfully. This confirms that ordinary HTTPS Internet traffic from the .170 client worked through the current temporary Full-Tunnel path at test time.
+- [DIAGNOSTIC] The planned simultaneous tcpdump did **not** execute because this OpenWrt BusyBox environment has no `timeout` command. The malformed `ip route get` line was caused by command/input concatenation and is not treated as evidence.
+- [STATUS] **AWG Full-Tunnel .170 E2E test = DONE for the temporary test scope.**
+- [BOUNDARY] This does **not** yet validate the permanent fwmark/UCI/fw4 architecture, fail-open watchdog, backup endpoint inventory, or full-LAN scope.
+- [NEXT] Before persistent deployment, preserve the proven router-only rollback baseline, then replace the temporary .170 source-rule test with the authoritative **fwmark-based forwarded-traffic design**, while keeping LAN management and the ordinary `eth1` WAN path intact. Do not repeat the failed broad source-subnet rule `from 192.168.1.0/24 lookup 51821`.
