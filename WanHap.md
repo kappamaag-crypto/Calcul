@@ -1,7 +1,7 @@
 # WanHap — переход hAP ac lite на основной WAN-шлюз
 
 Дата создания: 2026-09-28  
-Последнее уточнение: 2026-10-02 — W2/W3 прямого WAN завершены  
+Последнее уточнение: 2026-10-02 — W4 в проверке client-side Internet  
 Статус: **IN_PROGRESS**
 
 ## Цель
@@ -155,7 +155,7 @@ Archer при этом не должен становиться upstream для 
 - DNS не изменялся как побочный эффект.
 
 ### W4 — Сделать прямой ISP WAN основным
-**STATUS: NOT_STARTED**
+**STATUS: IN_PROGRESS**
 
 После подтверждения W3:
 - прямой ISP WAN на `eth1` становится основным;
@@ -266,7 +266,7 @@ Zapret2
 **W1 = DONE**  
 **W2 = DONE**  
 **W3 = DONE**  
-**W4 = NOT_STARTED**
+**W4 = IN_PROGRESS**
 
 Следующее действие — отдельный контролируемый этап W4: сделать прямой `eth1` постоянным основным WAN и только после этого отключить временный `phy0-sta0`.
 
@@ -340,3 +340,29 @@ No Zapret2, Deep Max Circular, AWG/WireGuard, DNS strategy, PBR, or unrelated LA
 Detailed evidence: `WANHAP_W3_DIRECT_WAN_DHCP_CLIENT_ID.md`.
 
 **W4 remains NOT_STARTED.** It is the separate controlled step that will make direct `eth1` the permanent primary WAN and disable the temporary `phy0-sta0` uplink.
+
+
+## 2026-10-02 — AUTHORITATIVE WANHAP W4 RUNTIME CHECKPOINT
+
+**W4 = IN_PROGRESS** — direct ISP WAN is active on eth1, but client-side Internet is not yet fully validated. The router itself has working IPv4 Internet, while at least one TV client currently reports no Internet. Therefore W4 must not be marked DONE until a LAN/Wi-Fi client is confirmed working through the direct WAN.
+
+Verified runtime:
+- eth1 WAN is UP via DHCP/IPoE.
+- WAN address: 100.96.79.207/16.
+- Gateway: 100.96.0.1.
+- Default route: default via 100.96.0.1 dev eth1.
+- Router ping to 1.1.1.1: 3/3, 0% loss, ~58.3 ms.
+- Temporary phy0-sta0 is disabled.
+- Both APs are active as SweethomeU, WPA2/PSK2, on 2.4 GHz and 5 GHz.
+- No IPv4 default route remains through phy0-sta0.
+- Archer C20 is already physically OFF and is not part of the target WAN path.
+
+Important client observation:
+- Previous test client 192.168.1.227 is currently FAILED in ARP/neighbour state; this does not prove a WAN fault.
+- A TV currently has no Internet, so LAN-client end-to-end validation remains incomplete.
+- Do not change DNS, Zapret2, AWG/WireGuard, firewall or WAN configuration merely to mask this symptom. Diagnose the affected client path first.
+
+Wi-Fi credential is intentionally NOT recorded in repository documentation.
+Backup created before Wi-Fi change: /mnt/data/wanhap-w4-20260928-224206.
+
+Next gate: identify whether the TV has a valid DHCP lease/default gateway/DNS and whether it can reach 192.168.1.1, 1.1.1.1, and DNS separately. Only after a client is confirmed working should W4 become DONE.
