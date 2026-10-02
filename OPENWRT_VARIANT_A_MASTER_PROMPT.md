@@ -1648,3 +1648,34 @@ Execution gates:
 - WanHap changes are separate from Zapret2, DNS, and AWG work.
 - Never use AWG/WireGuard or Zapret2 to mask a failure of the direct ISP WAN.
 
+---
+
+## 2026-10-02 — AUTHORITATIVE WANHAP W2/W3 CHECKPOINT
+
+The previous 2026-09-29 WanHap execution section is superseded where it says W2 is NOT_STARTED or that W3 has not been validated.
+
+Current authoritative state:
+- **W2 = DONE** — direct Ufanet Ethernet handoff identified as DHCP/IPoE.
+- **W3 = DONE** — direct ISP Ethernet → hAP `eth1` has working IPv4 Internet.
+- **W4 = NOT_STARTED** — do not yet disable the temporary `phy0-sta0` uplink.
+
+Critical implementation finding:
+- OpenWrt 25.12.5 automatically generated DHCP Option 61 from the global DUID when `sendclientid` was left at its default/auto behavior.
+- On this exact Ufanet path, DHCP lease acquisition succeeded but external traffic failed.
+- Setting `network.wan.sendclientid='none'` makes `udhcpc` use `-C` and omit DHCP Client ID.
+- After this change the hAP received `100.96.79.207/16`, retained gateway `100.96.0.1`, pinged `1.1.1.1` successfully (0% loss), and completed an HTTPS request successfully.
+
+Required persistent WAN configuration:
+
+```
+network.wan.proto='dhcp'
+network.wan.device='eth1'
+network.wan.macaddr='e2:0d:17:e0:73:a7'
+network.wan.sendclientid='none'
+```
+
+Do not patch `/lib/netifd/proto/dhcp.sh`; the working solution uses the штатный UCI/netifd option.
+
+Do not reconnect or repurpose Archer C20 as an upstream path for this validation. Do not use Zapret2, AWG/WireGuard, DNS changes, or PBR to mask a direct-WAN failure.
+
+Detailed evidence: `WANHAP_W3_DIRECT_WAN_DHCP_CLIENT_ID.md`.
