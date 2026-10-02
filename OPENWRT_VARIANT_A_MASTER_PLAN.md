@@ -3528,3 +3528,45 @@ WanHap W4 is **IN_PROGRESS**, not DONE. Direct ISP → hAP eth1 is runtime-verif
 Client-side validation is still incomplete: the previously tested 192.168.1.227 is currently ARP/neighbor FAILED, and the user reports that a TV has no Internet. This is not yet evidence of a WAN failure because router-originated Internet works. The next diagnostic gate is the affected TV's DHCP address, default gateway, DNS, and separate reachability tests to the hAP, 1.1.1.1, and DNS. Do not modify DNS, Zapret2, AWG/WireGuard, firewall or WAN configuration to mask the symptom before that evidence is collected.
 
 The Wi-Fi password is secret material and is intentionally not recorded in repository documentation. Backup from the W4 Wi-Fi change: /mnt/data/wanhap-w4-20260928-224206.
+
+
+## 2026-10-02 — AUTHORITATIVE WANHAP W4 COMPLETION / DNS ROOT CAUSE
+
+WanHap W4 is **DONE**.
+
+Direct ISP → hAP `eth1` remained the working primary WAN, and the remaining client-side Internet failure was traced to dnsmasq upstream configuration.
+
+### DNS root cause
+
+The dnsmasq configuration had `noresolv=1` while `server` was stored as one space-separated scalar value. The generated dnsmasq configuration contained no `server=` directives and the daemon logged `no upstream servers configured`. Local queries through `127.0.0.1:53` consequently returned REFUSED.
+
+The correction was to store the two upstream DNS addresses as separate UCI list entries:
+
+```
+uci -q delete dhcp.@dnsmasq[0].server
+uci add_list dhcp.@dnsmasq[0].server='81.30.199.94'
+uci add_list dhcp.@dnsmasq[0].server='81.30.199.5'
+uci commit dhcp
+/etc/init.d/dnsmasq reload
+```
+
+Generated configuration then contained both `server=` directives. `nslookup example.com 127.0.0.1` returned successful IPv4/IPv6 answers. The user then reconnected a Wi-Fi client and confirmed Internet access.
+
+### Persistence / new clients
+
+The corrected setting is committed in UCI, so future dnsmasq regenerations retain the two upstream servers. New DHCP clients will therefore use the corrected hAP DNS path. A client that cached stale DNS/lease information may need a DHCP renewal or Wi-Fi reconnect, but no router-side reconfiguration is expected.
+
+### W4 exit gate
+
+All required W4 criteria are now met:
+- direct ISP WAN on `eth1`: verified;
+- default route via `100.96.0.1`: verified;
+- `phy0-sta0`: disabled;
+- LAN/Wi-Fi: operational;
+- client Internet: verified;
+- Archer C20: OFF and excluded;
+- no Zapret2/AWG/WireGuard changes.
+
+**W4 = DONE.**
+
+**W5 = NOT_STARTED.** Next work is the separately controlled hAP self-sufficiency/DNS stage; do not retroactively reopen W4 unless new evidence appears.
