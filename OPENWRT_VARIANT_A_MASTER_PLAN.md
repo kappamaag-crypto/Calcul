@@ -3954,3 +3954,46 @@ The persistent design must continue to use:
 - Selective routing: **NOT_STARTED / DEFERRED**
 
 No private key or other secret material is recorded.
+## 2026-10-03 — AUTHORITATIVE PERSISTENT AWG .170 RUNTIME VERIFICATION
+
+### Status: DONE
+
+The persistent .170 Full-Tunnel stage has now passed the required post-reload runtime verification.
+
+The test client remains strictly limited to 192.168.1.170. The LAN-wide scope was not enabled.
+
+### Post-reload evidence
+
+After /etc/init.d/network reload, the netifd-managed mega-awg tunnel remained operational:
+- endpoint: 188.114.96.8:939
+- peer AllowedIPs: 0.0.0.0/0
+- PersistentKeepalive: 25
+- latest handshake: 27 seconds ago
+- transfer remained 67.23 MiB received / 62.11 MiB sent during the supplied router-side traffic check
+- router-originated HTTPS through mega-awg succeeded
+- Cloudflare trace returned ip=104.28.246.230 and warp=on
+
+This verifies that the UCI/netifd persistence survived the reload and that the persistent AWG interface still provides working Internet connectivity.
+
+### Authoritative status
+
+- Router-only AWG: DONE / RUNTIME-VERIFIED
+- Controlled .170 fwmark Full-Tunnel: DONE / RUNTIME-VERIFIED
+- Persistent .170 AWG/UCI/netifd: DONE / RUNTIME-VERIFIED
+- Persistent .170 fw4/nftables representation: IN_PROGRESS
+- LAN-wide persistent Full-Tunnel: NOT_STARTED
+- Fail-open watchdog: NOT_STARTED
+- Real backup endpoint inventory: NOT_STARTED
+- Selective routing: NOT_STARTED / DEFERRED
+
+### Next controlled stage
+
+Do not widen the classifier to 192.168.1.0/24.
+
+First preserve the working .170 baseline and make the currently proven .170 fw4 forwarding allow + NAT representation persistent in /etc/nftables.d/*.nft, with rollback and syntax/reload validation.
+
+The known broken rule remains forbidden:
+
+ip rule add pref 10000 from 192.168.1.0/24 lookup 51821
+
+No private key or other secret material is recorded here.
