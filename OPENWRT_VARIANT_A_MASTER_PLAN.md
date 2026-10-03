@@ -4214,3 +4214,15 @@ No candidate is marked FAILED from this run.
 - [DESIGN] MegaConfig inspection confirms the working runtime pattern: native `amneziawg` interface; `Address`, `DNS`, and `MTU` removed only from the `awg setconf` runtime file and applied separately; ordinary WAN route protects the outer endpoint; peer `AllowedIPs` defines inner tunnel routing.
 - [TEMP SOURCE] Because production `mega-awg` already owns its tunnel address, the isolated backup test uses a different temporary source address and SNATs only that temporary traffic to the candidate's configured tunnel address. This keeps production untouched while presenting the candidate's expected inner source.
 - [NEXT] Correct only the temporary NAT hook to `postrouting`, keep the native AmneziaWG interface and live WAN endpoint route, and rerun the seven candidates. No candidate may be marked FAILED from v6.
+
+## 2026-10-03 — AWG BACKUP SCREEN v8 — DUAL-STACK ADDRESS PARSING FIX
+
+- [STATUS] AWG backup endpoint inventory = **IN_PROGRESS**.
+- [v7 RESULT] `awg setconf` succeeded for all seven candidates; v7 then failed in the temporary IPv4 SNAT rule because the script passed the complete dual-stack `Address` value (for example `172.16.0.2,<IPv6>`) to an IPv4 `snat to` expression.
+- [CLASSIFICATION] All v7 `NAT_SETUP_FAIL` results are **INCONCLUSIVE / TEST-HARNESS FAILURE**, not candidate failures.
+- [MEGACONFIG EVIDENCE] The known working MegaConfig uses native AmneziaWG and a dual-stack `Address`; for `awg setconf`, only `Address/DNS/MTU` are removed from the runtime config. The interface address is handled separately.
+- [v8 FIX] For the isolated IPv4 backup screen, parse only the first IPv4 value from `Address`; IPv6 is ignored because IPv6 is explicitly out of scope for this phase.
+- [NAT] Keep the temporary IPv4 SNAT architecture, but apply it only to the parsed IPv4 tunnel address. Validate nft syntax before the seven-candidate loop.
+- [ROUTING] Keep endpoint outer traffic on the ordinary WAN/main path; do not modify production endpoint routing.
+- [SCOPE] Production `mega-awg`, rule 10040, table 51821, Zapret2, DNS and persistent UCI/firewall remain untouched.
+- [OUTPUT] One compact line per candidate + final summary.
