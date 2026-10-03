@@ -1956,3 +1956,10 @@ Future transactional commands MUST treat optional delete/cleanup operations as n
 Do not use set -e around expected-to-fail existence checks unless every such command is explicitly guarded.
 
 The failed command performed no uci commit, no fw4 check, and no fw4 reload. The persistence migration did not reach its apply phase.
+
+## 2026-10-03 — GROUPED AWG PERSISTENCE MIGRATION
+
+Execute the AWG .170 persistence migration as one controlled grouped operation when requested. Do not split a straightforward migration into unnecessary micro-steps.
+
+Use explicit status checkpoints and guarded commands instead of set -e in the interactive shell. The operation must distinguish expected absent UCI sections from real failures, and must not run network reload before firewall persistence has passed fw4 check and placement validation.
+
