@@ -2451,10 +2451,7 @@ Optional UCI delete under set -e — uci -q delete <section> may return non-zero
 
 **Validated backup endpoint** — a real provider/configuration endpoint that has successful isolated handshake and received tunnel traffic on the actual hAP/WAN path, with no dependence on an invented IP or port.
 
-**Backup inventory evidence 2026-10-03** — existing configs contain MegaConfig 188.114.96.8:939, four 149.22.84.154 ports (443/4569/5060/51820), and WARPv3_72 8.39.214.5:8854. Only MegaConfig 188.114.96.8:939 is currently positive runtime evidence; the four 149.22.84.154 variants have prior negative handshake/RX evidence, while WARPv3_72 has no established backup relationship.
+**Retired AWG profile family (2026-10-03)** — the previously stored US-FREE#90 profile family was intentionally removed from the repository by explicit user instruction. It is excluded from all future testing, backup/fail-open, PBR and AWG experimentation and must not be restored or recreated.
 
-## 2026-10-03 — AWG BACKUP INVENTORY TEST GATE STARTED
+**Backup inventory rule after retirement** — only non-retired, independently documented candidates may enter the backup gate. A candidate still requires real configuration/provider evidence plus successful isolated handshake, received tunnel traffic and HTTPS validation on the actual router/WAN path.
 
-Backup endpoint inventory is now IN_PROGRESS. The four existing US_90 profiles at 149.22.84.154 ports 443, 4569, 5060 and 51820 are real configuration records but their earlier negative handshake/RX evidence was collected before the current direct ISP -> hAP eth1 topology. Therefore those historical results do not by themselves settle their behavior on the current WAN path.
-
-The next gate is an isolated handshake/RX test using the existing router-side config files, without changing the main route, without changing mega-awg, and without installing any backup/failover behavior.
