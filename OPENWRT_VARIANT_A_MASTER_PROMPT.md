@@ -1923,3 +1923,26 @@ Do not widen beyond .170 in this stage.
 - arbitrary backup endpoint;
 - simultaneous Zapret2/DNS/IPv6/PBR redesign.
 
+
+## 2026-10-03 — CURRENT RUNTIME RECOVERY / PERSISTENCE HANDOFF
+
+The .170 runtime datapath is currently WORKING again after restoring:
+- fwmark rule 10040 -> table 51821;
+- prerouting mark for .170 Internet traffic;
+- position-0 ACCEPT in native inet fw4 forward;
+- .170 masquerade on mega-awg.
+
+The runtime restoration created two duplicate temporary mark rules. They are temporary residue only. Persistent migration MUST flush the runtime rules via a single fw4 reload and load exactly one copy from UCI-managed chain-pre configuration.
+
+Do not use the disabled 99-awg-client170-test.nft design again. Do not create a separate forward base chain.
+
+The only approved persistence model is:
+UCI config include -> type nftables -> position chain-pre -> named native fw4 chain.
+
+Required chains:
+- mangle_prerouting: one .170 mark rule;
+- forward: one early .170 -> mega-awg ACCEPT;
+- srcnat: one .170 -> mega-awg masquerade.
+
+Before the migration, create a rollback backup. After fw4 check succeeds, inspect generated placement. Only then perform one fw4 reload and validate the real .170 client path.
+
