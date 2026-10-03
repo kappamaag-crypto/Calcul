@@ -4105,3 +4105,20 @@ Current status remains:
 
 Next router action is the one-time persistence migration using fw4 UCI chain-pre includes. No network reload is permitted before the firewall persistence gate passes.
 
+
+## 2026-10-03 — AWG PERSISTENCE SCRIPT FAILURE / CORRECTION
+
+A persistence migration script was stopped immediately after the first optional UCI delete operation.
+
+Root cause: the script used set -eu, while uci -q delete returns a non-zero exit status when the target section does not exist. With set -e, the interactive shell exited, producing the observed SSH disconnect. This was a shell-control error in the migration script, not evidence of AWG, routing, firewall, or WAN failure.
+
+State impact:
+- no firewall.awg_pbr_mark, firewall.awg_pbr_forward, or firewall.awg_pbr_srcnat UCI sections were created;
+- no uci commit firewall occurred;
+- no fw4 check or fw4 reload occurred;
+- the already-working runtime datapath was not intentionally changed by this failed script;
+- three unreferenced files were created under /etc/awg-fulltunnel/; they are not auto-included by fw4 and therefore are not active persistence.
+
+Mandatory script rule: optional cleanup commands must never be left unguarded under set -e. Use uci -q delete <section> 2>/dev/null || true, or equivalent existence-aware cleanup.
+
+The persistence architecture remains unchanged: UCI-managed fw4 chain-pre includes plus UCI/netifd PBR.
