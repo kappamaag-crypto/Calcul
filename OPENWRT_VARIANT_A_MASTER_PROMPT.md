@@ -1872,3 +1872,54 @@ The forbidden broad source-subnet rule remains:
 ip rule add pref 10000 from 192.168.1.0/24 lookup 51821
 
 No secrets are recorded.
+## 2026-10-03 — AUTHORITATIVE AWG FWMARK PERSISTENCE CORRECTION
+
+The previous persistent fw4 attempt is superseded.
+
+### Proven runtime path
+
+For controlled client 192.168.1.170, the accepted Full-Tunnel datapath is:
+LAN Internet classification -> fwmark 0x1 -> rule 10040 -> table 51821 -> mega-awg -> masquerade
+
+The firewall ACCEPT must be in the native inet fw4 forward chain before the normal forward_lan/reject path. A separate forward base chain is forbidden.
+
+### Persistent implementation rule
+
+Use native fw4 UCI-managed nftables includes:
+- chain-pre mangle_prerouting for the LAN Internet mark;
+- chain-pre forward for the explicit br-lan -> mega-awg ACCEPT;
+- chain-pre srcnat for the .170 masquerade.
+
+The include files must live outside /etc/nftables.d/ so they are not also auto-included at the table level. OpenWrt fw4 documents config include with type nftables, position chain-pre, and a named chain for this placement model. citeturn675422search10turn675422search6
+
+### Exact rules for the controlled stage
+
+mark.nft:
+iifname "br-lan" ip saddr 192.168.1.170 ip daddr != 192.168.1.0/24 meta mark set 0x1
+
+forward.nft:
+iifname "br-lan" oifname "mega-awg" ip saddr 192.168.1.170 ip daddr != 192.168.1.0/24 counter accept
+
+srcnat.nft:
+oifname "mega-awg" ip saddr 192.168.1.170 counter masquerade
+
+Do not duplicate any rule.
+
+### One-time migration gate
+
+The migration is transactional:
+backup -> create files/UCI -> fw4 check -> inspect generated placement -> one fw4 reload -> verify client E2E and invariants -> retain or rollback.
+
+Do not issue network reload before the firewall persistence gate passes.
+
+Do not widen beyond .170 in this stage.
+
+### Forbidden designs
+
+- broad source policy: from 192.168.1.0/24 lookup 51821;
+- separate AWG forward base chain;
+- late ACCEPT appended after forward_lan;
+- rc.local/ad-hoc runtime-only persistence;
+- arbitrary backup endpoint;
+- simultaneous Zapret2/DNS/IPv6/PBR redesign.
+
