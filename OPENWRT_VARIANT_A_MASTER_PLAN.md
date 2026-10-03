@@ -4093,7 +4093,6 @@ A separate fresh test run produced local `FAIL` for four of these names, but tha
 
 ### Additional repository candidate
 
-`WARPv3_72.conf` is a separate repository configuration with endpoint `8.39.214.5:8854`, AllowedIPs `0.0.0.0/0, ::/0`, and the same AWG peer public key / core AWG parameter family observed in MegaConfig. This makes it a candidate for isolated validation, but its backup relationship to MegaConfig is not established until handshake/RX/HTTPS succeeds on the actual hAP/WAN path.
 
 ### Acceptance gate
 
@@ -4117,8 +4116,7 @@ Execution rule:
 - Do not use it for backup, fail-open, PBR, routing, or further AWG experiments.
 - Do not reopen the retired port matrix under a different filename or endpoint label.
 
-Current remaining documented AWG/WARP candidates are evaluated independently. The active production endpoint remains MegaConfig `188.114.96.8:939` with the previously verified runtime evidence. `WARPv3_72.conf` remains a separate WARP configuration and must not be promoted to backup by assumption.
-
+Current remaining documented AWG/WARP candidates are evaluated independently. The active production endpoint remains MegaConfig `188.114.96.8:939` with the previously verified runtime evidence. 
 Backup endpoint inventory remains IN_PROGRESS. The next gate must use only non-retired, separately documented candidates and must require real provider/config evidence plus successful isolated handshake and received tunnel traffic on the actual hAP/WAN path.
 
 ## 2026-10-03 — AWG BACKUP SCREEN — ROUTE-CHECK CORRECTION
