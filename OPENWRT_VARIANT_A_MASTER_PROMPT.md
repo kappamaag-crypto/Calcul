@@ -1971,16 +1971,12 @@ The controlled scope remains only client 192.168.1.170. Do not interpret this as
 
 A previous check that searched fw4 print for the embedded rule comment was corrected: fw4 print preserves user include directives and does not inline the referenced .nft content. Correct placement evidence is the generated native chain context plus the post-reload live nftables state.
 
-## 2026-10-03 — AWG BACKUP ENDPOINT INVENTORY EVIDENCE BOUNDARY
+## 2026-10-03 — AWG BACKUP ENDPOINT INVENTORY — US-FREE#90 RETIRED
 
-Repository inventory found these endpoint records in existing configuration files: MegaConfig.conf -> 188.114.96.8:939; US_90port443.conf -> 149.22.84.154:443; US_90port4569.conf -> 149.22.84.154:4569; US_90port5060.conf -> 149.22.84.154:5060; US_90port51820.conf -> 149.22.84.154:51820; WARPv3_72.conf -> 8.39.214.5:8854.
+By explicit user decision on 2026-10-03, the previously stored US-FREE#90 AWG profile family was retired and its four repository configuration files were removed.
 
-Only 188.114.96.8:939 has current positive interoperability evidence and is the active MegaConfig endpoint. The four 149.22.84.154 port variants have prior negative handshake/RX evidence and must not be treated as production backups without a new successful isolated validation. WARPv3_72 is a separate configuration and its relationship to the MegaConfig production peer is not established; do not promote it to backup status by assumption.
+Do not restore, recreate, retest, map, select, or use that profile family for backup/fail-open, routing, PBR, or further AWG experimentation. Do not reopen the retired port matrix under a different filename or endpoint label.
 
-Therefore Backup endpoint inventory remains NOT_STARTED. Do not configure fail-open backup switching from these records yet.
+The active production endpoint remains MegaConfig `188.114.96.8:939`. `WARPv3_72.conf` remains a separate WARP configuration and is not a backup by assumption.
 
-## 2026-10-03 — AWG BACKUP INVENTORY TEST GATE STARTED
-
-Backup endpoint inventory is now IN_PROGRESS. The four existing US_90 profiles at 149.22.84.154 ports 443, 4569, 5060 and 51820 are real configuration records but their earlier negative handshake/RX evidence was collected before the current direct ISP -> hAP eth1 topology. Therefore those historical results do not by themselves settle their behavior on the current WAN path.
-
-The next gate is an isolated handshake/RX test using the existing router-side config files, without changing the main route, without changing mega-awg, and without installing any backup/failover behavior.
+Backup endpoint inventory remains IN_PROGRESS and may proceed only with non-retired, independently documented candidates plus real isolated handshake/RX/HTTPS validation.
