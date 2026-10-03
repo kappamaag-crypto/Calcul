@@ -4168,3 +4168,17 @@ No candidate is marked FAILED from this run.
 - [SUCCESS GATE] For each candidate, require actual tunnel receive traffic / handshake evidence plus bounded connectivity. A local `awg setconf`/setup error or route-precheck error must be classified separately from a genuine `NO_RX`/handshake failure.
 - [THROUGHPUT] After isolated connectivity positives are identified, perform comparable throughput measurements. Historical measurements remain evidence only and must not be converted into undocumented rankings.
 - [STATUS] Backup inventory stays **IN_PROGRESS** until the corrected grouped screen produces a per-candidate runtime disposition.
+
+
+## 2026-10-03 — AWG BACKUP SCREEN — V5 TEST METHOD FIX
+
+- [STATUS] AWG backup endpoint inventory = **IN_PROGRESS**.
+- [REJECTED] The previously drafted v4 screen must **not** be used. It was unnecessarily verbose and introduced temporary endpoint-route handling that is not required for this test.
+- [METHOD] The next screen is **router-native**: create/run the test directly on hAP over the existing SSH session; no SCP/download step is required.
+- [OUTPUT] v5 must keep console output compact: one concise result line per candidate plus one final summary. Full per-candidate awg-show/ping dumps are not required.
+- [ISOLATION] Production mega-awg, fwmark rule 10040, table 51821, Zapret2, DNS, WAN configuration and persistent UCI/firewall state remain untouched.
+- [ROUTING] Use the live endpoint lookup "ip -4 route get <ENDPOINT_IP>" without forcing "table main". Do not modify the production main-table endpoint route.
+- [TEST PATH] Use a temporary AWG interface and temporary policy table/rule only. Generate test traffic from the temporary tunnel address so the endpoint's outer UDP traffic continues to follow the normal production WAN path.
+- [CLEANUP] Remove the temporary interface, policy rule and temporary table after every candidate and again at final exit.
+- [CANDIDATES] Exactly seven candidates remain in scope: cmsWARPv1_22, cmsWARPv2_76, cmsWARPv3_39, ghdWARPv1_45, ghdWARPv2_59, ghdWARPv2_97, ghdWARPv3_46. US-90 and WARPv3_72 remain permanently excluded.
+- [GATE] Distinguish setup/configuration errors from true NO_HANDSHAKE / NO_RX; successful candidates require handshake/received tunnel traffic and bounded HTTPS connectivity before throughput testing.
