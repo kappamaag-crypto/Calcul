@@ -3997,3 +3997,84 @@ The known broken rule remains forbidden:
 ip rule add pref 10000 from 192.168.1.0/24 lookup 51821
 
 No private key or other secret material is recorded here.
+## 2026-10-03 — AUTHORITATIVE AWG FWMARK PERSISTENCE DESIGN CORRECTION
+
+This section supersedes the immediately preceding persistence attempt where it conflicts.
+
+### Runtime evidence reconciled
+
+The controlled client 192.168.1.170 currently has a proven working forwarded Full-Tunnel path consisting of:
+1. nftables prerouting classification on br-lan;
+2. mark 0x1;
+3. IPv4 policy rule 10040 -> table 51821;
+4. table 51821 route 192.168.1.0/24 -> br-lan plus default -> mega-awg;
+5. an explicit ACCEPT rule at position 0 of the native inet fw4 forward chain for br-lan -> mega-awg;
+6. masquerade for .170 leaving mega-awg;
+7. protected WAN/main-table route to AWG endpoint 188.114.96.8/32.
+
+The user-reported laptop Internet returned immediately after this exact runtime path was restored.
+
+### Persistence failure identified
+
+The first persistent firewall attempt used a separate nftables base chain with hook forward priority -1. That chain received packets, but its ACCEPT did not terminate evaluation of the later native inet fw4 forward base chain. The native forward chain subsequently reached its reject path. Therefore this architecture is rejected and must not be reused.
+
+The first attempt to append an ACCEPT rule at the end of inet fw4 forward also failed because the normal forward_lan path was evaluated before that rule.
+
+### Correct persistent mechanism
+
+Use the native OpenWrt fw4 include mechanism with UCI-managed config include sections and position=chain-pre, not an additional nftables base chain and not rc.local/ad-hoc runtime commands.
+
+Required persistent components:
+- /etc/awg-fulltunnel/mark.nft included at chain-pre of mangle_prerouting;
+- /etc/awg-fulltunnel/forward.nft included at chain-pre of forward;
+- /etc/awg-fulltunnel/srcnat.nft included at chain-pre of srcnat;
+- corresponding config include sections in /etc/config/firewall;
+- existing network.mega_awg, network.awg_pbr_route, network.awg_pbr_rule, and network.awg_wan_endpoint_route remain UCI/netifd-managed.
+
+This is the documented fw4 placement mechanism and keeps the custom rules in the generated fw4 ruleset at the required locations. OpenWrt documents /etc/nftables.d/*.nft as table-context includes; arbitrary placement into a specific chain is provided by the UCI nftables include mechanism with position=chain-pre. citeturn675422search10turn675422search9
+
+### Exact controlled .170 expressions
+
+Mark:
+iifname "br-lan" ip saddr 192.168.1.170 ip daddr != 192.168.1.0/24 meta mark set 0x1
+
+Forward:
+iifname "br-lan" oifname "mega-awg" ip saddr 192.168.1.170 ip daddr != 192.168.1.0/24 counter accept
+
+Source NAT:
+oifname "mega-awg" ip saddr 192.168.1.170 counter masquerade
+
+Only one copy of each rule is allowed in the persistent design.
+
+### Persistence acceptance sequence
+
+1. Back up current firewall UCI and runtime state.
+2. Create the three include files outside /etc/nftables.d/.
+3. Add exactly three UCI nftables include sections with chain-pre placement.
+4. Validate with fw4 check.
+5. Confirm fw4 print places the rules in mangle_prerouting, native forward before its normal rules, and srcnat.
+6. Reload fw4 once.
+7. Verify exactly one mark rule, exactly one forward ACCEPT and exactly one AWG masquerade rule.
+8. Verify client .170 Internet, AWG handshake/RX/TX, mark/forward/NAT counters, LAN management and ordinary main/WAN route.
+9. Verify network reload does not remove the persistent policy-routing pieces.
+10. Only after this gate passes may the old disabled test drop-in be removed from /etc/nftables.d/ and the implementation be widened later.
+
+### Current status
+
+- Controlled .170 fwmark Full-Tunnel runtime: DONE
+- Persistent AWG UCI/netifd: DONE
+- Persistent fw4/nftables integration: IN_PROGRESS
+- LAN-wide persistent Full-Tunnel: NOT_STARTED
+- Fail-open watchdog: NOT_STARTED
+- Backup endpoint inventory: NOT_STARTED
+- Selective routing: NOT_STARTED / DEFERRED
+
+### Mandatory safety
+
+Do not:
+- recreate inet awg_pbr_test by ad-hoc runtime command as the final persistence mechanism;
+- create another forward base chain for AWG;
+- return to from 192.168.1.0/24 lookup 51821;
+- delete the normal WAN default route;
+- change Zapret2, DNS, IPv6 or unrelated firewall policy during this stage.
+
