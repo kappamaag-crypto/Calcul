@@ -4121,3 +4121,29 @@ Current remaining documented AWG/WARP candidates are evaluated independently. Th
 
 Backup endpoint inventory remains IN_PROGRESS. The next gate must use only non-retired, separately documented candidates and must require real provider/config evidence plus successful isolated handshake and received tunnel traffic on the actual hAP/WAN path.
 
+## 2026-10-03 — AWG BACKUP SCREEN — ROUTE-CHECK CORRECTION
+
+The first grouped backup-candidate screen found all seven locally available historical candidate files and extracted these endpoint mappings:
+
+- cmsWARPv1_22 -> 162.159.195.2:5956
+- cmsWARPv2_76 -> 8.47.69.8:1018
+- cmsWARPv3_39 -> 8.39.214.5:1070
+- ghdWARPv1_45 -> 188.114.97.9:7152
+- ghdWARPv2_59 -> 8.34.70.8:4198
+- ghdWARPv2_97 -> 188.114.96.10:1843
+- ghdWARPv3_46 -> 8.39.214.2:5956
+
+All seven runs stopped at the same preliminary check with `NO_MAIN_ROUTE_TO_ENDPOINT`. Because every unrelated endpoint produced the identical result, this is treated as a test-method failure/inconclusive gate, not as tunnel failure evidence.
+
+The likely issue is the use of `ip -4 route get <endpoint> table main` on this BusyBox/OpenWrt environment. The next screen must use the live `ip -4 route get <endpoint>` lookup and derive the actual WAN device/gateway from the authoritative current route, without assuming the historical Wi-Fi path.
+
+Disposition:
+- cmsWARPv1_22 = RETEST REQUIRED
+- cmsWARPv2_76 = RETEST REQUIRED
+- cmsWARPv3_39 = RETEST REQUIRED
+- ghdWARPv1_45 = RETEST REQUIRED
+- ghdWARPv2_59 = RETEST REQUIRED
+- ghdWARPv2_97 = RETEST REQUIRED (historical success + fresh speed 9.35/2.98)
+- ghdWARPv3_46 = RETEST REQUIRED
+
+No candidate is marked FAILED from this run.
