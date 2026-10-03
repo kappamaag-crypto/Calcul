@@ -2426,3 +2426,7 @@ Forbidden source-subnet design — the earlier LAN source policy rule that cause
 
 **Persistence control baseline** — the presently working .170 path is the reference behavior for migration. The migration changes only persistence representation; it must not redesign AWG routing, WAN, DNS, Zapret2 or IPv6.
 
+
+## 2026-10-03 — SHELL set -e / UCI DELETE SAFETY
+
+Optional UCI delete under set -e — uci -q delete <section> may return non-zero when the section does not exist. Under shell set -e, that can terminate the current shell. For interactive router migration scripts, optional deletes must be guarded with || true or equivalent existence-aware logic.
