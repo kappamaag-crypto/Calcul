@@ -3,7 +3,7 @@
 **Проект:** OpenWrt Variant A — MikroTik hAP ac lite  
 **Назначение:** единый мастер-план всей ветки WireGuard / AmneziaWG / WARP / Full-Tunnel / backup / fail-open.  
 **Актуальная дата:** 2026-10-03  
-**Текущая точка:** контролируемый Full-Tunnel для клиента `192.168.1.170` собран и runtime-верифицирован; расширение на весь LAN, резервные endpoints и fail-open ещё не завершены.
+**Текущая точка:** контролируемый Full-Tunnel для клиента `192.168.1.170` собран и runtime-верифицирован; все 7 резервных кандидатов прошли fresh handshake/RX/HTTPS screening и один стандартный throughput-проход, но production backup switching и fail-open ещё не завершены.
 
 > Этот файл является специализированным мастер-планом AWG. Перед любой новой технической работой по AWG необходимо читать этот файл вместе с `OPENWRT_VARIANT_A_MASTER_PROMPT.md`, `OPENWRT_VARIANT_A_MASTER_PLAN.md` и `OPENWRT_VARIANT_A_GLOSSARY.md`.
 
@@ -424,17 +424,17 @@ Endpoint должен существовать в реальной конфиг�
 
 Следующие профили имеют историческое evidence успешной работы/скорости и подходят для fresh screening:
 
-| Профиль | Исторический download, Mbit/s | Исторический upload, Mbit/s | Текущее состояние |
+| Профиль | Fresh download, Mbit/s | Fresh upload, Mbit/s | Fresh screening |
 |---|---:|---:|---|
-| cmsWARPv1_22 | 16.41 | 3.29 | NOT_STARTED |
-| cmsWARPv2_76 | 8.07 | 7.77 | NOT_STARTED |
-| cmsWARPv3_39 | 9.60 | 7.09 | NOT_STARTED |
-| ghdWARPv1_45 | 7.54 | 4.31 | NOT_STARTED |
-| ghdWARPv2_59 | 16.80 | 4.21 | NOT_STARTED |
-| ghdWARPv2_97 | 14.16 | 7.70 | IN_PROGRESS |
-| ghdWARPv3_46 | 5.08 | 1.70 | NOT_STARTED |
+| cmsWARPv1_22 | 16.41 | 3.29 | DONE |
+| cmsWARPv2_76 | 8.07 | 7.77 | DONE |
+| cmsWARPv3_39 | 9.60 | 7.09 | DONE |
+| ghdWARPv1_45 | 7.54 | 4.31 | DONE |
+| ghdWARPv2_59 | 16.80 | 4.21 | DONE |
+| ghdWARPv2_97 | 14.16 | 7.70 | DONE |
+| ghdWARPv3_46 | 5.08 | 1.70 | DONE |
 
-Для `ghdWARPv2_97` уже существует отдельный свежий speed result: **9.35 / 2.98 Mbit/s**. Этот результат является свежим speed evidence, но сам по себе не заменяет isolated handshake + RX + HTTPS acceptance.
+Эти значения получены одним стандартным Cloudflare HTTP throughput-проходом на том же hAP. Они не являются гарантированной средней скоростью и не должны использоваться как единственный критерий выбора резервов.
 
 ### Извлечённые endpoint mappings
 
@@ -505,6 +505,62 @@ Candidate может перейти дальше только при после�
 - последующий HTTPS/speed gate — отдельная стадия.
 
 Harness failure нельзя записывать как candidate failure.
+
+### Fresh screening — 2026-10-03
+
+Все семь предоставленных backup-конфигураций успешно прошли повторяемый isolated connectivity gate:
+
+- handshake наблюдался;
+- RX > 0;
+- HTTPS через временный AWG tunnel: **3/3** для каждого кандидата;
+- production `mega-awg` при этом оставался без изменений;
+- временные interfaces/routes/rules после теста удалялись.
+
+Результат:
+
+| Профиль | Endpoint | HTTPS 3/3 | Screening |
+|---|---|---:|---|
+| cmsWARPv1_22 | `162.159.195.2:5956` | PASS | DONE |
+| cmsWARPv2_76 | `8.47.69.8:1018` | PASS | DONE |
+| cmsWARPv3_39 | `8.39.214.5:1070` | PASS | DONE |
+| ghdWARPv1_45 | `188.114.97.9:7152` | PASS | DONE |
+| ghdWARPv2_59 | `8.34.70.8:4198` | PASS | DONE |
+| ghdWARPv2_97 | `188.114.96.10:1843` | PASS | DONE |
+| ghdWARPv3_46 | `8.39.214.2:5956` | PASS | DONE |
+
+Это означает, что на текущем прямом ISP→hAP пути все 7 являются **технически подтверждёнными backup candidates**. Это ещё не означает, что они уже подключены к production failover.
+
+### Throughput evidence — 2026-10-03
+
+Стандартный тест через Cloudflare был выполнен отдельно для всех семи кандидатов. Raw values:
+
+- cmsWARPv1_22 → ↓ 2050841 B/s, ↑ 410930 B/s
+- cmsWARPv2_76 → ↓ 1008698 B/s, ↑ 971215 B/s
+- cmsWARPv3_39 → ↓ 1200543 B/s, ↑ 886027 B/s
+- ghdWARPv1_45 → ↓ 942808 B/s, ↑ 539008 B/s
+- ghdWARPv2_59 → ↓ 2100412 B/s, ↑ 526052 B/s
+- ghdWARPv2_97 → ↓ 1769929 B/s, ↑ 961919 B/s
+- ghdWARPv3_46 → ↓ 634553 B/s, ↑ 212160 B/s
+
+Контрольный прямой WAN в отдельном таком же HTTP-тесте:
+
+- ↓ 2316494 B/s ≈ 18.53 Mbit/s
+- ↑ 1304988 B/s ≈ 10.44 Mbit/s
+
+Более ранний контрольный WAN дал ≈15.51 / 11.32 Mbit/s, поэтому Cloudflare throughput заметно меняется по времени. В документации скорость должна рассматриваться как comparative evidence, а не как фиксированная характеристика endpoint.
+
+Последний отдельный valid speed evidence для `mega-awg`:
+
+- ↓ 1359661 B/s ≈ 10.88 Mbit/s
+- upload в этом проходе не измерялся.
+
+### Failed repeat-speed harness — 2026-10-03
+
+Один повторный speed-test проход для shortlist не дал candidate evidence: использованный shell-фрагмент вызывал `test_one`, но функция в текущем shell не была определена, поэтому все пять строк завершились `FAIL`.
+
+Классификация: **harness failure / INCONCLUSIVE**, не candidate failure.
+
+Не переносить этот результат в ranking или failover eligibility.
 
 ### Уже найденные ошибки тестового harness
 
@@ -807,7 +863,13 @@ Network reload не ломает рабочий tunnel.
 
 Статус: **IN_PROGRESS**
 
-Семь non-retired candidates identified. Fresh candidate screening ещё не завершён.
+Семь non-retired candidates identified.
+
+Fresh candidate connectivity screening: **DONE** — все 7 прошли handshake + RX + HTTPS 3/3.
+
+Throughput comparison: **IN_PROGRESS** — имеется один одинаковый стандартный throughput-pass; для окончательной production backup order нужны повторяемость/стабильность и явная политика выбора нескольких резервов.
+
+Automatic primary→backup switching ещё не начиналось.
 
 ### CP-AWG-08 — fail-open
 
@@ -878,7 +940,7 @@ backup/fail-open
 - **Full-Tunnel .170:** DONE
 - **persistent .170 implementation:** DONE
 - **LAN-wide Full-Tunnel:** NOT_STARTED
-- **backup endpoints:** IN_PROGRESS
+- **backup endpoints:** IN_PROGRESS — 7 candidates fresh-screened; production failover not started
 - **fail-open:** NOT_STARTED
 - **selective routing:** NOT_STARTED
 - **IPv6 Full-Tunnel:** NOT_STARTED
