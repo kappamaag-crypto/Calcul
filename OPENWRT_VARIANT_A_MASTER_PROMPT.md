@@ -1946,3 +1946,13 @@ Required chains:
 
 Before the migration, create a rollback backup. After fw4 check succeeds, inspect generated placement. Only then perform one fw4 reload and validate the real .170 client path.
 
+
+## 2026-10-03 — AWG PERSISTENCE SCRIPT SAFETY CORRECTION
+
+A persistence migration command exited the interactive SSH shell because it combined set -e with uci -q delete against a section that did not exist. The observed Connection to 192.168.1.1 closed. was caused by shell exit, not a router or network failure.
+
+Future transactional commands MUST treat optional delete/cleanup operations as non-fatal. Example: uci -q delete <section> 2>/dev/null || true
+
+Do not use set -e around expected-to-fail existence checks unless every such command is explicitly guarded.
+
+The failed command performed no uci commit, no fw4 check, and no fw4 reload. The persistence migration did not reach its apply phase.
