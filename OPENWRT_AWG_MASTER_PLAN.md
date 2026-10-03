@@ -420,19 +420,19 @@ Endpoint должен существовать в реальной конфиг�
 - считать имя профиля доказательством;
 - считать историческую скорость текущей работоспособностью.
 
-### Исторический пул кандидатов
+### Свежий пул кандидатов
 
-Следующие профили имеют историческое evidence успешной работы/скорости и подходят для fresh screening:
+Все семь предоставленных конфигураций уже прошли свежий isolated connectivity screening на текущем прямом ISP→hAP пути. Исторические результаты не используются как доказательство текущей работоспособности.
 
-| Профиль | Fresh download, Mbit/s | Fresh upload, Mbit/s | Fresh screening |
-|---|---:|---:|---|
-| cmsWARPv1_22 | 16.41 | 3.29 | DONE |
-| cmsWARPv2_76 | 8.07 | 7.77 | DONE |
-| cmsWARPv3_39 | 9.60 | 7.09 | DONE |
-| ghdWARPv1_45 | 7.54 | 4.31 | DONE |
-| ghdWARPv2_59 | 16.80 | 4.21 | DONE |
-| ghdWARPv2_97 | 14.16 | 7.70 | DONE |
-| ghdWARPv3_46 | 5.08 | 1.70 | DONE |
+| Профиль | Handshake/RX | HTTPS 3/3 | Single-pass speed ↓ / ↑, Mbit/s | Connectivity gate |
+|---|---|---|---:|---|
+| cmsWARPv1_22 | PASS | PASS | 16.41 / 3.29 | DONE |
+| cmsWARPv2_76 | PASS | PASS | 8.07 / 7.77 | DONE |
+| cmsWARPv3_39 | PASS | PASS | 9.60 / 7.09 | DONE |
+| ghdWARPv1_45 | PASS | PASS | 7.54 / 4.31 | DONE |
+| ghdWARPv2_59 | PASS | PASS | 16.80 / 4.21 | DONE |
+| ghdWARPv2_97 | PASS | PASS | 14.16 / 7.70 | DONE |
+| ghdWARPv3_46 | PASS | PASS | 5.08 / 1.70 | DONE |
 
 Эти значения получены одним стандартным Cloudflare HTTP throughput-проходом на том же hAP. Они не являются гарантированной средней скоростью и не должны использоваться как единственный критерий выбора резервов.
 
@@ -577,7 +577,7 @@ Harness failure нельзя записывать как candidate failure.
 
 ### Throughput evidence — 2026-10-03
 
-Стандартный тест через Cloudflare был выполнен отдельно для всех семи кандидатов. Raw values:
+Стандартный тест через Cloudflare был выполнен отдельно для всех семи кандидатов. Это один single-pass throughput evidence, а не финальный ranking. Raw values:
 
 - cmsWARPv1_22 → ↓ 2050841 B/s, ↑ 410930 B/s
 - cmsWARPv2_76 → ↓ 1008698 B/s, ↑ 971215 B/s
@@ -665,7 +665,7 @@ type amneziawg
 
 ## 12. Методика throughput comparison
 
-Исторические скорости используются только как baseline.
+Single-pass скорости являются только comparative evidence; они не считаются стабильной характеристикой endpoint.
 
 Для окончательного выбора нескольких backup-кандидатов сравнение должно делаться одинаковым методом:
 
