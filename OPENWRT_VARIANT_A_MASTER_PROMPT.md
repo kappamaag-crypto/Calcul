@@ -1961,7 +1961,6 @@ After retirement of US-FREE#90, backup screening is limited to non-retired candi
 Current factual pool:
 - ghdWARPv2_97: fresh speed 9.35/2.98 Mbit/s; still requires isolated handshake/RX/HTTPS acceptance.
 - cmsWARPv1_22, cmsWARPv2_76, cmsWARPv3_39, ghdWARPv1_45, ghdWARPv2_59, ghdWARPv3_46: historically working; fresh acceptance required.
-- WARPv3_72.conf: repository candidate at 8.39.214.5:8854; not a backup until isolated handshake/RX/HTTPS validation succeeds.
 
 Do not invent endpoint/port mappings for historical candidate names when the original configuration file is not available in the current repository. Do not modify mega-awg or production routing while screening candidates.
 
