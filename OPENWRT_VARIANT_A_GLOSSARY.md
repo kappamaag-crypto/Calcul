@@ -2463,3 +2463,8 @@ Optional UCI delete under set -e — uci -q delete <section> may return non-zero
 
 **Backup inventory rule after retirement** — only non-retired, independently documented candidates may enter the backup gate. A candidate still requires real configuration/provider evidence plus successful isolated handshake, received tunnel traffic and HTTPS validation on the actual router/WAN path.
 
+## 2026-10-03 — AWG BACKUP SCREEN ROUTE-CHECK CORRECTION
+
+**Inconclusive route precheck** — when all unrelated backup endpoints fail the same preliminary route lookup, the result is a test-method problem until the live WAN route has been independently verified.
+
+**Live endpoint route check** — use the actual `ip -4 route get <endpoint>` result on the current router rather than assuming a specific routing-table syntax or historical WAN interface.
