@@ -2406,3 +2406,16 @@ Forbidden source-subnet design — the earlier LAN source policy rule that cause
 
 **Current .170 runtime state = DONE / RUNTIME-VERIFIED** — fwmark policy rule 10040, table 51821, explicit early forward allow and test NAT are working for the single controlled client. This is not yet LAN-wide production validation.
 
+
+## 2026-10-03 — AWG FWMARK PERSISTENCE TERMS
+
+**fw4 chain-pre include** — штатный OpenWrt механизм размещения собственного nftables-фрагмента в начале конкретной fw4-цепочки. Используется здесь вместо отдельной base-chain, чтобы разместить AWG ACCEPT перед стандартным forward_lan/reject path. citeturn675422search10turn675422search1
+
+**AWG persistent firewall set for .170** — минимальный persistent набор из трёх функций: mark в mangle_prerouting, early ACCEPT в native forward, masquerade в srcnat. Резервные и дублирующие base-chains не нужны.
+
+**/etc/nftables.d/*.nft table-context include** — стандартный автоматический include fw4. На данном hAP он находится внутри table inet fw4 и не является механизмом для команды insert rule ... position 0. Для placement внутрь конкретной цепочки использовать UCI config include с position=chain-pre.
+
+**AWG persistence migration gate** — backup -> create UCI-managed chain-pre includes -> fw4 check -> verify generated placement -> single fw4 reload -> client E2E + management/WAN invariants -> cleanup/accept or rollback.
+
+**Duplicate runtime rule** — временное повторное добавление одной и той же nftables rule. В persistent production state допускается ровно одна mark rule, одна forward ACCEPT и одна AWG masquerade rule.
+
