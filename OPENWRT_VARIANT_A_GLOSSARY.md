@@ -2445,6 +2445,14 @@ Optional UCI delete under set -e — uci -q delete <section> may return non-zero
 
 **Current AWG Full-Tunnel scope boundary** — the persistent implementation is runtime-verified only for controlled client 192.168.1.170. This checkpoint does not establish LAN-wide Full-Tunnel, backup endpoint inventory, or fail-open watchdog behavior.
 
+## 2026-10-03 — AWG BACKUP CANDIDATE SCREENING
+
+**Historical working candidate** — an AWG profile with previous successful tunnel/speed evidence; historical success does not by itself establish current backup validity.
+
+**Fresh screening pass** — local AWG load + isolated handshake + RX increase + HTTPS success on the current hAP/WAN path.
+
+**Backup acceptance boundary** — no historical profile becomes a production backup until fresh handshake/RX/HTTPS evidence exists. US-FREE#90 remains permanently excluded.
+
 ## 2026-10-03 — AWG BACKUP ENDPOINT INVENTORY TERMS
 
 **Configured endpoint candidate** — an endpoint present in a real configuration file but not yet accepted as a production backup. Presence in a file is not interoperability proof.
