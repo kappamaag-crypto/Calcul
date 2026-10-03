@@ -4204,3 +4204,13 @@ No candidate is marked FAILED from this run.
 - [ISOLATION] Use a dedicated temporary source address plus temporary NAT to the candidate's configured tunnel address so the test does not collide with the production `mega-awg` address.
 - [OUTPUT] Keep the screen compact: one line per candidate and one final summary.
 - [GATE] Only handshake + received tunnel traffic + bounded HTTPS constitute a positive runtime candidate result. Setup/harness failures remain inconclusive.
+
+## 2026-10-03 — AWG BACKUP SCREEN v6 — HARNESS ERROR #2
+
+- [STATUS] AWG backup endpoint inventory = **IN_PROGRESS**.
+- [RESULT] v6 reached native `amneziawg` creation and `awg setconf` successfully for all seven candidates; therefore the previous v5 `SETCONF_FAIL` issue is resolved.
+- [HARNESS ERROR] v6 stopped at temporary NAT creation for every candidate. The generated nftables chain used an invalid hook name `post`; the correct NAT hook is `postrouting`.
+- [CLASSIFICATION] All seven v6 `NAT_SETUP_FAIL` results are **INCONCLUSIVE / TEST-HARNESS FAILURE**, not candidate failures.
+- [DESIGN] MegaConfig inspection confirms the working runtime pattern: native `amneziawg` interface; `Address`, `DNS`, and `MTU` removed only from the `awg setconf` runtime file and applied separately; ordinary WAN route protects the outer endpoint; peer `AllowedIPs` defines inner tunnel routing.
+- [TEMP SOURCE] Because production `mega-awg` already owns its tunnel address, the isolated backup test uses a different temporary source address and SNATs only that temporary traffic to the candidate's configured tunnel address. This keeps production untouched while presenting the candidate's expected inner source.
+- [NEXT] Correct only the temporary NAT hook to `postrouting`, keep the native AmneziaWG interface and live WAN endpoint route, and rerun the seven candidates. No candidate may be marked FAILED from v6.
