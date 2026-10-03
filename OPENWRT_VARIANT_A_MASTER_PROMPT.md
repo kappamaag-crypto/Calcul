@@ -1609,23 +1609,6 @@ The permanent Zapret2 baseline remains **ME + HC + TS + QF + existing autohostli
 Future AIs must not restart TC/QI testing unless a concrete coverage gap or targeted user requirement justifies it.
 
 ---
-## CURRENT PROJECT OVERRIDE — 2026-09-29 — AWG BRANCH REOPENED
-
-The user explicitly reopened Proton/AmneziaWG work after the 2026-09-27 freeze.
-
-Rules for the reopened branch:
-- Use a separate isolated test interface; do not repurpose proton_awg_test.
-- Start with the newly supplied US-FREE#90 profile family.
-- The four supplied profiles differ only by endpoint port (51820/5060/4569/443) while holding the supplied AWG profile parameters constant.
-- Treat endpoint port as the first discriminating variable. Do not change AWG J/S/H/I/padding/timing values during this port matrix.
-- Require handshake/RX evidence before any routing, PBR, DNS or broad firewall integration.
-- Do not treat the previous negative US-FREE#130 / RO-FREE#23 results as proof that US-FREE#90 cannot work.
-- Do not modify existing proton_awg_test.
-- Do not add WireGuard/AWG ports to Zapret2 as a generic workaround; the prior UDP/51820 experiment is already recorded as negative evidence.
-- Private keys and other secret material must never be written into the master prompt or master plan.
-
-
----
 ## 2026-09-29 — WANHAP EXECUTION RULES / TOPOLOGY CORRECTION
 
 When working on **WanHap**, read `WanHap.md` before any router command.
