@@ -4078,3 +4078,30 @@ Do not:
 - delete the normal WAN default route;
 - change Zapret2, DNS, IPv6 or unrelated firewall policy during this stage.
 
+
+## 2026-10-03 — AUTHORITATIVE AWG PERSISTENCE RECOVERY CHECKPOINT
+
+After the failed persistent firewall drop-in was disabled, the controlled .170 Full-Tunnel path was restored using the previously proven runtime architecture.
+
+Observed after restoration:
+- exactly one policy rule: 10040 fwmark 0x1/0x1 -> table 51821;
+- table 51821 contains 192.168.1.0/24 -> br-lan and default -> mega-awg;
+- AWG endpoint 188.114.96.8:939, AllowedIPs 0.0.0.0/0, keepalive 25;
+- AWG handshake remained fresh and bidirectional transfer reached 72.50 MiB RX / 63.06 MiB TX;
+- native inet fw4 forward contains the explicit .170 -> mega-awg ACCEPT at position 0 and its counter reached 2628 packets / 410014 bytes;
+- AWG masquerade counter reached 98 packets / 9878 bytes;
+- the user confirmed that laptop Internet returned.
+
+The recovery also exposed two duplicate copies of the temporary prerouting mark rule. This duplication is temporary runtime residue and MUST NOT enter persistent state. A successful fw4 reload of the new UCI-managed configuration must leave exactly one mark rule, one early forward ACCEPT and one AWG masquerade rule.
+
+Current status remains:
+- .170 runtime Full-Tunnel: DONE
+- AWG UCI/netifd persistence: DONE
+- fw4/nftables persistence: IN_PROGRESS
+- LAN-wide Full-Tunnel: NOT_STARTED
+- fail-open watchdog: NOT_STARTED
+- backup endpoint inventory: NOT_STARTED
+- selective routing: NOT_STARTED / DEFERRED
+
+Next router action is the one-time persistence migration using fw4 UCI chain-pre includes. No network reload is permitted before the firewall persistence gate passes.
+
