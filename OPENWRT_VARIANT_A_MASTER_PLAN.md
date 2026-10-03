@@ -4239,3 +4239,21 @@ No candidate is marked FAILED from this run.
 - [OUTPUT] One compact line per candidate and one final summary.
 - [INTERPRETATION] `SETCONF_FAIL` = local config/tool incompatibility; `NO_HANDSHAKE` = no observed handshake; `HANDSHAKE_RX0` = handshake observed but no received tunnel-data bytes; `RX_OK` = handshake plus received tunnel data. None of these preliminary results alone is the final HTTPS/throughput acceptance gate.
 - [NEXT STAGE] Only candidates with `RX_OK` proceed to the more complex bounded HTTPS/throughput validation stage.
+
+
+## 2026-10-03 — AWG DEDICATED MASTER PLAN CREATED
+
+A dedicated AWG master plan has been created at `OPENWRT_AWG_MASTER_PLAN.md`.
+
+It consolidates the AWG-specific history and current state that had previously been distributed across this master plan, the master prompt, glossary, AWG continuity/freeze records and `MegaConfig.conf`.
+
+Current authoritative AWG boundary:
+- controlled client `192.168.1.170` Full-Tunnel = DONE;
+- persistent .170 UCI/netifd = DONE;
+- persistent .170 fw4/nftables = DONE;
+- LAN-wide Full-Tunnel = NOT_STARTED;
+- backup endpoint inventory = IN_PROGRESS;
+- fail-open = NOT_STARTED;
+- selective routing = NOT_STARTED / deferred.
+
+The dedicated plan does not replace this file's historical record; it provides a focused execution map for future AWG work.
