@@ -4122,3 +4122,21 @@ State impact:
 Mandatory script rule: optional cleanup commands must never be left unguarded under set -e. Use uci -q delete <section> 2>/dev/null || true, or equivalent existence-aware cleanup.
 
 The persistence architecture remains unchanged: UCI-managed fw4 chain-pre includes plus UCI/netifd PBR.
+
+## 2026-10-03 — AWG .170 PERSISTENCE MIGRATION COMMAND SAFETY
+
+User requested continuation as one controlled grouped operation rather than fragmented micro-steps. The migration command must therefore be transactional, but must not use set -e for interactive SSH work where expected non-zero commands are possible.
+
+Safety requirements for the grouped operation:
+- take a rollback snapshot first;
+- never delete UCI sections without guarding the expected-absent case;
+- never call network reload during this firewall-only migration;
+- run fw4 check before fw4 reload;
+- inspect generated placement before applying;
+- apply exactly one fw4 reload;
+- verify one mark rule, one early native-forward ACCEPT and one AWG masquerade;
+- verify .170 E2E and AWG health;
+- rollback automatically if structural validation fails before the final success marker.
+
+The grouped operation is allowed to stop on unexpected failures, but must preserve SSH by avoiding unguarded expected-failure commands.
+
