@@ -1981,3 +1981,21 @@ The first seven-candidate screen was inconclusive: every candidate returned `NO_
 For the next isolated screen, derive the actual live WAN route with `ip -4 route get <endpoint>` and do not use a hardcoded historical interface/gateway or the `table main` route-get form. Preserve the production `mega-awg` path and use only temporary test state.
 
 US-FREE#90 remains permanently excluded.
+
+
+## AUTHORITATIVE AWG PLAN POINTER — 2026-10-03
+
+A dedicated AWG execution plan now exists:
+
+`OPENWRT_AWG_MASTER_PLAN.md`
+
+Whenever a task concerns WireGuard, AmneziaWG, WARP, Full-Tunnel, AWG backup endpoints, or fail-open, this file MUST be read after the core three Variant A documents and before technical action.
+
+Current AWG facts:
+- controlled Full-Tunnel for LAN client `192.168.1.170` is DONE / RUNTIME-VERIFIED;
+- persistent .170 UCI/netifd and fw4/nftables representation is DONE / RUNTIME-VERIFIED;
+- LAN-wide Full-Tunnel is NOT_STARTED;
+- backup endpoint inventory is IN_PROGRESS;
+- fail-open watchdog is NOT_STARTED;
+- production AWG endpoint is the documented MegaConfig endpoint, not an invented replacement;
+- the failed broad source-subnet policy design remains forbidden.
