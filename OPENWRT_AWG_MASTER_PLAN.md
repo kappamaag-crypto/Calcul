@@ -177,6 +177,17 @@ Archer C20 **не является частью целевой AWG-архите�
 
 Это protected rollback baseline. Любые следующие эксперименты должны сохранять его как рабочую точку отката.
 
+### Актуальное runtime evidence — 2026-10-03
+
+Последнее наблюдение `mega-awg` после backup/speed screening:
+
+- endpoint: `188.114.96.8:939`;
+- latest handshake: около 1 мин 53 с назад на момент проверки;
+- transfer: `176.52 MiB received`, `85.42 MiB sent`;
+- production interface не изменялся во время isolated backup testing.
+
+Это runtime snapshot, а не постоянный performance baseline.
+
 ### Контролируемый Full-Tunnel
 
 Тестовый клиент:
@@ -501,6 +512,8 @@ Speed evidence является измерением конкретного мо
 
 Не:
 
+**US-FREE#90 direct-WAN evidence:** все 4 варианта портов `443/4569/5060/51820` на endpoint `149.22.84.154` дали `NO_HANDSHAKE` и `0 B received` при актуальном прямом ISP→hAP пути. Это зафиксировано как FAILED evidence и является основанием не возвращать эти конфиги в будущий backup screening.
+
 - восстанавливать;
 - пересоздавать;
 - ретестировать;
@@ -688,6 +701,22 @@ Single-pass скорости являются только comparative evidence;
 - не протестирован.
 
 Никаких ранжирующих выводов в документации до воспроизводимого сравнительного теста.
+
+### Canonical throughput method for current AWG stage
+
+На текущем этапе каноническим является уже проверенный стандартный Cloudflare HTTP test, а не 2IP/HOSTKEY:
+
+- download: `https://speed.cloudflare.com/__down?bytes=10000000`;
+- upload: `https://speed.cloudflare.com/__up`;
+- размер одного прохода: 10 MB;
+- direct WAN: `eth1`;
+- MegaConfig: `mega-awg`;
+- backup candidate: временный native `amneziawg` interface;
+- измеряются отдельно DOWN и UP.
+
+Эксперимент с HOSTKEY/2IP был прекращён на стадии проверки их нестандартного LibreSpeed endpoint/CLI поведения и не является throughput gate проекта. Не возвращаться к нему без отдельной новой причины. Для текущего сравнения использовать один и тот же стандартный Cloudflare test.
+
+Последняя корректная контрольная точка direct WAN этим методом: **18.53 Mbit/s DOWN / 10.44 Mbit/s UP**.
 
 ---
 
