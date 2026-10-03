@@ -4071,6 +4071,42 @@ The persistence stage is therefore DONE / RUNTIME-VERIFIED. Scope remains contro
 
 Diagnostic correction: fw4 print keeps user include directives as include statements and does not inline their fragment contents. Searching fw4 print for the embedded rule comment is not a valid missing-rule test; native chain context and live nftables state are the acceptance evidence.
 
+## 2026-10-03 — AWG BACKUP CANDIDATE SELECTION GATE
+
+US-FREE#90 is retired and excluded. Backup selection continues only from non-retired, independently documented configurations.
+
+### Historical candidate baseline supplied by user
+
+The following profiles have prior successful speed-test evidence and remain candidates for fresh isolated validation. Historical throughput is preserved as evidence, not as a present acceptance decision:
+
+| Profile | Historical download, Mbit/s | Historical upload, Mbit/s | Current disposition |
+|---|---:|---:|---|
+| cmsWARPv1_22 | 16.41 | 3.29 | RETEST REQUIRED |
+| cmsWARPv2_76 | 8.07 | 7.77 | RETEST REQUIRED |
+| cmsWARPv3_39 | 9.60 | 7.09 | RETEST REQUIRED |
+| ghdWARPv1_45 | 7.54 | 4.31 | RETEST REQUIRED |
+| ghdWARPv2_59 | 16.80 | 4.21 | RETEST REQUIRED |
+| ghdWARPv2_97 | 14.16 | 7.70 | FRESH SPEED PASS 9.35/2.98; handshake/RX/HTTPS still required |
+| ghdWARPv3_46 | 5.08 | 1.70 | RETEST REQUIRED |
+
+A separate fresh test run produced local `FAIL` for four of these names, but that script used FAIL for local interface/configuration setup errors. Those results are not accepted as tunnel-failure evidence and must not overwrite the historical working evidence.
+
+### Additional repository candidate
+
+`WARPv3_72.conf` is a separate repository configuration with endpoint `8.39.214.5:8854`, AllowedIPs `0.0.0.0/0, ::/0`, and the same AWG peer public key / core AWG parameter family observed in MegaConfig. This makes it a candidate for isolated validation, but its backup relationship to MegaConfig is not established until handshake/RX/HTTPS succeeds on the actual hAP/WAN path.
+
+### Acceptance gate
+
+A candidate becomes a **validated backup endpoint** only after:
+1. local AWG configuration loads successfully;
+2. isolated handshake is observed;
+3. RX increases above zero;
+4. HTTPS succeeds through the isolated tunnel;
+5. endpoint traffic remains outside the temporary tunnel policy;
+6. the test interface, rule and table are removed after the test.
+
+Do not modify `mega-awg`, the production fwmark path, DNS, Zapret2, WAN or fail-open behavior during candidate screening.
+
 ## 2026-10-03 — AWG BACKUP ENDPOINT INVENTORY — US-FREE#90 RETIRED
 
 By explicit user decision on 2026-10-03, the previously stored US-FREE#90 AWG profile family was retired and its four repository configuration files were removed.
