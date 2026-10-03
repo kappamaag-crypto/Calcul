@@ -4170,3 +4170,9 @@ Evidence disposition:
 - 8.39.214.5:8854 = separate WARP configuration; provider/peer relationship to MegaConfig backup is not established.
 
 Backup endpoint inventory remains NOT_STARTED. The fail-open stage cannot use an endpoint merely because it exists in a configuration file. A backup requires real provider/config evidence plus successful isolated handshake/received traffic validation on this router/path.
+
+## 2026-10-03 — AWG BACKUP INVENTORY TEST GATE STARTED
+
+Backup endpoint inventory is now IN_PROGRESS. The four existing US_90 profiles at 149.22.84.154 ports 443, 4569, 5060 and 51820 are real configuration records but their earlier negative handshake/RX evidence was collected before the current direct ISP -> hAP eth1 topology. Therefore those historical results do not by themselves settle their behavior on the current WAN path.
+
+The next gate is an isolated handshake/RX test using the existing router-side config files, without changing the main route, without changing mega-awg, and without installing any backup/failover behavior.
