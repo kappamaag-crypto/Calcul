@@ -2419,3 +2419,10 @@ Forbidden source-subnet design — the earlier LAN source policy rule that cause
 
 **Duplicate runtime rule** — временное повторное добавление одной и той же nftables rule. В persistent production state допускается ровно одна mark rule, одна forward ACCEPT и одна AWG masquerade rule.
 
+
+## 2026-10-03 — AWG FWMARK RECOVERY STATE
+
+**Runtime duplicate mark residue** — the current recovery produced two identical .170 prerouting mark rules. This is not an accepted persistent state. Persistence validation must prove exactly one mark rule after fw4 reload.
+
+**Persistence control baseline** — the presently working .170 path is the reference behavior for migration. The migration changes only persistence representation; it must not redesign AWG routing, WAN, DNS, Zapret2 or IPv6.
+
