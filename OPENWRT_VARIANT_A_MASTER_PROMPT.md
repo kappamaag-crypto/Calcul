@@ -1970,3 +1970,11 @@ The planned controlled AWG .170 persistence migration has now been executed succ
 The controlled scope remains only client 192.168.1.170. Do not interpret this as LAN-wide production Full-Tunnel. Backup endpoint inventory and fail-open watchdog remain separate NOT_STARTED stages.
 
 A previous check that searched fw4 print for the embedded rule comment was corrected: fw4 print preserves user include directives and does not inline the referenced .nft content. Correct placement evidence is the generated native chain context plus the post-reload live nftables state.
+
+## 2026-10-03 — AWG BACKUP ENDPOINT INVENTORY EVIDENCE BOUNDARY
+
+Repository inventory found these endpoint records in existing configuration files: MegaConfig.conf -> 188.114.96.8:939; US_90port443.conf -> 149.22.84.154:443; US_90port4569.conf -> 149.22.84.154:4569; US_90port5060.conf -> 149.22.84.154:5060; US_90port51820.conf -> 149.22.84.154:51820; WARPv3_72.conf -> 8.39.214.5:8854.
+
+Only 188.114.96.8:939 has current positive interoperability evidence and is the active MegaConfig endpoint. The four 149.22.84.154 port variants have prior negative handshake/RX evidence and must not be treated as production backups without a new successful isolated validation. WARPv3_72 is a separate configuration and its relationship to the MegaConfig production peer is not established; do not promote it to backup status by assumption.
+
+Therefore Backup endpoint inventory remains NOT_STARTED. Do not configure fail-open backup switching from these records yet.
