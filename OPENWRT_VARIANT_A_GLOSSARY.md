@@ -2468,3 +2468,14 @@ Optional UCI delete under set -e — uci -q delete <section> may return non-zero
 **Inconclusive route precheck** — when all unrelated backup endpoints fail the same preliminary route lookup, the result is a test-method problem until the live WAN route has been independently verified.
 
 **Live endpoint route check** — use the actual `ip -4 route get <endpoint>` result on the current router rather than assuming a specific routing-table syntax or historical WAN interface.
+
+
+## 2026-10-03 — Dedicated AWG Master Plan
+
+**OPENWRT_AWG_MASTER_PLAN.md** — специализированный master plan ветки WireGuard / AmneziaWG / WARP / Full-Tunnel / backup / fail-open. Для любой новой AWG-технической работы читается вместе с MASTER PROMPT, MASTER PLAN и START HERE.
+
+**Current AWG boundary** — controlled Full-Tunnel for client `192.168.1.170` = DONE; persistent .170 UCI/netifd = DONE; persistent .170 fw4/nftables = DONE; LAN-wide Full-Tunnel = NOT_STARTED; backup endpoint inventory = IN_PROGRESS; fail-open = NOT_STARTED; selective routing = NOT_STARTED.
+
+**AWG protected baseline** — production `mega-awg` router-only state on the documented MegaConfig endpoint. Future experiments must preserve it as rollback baseline.
+
+**AWG backup acceptance boundary** — historical speed/config evidence does not by itself make a backup valid. Fresh isolated handshake, RX and bounded HTTPS are required before a candidate can be accepted as a backup.
