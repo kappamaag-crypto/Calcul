@@ -379,3 +379,11 @@ The previously stored US-FREE#90 AWG profile family was explicitly retired by th
 
 ### Next exact step
 Run one grouped isolated backup-candidate screen against the historically working `cmsWARP/ghdWARP` files available under `/mnt/data/awg-backup-candidates`, plus `WARPv3_72.conf` when present. Do not touch `mega-awg` or production routing.
+
+## 2026-10-03 — AWG BACKUP SCREEN — ROUTE-CHECK CORRECTION
+
+The first backup screen was inconclusive because all seven candidates stopped at the same `NO_MAIN_ROUTE_TO_ENDPOINT` precheck. This is not candidate failure evidence.
+
+### Next exact step
+
+Rerun the seven locally available candidates with a corrected live route lookup using `ip -4 route get <endpoint>`, deriving the current WAN device/gateway dynamically. Keep `mega-awg`, production policy routing, DNS, Zapret2 and firewall unchanged. `WARPv3_72.conf` remains untested because it is not currently present under `/mnt/data/awg-backup-candidates`.
