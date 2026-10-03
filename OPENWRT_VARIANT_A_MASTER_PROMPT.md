@@ -1963,3 +1963,10 @@ Execute the AWG .170 persistence migration as one controlled grouped operation w
 
 Use explicit status checkpoints and guarded commands instead of set -e in the interactive shell. The operation must distinguish expected absent UCI sections from real failures, and must not run network reload before firewall persistence has passed fw4 check and placement validation.
 
+## 2026-10-03 — AUTHORITATIVE POST-RELOAD RESULT: PERSISTENT FW4 = DONE
+
+The planned controlled AWG .170 persistence migration has now been executed successfully. fw4 check passed, one fw4 reload completed, and the live ruleset contains the three UCI-managed chain-pre includes for mark, early forward ACCEPT, and srcnat. The old temporary AWG TEST forward rule and temporary inet awg_pbr_test table are gone. Policy rule 10040 and table 51821 remain correct, and AWG retains a fresh handshake with bidirectional traffic. Final gate: PERSISTENT_FW4=PASS.
+
+The controlled scope remains only client 192.168.1.170. Do not interpret this as LAN-wide production Full-Tunnel. Backup endpoint inventory and fail-open watchdog remain separate NOT_STARTED stages.
+
+A previous check that searched fw4 print for the embedded rule comment was corrected: fw4 print preserves user include directives and does not inline the referenced .nft content. Correct placement evidence is the generated native chain context plus the post-reload live nftables state.
