@@ -4226,3 +4226,16 @@ No candidate is marked FAILED from this run.
 - [ROUTING] Keep endpoint outer traffic on the ordinary WAN/main path; do not modify production endpoint routing.
 - [SCOPE] Production `mega-awg`, rule 10040, table 51821, Zapret2, DNS and persistent UCI/firewall remain untouched.
 - [OUTPUT] One compact line per candidate + final summary.
+
+## 2026-10-03 — AWG BACKUP SCREEN v9 — SIMPLIFIED ENDPOINT-ONLY SCREEN
+
+- [STATUS] AWG backup endpoint inventory = **IN_PROGRESS**.
+- [RECONCILIATION] v5-v8 were test-harness failures at setup/NAT stages and produced no candidate runtime verdict. Their `SETCONF_FAIL` / `NAT_SETUP_FAIL` results remain **INCONCLUSIVE**, not candidate failures.
+- [KEY CORRECTION] A first-pass backup endpoint screen does **not** require temporary source addressing, policy routing, NAT, default routes, or inner Internet traffic. Those mechanisms are unnecessary merely to determine whether a candidate endpoint completes an AmneziaWG handshake and returns tunnel traffic.
+- [V9 METHOD] For each candidate: create a temporary native `amneziawg` netdev; remove only `Address/DNS/MTU` from the runtime `awg setconf` file; load the candidate; bring the netdev up; set a short temporary PersistentKeepalive; wait briefly; inspect latest handshake and RX/TX counters; then delete the test netdev.
+- [ROUTING] No production route, policy rule, NAT rule, fw4 rule, DNS setting, `mega-awg` state, table 51821, or WAN configuration is changed by v9. The outer endpoint uses the existing normal WAN route.
+- [ADDRESS] No IP address is assigned to the temporary test interface, avoiding any collision with production `mega-awg` address 172.16.0.2 and avoiding dual-stack SNAT parsing entirely.
+- [PRECHECK] Verify native `amneziawg` netdev creation once before the candidate loop. Abort immediately if unavailable.
+- [OUTPUT] One compact line per candidate and one final summary.
+- [INTERPRETATION] `SETCONF_FAIL` = local config/tool incompatibility; `NO_HANDSHAKE` = no observed handshake; `HANDSHAKE_RX0` = handshake observed but no received tunnel-data bytes; `RX_OK` = handshake plus received tunnel data. None of these preliminary results alone is the final HTTPS/throughput acceptance gate.
+- [NEXT STAGE] Only candidates with `RX_OK` proceed to the more complex bounded HTTPS/throughput validation stage.
