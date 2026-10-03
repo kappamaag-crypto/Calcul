@@ -4182,3 +4182,14 @@ No candidate is marked FAILED from this run.
 - [CLEANUP] Remove the temporary interface, policy rule and temporary table after every candidate and again at final exit.
 - [CANDIDATES] Exactly seven candidates remain in scope: cmsWARPv1_22, cmsWARPv2_76, cmsWARPv3_39, ghdWARPv1_45, ghdWARPv2_59, ghdWARPv2_97, ghdWARPv3_46. US-90 and WARPv3_72 remain permanently excluded.
 - [GATE] Distinguish setup/configuration errors from true NO_HANDSHAKE / NO_RX; successful candidates require handshake/received tunnel traffic and bounded HTTPS connectivity before throughput testing.
+
+
+## 2026-10-03 — AWG BACKUP SCREEN v5 — HARNESS ERROR FOUND
+
+- [STATUS] AWG backup endpoint inventory = **IN_PROGRESS**.
+- [ERROR] The v5 screen did not test any candidate's network viability. All seven candidates stopped at local `awg setconf`.
+- [ROOT CAUSE] The temporary interface was created with `ip link add <dev> type wireguard`. On the hAP kernel AmneziaWG path, the interface must be created as `type amneziawg` before applying AmneziaWG-specific configuration with `awg setconf`.
+- [CLASSIFICATION] Therefore all seven `SETCONF_FAIL` results from v5 are **test-harness failures / INCONCLUSIVE**, not candidate failures.
+- [CORRECTION] The next screen must create the temporary interface as `ip link add <dev> type amneziawg`.
+- [OUTPUT] Keep the compact one-line-per-candidate format.
+- [SCOPE] Production `mega-awg`, rule 10040, table 51821, Zapret2, DNS, WAN and persistent UCI/firewall remain untouched.
