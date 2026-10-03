@@ -2444,3 +2444,11 @@ Optional UCI delete under set -e — uci -q delete <section> may return non-zero
 **fw4 print is not an inline renderer** — fw4 print shows user include directives but does not expand the referenced .nft fragment into the displayed text. Rule placement is verified from native chain context and live nftables state, not by searching the printed include text for the embedded rule comment.
 
 **Current AWG Full-Tunnel scope boundary** — the persistent implementation is runtime-verified only for controlled client 192.168.1.170. This checkpoint does not establish LAN-wide Full-Tunnel, backup endpoint inventory, or fail-open watchdog behavior.
+
+## 2026-10-03 — AWG BACKUP ENDPOINT INVENTORY TERMS
+
+**Configured endpoint candidate** — an endpoint present in a real configuration file but not yet accepted as a production backup. Presence in a file is not interoperability proof.
+
+**Validated backup endpoint** — a real provider/configuration endpoint that has successful isolated handshake and received tunnel traffic on the actual hAP/WAN path, with no dependence on an invented IP or port.
+
+**Backup inventory evidence 2026-10-03** — existing configs contain MegaConfig 188.114.96.8:939, four 149.22.84.154 ports (443/4569/5060/51820), and WARPv3_72 8.39.214.5:8854. Only MegaConfig 188.114.96.8:939 is currently positive runtime evidence; the four 149.22.84.154 variants have prior negative handshake/RX evidence, while WARPv3_72 has no established backup relationship.
