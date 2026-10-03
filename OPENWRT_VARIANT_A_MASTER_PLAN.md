@@ -4140,3 +4140,22 @@ Safety requirements for the grouped operation:
 
 The grouped operation is allowed to stop on unexpected failures, but must preserve SSH by avoiding unguarded expected-failure commands.
 
+## 2026-10-03 — AUTHORITATIVE POST-RELOAD RESULT: PERSISTENT FW4 = DONE
+
+### STATUS UPDATE
+- Persistent AWG UCI/netifd: DONE
+- Controlled .170 fwmark Full-Tunnel: DONE / RUNTIME-VERIFIED
+- Persistent FW4/nftables integration: DONE / RUNTIME-VERIFIED
+- LAN-wide persistent Full-Tunnel: NOT_STARTED
+- Backup endpoint inventory: NOT_STARTED
+- Fail-open watchdog: NOT_STARTED
+- Selective routing: NOT_STARTED / DEFERRED
+
+### Acceptance evidence
+The UCI-managed nftables include architecture passed the complete migration gate. fw4 check passed; generated placement showed forward.nft at the beginning of native forward before jump forward_lan, while mark.nft and srcnat.nft were present in their intended native chains. A single fw4 reload succeeded.
+
+After reload: persistent MARK=PASS, FORWARD=PASS, NAT=PASS; old temporary AWG TEST client170 forward rule=GONE; temporary inet awg_pbr_test table=GONE; exactly one policy rule 10040 remained; table 51821 remained correct; marked route lookup selected mega-awg; AWG showed endpoint 188.114.96.8:939, AllowedIPs 0.0.0.0/0, fresh handshake, bidirectional transfer, and PersistentKeepalive 25. Final gate: PERSISTENT_FW4=PASS.
+
+The persistence stage is therefore DONE / RUNTIME-VERIFIED. Scope remains controlled client .170 only. LAN-wide expansion, backup endpoint inventory, and fail-open behavior are not started and must not be inferred from this checkpoint.
+
+Diagnostic correction: fw4 print keeps user include directives as include statements and does not inline their fragment contents. Searching fw4 print for the embedded rule comment is not a valid missing-rule test; native chain context and live nftables state are the acceptance evidence.
