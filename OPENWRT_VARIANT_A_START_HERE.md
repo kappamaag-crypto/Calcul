@@ -367,13 +367,16 @@ A forwarding ACCEPT appended at the end of `inet fw4 forward` did not work becau
 
 - AWG router-only = **DONE**
 - Controlled .170 fwmark Full-Tunnel = **DONE / RUNTIME-VERIFIED**
-- Production LAN-wide Full-Tunnel = **IN_PROGRESS**
-- Persistent fw4/UCI/netifd integration = **NOT_STARTED**
+- Production LAN-wide Full-Tunnel = **NOT_STARTED**
+- Persistent fw4/UCI/netifd integration = **DONE / RUNTIME-VERIFIED**
+- Real backup endpoint inventory = **IN_PROGRESS**
 - Fail-open watchdog = **NOT_STARTED**
-- Real backup endpoint inventory = **NOT_STARTED**
 - Selective routing = **NOT_STARTED / DEFERRED**
+
+### User exclusion rule — 2026-10-03
+
+The previously stored US-FREE#90 AWG profile family was explicitly retired by the user and removed from Calcul. It must not be restored, recreated, retested, or used as a backup/fail-open, routing, PBR or AWG-experiment candidate.
 
 ### Next exact step
 
-Do not change the currently working runtime. Convert the proven fwmark + early forward allow + NAT + policy-routing design into persistent OpenWrt fw4/UCI/netifd configuration, then validate persistence and rollback before widening to the full LAN.
-
+Do not change the currently working runtime. Continue the backup endpoint inventory only with non-retired, independently documented candidates; require isolated handshake/RX/HTTPS evidence before any fail-open design. LAN-wide Full-Tunnel remains a separate later stage.
