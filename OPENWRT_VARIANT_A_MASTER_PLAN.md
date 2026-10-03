@@ -4145,3 +4145,26 @@ Disposition:
 - ghdWARPv3_46 = RETEST REQUIRED
 
 No candidate is marked FAILED from this run.
+
+## 2026-10-03 — AWG BACKUP INVENTORY — PLAN FIX + CLEAN SCREENING GATE
+
+- [STATUS] AWG backup endpoint inventory = **IN_PROGRESS**.
+- [CORRECTION] The previous grouped screening result `NO_MAIN_ROUTE_TO_ENDPOINT` is **INCONCLUSIVE** and must not be treated as tunnel failure, because all seven independent candidates stopped at the same route-precheck stage.
+- [METHOD FIX] The route precheck must use the live lookup `ip -4 route get <ENDPOINT_IP>` **without** forcing `table main`; the test must derive the current production WAN device/gateway from that result.
+- [TOPOLOGY] Current authoritative production WAN is **eth1 → Ufanet direct**. The historical Wi-Fi STA path is not to be assumed or restored for this screen.
+- [ISOLATION] The backup screen must not modify `mega-awg`, production fwmark rule 10040, table 51821, Zapret2, DNS, or persistent firewall/UCI state. Temporary test objects must be removed at the end.
+- [CANDIDATES] Only these seven router-side historical candidates are in scope:
+  - cmsWARPv1_22 → 162.159.195.2:5956
+  - cmsWARPv2_76 → 8.47.69.8:1018
+  - cmsWARPv3_39 → 8.39.214.5:1070
+  - ghdWARPv1_45 → 188.114.97.9:7152
+  - ghdWARPv2_59 → 8.34.70.8:4198
+  - ghdWARPv2_97 → 188.114.96.10:1843
+  - ghdWARPv3_46 → 8.39.214.2:5956
+- [EXCLUDED] **US-90** remains permanently retired and must never re-enter testing or routing work.
+- [EXCLUDED] **WARPv3_72** was deleted from GitHub and is permanently excluded from all screening/testing; it is not part of the seven-candidate inventory.
+- [DISPOSITION] Current disposition of all seven remains **RETEST REQUIRED**. No candidate is marked FAILED from the inconclusive route-precheck run.
+- [NEXT TEST] Run one clean, grouped seven-candidate screen using the corrected live-route method. A candidate can proceed to handshake/traffic evaluation only after its temporary interface is created successfully and its endpoint route remains outside the temporary tunnel.
+- [SUCCESS GATE] For each candidate, require actual tunnel receive traffic / handshake evidence plus bounded connectivity. A local `awg setconf`/setup error or route-precheck error must be classified separately from a genuine `NO_RX`/handshake failure.
+- [THROUGHPUT] After isolated connectivity positives are identified, perform comparable throughput measurements. Historical measurements remain evidence only and must not be converted into undocumented rankings.
+- [STATUS] Backup inventory stays **IN_PROGRESS** until the corrected grouped screen produces a per-candidate runtime disposition.
