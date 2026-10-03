@@ -378,5 +378,4 @@ A forwarding ACCEPT appended at the end of `inet fw4 forward` did not work becau
 The previously stored US-FREE#90 AWG profile family was explicitly retired by the user and removed from Calcul. It must not be restored, recreated, retested, or used as a backup/fail-open, routing, PBR or AWG-experiment candidate.
 
 ### Next exact step
-
-Do not change the currently working runtime. Continue the backup endpoint inventory only with non-retired, independently documented candidates; require isolated handshake/RX/HTTPS evidence before any fail-open design. LAN-wide Full-Tunnel remains a separate later stage.
+Run one grouped isolated backup-candidate screen against the historically working `cmsWARP/ghdWARP` files available under `/mnt/data/awg-backup-candidates`, plus `WARPv3_72.conf` when present. Do not touch `mega-awg` or production routing.
