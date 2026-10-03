@@ -608,6 +608,14 @@ type amneziawg
 
 Этот результат не является candidate failure.
 
+#### Последний повторный speed harness
+
+Отдельная попытка повторного теста нескольких кандидатов использовала вызов `test_one`, который в текущей shell-сессии не был определён. Получившиеся строки `FAIL` относятся к **ошибке тестового harness**, а не к отказу конфигураций.
+
+Этот проход нельзя использовать как evidence против `ghdWARPv2_97`, `cmsWARPv3_39`, `cmsWARPv2_76`, `ghdWARPv2_59` или `cmsWARPv1_22`.
+
+Следующий throughput pass должен быть самодостаточным: без внешних shell-функций, с уникальным временным interface name и отдельной cleanup-проверкой.
+
 ---
 
 ## 12. Методика throughput comparison
@@ -944,7 +952,7 @@ backup/fail-open
 - **fail-open:** NOT_STARTED
 - **selective routing:** NOT_STARTED
 - **IPv6 Full-Tunnel:** NOT_STARTED
-- **US-FREE#90:** RETIRED / excluded from future work
+- **US-FREE#90:** excluded from future work (FAILED/retired evidence)
 - **WARPv3_72:** excluded from current inventory
 - **production WAN:** eth1 / direct ISP
 - **production AWG endpoint:** 188.114.96.8:939
