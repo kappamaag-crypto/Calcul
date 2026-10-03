@@ -405,7 +405,7 @@ H1-H4 сами по себе нельзя считать доказательс�
 
 ## 10. Backup endpoint strategy
 
-Цель — иметь несколько реальных резервных конфигураций, чтобы отказ одного AWG endpoint не означал потерю VPN-пути.
+Цель — иметь **пул из нескольких** реальных резервных конфигураций, чтобы отказ одного AWG endpoint не означал потерю VPN-пути. Production failover не должен проектироваться вокруг единственного backup; точное число резервов определяется после сравнительного throughput/stability анализа.
 
 Backup нельзя выбирать только по наличию config-файла.
 
@@ -912,15 +912,17 @@ Network reload не ломает рабочий tunnel.
 
 Одна mark rule + один early ACCEPT + одна NAT rule переживают fw4 reload.
 
-### CP-AWG-07 — backup inventory
+### CP-AWG-07 — backup candidate screening
+
+Статус: **DONE**
+
+Семь non-retired candidates identified и все 7 прошли fresh handshake + RX + HTTPS 3/3 на текущем direct ISP→hAP пути.
+
+### CP-AWG-11 — backup throughput comparison
 
 Статус: **IN_PROGRESS**
 
-Семь non-retired candidates identified.
-
-Fresh candidate connectivity screening: **DONE** — все 7 прошли handshake + RX + HTTPS 3/3.
-
-Throughput comparison: **IN_PROGRESS** — имеется один одинаковый стандартный throughput-pass; для окончательной production backup order нужны повторяемость/стабильность и явная политика выбора нескольких резервов.
+Имеется один одинаковый стандартный throughput-pass для всех 7 кандидатов и отдельный direct-WAN control. Нужны повторяемые speed measurements и явная политика выбора **нескольких** production backup endpoints.
 
 Automatic primary→backup switching ещё не начиналось.
 
@@ -993,7 +995,8 @@ backup/fail-open
 - **Full-Tunnel .170:** DONE
 - **persistent .170 implementation:** DONE
 - **LAN-wide Full-Tunnel:** NOT_STARTED
-- **backup endpoints:** IN_PROGRESS — 7 candidates fresh-screened; production failover not started
+- **backup candidate screening:** DONE — 7 candidates fresh-screened and 3/3 HTTPS-stability validated
+- **backup throughput comparison:** IN_PROGRESS — one standard speed pass captured; production backup pool not yet fixed
 - **fail-open:** NOT_STARTED
 - **selective routing:** NOT_STARTED
 - **IPv6 Full-Tunnel:** NOT_STARTED
