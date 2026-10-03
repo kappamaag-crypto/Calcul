@@ -1974,3 +1974,11 @@ Do not restore, recreate, retest, map, select, or use that profile family for ba
 The active production endpoint remains MegaConfig `188.114.96.8:939`. `WARPv3_72.conf` remains a separate WARP configuration and is not a backup by assumption.
 
 Backup endpoint inventory remains IN_PROGRESS and may proceed only with non-retired, independently documented candidates plus real isolated handshake/RX/HTTPS validation.
+
+## 2026-10-03 — AWG BACKUP SCREEN METHOD CORRECTION
+
+The first seven-candidate screen was inconclusive: every candidate returned `NO_MAIN_ROUTE_TO_ENDPOINT` before interface creation. Do not classify candidates as failed from that result.
+
+For the next isolated screen, derive the actual live WAN route with `ip -4 route get <endpoint>` and do not use a hardcoded historical interface/gateway or the `table main` route-get form. Preserve the production `mega-awg` path and use only temporary test state.
+
+US-FREE#90 remains permanently excluded.
