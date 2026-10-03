@@ -387,3 +387,14 @@ The first backup screen was inconclusive because all seven candidates stopped at
 ### Next exact step
 
 Rerun the seven locally available candidates with a corrected live route lookup using `ip -4 route get <endpoint>`, deriving the current WAN device/gateway dynamically. Keep `mega-awg`, production policy routing, DNS, Zapret2 and firewall unchanged. `WARPv3_72.conf` remains untested because it is not currently present under `/mnt/data/awg-backup-candidates`.
+
+
+## 2026-10-03 — AWG DEDICATED MASTER PLAN
+
+For any AWG / AmneziaWG / WARP / Full-Tunnel / backup / fail-open work, the dedicated execution map is:
+
+- `OPENWRT_AWG_MASTER_PLAN.md`
+
+It is mandatory to read this file in addition to the three core Variant A documents. The dedicated AWG plan contains the current .170 Full-Tunnel baseline, persistent fw4 architecture, backup candidate inventory, historical negative evidence, fail-open target and exact stage boundaries.
+
+The current authoritative AWG boundary is: **controlled client 192.168.1.170 Full-Tunnel = DONE; LAN-wide Full-Tunnel = NOT_STARTED; backup inventory = IN_PROGRESS; fail-open = NOT_STARTED.**
