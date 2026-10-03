@@ -2435,3 +2435,12 @@ Optional UCI delete under set -e — uci -q delete <section> may return non-zero
 
 **Grouped controlled operation** — one transactional shell block containing backup, configuration, syntax/placement validation, one firewall reload, runtime validation and rollback handling. It is preferred here over unnecessary micro-steps, provided that expected non-zero commands are explicitly guarded.
 
+## 2026-10-03 — AUTHORITATIVE POST-RELOAD AWG FW4 TERMS
+
+**Persistent FW4/nftables = DONE / RUNTIME-VERIFIED** — the UCI-managed AWG mark, early forward ACCEPT and masquerade includes survived one real fw4 reload and the controlled .170 client path remained operational.
+
+**Post-reload cleanup proof** — after the successful reload, the temporary native AWG TEST forward rule and temporary inet awg_pbr_test table were gone, leaving the persistent UCI-managed representation.
+
+**fw4 print is not an inline renderer** — fw4 print shows user include directives but does not expand the referenced .nft fragment into the displayed text. Rule placement is verified from native chain context and live nftables state, not by searching the printed include text for the embedded rule comment.
+
+**Current AWG Full-Tunnel scope boundary** — the persistent implementation is runtime-verified only for controlled client 192.168.1.170. This checkpoint does not establish LAN-wide Full-Tunnel, backup endpoint inventory, or fail-open watchdog behavior.
