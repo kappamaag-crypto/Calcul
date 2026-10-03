@@ -4159,3 +4159,14 @@ After reload: persistent MARK=PASS, FORWARD=PASS, NAT=PASS; old temporary AWG TE
 The persistence stage is therefore DONE / RUNTIME-VERIFIED. Scope remains controlled client .170 only. LAN-wide expansion, backup endpoint inventory, and fail-open behavior are not started and must not be inferred from this checkpoint.
 
 Diagnostic correction: fw4 print keeps user include directives as include statements and does not inline their fragment contents. Searching fw4 print for the embedded rule comment is not a valid missing-rule test; native chain context and live nftables state are the acceptance evidence.
+
+## 2026-10-03 — AWG BACKUP ENDPOINT INVENTORY EVIDENCE BOUNDARY
+
+Existing repository configuration records currently expose six endpoint records: MegaConfig 188.114.96.8:939; four US_90 profiles at 149.22.84.154 ports 443, 4569, 5060 and 51820; and WARPv3_72 at 8.39.214.5:8854.
+
+Evidence disposition:
+- 188.114.96.8:939 = ACTIVE / RUNTIME-VERIFIED MegaConfig endpoint.
+- 149.22.84.154:443/4569/5060/51820 = CONFIGURED endpoint candidates with prior negative handshake/RX results; not production backups.
+- 8.39.214.5:8854 = separate WARP configuration; provider/peer relationship to MegaConfig backup is not established.
+
+Backup endpoint inventory remains NOT_STARTED. The fail-open stage cannot use an endpoint merely because it exists in a configuration file. A backup requires real provider/config evidence plus successful isolated handshake/received traffic validation on this router/path.
