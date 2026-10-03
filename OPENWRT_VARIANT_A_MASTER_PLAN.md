@@ -4193,3 +4193,14 @@ No candidate is marked FAILED from this run.
 - [CORRECTION] The next screen must create the temporary interface as `ip link add <dev> type amneziawg`.
 - [OUTPUT] Keep the compact one-line-per-candidate format.
 - [SCOPE] Production `mega-awg`, rule 10040, table 51821, Zapret2, DNS, WAN and persistent UCI/firewall remain untouched.
+
+## 2026-10-03 — AWG BACKUP SCREEN v6 — FINAL HARNESS CORRECTION
+
+- [STATUS] AWG backup endpoint inventory = **IN_PROGRESS**.
+- [CORRECTION] The temporary interface must be created as `type amneziawg`, not `type wireguard`.
+- [PRECHECK] Before testing candidates, verify that the hAP accepts `ip link add <dev> type amneziawg`; if not, stop the grouped screen instead of producing seven misleading candidate failures.
+- [ROUTING] The temporary policy selector must use the temporary test source address; do not rely on an `oif` rule for locally generated traffic.
+- [ENDPOINT] Do not add or replace an endpoint route in the production main table. Outer AWG/AmneziaWG UDP traffic must continue to use the authoritative normal WAN route.
+- [ISOLATION] Use a dedicated temporary source address plus temporary NAT to the candidate's configured tunnel address so the test does not collide with the production `mega-awg` address.
+- [OUTPUT] Keep the screen compact: one line per candidate and one final summary.
+- [GATE] Only handshake + received tunnel traffic + bounded HTTPS constitute a positive runtime candidate result. Setup/harness failures remain inconclusive.
