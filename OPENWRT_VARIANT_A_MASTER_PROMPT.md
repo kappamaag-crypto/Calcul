@@ -1978,3 +1978,9 @@ Repository inventory found these endpoint records in existing configuration file
 Only 188.114.96.8:939 has current positive interoperability evidence and is the active MegaConfig endpoint. The four 149.22.84.154 port variants have prior negative handshake/RX evidence and must not be treated as production backups without a new successful isolated validation. WARPv3_72 is a separate configuration and its relationship to the MegaConfig production peer is not established; do not promote it to backup status by assumption.
 
 Therefore Backup endpoint inventory remains NOT_STARTED. Do not configure fail-open backup switching from these records yet.
+
+## 2026-10-03 — AWG BACKUP INVENTORY TEST GATE STARTED
+
+Backup endpoint inventory is now IN_PROGRESS. The four existing US_90 profiles at 149.22.84.154 ports 443, 4569, 5060 and 51820 are real configuration records but their earlier negative handshake/RX evidence was collected before the current direct ISP -> hAP eth1 topology. Therefore those historical results do not by themselves settle their behavior on the current WAN path.
+
+The next gate is an isolated handshake/RX test using the existing router-side config files, without changing the main route, without changing mega-awg, and without installing any backup/failover behavior.
