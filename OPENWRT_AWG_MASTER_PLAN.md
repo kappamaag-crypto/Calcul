@@ -436,6 +436,51 @@ Endpoint должен существовать в реальной конфиг�
 
 Эти значения получены одним стандартным Cloudflare HTTP throughput-проходом на том же hAP. Они не являются гарантированной средней скоростью и не должны использоваться как единственный критерий выбора резервов.
 
+### Fresh backup screening evidence — 2026-10-03
+
+Все семь текущих non-retired кандидатов прошли повторный **3/3 HTTPS stability gate** на текущем hAP/WAN:
+
+| Профиль | 3× HTTPS | Результат gate |
+|---|---|---|
+| cmsWARPv1_22 | 3/3 | DONE |
+| cmsWARPv2_76 | 3/3 | DONE |
+| cmsWARPv3_39 | 3/3 | DONE |
+| ghdWARPv1_45 | 3/3 | DONE |
+| ghdWARPv2_59 | 3/3 | DONE |
+| ghdWARPv2_97 | 3/3 | DONE |
+| ghdWARPv3_46 | 3/3 | DONE |
+
+Ранее для тех же семи кандидатов был отдельно подтверждён isolated handshake + RX и IPv4 HTTPS connectivity. Текущая evidence ladder для всех семи:
+
+`config → interface → handshake → RX → HTTPS → 3× repeat HTTPS`.
+
+Это ещё не означает переход в production failover: сравнительный throughput gate, выбор нескольких backup levels и failover/recovery validation остаются отдельными этапами.
+
+### Standard Cloudflare throughput evidence — 2026-10-03
+
+Последний общий speed-проход стандартным Cloudflare test дал:
+
+| Path | Download | Upload |
+|---|---:|---:|
+| DIRECT WAN `eth1` — контрольный замер | **18.53 Mbit/s** | **10.44 Mbit/s** |
+| cmsWARPv1_22 | 16.41 | 3.29 |
+| cmsWARPv2_76 | 8.07 | 7.77 |
+| cmsWARPv3_39 | 9.60 | 7.09 |
+| ghdWARPv1_45 | 7.54 | 4.31 |
+| ghdWARPv2_59 | 16.80 | 4.21 |
+| ghdWARPv2_97 | 14.16 | 7.70 |
+| ghdWARPv3_46 | 5.08 | 1.70 |
+
+Отдельно для `mega-awg` был получен speed result **10.88 Mbit/s download** в другом последовательном замере. Upload в том же замере не был получен, поэтому этот результат не считать строгим парным `↓/↑` сравнением с таблицей выше.
+
+Speed evidence является измерением конкретного момента и сервиса. Один проход не должен автоматически исключать кандидат. В предыдущем отдельном проходе `cmsWARPv3_39` дал `0/0`, а в следующем общем проходе — `9.60/7.09`; единичный speed failure не равен endpoint failure.
+
+### Повторный speed-test harness — invalid result
+
+Отдельная попытка повторного speed-теста пяти кандидатов завершилась `FAIL` на этапе создания/подготовки временного интерфейса. Новый throughput measurement не был получен, поэтому этот результат классифицируется как **FAILED harness run**, а не как candidate failure.
+
+Правило: ошибка harness ≠ отказ AWG endpoint.
+
 ### Извлечённые endpoint mappings
 
 Эти mappings уже были получены из реальных локальных конфигураций:
@@ -898,7 +943,7 @@ Automatic primary→backup switching ещё не начиналось.
 Следующий порядок после сохранённого .170 baseline:
 
 ```
-1. backup candidates fresh screening
+1. завершить воспроизводимое throughput comparison для shortlist
 2. выбрать несколько реально validated backup endpoints
 3. разработать fail-open state machine
 4. интегрировать primary/backup/fail-open без потери management
