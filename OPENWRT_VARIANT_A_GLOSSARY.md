@@ -2430,3 +2430,8 @@ Forbidden source-subnet design — the earlier LAN source policy rule that cause
 ## 2026-10-03 — SHELL set -e / UCI DELETE SAFETY
 
 Optional UCI delete under set -e — uci -q delete <section> may return non-zero when the section does not exist. Under shell set -e, that can terminate the current shell. For interactive router migration scripts, optional deletes must be guarded with || true or equivalent existence-aware logic.
+
+## 2026-10-03 — GROUPED MIGRATION
+
+**Grouped controlled operation** — one transactional shell block containing backup, configuration, syntax/placement validation, one firewall reload, runtime validation and rollback handling. It is preferred here over unnecessary micro-steps, provided that expected non-zero commands are explicitly guarded.
+
