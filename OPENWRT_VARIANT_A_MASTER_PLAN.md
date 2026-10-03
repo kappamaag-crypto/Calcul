@@ -3342,80 +3342,6 @@ Status: NOT_STARTED
 
 
 ---
-## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-29 — AWG BRANCH REOPENED / NEW PROFILES
-
-User explicitly reopened the Proton/AmneziaWG experiment branch on 2026-09-29 and supplied a new AWG profile family for controlled testing.
-
-### New AWG evidence
-- Four user-supplied files represent the same profile US-FREE#90 with the same Interface/Peer parameters and the same endpoint IP 149.22.84.154, while changing only the endpoint port:
-  - 51820
-  - 5060
-  - 4569
-  - 443
-- All four files use the same new private key and the same peer public key. Secret material is intentionally not recorded here.
-- Common AWG parameters include MTU 1420, S1/S2=0, Jc=41, Jmin=38, Jmax=109, H1-H4=1/2/3/4, I1, ContentPaddingAddition=19-83, randomized rekey/reject/keepalive/handshake limits, and DisableCookies=on.
-- This creates a clean new discriminating axis: endpoint port, with the rest of the supplied profile held constant.
-
-### Interpretation / test discipline
-- These profiles are materially different from the previously tested Proton US-FREE#130 and RO-FREE#23 profiles because the supplied peer identity/profile is new.
-- Do not reuse the old negative conclusion as proof against US-FREE#90.
-- Do not sweep AWG J/S/H/I parameters while port testing is underway. First isolate the endpoint-port variable.
-- Each port is an independent isolated handshake test. No default route, PBR, broad firewall, DNS replacement, or full-router VPN integration is authorized.
-- Existing frozen interface proton_awg_test remains untouched. Use a separate isolated test interface as in the prior AWG branch.
-- Previous Zapret2 UDP/51820 experiment remains historical negative evidence; do not add UDP/51820 or other WireGuard ports to Zapret2 again merely because the new profiles use those ports.
-
-### New external config availability
-- WARPv3_72.conf is present in Calcul and was read successfully. It is a separate WARP/AWG-oriented profile and remains a later VPN candidate; it is not part of the current AWG port experiment.
-- ProtonVPN_Countries.zip is present in Calcul as a binary archive (~29.9 KiB), but its internal files were not decoded in this synchronization step. Do not infer country/profile contents until the archive is separately materialized/read.
-
-### Current status
-- PROTON / AMNEZIAWG EXPERIMENT BRANCH = IN_PROGRESS / EXPLICITLY REOPENED
-- New US-FREE#90 endpoint-port matrix = NOT_STARTED
-- Existing old AWG tests = historical evidence; do not repeat without a new hypothesis.
-
----
-## AWG US-FREE#90 PORT MATRIX RESULT — 2026-09-29 21:00
-
-A single isolated automated test was run against all four supplied US-FREE#90 profiles.
-
-### Test conditions
-- AWG kernel module loaded.
-- amneziawg-tools v3.1.20260812.
-- Separate temporary interfaces: awg90-51820, awg90-5060, awg90-4569, awg90-443.
-- Temporary policy-routing table 51899.
-- Existing proton_awg_test was not modified.
-- Each profile was loaded with awg setconf successfully.
-- No DNS replacement or permanent/default VPN integration was performed.
-- Each temporary interface was removed after its test.
-
-### Results
-
-| Endpoint | CREATE | SETCONF | Handshake | RX delta | TX delta | Result |
-|---|---|---|---|---:|---:|---|
-| 149.22.84.154:51820 | OK | OK | NO | 0 | 6540 | TX_ONLY_NO_RX |
-| 149.22.84.154:5060 | OK | OK | NO | 0 | 6359 | TX_ONLY_NO_RX |
-| 149.22.84.154:4569 | OK | OK | NO | 0 | 6371 | TX_ONLY_NO_RX |
-| 149.22.84.154:443 | OK | OK | NO | 0 | 9667 | TX_ONLY_NO_RX |
-
-The new profiles are syntactically accepted by the local AWG 3.1 stack on all four ports, but this run produced no authenticated handshake / incoming tunnel traffic on any port.
-
-### Important interpretation
-- This is stronger evidence than the previous profiles for the specific US-FREE#90 endpoint/peer/profile, because all four endpoint ports were tested while the supplied AWG parameters remained constant.
-- It does NOT establish that the remote Proton endpoint is rejecting AWG specifically: the current test still leaves endpoint-path/routing behavior as a possible confounder.
-- The observed HTTP 301 response is NOT counted as AWG success because RX on the AWG interface remained exactly zero. It may represent traffic that did not traverse the intended encrypted tunnel path.
-- The 10.2.0.1 ping failed 3/3 for every profile and is not evidence of a remote Proton handshake failure by itself.
-
-### Memory / OOM observation
-The test output showed historical kernel OOM records, including prior kills of apk, hostapd-triggered OOM events, and nfqws2. These timestamps predate the current test output. The current run ended with approximately 12.8 MB MemAvailable and ~537 MB swap free. No new OOM event was demonstrated during this four-port run; therefore the old OOM records are recorded as a separate system-health concern, not assigned as the cause of the AWG failure.
-
-### Status
-- US-FREE#90 endpoint-port matrix: DONE
-- US-FREE#90 port result: NO HANDSHAKE / NO RX on 51820, 5060, 4569, 443
-- Proton/AmneziaWG branch: IN_PROGRESS
-- Next experiment must address the remaining routing/path confounder before another AWG parameter sweep.
-
-
----
 ## AUTHORITATIVE CURRENT-STATE OVERRIDE — 2026-09-29 — WANHAP TOPOLOGY
 
 ### User decision
@@ -4160,19 +4086,17 @@ The persistence stage is therefore DONE / RUNTIME-VERIFIED. Scope remains contro
 
 Diagnostic correction: fw4 print keeps user include directives as include statements and does not inline their fragment contents. Searching fw4 print for the embedded rule comment is not a valid missing-rule test; native chain context and live nftables state are the acceptance evidence.
 
-## 2026-10-03 — AWG BACKUP ENDPOINT INVENTORY EVIDENCE BOUNDARY
+## 2026-10-03 — AWG BACKUP ENDPOINT INVENTORY — US-FREE#90 RETIRED
 
-Existing repository configuration records currently expose six endpoint records: MegaConfig 188.114.96.8:939; four US_90 profiles at 149.22.84.154 ports 443, 4569, 5060 and 51820; and WARPv3_72 at 8.39.214.5:8854.
+By explicit user decision on 2026-10-03, the previously stored US-FREE#90 AWG profile family was retired and its four repository configuration files were removed.
 
-Evidence disposition:
-- 188.114.96.8:939 = ACTIVE / RUNTIME-VERIFIED MegaConfig endpoint.
-- 149.22.84.154:443/4569/5060/51820 = CONFIGURED endpoint candidates with prior negative handshake/RX results; not production backups.
-- 8.39.214.5:8854 = separate WARP configuration; provider/peer relationship to MegaConfig backup is not established.
+Execution rule:
+- Do not restore or recreate those configurations.
+- Do not retest that profile family.
+- Do not use it for backup, fail-open, PBR, routing, or further AWG experiments.
+- Do not reopen the retired port matrix under a different filename or endpoint label.
 
-Backup endpoint inventory remains NOT_STARTED. The fail-open stage cannot use an endpoint merely because it exists in a configuration file. A backup requires real provider/config evidence plus successful isolated handshake/received traffic validation on this router/path.
+Current remaining documented AWG/WARP candidates are evaluated independently. The active production endpoint remains MegaConfig `188.114.96.8:939` with the previously verified runtime evidence. `WARPv3_72.conf` remains a separate WARP configuration and must not be promoted to backup by assumption.
 
-## 2026-10-03 — AWG BACKUP INVENTORY TEST GATE STARTED
+Backup endpoint inventory remains IN_PROGRESS. The next gate must use only non-retired, separately documented candidates and must require real provider/config evidence plus successful isolated handshake and received tunnel traffic on the actual hAP/WAN path.
 
-Backup endpoint inventory is now IN_PROGRESS. The four existing US_90 profiles at 149.22.84.154 ports 443, 4569, 5060 and 51820 are real configuration records but their earlier negative handshake/RX evidence was collected before the current direct ISP -> hAP eth1 topology. Therefore those historical results do not by themselves settle their behavior on the current WAN path.
-
-The next gate is an isolated handshake/RX test using the existing router-side config files, without changing the main route, without changing mega-awg, and without installing any backup/failover behavior.
