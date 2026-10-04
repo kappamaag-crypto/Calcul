@@ -2,8 +2,8 @@
 
 **Проект:** OpenWrt Variant A — MikroTik hAP ac lite  
 **Назначение:** единый мастер-план всей ветки WireGuard / AmneziaWG / WARP / Full-Tunnel / backup / fail-open.  
-**Актуальная дата:** 2026-10-03  
-**Текущая точка:** контролируемый Full-Tunnel для клиента `192.168.1.170` собран и runtime-верифицирован; все 7 резервных кандидатов прошли fresh handshake/RX/HTTPS screening и один стандартный throughput-проход, но production backup switching и fail-open ещё не завершены.
+**Актуальная дата:** 2026-10-04  
+**Текущая точка:** контролируемый Full-Tunnel для клиента `192.168.1.170` собран и runtime-верифицирован; все 7 резервных кандидатов прошли fresh handshake/RX/HTTPS screening и один стандартный throughput-проход, production `mega-awg` повторно подтверждён через `awg`, но production backup switching и fail-open ещё не завершены.
 
 > Этот файл является специализированным мастер-планом AWG. Перед любой новой технической работой по AWG необходимо читать этот файл вместе с `OPENWRT_VARIANT_A_MASTER_PROMPT.md`, `OPENWRT_VARIANT_A_MASTER_PLAN.md` и `OPENWRT_VARIANT_A_GLOSSARY.md`.
 
@@ -177,16 +177,17 @@ Archer C20 **не является частью целевой AWG-архите�
 
 Это protected rollback baseline. Любые следующие эксперименты должны сохранять его как рабочую точку отката.
 
-### Актуальное runtime evidence — 2026-10-03
+### Актуальное runtime evidence — 2026-10-04
 
-Последнее наблюдение `mega-awg` после backup/speed screening:
+После backup/speed screening production `mega-awg` повторно проверен штатным AmneziaWG CLI `awg` (не `wg`, поскольку `mega-awg` — native AmneziaWG interface):
 
 - endpoint: `188.114.96.8:939`;
-- latest handshake: около 1 мин 53 с назад на момент проверки;
-- transfer: `176.52 MiB received`, `85.42 MiB sent`;
+- latest handshake timestamp: `1791084121` (2026-10-04 03:22:01 UTC);
+- transfer: `284425802` bytes received / `181896915` bytes sent;
+- handshake присутствует и RX/TX ненулевые, то есть production tunnel имеет актуальный bidirectional runtime evidence;
 - production interface не изменялся во время isolated backup testing.
 
-Это runtime snapshot, а не постоянный performance baseline.
+Это runtime snapshot, а не постоянный performance baseline. Предыдущий snapshot `176.52 MiB / 85.42 MiB` считать устаревшим и не использовать как последний baseline.
 
 ### Контролируемый Full-Tunnel
 
@@ -951,6 +952,8 @@ Network reload не ломает рабочий tunnel.
 
 Статус: **IN_PROGRESS**
 
+Перед продолжением throughput work production baseline повторно подтверждён 2026-10-04 через `awg`: handshake присутствует, RX/TX ненулевые. `wg show mega-awg ...` неприменим к native AmneziaWG и возвращает `Unable to access interface: Not supported`; это не является отказом production tunnel.
+
 Имеется один одинаковый стандартный throughput-pass для всех 7 кандидатов и отдельный direct-WAN control. Нужны повторяемые speed measurements и явная политика выбора **нескольких** production backup endpoints.
 
 Automatic primary→backup switching ещё не начиналось.
@@ -1017,7 +1020,7 @@ backup/fail-open
 
 ---
 
-## 22. Current authoritative status — 2026-10-03
+## 22. Current authoritative status — 2026-10-04
 
 - **AWG overall:** IN_PROGRESS
 - **mega-awg router-only:** DONE
@@ -1025,7 +1028,7 @@ backup/fail-open
 - **persistent .170 implementation:** DONE
 - **LAN-wide Full-Tunnel:** NOT_STARTED
 - **backup candidate screening:** DONE — 7 candidates fresh-screened and 3/3 HTTPS-stability validated
-- **backup throughput comparison:** IN_PROGRESS — one standard speed pass captured; production backup pool not yet fixed
+- **backup throughput comparison:** IN_PROGRESS — one standard speed pass captured; production baseline re-confirmed 2026-10-04 via `awg` with fresh handshake and bidirectional RX/TX; production backup pool not yet fixed
 - **fail-open:** NOT_STARTED
 - **selective routing:** NOT_STARTED
 - **IPv6 Full-Tunnel:** NOT_STARTED
