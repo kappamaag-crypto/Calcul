@@ -1054,3 +1054,17 @@ No secrets are recorded in this file.
 - NEW MANDATORY HARNESS RULE: A backup test must never install an unrestricted policy rule that can become the default path for all router/LAN traffic. Test traffic selection must be explicit and narrowly scoped. Outer AWG endpoint traffic must be independently forced to the ordinary WAN path without relying on the candidate tunnel.
 - PREVIOUS HARNESS HISTORY: v5, v6/v7, v10, v11 and v12 failures are all now recorded as harness errors/safety lessons, not candidate failures. The project must not convert harness failures into endpoint rankings.
 - NEXT STEP: Build and validate a replacement harness in the smallest safe scope before running all seven candidates. The replacement must have a hard fail-safe cleanup path and a preflight proving that production policy/routing remains unchanged before and after the test.
+
+
+## 2026-10-04 — POST-REBOOT PRODUCTION PREFLIGHT: AWG NOT RESTORED
+
+- STATUS: Backup work = BLOCKED. Production AWG baseline must be restored/verified before any further backup test.
+- After the reboot used to recover from v12, LAN/WAN are operational: br-lan = 192.168.1.1/24, eth1 = 100.96.79.207/16, default route = 100.96.0.1 via eth1.
+- The production policy rule 10040 remains present: fwmark 0x1/0x1 -> table 51821.
+- However, ip -4 route show table 51821 reports FIB table does not exist.
+- ip -br link shows neither mega-awg nor st4.
+- awg show mega-awg and awg show st4 return Unable to access interface: No such device.
+- Outer endpoint route lookups are healthy via eth1: both 162.159.195.2 and 8.47.69.8 route via 100.96.0.1, source 100.96.79.207.
+- Interpretation: the reboot removed the temporary v12 runtime state and restored ordinary WAN/LAN, but the production AWG interfaces/table were not brought back up by boot. This is a separate production startup/configuration issue and must be diagnosed before backup screening resumes.
+- Safety: do not run any backup AWG harness, do not widen .170 scope, and do not remove the remaining 10040 rule or modify persistent AWG/firewall configuration until the startup path is understood.
+- Next step: read-only inspection of network/UCI/netifd status and service configuration to determine why mega-awg/st4 were absent after reboot. No network reload should be attempted as part of this diagnostic unless explicitly justified by the evidence.
