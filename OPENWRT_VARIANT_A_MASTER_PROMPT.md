@@ -1999,3 +1999,24 @@ Current AWG facts:
 - fail-open watchdog is NOT_STARTED;
 - production AWG endpoint is the documented MegaConfig endpoint, not an invented replacement;
 - the failed broad source-subnet policy design remains forbidden.
+
+
+## 2026-10-04 — AWG BACKUP HARNESS SAFETY GATE
+
+The AWG backup-screening branch is currently BLOCKED by an unsafe test-harness design discovered in v12.
+
+v12 created a temporary AmneziaWG interface and then installed an unrestricted policy rule to a table containing a temporary default route. During the first candidate test this redirected production IPv4 traffic and caused temporary loss of Wi-Fi/Internet/SSH until reboot. This was a harness failure, not evidence that the candidate endpoint failed.
+
+Mandatory rules for all future AWG backup tests:
+- never install a source-independent/global temporary policy rule whose table contains a candidate default route;
+- never allow a temporary candidate route to become the default path for LAN/router traffic;
+- explicitly isolate only the intended test traffic;
+- independently protect every candidate outer endpoint through the real ordinary WAN;
+- snapshot production routing/policy state before the test and verify invariants after cleanup;
+- use a fail-safe cleanup mechanism that cannot depend on successful completion of the test;
+- if the harness itself fails, classify the result as harness FAILED/INCONCLUSIVE and do not downgrade the candidate;
+- do not rerun v12 or reuse its global policy-rule architecture.
+
+Current AWG scope remains: production mega-awg and Full-Tunnel client 192.168.1.170 are DONE; LAN-wide Full-Tunnel is NOT_STARTED; backup/failover remains separate and must not modify production AWG, fw4/UCI, DNS, Zapret2 or WAN configuration.
+
+The dedicated AWG execution plan OPENWRT_AWG_MASTER_PLAN.md remains the authoritative detailed execution map and must be read before further AWG technical work.
