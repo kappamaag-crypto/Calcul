@@ -1038,3 +1038,19 @@ backup/fail-open
 - **production AWG endpoint:** 188.114.96.8:939
 
 No secrets are recorded in this file.
+
+
+## 2026-10-04 — BACKUP SCREEN v12 — CRITICAL HARNESS ISOLATION FAILURE
+
+- STATUS: AWG backup throughput/backup-selection stage = BLOCKED pending a safe replacement harness. No backup candidate is marked FAILED by this incident.
+- TEST: run-awg-backup-gate-v12.sh was executed after the hAP had recovered to the direct-WAN topology: eth1 / 100.96.79.207 via 100.96.0.1. The first candidate was cmsWARPv1_22 -> 162.159.195.2:5956.
+- OBSERVED: v12 successfully created awgbkp1, loaded the real candidate with awg setconf, and added the outer endpoint route through eth1. It then stopped/hung before reaching the handshake stage.
+- IMPACT: During the hang, the hAP lost Wi-Fi/Internet and SSH/LAN access was temporarily unavailable. A normal reboot restored connectivity. No factory reset or reflash was required.
+- ROOT CAUSE: v12 added a global policy rule, ip rule add pref "$FP" lookup "$TBL", while table $TBL contained a candidate default route, default dev awgbkp1. The rule was not restricted to test traffic. Therefore it redirected all IPv4 traffic, including ordinary LAN/router traffic and potentially the AWG endpoint's own outer traffic, into the temporary candidate table. The separately added endpoint route did not protect traffic from the earlier policy rule because the policy lookup occurred first.
+- IMPORTANT CORRECTION: The script comment claimed that only explicitly selected test traffic would use the temporary rule, but the implementation did not actually select/mark only test traffic. This was a harness design error.
+- CLASSIFICATION: v12 = FAILED / unsafe test harness, not candidate failure. Do not rerun v12 and do not reuse its global source-independent policy-rule design.
+- PRODUCTION BOUNDARY: mega-awg, production rule 10040, table 51821, client 192.168.1.170, st4, Zapret2, DNS, persistent fw4/UCI configuration and ordinary WAN configuration must remain untouched during the replacement screening.
+- RECOVERY EVIDENCE: Reboot restored Wi-Fi/Internet/SSH, indicating the observed outage was caused by temporary runtime state from the failed harness rather than a demonstrated persistent configuration corruption.
+- NEW MANDATORY HARNESS RULE: A backup test must never install an unrestricted policy rule that can become the default path for all router/LAN traffic. Test traffic selection must be explicit and narrowly scoped. Outer AWG endpoint traffic must be independently forced to the ordinary WAN path without relying on the candidate tunnel.
+- PREVIOUS HARNESS HISTORY: v5, v6/v7, v10, v11 and v12 failures are all now recorded as harness errors/safety lessons, not candidate failures. The project must not convert harness failures into endpoint rankings.
+- NEXT STEP: Build and validate a replacement harness in the smallest safe scope before running all seven candidates. The replacement must have a hard fail-safe cleanup path and a preflight proving that production policy/routing remains unchanged before and after the test.
