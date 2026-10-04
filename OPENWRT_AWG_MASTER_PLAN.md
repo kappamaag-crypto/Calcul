@@ -1068,3 +1068,25 @@ No secrets are recorded in this file.
 - Interpretation: the reboot removed the temporary v12 runtime state and restored ordinary WAN/LAN, but the production AWG interfaces/table were not brought back up by boot. This is a separate production startup/configuration issue and must be diagnosed before backup screening resumes.
 - Safety: do not run any backup AWG harness, do not widen .170 scope, and do not remove the remaining 10040 rule or modify persistent AWG/firewall configuration until the startup path is understood.
 - Next step: read-only inspection of network/UCI/netifd status and service configuration to determine why mega-awg/st4 were absent after reboot. No network reload should be attempted as part of this diagnostic unless explicitly justified by the evidence.
+
+
+## 2026-10-04 — AUTHORITATIVE PRODUCTION STARTUP DIAGNOSTIC: INIT-SCRIPT DISPATCH BUG
+
+Fresh runtime evidence after the 2026-10-04 reboot supersedes the earlier statement that production mega-awg was active at runtime immediately after boot.
+
+Observed on router:
+- ordinary WAN is healthy: eth1 / 100.96.79.207/16, gateway 100.96.0.1;
+- policy rule 10040 -> table 51821 remains present, but FIB table 51821 does not exist while mega-awg is absent;
+- mega-awg and st4 are absent as runtime interfaces after reboot;
+- AmneziaWG kernel module is loaded;
+- /etc/init.d/mega-awg start returns RC=0 but creates no interface;
+- sh -x /etc/init.d/mega-awg start traces only variable assignments and never enters start_service();
+- /etc/init.d/mega-awg defines start_service()/stop_service()/reload_service(), but does not define USE_PROCD=1 and does not provide explicit start()/stop() wrappers;
+- OpenWrt rc.common therefore uses its default start() implementation (return 0), so the custom start_service() is never called. This is the immediate cause of the false-positive START_RC=0 and the missing interface.
+
+Additional residue:
+- /etc/rc.d contains duplicate startup links S95mega-awg, S97mega-awg and S99mega-awg for the same script. The authoritative START value in the current script is 97. These duplicates must be reduced to one S97 link after the script dispatch bug is repaired.
+
+This is classified as a **FAILED production init-script dispatch / persistence defect**, not an AWG endpoint failure and not a kernel-module failure.
+
+Do not start backup screening until production mega-awg is restored and the post-repair invariants are verified. Do not change Zapret2, DNS, IPv6 or WAN routing as part of this repair.
